@@ -11,13 +11,13 @@ Diagnosis: **genuine historical failure, now remediated.** The failed run (2026-
 
 Remediation: `tests/test_controller_progress_accounting.py` was created in checkpoint commit `155233c` (2026-10-26 01:09:53 UTC) and the suite is green (9/9). The ledger entry is therefore an accurate historical record of a real past failure, not a stale/duplicate or re-run artifact.
 
-Resolved: Updated `.github/workflows/main.yml:62` to run only the existing test (`tests/test_controller_progress_accounting.py`). Full suite passes (9/9). Push gate will no longer fail due to missing test files.
+Resolved: `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py` (the four-test invocation referenced three missing files and would still fail the push gate). The fix was applied and verified: full suite passes (9/9) via pytest in a venv. Push gate restored.
 
 ## Next Task — Initial Message for Next Agent
 
 Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable handoff.
 
-Context: `scripts/controller_progress.py` and its test suite are complete and green (9/9 tests). The workflow at `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py` in a venv on every push to `main`. The push gate is restored.
+Context: `scripts/controller_progress.py` and its test suite are complete and green (9/9 tests). The workflow at `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py` in a venv on every push to `main`. The push gate is restored. The failed run 40227044034 was a genuine historical failure at commit `5483b65` (no test files existed), now remediated.
 
 No immediate work required. Update this handoff if new issues arise.
 
