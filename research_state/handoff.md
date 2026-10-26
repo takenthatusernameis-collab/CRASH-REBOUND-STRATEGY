@@ -79,19 +79,29 @@ Confirm tests green (`python3 -m pytest -q`) before making any changes.
 - Scheduled wakeup `wku_17949c6e6001Ku633ErNtBTP11` due ~21:42:20Z to re-check after run #5 timeout.
 - Prior agent task (monitor run #5) continued; state updated.
 
+## Update (2026-10-26T19:51Z)
+- Re-checked CI (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40311668001 --json jobs`): 6 runs present, unchanged.
+  - Run #5 (40311668001): still `in_progress`, updatedAt 15:35:34Z (unchanged). Job `kilo` (121670064551): steps 1-5 completed; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (~4h16m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z (~1h44m remaining).
+  - Run #6 (40367165284): still `pending`, created 2026-10-26T17:17:05Z, no jobs started (blocked by run #5's concurrency group). No further new scheduled runs.
+  - Runs #1-#4: unchanged — #1 failure (remediated), #2-#4 success; all recorded in ledger (4 records).
+- Working tree clean, HEAD `b8ac565` matches `origin/main`. Tests unchanged (36/36 last green; `pytest` not installed on host). No code changes made.
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
+- Prior wakeup `wku_179c42b83001bqzwFa8roYpm6Z` (due ~21:51:01Z) cancelled — would have fired after the run #5 timeout. New scheduled wakeup `wku_179c50634001FZ4Emq7rNNsGzo` due ~21:35:57Z to re-check right at/after run #5's job timeout.
+- Prior agent task (monitor run #5) continued; state updated.
+
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-26T17:36Z):** 36/36 tests passing (last green). HEAD `a7cc33de3348160fcbe34941ded0dc54f51874fd` clean and matching `origin/main`. Diagnostics ledger holds 4 records. `pytest` not installed on this host; no code changed since last green run.
+**Current state (2026-10-26T19:51Z):** 36/36 tests passing (last green). HEAD `b8ac565` clean and matching `origin/main`. Diagnostics ledger holds 4 records. `pytest` not installed on this host; no code changed since last green run.
 
 **Run status:**
 - Runs #1-#4: all completed; #1 failure remediated, #2-#4 success; all recorded in ledger.
-- Run #5 (40311668001): `in_progress` (schedule, created 2026-10-26T10:59:36Z, started 15:35:34Z). Single job `kilo` (121670064551): steps 1-5 done; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (~2h0m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z.
-- Run #6 (40367165284): `pending` (schedule, created 2026-10-26T17:17:05Z). No jobs started yet. Watch for it to start and progress.
-- Wakeup scheduled: `wku_17949c6e6001Ku633ErNtBTP11` due ~21:42:20Z.
+- Run #5 (40311668001): `in_progress` (schedule, created 2026-10-26T10:59:36Z, started 15:35:34Z). Single job `kilo` (121670064551): steps 1-5 done; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (~4h16m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z (~1h44m remaining).
+- Run #6 (40367165284): `pending` (schedule, created 2026-10-26T17:17:05Z). No jobs started yet — blocked by run #5's concurrency group.
+- Wakeup scheduled: `wku_179c50634001FZ4Emq7rNNsGzo` due ~21:35:57Z (right at run #5's job timeout).
 
-**Your task:** Continue monitoring CI. Re-check run 40311668001 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt`; `gh run view <id> --json jobs`). Watch run #5 to completion, especially around/after its ~21:35:43Z job timeout. Also watch new run #6 (40367165284) — check whether it starts and whether it is blocked by run #5's concurrency group. Watch for any further new scheduled runs.
+**Your task:** Continue monitoring CI. Re-check run 40311668001 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view <id> --json jobs`). Watch run #5 to completion, especially around/after its ~21:35:43Z job timeout. Also watch run #6 (40367165284) — check whether it starts once #5 clears the concurrency group, or remains blocked. Watch for any further new scheduled runs.
 
 If run #5 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
 
