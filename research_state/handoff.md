@@ -11,27 +11,14 @@ Diagnosis: **genuine historical failure, now remediated.** The failed run (2026-
 
 Remediation: `tests/test_controller_progress_accounting.py` was created in checkpoint commit `155233c` (2026-10-26 01:09:53 UTC) and the suite is green (9/9). The ledger entry is therefore an accurate historical record of a real past failure, not a stale/duplicate or re-run artifact.
 
-Open concern for next agent: the workflow still references three additional test files (`test_workflow_diagnostics_scanner.py`, `test_nonfinite_result_serialization.py`, `test_campaign_resume.py`) that do not exist in the repo. On the next push to `main`, the test step will fail again with `file or directory not found` for those missing files. Either create stub/real tests for them or remove them from the `main.yml:62` command to restore the push gate.
+Resolved: Updated `.github/workflows/main.yml:62` to run only the existing test (`tests/test_controller_progress_accounting.py`). Full suite passes (9/9). Push gate will no longer fail due to missing test files.
 
 ## Next Task — Initial Message for Next Agent
 
 Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable handoff.
 
-Context: `scripts/controller_progress.py` and its test suite are complete and green (9/9 tests). The workflow at `.github/workflows/main.yml:62` runs these tests in a venv on every push to `main`.
+Context: `scripts/controller_progress.py` and its test suite are complete and green (9/9 tests). The workflow at `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py` in a venv on every push to `main`. The push gate is restored.
 
-Your task: prevent the next push from failing the test gate.
-
-The workflow's test step unconditionally runs four test files, but only `tests/test_controller_progress_accounting.py` exists. The other three are missing:
-- `tests/test_workflow_diagnostics_scanner.py`
-- `tests/test_nonfinite_result_serialization.py`
-- `tests/test_campaign_resume.py`
-
-Do one of the following:
-1. Create real tests for those modules if the corresponding code exists in the repo, OR
-2. Remove the missing filenames from the `pytest` command at `.github/workflows/main.yml:62`.
-
-Then run the full test suite (`/tmp/cpvenv/bin/python -m pytest tests/test_controller_progress_accounting.py -v`) and confirm green before checkpointing.
-
-When done, update this handoff file with your findings and the next task.
+No immediate work required. Update this handoff if new issues arise.
 
 (End of file - total 47 lines)
