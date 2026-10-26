@@ -741,3 +741,25 @@ Hello — you are resuming CRASH-REBOUND-STRATEGY from this updated durable hand
 **Your task:** Continue monitoring CI. Watch run 40272018017 to completion and be ready for run 40311668001 once it starts. If either fails, fetch diagnostics (`gh run view <id> --json jobs`; `gh run view <id> --log` once complete), append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in the handoff. If 40272018017 remains hung without failing past its timeout, note the stall — do **not** attempt cancel/force-push/token escalation without explicit user direction. Confirm tests green before any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/integration's `actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes.
+
+## Update (2026-10-26T12:46Z)
+
+- **Completed prior task:** Read durable handoff, verified current state. Tests confirmed green (36/36, `python3 -m pytest -q`). HEAD `1949471` clean/up to date with origin/main (only untracked `tests/__pycache__/`). Diagnostics ledger unchanged — 3 records: 40227044034 (failure, remediated), 40238479313 (success), 40248644461 (success); API confirms no new completed runs.
+- **Run 40248644461:** completed success (09:44:57Z). Record in ledger.
+- **Run 40272018017:** still `in_progress`, job 121501702399 on step 6 "Run general-purpose Kilo agent loop" (started 09:45:05Z, last updated 09:45:00Z). Job timeout 360min fires at ~15:45Z — still within window. No failure observed.
+- **New run 40311668001:** pending (scheduled, created 10:59:36Z), queued behind run #4 due to concurrency group.
+
+## Initial Task Message for Next Agent
+
+Hello — you are resuming CRASH-REBOUND-STRATEGY from this updated durable handoff.
+
+**Current state:** 36/36 tests passing (`python3 -m pytest -q`). `.github/workflows/main.yml:62` runs all four test files, all exist and pass locally. HEAD `1949471` clean and matching origin/main. Diagnostics ledger has 3 records (40227044034 failure remediated, 40238479313 success, 40248644461 success); API confirms no other completed runs exist.
+
+**Run status:**
+- Run 40248644461: completed success (09:44:57Z).
+- Run 40272018017: `in_progress`, job 121501702399 on step 6 "Run general-purpose Kilo agent loop" (job started 09:45:05Z). Job timeout 360min fires at ~15:45Z — still within window. Monitor until completion.
+- Run 40311668001: `pending` (scheduled 10:59:36Z), queued behind run #4.
+
+**Your task:** Continue monitoring CI. Watch run 40272018017 to completion (especially around/after its ~15:45Z job timeout) and run 40311668001. If any fails, fetch diagnostics (`gh run view <id> --json jobs`; `gh run view <id> --log` once complete), append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in the handoff. Also watch for any new scheduled runs. If 40272018017 remains hung without failing past its timeout, note the stall — do **not** attempt cancel/force-push/token escalation without explicit user direction. Confirm tests green before any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/integration's `actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes.
