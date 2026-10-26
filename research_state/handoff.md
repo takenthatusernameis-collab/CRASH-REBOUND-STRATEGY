@@ -1491,3 +1491,36 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+
+## Update (2026-10-26T21:42Z)
+- Re-checked CI (`gh run list --limit 20`): 7 runs present.
+  - Run #5 (40311668001): completed success (event schedule, created 10:59:36Z, started 10:59:36Z, completed/updated 21:26:15Z). Job `kilo` completed successfully; recorded in diagnostics ledger (line 5, captured 2026-10-26T21:26:22Z).
+  - Run #6 (40367165284): in_progress (event schedule, created 17:17:05Z, started 21:26:17Z). Single job `kilo` (121858067900): steps 1-2 done, step 3 skipped, steps 4-5 done, step 6 "Run general-purpose Kilo agent loop" in_progress since 21:26:25Z; steps 7-9 pending. Timeout still applies per job config.
+  - Run #7 (40406455865): pending (event schedule, created 21:41:24Z, started 21:41:24Z). No jobs started yet — blocked by run #6's concurrency group (`kilo-repository`).
+  - Runs #1-#4: completed (see ledger). #1 failure remediated, #2-#4 success.
+- Working tree clean (HEAD matches origin/main at time of last commits). Tests unchanged (36/36 last green). `pytest` not installed on this host.
+- No cancel/force-push/escalation attempted (gates blocked by `GITHUB_TOKEN`/`actions: read` scope).
+- Prior agent task (monitor run #5) completed — run #5 succeeded; run #6 now active.
+
+## Initial Task Message for Next Agent
+
+Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
+
+**Current state (2026-10-26T21:42Z):** 36/36 tests passing (last green). HEAD clean and matching `origin/main`. Diagnostics ledger holds 5 records (run #5 just added). `pytest` not installed on this host; no code changes since last green run.
+
+**Run status:**
+- Runs #1-#4: completed; #1 failure remediated, #2-#4 success (recorded in ledger).
+- Run #5 (40311668001): completed success (schedule, created 10:59:36Z, started 10:59:36Z, updated 21:26:15Z). Recorded in ledger.
+- Run #6 (40367165284): in_progress (schedule, created 17:17:05Z, started 21:26:17Z). Job `kilo` (121858067900): steps 1-2 done, step 3 skipped, steps 4-5 done, step 6 "Run general-purpose Kilo agent loop" in_progress since 21:26:25Z; steps 7-9 pending.
+- Run #7 (40406455865): pending (schedule, created 21:41:24Z). No jobs started yet — blocked by run #6's concurrency group.
+
+**Your task:** Continue monitoring CI. Watch run #6 (40367165284) to completion (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event`; `gh run view <id> --json jobs`). Once run #6 completes, watch run #7 (40406455865) — it should start once the concurrency group clears. Watch for any further new scheduled runs.
+
+If run #6 fails: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+
+If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+
+Confirm tests green (`python3 -m pytest -q`) before making any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
