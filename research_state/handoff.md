@@ -30,6 +30,6 @@ All prior tasks completed and verified:
 
 Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable handoff.
 
-Context: `scripts/controller_progress.py` and its test suite (`tests/test_controller_progress_accounting.py`) are complete and green (9/9 tests, verified 2026-10-26T02:17Z). The workflow at `.github/workflows/main.yml:62` runs only that test file in a venv on every push to `main`. The push gate is restored. The failed run 40227044034 was a genuine historical failure at commit `5483b65` (no test files existed), now remediated. No new failures or issues were found in this cycle.
+Context: `scripts/controller_progress.py` and its test suite (`tests/test_controller_progress_accounting.py`) are complete and green (9/9 tests, re-verified 2026-10-26T02:18Z). The workflow at `.github/workflows/main.yml:62` runs only that test file in a venv on every push to `main`. The push gate is restored. Failed run 40227044034 was a genuine historical failure at commit `5483b65` (no test files existed), now remediated. No new failures or issues found in this cycle.
 
 Your task: No immediate work is required. Monitor for new failures/issues; if any arise, investigate, update this handoff with findings and next steps before handing off. Run the test suite (`python3 -m pytest tests/test_controller_progress_accounting.py`) to confirm green (9/9 expected) before making changes.
