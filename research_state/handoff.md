@@ -10,7 +10,7 @@ Diagnosis: **genuine historical failure, now remediated.** The failed run (2026-
 Remediation: `tests/test_controller_progress_accounting.py` was created in checkpoint commit `155233c` (2026-10-26 01:09:53 UTC). The ledger entry is an accurate historical record of a real past failure, not a stale/duplicate or re-run artifact.
 Resolved: `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py`. Push gate restored.
 
-## Status (2026-10-26T05:10Z)
+## Status (2026-10-26T05:12Z)
 - `scripts/controller_progress.py` + tests green (9/9). Confirmed via `python3 -m pytest tests/test_controller_progress_accounting.py`.
 - `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py` (verified locally 9/9, exit 0); change applied (uncommitted).
 - Failed run 40227044034 confirmed genuine historical failure at commit `5483b65`, now remediated.
