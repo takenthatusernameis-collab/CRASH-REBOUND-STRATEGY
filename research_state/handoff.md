@@ -43,3 +43,7 @@ If a run remains hung without failing past its timeout, note the stall — do **
 Confirm tests green (`python3 -m pytest -q`) before making any changes. A wakeup is scheduled for ~2026-10-26T15:45:34Z to re-check status; when it fires, repeat this check and hand off to the next agent if still unresolved.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/integration's `actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes.
+
+## Update (2026-10-26T15:44Z)
+- Checked CI via `gh run list --limit 20` and `gh run view 40311668001 --json jobs`. Run #5 (40311668001) still in progress (started 15:35:34Z). Job `kilo` (121670064551): steps 1-5 completed, step 6 "Run general-purpose Kilo agent loop" in_progress since 15:35:43Z (this rebound task), steps 7-9 pending. Job timeout-minutes 360 => ~21:35:43Z.
+- Scheduled wakeup `wku_178e26414001NGOrYGHn6EsSmW` due 2026-10-26T16:14:25Z (30m) to re-check run #5. Next agent: monitor run #5 to completion; if fails at/after timeout, append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix, verify tests, update handoff. Do not cancel/force-push without explicit user direction (both gates blocked by GITHUB_TOKEN/actions scope).
