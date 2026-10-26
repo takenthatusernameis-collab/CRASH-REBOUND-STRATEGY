@@ -21,6 +21,6 @@ Resolved: `.github/workflows/main.yml:62` now runs only `tests/test_controller_p
 
 Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable handoff.
 
-**Current state:** `scripts/controller_progress.py` and `tests/test_controller_progress_accounting.py` are complete and green (9/9). The workflow push gate at `.github/workflows/main.yml:62` has been corrected to run only the existing test file and is verified locally (exit 0). The fix remains uncommitted.
+**Current state:** `scripts/controller_progress.py` and `tests/test_controller_progress_accounting.py` are complete and green (9/9). The workflow push gate at `.github/workflows/main.yml:62` has been corrected to run only the existing test file and is verified locally (exit 0). The fix remains uncommitted (`git status` shows ` M .github/workflows/main.yml`).
 
 **Your task:** No immediate implementation work is required. Monitor CI for new failures. If any arise, investigate them, determine root cause, apply fixes, update tests if needed, verify with `python3 -m pytest tests/test_controller_progress_accounting.py`, and document findings + next steps in this handoff before handing off again. Before making changes, confirm tests are green. The workflow fix is ready but not committed — only commit it if explicitly requested.
