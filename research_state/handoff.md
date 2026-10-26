@@ -67,7 +67,7 @@ Confirm tests green (`python3 -m pytest -q`) before making any changes.
 - Re-checked CI: run #5 (40311668001) still `in_progress`. Job `kilo` (121670064551): steps 1-5 completed; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (~1h11m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z. No new scheduled runs (only runs #1-#5).
 - Working tree clean, HEAD `eb5d9ba` matches `origin/main`. `pytest` not installed on host; tests unchanged (36/36 last green). No code changes.
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
-- Scheduled wakeup to re-check around/after job timeout (~21:45Z).
+- Scheduled wakeup `wku_1791b672d001o36k1tkdpoRmpt` due ~22:06:41Z to re-check after timeout.
 
 ## Initial Task Message for Next Agent
 
@@ -78,6 +78,7 @@ Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 **Run status:**
 - Runs #1-#4: all completed; #1 failure remediated, #2-#4 success; all recorded in ledger.
 - Run #5 (40311668001): `in_progress` (schedule, created 2026-10-26T10:59:36Z, started 15:35:34Z). Single job `kilo` (121670064551): steps 1-5 done; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (~1h11m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z.
+- Wakeup scheduled: `wku_1791b672d001o36k1tkdpoRmpt` due ~22:06:41Z.
 
 **Your task:** Continue monitoring CI. Re-check run 40311668001 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt`; `gh run view <id> --json jobs`). Watch run #5 to completion, especially around/after its ~21:35:43Z job timeout. Watch for any new scheduled runs.
 
