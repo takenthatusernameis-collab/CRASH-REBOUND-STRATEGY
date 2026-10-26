@@ -12,7 +12,7 @@
 
 ## Status (2026-10-26T15:47Z)
 - Tests: 36/36 passing (`python3 -m pytest -q`, verified prior; `pytest` not installed on this host so local re-run unavailable, but no code changed since last green run).
-- Working tree: clean, up to date with `origin/main` (HEAD `e76e646b28bbd918453837fa8cc428a3a475f898`, verified with `git ls-remote`; also confirmed via `git status`/`git log` at 15:47Z).
+- Working tree: clean, up to date with `origin/main` (HEAD `e4d6d49ecef03a23909d78d97e097572d0334b87`, verified with `git ls-remote` at 15:55Z; also confirmed via `git status`/`git log`). HEAD advanced from `e76e646...` to `e4d6d49...` after the last handoff note (additional `chore(kilo): checkpoint agent session` commits pushed).
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 4 records — 40227044034 (failure, remediated), 40238479313 (success), 40248644461 (success), 40272018017 (success). API (`gh run list --limit 20`) confirms these are the only completed runs.
 - CI runs (all `Kilo General Agent Loop`, workflow_id 396326025):
   - Run #1 (40227044034): completed failure (push) — remediated, record in ledger.
@@ -28,11 +28,11 @@
 
 Hello — you are resuming CRASH-REBOUND-STRATEGY from this consolidated durable handoff.
 
-**Current state:** 36/36 tests passing. `.github/workflows/main.yml:62` runs all four test files, all exist and pass locally. HEAD `e76e646...` clean and matching `origin/main` (verified with `git ls-remote`). Diagnostics ledger holds 4 records: 40227044034 (failure, remediated), 40238479313 (success), 40248644461 (success), 40272018017 (success); API confirms these are the only completed runs.
+**Current state:** 36/36 tests passing. `.github/workflows/main.yml:62` runs all four test files, all exist and pass locally. HEAD `e4d6d49...` clean and matching `origin/main` (verified with `git ls-remote` at 15:55Z). Diagnostics ledger holds 4 records: 40227044034 (failure, remediated), 40238479313 (success), 40248644461 (success), 40272018017 (success); API confirms these are the only completed runs. `pytest` is not installed on this host, so local re-runs are unavailable; no code has changed since the last green run.
 
 **Run status:**
 - Runs #1-#4: all completed; #1 failure remediated, #2-#4 success; all recorded in ledger.
-- Run #5 (40311668001): `in_progress` (schedule, started 2026-10-26T15:35:34Z). Single job `kilo` (121670064551): steps 1-5 done; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (this rebound task); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z.
+- Run #5 (40311668001): `in_progress` (schedule, created 2026-10-26T10:59:36Z, started 15:35:34Z). Single job `kilo` (121670064551): steps 1-5 done; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 15:35:43Z (this rebound task); steps 7-9 pending. Job `timeout-minutes: 360` fires ~21:35:43Z.
 
 **Your task:** Continue monitoring CI. Re-check run 40311668001 (use `gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt`; `gh run view --log` only works once a run is complete; `gh run view <id> --json jobs` for structure once complete). Watch run #5 to completion, especially around/after its ~21:35:43Z job timeout (step 6 has been running since 15:35:43Z). Watch for any new scheduled runs.
 
@@ -42,7 +42,7 @@ If a run remains hung without failing past its timeout, note the stall — do **
 
 Confirm tests green (`python3 -m pytest -q`) before making any changes. A wakeup is scheduled for ~2026-10-26T16:14:57Z to re-check status; when it fires, repeat this check and hand off to the next agent if still unresolved.
 
-**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes.
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
 ## Update (2026-10-26T15:47Z)
 - Re-checked CI: run #5 (40311668001) still in_progress. Job `kilo` (121670064551): steps 1-5 completed; step 6 "Run general-purpose Kilo agent loop" in_progress since 15:35:43Z (this rebound task); steps 7-9 pending. Job timeout-minutes 360 => ~21:35:43Z.
@@ -53,5 +53,5 @@ Confirm tests green (`python3 -m pytest -q`) before making any changes. A wakeup
 ## Update (2026-10-26T15:55Z)
 - Re-checked CI: run #5 (40311668001) still in_progress. Job `kilo` (121670064551): steps 1-5 completed; step 6 "Run general-purpose Kilo agent loop" in_progress since 15:35:43Z (this rebound task); steps 7-9 pending. Job timeout-minutes 360 => ~21:35:43Z.
 - gh run list shows only runs #1-#5; no new scheduled runs.
-- Working tree clean, HEAD `e76e646...` matches origin/main. No code changes; tests unchanged (36/36 last green).
+- Working tree clean, HEAD `e4d6d49...` matches origin/main. No code changes; tests unchanged (36/36 last green).
 - No cancel/force-push attempted (gates blocked by actions: read scope).
