@@ -20,6 +20,8 @@ Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable han
 
 Context: `scripts/controller_progress.py` and its test suite are complete and green (9/9 tests). The workflow at `.github/workflows/main.yml:62` now runs only `tests/test_controller_progress_accounting.py` in a venv on every push to `main`. The push gate is restored. The failed run 40227044034 was a genuine historical failure at commit `5483b65` (no test files existed), now remediated.
 
-No immediate work required. Update this handoff if new issues arise.
+Status: All prior tasks completed. No immediate work required.
 
-(End of file - total 47 lines)
+Next agent: If new issues arise, update this handoff with findings and next steps before handing off.
+
+(End of file - total 28 lines)
