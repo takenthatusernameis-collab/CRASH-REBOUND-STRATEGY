@@ -33,3 +33,16 @@ Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable han
 Context: `scripts/controller_progress.py` and its test suite (`tests/test_controller_progress_accounting.py`) are complete and green (9/9 tests). The workflow at `.github/workflows/main.yml:62` has been corrected to run only `tests/test_controller_progress_accounting.py` (uncommitted fix applied); the push gate is restored. Failed run 40227044034 was a genuine historical failure at commit `5483b65` (no test files existed at the time), now remediated.
 
 Your task: No immediate work is required. Monitor for new failures/issues; if any arise, investigate, update this handoff with findings and next steps before handing off. Run the test suite (`python3 -m pytest tests/test_controller_progress_accounting.py`) to confirm green (9/9 expected) before making changes.
+
+## Updates (2026-10-26T04:10Z)
+- Fixed `.github/workflows/main.yml:62` to run only `tests/test_controller_progress_accounting.py` (was referencing three nonexistent test files). Verified with the workflow's exact command in a fresh venv: exits 0, 9 passed.
+- Fix is uncommitted (` M .github/workflows/main.yml`).
+- `python3 -m pytest tests/test_controller_progress_accounting.py` passes (9/9). Git state clean except untracked `tests/__pycache__/`.
+- Monitored `gh run list`: one in-progress run (40248644461), one completed success (40238479313), historical failure 40227044034 at `5483b65` remediated. No new failures.
+
+## Initial Task Message for Next Agent
+Hello — you are resuming the CRASH-REBOUND-STRATEGY work from this durable handoff.
+
+Context: `scripts/controller_progress.py` and tests (`tests/test_controller_progress_accounting.py`) are complete and green (9/9). `.github/workflows/main.yml:62` corrected to run only the existing test file (uncommitted). Historical failure 40227044034 at `5483b65` was genuine (no tests existed), now remediated.
+
+Your task: No immediate work is required. Monitor for new failures/issues; if any arise, investigate, update this handoff with findings and next steps before handing off. Run `python3 -m pytest tests/test_controller_progress_accounting.py` to confirm green (9/9) before making changes. Commit the workflow fix if desired, but only if explicitly requested.
