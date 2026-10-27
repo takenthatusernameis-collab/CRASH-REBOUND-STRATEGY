@@ -1711,30 +1711,29 @@ Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Update (2026-10-27T14:21Z) - Current turn
-- Completed the prior agent's task (scheduled wakeup `wku_17d17d10a001IXVADjIsPyIYx5`): re-checked CI status for run #9 (40458282192) and watched for new scheduled runs; verified tests green locally; confirmed no code changes or gate violations.
-- Current CI state (re-checked via `gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName` and `gh run view 40458282192 --json jobs`):
-  - Run #9 (40458282192): **in_progress** (schedule, created 2026-10-27T05:57:41Z, started 05:57:41Z, updatedAt 09:07:52Z — unchanged). Job `kilo` (122102389065): steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-27T09:08:00Z (~5h13m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~2026-10-28T03:08:00Z (~12h47m remaining). Concurrency group held by #9 blocks #10.
-  - **Run #10 (40500327513): NEW — `pending` (schedule, created 2026-10-27T11:59:57Z, updatedAt 11:59:58Z), no jobs started yet.** Blocked by run #9's concurrency group. First new scheduled run since #9.
-  - Runs #1-#8: all completed — #1 failure (remediated), #2-#8 success, #7 cancelled (no jobs started); all recorded in diagnostics ledger (9 records; run #8's redundant `potential_errors: []` re-capture at 09:09:29Z can be ignored).
-- Working tree clean, HEAD `1d114e2` matches `origin/main` (verified `git status`/`git log`/`git ls-remote`; only untracked `tests/__pycache__/`). `python3 -m pytest -q` → **36 passed in 0.53s**. No code changes made.
+## Update (2026-10-27T15:03Z) - Current turn
+- Completed the prior agent's task: read the durable handoff, re-checked CI status for runs #9 and #10, verified tests green locally, confirmed no code changes or gate violations.
+- Current CI state (re-checked via `gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName` and `gh run view 40500327513 --json jobs`):
+  - Run #9 (40458282192): **completed success** (created 2026-10-27T05:57:41Z, started 05:57:41Z, completed 2026-10-27T14:57:34Z). Job `kilo` (122102389065): all steps completed, including step 6 "Run general-purpose Kilo agent loop" (started 09:08:00Z, completed ~14:57:33Z, ~5h49m), step 7 "Verify diagnostics-only activation" skipped, steps 8-9 completed. Already recorded in the diagnostics ledger (captured 2026-10-27T14:57:42Z, `log_capture_status: scanned_with_excerpt_limit`; `potential_errors` include a `kilo_invalid_argument_turn_abort` at 14:18:20Z plus repeated `kilo_edit_tool_invalid_arguments` entries — run still completed successfully).
+  - Run #10 (40500327513): **in_progress** (schedule, created 2026-10-27T11:59:57Z, started 11:59:57Z, updatedAt 14:57:38Z). Job `kilo` (122266317676): steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-27T14:57:46Z (this rebound task); steps 7-9 pending. Job `timeout-minutes: 360` fires ~2026-10-28T02:57:46Z. Concurrency group cleared when #9 completed, so #10 started immediately.
+  - Runs #1-#8: all completed — #1 failure (remediated), #2-#8 success, #7 cancelled (no jobs started); all recorded in ledger.
+- Working tree clean, HEAD `c1f1e9a chore(kilo): checkpoint agent session` matches `origin/main` (verified `git status`/`git log`/`git ls-remote`). `python3 -m pytest -q` → **36 passed in 0.55s** (pytest installed in user env). No code changes made.
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope). Regular `contents: write` pushes permitted.
-- Prior wakeup `wku_17d17d10a001IXVADjIsPyIYx5` fired this turn; scheduled new wakeup `wku_17dbcef76001A5TjWuYnOCXSas` due ~2026-10-27T20:21:36Z to re-check run #9 and #10.
+- Prior agent task (monitor run #9; watch for new scheduled runs) completed — run #9 finished successfully; monitoring now continues on run #10. State updated.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-27T14:21Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed). HEAD `1d114e2` clean and matching `origin/main`. Diagnostics ledger holds 9 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497 success, 40406455865 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
+**Current state (2026-10-27T15:03Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed). HEAD `c1f1e9a` clean and matching `origin/main`. Diagnostics ledger holds 10 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497/40458282192 success, 40406455865 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
 
 **Run status:**
-- Runs #1-#8: all completed; #1 failure remediated, #2-#8 success, #7 cancelled (no jobs started); all recorded in ledger.
-- Run #9 (40458282192): **in_progress** (schedule, created 2026-10-27T05:57:41Z, started 05:57:41Z). Single job `kilo` (122102389065): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-27T09:08:00Z (~5h13m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~2026-10-28T03:08:00Z (~12h47m remaining). Concurrency group held by #9 blocks #10.
-- Run #10 (40500327513): `pending` (schedule, created 2026-10-27T11:59:57Z). No jobs started yet — blocked by run #9's concurrency group. New scheduled run appeared while #9 still running.
+- Runs #1-#9: all completed; #1 failure remediated, #2-#9 success, #7 cancelled (no jobs started); all recorded in ledger.
+- Run #10 (40500327513): **in_progress** (schedule, created 2026-10-27T11:59:57Z, started 11:59:57Z). Single job `kilo` (122266317676): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-27T14:57:46Z (this rebound task); steps 7-9 pending. Job `timeout-minutes: 360` fires ~2026-10-28T02:57:46Z. Concurrency group cleared when #9 completed.
 
-**Your task:** Continue monitoring CI. Re-check run 40458282192 and run 40500327513 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view <id> --json jobs`). Watch run #9 to completion, especially around/after its ~2026-10-28T03:08:00Z job timeout. Watch run #10 — check whether it starts once #9 completes and clears the concurrency group, or remains blocked. Watch for any further new scheduled runs.
+**Your task:** Continue monitoring CI. Re-check run 40500327513 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40500327513 --json jobs`). Watch run #10 to completion, especially around/after its ~2026-10-28T02:57:46Z job timeout. Watch for any further new scheduled runs.
 
-If run #9 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+If run #10 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
 
 If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
 
