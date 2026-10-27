@@ -4135,3 +4135,9 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+## Update (2026-10-27T13:14Z) - Current turn
+- Re-checked CI (`gh run list --limit 20`, `gh run view 40458282192 --json jobs`, `gh run view 40500327513 --json jobs`): run #9 still `in_progress` (updatedAt 09:07:52Z unchanged; step 6 in progress since 09:08:00Z, ~4h06m elapsed; job timeout ~15:08:00Z, ~1h54m remaining); run #10 still `pending` with no jobs started, blocked by run #9's concurrency group. No new scheduled runs beyond #10.
+- `python3 -m pytest -q` → **36 passed in 0.55s**. Working tree clean, HEAD `b0cdefb` matches `origin/main`. No code changes made.
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
+- Prior agent task (monitor run #9 / watch run #10) completed this turn; state confirmed unchanged, handoff current.
