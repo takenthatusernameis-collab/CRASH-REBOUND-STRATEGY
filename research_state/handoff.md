@@ -3594,3 +3594,8 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+## Update (2026-10-27T09:18Z) - Current turn
+- Re-checked CI: run #9 (40458282192) still `in_progress`, step 6 running since 09:08:00Z (~10m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~15:08:00Z. No new scheduled runs beyond #9.
+- Working tree clean, HEAD `cf03403` matches `origin/main`. `python3 -m pytest -q` → 36 passed. No code changes.
+- Prior agent task (monitor run #9) continued; run #9 not yet complete. State updated.
