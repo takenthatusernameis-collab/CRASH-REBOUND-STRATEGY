@@ -5101,3 +5101,5 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+- Scheduled wakeup `wku_17ec07db3001bH5SE8xKecI4fO` due ~2026-10-28T02:50:06Z (8h) to re-check run #10 right before its ~02:57:46Z job timeout.
