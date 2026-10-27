@@ -3486,3 +3486,34 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+## Update (2026-10-27T09:10Z) - Current turn
+- Read the durable handoff; prior agent task was to monitor CI run #8 (40429147497) to completion.
+- Re-checked CI (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40429147497 --json jobs`; `gh run view 40458282192 --json jobs`):
+  - Run #8 (40429147497): **completed success** (completed 2026-10-27T09:07:49Z). Job `kilo` (121988609490): all steps completed, including step 6 "Run general-purpose Kilo agent loop". Recorded in the diagnostics ledger (8th record).
+  - Run #9 (40458282192): **in_progress** (schedule, created 2026-10-27T05:57:41Z, started 09:07:51Z). Single job `kilo` (122102389065): steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 09:08:00Z; steps 7-9 pending. Job `timeout-minutes: 360` fires ~15:08:00Z. Concurrency group cleared when #8 completed, so #9 started immediately.
+  - Runs #1-#7: all completed — #1 failure (remediated), #2-#6 success, #7 cancelled; all recorded in ledger.
+- Working tree clean, HEAD `a07e5b5` matches `origin/main`. `pytest` not installed on this host; 36/36 tests last green (unchanged). No code changes made.
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope). Regular `contents: write` pushes permitted.
+- Prior agent task (monitor run #8) completed this turn; monitoring now continues on run #9.
+
+## Initial Task Message for Next Agent
+
+Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
+
+**Current state (2026-10-27T09:10Z):** 36/36 tests passing (last green). HEAD `a07e5b5` clean and matching `origin/main`. Diagnostics ledger holds 8 records (40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497 success, 40406455865 cancelled). `pytest` not installed on this host; no code changed since last green run.
+
+**Run status:**
+- Runs #1-#7: all completed; #1 failure remediated, #2-#6 success, #7 cancelled; all recorded in ledger.
+- Run #8 (40429147497): **completed success** (completed 09:07:49Z) — long-running job finished successfully; already recorded in ledger.
+- Run #9 (40458282192): **in_progress** (schedule, created 2026-10-27T05:57:41Z, started 09:07:51Z). Single job `kilo` (122102389065): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 09:08:00Z; steps 7-9 pending. Job `timeout-minutes: 360` fires ~15:08:00Z.
+
+**Your task:** Continue monitoring CI. Re-check run 40458282192 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40458282192 --json jobs`). Watch run #9 to completion, especially around/after its ~15:08:00Z job timeout. Watch for any further new scheduled runs.
+
+If run #9 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+
+If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+
+Confirm tests green (`python3 -m pytest -q`) before making any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
