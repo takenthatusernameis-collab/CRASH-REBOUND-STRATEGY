@@ -34,7 +34,7 @@ Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
 - Run #16 (40751376410): **in_progress** (job started ~20:20:29Z). Job `kilo` (ID 123077458642) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed (step 3 test step skipped).
 - No runs beyond #16 yet.
-- Scheduled wakeup `wku_18432c5da001XsSE85QP0nsKeH` due 2026-10-28T20:38:02Z to re-check status.
+- Scheduled wakeup `wku_18436fe6a0013MJgE9gEotqrDj` due 2026-10-28T20:42:39Z to re-check status.
 
 **Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #16 to completion. Watch for new scheduled runs (#17 and beyond) as they start.
 
