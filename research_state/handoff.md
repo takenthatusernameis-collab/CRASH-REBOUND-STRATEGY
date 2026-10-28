@@ -8,11 +8,11 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T19:43:00Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.50s). `pytest` installed locally.
+## Status (2026-10-28T19:39:28Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.46s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/`. HEAD `97542ce` on `origin/main` (branch up to date).
-- Run #15 (40698130239): **in_progress** (~6h5m elapsed). Triggered via schedule 2026-10-28T13:37:25Z; `timeout-minutes: 360` fires ~20:29Z. Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed.
-- Run #16 (40751376410): **pending** (created 2026-10-28T19:07:04Z, ~36m ago). Scheduled run, not started yet.
+- Run #15 (40698130239): **in_progress** (~6h2m elapsed). Triggered via schedule 2026-10-28T13:37:25Z; `timeout-minutes: 360` fires ~20:29Z. Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed.
+- Run #16 (40751376410): **pending** (created 2026-10-28T19:07:04Z, ~32m ago). Scheduled run, not started yet.
 - Scheduled wakeup: `wku_183cf0b7e001JgiNAZslaxmkg5` due 2026-10-28T20:34:06Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
 
 ## Run status (CI re-checked via `gh run list`/`gh run view` 2026-10-28T19:43:00Z)
