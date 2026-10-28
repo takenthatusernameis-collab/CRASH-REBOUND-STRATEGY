@@ -9,23 +9,23 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
 ## Status (2026-10-28T11:46Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.38s, verified this turn). `pytest` is installed locally.
-- Working tree: clean, HEAD `d1f363a` matches `origin/main`.
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.40s, verified this turn). `pytest` is installed locally.
+- Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `3ce2be5` (post-handoff checkpoint) ahead of the handoff's recorded `d1f363a`; `origin/main` is at `3ce2be5` too, so the branch matches remote.
 - No code changes made this turn. No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
 
 ## Run status (CI re-checked via `gh run list` / `gh run view 40646152725 --json jobs`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
-- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z, updatedAt 08:39:30Z — unchanged since last check). Single job `kilo` (122714864537): steps 1-5 completed (step 3 "Test controller progress and diagnostic scanning" skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z (~2h13m elapsed); steps 7 "Verify diagnostics-only activation", 8 "Upload recovery artifacts", 9 "Report controller outcomes", 18 "Post Checkout latest default branch" pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~3h47m remaining). This is the current rebound task.
+- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z, updatedAt 08:39:30Z — unchanged since last check). Single job `kilo` (122714864537): steps 1-5 completed (step 3 "Test controller progress and diagnostic scanning" skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z (~3h07m elapsed); steps 7 "Verify diagnostics-only activation", 8 "Upload recovery artifacts", 9 "Report controller outcomes", 18 "Post Checkout latest default branch" pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h53m remaining). This is the current rebound task.
 - No further new scheduled runs beyond #14 (`gh run list --limit 20` returns exactly runs #1-#14).
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-checked run #14 still `in_progress`; step 6 "Run general-purpose Kilo agent loop" still `in_progress` since 08:39:41Z (~3h07m elapsed at check); no new scheduled runs beyond #14. Tests 36/36 green (0.38s). State updated.
+Completed this turn — re-checked run #14 still `in_progress`; step 6 "Run general-purpose Kilo agent loop" still `in_progress` since 08:39:41Z (~3h07m elapsed at check); no new scheduled runs beyond #14. Tests 36/36 green (0.40s). State updated; handoff refreshed.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T11:46Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed in 0.38s). HEAD `d1f363a` clean and matching `origin/main`. Diagnostics ledger holds 13 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497/40458282192/40500327513/40554987606/40612522834 success, 40406455865/40590666345 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
+**Current state (2026-10-28T11:46Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed in 0.40s). HEAD `3ce2be5` clean (only untracked `tests/__pycache__/`) and matching `origin/main`. Diagnostics ledger holds 13 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497/40458282192/40500327513/40554987606/40612522834 success, 40406455865/40590666345 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started); all recorded in ledger.
