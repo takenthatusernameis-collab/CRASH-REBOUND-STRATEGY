@@ -8,7 +8,7 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 13 records — runs #1-#13 all captured (#1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T11:53Z) — Current turn
+## Status (2026-10-28T11:54Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.37s, verified this turn). `pytest` is installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `e163e81` matching `origin/main`.
 - No code changes made this turn. No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
@@ -16,11 +16,11 @@
 
 ## Run status (CI re-checked via `gh run list` / `gh run view 40646152725 --json jobs`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
-- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z, updatedAt 08:39:30Z). Single job `kilo`: steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z (~3h14m elapsed); steps 7-9 (plus 18) pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h46m remaining).
+- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z). Single job `kilo`: steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z (~3h15m elapsed); steps 7-9 (plus 18) pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h45m remaining).
 - No further new scheduled runs beyond #14.
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-checked run #14 still `in_progress`; step 6 running since 08:39:41Z (~3h14m); no new runs beyond #14. Tests 36/36 green. Scheduled 90m wakeup before timeout. State updated; handoff refreshed.
+Completed this turn — re-checked run #14 still `in_progress`; step 6 running since 08:39:41Z (~3h15m); no new runs beyond #14. Tests 36/36 green. Wakeup wku_1825bf50e0015gnyP5RtT26fIt pending (13:23:47Z). State updated; handoff refreshed.
 
 ## Initial Task Message for Next Agent
 
