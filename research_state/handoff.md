@@ -9,20 +9,20 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T21:56:50Z) — Current turn
+## Status (2026-10-28T21:58:04Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.60s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `e86e48b` on `origin/main` (branch up to date).
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z; job `kilo` ID 123077458642 started 2026-10-28T20:20:29Z; last updated 2026-10-28T20:20:29Z). Running for ~2h 49m; still in_progress, no conclusion yet. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z; job `kilo` ID 123077458642 started 2026-10-28T20:20:29Z; last updated 2026-10-28T20:20:29Z). Running for ~2h 51m; still in_progress, no conclusion yet. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
 - No runs beyond #16 yet.
 - Wakeup `wku_184848f75001EkXOYBkM0QW6M5` scheduled for 2026-10-28T22:12:22Z (15m) to re-check run #16.
 
-## Run status (CI re-checked via `gh run list`/`gh run view` 2026-10-28T21:56:50Z)
+## Run status (CI re-checked via `gh run list`/`gh run view` 2026-10-28T21:58:04Z)
 - Runs #1-#15: all completed — #1 failure (remediated), #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled. All recorded in diagnostics ledger (15 records).
-- Run #16 (40751376410): **in_progress** (duration ~2h 49m; last updated 2026-10-28T20:20:29Z). No conclusion yet.
+- Run #16 (40751376410): **in_progress** (duration ~2h 51m; last updated 2026-10-28T20:20:29Z). No conclusion yet.
 - No runs beyond #16 yet.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn: Re-checked CI via `gh run list` and `gh run view 40751376410 --json status,conclusion,updatedAt`. Run #16 still in_progress (last updated 2026-10-28T20:20:29Z, elapsed ~2h49m; step 6 in_progress, steps 7-9 pending). Tests still 36/36 green. HEAD `e86e48b` on `origin/main` (up to date). Scheduled wakeup `wku_184848f75001EkXOYBkM0QW6M5` for 2026-10-28T22:12:22Z to re-check. Updated handoff with current state.
+Completed this turn (2026-10-28T21:58:04Z): Re-checked CI via `gh run list` and `gh run view 40751376410 --json status,conclusion,updatedAt`. Run #16 still in_progress (last updated 2026-10-28T20:20:29Z, elapsed ~2h51m; step 6 in_progress, steps 7-9 pending). Tests still 36/36 green. HEAD `e86e48b` on `origin/main` (up to date). Scheduled wakeup `wku_184848f75001EkXOYBkM0QW6M5` for 2026-10-28T22:12:22Z to re-check. Updated handoff with current state.
 
 ## Initial Task Message for Next Agent
 
