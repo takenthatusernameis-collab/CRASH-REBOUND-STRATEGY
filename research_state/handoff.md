@@ -9,8 +9,8 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T23:32:10Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.56s). `pytest` installed locally (run as `python3 -m pytest`).
+## Status (2026-10-28T23:33:21Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.55s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `4e5027a` = `origin/main` (`4e5027a6e56c3b25bfe714598b7fa7f7bdb32d13`); branch up to date, remote head matches local.
 - Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Step 6 "Run general-purpose Kilo agent loop" in_progress since 2026-10-28T20:20:37Z; steps 7-9 pending. `gh run view --json` works while running.
 - Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z). No job assigned yet.
@@ -19,13 +19,13 @@
 - Pending wakeup: none.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-28T23:32:10Z): Re-read handoff, verified tests green (36 passed), checked CI via `gh run list` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (step 6), run #17 pending/queued with no job assigned, no new runs (#18+). HEAD matches origin/main, working tree clean. No new completed runs to capture. Updated handoff with current state and refreshed task for next agent.
+Completed this turn (2026-10-28T23:33:21Z): Re-read handoff, verified tests green (36 passed), checked CI via `gh run list` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (step 6), run #17 pending/queued with no job assigned, no new runs (#18+). HEAD matches origin/main, working tree clean. No new completed runs to capture. Updated handoff with current state and refreshed task for next agent.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T23:32:10Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.56s). HEAD `4e5027a` on `origin/main` (local == remote; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-28T23:33:21Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.55s). HEAD `4e5027a` on `origin/main` (local == remote; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
