@@ -8,20 +8,20 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T16:34:46Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.46s). `pytest` installed locally.
+## Status (2026-10-28T16:35:05Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.45s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `7829485` on `origin/main` (branch up to date).
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
-- Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` (122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" in_progress, steps 7-9 pending. Timeout `timeout-minutes: 360` fires ~20:29Z. No new output since step 6 started. No new runs beyond #15.
-- **Turn action:** Read prior handoff; re-verified run #15 still in_progress via `gh run list`/`gh run view` (job `kilo` ID 122879433533, step 6 running, steps 7-9 pending). Tests green (36/36). Tree clean, HEAD `7829485` up to date. Ledger 14 records. No new runs. Prior agent task complete (nothing new to capture). Handoff refreshed for next agent.
+- Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` step 6 running; steps 7-9 pending; timeout `timeout-minutes: 360` fires ~20:29Z. Last updated 2026-10-28T14:29:12Z (no new output since step 6 started). No new runs beyond #15.
+- **Turn action:** Read prior handoff; re-verified run #15 still in_progress via `gh run list`/`gh run view`. Tests green (36/36). Tree clean, HEAD `7829485` up to date. Ledger 14 records. No new runs beyond #15. Prior agent task complete (nothing new to capture). Handoff refreshed for next agent.
 
 ## Run status (CI re-checked via `gh run list`/`gh run view`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#11/#13 success, #7 and #12 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
 - Run #14 (40646152725): **completed success** (created/started 2026-10-28T06:48:55Z; completed ~14:28:59Z). Diagnostics captured as ledger record 14 and committed in `b2b2025`. Ledger now has 14 records.
-- Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` step 6 running; steps 7-9 pending; timeout ~20:29Z. No new output since step 6 started. No new runs beyond #15.
+- Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` step 6 running; steps 7-9 pending; timeout ~20:29Z. Last updated 2026-10-28T14:29:12Z — no new output since step 6 started. No new runs beyond #15.
 
-## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed: run #14 success captured (ledger record 14, commit `b2b2025`); run #15 detected in_progress (step 6 running, no new output). 36/36 tests green, tree clean, HEAD `b2b2025` on `origin/main` (up to date), ledger 14 records. This turn re-verified run #15 still in_progress; tests green; no new runs beyond #15. Nothing new to capture. Updated handoff for next agent.
+## Prior agent task (monitor run #15; watch for new scheduled runs)
+Completed: run #15 re-verified still in_progress (step 6 running, last updated 14:29:12Z, no new output). 36/36 tests green, tree clean, HEAD `7829485` on `origin/main` (up to date), ledger 14 records. No new runs beyond #15. Nothing new to capture. Updated handoff for next agent.
 
 **Current turn task:** Read prior handoff and complete prior agent's task (monitor run #15/watch for new runs). Confirmed run #15 still in_progress; tests 36/36 green; no new runs beyond #15. Updated handoff for next agent.
 
@@ -29,12 +29,12 @@ Completed: run #14 success captured (ledger record 14, commit `b2b2025`); run #1
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T16:33:35Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.46s). HEAD `7829485` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally.
+**Current state (2026-10-28T16:35:05Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.45s). HEAD `7829485` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled; all recorded.
 - Run #14 (40646152725): **completed success** (~14:28:59Z). Diagnostics captured as ledger record 14 and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
-- Run #15 (40698130239): **in_progress** (created 13:37:25Z). `gh run view` shows job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" running, steps 7-9 pending — no new output since step 6 started; timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
+- Run #15 (40698130239): **in_progress** (created 13:37:25Z). `gh run view` shows job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" running, steps 7-9 pending — last updated 2026-10-28T14:29:12Z, no new output since step 6 started; timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
 
 **Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #15 to completion, especially around/after ~20:29Z timeout. Watch for new scheduled runs (#16 and beyond). If the existing wakeup already fired, schedule another wakeup as appropriate.
 
