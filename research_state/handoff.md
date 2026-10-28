@@ -8,10 +8,10 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T17:37:33Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.45s). `pytest` installed locally.
-- Working tree: clean except untracked `tests/__pycache__/`. HEAD `712ed39` on `origin/main` (branch up to date).
-- Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" started 14:29:19Z, running; steps 7-9 pending. No new output since step 6 started. Timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
+## Status (2026-10-28T17:38:00Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.44s). `pytest` installed locally.
+- Working tree: clean except untracked `tests/__pycache__/`. HEAD `bfda536` on `origin/main` (branch up to date).
+- Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running since 14:29:19Z; steps 7-9 pending. No new output. Timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
 - Scheduled wakeup: `wku_183657b3a00111Byd1eFNQtf1r` due 2026-10-28T20:28:48Z to re-check run #15 through timeout.
 - Prior agent task complete (monitored run #15 still in_progress; 36/36 tests green; tree clean). Re-verified via `gh run list`/`gh run view`. Updated handoff for next agent.
 
@@ -21,15 +21,15 @@
 - Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` step 6 "Run general-purpose Kilo agent loop" in_progress since 14:29:19Z; steps 7-9 pending; updatedAt ~14:29:12Z. Timeout ~20:29Z. No new runs beyond #15.
 
 ## Prior agent task (monitor run #15; watch for new scheduled runs)
-Completed: run #15 re-verified still in_progress (job `kilo` step 6 running since 14:29:19Z, updatedAt 14:29:12Z, no new output). 36/36 tests green, tree clean, HEAD `712ed39` on `origin/main` (up to date), ledger 14 records. No new runs beyond #15. Nothing new to capture. Updated handoff for next agent.
+Completed: run #15 re-verified still in_progress (job `kilo` step 6 running since 14:29:19Z, no new output). 36/36 tests green, tree clean, HEAD `bfda536` on `origin/main` (up to date), ledger 14 records. No new runs beyond #15. Nothing new to capture. Updated handoff for next agent.
 
-**Current turn task:** Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; no new output). No new runs beyond #15. Tests 36/36 green. Tree clean. Updated handoff for next agent. (verified 2026-10-28T17:37:33Z)
+**Current turn task:** Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; no new output). No new runs beyond #15. Tests 36/36 green. Tree clean. Updated handoff for next agent. (verified 2026-10-28T17:38:00Z)
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T17:37:33Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.44s). HEAD `712ed39` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally. Working tree clean except untracked `tests/__pycache__/`.
+**Current state (2026-10-28T17:38:00Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.44s). HEAD `bfda536` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally. Working tree clean except untracked `tests/__pycache__/`.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled; all recorded.
