@@ -7457,3 +7457,35 @@ Confirm tests green (`python3 -m pytest -q`) before making any changes.
 - Working tree clean, HEAD matches `origin/main`. Tests verified green: `python3 -m pytest -q` → 36 passed in 0.37s. No code changes made.
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope). Regular `contents: write` pushes permitted.
 - Prior agent task (monitor run #9 → transition to run #11) continued; monitoring run #11 to completion.
+
+## Update (2026-10-28T09:41Z) - Current turn
+- Read the durable handoff; prior agent task was to monitor CI (run #9 completed success, run #11 in progress).
+- Re-checked CI (`gh run list --limit 20`; `gh run view 40646152725 --json jobs`):
+  - Run #9 (40458282192): completed success (recorded).
+  - Run #10 (40612522834): completed success (recorded).
+  - Run #11 (40646152725): **in_progress** (schedule, created 2026-10-28T06:48:55Z, started 08:39:30Z). Job `kilo` (122714864537): steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 08:39:41Z (~1h02m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~14:39:41Z (~5h remaining). Concurrency group cleared when #10 completed.
+  - Runs #1-#8, #12: completed/cancelled as before; all recorded in ledger.
+- Working tree clean, HEAD `968f7ca` matches `origin/main` (verified `git status`/`git log`). Tests re-confirmed green: `python3 -m pytest -q` → **36 passed in 0.37s**. No code changes made.
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope). Regular `contents: write` pushes permitted.
+- Prior agent task (monitor run #9 / transition to run #11) completed this turn; monitoring continues on run #11.
+
+## Initial Task Message for Next Agent
+
+Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
+
+**Current state (2026-10-28T09:41Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed). HEAD `968f7ca` clean and matching `origin/main`. Diagnostics ledger holds 9+ records (all completed runs captured). `pytest` installed in the user environment.
+
+**Run status:**
+- Runs #1-#10, #12: completed; #1 failure remediated, #2-#6/#8-#10 success, #7/#12 cancelled (no jobs); all recorded in ledger.
+- Run #9 (40458282192): completed success (recorded).
+- Run #11 (40646152725): **in_progress** (schedule, created 2026-10-28T06:48:55Z, started 08:39:30Z). Single job `kilo` (122714864537): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" in_progress since 08:39:41Z (~1h02m elapsed); steps 7-9 pending. Job `timeout-minutes: 360` fires ~14:39:41Z (~5h remaining).
+
+**Your task:** Continue monitoring CI. Re-check run 40646152725 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40646152725 --json jobs`). Watch run #11 to completion, especially around/after its ~14:39:41Z job timeout. Watch for any further new scheduled runs.
+
+If run #11 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+
+If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+
+Confirm tests green (`python3 -m pytest -q`) before making any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
