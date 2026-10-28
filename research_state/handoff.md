@@ -8,9 +8,9 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 13 records — runs #1-#13 all captured (#1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T10:55Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.41s, verified this turn). `pytest` is installed locally.
-- Working tree: clean, HEAD `d1f363a` matches `origin/main` (verified via `git status`/`git log`; only untracked `tests/__pycache__/`).
+## Status (2026-10-28T11:46Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.38s, verified this turn). `pytest` is installed locally.
+- Working tree: clean, HEAD `d1f363a` matches `origin/main`.
 - No code changes made this turn. No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
 
 ## Run status (CI re-checked via `gh run list` / `gh run view 40646152725 --json jobs`)
@@ -19,17 +19,17 @@
 - No further new scheduled runs beyond #14 (`gh run list --limit 20` returns exactly runs #1-#14).
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-verified run #14 still `in_progress`; step 6 unchanged since 08:39:41Z (~2h13m+ elapsed at check); no new scheduled runs beyond #14. Tests 36/36 green (0.37s). State updated.
+Completed this turn — re-checked run #14 still `in_progress`; step 6 "Run general-purpose Kilo agent loop" still `in_progress` since 08:39:41Z (~3h07m elapsed at check); no new scheduled runs beyond #14. Tests 36/36 green (0.38s). State updated.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T10:55Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed in 0.41s). HEAD `d1f363a` clean and matching `origin/main`. Diagnostics ledger holds 13 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497/40458282192/40500327513/40554987606/40612522834 success, 40406455865/40590666345 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
+**Current state (2026-10-28T11:46Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed in 0.38s). HEAD `d1f363a` clean and matching `origin/main`. Diagnostics ledger holds 13 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497/40458282192/40500327513/40554987606/40612522834 success, 40406455865/40590666345 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started); all recorded in ledger.
-- Run #14 (40646152725): **in_progress** (schedule, created 2026-10-28T06:48:55Z, started 06:48:55Z). Single job `kilo` (122714864537): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z; steps 7-9 (plus 18) pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~3h44m remaining).
+- Run #14 (40646152725): **in_progress** (schedule, created 2026-10-28T06:48:55Z, started 06:48:55Z). Single job `kilo` (122714864537): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z; steps 7-9 (plus 18) pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h53m remaining).
 
 **Your task:** Continue monitoring CI. Re-check run 40646152725 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view <id> --json jobs`). Watch run #14 to completion, especially around/after its ~2026-10-28T14:39:41Z job timeout. Watch for any further new scheduled runs.
 
