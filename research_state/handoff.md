@@ -9,25 +9,26 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T23:23:23Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.53s). `pytest` installed locally (run as `python3 -m pytest`).
-- Working tree: clean (only `tests/__pycache__/` untracked). HEAD `606dc9f` on `origin/main` (branch up to date; remote head `455e90f`).
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z). Elapsed ~4h 16m since run start; step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending. No conclusion yet.
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet; not yet running.
+## Status (2026-10-28T23:23:54Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.57s). `pytest` installed locally (run as `python3 -m pytest`).
+- Working tree: clean (only `tests/__pycache__/` untracked). HEAD `5145b33` = `origin/main` (`5145b3354bc9f1a41dd068275c9da9bc63dceb01`); branch up to date, remote head matches local.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 17m elapsed). Job `kilo` (ID 123077458642) still running. Steps 1-5 done (controller tests skipped per `push` guard, diagnostics collected+committed, Kilo loop in_progress); steps 7-9 pending. `gh run view --log` unavailable while running.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet.
 - Diagnostics ledger: 15 records (runs #1-#15). No new records since.
 - No pending wakeups in current session.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-28T23:23:23Z): Re-checked CI via `gh run list`/`gh run view`. Run #16 still in_progress (elapsed ~4h16m; step 6 in_progress). New scheduled run #17 (40785789871) now pending (started 23:13:19Z). Tests 36/36 green. No new diagnostics to capture. Updated handoff with current state.
+Completed this turn (2026-10-28T23:23:54Z): Re-checked CI via `gh run list`/`gh run view`. Run #16 still in_progress (~4h17m; Kilo loop step in_progress). Run #17 (40785789871) pending/queued (~10m old). Confirmed local HEAD `5145b33` == remote `origin/main`; working tree clean. Tests 36/36 green. No new diagnostics to capture. Updated handoff with current state.
+
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T23:23:23Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.53s). HEAD `606dc9f` on `origin/main` (branch up to date; remote head `455e90f`). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-28T23:23:54Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `5145b33` on `origin/main` (local == remote `5145b3354bc9f1a41dd068275c9da9bc63dceb01`; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 16m elapsed). Job `kilo` (ID 123077458642) still running with no conclusion. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 17m elapsed). Job `kilo` (ID 123077458642) still running with no conclusion. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
 - Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet.
 - No pending wakeups in current session.
 
