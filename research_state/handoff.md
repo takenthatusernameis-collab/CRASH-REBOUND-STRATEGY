@@ -6756,3 +6756,30 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+## Update (2026-10-28T03:57Z) - Current turn
+- Completed prior agent task: re-checked CI; run #10 (40500327513) **completed success** (completed 2026-10-27T20:47:33Z); run #11 (40554987606) **completed success** (completed 2026-10-28T02:37:27Z); run 40590666345 **cancelled**; run #12 (40612522834) **in_progress** (started 2026-10-28T01:01:50Z, updatedAt 02:49:07Z).
+- Working tree clean, HEAD matches origin/main. `python3 -m pytest -q` → 36 passed. No code changes made.
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
+
+## Initial Task Message for Next Agent
+
+Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
+
+**Current state (2026-10-28T03:57Z):** 36/36 tests passing. HEAD clean and matching `origin/main`. Diagnostics ledger holds records for completed runs through #11. `pytest` installed.
+
+**Run status:**
+- Run #10 (40500327513): completed success.
+- Run #11 (40554987606): completed success.
+- Run 40590666345: cancelled.
+- Run #12 (40612522834): in_progress (started 2026-10-28T01:01:50Z). Job timeout ~07:01:50Z.
+
+**Your task:** Continue monitoring CI. Re-check run 40612522834 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40612522834 --json jobs`). Watch to completion, especially around/after its ~07:01:50Z job timeout. Watch for further new scheduled runs.
+
+If run #12 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+
+If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+
+Confirm tests green (`python3 -m pytest -q`) before making any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
