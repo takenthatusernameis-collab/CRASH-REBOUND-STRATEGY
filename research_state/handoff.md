@@ -8,12 +8,12 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T19:42:29Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.48s). `pytest` installed locally.
+## Status (2026-10-28T19:45:09Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.45s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/`. HEAD `c5b8a60` on `origin/main` (branch up to date; checkpoint commits since prior handoff).
-- Run #15 (40698130239): **in_progress** (~7h elapsed). Triggered via schedule 2026-10-28T13:37:25Z; `timeout-minutes: 360` fires ~20:29Z. Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed.
-- Run #16 (40751376410): **pending** (created 2026-10-28T19:07:04Z, ~35m ago). Scheduled run, not started yet.
-- Scheduled wakeup: `wku_18408d0730013WE87XdkUhnyfB` due 2026-10-28T20:34:12Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
+- Run #15 (40698130239): **in_progress** (~6h7m elapsed). Triggered via schedule 2026-10-28T13:37:25Z; `timeout-minutes: 360` fires ~20:29Z. Job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed.
+- Run #16 (40751376410): **pending** (created 2026-10-28T19:07:04Z, ~38m ago). Scheduled run, not started yet.
+- Scheduled wakeup: `wku_1840b91c8001H6N6VlEmFFvuTo` due 2026-10-28T20:34:13Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
 
 ## Run status (CI re-checked via `gh run list`/`gh run view` 2026-10-28T19:42:29Z)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#11/#13 success, #7 and #12 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
@@ -22,20 +22,20 @@
 - Run #16 (40751376410): **pending** (created 19:07:04Z) — scheduled run, not started yet.
 
 ## Prior agent task (monitor run #15; watch for new scheduled runs)
-Completed: Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~7h elapsed). Run #16 pending. No runs beyond #16. Tests 36/36 green. Tree clean. HEAD advanced to `c5b8a60` (checkpoint commits). Wakeup scheduled for 20:34:12Z. Updated handoff for next agent.
+Completed: Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~6h7m elapsed). Run #16 pending. No runs beyond #16. Tests 36/36 green. Tree clean. HEAD `c5b8a60`. Wakeup `wku_1840b91c8001H6N6VlEmFFvuTo` scheduled for 20:34:13Z. Updated handoff for next agent.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T19:42:29Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.48s). HEAD `c5b8a60` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally. Working tree clean except untracked `tests/__pycache__/`.
+**Current state (2026-10-28T19:45:09Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.45s). HEAD `c5b8a60` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally. Working tree clean except untracked `tests/__pycache__/`.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled; all recorded.
 - Run #14 (40646152725): **completed success** (~14:28:59Z). Diagnostics captured as ledger record 14 and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Run #15 (40698130239): **in_progress** (~7h elapsed). Triggered via schedule 2026-10-28T13:37:25Z; `timeout-minutes: 360` fires ~20:29Z. Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed.
 - Run #16 (40751376410): **pending** (created 19:07:04Z) — scheduled run, not started yet.
-- Scheduled wakeup: `wku_18408d0730013WE87XdkUhnyfB` due 2026-10-28T20:34:12Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
+- Scheduled wakeup: `wku_1840b91c8001H6N6VlEmFFvuTo` due 2026-10-28T20:34:13Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
 
 **Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #15 to completion, especially around/after ~20:29Z timeout. Watch for new scheduled runs (#16 and beyond) as they start.
 
