@@ -9,30 +9,31 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T23:23:54Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.57s). `pytest` installed locally (run as `python3 -m pytest`).
-- Working tree: clean (only `tests/__pycache__/` untracked). HEAD `5145b33` = `origin/main` (`5145b3354bc9f1a41dd068275c9da9bc63dceb01`); branch up to date, remote head matches local.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 17m elapsed). Job `kilo` (ID 123077458642) still running. Steps 1-5 done (controller tests skipped per `push` guard, diagnostics collected+committed, Kilo loop in_progress); steps 7-9 pending. `gh run view --log` unavailable while running.
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet.
+## Status (2026-10-28T23:25:25Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.53s). `pytest` installed locally (run as `python3 -m pytest`).
+- Working tree: clean (only `tests/__pycache__/` untracked). HEAD `4e5027a` = `origin/main` (`4e5027a6e56c3b25bfe714598b7fa7f7bdb32d13`); branch up to date, remote head matches local.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 18m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Steps 1-5 done (controller tests skipped per `push` guard, diagnostics collected+committed, Kilo loop in_progress); steps 7-9 pending. `gh run view --json` works while running (returns live status, not logs).
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~12m ago). No job assigned yet.
 - Diagnostics ledger: 15 records (runs #1-#15). No new records since.
-- No pending wakeups in current session.
+- Pending wakeup: `wku_184d580ec001RuKxQkGthlRxWD` due 2026-10-28T23:30:47Z (5m).
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-28T23:23:54Z): Re-checked CI via `gh run list`/`gh run view`. Run #16 still in_progress (~4h17m; Kilo loop step in_progress). Run #17 (40785789871) pending/queued (~10m old). Confirmed local HEAD `5145b33` == remote `origin/main`; working tree clean. Tests 36/36 green. No new diagnostics to capture. Updated handoff with current state.
+Completed this turn (2026-10-28T23:25:25Z): Re-checked CI via `gh run list --limit 20` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (job `kilo` ID 123077458642 started 2026-10-28T20:20:29Z; step 6 "Run general-purpose Kilo agent loop" in_progress since then; steps 7-9 pending). Run #17 (40785789871) pending/queued (~12m old, no job). Confirmed local HEAD `4e5027a` == remote `origin/main`; working tree clean. Tests 36/36 green. No new diagnostics to capture. Scheduled 5m wakeup `wku_184d580ec001RuKxQkGthlRxWD`. Updated handoff with current state.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T23:23:54Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `5145b33` on `origin/main` (local == remote `5145b3354bc9f1a41dd068275c9da9bc63dceb01`; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-28T23:25:25Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.53s). HEAD `4e5027a` on `origin/main` (local == remote `4e5027a6e56c3b25bfe714598b7fa7f7bdb32d13`; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 17m elapsed). Job `kilo` (ID 123077458642) still running with no conclusion. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet.
-- No pending wakeups in current session.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 18m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~12m ago). No job assigned yet.
+- Pending wakeup: `wku_184d580ec001RuKxQkGthlRxWD` due 2026-10-28T23:30:47Z.
+- Note: `gh run view --json status,conclusion,jobs` works while a run is in_progress (live status, no logs). `gh run view --log` and `gh run cancel` remain blocked by `actions: read` scope.
 
-**Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #16 to completion; watch run #17 to start/run to completion. Watch for new scheduled runs (#18 and beyond) as they start.
+**Your task:** Continue monitoring CI (`gh run list`/`gh run view --json status,conclusion,jobs`). Watch run #16 to completion; watch run #17 to start/run to completion. Watch for new scheduled runs (#18 and beyond) as they start.
 
 If any run completes (success/failure/timeout): fetch diagnostics (job logs/metadata as appropriate), append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, verify with `python3 -m pytest`, update this handoff.
 
