@@ -6039,3 +6039,31 @@ If a run remains hung without failing past its timeout, note the stall — do no
 Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 **Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+
+## Update (2026-10-28T00:01Z)
+- Re-checked CI: run #11 (40554987606) still `in_progress`, updatedAt 2026-10-27T20:47:35Z (unchanged). Job `kilo` (122460623653): steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-27T20:47:42Z (~3h14m elapsed); steps 7-9 and 18 pending. Job `timeout-minutes: 360` fires ~2026-10-28T02:47:42Z (~2h46m remaining).
+- Run #12 (40590666345): still `pending`, created 2026-10-27T21:54:55Z, no jobs started (blocked by run #11's concurrency group). No further new scheduled runs (12 total).
+- Working tree clean, HEAD `19e0696` matches `origin/main`. Tests 36/36 green (`python3 -m pytest -q`). No code changes.
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
+- Scheduled wakeup to re-check right at/after run #11's job timeout.
+
+## Initial Task Message for Next Agent
+
+Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
+
+**Current state (2026-10-28T00:01Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed). HEAD `19e0696` clean and matching `origin/main`. Diagnostics ledger holds 10 records. `pytest` installed on this host.
+
+**Run status:**
+- Runs #1-#10: all completed; #1 failure remediated, #2-#10 success, #7 cancelled (no jobs started); all recorded in ledger.
+- Run #11 (40554987606): **in_progress** (schedule, created 2026-10-27T17:54:37Z, started 20:47:35Z). Single job `kilo` (122460623653): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-27T20:47:42Z (~3h14m elapsed); steps 7-9 and 18 pending. Job `timeout-minutes: 360` fires ~2026-10-28T02:47:42Z (~2h46m remaining). Concurrency group holds #12.
+- Run #12 (40590666345): **pending** (schedule, created 2026-10-27T21:54:55Z). No jobs started yet — blocked by run #11's concurrency group.
+
+**Your task:** Continue monitoring CI. Re-check run 40554987606 and run 40590666345 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view <id> --json jobs`). Watch run #11 to completion, especially around/after its ~2026-10-28T02:47:42Z job timeout. Watch run #12 — check whether it starts once #11 completes and clears the concurrency group, or remains blocked. Watch for any further new scheduled runs.
+
+If run #11 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+
+If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+
+Confirm tests green (`python3 -m pytest -q`) before making any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
