@@ -23,7 +23,7 @@
 ## Prior agent task (monitor run #15; watch for new scheduled runs)
 Completed: run #15 re-verified still in_progress (job `kilo` step 6 running since 14:29:19Z, updatedAt 14:29:12Z, no new output). 36/36 tests green, tree clean, HEAD `712ed39` on `origin/main` (up to date), ledger 14 records. No new runs beyond #15. Nothing new to capture. Updated handoff for next agent.
 
-**Current turn task:** Read prior handoff and complete prior agent's task (monitor run #15/watch for new runs). Confirmed run #15 still in_progress (job `kilo` in_progress, step 6 running, no new runs beyond #15). Tests 36/36 green. Updated handoff for next agent.
+**Current turn task:** Read prior handoff and complete prior agent's task (monitor run #15/watch for new runs). Re-verified run #15 still in_progress (job `kilo` in_progress, step 6 running, steps 7-9 pending; no new output). No new runs beyond #15. Tests 36/36 green. Tree clean. Updated handoff for next agent.
 
 ## Initial Task Message for Next Agent
 
