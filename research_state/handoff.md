@@ -12,7 +12,7 @@
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.40s, verified this turn). `pytest` is installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `af9231e` (ahead of `origin/main` `e163e81` by 2 commits: `d96757d` handoff update, `af9231e` checkpoint). Unpushed local commits are chore-only (handoff/checkpoint); no code changes.
 - No code changes made this turn. No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
-- Wakeup `wku_1825bf50e0015gnyP5RtT26fIt` already fired/consumed; no pending wakeups scheduled.
+- Scheduled wakeup `wku_1825dd1fe001UhnVUh5bx9wP0X` for 2026-10-28T13:20:49Z (~85m) to re-check run #14 before/near timeout.
 
 ## Run status (CI re-checked via `gh run list` / `gh run view 40646152725 --json jobs`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
@@ -20,18 +20,18 @@
 - No further new scheduled runs beyond #14.
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-checked run #14 still `in_progress`; step 6 running since 08:39:41Z (~3h15m); no new runs beyond #14. Tests 36/36 green. Wakeup already fired; state updated; handoff refreshed.
+Completed this turn — re-checked run #14 still `in_progress`; step 6 running since 08:39:41Z (~3h15m); no new runs beyond #14. Tests 36/36 green. Prior wakeup consumed; new wakeup `wku_1825dd1fe001UhnVUh5bx9wP0X` scheduled 13:20:49Z. Handoff refreshed, committed (`12c3b94`), and pushed to `origin/main`.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T11:54Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.40s). HEAD `af9231e` clean (only untracked `tests/__pycache__/`), 2 unpushed chore commits ahead of `origin/main` (`e163e81`). Diagnostics ledger holds 13 records. `pytest` installed locally.
+**Current state (2026-10-28T11:54Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.40s). HEAD `12c3b94` pushed to `origin/main` (handoff refresh committed & pushed this turn; prior local chore commits `af9231e`, `d96757d` superseded). Diagnostics ledger holds 13 records. `pytest` installed locally.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled; all recorded.
 - Run #14 (40646152725): **in_progress**. Job `kilo` step 6 running since 08:39:41Z; timeout ~14:39:41Z (~2h45m remaining).
-- No pending wakeups.
+- Wakeup: `wku_1825dd1fe001UhnVUh5bx9wP0X` fires 2026-10-28T13:20:49Z.
 
 **Your task:** Continue monitoring CI (gh run list/view). Watch run #14 to completion, especially around/after ~14:39:41Z timeout. Watch for new scheduled runs.
 
