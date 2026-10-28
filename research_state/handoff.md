@@ -19,7 +19,7 @@
 - No further new scheduled runs beyond #14 (`gh run list --limit 20` returns exactly runs #1-#14).
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-verified run #14 still `in_progress`; step 6 unchanged since 08:39:41Z; no new scheduled runs beyond #14. State updated. Tests 36/36 green.
+Completed this turn — re-verified run #14 still `in_progress`; step 6 unchanged since 08:39:41Z (~2h13m+ elapsed at check); no new scheduled runs beyond #14. Tests 36/36 green (0.37s). State updated.
 
 ## Initial Task Message for Next Agent
 
