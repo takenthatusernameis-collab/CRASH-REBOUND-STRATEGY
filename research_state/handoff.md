@@ -9,34 +9,33 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T23:26:28Z) — Current turn
+## Status (2026-10-28T23:27:45Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.53s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `4e5027a` = `origin/main` (`4e5027a6e56c3b25bfe714598b7fa7f7bdb32d13`); branch up to date, remote head matches local.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 18m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Steps 1-5 done (controller tests skipped per `push` guard, diagnostics collected+committed, Kilo loop in_progress); steps 7-9 pending. `gh run view --json` works while running (returns live status, not logs).
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~12m ago). No job assigned yet.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 20m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Step 6 "Run general-purpose Kilo agent loop" in_progress since 2026-10-28T20:20:37Z; steps 7-9 pending. `gh run view --json` works while running (returns live status, not logs).
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~14m ago). No job assigned yet.
 - Diagnostics ledger: 15 records (runs #1-#15). No new records since.
-- Pending wakeup: `wku_184d640ee001ThcwJil1eo70Yl` due 2026-10-28T23:31:36Z (5m).
+- Pending wakeup: none (previous wakeup consumed/expired).
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-28T23:25:25Z): Re-checked CI via `gh run list --limit 20` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (job `kilo` ID 123077458642 started 2026-10-28T20:20:29Z; step 6 "Run general-purpose Kilo agent loop" in_progress since then; steps 7-9 pending). Run #17 (40785789871) pending/queued (~12m old, no job). Confirmed local HEAD `4e5027a` == remote `origin/main`; working tree clean. Tests 36/36 green. No new diagnostics to capture. Scheduled 5m wakeup `wku_184d580ec001RuKxQkGthlRxWD`. Updated handoff with current state.
+Completed this turn (2026-10-28T23:27:45Z): Re-read handoff, verified tests green, checked CI via `gh run list` and `gh run view 40751376410 --json`. Run #16 still in_progress (kilo job at step 6), run #17 pending/queued. HEAD matches origin/main, working tree clean. No new completed runs to capture. Updated handoff with current state and refreshed task for next agent.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T23:25:25Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.53s). HEAD `4e5027a` on `origin/main` (local == remote `4e5027a6e56c3b25bfe714598b7fa7f7bdb32d13`; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-28T23:27:45Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.53s). HEAD `4e5027a` on `origin/main` (local == remote; branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 18m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~12m ago). No job assigned yet.
-- Pending wakeup: `wku_184d580ec001RuKxQkGthlRxWD` due 2026-10-28T23:30:47Z.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 20m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z, step 6 "Run general-purpose Kilo agent loop" in_progress since 2026-10-28T20:20:37Z; steps 7-9 pending.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~14m ago). No job assigned yet.
 - Note: `gh run view --json status,conclusion,jobs` works while a run is in_progress (live status, no logs). `gh run view --log` and `gh run cancel` remain blocked by `actions: read` scope.
 
-**Your task:** Continue monitoring CI (`gh run list`/`gh run view --json status,conclusion,jobs`). Watch run #16 to completion; watch run #17 to start/run to completion. Watch for new scheduled runs (#18 and beyond) as they start.
+**Your task:** Continue monitoring CI (`gh run list`/`gh run view --json status,conclusion,jobs`). Watch run #16 to completion; watch run #17 to start and run to completion. Watch for new scheduled runs (#18 and beyond) as they appear.
 
-If any run completes (success/failure/timeout): fetch diagnostics (job logs/metadata as appropriate), append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, verify with `python3 -m pytest`, update this handoff.
+If any run completes (success/failure/timeout/cancelled): fetch diagnostics (job/metadata as accessible), append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, verify with `python3 -m pytest`, commit and update this handoff. Only push regular files (`contents: write` allowed); workflow changes are blocked by token scope.
 
 If hung without failing past timeout, note stall — do not cancel/force-push/escalate without explicit user direction.
 
-Confirm tests green before making changes. Both gates blocked by `GITHUB_TOKEN`/`actions: read` scope (only maintainer can cancel/push workflow changes); regular `contents: write` pushes allowed.
+Confirm tests green before making changes.
