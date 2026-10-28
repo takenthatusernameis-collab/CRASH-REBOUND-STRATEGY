@@ -8,28 +8,28 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 13 records — runs #1-#13 all captured (#1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T12:52Z) — Current turn
+## Status (2026-10-28T12:53Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.41s, re-verified this turn). `pytest` is installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `4802898` on `origin/main` (pushed; branch up to date). No code changes.
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
-- No pending wakeups in this session; schedule a wakeup before ~14:39:30Z to re-check run #14.
+- Scheduled wakeup `wku_1829302fb001Ees8NQnGRE7Lwh` for 2026-10-28T14:00:00Z to re-check run #14 before timeout.
 ## Run status (CI re-checked via `gh run list` / `gh run view 40646152725 --json jobs`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
-- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z). Job `kilo` started 08:39:30Z; steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 08:39:41Z (~4h13m elapsed as of 12:52Z); steps 7-10 pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:30Z (~1h47m remaining).
+- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z). Job `kilo` started 08:39:30Z; steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 08:39:41Z (~4h14m elapsed as of 12:53Z); steps 7-10 pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:30Z (~1h46m remaining).
 - No further new scheduled runs beyond #14 (`gh run list` shows #14 latest in_progress, #13 completed success).
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-verified run #14 still `in_progress`; step 6 running since 08:39:41Z (~4h13m); no new runs beyond #14. Tests 36/36 green. No pending wakeup in this session; schedule wakeup before ~14:39:30Z. Handoff refreshed.
+Completed this turn — re-verified run #14 still `in_progress`; step 6 running since 08:39:41Z (~4h14m); no new runs beyond #14. Tests 36/36 green. Scheduled wakeup before timeout. Handoff refreshed.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T12:52Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.41s). HEAD `4802898` on `origin/main` (branch up to date). Diagnostics ledger holds 13 records. `pytest` installed locally.
+**Current state (2026-10-28T12:53Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.41s). HEAD `4802898` on `origin/main` (branch up to date). Diagnostics ledger holds 13 records. `pytest` installed locally. Wakeup `wku_1829302fb001Ees8NQnGRE7Lwh` scheduled 2026-10-28T14:00:00Z.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled; all recorded.
-- Run #14 (40646152725): **in_progress**. Job `kilo` step 6 running since 08:39:41Z (~4h13m elapsed); timeout `timeout-minutes: 360` fires ~14:39:30Z (~1h47m remaining).
+- Run #14 (40646152725): **in_progress**. Job `kilo` step 6 running since 08:39:41Z (~4h14m elapsed); timeout `timeout-minutes: 360` fires ~14:39:30Z (~1h46m remaining).
 - No new runs beyond #14.
 
 **Your task:** Continue monitoring CI (`gh run list`/`view`). Watch run #14 to completion, especially around/after ~14:39:30Z timeout. Watch for new scheduled runs. Schedule a wakeup before ~14:39:30Z if none pending.
