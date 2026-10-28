@@ -12,7 +12,7 @@
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.45s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/`. HEAD `e42fd70` on `origin/main` (branch up to date).
 - Run #15 (40698130239): **in_progress** (~5h elapsed). Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15. Re-verified via `gh run view 40698130239` and `gh run view --job=122879433533`.
-- Scheduled wakeup: `wku_183ce994d001qy84EUp81d8Tlw` due 2026-10-28T20:43:37Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
+- Scheduled wakeup: `wku_183cf0b7e001JgiNAZslaxmkg5` due 2026-10-28T20:34:06Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
 - Prior agent task complete (monitored run #15 still in_progress; 36/36 tests green; tree clean). Re-verified via `gh run view`. Updated handoff for next agent.
 
 ## Run status (CI re-checked via `gh run view` 2026-10-28T18:36:56Z)
@@ -23,7 +23,7 @@
 ## Prior agent task (monitor run #15; watch for new scheduled runs)
 Completed: run #15 re-verified still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~5h elapsed). 36/36 tests green, tree clean, HEAD `bfda536` on `origin/main` (up to date), ledger 14 records. No new runs beyond #15. Nothing new to capture. Updated handoff for next agent.
 
-**Current turn task:** Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending). No new runs beyond #15. Tests 36/36 green. Tree clean. Updated handoff for next agent. (verified 2026-10-28T18:36:56Z)
+**Current turn task:** Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~5h elapsed). No new runs beyond #15. Tests 36/36 green. Tree clean. Updated handoff for next agent. (verified 2026-10-28T18:39:00Z)
 
 ## Initial Task Message for Next Agent
 
@@ -35,7 +35,7 @@ Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled; all recorded.
 - Run #14 (40646152725): **completed success** (~14:28:59Z). Diagnostics captured as ledger record 14 and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Run #15 (40698130239): **in_progress** (~5h elapsed). Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending; timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
-- Scheduled wakeup: `wku_183ce994d001qy84EUp81d8Tlw` due 2026-10-28T20:43:37Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
+- Scheduled wakeup: `wku_183cf0b7e001JgiNAZslaxmkg5` due 2026-10-28T20:34:06Z to re-check run #15 through timeout. If that wakeup already fired and run #15 still hasn't completed, schedule another wakeup as appropriate.
 
 **Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #15 to completion, especially around/after ~20:29Z timeout. Watch for new scheduled runs (#16 and beyond).
 
