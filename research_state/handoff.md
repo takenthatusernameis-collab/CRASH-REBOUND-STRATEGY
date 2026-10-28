@@ -8,7 +8,7 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T17:35:XXZ) — Current turn
+## Status (2026-10-28T17:36:XXZ) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.45s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/`. HEAD `712ed39` on `origin/main` (branch up to date).
 - Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` (ID 122879433533) in_progress; step 6 "Run general-purpose Kilo agent loop" started 14:29:19Z, running; steps 7-9 pending. No new output since step 6 started. Timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
