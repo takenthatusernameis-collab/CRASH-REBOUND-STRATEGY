@@ -8,35 +8,35 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 13 records — runs #1-#13 all captured (#1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T11:46Z) — Current turn
+## Status (2026-10-28T11:51Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.40s, verified this turn). `pytest` is installed locally.
-- Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `3ce2be5` (post-handoff checkpoint) ahead of the handoff's recorded `d1f363a`; `origin/main` is at `3ce2be5` too, so the branch matches remote.
+- Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `3ce2be5` matching `origin/main`.
 - No code changes made this turn. No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
+- Scheduled wakeup `wku_182584984001aVw7SArYnC85ec` for 2026-10-28T13:19:46Z (90m) to re-check run #14 before/near timeout.
 
 ## Run status (CI re-checked via `gh run list` / `gh run view 40646152725 --json jobs`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
-- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z, updatedAt 08:39:30Z — unchanged since last check). Single job `kilo` (122714864537): steps 1-5 completed (step 3 "Test controller progress and diagnostic scanning" skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z (~3h07m elapsed); steps 7 "Verify diagnostics-only activation", 8 "Upload recovery artifacts", 9 "Report controller outcomes", 18 "Post Checkout latest default branch" pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h53m remaining). This is the current rebound task.
-- No further new scheduled runs beyond #14 (`gh run list --limit 20` returns exactly runs #1-#14).
+- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z, updatedAt 08:39:30Z). Single job `kilo` (122714864537): steps 1-5 completed (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z (~3h12m elapsed); steps 7-9 (plus 18) pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h48m remaining).
+- No further new scheduled runs beyond #14.
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-checked run #14 still `in_progress`; step 6 "Run general-purpose Kilo agent loop" still `in_progress` since 08:39:41Z (~3h07m elapsed at check); no new scheduled runs beyond #14. Tests 36/36 green (0.40s). State updated; handoff refreshed.
+Completed this turn — re-checked run #14 still `in_progress`; step 6 running since 08:39:41Z (~3h12m); no new runs beyond #14. Tests 36/36 green. Scheduled 90m wakeup before timeout. State updated; handoff refreshed.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T11:46Z):** 36/36 tests passing (verified locally this turn: `python3 -m pytest -q` → 36 passed in 0.40s). HEAD `3ce2be5` clean (only untracked `tests/__pycache__/`) and matching `origin/main`. Diagnostics ledger holds 13 records (runs 40227044034 failure-remediated, 40238479313/40248644461/40272018017/40311668001/40367165284/40429147497/40458282192/40500327513/40554987606/40612522834 success, 40406455865/40590666345 cancelled). `pytest` is installed in the user environment on this host (so local re-runs are possible going forward).
+**Current state (2026-10-28T11:51Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.40s). HEAD `3ce2be5` clean (only untracked `tests/__pycache__/`) and matching `origin/main`. Diagnostics ledger holds 13 records. `pytest` installed locally.
 
 **Run status:**
-- Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled (no jobs started); all recorded in ledger.
-- Run #14 (40646152725): **in_progress** (schedule, created 2026-10-28T06:48:55Z, started 06:48:55Z). Single job `kilo` (122714864537): steps 1-5 done (step 3 skipped); step 6 "Run general-purpose Kilo agent loop" `in_progress` since 2026-10-28T08:39:41Z; steps 7-9 (plus 18) pending. Job `timeout-minutes: 360` fires ~2026-10-28T14:39:41Z (~2h53m remaining).
+- Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#10/#12-#13 success, #7 and #11 cancelled; all recorded.
+- Run #14 (40646152725): **in_progress**. Job `kilo` step 6 running since 08:39:41Z; timeout ~14:39:41Z (~2h48m remaining).
+- Wakeup: `wku_182584984001aVw7SArYnC85ec` fires 2026-10-28T13:19:46Z.
 
-**Your task:** Continue monitoring CI. Re-check run 40646152725 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view <id> --json jobs`). Watch run #14 to completion, especially around/after its ~2026-10-28T14:39:41Z job timeout. Watch for any further new scheduled runs.
+**Your task:** Continue monitoring CI (gh run list/view). Watch run #14 to completion, especially around/after ~14:39:41Z timeout. Watch for new scheduled runs.
 
-If run #14 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+If run #14 fails at/after timeout: fetch diagnostics, append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix, update tests if needed, verify with `python3 -m pytest`, update this handoff.
 
-If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+If hung without failing past timeout, note stall — do not cancel/force-push/escalate without explicit user direction.
 
-Confirm tests green (`python3 -m pytest -q`) before making any changes.
-
-**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
+Confirm tests green before making changes. Both gates blocked by `GITHUB_TOKEN`/`actions: read` scope (only maintainer can cancel/push workflow changes); regular `contents: write` pushes allowed.
