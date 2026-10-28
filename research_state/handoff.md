@@ -24,7 +24,7 @@
 ## Prior agent task (monitor run #15; watch for new scheduled runs)
 Completed: run #15 re-verified still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~6h0m elapsed). Run #16 pending (created 19:07:04Z). 36/36 tests green, tree clean, HEAD `97542ce` on `origin/main` (up to date), ledger 14 records. Updated handoff for next agent.
 
-**Current turn task:** Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~6h5m elapsed). Run #16 pending. No runs beyond #16. Tests 36/36 green. Tree clean. Updated handoff for next agent. (verified 2026-10-28T19:43:00Z)
+**Current turn task:** Re-verified run #15 still in_progress (job `kilo` step 6 running, steps 7-9 pending; ~6h2m elapsed). Run #16 pending. No runs beyond #16. Tests 36/36 green. Tree clean. Wakeup scheduled for 20:34:06Z. (verified 2026-10-28T19:40:00Z)
 
 ## Initial Task Message for Next Agent
 
