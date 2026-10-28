@@ -9,13 +9,13 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T23:25:25Z) — Current turn
+## Status (2026-10-28T23:26:28Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.53s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `4e5027a` = `origin/main` (`4e5027a6e56c3b25bfe714598b7fa7f7bdb32d13`); branch up to date, remote head matches local.
 - Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 18m elapsed). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Steps 1-5 done (controller tests skipped per `push` guard, diagnostics collected+committed, Kilo loop in_progress); steps 7-9 pending. `gh run view --json` works while running (returns live status, not logs).
 - Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~12m ago). No job assigned yet.
 - Diagnostics ledger: 15 records (runs #1-#15). No new records since.
-- Pending wakeup: `wku_184d580ec001RuKxQkGthlRxWD` due 2026-10-28T23:30:47Z (5m).
+- Pending wakeup: `wku_184d640ee001ThcwJil1eo70Yl` due 2026-10-28T23:31:36Z (5m).
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
 Completed this turn (2026-10-28T23:25:25Z): Re-checked CI via `gh run list --limit 20` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (job `kilo` ID 123077458642 started 2026-10-28T20:20:29Z; step 6 "Run general-purpose Kilo agent loop" in_progress since then; steps 7-9 pending). Run #17 (40785789871) pending/queued (~12m old, no job). Confirmed local HEAD `4e5027a` == remote `origin/main`; working tree clean. Tests 36/36 green. No new diagnostics to capture. Scheduled 5m wakeup `wku_184d580ec001RuKxQkGthlRxWD`. Updated handoff with current state.
