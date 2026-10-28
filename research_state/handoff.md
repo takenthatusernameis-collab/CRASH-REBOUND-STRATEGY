@@ -8,8 +8,8 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T16:40:23Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.45s). `pytest` installed locally.
+## Status (2026-10-28T16:40:09Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.46s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `7829485` on `origin/main` (branch up to date).
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
 - Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` step 6 "Run general-purpose Kilo agent loop" running, steps 7-9 pending; timeout `timeout-minutes: 360` fires ~20:29Z. Last updated 2026-10-28T14:29:12Z (no new output since step 6 started). No new runs beyond #15.
@@ -30,7 +30,7 @@ Completed: run #15 re-verified still in_progress (step 6 running, last updated 1
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T16:38:26Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.45s). HEAD `7829485` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally.
+**Current state (2026-10-28T16:40:09Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.46s). HEAD `7829485` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled; all recorded.
