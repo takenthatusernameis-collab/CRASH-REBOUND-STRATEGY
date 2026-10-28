@@ -8,30 +8,30 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 15 records — runs #1-#15 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled). Run #15 (40698130239) concluded success and was captured (record 15, captured_at 2026-10-28T20:20:33Z) and committed as `3249bbe chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T20:21:00Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.55s). `pytest` installed locally (pip installed to user site-packages; run as `python3 -m pytest`).
+## Status (2026-10-28T20:22:30Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.54s). `pytest` installed locally (pip installed to user site-packages; run as `python3 -m pytest`).
 - Working tree: clean. HEAD `3249bbe` on `origin/main` (branch up to date).
-- Run #15 (40698130239): **completed success** (~6h43m). Diagnostics captured as ledger record 15 and committed in `3249bbe`. Ledger now has 15 records.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T20:20:29Z, ~1 min elapsed). Job `kilo` (ID 123077458642) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed (step 3 test step skipped).
-- Scheduled wakeup: `wku_1842d0005001XNozTKMatPYKNI` due 2026-10-28T20:31:44Z to re-check run #16 progress.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z; job started ~20:20:29Z; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending). Steps 1-5 passed (step 3 skipped).
+- No runs beyond #16 yet.
+- Scheduled wakeup: `wku_1842dc8d6001hvLG9gk5eYnLiG` due 2026-10-28T20:32:35Z to re-check run #16.
 
-## Run status (CI re-checked via `gh run list`/`gh run view` 2026-10-28T20:21:00Z)
+## Run status (CI re-checked via `gh run list`/`gh run view` 2026-10-28T20:22:30Z)
 - Runs #1-#15: all completed — #1 failure (remediated), #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled. All recorded in diagnostics ledger (15 records).
-- Run #16 (40751376410): **in_progress** (created 2026-10-28T19:07:04Z; job started 20:20:29Z). Step 6 running; steps 7-9 pending.
+- Run #16 (40751376410): **in_progress** (job `kilo` ID 123077458642). Step 6 running; steps 7-9 pending.
 - No runs beyond #16 yet.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed: Re-checked CI. Run #15 completed success; diagnostics captured as ledger record 15 (captured_at 2026-10-28T20:20:33Z) and committed as `3249bbe chore: capture completed workflow run diagnostics`. Tests 36/36 green. Tree clean. HEAD `3249bbe`. Run #16 started (job `kilo` step 6 running, steps 7-9 pending). Scheduled new wakeup `wku_1842d0005001XNozTKMatPYKNI` due 2026-10-28T20:31:44Z to re-check run #16. Updated handoff for next agent.
+Completed: Re-checked CI at 2026-10-28T20:22:30Z. Run #16 still in_progress (step 6 running, steps 7-9 pending). Tests 36/36 green. Tree clean. HEAD `3249bbe`. Scheduled wakeup `wku_1842dc8d6001hvLG9gk5eYnLiG` due 2026-10-28T20:32:35Z. Updated handoff.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T20:21:00Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.55s). HEAD `3249bbe` on `origin/main` (branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean.
+**Current state (2026-10-28T20:22:30Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.54s). HEAD `3249bbe` on `origin/main` (branch up to date). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean.
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
-- Run #16 (40751376410): **in_progress** (job started 2026-10-28T20:20:29Z). Job `kilo` (ID 123077458642) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed (step 3 test step skipped).
+- Run #16 (40751376410): **in_progress** (job started ~20:20:29Z). Job `kilo` (ID 123077458642) in_progress; step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending. Steps 1-5 passed (step 3 test step skipped).
 - No runs beyond #16 yet.
 
 **Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #16 to completion. Watch for new scheduled runs (#17 and beyond) as they start.
