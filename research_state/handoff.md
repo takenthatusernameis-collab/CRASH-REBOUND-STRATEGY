@@ -942,6 +942,39 @@ Confirm tests green (`python3 -m pytest -q`) before making any changes.
 
 ## Update (2026-10-26T21:36Z) - Current turn
 - Read the durable handoff; prior agent task was to monitor CI run #5 (40311668001) to completion.
+- Re-checked CI: run #5 completed success (21:26:15Z); run #6 (40367165284) was in_progress. 
+
+## Update (2026-10-28T08:49Z) - Current turn
+- Re-checked CI (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view 40367165284 --json jobs`):
+  - Run #6 (40367165284): **completed success** (created 17:17:05Z, started 21:26:17Z, completed 03:17:25Z next day). Job `kilo` (121858067900): all steps completed including step 6 "Run general-purpose Kilo agent loop" (03:17:20Z). Already recorded in diagnostics ledger (line 7).
+  - Run #7 (40406455865): completed cancelled (21:41:24Z start, cancelled 00:52:39Z) — recorded in ledger (line 6).
+  - Runs #8-#13 (40429147497, 40458282192, 40500327513, 40554987606, 40590666345, 40612522834): various completed (some cancelled), all have diagnostics entries.
+  - Run #14 (40646152725): **in_progress** (schedule, created 06:48:55Z, started 06:48:55Z, updated 08:39:30Z). This is the current rebound task.
+- Working tree clean, HEAD `9c30970` matches `origin/main`. Tests: **36/36 passed** (`python3 -m pytest -q`).
+- No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
+- Prior agent task (monitor run #6) completed — run #6 finished successfully; monitoring now continues on run #14 (40646152725). 
+
+## Initial Task Message for Next Agent
+
+Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
+
+**Current state (2026-10-28T08:49Z):** 36/36 tests passing. HEAD `9c30970` clean and matching `origin/main`. Diagnostics ledger holds 13 records covering all completed runs. `pytest` installed and passing locally.
+
+**Run status:**
+- Runs #1-#6, #8-#10, #12-#13: completed (success/cancelled as recorded). All captured in diagnostics ledger.
+- Run #7 (40406455865): completed cancelled.
+- Run #11 (40590666345): completed cancelled.
+- Run #14 (40646152725): **in_progress** (schedule, created 2026-10-28T06:48:55Z, started 06:48:55Z). Updated 08:39:30Z. This is executing the current rebound task.
+
+**Your task:** Continue monitoring CI. Re-check run 40646152725 (`gh run list --limit 20 --json databaseId,status,conclusion,createdAt,updatedAt,startedAt,event,workflowName`; `gh run view <id> --json jobs`). Watch run #14 to completion. Watch for any further new scheduled runs.
+
+If run #14 fails at/after its timeout: fetch diagnostics, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate root cause, fix if needed, update tests if needed, verify with `python3 -m pytest`, and document in this handoff.
+
+If a run remains hung without failing past its timeout, note the stall — do not attempt cancel/force-push/token escalation without explicit user direction.
+
+Confirm tests green (`python3 -m pytest -q`) before making any changes.
+
+**Notes:** Both gates (workflow-file push, run cancellation) are blocked by the `GITHUB_TOKEN`/`actions: read` scope. Only a maintainer/user with broader permissions can cancel hung runs or push workflow changes. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - Re-checked CI (`gh run list --limit 20`; `gh run view 40367165284 --json jobs`):
   - Run #5 (40311668001): completed success (completed 21:26:15Z). All steps completed; already recorded in the diagnostics ledger (5 records).
   - Run #6 (40367165284): `in_progress` (started 21:26:17Z). Job `kilo` (121858067900): steps 1-5 completed; step 6 "Run general-purpose Kilo agent loop" `in_progress` since 21:26:25Z; steps 7-9 pending. Concurrency group cleared when #5 completed.
