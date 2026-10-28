@@ -9,31 +9,31 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-28T22:39:11Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.56s). `pytest` installed locally (run as `python3 -m pytest`).
+## Status (2026-10-28T23:23:23Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.53s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `606dc9f` on `origin/main` (branch up to date; remote head `455e90f`).
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z; last updated 2026-10-28T20:20:29Z). Elapsed ~3h 32m since run start; still in_progress, no conclusion yet. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
-- No runs beyond #16 yet.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z). Elapsed ~4h 16m since run start; step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending. No conclusion yet.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet; not yet running.
+- Diagnostics ledger: 15 records (runs #1-#15). No new records since.
 - No pending wakeups in current session.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-28T22:39:11Z): Checked CI via `gh run list` and `gh run view`. Run #16 still in_progress (last updated 2026-10-28T20:20:29Z, elapsed ~3h32m since run start; step 6 in_progress). No new runs beyond #16. Tests 36/36 green. Updated handoff with current state.
-
+Completed this turn (2026-10-28T23:23:23Z): Re-checked CI via `gh run list`/`gh run view`. Run #16 still in_progress (elapsed ~4h16m; step 6 in_progress). New scheduled run #17 (40785789871) now pending (started 23:13:19Z). Tests 36/36 green. No new diagnostics to capture. Updated handoff with current state.
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T22:39:11Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.56s). HEAD `606dc9f` on `origin/main` (branch up to date; remote head `455e90f`). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-28T23:23:23Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.53s). HEAD `606dc9f` on `origin/main` (branch up to date; remote head `455e90f`). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~3h 32m elapsed, last updated 2026-10-28T20:20:29Z). Job `kilo` (ID 123077458642) still running with no conclusion. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
-- No runs beyond #16 yet.
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~4h 16m elapsed). Job `kilo` (ID 123077458642) still running with no conclusion. Step 6 "Run general-purpose Kilo agent loop" in_progress; steps 7-9 pending.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~10m ago). No job assigned yet.
 - No pending wakeups in current session.
 
-**Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #16 to completion. Watch for new scheduled runs (#17 and beyond) as they start.
+**Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #16 to completion; watch run #17 to start/run to completion. Watch for new scheduled runs (#18 and beyond) as they start.
 
-If run #16 completes (success/failure/timeout): fetch diagnostics (job logs/metadata as appropriate), append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, verify with `python3 -m pytest`, update this handoff.
+If any run completes (success/failure/timeout): fetch diagnostics (job logs/metadata as appropriate), append to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, verify with `python3 -m pytest`, update this handoff.
 
 If hung without failing past timeout, note stall — do not cancel/force-push/escalate without explicit user direction.
 
