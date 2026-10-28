@@ -8,13 +8,13 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `5708974 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T15:36:19Z) — Current turn
+## Status (2026-10-28T15:36:49Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.42s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `5708974` on `origin/main` (branch up to date). Latest commit `5708974 chore: capture completed workflow run diagnostics` touches `research_state/workflow_run_diagnostics.jsonl`.
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
 - Wakeup scheduled: `wku_182cd20780015GhE4CENCUXJPq` fires 2026-10-28T14:42:06.960Z (near past; schedule new wakeup if needed).
 - Run #15 (40698130239): **in_progress** (created 13:37:25Z). Job `kilo` started 14:29:12Z; step 6 "Run general-purpose Kilo agent loop" in_progress since 14:29:19Z; steps 7-9 pending; timeout `timeout-minutes: 360` fires ~20:29Z. No new output since 14:29:12Z. No new runs beyond #15.
-- **Turn action:** Re-verified run #15 still in_progress (step 6 "Run general-purpose Kilo agent loop" running; steps 7-9 pending; timeout ~20:29Z; no new output since 14:29:12Z). No new runs beyond #15. Tests green (36/36). Tree clean, HEAD `5708974` on `origin/main` (up to date). Ledger 14 records. Handoff refreshed for next agent.
+- **Turn action:** Re-verified run #15 still in_progress (step 6 "Run general-purpose Kilo agent loop" running since 14:29:19Z; steps 7-9 pending; timeout ~20:29Z; no new output since 14:29:12Z). No new runs beyond #15. Tests green (36/36). Tree clean, HEAD `5708974` on `origin/main` (up to date). Ledger 14 records. Handoff refreshed for next agent.
 
 ## Run status (CI re-checked via `gh run list`/`gh run view`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#11/#13 success, #7 and #12 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
@@ -28,12 +28,12 @@ Completed: run #14 success captured (ledger record 14, commit `5708974`); run #1
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T15:36:19Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.42s). HEAD `5708974` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally. Wakeup `wku_182cd20780015GhE4CENCUXJPq` fired near 14:42:06Z (consider scheduling another if you expect to wait).
+**Current state (2026-10-28T15:36:49Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.42s). HEAD `5708974` on `origin/main` (branch up to date). Diagnostics ledger holds 14 records (runs #1-#14). `pytest` installed locally. Wakeup `wku_182cd20780015GhE4CENCUXJPq` fired near 14:42:06Z (consider scheduling another if you expect to wait).
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled; all recorded.
 - Run #14 (40646152725): **completed success** (~14:28:59Z). Diagnostics captured as ledger record 14 and committed as `5708974 chore: capture completed workflow run diagnostics`.
-- Run #15 (40698130239): **in_progress** (created 13:37:25Z). `gh run view` shows job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" started 14:29:19Z, steps 7-9 pending, updatedAt 14:29:12Z — no new output since step 6 started; timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
+- Run #15 (40698130239): **in_progress** (created 13:37:25Z). `gh run view` shows job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" started 14:29:19Z, steps 7-9 pending — no new output since step 6 started; timeout `timeout-minutes: 360` fires ~20:29Z. No new runs beyond #15.
 
 **Your task:** Continue monitoring CI (`gh run list`/`gh run view`). Watch run #15 to completion, especially around/after ~20:29Z timeout. Watch for new scheduled runs (#16 and beyond). If the existing wakeup already fired, schedule another wakeup as appropriate.
 
