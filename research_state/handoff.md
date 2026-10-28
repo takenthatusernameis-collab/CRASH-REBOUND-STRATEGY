@@ -8,7 +8,7 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 14 records — runs #1-#14 all captured (#1 failure remediated, #2-#6/#8-#11/#13/#14 success, #7 and #12 cancelled). Run #14 (40646152725) concluded success and was captured (record 14, captured_at 2026-10-28T14:29:15Z) and committed as `b2b2025 chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T16:33:35Z) — Current turn
+## Status (2026-10-28T16:34:46Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.46s). `pytest` installed locally.
 - Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `7829485` on `origin/main` (branch up to date).
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
