@@ -8,30 +8,30 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 13 records — runs #1-#13 all captured (#1 failure remediated, #2-#6/#8-#11/#13 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-28T13:50Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.40s). `pytest` installed locally.
-- Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `645fe8e` on `origin/main` (branch up to date).
+## Status (2026-10-28T13:51Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.38s). `pytest` installed locally.
+- Working tree: clean except untracked `tests/__pycache__/` (pre-existing, not staged). HEAD `2368252` on `origin/main` (branch up to date).
 - No cancel/force-push/escalation attempted (gates blocked by `actions: read` scope).
-- Wakeup scheduled: `wku_182c6d69e001Jg2PDcJv9V8OD6` fires 2026-10-28T14:40:31.579Z (before ~14:39:30Z timeout; buffer ~1m).
+- Wakeup scheduled: `wku_182c84b33001KE8x8gdVKS4PPb` fires 2026-10-28T14:42:06.960Z (after ~14:39:30Z timeout; buffer ~2.5m).
 
 ## Run status (CI re-checked via `gh run list`)
 - Runs #1-#13: all completed — #1 failure (remediated), #2-#6/#8-#11/#13 success, #7 and #12 cancelled (no jobs started). All recorded in diagnostics ledger (13 records).
-- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z). Job `kilo` step 6 "Run general-purpose Kilo agent loop" running since 08:39:41Z (~5h02m elapsed as of 13:50Z); steps 1-5 complete, steps 7-9 pending; job `timeout-minutes: 360` fires ~2026-10-28T14:39:30Z (~0h49m remaining). Last `updatedAt` 08:39:30Z.
+- Run #14 (40646152725): **in_progress** (schedule, created/started 2026-10-28T06:48:55Z). Job `kilo` step 6 "Run general-purpose Kilo agent loop" running since 08:39:41Z (~5h11m elapsed as of 13:51Z); steps 1-5 complete, steps 7-9 pending; job `timeout-minutes: 360` fires ~2026-10-28T14:39:30Z (~0h48m remaining). Last `updatedAt` 08:39:30Z.
 - Run #15 (40698130239): **pending** (schedule, created 2026-10-28T13:37:25Z; no jobs started yet).
 - No further new scheduled runs beyond #15.
 
 ## Prior agent task (monitor run #14; watch for new scheduled runs)
-Completed this turn — re-verified run #14 still `in_progress` (step 6 running since 08:39:41Z, ~5h02m elapsed, timeout ~14:39:30Z); run #15 pending. Scheduled wakeup `wku_182c6d69e001Jg2PDcJv9V8OD6` for 14:40:31.579Z. Tests 36/36 green. Handoff refreshed.
+Completed this turn — re-verified run #14 still `in_progress` (step 6 running since 08:39:41Z, ~5h11m elapsed, timeout ~14:39:30Z); run #15 pending. Scheduled wakeup `wku_182c84b33001KE8x8gdVKS4PPb` for 14:42:06.960Z. Tests 36/36 green. Handoff refreshed.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-28T13:50Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.40s). HEAD `645fe8e` on `origin/main` (branch up to date). Diagnostics ledger holds 13 records. `pytest` installed locally. Wakeup `wku_182c6d69e001Jg2PDcJv9V8OD6` scheduled 14:40:31.579Z before timeout.
+**Current state (2026-10-28T13:51Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.38s). HEAD `2368252` on `origin/main` (branch up to date). Diagnostics ledger holds 13 records. `pytest` installed locally. Wakeup `wku_182c84b33001KE8x8gdVKS4PPb` scheduled 14:42:06.960Z after timeout.
 
 **Run status:**
 - Runs #1-#13: all completed; #1 failure remediated, #2-#6/#8-#11/#13 success, #7 and #12 cancelled; all recorded.
-- Run #14 (40646152725): **in_progress**. Job `kilo` step 6 running since 08:39:41Z (~5h02m elapsed); timeout `timeout-minutes: 360` fires ~14:39:30Z (~0h49m remaining).
+- Run #14 (40646152725): **in_progress**. Job `kilo` step 6 running since 08:39:41Z (~5h11m elapsed); timeout `timeout-minutes: 360` fires ~14:39:30Z (~0h48m remaining).
 - Run #15 (40698130239): **pending** (created 13:37:25Z, no jobs started).
 - No new runs beyond #15.
 
