@@ -8,7 +8,7 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T11:09:12Z)
+## Status (2026-10-29T12:05:40Z)
 - Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `6122ead` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`).
 - CI check performed via `gh run view`: no new terminal completions since last handoff; nothing to append to the ledger.
 - Run #18 (40806660320): **in_progress** — job `kilo` in step 6 `Run general-purpose Kilo agent loop` in_progress since 2026-10-29T08:01:10Z; 360-min job timeout ~14:01:02Z. Steps 7-9 pending. Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation. Do not cancel.
