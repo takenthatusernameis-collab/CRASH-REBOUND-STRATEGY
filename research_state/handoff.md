@@ -8,7 +8,7 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 16 records — runs #1-#16 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T06:26:13Z) — Current turn
+## Status (2026-10-29T06:28:22Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.57s). Working tree: clean (only `tests/__pycache__/` untracked). HEAD `dda8520` on `origin/main` (local == remote).
 - Diagnostics ledger: 16 records (runs #1-#16); record 16 = run #16 (40751376410) success, captured 2026-10-29T02:10:50Z.
 - Run #17 (40785789871): **in_progress — confirmed stalled**. Job `kilo` started 2026-10-29T02:10:46Z; step 6 "Run general-purpose Kilo agent loop" began 02:10:54Z and has not completed. Run-level `updatedAt` frozen at 2026-10-29T02:10:46Z (~4h+ stale). Steps 1-5 completed (setup, checkout, tests skipped, ledger collect+persist success); steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Job timeout 360 min from job start → ~08:10:46Z. In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
@@ -20,7 +20,7 @@
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T06:26:13Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `dda8520` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T06:28:22Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.56s). HEAD `dda8520` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
