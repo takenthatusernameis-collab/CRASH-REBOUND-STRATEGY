@@ -19,8 +19,7 @@
 - Diagnostics ledger: 16 records (runs #1-#16). No new records since #16 capture (run #17's own terminal result will be collected on a later activation per the workflow's `Inspect completed runs` step design).
 
 ## Prior agent task (monitor run #17; watch for new scheduled runs)
-Completed (2026-10-29T03:17:00Z): Re-checked CI. Run #17 (40785789871) still `in_progress` — job `kilo` step 6 "Run general-purpose Kilo agent loop" running since 02:10:54Z (~4h3m). Run #18 (40806660320) still pending, queued behind concurrency group. No new runs beyond #18. Tests re-verified 36/36. Handoff updated.
-
+Completed (2026-10-29T03:18:00Z): Re-checked CI. Run #17 (40785789871) still `in_progress` — job `kilo` step 6 running since 02:10:54Z (~4h7m). Run #18 (40806660320) still pending, queued behind concurrency group. No new runs beyond #18. Tests re-verified 36/36. Handoff updated.
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
