@@ -8,12 +8,12 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T11:06:41Z)
+## Status (2026-10-29T11:07:30Z)
 - Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `c77076475978bc862802cf61d77947ceccad390b` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`).
 - Run #18 (40806660320): **in_progress** — job `kilo` in_progress, started 2026-10-29T08:01:02Z; 360-min job timeout ~14:01:02Z. No terminal result yet; do not cancel.
 - Run #19 (40845157948): **pending** — scheduled 2026-10-29T08:51:18Z, no jobs yet. Not yet running.
 - total_count = 19.
-- Wakeup scheduled `wku_18757597e001GfjKLqBQaZI4RD` due 2026-10-29T13:06:51Z to re-check before timeout.
+- Wakeup scheduled `wku_18757bbac001T0li3pw4RsFWWd` due 2026-10-29T13:07:16Z to re-check before timeout.
 
 ## Run status
 - Runs #1-#17: all completed and recorded in the ledger.
