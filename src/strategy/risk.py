@@ -1,4 +1,4 @@
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
@@ -12,11 +12,19 @@ class RiskCheck:
 
 
 @dataclass
-class DailyRiskState:
+class RiskState:
+    """Tracks per-day risk exposure for risk management.
+
+    Single consolidated risk state used by both the strategy and the
+    backtester. Renamed from DailyRiskState for the public API; the old
+    name is re-exported for backwards compatibility.
+    """
+
     date: str = ""
     realized_pnl: float = 0.0
     open_positions: int = 0
     daily_loss_limit_hit: bool = False
+    gross_exposure: float = 0.0  # notional value of open positions
 
     def daily_loss_pct(self, capital: float) -> float:
         if capital <= 0:
@@ -28,6 +36,7 @@ class DailyRiskState:
         config: StrategyConfig,
         capital: float,
         size_shares: float,
+        entry_price: float,
     ) -> RiskCheck:
         if self.daily_loss_limit_hit:
             return RiskCheck(False, "daily_loss_limit_hit", 0.0)
@@ -35,23 +44,47 @@ class DailyRiskState:
             return RiskCheck(False, "max_positions_reached", 0.0)
         if capital > 0 and self.daily_loss_pct(capital) >= config.max_daily_loss_pct:
             return RiskCheck(False, "daily_loss_pct_limit", 0.0)
+        if capital > 0 and size_shares > 0 and entry_price > 0:
+            notional = size_shares * entry_price
+            cap_value = capital * config.gross_cap_pct / 100.0
+            if (self.gross_exposure + notional) > cap_value:
+                return RiskCheck(False, "gross_cap_exceeded", 0.0)
         return RiskCheck(True, "ok", size_shares)
 
-    def apply_trade(self, date: str, pnl: float, opened: bool, closed: bool):
+    def apply_trade(self, date: str, pnl: float, opened: bool, closed: bool,
+                    notional: float = 0.0):
         if self.date != date:
             self.date = date
             self.realized_pnl = 0.0
             self.daily_loss_limit_hit = False
         if opened:
             self.open_positions += 1
+            self.gross_exposure += notional
         if closed:
             self.open_positions = max(0, self.open_positions - 1)
+            self.gross_exposure = max(0.0, self.gross_exposure - notional)
         self.realized_pnl += pnl
-        if self.realized_pnl < 0 and abs(self.realized_pnl) > 0:
-            pass
+
+    def cut_positions_to_cap(self, capital: float, config: StrategyConfig,
+                             open_notional: List[float]) -> List[float]:
+        """Reduce open position notionals so the total fits under gross_cap_pct.
+
+        Returns the new per-position notional list. Positions are cut
+        equally (the vault never tops up; it only cuts).
+        """
+        cap_value = capital * config.gross_cap_pct / 100.0
+        total = sum(open_notional)
+        if total <= cap_value or total <= 0:
+            return list(open_notional)
+        factor = cap_value / total
+        return [n * factor for n in open_notional]
 
 
-def check_daily_loss_halt(state: DailyRiskState, config: StrategyConfig, capital: float) -> bool:
+# Backwards-compatible alias.
+DailyRiskState = RiskState
+
+
+def check_daily_loss_halt(state: RiskState, config: StrategyConfig, capital: float) -> bool:
     """Return True if trading should be halted for the day."""
     if state.daily_loss_limit_hit:
         return True
@@ -86,3 +119,37 @@ def apply_slippage_commission(
     if config.commission_min > 0 and shares > 0:
         comm = max(comm, config.commission_min / shares)
     return price + slip + comm if side == "buy" else price - slip - comm
+
+
+def atr(candles: List[Dict[str, Any]], period: int = 14) -> Optional[float]:
+    """True Average Range over the last `period` bars (high-low ranges).
+
+    Returns None when there is insufficient data.
+    """
+    if len(candles) < 2:
+        return None
+    ranges = []
+    for i in range(max(1, len(candles) - period), len(candles)):
+        c = candles[i]
+        high = c.get("high")
+        low = c.get("low")
+        prev_close = candles[i - 1].get("close")
+        if high is None or low is None or prev_close is None:
+            continue
+        rng = max(float(high) - float(low), abs(float(high) - float(prev_close)),
+                  abs(float(low) - float(prev_close)))
+        ranges.append(rng)
+    if not ranges:
+        return None
+    return sum(ranges) / len(ranges)
+
+
+def safety_stop_price(entry_price: float, atr_value: float, mult: float,
+                      side: str = "long") -> float:
+    """Price at which the safety stop fires for a long/short position."""
+    if side == "long":
+        return entry_price - mult * atr_value
+    return entry_price + mult * atr_value
+
+
+DEFAULT_RISK_STATE = RiskState()

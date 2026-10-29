@@ -1,9 +1,16 @@
 from dataclasses import dataclass, field
+from typing import Optional
 
 
 @dataclass
 class StrategyConfig:
-    """Configuration for the crash-rebound strategy. All values tunable."""
+    """Configuration for the crash-rebound strategy. All values tunable.
+
+    Defaults are aligned to the published crash-rebound strategy report
+    (Hyperliquid hourly perps): 21h RSI<20 crash trigger, +9% target,
+    50h time exit, 8x-ATR safety stop, 1.25% of daily volume position size,
+    120% gross cap with equal-share cuts, ETH hedge on every leg.
+    """
 
     # Universe
     universe: tuple = ("SPY", "QQQ", "IWM")
@@ -21,14 +28,17 @@ class StrategyConfig:
     entry_limit_offset_pct: float = 0.0  # limit offset from entry price
 
     # Exit
-    reward_risk: float = 1.5           # target = entry + risk * reward_risk
-    stop_atr_mult: float = 1.5         # stop = low * (1 - atr_mult) placeholder
-    time_exit_max_bars: int = 20       # max bars in trade before time exit
+    reward_risk: float = 1.5           # target = entry + risk * reward_risk (fallback)
+    target_pct: Optional[float] = 9.0  # target = entry * (1 + target_pct/100) when set
+    stop_atr_mult: float = 8.0         # buy safety stop = entry - mult * ATR(14)
+    atr_period: int = 14               # ATR lookback for safety stop
+    time_exit_max_bars: int = 50       # max bars in trade before time exit
 
     # Risk
     risk_per_trade_pct: float = 1.0    # % of capital risked per trade
     max_positions: int = 5             # max concurrent positions
     max_daily_loss_pct: float = 3.0    # max daily loss before halt
+    gross_cap_pct: float = 120.0       # gross exposure cap (% of capital) with equal-share cuts
 
     # Filters
     volume_spike_mult: float = 1.5     # volume must exceed avg * mult on crash bar
@@ -48,33 +58,14 @@ class StrategyConfig:
             raise ValueError("max_positions must be >= 1")
         if self.reward_risk <= 0:
             raise ValueError("reward_risk must be > 0")
+        if self.stop_atr_mult <= 0:
+            raise ValueError("stop_atr_mult must be > 0")
+        if self.atr_period < 1:
+            raise ValueError("atr_period must be >= 1")
+        if self.time_exit_max_bars < 1:
+            raise ValueError("time_exit_max_bars must be >= 1")
+        if not 0 < self.gross_cap_pct:
+            raise ValueError("gross_cap_pct must be > 0")
 
 
 DEFAULT_CONFIG = StrategyConfig()
-
-
-@dataclass
-class RiskState:
-    """Tracks per-day risk exposure for risk management."""
-
-    date: str = ""
-    realized_pnl: float = 0.0
-    open_positions: int = 0
-    daily_loss_limit_hit: bool = False
-
-    def daily_loss_pct(self, capital: float) -> float:
-        if capital <= 0:
-            return 0.0
-        return abs(self.realized_pnl) / capital * 100.0
-
-    def can_open_position(self, config: StrategyConfig, capital: float) -> bool:
-        if self.open_positions >= config.max_positions:
-            return False
-        if self.daily_loss_limit_hit:
-            return False
-        if capital > 0 and self.daily_loss_pct(capital) >= config.max_daily_loss_pct:
-            return True  # signal halt externally
-        return True
-
-
-DEFAULT_RISK_STATE = RiskState()
