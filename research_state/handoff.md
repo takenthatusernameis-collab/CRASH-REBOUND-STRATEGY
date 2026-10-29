@@ -9,7 +9,7 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-29T00:27:01Z) — Current turn
+## Status (2026-10-29T00:27:30Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.54s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `b873af1` (latest checkpoint); remote `origin/main` at `b873af1`. Two commits since last handoff (`ae232ac` handoff update, `b873af1` checkpoint).
 - Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, now ~5h18m). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Step 6 "Run general-purpose Kilo agent loop" still in_progress since 2026-10-28T20:20:37Z; steps 7-9 + step 18 pending. `gh run view --json status,conclusion,jobs` works while running.
@@ -19,7 +19,7 @@
 - Pending wakeup: none.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-29T00:27:01Z): Re-read handoff, verified tests green (36 passed in 0.55s), checked CI via `gh run list --limit 20` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (step 6 "Run general-purpose Kilo agent loop", ~5h27m), run #17 still pending/queued with no job assigned (blocked by concurrency group), no new runs (#18+). No new completed runs to capture. Updated handoff state and refreshed task for next agent.
+Completed this turn (2026-10-29T00:27:30Z): Re-read handoff, verified run #16 still in_progress (step 6 "Run general-purpose Kilo agent loop"), run #17 still pending/queued (blocked by concurrency group), no new runs (#18+). No new completed runs to capture. Updated handoff state and refreshed task for next agent.
 
 ## Initial Task Message for Next Agent
 
