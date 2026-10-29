@@ -8,12 +8,11 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T10:21:03Z)
-- Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `def9a65053106dccb11ed83355879c01ead9e0e0` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`).
-- Run #18 (40806660320): **in_progress** — running inside step 6 (`Run general-purpose Kilo agent loop`, this activation) since 2026-10-29T08:01:10Z; steps 1,2,4,5 completed (success), step 3 skipped, steps 7-9 pending. 360-min job timeout ~14:01:02Z. Run still active, not stalled/failed. Terminal result collectable only on a later activation.
+## Status (2026-10-29T10:23:00Z)
+- Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `75efa834b072c6e31e8a6cc944ed76cbc91903aa` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`).
+- Run #18 (40806660320): **in_progress** — running inside step 6 (`Run general-purpose Kilo agent loop`, this activation) since 2026-10-29T08:01:10Z; steps 1,2,4,5 completed (success), step 3 skipped, steps 6 in_progress, steps 7-9 pending. 360-min job timeout ~14:01:02Z. Run still active, not stalled/failed. Terminal result collectable only on a later activation.
 - Run #19 (40845157948): **pending** — status pending, updatedAt 2026-10-29T08:51:20Z, no jobs yet (jobs list empty). Not yet running.
 - total_count = 19.
-- Wakeup `wku_1872d9e7d001XLK3KqHOnkO64X` due 2026-10-29T10:46:16Z (~25m).
 
 ## Run status
 - Runs #1-#17: all completed and recorded in the ledger.
@@ -23,7 +22,7 @@
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T10:17:47Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `def9a65053106dccb11ed83355879c01ead9e0e0` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). Wakeup `wku_18724ffe5001xulWVDrX7dpJzD` scheduled for 2026-10-29T10:46:51Z.
+**Current state (2026-10-29T10:23:00Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `75efa834b072c6e31e8a6cc944ed76cbc91903aa` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`).
 
 **Run status:**
 - Runs #1-#17: all completed and recorded in the ledger.
@@ -38,4 +37,4 @@ If any run completes (success/failure/timeout/cancelled): fetch diagnostics (job
 If run #18 hangs without failing past its 360-minute job timeout (~14:01:02Z), note the stall — do not cancel/force-push/escalate without explicit user direction.
 
 ## Next agent initial task
-Resume monitoring CI via the GitHub API. Confirmed green first: `python3 -m pytest -q` = 36/36 passing; HEAD `def9a65053106dccb11ed83355879c01ead9e0e0` on `origin/main` (local == remote, verified via `git ls-remote`). Run #18 (40806660320) still in_progress in step 6 (Kilo agent loop), started 08:01:10Z, 360-min job timeout ~14:01:02Z — watch to completion; do not cancel. Run #19 (40845157948) still pending (no jobs yet) — watch for it to start and complete. On any completion (success/failure/timeout/cancelled): fetch job metadata via `gh run view --json jobs`, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, run `python3 -m pytest`, commit and update this handoff. Only push regular files (`contents: write` allowed); workflow changes blocked by token scope. If run #18 hangs without failing past its 360-minute job timeout (~14:01:02Z), note the stall — do not cancel/force-push/escalate without explicit user direction. A wakeup is scheduled for 2026-10-29T10:46:51Z (`wku_18724ffe5001xulWVDrX7dpJzD`); schedule the next one as needed.
+Resume monitoring CI via the GitHub API. Confirmed green first: `python3 -m pytest -q` = 36/36 passing; HEAD `75efa834b072c6e31e8a6cc944ed76cbc91903aa` on `origin/main` (local == remote, verified via `git ls-remote`). Run #18 (40806660320) still in_progress in step 6 (Kilo agent loop), started 08:01:10Z, 360-min job timeout ~14:01:02Z — watch to completion; do not cancel. Run #19 (40845157948) still pending (no jobs yet) — watch for it to start and complete. On any completion (success/failure/timeout/cancelled): fetch job metadata via `gh run view --json jobs`, append a record to `research_state/workflow_run_diagnostics.jsonl`, investigate/fix if needed, update tests if needed, run `python3 -m pytest`, commit and update this handoff. Only push regular files (`contents: write` allowed); workflow changes blocked by token scope. If run #18 hangs without failing past its 360-minute job timeout (~14:01:02Z), note the stall — do not cancel/force-push/escalate without explicit user direction. No wakeup currently scheduled; schedule one as needed for continued monitoring.
