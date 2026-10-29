@@ -9,7 +9,7 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - CI re-check at 2026-10-29T01:37:44Z: run #16 still in_progress (~6h31m), run #17 still pending/queued (~2h24m), no new runs (#18+). Tests re-verified 36/36. Handoff updated.
 
-## Status (2026-10-29T03:14:52Z) — Current turn
+## Status (2026-10-29T03:16:30Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.56s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `113e1c5`; remote `origin/main` at `113e1c5` (local == remote).
 - Run #16 (40751376410): completed success (7h3m39s). Captured in diagnostics ledger (record 16).
