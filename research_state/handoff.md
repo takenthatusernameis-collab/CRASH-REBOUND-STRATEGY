@@ -8,9 +8,9 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T08:11:13Z)
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `e219e94` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). No pending wakeups.
-- Run #18 (40806660320): **in_progress** — current activation (this agent is running inside step 6 "Run general-purpose Kilo agent loop"). Started 2026-10-29T02:29:34Z (~5h42m elapsed). Steps after the Kilo loop pending. 360-min timeout ~08:29:34Z (~18 min remaining); not yet stalled. This run's own terminal result is collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a LATER activation (not available while active).
+## Status (2026-10-29T08:17:30Z)
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `398e888` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). No pending wakeups.
+- Run #18 (40806660320): **in_progress** — current activation (this agent is running inside step 6 "Run general-purpose Kilo agent loop"). Started 2026-10-29T02:29:34Z (~5h48m elapsed). Steps after the Kilo loop pending. 360-min timeout ~08:29:34Z (~12 min remaining); not yet stalled. This run's own terminal result is collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a LATER activation (not available while active).
 - total_count = 18; no new runs beyond #18 (#19 not yet scheduled/queued).
 
 ## Run status
