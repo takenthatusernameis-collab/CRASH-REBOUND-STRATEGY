@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-29T21:52:28Z
+**TIMESTAMP:** 2026-10-29T22:43:43Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean, up to date with origin/main
@@ -22,6 +22,9 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 
 ## Immediate unfinished item
 - **RESOLVED.** Run #40845157948 ledger record + handoff committed and pushed to origin/main via `python3 scripts/finalize_run.py 40845157948` (commit `4c62f0e`, pushed). No outstanding immediate item.
+
+## INITIAL TASK MESSAGE (timestamped 2026-10-29T22:43:43Z)
+Start immediately with campaign item 1 (rebound-short logic). Run `python3 -m pytest -q` first to confirm 53 green, then implement short-open on +9% target hit, close at -9% or 48h. Add tests; keep suite green and grow toward 70+. Do not defer or substitute low-effort checkpoints.
 
 ## NEXT SESSION FOCUS CAMPAIGN (heavy work — do not defer)
 The next agentic session must work through this campaign in order. Each item is concrete and verifiable; do not skip or substitute with low-effort checkpoints. Items must add tests; run `python3 -m pytest -q` after every change; all must stay green.
