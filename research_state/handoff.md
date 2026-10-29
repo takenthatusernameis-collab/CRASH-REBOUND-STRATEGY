@@ -8,14 +8,14 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T08:09:13Z)
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `d1b5223` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). No pending wakeups.
-- Run #18 (40806660320): **in_progress** at 2026-10-29T08:09:13Z — current activation, running inside step 6 "Run general-purpose Kilo agent loop". Started 2026-10-29T02:29:34Z (~5h40m elapsed). Steps 7-9/18-19 pending. 360-min timeout ~08:29:34Z (~20 min remaining); not yet stalled.
+## Status (2026-10-29T08:10:44Z)
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `8b9bd80` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). No pending wakeups.
+- Run #18 (40806660320): **in_progress** at 2026-10-29T08:10:44Z — current activation, running inside step 6 "Run general-purpose Kilo agent loop". Started 2026-10-29T02:29:34Z (~5h41m elapsed). Steps 7-9/18-19 pending. 360-min timeout ~08:29:34Z (~18 min remaining); not yet stalled.
 - total_count = 18; no new runs beyond #18.
 
 ## Run status
 - Runs #1-#17: all completed and recorded in the ledger (run #17 recovered from ~5h50m stall in step 6 and finished cleanly).
-- Run #18 (40806660320): **in_progress** — current activation; running inside step 6 (Kilo agent loop). Started 2026-10-29T02:29:34Z (~5h40m elapsed as of 08:09:13Z). Steps 7-9/18-19 pending. 360-min timeout ~08:29:34Z (~20 min remaining); not yet stalled. Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation (not available while active).
+- Run #18 (40806660320): **in_progress** — current activation; running inside step 6 (Kilo agent loop). Started 2026-10-29T02:29:34Z (~5h41m elapsed as of 08:10:44Z). Steps 7-9/18-19 pending. 360-min timeout ~08:29:34Z (~18 min remaining); not yet stalled. Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation (not available while active).
 - total_count = 18; no runs beyond #18 yet.
 
 ## Initial Task Message for Next Agent
