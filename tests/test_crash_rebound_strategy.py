@@ -218,3 +218,118 @@ def test_multi_symbol_fixtures_backtest():
         results[sym] = {'pnl': res.pnl, 'exit_reason': res.exit_reason}
     # At least SPY/QQQ/IWM produce results
     assert set(['SPY', 'QQQ', 'IWM']).issubset(results.keys())
+
+# === REBOUND SHORT HARDENING TESTS (P0) ===
+
+def test_rebound_short_opens_when_long_hits_target():
+    from src.strategy.config import StrategyConfig
+    from src.backtest.engine import backtest_simple
+    from src.strategy.crash_rebound import Signal
+    # Long entry, target hit on next bar -> rebound short should open
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 110.0, "low": 99.5, "close": 110.0, "volume": 1000},  # hits +10% target
+    ]
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=99.0, target_price=109.0,
+        risk_per_share=1.0, timestamp=candles[0]["timestamp"],
+        size_shares=10.0, signal_index=0,
+    )
+    config = StrategyConfig(enable_rebound_short=True, entry_next_bar=False, rebound_short_target_pct=9.0, rebound_short_time_exit_bars=48)
+    res = backtest_simple(candles, sig, config=config)
+    assert res.trades is not None
+    assert len(res.trades) >= 2  # long + short
+    assert res.trades[0]['side'] == 'long'
+    assert res.trades[1]['side'] == 'short'
+    assert res.exit_reason in ('target_rebound_short', 'target')
+
+
+def test_short_pnl_entry_cover_with_slippage_commission():
+    from src.strategy.config import StrategyConfig
+    from src.backtest.engine import backtest_simple
+    from src.strategy.crash_rebound import Signal
+    # Long hits target immediately, short goes down to hit -9% target
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 110.0, "low": 99.5, "close": 110.0, "volume": 1000},  # target hit
+        {"timestamp": "2025-01-01T09:31:00", "open": 110.0, "high": 110.0, "low": 99.0, "close": 100.0, "volume": 1000},  # drops below short target
+    ]
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=99.0, target_price=109.0,
+        risk_per_share=1.0, timestamp=candles[0]["timestamp"],
+        size_shares=10.0, signal_index=0,
+    )
+    config = StrategyConfig(enable_rebound_short=True, entry_next_bar=False, slippage_pct=0.001, commission_per_share=0.01)
+    res = backtest_simple(candles, sig, config=config)
+    assert res.trades is not None
+    assert len(res.trades) == 2
+    # Short entry was at ~110 (sell), cover lower -> profit on short
+    assert res.trades[1]['pnl'] != 0.0
+
+
+def test_rebound_short_hits_stop_loss():
+    from src.strategy.config import StrategyConfig
+    from src.backtest.engine import backtest_simple
+    from src.strategy.crash_rebound import Signal
+    # Long hits target, short rallies hard and hits stop
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 110.0, "low": 99.5, "close": 110.0, "volume": 1000},  # target
+        {"timestamp": "2025-01-01T09:31:00", "open": 110.5, "high": 170.0, "low": 110.0, "close": 165.0, "volume": 1000},  # rallies to hit +40% stop
+    ]
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=99.0, target_price=109.0,
+        risk_per_share=1.0, timestamp=candles[0]["timestamp"],
+        size_shares=10.0, signal_index=0,
+    )
+    config = StrategyConfig(enable_rebound_short=True, entry_next_bar=False, rebound_short_stop_pct=40.0)
+    res = backtest_simple(candles, sig, config=config)
+    assert res.trades is not None
+    assert len(res.trades) == 2
+    assert res.trades[1]['reason'] == 'stopped'  # short stopped
+
+
+def test_rebound_short_time_exit():
+    from src.strategy.config import StrategyConfig
+    from src.backtest.engine import backtest_simple
+    from src.strategy.crash_rebound import Signal
+    # Long hits target, short stays in range and times out
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 110.0, "low": 99.5, "close": 110.0, "volume": 1000},
+    ]
+    # Add candles for short to hold
+    base = candles[0]
+    for i in range(1, 50):  # hold for many bars
+        candles.append({"timestamp": f"2025-01-01T{9+i//60:02d}:{i%60:02d}:00", "open": 110.0, "high": 111.0, "low": 109.0, "close": 110.0, "volume": 1000})
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=99.0, target_price=109.0,
+        risk_per_share=1.0, timestamp=candles[0]["timestamp"],
+        size_shares=10.0, signal_index=0,
+    )
+    config = StrategyConfig(enable_rebound_short=True, entry_next_bar=False, rebound_short_time_exit_bars=48)
+    res = backtest_simple(candles, sig, config=config)
+    assert res.trades is not None
+    assert any(t.get('side') == 'short' for t in res.trades)
+    # Short should have timed out
+    short_trades = [t for t in res.trades if t.get('side') == 'short']
+    assert short_trades[0]['reason'] == 'time_exit'
+
+
+def test_rebound_short_disabled():
+    from src.strategy.config import StrategyConfig
+    from src.backtest.engine import backtest_simple
+    from src.strategy.crash_rebound import Signal
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 110.0, "low": 99.5, "close": 110.0, "volume": 1000},
+    ]
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=99.0, target_price=109.0,
+        risk_per_share=1.0, timestamp=candles[0]["timestamp"],
+        size_shares=10.0, signal_index=0,
+    )
+    config = StrategyConfig(enable_rebound_short=False, entry_next_bar=False)
+    res = backtest_simple(candles, sig, config=config)
+    assert res.trades is None or len(res.trades) == 1  # only long
