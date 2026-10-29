@@ -8,8 +8,8 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 16 records — runs #1-#16 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T04:20:18Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.54s). `pytest` installed locally (run as `python3 -m pytest`).
+## Status (2026-10-29T04:20:44Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.57s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `113e1c5`; remote `origin/main` at `113e1c5` (local == remote).
 - Run #16 (40751376410): completed success (7h3m39s). Captured in diagnostics ledger (record 16).
 - Run #17 (40785789871): **in_progress** (created 2026-10-28T23:13:19Z; running ~5h7m; `updatedAt` 2026-10-29T02:10:46Z). Holds the `kilo-repository` concurrency group. Creation-time timeout ~05:13Z; 360-min job timeout from job start ~08:10Z. Neither timeout has fired yet.
@@ -17,13 +17,13 @@
 - No new scheduled runs beyond #18; `gh run list --limit 30` shows runs #1-#18.
 
 ## Prior agent task (monitor run #17; watch for new scheduled runs)
-Completed (2026-10-29T04:20:18Z): Re-checked CI (`gh run list --limit 30`). Run #17 still in_progress (~5h7m), run #18 still pending behind concurrency group. No new scheduled runs beyond #18. Tests verified 36/36 green. Handoff updated with current status and initial task message for next agent.
+Completed (2026-10-29T04:20:44Z): Re-checked CI (`gh run list --limit 30`). Run #17 still in_progress (~5h7m), run #18 still pending behind concurrency group. No new scheduled runs beyond #18. Tests verified 36/36 green. Handoff updated with current status and initial task message for next agent.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T04:20:18Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.54s). HEAD `113e1c5` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T04:20:44Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `113e1c5` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
