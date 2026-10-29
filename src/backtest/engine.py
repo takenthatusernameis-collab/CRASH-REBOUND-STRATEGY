@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
+from src.strategy.risk import DailyRiskState
 
 
 @dataclass
@@ -26,6 +27,7 @@ def backtest_simple(
     signal,
     config: StrategyConfig = DEFAULT_CONFIG,
     capital: float = 100000.0,
+    risk_state: Optional[DailyRiskState] = None,
 ) -> TradeResult:
     if signal is None:
         return TradeResult(pnl=0.0, r_multiple=0.0, exit_reason='no_signal')
@@ -52,6 +54,17 @@ def backtest_simple(
     stop_px = stop
     target_px = target
 
+    # Risk gate before entry: max positions and daily-loss halt.
+    if risk_state is not None:
+        entry_date = str(candles[start_idx].get('timestamp', ''))
+        check = risk_state.check_position(config, capital, shares)
+        if not check.allowed:
+            return TradeResult(
+                pnl=0.0, r_multiple=0.0, exit_reason='blocked',
+                entry_price=entry, exit_price=entry, shares=0.0, bars_held=0,
+            )
+        risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False)
+
     # Look-ahead guard: only inspect candles at or after the entry point.
     for idx in range(start_idx, len(candles)):
         c = candles[idx]
@@ -61,6 +74,8 @@ def backtest_simple(
             exit_px = _slippage_commission_per_share(stop_px, config, 'sell')
             pnl = (exit_px - entry_px) * shares
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
+            if risk_state is not None:
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
             return TradeResult(
                 pnl=pnl, r_multiple=r_mult, exit_reason='stopped',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
@@ -70,8 +85,22 @@ def backtest_simple(
             exit_px = _slippage_commission_per_share(target_px, config, 'sell')
             pnl = (exit_px - entry_px) * shares
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
+            if risk_state is not None:
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
             return TradeResult(
                 pnl=pnl, r_multiple=r_mult, exit_reason='target',
+                entry_price=entry_px, exit_price=exit_px, shares=shares,
+                bars_held=idx - start_idx + 1,
+            )
+        # Time exit: hard cap on bars held per trade.
+        if config.time_exit_max_bars and (idx - start_idx + 1) >= config.time_exit_max_bars:
+            exit_px = _slippage_commission_per_share(float(c.get('close', entry)), config, 'sell')
+            pnl = (exit_px - entry_px) * shares
+            r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
+            if risk_state is not None:
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
+            return TradeResult(
+                pnl=pnl, r_multiple=r_mult, exit_reason='time_exit',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
             )
@@ -84,6 +113,8 @@ def backtest_simple(
     exit_px = _slippage_commission_per_share(float(exit_px), config, 'sell')
     pnl = (exit_px - entry_px) * shares
     r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
+    if risk_state is not None:
+        risk_state.apply_trade(str(last.get('timestamp', '')), pnl, opened=False, closed=True)
     return TradeResult(
         pnl=pnl, r_multiple=r_mult, exit_reason='time_exit',
         entry_price=entry_px, exit_price=exit_px, shares=shares,

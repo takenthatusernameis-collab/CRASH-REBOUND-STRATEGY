@@ -1,4 +1,4 @@
-from src.strategy.crash_rebound import detect_crash, confirm_rebound, generate_signal
+from src.strategy.crash_rebound import Signal, detect_crash, confirm_rebound, generate_signal
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
 from src.strategy.risk import DailyRiskState, size_by_risk, check_daily_loss_halt
 from src.data.loader import make_fixture_crash_rebound
@@ -121,3 +121,61 @@ def test_generate_signal_uses_config_defaults():
     assert sig.config_used is not None
     assert sig.config_used["crash_pct_drop"] == DEFAULT_CONFIG.crash_pct_drop
     assert sig.size_shares > 0
+
+
+def test_backtest_blocks_entry_at_max_positions():
+    state = DailyRiskState(date="2025-01-01", realized_pnl=0.0, open_positions=5)
+    config = StrategyConfig(max_positions=5)
+    candles = make_fixture_crash_rebound()
+    sig = generate_signal(candles, config=config)
+    assert sig is not None
+    res = backtest_simple(candles, sig, config=config, risk_state=state)
+    assert res.exit_reason == 'blocked'
+    assert res.shares == 0.0
+    assert res.pnl == 0.0
+
+
+def test_backtest_blocks_entry_after_daily_loss_halt():
+    state = DailyRiskState(date="2025-01-01", realized_pnl=-350.0, open_positions=0)
+    config = StrategyConfig(max_daily_loss_pct=3.0)
+    candles = make_fixture_crash_rebound()
+    sig = generate_signal(candles, config=config)
+    assert sig is not None
+    res = backtest_simple(candles, sig, config=config, capital=10000.0, risk_state=state)
+    assert res.exit_reason == 'blocked'
+
+
+def test_risk_state_new_day_resets_and_allows_entry():
+    state = DailyRiskState(date="2025-01-01", realized_pnl=-350.0,
+                           open_positions=1, daily_loss_limit_hit=True)
+    config = StrategyConfig(max_daily_loss_pct=3.0, max_positions=5)
+    # New date resets realized pnl, clears halt, decrements position on close.
+    state.apply_trade("2025-01-02", 0.0, opened=False, closed=True)
+    assert state.date == "2025-01-02"
+    assert state.realized_pnl == 0.0
+    assert state.daily_loss_limit_hit is False
+    assert state.open_positions == 0
+    # Entry now allowed on the fresh day.
+    check = state.check_position(config, capital=100000.0, size_shares=10.0)
+    assert check.allowed is True
+    assert check.reason == "ok"
+
+
+def test_backtest_respects_time_exit_max_bars():
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:32:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:33:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:34:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 1000},
+    ]
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=99.0, target_price=102.0,
+        risk_per_share=1.0, timestamp=candles[1]["timestamp"],
+        size_shares=10.0, signal_index=1,
+    )
+    config = StrategyConfig(time_exit_max_bars=3)
+    res = backtest_simple(candles, sig, config=config)
+    assert res.exit_reason == 'time_exit'
+    assert res.bars_held == 3
