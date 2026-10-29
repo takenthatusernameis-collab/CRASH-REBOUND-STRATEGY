@@ -1,15 +1,15 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-29T22:45:01Z
+**TIMESTAMP:** 2026-10-29T22:46:59Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean, up to date with origin/main
 
 ## Purpose (from repo name)
-Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy liquid coins after a crash signal, exit at +9% target or 50h time exit, then optionally open a rebound short; ATR(14)*8 safety stop; 120% gross cap with equal-share cuts; ETH hedge per leg. Spec resolved from `crash-rebound-strategy.pdf` into `research_state/strategy_spec.md`.
+Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy liquid coins after a crash signal, exit at +9% target or 50h time exit, then open a rebound short; ATR(14)*8 safety stop; 120% gross cap with equal-share cuts; ETH hedge per leg. Spec resolved from `crash-rebound-strategy.pdf` into `research_state/strategy_spec.md`.
 
 ## Current verified state
-- Tests: **53 passed** (`python3 -m pytest -q`, 0.60s).
+- Tests: **53 passed** (`python3 -m pytest -q`, 0.62s).
 - `strategy_spec.md`: resolved PDF rules (RSI<20/21h trigger context, +9% target, 50h/48h exits, ATR*8 stop, 1.25% of daily vol sizing, 120% cap w/ equal cuts, ETH hedge).
 - `src/strategy/crash_rebound.py`: ATR-based stop wired (`atr`/`safety_stop_price`, fallback `low*0.999`); target prefers `config.target_pct` (+9%).
 - `src/strategy/risk.py`: `RiskState`/`DailyRiskState`, gross cap `cut_positions_to_cap` (equal cuts), slippage/commission, ATR.
@@ -17,12 +17,14 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - `src/data/loader.py`: fixtures `make_fixture_crash_rebound()` + `make_fixture_crash_rebound_multi()` (SPY/QQQ/IWM + NO_TRADE).
 - `research_state/backtest_smoke.json`: multi_symbol SPY/QQQ/IWM all `time_exit` (small negative pnl in short fixtures); NO_TRADE no signal. Aggregate: 3 symbols tested, 3 signals.
 - Ledger `research_state/workflow_run_diagnostics.jsonl`: run #40845157948 committed+pushed to origin/main (commit `4c62f0e`).
-- Bottleneck removed: previous handoff was corrupted (interleaved timestamps) — now clean and durable.
+- Bottleneck removed: previous handoff was corrupted (interleaved timestamps) — now clean and durable. Run #40845157948 resolved; no blocked sessions remain.
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-29T22:45:01Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-29T22:46:59Z) — START HERE, NO DEFERRALS
 
 **PRIORITY 1 — IMPLEMENT REBOUND-SHORT LOGIC (CORE TO "CRASH-REBOUND"):**
 Run `python3 -m pytest -q` first to confirm 53 green. Implement the full rebound-short flow per `research_state/strategy_spec.md`: when a buy trade exits at +9% target (fast/target hit), immediately open a short on the same coin/symbol; close the short at -9% (target for short, i.e. entry_short*(1-0.09)) or after 48h, whichever comes first. Wire through `src/strategy/crash_rebound.py` and/or `src/backtest/engine.py` (choose the cleanest place that matches existing patterns). Add concrete tests covering target-hit -> short-open -> short-close (by -9% or 48h). Do **not** defer to "later" — this is the missing half of the strategy name. Keep suite green.
+
+**Why this is Priority 1:** The repo name is CRASH-REBOUND-STRATEGY. The crash/buy half is implemented. The rebound-short half is NOT implemented. Without it, the strategy is incomplete by definition. This is the single highest-leverage item — do not substitute with lower-priority campaign items.
 
 ## NEXT SESSION FOCUS CAMPAIGN (heavy work — must complete in order; each item requires code + tests)
 Do not substitute with low-effort checkpoints. Run `python3 -m pytest -q` after every change; all tests must stay green. Grow suite toward 70+.
