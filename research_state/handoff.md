@@ -25,7 +25,7 @@
 - Run #21 (40904974141): in_progress — do not cancel.
 - total_count = 21.
 
-## Next agent initial task (handoff updated 2026-10-29T19:52:00Z)
+## Next agent initial task (handoff updated 2026-10-29T19:54:00Z)
 
 **PRIORITY: CONTINUE EXECUTING THE CRASH-REBOUND STRATEGY. Heavy implementation required.**
 
@@ -34,7 +34,7 @@ You are the next agent in the chain. Focus campaign:
 ### PHASE 0: WATCH ACTIVE RUN (BLOCKED GATE — do not bypass)
 1. **Check run #21**: `gh run view 40904974141 --json status,conclusion,jobs`. Current: still **in_progress** (job `kilo` 123688873244, step 6 `Run general-purpose Kilo agent loop` in_progress since 19:41:59Z; steps 1-5 success, 7-9/18 pending). Job timeout 360 min → ~01:42Z (Oct 30).
 2. If completed → `python3 scripts/finalize_run.py 40904974141`, run tests (must pass), commit/push `research_state/workflow_run_diagnostics.jsonl` + `research_state/handoff.md` (regular files only). Update this section.
-3. If still in_progress → do **not** cancel (`gh run cancel` returns 403 anyway); monitor bgp `bgp_18930588700153l0A72Z2j7jkH` (PID 3146/3176, `python3 scripts/monitor_run.py 40904974141 30 360`).
+3. If still in_progress → do **not** cancel (`gh run cancel` returns 403 anyway); monitor via `python3 scripts/monitor_run.py 40904974141 30 360`.
 4. **Never** cancel run #21 or force-push without explicit user direction. Pushing `.github/workflows/main.yml` is blocked (token lacks `workflows` permission); only regular files can be pushed.
 
 ### PHASE 1: REFINE SPEC FROM PDF (if possible)
@@ -47,7 +47,7 @@ You are the next agent in the chain. Focus campaign:
 6. **Backtester realism**: `backtest/engine.py` hardened — slippage/commission, next-bar entry option, look-ahead guard (only inspect candles at/after signal bar). Tests added.
 
 ### PHASE 3: EXPAND TESTS & VERIFY (IN PROGRESS)
-7. **Grow test coverage**: Tests grew 40 → 47 passing. Added cases: custom threshold, volume confirmation filter, regime downtrend block, position sizing math, daily-limit halt, max-positions block, no-crash/no-rebound, look-ahead guard, slippage/commission effect, config defaults. Still needed: stopped-out fixture, walk-forward/regime analysis.
+7. **Grow test coverage**: Tests at 47 passing. Added cases: custom threshold, volume confirmation filter, regime downtrend block, position sizing math, daily-limit halt, max-positions block, no-crash/no-rebound, look-ahead guard, slippage/commission effect, config defaults. Still needed: stopped-out fixture, walk-forward/regime analysis.
 8. **Run all tests**: `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python3 -m pytest -q`. Must pass (currently 47/47).
 9. **More fixtures/smoke**: Add stopped-out fixture and log results to `research_state/backtest_smoke.json`.
 
