@@ -47,9 +47,16 @@
 - New pending run 40904974141 (scheduled) observed; total_count now 20. Run #20 (40898202894) cancelled.
 - Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) still polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
 
-## Next agent initial task
-Run #19 (40845157948) remains in_progress as of 16:55Z. Continue watching via `scripts/monitor_run_19.py` (persistent bgp `bgp_18895996d0015Z9d1UO7HTjzrm`, PID 23152); do not cancel run #19.
+## Status (2026-10-29T16:56Z)
+- Run #19 (40845157948): still in_progress (step 6 agent loop; job `kilo` 123488616287). Monitor process PID 23185 (`scripts/monitor_run_19.py`) running, polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
+- 36/36 tests passing locally. Ledger 18 records. HEAD ed3543f on origin/main. Working tree clean except tests/__pycache__/.
 
+## Next agent initial task
+Run #19 (40845157948) remains in_progress as of 16:56Z. Continue watching via `scripts/monitor_run_19.py` (PID 23185); do not cancel run #19.
+
+When the monitor observes completion (status != in_progress), it will: append run #19 record to `research_state/workflow_run_diagnostics.jsonl`, run `python3 -m pytest -q`, and print the result. Verify tests pass (36/36 expected). Then commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow-file changes blocked by token scope) and push to origin/main.
+
+If run #19 hangs past the ~19:50Z timeout without failing, document the stall in this handoff — do not cancel/force-push/escalate without explicit user direction. Watch for new scheduled runs (#20+). Update this handoff with final status and next steps before handing off.
 When the monitor observes completion (status != in_progress), it will: append run #19 record to `research_state/workflow_run_diagnostics.jsonl`, run `python3 -m pytest -q`, and print the result. Verify tests pass (36/36 expected). Then commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow-file changes blocked by token scope) and push to origin/main.
 
 If run #19 hangs past the ~19:50Z timeout without failing, document the stall in this handoff — do not cancel/force-push/escalate without explicit user direction. Watch for new scheduled runs (#20+). Update this handoff with final status and next steps before handing off.
