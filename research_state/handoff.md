@@ -8,11 +8,11 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 16 records — runs #1-#16 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T05:15:56Z) — Current turn
+## Status (2026-10-29T05:17:36Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.54s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `3643484`; remote `origin/main` at `3643484` (local == remote).
 - Run #16 (40751376410): completed success (7h3m39s). Captured in diagnostics ledger (record 16).
-- Run #17 (40785789871): **in_progress** (created 2026-10-28T23:13:19Z; running ~6h2m; `updatedAt` 2026-10-29T02:10:46Z — no update in ~3h5m, possible stall; headSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`). Holds the `kilo-repository` concurrency group. Creation-time timeout ~05:13Z (passed); 360-min job timeout from job start ~08:10Z. Not yet terminal.
+- Run #17 (40785789871): **in_progress** (created 2026-10-28T23:13:19Z; running ~6h4m; `updatedAt` 2026-10-29T02:10:46Z — no update in ~3h7m, possible stall; headSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`). Holds the `kilo-repository` concurrency group. Creation-time timeout passed; 360-min job timeout from job start ~08:10Z. Not yet terminal.
 - Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`). Will start only after #17 completes/times out/cancels.
 - No new scheduled runs beyond #18; `gh run list --limit 30` shows runs #1-#18.
 
@@ -23,11 +23,11 @@ Completed (2026-10-29T05:15:56Z): Re-checked CI (`gh run list --limit 30`, `gh r
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T05:15:56Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.54s). HEAD `3643484` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T05:17:36Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.54s). HEAD `3643484` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
-- Run #17 (40785789871): **in_progress** (created 2026-10-28T23:13:19Z; running ~6h2m; `updatedAt` 2026-10-29T02:10:46Z — no update in ~3h5m, possible stall; headSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`). Holds the `kilo-repository` concurrency group. Creation-time timeout ~05:13Z passed without terminal; 360-min job timeout from start ~08:10Z.
+- Run #17 (40785789871): **in_progress** (created 2026-10-28T23:13:19Z; running ~6h4m; `updatedAt` 2026-10-29T02:10:46Z — no update in ~3h7m, possible stall; headSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`). Holds the `kilo-repository` concurrency group. Creation-time timeout passed; 360-min job timeout from start ~08:10Z.
 - Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`). Will start only after #17 completes/times out/cancels.
 - No new scheduled runs beyond #18; `gh run list --limit 30` shows runs #1-#18.
 
