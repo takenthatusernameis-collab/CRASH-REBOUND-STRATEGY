@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-29T22:46:59Z
+**TIMESTAMP:** 2026-10-29T23:45:25Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean, up to date with origin/main
@@ -9,7 +9,7 @@
 Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy liquid coins after a crash signal, exit at +9% target or 50h time exit, then open a rebound short; ATR(14)*8 safety stop; 120% gross cap with equal-share cuts; ETH hedge per leg. Spec resolved from `crash-rebound-strategy.pdf` into `research_state/strategy_spec.md`.
 
 ## Current verified state
-- Tests: **53 passed** (`python3 -m pytest -q`, 0.62s).
+- Tests: **46 passed, 7 failed** (`python3 -m pytest -q`). Bottleneck: `generate_signal` returns None on crash-rebound fixture after recent engine rewrite — fix before Priority 1.
 - `strategy_spec.md`: resolved PDF rules (RSI<20/21h trigger context, +9% target, 50h/48h exits, ATR*8 stop, 1.25% of daily vol sizing, 120% cap w/ equal cuts, ETH hedge).
 - `src/strategy/crash_rebound.py`: ATR-based stop wired (`atr`/`safety_stop_price`, fallback `low*0.999`); target prefers `config.target_pct` (+9%).
 - `src/strategy/risk.py`: `RiskState`/`DailyRiskState`, gross cap `cut_positions_to_cap` (equal cuts), slippage/commission, ATR.
