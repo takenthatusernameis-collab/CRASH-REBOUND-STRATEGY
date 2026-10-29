@@ -1032,7 +1032,7 @@ jobs:
           idle_timeout="${KILO_IDLE_TIMEOUT_SECONDS:-900}"
           if ! [[ "$idle_timeout" =~ ^[0-9]+$ ]] || (( idle_timeout < 60 )); then idle_timeout=900; fi
 
-          command='Read the prior agent task from the durable handoff and complete it. Then update the handoff and write a clear initial task message for the next agent.'
+          command='Looking at the project repository name and prioritizing based on it leave the most relevant inferred timestamped clear initial task message for the next agentic work session in the signle durable handoff ! If multiple session are blocked or inefficient remove the bottlenecks so that significant progress can continue ! If explicit directions are absent, build the next focus campaign so that the future agents can never avoid doing heavy working !'
 
           heartbeat() {
             local heartbeat_sleep_pid=""
