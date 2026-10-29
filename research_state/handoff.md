@@ -59,8 +59,13 @@
 - Cron wakeup scheduled for 2026-10-29T17:35Z (task wku_1889df2a9001Bv29WniUiqNA54) to re-check completion.
 
 ## Status (2026-10-29T17:07Z)
-- Run #19 (40845157948): still in_progress (step 6 agent loop; job `kilo` 123488616287, started 13:50:39Z). 36/36 tests passing locally (verified `python3 -m pytest -q`). Ledger 18 records (run #19 not yet recorded). HEAD 822b20f on origin/main (local == remote). Working tree clean except tests/__pycache__/.
+- Run #19 (40845157948): still_in_progress (step 6 agent loop; job `kilo` 123488616287, started 13:50:39Z). 36/36 tests passing locally (verified `python3 -m pytest -q`). Ledger 18 records (run #19 not yet recorded). HEAD 822b20f on origin/main (local == remote). Working tree clean except tests/__pycache__/.
 - Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152, persistent) still polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
+- Run #20 (40898202894): cancelled. Run #21 (40904974141): pending/scheduled (createdAt 15:46:38Z). total_count = 21.
+
+## Status (2026-10-29T17:09Z)
+- Run #19 (40845157948): still in_progress (step 6 agent loop; job `kilo` 123488616287, started 13:50:39Z, timeout ~19:50Z). Verified via `gh run view`. 36/36 tests passing locally. Ledger 18 records (run #19 not yet recorded). HEAD 822b20f on origin/main (local == remote). Working tree clean except tests/__pycache__/.
+- Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152, persistent) still polling every 30s. Do not cancel run #19.
 - Run #20 (40898202894): cancelled. Run #21 (40904974141): pending/scheduled (createdAt 15:46:38Z). total_count = 21.
 
 ## Project context (from crash-rebound-strategy.pdf)
@@ -75,11 +80,11 @@ Alternative single-shot path once run #19 is complete: `python3 scripts/finalize
 
 If run #19 hangs past the ~19:50Z timeout without failing, document the stall in this handoff — do not cancel/force-push/escalate without explicit user direction. Watch for new scheduled runs (#21 pending at 40904974141). Update this handoff with final status and next steps before handing off.
 
-## Next agent initial task (handoff written 2026-10-29T17:07Z)
+## Next agent initial task (handoff written 2026-10-29T17:09Z)
 You are the next agent in the chain. Your initial task:
 
-1. Check run #19 (40845157948) status via `gh run view 40845157948 --json status,conclusion,jobs`. If it is no longer `in_progress`, run `python3 scripts/finalize_run_19.py` to append the ledger record, run the 36 tests, and commit/push `research_state/workflow_run_diagnostics.jsonl` + `research_state/handoff.md` to origin/main (regular files only; workflow-file pushes are blocked by the GITHUB_TOKEN scope — do not attempt to push `.github/workflows/main.yml`).
-2. If run #19 is still `in_progress`, leave the persistent monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) running, update this handoff with the current status (2026-10-29T17:07Z), and schedule a wakeup ~30 min out to re-check.
-3. Watch for run #21 (40904974141, scheduled/pending). If it starts and completes, append its record to the ledger and commit/push the ledger + handoff.
-4. Never cancel run #19 or force-push without explicit user direction. Document any stall past ~19:50Z in this handoff.
-5. When handing off, write a clear initial task message for the next agent in the "Next agent initial task (handoff written ...)" section below.
+1. Check run #19 (40845157948) status via `gh run view 40845157948 --json status,conclusion,jobs`. If it is no longer `in_progress` (completed/failed/cancelled), run `python3 scripts/finalize_run_19.py` to append the ledger record, run the 36 tests, and commit/push `research_state/workflow_run_diagnostics.jsonl` + `research_state/handoff.md` to origin/main (regular files only; workflow-file pushes are blocked by the GITHUB_TOKEN scope — do not attempt to push `.github/workflows/main.yml`). Verify tests pass (36/36).
+2. If run #19 is still `in_progress`, leave the persistent monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) running, update this handoff with current timestamp/status, and schedule a wakeup ~30 min out to re-check (e.g. via `schedule_wakeup` with delay 30m).
+3. Watch for run #21 (40904974141, scheduled/pending). If it starts and completes, append its record to the ledger (using the same pattern as finalize_run_19/monitor logic) and commit/push ledger + handoff.
+4. Never cancel run #19 or force-push without explicit user direction. If it stalls past ~19:50Z, document stall details in this handoff and do not cancel.
+5. When handing off, write a clear initial task message for the next agent in this section (replace this block with updated timestamp/instructions as appropriate).
