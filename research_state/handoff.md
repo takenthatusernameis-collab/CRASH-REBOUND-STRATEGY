@@ -8,25 +8,25 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T08:07:22Z)
+## Status (2026-10-29T08:07:47Z)
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean. No pending wakeups.
-- Run #18 (40806660320): still **in_progress** at 2026-10-29T08:07:22Z. Steps 1-5 done; step 6 running. No new runs beyond #18 (total_count = 18).
+- Run #18 (40806660320): **in_progress** at 2026-10-29T08:07:47Z. Started 2026-10-29T08:01:02Z. Steps 1-5 completed (checkout, tests skipped, ledger collect+persist captured run #17 and committed `a02d2c5`, commit+verify success); step 6 "Run general-purpose Kilo agent loop" is running this session. Steps 7-9/18-19 pending.
+- total_count = 18; no new runs beyond #18.
 
 ## Run status
-- Runs #1-#17: all completed and recorded in the ledger.
-- Run #17 (40785789871): **completed success** at 2026-10-29T08:01:00Z. It recovered from a ~5h50m stall in step 6 (02:10:54Z → 08:00:55Z) and finished cleanly; steps 7-9/18-19 completed/skipped at 08:00:55Z. Ledger record captured 08:01:06Z (capture complete, log `scanned_with_excerpt_limit`), 16 `kilo_edit_tool_invalid_arguments` log signals, no `workflow_conclusion` error. Committed as `a02d2c5 chore: capture completed workflow run diagnostics`.
-- Run #18 (40806660320): **in_progress** — this is the current activation. Started 2026-10-29T08:01:02Z. Steps 1-5 completed (checkout, tests skipped, ledger collect+persist success capturing run #17, commit+verify success at `a02d2c5`); step 6 "Run general-purpose Kilo agent loop" is running this session. Steps 7-9/18-19 pending.
-- total_count = 18; no new runs beyond #18.
+- Runs #1-#17: all completed and recorded in the ledger (run #17 recovered from ~5h50m stall in step 6 and finished cleanly).
+- Run #18 (40806660320): **in_progress** — current activation, running inside step 6. Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation (not available while active).
+- total_count = 18; no runs beyond #18 yet.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T08:05:33Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean. No pending wakeups.
+**Current state (2026-10-29T08:07:47Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean. No pending wakeups.
 
 **Run status:**
 - Runs #1-#17: all completed and recorded in the ledger.
-- Run #18 (40806660320): **in_progress** — this is the current activation; you are running inside its step 6. Started 2026-10-29T08:01:02Z. Steps 1-5 done (ledger collect+persist captured run #17, committed `a02d2c5`); steps 7-9/18-19 pending.
+- Run #18 (40806660320): **in_progress** — current activation; you are running inside its step 6. Started 2026-10-29T08:01:02Z. Steps 1-5 done (ledger collected run #17, committed `a02d2c5`); steps 7-9/18-19 pending.
 - total_count = 18; no runs beyond #18 yet.
 
 **Your task:** Continue monitoring CI via the GitHub API (job/step detail; `gh run view --log` cannot show in-progress logs). Watch run #18 to completion; watch for new scheduled runs (#19 and beyond) as they appear. Run #18's own terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation (the current run's terminal result is not available while it is still active).
@@ -37,4 +37,4 @@ If a run hangs without failing past its 360-minute timeout (~14:01Z for run #18)
 
 Confirm tests green before making changes.
 
-(End of file - total 61 lines)
+(End of file - total 67 lines)
