@@ -9,28 +9,29 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-29T00:28:30Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.54s). `pytest` installed locally (run as `python3 -m pytest`).
+## Status (2026-10-29T00:32:03Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.57s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `b873af1`; remote `origin/main` at `b873af1`.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~5h21m). Job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" still in_progress; steps 7-9 + step 18 pending. `gh run view --json status,conclusion,jobs` works while running.
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~1h15m). No job assigned yet — blocked by concurrency group `kilo-repository` (run #16 holds it; `cancel_in_progress: false`).
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, ~5h25m). Job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" still in_progress; steps 7-9 + step 18 pending.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~1h19m). No job assigned yet — blocked by concurrency group `kilo-repository` (run #16 holds it; `cancel_in_progress: false`).
 - No new scheduled runs (#18 and beyond); `gh run list --limit 20` shows runs #1-#17 only.
 - Diagnostics ledger: 15 records (runs #1-#15). No new records since.
 - Pending wakeup: none.
 
+
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-29T00:28:30Z): Re-checked CI; run #16 still in_progress, run #17 still pending/queued, no new runs (#18+). No new completed runs to capture. Tests 36/36. Updated handoff state and refreshed task for next agent.
+Completed this turn (2026-10-29T00:32:03Z): Re-checked CI; run #16 still in_progress, run #17 still pending/queued, no new runs (#18+). No new completed runs to capture. Tests 36/36. Updated handoff state and refreshed task for next agent.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T00:28:30Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.54s). HEAD `b873af1` on `origin/main` (local == remote). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T00:32:03Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `b873af1` on `origin/main` (local == remote). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
-- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, now ~5h21m). Job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" still in_progress; steps 7-9 + step 18 pending.
-- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, now ~1h15m). No job assigned yet — blocked by concurrency group `kilo-repository` (run #16 holds it; `cancel_in_progress: false`).
+- Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, now ~5h25m). Job `kilo` in_progress; step 6 "Run general-purpose Kilo agent loop" still in_progress; steps 7-9 + step 18 pending.
+- Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, now ~1h19m). No job assigned yet — blocked by concurrency group `kilo-repository` (run #16 holds it; `cancel_in_progress: false`).
 - No new scheduled runs (#18 and beyond) have appeared; `gh run list --limit 20` shows runs #1-#17 only.
 - Note: `gh run view --json status,conclusion,jobs` works while a run is in_progress (live status, no logs). `gh run view --log` and `gh run cancel` remain blocked by `actions: read` scope.
 
