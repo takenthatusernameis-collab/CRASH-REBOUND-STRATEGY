@@ -8,9 +8,9 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T08:05:33Z)
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (cleared `tests/__pycache__`).
-- No pending wakeups (wku_18698675c001tTxnQ0i3qPVj6r resolved — run #17 completed before its 08:15:17Z due time).
+## Status (2026-10-29T08:07:22Z)
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean. No pending wakeups.
+- Run #18 (40806660320): still **in_progress** at 2026-10-29T08:07:22Z. Steps 1-5 done; step 6 running. No new runs beyond #18 (total_count = 18).
 
 ## Run status
 - Runs #1-#17: all completed and recorded in the ledger.
