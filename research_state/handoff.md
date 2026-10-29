@@ -8,11 +8,12 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T09:06:30Z)
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `20aa2cb` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). No pending wakeups.
-- Run #18 (40806660320): **in_progress** — current activation (this agent is running inside step 6 "Run general-purpose Kilo agent loop"). Started 2026-10-29T02:29:34Z (~6h37m elapsed). Steps after the Kilo loop pending. 360-min timeout ~08:29:34Z (passed ~37m ago) — run still active, not yet stalled/failed. This run's own terminal result is collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a LATER activation (not available while active).
+## Status (2026-10-29T09:07:46Z)
+- Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `20aa2cb` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`). No pending wakeups.
+- Run #18 (40806660320): **in_progress** — gh reports status in_progress, conclusion empty, updatedAt 2026-10-29T08:01:03Z. Elapsed ~6h38m; 360-min timeout ~08:29:34Z passed ~38m ago; run still active, not stalled/failed. Terminal result collectable only on a later activation.
 - Run #19 (40845157948): **pending** — scheduled 2026-10-29T08:51:18Z, not yet running.
 - total_count = 19.
+- No new completed runs since last handoff; no ledger appends this activation.
 
 ## Run status
 - Runs #1-#17: all completed and recorded in the ledger.
