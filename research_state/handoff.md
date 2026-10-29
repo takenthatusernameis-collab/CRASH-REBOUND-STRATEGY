@@ -7,7 +7,7 @@
 - `.github/workflows/main.yml:62` runs all four test files; all exist and pass locally.
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 15 records — runs #1-#15 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled). Run #15 (40698130239) concluded success and was captured (record 15, captured_at 2026-10-28T20:20:33Z) and committed as `3249bbe chore: capture completed workflow run diagnostics`.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
-- CI re-check at 2026-10-29T01:36:41Z: run #16 still in_progress (~6h30m), run #17 still pending/queued (~2h24m), no new runs (#18+). Tests re-verified 36/36. Handoff updated.
+- CI re-check at 2026-10-29T01:37:44Z: run #16 still in_progress (~6h31m), run #17 still pending/queued (~2h24m), no new runs (#18+). Tests re-verified 36/36. Handoff updated.
 
 ## Status (2026-10-29T01:36:41Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.54s). `pytest` installed locally (run as `python3 -m pytest`).
