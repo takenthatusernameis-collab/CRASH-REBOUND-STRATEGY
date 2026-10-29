@@ -66,4 +66,6 @@ Run #19 (40845157948) remains in_progress as of 17:03Z. Continue watching via `s
 
 When the monitor observes completion (status != in_progress), it will: append run #19 record to `research_state/workflow_run_diagnostics.jsonl`, run `python3 -m pytest -q`, and print the result. Verify tests pass (36/36 expected). Then commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow-file changes blocked by token scope) and push to origin/main.
 
+Alternative single-shot path once run #19 is complete: `python3 scripts/finalize_run_19.py` performs the append + test + commit/push in one step.
+
 If run #19 hangs past the ~19:50Z timeout without failing, document the stall in this handoff — do not cancel/force-push/escalate without explicit user direction. Watch for new scheduled runs (#21 pending). Update this handoff with final status and next steps before handing off.
