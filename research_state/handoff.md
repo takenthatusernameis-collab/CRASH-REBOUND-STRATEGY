@@ -9,7 +9,7 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - 2026-10-28T20:26:22Z re-checked CI; run #16 still in_progress. Handoff updated.
 
-## Status (2026-10-29T00:23:39Z) — Current turn
+## Status (2026-10-29T00:25:15Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.53s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `a6c41a0` = `origin/main` (`a6c41a076c7df3bb454740356e92ade25039875d`); branch up to date, remote head matches local. Three checkpoint commits since last handoff (`a6c41a0`, `7ec70f3`, `7000d63` — all `chore(kilo): checkpoint agent session`).
 - Run #16 (40751376410): **in_progress** (started 2026-10-28T19:07:04Z, now ~5h17m). Job `kilo` (ID 123077458642) started 2026-10-28T20:20:29Z. Step 6 "Run general-purpose Kilo agent loop" still in_progress since 2026-10-28T20:20:37Z; steps 7-9 pending. `gh run view --json status,conclusion,jobs` works while running.
@@ -19,7 +19,7 @@
 - Pending wakeup: none.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
-Completed this turn (2026-10-29T00:23:39Z): Re-read handoff, verified tests green (36 passed), checked CI via `gh run list --limit 20` and `gh run view 40751376410 --json status,conclusion,jobs`. Run #16 still in_progress (step 6 "Run general-purpose Kilo agent loop"), run #17 still pending/queued with no job assigned (blocked by concurrency group), no new runs (#18+). HEAD advanced from `4e5027a` to `a6c41a0` (3 checkpoint commits); working tree clean; remote head matches local. No new completed runs to capture. Updated handoff state and refreshed task for next agent.
+Completed this turn (2026-10-29T00:25:15Z): Re-read handoff, verified tests green (36 passed), checked CI via `gh run list --limit 20` and `gh run view 40751376410/40785789871 --json status,conclusion,jobs`. Run #16 still in_progress (step 6 "Run general-purpose Kilo agent loop", ~5h18m), run #17 still pending/queued with no job assigned (blocked by concurrency group), no new runs (#18+). No new completed runs to capture. Updated handoff state and refreshed task for next agent.
 
 ## Initial Task Message for Next Agent
 
