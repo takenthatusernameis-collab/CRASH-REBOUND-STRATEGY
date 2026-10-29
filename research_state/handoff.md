@@ -8,21 +8,22 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 16 records — runs #1-#16 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T07:35:09Z) — Wakeup check
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.61s). HEAD `83a8bb4` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked).
+## Status (2026-10-29T07:38:02Z) — Wakeup check
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.62s). HEAD `551ef12` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked).
+- Wakeup scheduled: wku_18698675c001tTxnQ0i3qPVj6r (08:15:17Z, after run #17 expected timeout ~08:10:46Z).
 
 ## Run status
 - Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
 - Run #17 (40785789871): **in_progress and confirmed stalled**. Job `kilo` created 2026-10-28T23:13:19Z, step 6 "Run general-purpose Kilo agent loop" began 2026-10-29T02:10:46Z and has not completed. Run-level `updated_at` frozen at 2026-10-29T02:10:46Z (~5h25m stale). Steps 1-5 completed (setup, checkout, tests skipped, ledger collect+persist success); steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Event `schedule`. Job timeout 360 min → ~08:10:46Z (~35 min remaining). In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
 - Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`). Will start only after #17 completes/times out/cancels.
 - No new scheduled runs beyond #18; API `total_count` = 18.
-- Wakeup scheduled: wku_1868ad190001ZtsEhcrXxcDx51 (08:15:00Z, ~40 min away — after run #17's expected timeout).
+- Wakeup scheduled: wku_18698675c001tTxnQ0i3qPVj6r (08:15:17Z, ~37 min away — after run #17's expected timeout).
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T07:35:09Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `83a8bb4` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked). A wakeup (wku_1868ad190001ZtsEhcrXxcDx51) is set for 08:15:00Z.
+**Current state (2026-10-29T07:38:02Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `551ef12` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked). A wakeup (wku_18698675c001tTxnQ0i3qPVj6r) is set for 08:15:17Z.
 
 **Run status:**
 - Runs #1-#16: all completed and recorded in the ledger.
