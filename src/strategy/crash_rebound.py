@@ -1,9 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
-from dataclasses import dataclass
-from typing import List, Dict, Any, Optional
-
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
 from src.strategy.risk import atr, safety_stop_price
 
@@ -21,6 +18,7 @@ class Signal:
     size_shares: float = 0.0
     config_used: Optional[dict] = None
     signal_index: int = -1
+
 
 
 def _close(c: Dict[str, Any]) -> Optional[float]:
@@ -195,20 +193,16 @@ def generate_signal(
     else:
         target = entry + risk * config.reward_risk
     size = position_size_shares(entry, stop, capital, config.risk_per_trade_pct)
-    return Signal(
-        symbol=symbol,
-        side='long',
-        reason='crash_then_rebound',
-        entry_price=entry,
-        stop_price=stop,
-        target_price=target,
-        risk_per_share=risk,
-        timestamp=str(cur.get('timestamp', '')),
-        size_shares=size,
-        config_used={
-            "crash_pct_drop": config.crash_pct_drop,
-            "reward_risk": config.reward_risk,
-            "risk_per_trade_pct": config.risk_per_trade_pct,
-        },
-        signal_index=len(candles) - 1,
-    )
+def backtest_crash_rebound(
+    candles: List[Dict[str, Any]],
+    symbol: str = "TEST",
+    config: StrategyConfig = DEFAULT_CONFIG,
+    capital: float = 100000.0,
+    risk_state: Optional[Any] = None,
+):
+    """Convenience function for crash-rebound backtest with rebound-short support."""
+    from src.backtest.engine import backtest_simple
+    sig = generate_signal(candles, symbol=symbol, config=config, capital=capital)
+    if sig is None:
+        return backtest_simple(candles, None, config=config, capital=capital, risk_state=risk_state)
+    return backtest_simple(candles, sig, config=config, capital=capital, risk_state=risk_state)

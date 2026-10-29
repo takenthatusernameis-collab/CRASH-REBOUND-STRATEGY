@@ -34,6 +34,12 @@ class StrategyConfig:
     atr_period: int = 14               # ATR lookback for safety stop
     time_exit_max_bars: int = 50       # max bars in trade before time exit
 
+    # Rebound short (after buy hits +9% target)
+    enable_rebound_short: bool = True
+    rebound_short_target_pct: float = 9.0  # close short at entry_short * (1 - target_pct/100)
+    rebound_short_time_exit_bars: int = 48  # max bars for rebound short
+    rebound_short_stop_pct: float = 40.0   # wide stop per spec (close if up 40%)
+
     # Risk
     risk_per_trade_pct: float = 1.0    # % of capital risked per trade
     max_positions: int = 5             # max concurrent positions
