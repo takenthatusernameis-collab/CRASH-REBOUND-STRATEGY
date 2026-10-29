@@ -8,21 +8,27 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 16 records — runs #1-#16 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T07:30:00Z) — Wakeup check
-- Tests: 36/36 passing. Run #17 still in_progress (updatedAt/updated_at frozen ~02:10:46Z), timeout ~08:10:46Z (~40 min remaining). Run #18 pending behind concurrency. No change. Wakeup wku_1868ad190001ZtsEhcrXxcDx51 set for 08:15:00Z.
+## Status (2026-10-29T07:35:09Z) — Wakeup check
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.61s). HEAD `83a8bb4` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked).
+
+## Run status
+- Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
+- Run #17 (40785789871): **in_progress and confirmed stalled**. Job `kilo` created 2026-10-28T23:13:19Z, step 6 "Run general-purpose Kilo agent loop" began 2026-10-29T02:10:46Z and has not completed. Run-level `updated_at` frozen at 2026-10-29T02:10:46Z (~5h25m stale). Steps 1-5 completed (setup, checkout, tests skipped, ledger collect+persist success); steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Event `schedule`. Job timeout 360 min → ~08:10:46Z (~35 min remaining). In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
+- Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`). Will start only after #17 completes/times out/cancels.
+- No new scheduled runs beyond #18; API `total_count` = 18.
+- Wakeup scheduled: wku_1868ad190001ZtsEhcrXxcDx51 (08:15:00Z, ~40 min away — after run #17's expected timeout).
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T07:26:37Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `83a8bb4` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T07:35:09Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `83a8bb4` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). Working tree clean (only `tests/__pycache__/` untracked). A wakeup (wku_1868ad190001ZtsEhcrXxcDx51) is set for 08:15:00Z.
 
 **Run status:**
-- Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
-- Run #17 (40785789871): **in_progress and confirmed stalled**. Job `kilo` started 2026-10-29T02:10:46Z; step 6 "Run general-purpose Kilo agent loop" began 02:10:54Z and has not completed. Run-level `updated_at` frozen at 2026-10-29T02:10:46Z (~5h15m stale). Steps 1-5 completed (setup, checkout, tests skipped, ledger collect+persist success); steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Job timeout 360 min from job start → ~08:10:46Z (~44 min remaining). In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
-- Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`). Will start only after #17 completes/times out/cancels.
-- No new scheduled runs beyond #18; API `total_count` = 18.
-- Wakeup scheduled: wku_1868ad190001ZtsEhcrXxcDx51 (08:15:00Z).
+- Runs #1-#16: all completed and recorded in the ledger.
+- Run #17 (40785789871): **in_progress and stalled** since 2026-10-29T02:10:46Z; timeout ~08:10:46Z. HeadSha `1aadc148...`.
+- Run #18 (40806660320): **pending**, queued behind #17's concurrency group.
+- total_count = 18; no new runs beyond #18.
 
 **Your task:** Continue monitoring CI via the GitHub API (job/step detail; `gh run view --log` cannot show in-progress logs). Watch run #17 to completion (completion, timeout ~08:10:46Z, or cancellation); note the stall but do **not** cancel/force-push/escalate without explicit user direction. Then watch run #18 start and run to completion; watch for new scheduled runs (#19 and beyond) as they appear.
 
