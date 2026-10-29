@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
+from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
+
 
 @dataclass
 class Signal:
@@ -12,52 +14,174 @@ class Signal:
     target_price: float
     risk_per_share: float
     timestamp: str = ""
+    size_shares: float = 0.0
+    config_used: Optional[dict] = None
+    signal_index: int = -1
 
 
-def detect_crash(candles: List[Dict[str, Any]], pct_drop: float = -2.0) -> bool:
-    """Detect a crash: look for a candle with large drop."""
+def _close(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("close")
+    return float(v) if v is not None else None
+
+
+def _open(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("open")
+    return float(v) if v is not None else None
+
+
+def _low(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("low")
+    return float(v) if v is not None else None
+
+
+def _high(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("high")
+    return float(v) if v is not None else None
+
+
+def _volume(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("volume")
+    return float(v) if v is not None else None
+
+
+def detect_crash(
+    candles: List[Dict[str, Any]],
+    pct_drop: float = -2.0,
+    lookback: int = 5,
+    volume_spike_mult: float = 1.5,
+) -> bool:
+    """Detect a crash: a candle with large drop from open or prior close.
+
+    Optional volume confirmation: crash bar volume must exceed the average
+    of the preceding bars by volume_spike_mult when volume data is present.
+    """
     if len(candles) < 2:
         return False
-    # check last pair and also previous pair
-    for i in range(len(candles) - 1, max(0, len(candles) - 5), -1):
+    start = max(0, len(candles) - lookback)
+    for i in range(len(candles) - 1, start - 1, -1):
         prev = candles[i - 1]
         cur = candles[i]
-        if prev.get('close') and cur.get('open') and cur.get('close'):
-            drop_from_open = (cur['close'] - cur['open']) / cur['open'] * 100.0
+        cur_open = _open(cur)
+        cur_close = _close(cur)
+        prev_close = _close(prev)
+        triggered = False
+        if cur_open is not None and cur_close is not None and cur_open > 0:
+            drop_from_open = (cur_close - cur_open) / cur_open * 100.0
             if drop_from_open <= pct_drop:
-                return True
-        if prev.get('close') and cur.get('close'):
-            drop_from_prev_close = (cur['close'] - prev['close']) / prev['close'] * 100.0
+                triggered = True
+        if prev_close is not None and cur_close is not None and prev_close > 0:
+            drop_from_prev_close = (cur_close - prev_close) / prev_close * 100.0
             if drop_from_prev_close <= pct_drop:
-                return True
+                triggered = True
+        if not triggered:
+            continue
+        # Volume confirmation when data available
+        cur_vol = _volume(cur)
+        if cur_vol is not None:
+            prior_vols = [_volume(c) for c in candles[start:i]]
+            prior_vols = [v for v in prior_vols if v is not None]
+            if prior_vols:
+                avg_vol = sum(prior_vols) / len(prior_vols)
+                if avg_vol > 0 and cur_vol < avg_vol * volume_spike_mult:
+                    continue
+        return True
     return False
 
 
-def confirm_rebound(candles: List[Dict[str, Any]], lookback: int = 3) -> bool:
-    """Confirm rebound: recent candle shows bullish reversal (close > open and above mid)."""
+def confirm_rebound(
+    candles: List[Dict[str, Any]],
+    lookback: int = 3,
+    min_body_ratio: float = 0.5,
+) -> bool:
+    """Confirm rebound: most recent candle shows bullish reversal in upper range."""
     if len(candles) < 1:
         return False
     cur = candles[-1]
-    if cur.get('open') and cur.get('close') and cur.get('high') and cur.get('low'):
-        if cur['close'] > cur['open']:
-            rng = cur['high'] - cur['low']
-            if rng > 0 and (cur['close'] - cur['low']) / rng >= 0.5:
-                return True
-    return False
+    cur_open = _open(cur)
+    cur_close = _close(cur)
+    cur_high = _high(cur)
+    cur_low = _low(cur)
+    if None in (cur_open, cur_close, cur_high, cur_low):
+        return False
+    if cur_close <= cur_open:
+        return False
+    rng = cur_high - cur_low
+    if rng <= 0:
+        return False
+    return (cur_close - cur_low) / rng >= min_body_ratio
 
 
-def generate_signal(candles: List[Dict[str, Any]], symbol: str = "TEST") -> Optional[Signal]:
-    if not detect_crash(candles):
+def regime_ok(candles: List[Dict[str, Any]], config: StrategyConfig) -> bool:
+    """Regime filter: avoid catching a falling knife in a downtrend.
+
+    Requires the most recent close to be above the fast MA when avoid_downtrend
+    is set, and price above regime_min_price.
+    """
+    if not config.avoid_downtrend:
+        return True
+    closes = [_close(c) for c in candles]
+    closes = [c for c in closes if c is not None]
+    if len(closes) < config.ma_fast_period:
+        return True  # not enough history; do not block
+    ma = sum(closes[-config.ma_fast_period:]) / config.ma_fast_period
+    cur_close = closes[-1]
+    if cur_close < config.regime_min_price:
+        return False
+    if cur_close < ma:
+        return False
+    return True
+
+
+def position_size_shares(
+    entry_price: float,
+    stop_price: float,
+    capital: float,
+    risk_pct: float,
+) -> float:
+    """Position size in shares by risk % of capital.
+
+    risk_amount = capital * risk_pct / 100; shares = risk_amount / (entry - stop).
+    Returns 0.0 when risk per share is non-positive.
+    """
+    risk_per_share = entry_price - stop_price
+    if risk_per_share <= 0:
+        return 0.0
+    risk_amount = capital * risk_pct / 100.0
+    return risk_amount / risk_per_share
+
+
+def generate_signal(
+    candles: List[Dict[str, Any]],
+    symbol: str = "TEST",
+    config: StrategyConfig = DEFAULT_CONFIG,
+    capital: float = 100000.0,
+) -> Optional[Signal]:
+    if not detect_crash(
+        candles,
+        pct_drop=config.crash_pct_drop,
+        lookback=config.crash_lookback,
+        volume_spike_mult=config.volume_spike_mult,
+    ):
         return None
-    if not confirm_rebound(candles):
+    if not confirm_rebound(
+        candles,
+        lookback=config.rebound_lookback,
+        min_body_ratio=config.rebound_min_body_ratio,
+    ):
+        return None
+    if not regime_ok(candles, config):
         return None
     cur = candles[-1]
-    entry = cur['close']
-    stop = cur['low'] * 0.999
+    entry = _close(cur)
+    low = _low(cur)
+    if entry is None or low is None or entry <= 0:
+        return None
+    stop = low * 0.999
     risk = entry - stop
     if risk <= 0:
         return None
-    target = entry + risk * 1.5
+    target = entry + risk * config.reward_risk
+    size = position_size_shares(entry, stop, capital, config.risk_per_trade_pct)
     return Signal(
         symbol=symbol,
         side='long',
@@ -66,5 +190,12 @@ def generate_signal(candles: List[Dict[str, Any]], symbol: str = "TEST") -> Opti
         stop_price=stop,
         target_price=target,
         risk_per_share=risk,
-        timestamp=str(cur.get('timestamp', ''))
+        timestamp=str(cur.get('timestamp', '')),
+        size_shares=size,
+        config_used={
+            "crash_pct_drop": config.crash_pct_drop,
+            "reward_risk": config.reward_risk,
+            "risk_per_trade_pct": config.risk_per_trade_pct,
+        },
+        signal_index=len(candles) - 1,
     )
