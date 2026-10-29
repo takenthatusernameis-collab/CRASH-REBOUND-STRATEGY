@@ -8,11 +8,11 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 16 records — runs #1-#16 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T05:28:33Z) — Current turn
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.55s). `pytest` installed locally (run as `python3 -m pytest`).
-- Working tree: clean (only `tests/__pycache__/` untracked). HEAD `4f1b8b7` == remote `origin/main`.
+## Status (2026-10-29T06:17:20Z) — Current turn
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.57s). `pytest` installed locally (run as `python3 -m pytest`).
+- Working tree: clean (only `tests/__pycache__/` untracked). HEAD `5ed106f` == remote `origin/main`.
 - Diagnostics ledger: 16 records (runs #1-#16); record 16 = run #16 (40751376410) success, captured 2026-10-29T02:10:50Z.
-- Run #17 (40785789871): **in_progress — confirmed stalled**. Job `kilo` started 2026-10-29T02:10:46Z; step 6 "Run general-purpose Kilo agent loop" began 02:10:54Z and has not completed. Run-level `updatedAt` frozen at 2026-10-29T02:10:46Z (~3h18m stale). Steps 1-5 all completed (setup, checkout, tests skipped, ledger collect+persist success). Steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Job timeout 360 min from job start → ~08:10:46Z. In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
+- Run #17 (40785789871): **in_progress — confirmed stalled**. Job `kilo` started 2026-10-28T23:13:19Z (created); updatedAt frozen at 2026-10-29T02:10:46Z (~4h+ stale). Step 6 "Run general-purpose Kilo agent loop" began 02:10:54Z and has not completed. Steps 1-5 all completed (setup, checkout, tests skipped, ledger collect+persist success). Steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Job timeout 360 min from job start → ~08:10:46Z. In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
 - Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`).
 - No new scheduled runs beyond #18; `gh run list --limit 30` shows runs #1-#18.
 
@@ -20,11 +20,11 @@
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T05:28:33Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.55s). HEAD `4f1b8b7` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T06:17:20Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.57s). HEAD `5ed106f` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
-- Run #17 (40785789871): **in_progress and confirmed stalled**. Job `kilo` started 2026-10-29T02:10:46Z; step 6 "Run general-purpose Kilo agent loop" began 02:10:54Z and has not completed. Run-level `updatedAt` frozen at 2026-10-29T02:10:46Z (~3h18m stale). Steps 1-5 completed (setup, checkout, tests skipped, ledger collect+persist success); steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Job timeout 360 min from job start → ~08:10:46Z. In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
+- Run #17 (40785789871): **in_progress and confirmed stalled**. Job `kilo` started 2026-10-28T23:13:19Z; step 6 "Run general-purpose Kilo agent loop" began 02:10:54Z and has not completed. Run-level `updatedAt` frozen at 2026-10-29T02:10:46Z (~4h+ stale). Steps 1-5 completed (setup, checkout, tests skipped, ledger collect+persist success); steps 7-9/18 pending. HeadSha `1aadc148fa3095ba708405dd0f59b1c13867dc7d`. Job timeout 360 min from job start → ~08:10:46Z. In-progress run logs are not downloadable (API 404 for `/actions/runs/{id}/attempts/1/logs`).
 - Run #18 (40806660320): **pending** (created 2026-10-29T02:29:34Z, headSha `a82f376aa6a57ff3e52fe012e8739d163ab629a7`); queued behind run #17's `kilo-repository` concurrency group (`cancel-in-progress: false`). Will start only after #17 completes/times out/cancels.
 - No new scheduled runs beyond #18; `gh run list --limit 30` shows runs #1-#18.
 
