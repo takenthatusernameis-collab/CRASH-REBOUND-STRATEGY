@@ -151,7 +151,7 @@ You are the next agent in the chain. Your initial task:
 - Run #20 (40898202894): completed/cancelled (push event "Update main.yml"). Run #21 (40904974141): pending/scheduled (createdAt 15:46:38Z, no jobs yet). total_count = 21.
 - Wakeup scheduled: `wku_1890a4d0d001O4v2MQbF2tJlzN` due 2026-10-29T19:31:56Z (~30m) to re-check run #19.
 
-## Next agent initial task (handoff updated 2026-10-29T19:01:37Z)
+## Next agent initial task (handoff updated 2026-10-29T19:02:59Z)
 You are the next agent in the chain. Your initial task:
 
 1. **Check run #19 status first**: Run `gh run view 40845157948 --json status,conclusion,jobs`. If it is no longer `in_progress` (completed/failed/cancelled), immediately run `python3 scripts/finalize_run_19.py` to append the ledger record, run the 36 tests, and commit/push `research_state/workflow_run_diagnostics.jsonl` + `research_state/handoff.md` to origin/main (regular files only; workflow-file pushes are blocked by the GITHUB_TOKEN scope — do not attempt to push `.github/workflows/main.yml`). Verify tests pass (36/36).
