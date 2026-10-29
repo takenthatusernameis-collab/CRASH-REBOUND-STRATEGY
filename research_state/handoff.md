@@ -58,19 +58,28 @@
 - Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152/23185) still polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
 - Cron wakeup scheduled for 2026-10-29T17:35Z (task wku_1889df2a9001Bv29WniUiqNA54) to re-check completion.
 
-## Status (2026-10-29T17:05Z)
-- Run #19 (40845157948): still in_progress (step 6 agent loop; job `kilo` 123488616287). 36/36 tests passing locally. Ledger 18 records (run #19 not yet recorded). HEAD 5defb4af on origin/main. Working tree clean except tests/__pycache__/.
-- Monitor process polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
-- Run #21 (40904974141): pending/scheduled. total_count = 21.
+## Status (2026-10-29T17:06Z)
+- Run #19 (40845157948): still in_progress (step 6 agent loop; job `kilo` 123488616287, started 13:50:39Z). 36/36 tests passing locally (verified `python3 -m pytest -q`). Ledger 18 records (run #19 not yet recorded). HEAD 822b20f on origin/main (local == remote). Working tree clean except tests/__pycache__/.
+- Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152, persistent) still polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
+- Run #20 (40898202894): cancelled. Run #21 (40904974141): pending/scheduled (createdAt 15:46:38Z). total_count = 21.
 
 ## Project context (from crash-rebound-strategy.pdf)
 The repository's actual subject is a **crypto trading vault strategy document** (Hyperliquid crash-rebound), not a software project. The PDF describes: buy liquid altcoins after a 21-hour RSI < 20 crash, hedge with ETH, sell at +9% or after 50 hours, short overshoots at -9% for up to 48 hours, 120% exposure cap, 8x hourly-range buy stop, 40% short stop. Backtest: +115%/yr on Hyperliquid (2025-12-20 to 2026-09-28), +34%/yr since 2020, worst drawdown -5.4% (Hyperliquid) / -24.8% (since 2020). The only code in this repo is the workflow/diagnostics scaffolding (controller_progress.py, monitor_run_19.py, tests). There is no trading implementation to build.
 
 ## Next agent initial task
-Run #19 (40845157948) remains in_progress as of 17:05Z. Continue watching via `scripts/monitor_run_19.py`; do not cancel run #19.
+Run #19 (40845157948) remains in_progress as of 17:06Z (step 6 agent loop; job `kilo` 123488616287, started 13:50:39Z, timeout ~19:50Z). Continue watching via `scripts/monitor_run_19.py` (persistent bgp `bgp_18895996d0015Z9d1UO7HTjzrm`, PID 23152, polling every 30s); do not cancel run #19.
 
 When the monitor observes completion (status != in_progress), it will: append run #19 record to `research_state/workflow_run_diagnostics.jsonl`, run `python3 -m pytest -q`, and print the result. Verify tests pass (36/36 expected). Then commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow-file changes blocked by token scope) and push to origin/main.
 
 Alternative single-shot path once run #19 is complete: `python3 scripts/finalize_run_19.py` performs the append + test + commit/push in one step.
 
-If run #19 hangs past the ~19:50Z timeout without failing, document the stall in this handoff — do not cancel/force-push/escalate without explicit user direction. Watch for new scheduled runs (#21 pending). Update this handoff with final status and next steps before handing off.
+If run #19 hangs past the ~19:50Z timeout without failing, document the stall in this handoff — do not cancel/force-push/escalate without explicit user direction. Watch for new scheduled runs (#21 pending at 40904974141). Update this handoff with final status and next steps before handing off.
+
+## Next agent initial task (handoff written 2026-10-29T17:06Z)
+You are the next agent in the chain. Your initial task:
+
+1. Check run #19 (40845157948) status via `gh run view 40845157948 --json status,conclusion,jobs`. If it is no longer `in_progress`, run `python3 scripts/finalize_run_19.py` to append the ledger record, run the 36 tests, and commit/push `research_state/workflow_run_diagnostics.jsonl` + `research_state/handoff.md` to origin/main (regular files only; workflow-file pushes are blocked by the GITHUB_TOKEN scope — do not attempt to push `.github/workflows/main.yml`).
+2. If run #19 is still `in_progress`, leave the persistent monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) running, update this handoff with the current status, and schedule a wakeup ~30 min out to re-check.
+3. Watch for run #21 (40904974141, scheduled/pending). If it starts and completes, append its record to the ledger and commit/push the ledger + handoff.
+4. Never cancel run #19 or force-push without explicit user direction. Document any stall past ~19:50Z in this handoff.
+5. When handing off, write a clear initial task message for the next agent in the "Next agent initial task (handoff written ...)" section below.
