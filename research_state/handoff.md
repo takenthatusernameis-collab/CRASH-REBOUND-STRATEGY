@@ -158,11 +158,18 @@ You are the next agent in the chain. Your initial task:
 - Run #20 (40898202894): completed/cancelled (push event "Update main.yml"). Run #21 (40904974141): pending/scheduled (createdAt 15:46:38Z, no jobs yet). total_count = 21.
 - Wakeup scheduled: `wku_1890ddedd001fkAxqeHTGSLwET` due 2026-10-29T19:35:50Z (~29m) to re-check run #19.
 
-## Next agent initial task (handoff updated 2026-10-29T19:06:30Z)
+## Status (2026-10-29T19:07:29Z)
+- Run #19 (40845157948): still **in_progress** — job `kilo` (123488616287), step 6 `Run general-purpose Kilo agent loop` in_progress since 13:50:43Z. Steps 1-5 success, 6 in_progress, 7-9,18 pending. Job timeout 360 min → ~19:50Z (~42m remaining). Verified via `gh run view`.
+- Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152, persistent) still running `scripts/monitor_run_19.py`, polling every 30s; no completion observed.
+- 36/36 tests passing locally (verified `python3 -m pytest -q`). Ledger has 18 records (runs #1-#18); run #19 not yet recorded. HEAD fdbb816 on origin/main (local == remote). Working tree clean except tests/__pycache__/ (untracked, ignore).
+- Run #20 (40898202894): completed/cancelled (push event "Update main.yml"). Run #21 (40904974141): pending (no jobs yet). total_count = 21.
+- Wakeup scheduled: due ~2026-10-29T19:37:29Z (~30m) to re-check run #19.
+
+## Next agent initial task (handoff updated 2026-10-29T19:07:29Z)
 You are the next agent in the chain. Your initial task:
 
 1. **Check run #19 status first**: Run `gh run view 40845157948 --json status,conclusion,jobs`. If it is no longer `in_progress` (completed/failed/cancelled), immediately run `python3 scripts/finalize_run_19.py` to append the ledger record, run the 36 tests, and commit/push `research_state/workflow_run_diagnostics.jsonl` + `research_state/handoff.md` to origin/main (regular files only; workflow-file pushes are blocked by the GITHUB_TOKEN scope — do not attempt to push `.github/workflows/main.yml`). Verify tests pass (36/36).
-2. **If still in_progress**: Run #19 (40845157948) job `kilo` (123488616287), step 6 `Run general-purpose Kilo agent loop` still in_progress since 13:50:43Z; job timeout ~19:50Z (~44m remaining). Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) still polling. Do NOT cancel run #19. Wakeup scheduled: `wku_1890ddedd001fkAxqeHTGSLwET` due 2026-10-29T19:35:50Z (~29m). If still running at wakeup, update this handoff with current timestamp/status and schedule another wakeup ~30 min out.
-3. **Watch for run #21** (40904974141, pending/scheduled, createdAt 15:46:38Z, no jobs yet). If it starts and completes while you're monitoring, append its record to the ledger following the same pattern as `finalize_run_19.py`/monitor logic and commit/push ledger + handoff. Note: `finalize_run_19.py` and `monitor_run_19.py` are hardcoded to RUN_ID 40845157948; to capture run #21 you must either edit those scripts to the new RUN_ID or write an analogous finalizer (e.g. `scripts/finalize_run_21.py`).
+2. **If still in_progress**: Run #19 (40845157948) job `kilo` (123488616287), step 6 `Run general-purpose Kilo agent loop` still in_progress since 13:50:43Z; job timeout ~19:50Z. Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) still polling. Do NOT cancel run #19. If still running, update this handoff with current timestamp/status and schedule another wakeup ~30 min out.
+3. **Watch for run #21** (40904974141, pending, no jobs yet). If it starts and completes while you're monitoring, append its record to the ledger following the same pattern as `finalize_run_19.py`/monitor logic and commit/push ledger + handoff. Note: `finalize_run_19.py` and `monitor_run_19.py` are hardcoded to RUN_ID 40845157948; to capture run #21 you must either edit those scripts to the new RUN_ID or write an analogous finalizer (e.g. `scripts/finalize_run_21.py`).
 4. **Constraints**: Never cancel run #19 or force-push without explicit user direction. If it stalls past ~19:50Z, document stall details in this handoff and do not cancel.
 5. **Handoff discipline**: Before ending your turn/session, update this "Next agent initial task" section with a clear timestamped task message for the next agent (replace this block). Include run status, monitor state, wakeups, and any new scheduled runs observed.
