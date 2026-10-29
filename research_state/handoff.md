@@ -8,26 +8,25 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T12:06:51Z)
+## Status (2026-10-29T12:07:47Z)
 - Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `6122ead` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (only untracked `tests/__pycache__/`).
-- CI check performed via `gh run view`: no new terminal completions since last handoff.
-- Run #18 (40806660320): **in_progress** — job `kilo` in step 6 `Run general-purpose Kilo agent loop` in_progress since 2026-10-29T08:01:10Z; 360-min job timeout ~14:01:02Z. Steps 7-9 pending. Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation. Do not cancel.
+- CI check performed via `gh run view` (40806660320): still **in_progress** — job `kilo` (123331043294) in step 6 `Run general-purpose Kilo agent loop` in_progress since 2026-10-29T08:01:10Z; steps 1-2,4-5 completed (3 skipped), 6 in_progress, 7-9,18 pending. 360-min job timeout ~14:01:02Z. Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation. Do not cancel.
 - Run #19 (40845157948): **pending** — scheduled 2026-10-29T08:51:18Z, no jobs yet. Not yet running.
 - total_count = 19.
 - Wakeup scheduled `wku_1878e524a001D0gF1SHE31ACbT` due 2026-10-29T13:01:53.765Z to re-check before timeout.
 
 ## Run status
 - Runs #1-#17: all completed and recorded in the ledger.
-- Run #18 (40806660320): **in_progress** — current activation; running inside step 6, started 08:01:10Z, timeout ~14:01:02Z. Steps 7-9 pending.
+- Run #18 (40806660320): **in_progress** — job `kilo` (123331043294), step 6 in_progress since 08:01:10Z, 360-min timeout ~14:01:02Z. Steps 1-2,4-5 success, 3 skipped, 6 in_progress, 7-9,18 pending.
 - Run #19 (40845157948): **pending** — scheduled 08:51:18Z, no jobs attached.
 - total_count = 19.
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T12:06:51Z):** 36/36 tests passing. HEAD `6122ead` on `origin/main` (local == remote). Diagnostics ledger has 17 records. Working tree clean.
+**Current state (2026-10-29T12:07:47Z):** 36/36 tests passing. HEAD `6122ead` on `origin/main` (local == remote). Diagnostics ledger has 17 records. Working tree clean.
 
 **Run status:**
-- Run #18 (40806660320): in_progress in step 6, started 08:01:10Z, 360-min timeout ~14:01:02Z — watch to completion; do not cancel.
+- Run #18 (40806660320): in_progress in job `kilo` (123331043294), step 6 in_progress since 08:01:10Z, 360-min timeout ~14:01:02Z — watch to completion; do not cancel.
 - Run #19 (40845157948): pending, scheduled 08:51:18Z — watch for it to start and complete.
 - Runs #1-#17 done and recorded.
 
