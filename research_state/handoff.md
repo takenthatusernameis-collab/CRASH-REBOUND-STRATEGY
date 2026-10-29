@@ -9,7 +9,7 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
 ## Status (2026-10-29T13:27:53Z)
-- Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `d15f4d0` on `origin/main` (local == remote). Diagnostics ledger has 17 records. Working tree clean (only untracked `tests/__pycache__/`). Run #18 still in_progress (step 6); run #19 still pending. No completions observed this pass.
+- Tests: 36/36 passing (`python3 -m pytest -q`). HEAD `aa8119b` on `origin/main` (local == remote). Diagnostics ledger has 17 records. Working tree clean (only untracked `tests/__pycache__/`). Run #18 still in_progress (step 6); run #19 still pending. No completions observed this pass.
 - CI check via `gh run view` (40806660320): **in_progress** — job `kilo` step 6 `Run general-purpose Kilo agent loop` in_progress since 08:01:10Z, 360-min timeout ~14:01:02Z (~33 min remaining). Terminal result will be collected by the workflow's `Inspect completed runs and update the diagnostics ledger` step on a later activation. Do not cancel.
 - Run #19 (40845157948): **pending** — scheduled 2026-10-29T08:51:18Z, no jobs yet. Not yet running.
 - total_count = 19.
@@ -22,7 +22,7 @@
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T13:27:53Z):** 36/36 tests passing. HEAD `d15f4d0` on `origin/main` (local == remote). Diagnostics ledger has 17 records. Working tree clean. Run #18 still in_progress (step 6); run #19 still pending. No completions observed this pass.
+**Current state (2026-10-29T13:27:53Z):** 36/36 tests passing. HEAD `aa8119b` on `origin/main` (local == remote). Diagnostics ledger has 17 records. Working tree clean. Run #18 still in_progress (step 6); run #19 still pending. No completions observed this pass.
 
 **Run status:**
 - Run #18 (40806660320): in_progress in job `kilo` (123331043294), step 6 in_progress since 08:01:10Z, 360-min timeout ~14:01:02Z (~33 min remaining) — watch to completion; do not cancel.
