@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-29T23:46:30Z
+**TIMESTAMP:** 2026-10-29T23:48:18Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean
@@ -18,7 +18,7 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - `research_state/backtest_smoke.json`: present with prior multi-symbol results.
 - Ledger: `research_state/workflow_run_diagnostics.jsonl` tracks runs.
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-29T23:46:30Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-29T23:48:18Z) — START HERE, NO DEFERRALS
 
 **PRIORITY 1 — HARDEN REBOUND-SHORT + MULTI-LEG ACCOUNTING (CORE TO "CRASH-REBOUND"):**
 Run `python3 -m pytest -q` first (must stay 53 green). Focus on making rebound-short behavior robust and testable:
