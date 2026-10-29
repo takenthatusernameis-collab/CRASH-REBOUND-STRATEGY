@@ -193,6 +193,28 @@ def generate_signal(
     else:
         target = entry + risk * config.reward_risk
     size = position_size_shares(entry, stop, capital, config.risk_per_trade_pct)
+    return Signal(
+        symbol=symbol,
+        side='long',
+        reason='crash_then_rebound',
+        entry_price=entry,
+        stop_price=stop,
+        target_price=target,
+        risk_per_share=risk,
+        timestamp=str(cur.get('timestamp', '')),
+        size_shares=size,
+        config_used={
+            "crash_pct_drop": config.crash_pct_drop,
+            "crash_lookback": config.crash_lookback,
+            "volume_spike_mult": config.volume_spike_mult,
+            "rebound_min_body_ratio": config.rebound_min_body_ratio,
+            "stop_atr_mult": config.stop_atr_mult,
+            "atr_period": config.atr_period,
+            "target_pct": config.target_pct,
+            "time_exit_max_bars": config.time_exit_max_bars,
+        },
+        signal_index=len(candles) - 1,
+    )
 def backtest_crash_rebound(
     candles: List[Dict[str, Any]],
     symbol: str = "TEST",
