@@ -9,7 +9,7 @@
 - Run #18 (40806660320): completed **success** at 2026-10-29T13:50:37Z; record appended to ledger.
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T15:04:46Z)
+## Status (2026-10-29T15:06:51Z)
 - Tests: 36/36 passing (verified). Diagnostics ledger has 18 records (runs #1-#18). Working tree clean (only tests/__pycache__/ untracked). HEAD 9ce0cb7 on origin/main (local == remote).
 - Run #19 (40845157948): **in_progress** — job `kilo` (123488616287), step 6 `Run general-purpose Kilo agent loop` in_progress since 13:50:43Z. Steps 1-5 success, 6 in_progress, 7-9,18 pending. Job timeout 360 min → ~19:50Z.
 - Monitor: `scripts/monitor_run_19.py` running as bgp_18831b67a001xYEDlxHFbLhrQG (PID 12183), polling every 30s. On completion it appends a record to the ledger and runs `python3 -m pytest -q`. Commit/push of ledger + handoff is a manual step (contents: write allowed; workflow changes blocked by token scope).
