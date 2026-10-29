@@ -1,15 +1,15 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-29T23:50:05Z
+**TIMESTAMP:** 2026-10-29T23:51:00Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean
+**TEST BASELINE:** 53 passed, 0 failed (`python3 -m pytest -q`)
 
 ## Purpose (from repo name)
 Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy liquid coins after a crash signal, exit at +9% target or 50h time exit, then open a rebound short; ATR(14)*8 safety stop; 120% gross cap with equal-share cuts; ETH hedge per leg. Spec resolved from `crash-rebound-strategy.pdf` into `research_state/strategy_spec.md`.
 
 ## Current verified state
-- Tests: **53 passed, 0 failed** (`python3 -m pytest -q`). Bottleneck fixed (generate_signal was missing return).
 - `strategy_spec.md`: resolved PDF rules (+9% target, time exits, ATR*8 stop, sizing, 120% cap, ETH hedge context).
 - `src/strategy/crash_rebound.py`: ATR-based stop wired; target uses `config.target_pct` (+9%) by default; `generate_signal` returns Signal correctly; `backtest_crash_rebound` convenience added.
 - `src/strategy/risk.py`: RiskState/DailyRiskState, gross cap `cut_positions_to_cap`, slippage/commission helpers, ATR.
@@ -18,31 +18,40 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - `research_state/backtest_smoke.json`: present with prior multi-symbol results.
 - Ledger: `research_state/workflow_run_diagnostics.jsonl` tracks runs.
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-29T23:50:05Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-29T23:51:00Z) — START HERE, NO DEFERRALS
 
-**PRIORITY 1 — HARDEN REBOUND-SHORT + MULTI-LEG ACCOUNTING (CORE TO "CRASH-REBOUND"):**
-Run `python3 -m pytest -q` first (must stay 53 green). Focus on making rebound-short behavior robust and testable:
-1. Ensure rebound-short uses correct side conventions for slippage/commission on entry (short entry) and cover (buy to close). Verify pnl math matches spec.
-2. Add/strengthen tests for target-hit -> short-open -> short-close paths (target -9%, time-exit 48h, stop case) with concrete fixtures.
-3. Make TradeResult/trades accounting unambiguous for multi-leg (r_multiple across both legs or clearly documented). Keep API compatible.
-4. Wire config flags (`enable_rebound_short`, `rebound_short_target_pct`, `rebound_short_time_exit_bars`) explicitly in tests.
+**MANDATORY FIRST STEP (BLOCKING):**
+1. `python3 -m pytest -q` — confirm 53 green. If anything regresses, fix before moving to campaign.
 
-**Why:** Repo name requires both legs. Current implementation exists but needs hardening/tests to prevent regressions as suite grows.
+**PRIORITY 1 — HARDEN CRASH→REBOUND PIPELINE (CORE TO REPO IDENTITY):**
+The repo name demands BOTH legs (long crash entry + rebound short). Treat this as non-negotiable:
+1. **Short math correctness:** Verify short entry uses correct side for slippage/commission; verify cover uses correct side. Add explicit unit tests for PnL on short entry/cover with known fills.
+2. **Multi-leg lifecycle:** Add tests for target-hit -> short-open -> close paths: (a) short hits -9% target, (b) 48h/time-exit, (c) stop hit. Assert `trades` contains both legs with correct direction/qty/pnl/r_multiple.
+3. **Config plumbing:** Explicitly exercise `enable_rebound_short`, `rebound_short_target_pct`, `rebound_short_time_exit_bars` in tests (do not leave untested).
+4. **Accounting clarity:** Make TradeResult/trades unambiguous for multi-leg (document or assert r_multiple across both legs). Keep API backward compatible.
 
-## NEXT SESSION FOCUS CAMPAIGN (heavy work — must complete in order)
-Run `python3 -m pytest -q` after every change; all tests must stay green. Grow suite toward 70+.
+**Why:** Both legs are the defining behavior. Strengthen before expanding scope.
 
-1. **[PRIORITY 1] Rebound-short hardening + tests** — Validate slippage/commission for short entry/cover, add multi-leg tests (target -9%, 48h time exit, stop). Ensure TradeResult.r_multiple and trades list correct.
-2. **[PRIORITY 2] 120% gross cap with equal-share cuts in multi-trade flow** — Wire `RiskState.cut_positions_to_cap` into engine/multi-symbol flow; when over capacity cut equally (never top up). Add multi-position cap test.
-3. **[PRIORITY 3] Align crash trigger to RSI(21h)<20** — Add RSI(21h)<20 trigger path (keep price-based as fallback/configurable). Update `strategy_spec.md` and add tests.
-4. **[PRIORITY 4] Expand multi-symbol backtests & fixtures** — Add more liquid-coin fixtures; run multi-symbol backtest; update `research_state/backtest_smoke.json`. Assert non-NO_TRADE produce results.
-5. **[PRIORITY 5] Grow test suite toward 70+** — Each item above must add tests; track count, all green.
+## NEXT SESSION FOCUS CAMPAIGN (HEAVY WORK — COMPLETE IN ORDER, NO SKIPPING)
+Run `python3 -m pytest -q` after EVERY change. All tests must stay green. Grow suite toward 70+ with concrete, behavior-asserting tests.
 
-## Verification gate for end of session
-- `python3 -m pytest -q` green (53+)
-- Campaign items progressed with tests added; suite count trending to 70+
-- This handoff updated with new timestamp and any newly blocked/unblocked items before session end
+1. **[P0] Rebound-short hardening + tests** (immediate) — Slippage/commission for short/cover, lifecycle tests above, config flags, multi-leg accounting. Target: +3-6 tests.
+2. **[P1] 120% gross cap with equal-share cuts in multi-trade flow** — Wire `RiskState.cut_positions_to_cap` through engine/multi-symbol path when combined gross > 120% of equity (equal-share reduction, never top-up). Add multi-position cap test with assertions on sizes/gross.
+3. **[P2] Align crash trigger to RSI(21h)<20** — Implement RSI(21h)<20 trigger path; keep existing price-based as fallback/configurable. Update `research_state/strategy_spec.md` to match. Add tests for RSI trigger firing and fallback.
+4. **[P3] Expand multi-symbol fixtures/backtests** — Add liquid-coin fixtures, run multi-symbol backtest, update `research_state/backtest_smoke.json` with new results; assert non-NO_TRADE symbols produce trades/legs.
+5. **[P4] Systematic suite growth to 70+** — For each item above add focused tests; track count explicitly. Prefer behavior tests over smoke-only assertions.
 
-## Do-not-escalate list
-- Do not cancel/force-push/escalate an in-progress run without explicit user direction.
+## BOTTLENECK REMOVAL RULES
+- If multiple items blocked, do P0 first (rebound-short) before cap/RSI/fixtures.
+- If engine and risk logic conflict on multi-leg, fix engine accounting first (tests will reveal). Do not paper over with skips.
+- Keep changes minimal and compatible; do not refactor unrelated modules.
+
+## VERIFICATION GATE (END OF SESSION — MANDATORY)
+- `python3 -m pytest -q` green with count >= 53 and trending to 70+ (record count in handoff if changed)
+- All campaign items touched have corresponding tests added/passing
+- Update this handoff: new timestamp, test count, what was done/blocked, and concrete next action for subsequent session
+- No uncommitted large experimental artifacts outside `research_state/*`, `src/*`, `tests/*`, `scripts/*`
+
+## DO-NOT-ESCALATE LIST
+- Do not cancel/force-push/escalate in-progress runs without explicit user direction.
 - Workflow-file changes remain blocked by GITHUB_TOKEN scope; commit/push only regular files (`research_state/*`, `src/*`, `tests/*`, `scripts/*`).
