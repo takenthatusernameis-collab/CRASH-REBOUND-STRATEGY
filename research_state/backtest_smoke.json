@@ -1,0 +1,9 @@
+{
+  "fixture": "make_fixture_crash_rebound",
+  "symbol": "SPY",
+  "signal_generated": true,
+  "exit_reason": "target",
+  "pnl": 1.875,
+  "r_multiple": 1.5,
+  "timestamp": "2026-10-29T19:45:00Z"
+}
