@@ -57,12 +57,14 @@ def backtest_simple(
     # Risk gate before entry: max positions and daily-loss halt.
     if risk_state is not None:
         entry_date = str(candles[start_idx].get('timestamp', ''))
-        check = risk_state.check_position(config, capital, shares)
+        check = risk_state.check_position(config, capital, shares, entry_px)
         if not check.allowed:
             return TradeResult(
                 pnl=0.0, r_multiple=0.0, exit_reason='blocked',
                 entry_price=entry, exit_price=entry, shares=0.0, bars_held=0,
             )
+        if check.approved_size > 0:
+            shares = check.approved_size
         risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False)
 
     # Look-ahead guard: only inspect candles at or after the entry point.

@@ -36,7 +36,7 @@ class RiskState:
         config: StrategyConfig,
         capital: float,
         size_shares: float,
-        entry_price: float,
+        entry_price: float = 0.0,
     ) -> RiskCheck:
         if self.daily_loss_limit_hit:
             return RiskCheck(False, "daily_loss_limit_hit", 0.0)

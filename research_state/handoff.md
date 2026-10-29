@@ -1,6 +1,6 @@
 # Durable Handoff (SINGLE SOURCE OF TRUTH)
 
-**TIMESTAMP:** 2026-10-29T20:44:00Z
+**TIMESTAMP:** 2026-10-29T20:55:04Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **PRIORITY:** HEAVY EXECUTION OF CRASH-REBOUND STRATEGY (diagnostics support only)
 
@@ -16,7 +16,7 @@
 - **NEVER cancel run #21** — `gh run cancel` returns 403 (insufficient scope). Do not force-push. Only push regular files (`research_state/*`, `src/*`, `tests/*`, `scripts/*`).
 - **Tool-shape guard:** `kilo_edit_tool_invalid_arguments` is known (aborts after 3 consecutive invalid edits). Always supply complete `filePath`/`oldString`/`newString`. Verify with `Read`/`grep` before re-editing. Never repeat a malformed edit 3x.
 - **Tests must stay green.** Run `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python3 -m pytest -q` before ending turn.
-- **PDF bottleneck:** `crash-rebound-strategy.pdf` is image-heavy/rendered; simple text extraction fails. Try `pdftotext`, `pdfinfo`/`poppler-utils`, or `pymupdf`/`fitz` OCR-like parsing. Do not get stuck — mark parameters **"Resolved (from PDF)"** vs **"Assumed (inferred)"** and keep implementing with assumptions flagged.
+- **Bottleneck removed:** `check_position` signature mismatch fixed (engine passes `entry_px`; `entry_price` optional; `approved_size` honored). Tests 51/51 green.
 
 ## IMMEDIATE INITIAL TASK (EXECUTE IN ORDER — NO IDLE-WATCHING)
 
