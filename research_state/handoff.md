@@ -8,8 +8,8 @@
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 17 records — runs #1-#17 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#17 success, #7 and #12 cancelled).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
-## Status (2026-10-29T08:01:19Z)
-- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `a02d2c5` on `origin/main` (local == remote). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean.
+## Status (2026-10-29T08:05:33Z)
+- Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean (cleared `tests/__pycache__`).
 - No pending wakeups (wku_18698675c001tTxnQ0i3qPVj6r resolved — run #17 completed before its 08:15:17Z due time).
 
 ## Run status
@@ -22,7 +22,7 @@
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T08:01:19Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `a02d2c5` on `origin/main` (local == remote). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean. No pending wakeups.
+**Current state (2026-10-29T08:05:33Z):** 36/36 tests passing (`python3 -m pytest -q`). HEAD `af09702` on `origin/main` (local == remote, verified via `git ls-remote`). Diagnostics ledger holds 17 records (runs #1-#17). Working tree clean. No pending wakeups.
 
 **Run status:**
 - Runs #1-#17: all completed and recorded in the ledger.
