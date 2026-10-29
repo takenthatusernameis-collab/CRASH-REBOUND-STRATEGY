@@ -28,9 +28,9 @@
 ## Status (2026-10-29T16:06Z)
 - Run #19 (40845157948): still in_progress (step 6 agent loop). 36/36 tests passing. Ledger 18 records. HEAD ed3543f on origin/main. Monitor restarted (bgp_1886af829001w4FfreHnXMkdK9, PID 19475) polling every 30s; job timeout ~19:50Z. Do not cancel.
 
-## Status (2026-10-29T16:08Z)
+## Status (2026-10-29T16:09Z)
 - Run #19 (40845157948): still in_progress (step 6 agent loop). 36/36 tests passing. Ledger 18 records. HEAD ed3543f on origin/main.
-- Monitor restarted (bgp_1886bc762001nveABXQWTSuhxU, PID 19826) polling every 30s; job timeout ~19:50Z. Do not cancel.
+- Monitor restarted (bgp_1886c3e2d001ssV6p5jW1QKTf1, PID 20169) polling every 30s; job timeout ~19:50Z. Do not cancel.
 
 ## Next agent initial task
-Run #19 still in_progress as of 16:08Z. Continue monitoring via `scripts/monitor_run_19.py` (polling every 30s, job timeout ~19:50Z). Do not cancel. Watch for new scheduled runs (#20+). On completion the monitor auto-appends to `research_state/workflow_run_diagnostics.jsonl` and runs `python3 -m pytest -q`. After completion: verify tests pass (36/36 expected), commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow changes blocked by token scope), push to origin/main. If run #19 hangs past timeout (~19:50Z) without failing, document stall — do not cancel/force-push/escalate without explicit user direction. Update this handoff with final status and next steps before handing off.
+Run #19 still in_progress as of 16:09Z. Continue monitoring via `scripts/monitor_run_19.py` (polling every 30s, job timeout ~19:50Z). Do not cancel. Watch for new scheduled runs (#20+). On completion the monitor auto-appends to `research_state/workflow_run_diagnostics.jsonl` and runs `python3 -m pytest -q`. After completion: verify tests pass (36/36 expected), commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow changes blocked by token scope), push to origin/main. If run #19 hangs past timeout (~19:50Z) without failing, document stall — do not cancel/force-push/escalate without explicit user direction. Update this handoff with final status and next steps before handing off.
