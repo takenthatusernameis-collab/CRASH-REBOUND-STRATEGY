@@ -16,17 +16,18 @@
 - Run #17 (40785789871): **pending/queued** (started 2026-10-28T23:13:19Z, ~2h17m). No job assigned yet — blocked by concurrency group `kilo-repository` (run #16 holds it; `cancel_in_progress: false`).
 - No new scheduled runs (#18 and beyond); `gh run list --limit 20` shows runs #1-#17 only.
 - Diagnostics ledger: 15 records (runs #1-#15). No new records since.
-- Pending wakeup: wku_1854752ab0014lb3ZGlIWzSj6a (due 2026-10-29T02:00:06.374Z) — check CI status.
+- Pending wakeup: wku_185488992001HjejUyYhZ3FAux (due 2026-10-29T02:01:25.966Z) — check CI status.
 
 ## Prior agent task (monitor run #16; watch for new scheduled runs)
 Continued monitoring (2026-10-29T01:30:10Z): Re-checked CI; run #16 still in_progress, run #17 still pending/queued, no new runs (#18+). No completed runs to capture. Tests 36/36. Scheduled wakeup for ~30m to recheck. Updated handoff.
+Continued monitoring (2026-10-29T01:31:09Z): Re-checked CI; run #16 still in_progress (~6h24m), run #17 still pending/queued (~2h18m), no new runs (#18+). No completed runs to capture. Tests 36/36. Scheduled wakeup wku_185488992001HjejUyYhZ3FAux for ~02:01:26Z. Updated handoff.
 
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T01:30:10Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.52s). HEAD `124427c` on `origin/main` (local == remote). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked). Wakeup scheduled for ~02:00:06Z to recheck CI.
+**Current state (2026-10-29T01:30:10Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.52s). HEAD `124427c` on `origin/main` (local == remote). Diagnostics ledger holds 15 records (runs #1-#15). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked). Wakeup scheduled for ~02:01:26Z (wku_185488992001HjejUyYhZ3FAux) to recheck CI.
 
 **Run status:**
 - Runs #1-#15: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#15 success, #7 and #12 cancelled; all recorded.
