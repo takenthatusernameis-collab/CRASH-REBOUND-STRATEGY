@@ -179,3 +179,42 @@ def test_backtest_respects_time_exit_max_bars():
     res = backtest_simple(candles, sig, config=config)
     assert res.exit_reason == 'time_exit'
     assert res.bars_held == 3
+
+
+def test_atr_stop_produces_stopped_outcome():
+    from src.strategy.config import StrategyConfig
+    from src.strategy.crash_rebound import generate_signal
+    from src.backtest.engine import backtest_simple
+    from src.strategy import crash_rebound
+    # Build so that signal is generated on candle at index 2, and candle at index 3 breaches stop
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
+        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 3000},  # rebound/signal
+    ]
+    config = StrategyConfig(stop_atr_mult=1.0, atr_period=2, time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False)
+    sig = generate_signal(candles, config=config)
+    assert sig is not None
+    # Add a candle after that breaches the stop
+    candles2 = list(candles) + [{"timestamp": "2025-01-01T09:33:00", "open": 98.0, "high": 98.1, "low": 80.0, "close": 90.0, "volume": 1000}]
+    res = backtest_simple(candles2, sig, config=config)
+    assert res.exit_reason == 'stopped'
+
+def test_multi_symbol_fixtures_backtest():
+    from src.data.loader import make_fixture_crash_rebound_multi
+    from src.strategy.crash_rebound import generate_signal
+    from src.backtest.engine import backtest_simple
+    from src.strategy.config import DEFAULT_CONFIG
+    fixtures = make_fixture_crash_rebound_multi()
+    results = {}
+    for sym, candles in fixtures.items():
+        if sym == 'NO_TRADE':
+            sig = generate_signal(candles, symbol=sym)
+            assert sig is None
+            continue
+        sig = generate_signal(candles, symbol=sym)
+        assert sig is not None
+        res = backtest_simple(candles, sig, config=DEFAULT_CONFIG)
+        results[sym] = {'pnl': res.pnl, 'exit_reason': res.exit_reason}
+    # At least SPY/QQQ/IWM produce results
+    assert set(['SPY', 'QQQ', 'IWM']).issubset(results.keys())

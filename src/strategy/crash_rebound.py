@@ -1,7 +1,11 @@
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
+from dataclasses import dataclass
+from typing import List, Dict, Any, Optional
+
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
+from src.strategy.risk import atr, safety_stop_price
 
 
 @dataclass
@@ -176,11 +180,20 @@ def generate_signal(
     low = _low(cur)
     if entry is None or low is None or entry <= 0:
         return None
-    stop = low * 0.999
+    # ATR-based stop per PDF (8x ATR(14)); fallback to low*0.999 if ATR unavailable
+    atr_value = atr(candles, period=config.atr_period)
+    if atr_value is not None and atr_value > 0:
+        stop = safety_stop_price(entry, atr_value, config.stop_atr_mult, side='long')
+    else:
+        stop = low * 0.999
     risk = entry - stop
     if risk <= 0:
         return None
-    target = entry + risk * config.reward_risk
+    # Target: prefer explicit target_pct (+9%) if set, else risk*reward_risk
+    if getattr(config, 'target_pct', None) is not None and config.target_pct > 0:
+        target = entry * (1.0 + config.target_pct / 100.0)
+    else:
+        target = entry + risk * config.reward_risk
     size = position_size_shares(entry, stop, capital, config.risk_per_trade_pct)
     return Signal(
         symbol=symbol,
