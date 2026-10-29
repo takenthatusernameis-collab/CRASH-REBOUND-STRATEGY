@@ -7,6 +7,7 @@
 - `.github/workflows/main.yml` runs all four test files; all exist and pass locally.
 - Diagnostics ledger (`research_state/workflow_run_diagnostics.jsonl`): 18 records — runs #1-#18 all captured (#1 failure remediated, #2-#6/#8-#11/#13-#18 success, #7 and #12 cancelled).
 - Run #18 (40806660320): completed **success** at 2026-10-29T13:50:37Z; record appended to ledger.
+- `scripts/finalize_run_19.py` added: one-shot finalizer that fetches run #19 job metadata, appends the ledger record, runs `python3 -m pytest -q`, and commits/pushes ledger + handoff (regular files only).
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 
 ## Status (2026-10-29T15:56:00Z)
