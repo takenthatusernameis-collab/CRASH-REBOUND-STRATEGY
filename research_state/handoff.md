@@ -42,8 +42,13 @@
 - Run #19 (40845157948): in_progress — job `kilo` (123488616287), step 6 in_progress since 13:50:43Z — watch to completion; do not cancel.
 - total_count = 19.
 
+## Status (2026-10-29T16:55Z)
+- Run #19 (40845157948): still in_progress (step 6 agent loop; job `kilo` 123488616287). 36/36 tests passing locally. Ledger 18 records (run #19 not yet recorded). HEAD ed3543f on origin/main, working tree clean except tests/__pycache__/.
+- New pending run 40904974141 (scheduled) observed; total_count now 20. Run #20 (40898202894) cancelled.
+- Monitor `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152) still polling every 30s; job timeout ~19:50Z. Do not cancel run #19.
+
 ## Next agent initial task
-Run #19 (40845157948) is still in_progress as of 16:53Z. The monitor `scripts/monitor_run_19.py` is running as persistent background process `bgp_18895996d0015Z9d1UO7HTjzrm` (PID 23152), polling every 30s until run #19 completes or the ~19:50Z job timeout. Do not cancel run #19.
+Run #19 (40845157948) remains in_progress as of 16:55Z. Continue watching via `scripts/monitor_run_19.py` (persistent bgp `bgp_18895996d0015Z9d1UO7HTjzrm`, PID 23152); do not cancel run #19.
 
 When the monitor observes completion (status != in_progress), it will: append run #19 record to `research_state/workflow_run_diagnostics.jsonl`, run `python3 -m pytest -q`, and print the result. Verify tests pass (36/36 expected). Then commit `research_state/workflow_run_diagnostics.jsonl` and `research_state/handoff.md` (regular files only; `contents: write` allowed, workflow-file changes blocked by token scope) and push to origin/main.
 
