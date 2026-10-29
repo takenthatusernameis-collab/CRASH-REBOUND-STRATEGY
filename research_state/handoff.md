@@ -9,11 +9,11 @@
 - Push gate: `git push origin main` previously rejected for workflow-file changes due to `GITHUB_TOKEN` lacking `workflows` permission. Cancel gate: `gh run cancel <id>` rejected HTTP 403 — `actions: read` scope prevents run cancellation too. Regular `contents: write` pushes (e.g. `research_state/handoff.md`) are permitted.
 - CI re-check at 2026-10-29T01:37:44Z: run #16 still in_progress (~6h31m), run #17 still pending/queued (~2h24m), no new runs (#18+). Tests re-verified 36/36. Handoff updated.
 
-## Status (2026-10-29T02:13:50Z) — Current turn
+## Status (2026-10-29T02:18:47Z) — Current turn
 - Tests: 36/36 passing (`python3 -m pytest -q` → 36 passed in 0.56s). `pytest` installed locally (run as `python3 -m pytest`).
 - Working tree: clean (only `tests/__pycache__/` untracked). HEAD `94770fe`; remote `origin/main` at `94770fe` (local == remote).
 - Run #16 (40751376410): completed success (7h3m39s). Captured in diagnostics ledger (record 16).
-- Run #17 (40785789871): **in_progress** (started 2026-10-28T23:13:19Z, updatedAt 2026-10-29T02:10:46Z, now ~3h0m). Still running after #16 released the `kilo-repository` concurrency group.
+- Run #17 (40785789871): **in_progress** (started 2026-10-28T23:13:19Z, updatedAt 2026-10-29T02:10:46Z, now ~3h5m). Still running after #16 released the `kilo-repository` concurrency group.
 - No new scheduled runs (#18 and beyond); `gh run list --limit 20` shows runs #1-#17 only.
 - Diagnostics ledger: 16 records (runs #1-#16). No new records since #16 capture.
 
@@ -21,17 +21,17 @@
 Completed (2026-10-29T02:11:10Z): Re-checked CI; run #16 completed success (7h3m39s) and was captured in ledger (record 16). Run #17 now in_progress (~2h58m). No new runs (#18+). Tests 36/36. Updated handoff.
 
 ## Prior agent task (monitor run #17; watch for new scheduled runs)
-In progress (2026-10-29T02:13:50Z): Re-checked CI at turn start. Run #17 (40785789871) still `in_progress` (updatedAt 2026-10-29T02:10:46Z, ~3h0m elapsed). No new runs (#18+). Tests re-verified 36/36. Handoff updated; nothing to commit (no new diagnostics record yet).
+In progress (2026-10-29T02:18:47Z): Re-checked CI at turn start. Run #17 (40785789871) still `in_progress` (updatedAt 2026-10-29T02:10:46Z, ~3h5m elapsed). `gh run watch` confirms job `kilo` still running (steps: checkout/inspect/commit done; "Run general-purpose Kilo agent loop" in progress). No new runs (#18+). Tests re-verified 36/36. Handoff updated.
 
 ## Initial Task Message for Next Agent
 
 Hello — resume CRASH-REBOUND-STRATEGY from this durable handoff.
 
-**Current state (2026-10-29T02:13:50Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.56s). HEAD `94770fe` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
+**Current state (2026-10-29T02:18:47Z):** 36/36 tests passing (`python3 -m pytest -q` → 36 passed in 0.56s). HEAD `94770fe` on `origin/main` (local == remote). Diagnostics ledger holds 16 records (runs #1-#16). `pytest` installed locally (run as `python3 -m pytest`). Working tree clean (only `tests/__pycache__/` untracked).
 
 **Run status:**
 - Runs #1-#16: all completed; #1 failure remediated, #2-#6/#8-#11/#13-#16 success, #7 and #12 cancelled; all recorded.
-- Run #17 (40785789871): **in_progress** (started 2026-10-28T23:13:19Z, updatedAt 2026-10-29T02:10:46Z, now ~3h0m). Still running after #16 released the `kilo-repository` concurrency group.
+- Run #17 (40785789871): **in_progress** (started 2026-10-28T23:13:19Z, updatedAt 2026-10-29T02:10:46Z, now ~3h5m). Job `kilo` still running ("Run general-purpose Kilo agent loop" in progress). Still running after #16 released the `kilo-repository` concurrency group.
 - No new scheduled runs (#18 and beyond) have appeared; `gh run list --limit 20` shows runs #1-#17 only.
 
 **Your task:** Continue monitoring CI (`gh run list`). Watch run #17 to completion; watch for new scheduled runs (#18 and beyond) as they appear.
