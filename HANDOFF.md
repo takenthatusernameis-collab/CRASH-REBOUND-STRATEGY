@@ -1,9 +1,9 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T09:39:09Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T09:42:24Z
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-10-30T09:39:09Z | PDF-SPEC FIDELITY CAMPAIGN | RSI(21) PRIMARY TRIGGER + ETH HEDGE + VOLUME-BASED SIZING | NO COASTING`
+> `CRASH-REBOUND-STRATEGY | 2026-10-30T09:42:24Z | PDF-SPEC FIDELITY CAMPAIGN | RSI(21) PRIMARY TRIGGER + ETH HEDGE ON EVERY LEG + VOLUME-BASED SIZING DEFAULT ON | NO COASTING`
 
-SESSION SNAPSHOT: 2026-10-30T09:39:09Z — Baseline VERIFIED GREEN.
+SESSION SNAPSHOT: 2026-10-30T09:42:24Z — Baseline VERIFIED GREEN.
 - `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` → **78 passed, 0 failed**
 - `scripts/run_backtest.py` → clean per-trade breakdown (signal detected, trade executed)
 - `scripts/run_portfolio.py` → multi-position sim (3 trades, gross exposure under cap)
@@ -19,14 +19,15 @@ Single durable handoff is this file only. `research_state/handoff.md` retired/su
 - **INFER, DON'T ASK:** No explicit directions? Execute the campaign below. No exploratory Q&A loops. Build and validate.
 - **AVOID IDLE POLLING:** If waiting on CI/data, schedule with `schedule_wakeup`/`cron_create` in goal context; don't poll in shell.
 - **HEAVY WORK REQUIRED:** Future agents must not avoid heavy work. Every session must make material progress toward campaign goals.
+- **NO COASTING:** Idle sessions are bottlenecks. If blocked on data/CI, schedule a wakeup and switch to the next independent campaign item.
 
 ## CRITICAL CONTEXT (SOURCE OF TRUTH)
 - **Spec:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md` (PDF is truth)
 - **Core:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/loader.py`
 - **Scripts:** `scripts/run_backtest.py`, `scripts/run_portfolio.py`, `scripts/run_campaign.py`
-- **State:** RSI trigger (RSI<20) default enabled; drop-based via `use_rsi_trigger=False`. Both legs always functional (long crash + rebound short). ETH hedge with vol-ratio sizing (capped 3x), funding applied across all legs. Volume-based sizing wired (1.25% of 24h vol). Gross cap 120% enforced with **equal-share cuts across ALL positions (old + new)** via `RiskState.apply_cap_cuts()`. Hourly liquidation checks at worst price with penalty. **>= $5M daily volume filter enforced on all trigger paths**.
+- **State:** RSI trigger (RSI<20) default enabled; drop-based via `use_rsi_trigger=False`. Both legs always functional (long crash + rebound short). ETH hedge with vol-ratio sizing (capped 3x), funding applied across all legs. Volume-based sizing wired (1.25% of 24h vol) but **`enable_volume_based_sizing=False` default** — THIS IS A BOTTLENECK TO REMOVE. Gross cap 120% enforced with **equal-share cuts across ALL positions (old + new)** via `RiskState.apply_cap_cuts()`. Hourly liquidation checks at worst price with penalty. **>= $5M daily volume filter enforced on all trigger paths**.
 - **Test window:** 2025-12-20 to 2026-09-28 (283 days)
-- **Known gaps vs PDF spec** (see `research_state/gap_analysis.md`): crash trigger primarily price-drop (RSI variant exists but not default), ETH hedge wired but `enable_eth_hedge=True` default, volume-based sizing exists but `enable_volume_based_sizing=False` default, hourly funding/liquidation modeled in engine.
+- **Known gaps vs PDF spec** (see `research_state/gap_analysis.md`): crash trigger primarily price-drop in campaign scripts (RSI variant exists but config default True not exercised in `run_campaign.py`), ETH hedge wired but `enable_eth_hedge=True` default not consistently exercised end-to-end, volume-based sizing exists but **`enable_volume_based_sizing=False` default** (must flip to True), hourly funding/liquidation modeled in engine.
 
 ## COMPLETED (HEAVY WORK DELIVERED)
 - [x] Hyperliquid data loader (`load_hyperliquid_candles`, `load_multi_coin_data`, validation with gaps/non-finite/look-ahead, caching, universe filtering)
@@ -36,7 +37,7 @@ Single durable handoff is this file only. `research_state/handoff.md` retired/su
 - [x] Volume filters hardened (>= $5M across all trigger paths)
 - [x] Funding across all legs, hourly liquidation checks, detailed reporting
 - [x] All 78 tests passing (42 original + 36 additional)
-- [x] Baseline verified green at 2026-10-30T09:38:34Z
+- [x] Baseline verified green at 2026-10-30T09:41:17Z
 
 ## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, EXECUTE FULLY)
 **PRIORITIZED BY REPO NAME (CRASH-REBOUND-STRATEGY) — crash-rebound strategy fidelity to the PDF spec is the #1 priority.**
@@ -45,15 +46,15 @@ Execute this campaign to completion. Do not skip items. Every item requires impl
 
 ### CAMPAIGN OBJECTIVES (PRIORITIZED BY IMPACT / REPO NAME)
 
-1. **CRASH TRIGGER ALIGNMENT TO PDF SPEC (PRIMARY - REPO NAME)** - Make 21-hour RSI < 20 the primary/default crash trigger per `research_state/strategy_spec.md` on coins with >=$5M daily volume; keep price-drop as an explicit fallback variant via `use_rsi_trigger=False`. Ensure `generate_signal()` defaults to the RSI path and both legs (long crash + rebound short) remain functional. Do not break existing passing tests.
+1. **CRASH TRIGGER ALIGNMENT TO PDF SPEC (PRIMARY - REPO NAME)** - Make 21-hour RSI < 20 the primary/default crash trigger per `research_state/strategy_spec.md` on coins with >=$5M daily volume; keep price-drop as an explicit fallback variant via `use_rsi_trigger=False`. Ensure `generate_signal()` defaults to the RSI path and both legs (long crash + rebound short) remain functional. **Update `scripts/run_campaign.py` to use `use_rsi_trigger=True`** (currently uses drop-based). Do not break existing passing tests.
 
-2. **ETH HEDGE ON EVERY LEG (PRIMARY)** - Harden `compute_eth_hedge_size()` vol-ratio sizing capped at 3x per spec; enforce ETH hedge on the long crash leg AND the rebound short leg (long hedge) across all trigger paths; add boundary test at the 3x cap; confirm funding signs correct on every leg (long pays, short receives).
+2. **ETH HEDGE ON EVERY LEG (PRIMARY)** - Harden `compute_eth_hedge_size()` vol-ratio sizing capped at 3x per spec; enforce ETH hedge on the long crash leg AND the rebound short leg (long hedge) across all trigger paths; add boundary test at the 3x cap; confirm funding signs correct on every leg (long pays, short receives). Verify `run_campaign.py`/`run_portfolio.py` exercise ETH hedge end-to-end.
 
-3. **VOLUME-BASED POSITION SIZING + EQUAL-SHARE CUTS (PRIMARY)** - Switch default to `enable_volume_based_sizing=True` at 1.25% of 24h volume (`position_size_pct_of_daily_volume`). When gross cap (120%) is breached, cut ALL positions (old + new) proportionally via `RiskState.apply_cap_cuts()` — never top-up. 1 position per coin.
+3. **VOLUME-BASED POSITION SIZING + EQUAL-SHARE CUTS (PRIMARY)** - Switch default to `enable_volume_based_sizing=True` at 1.25% of 24h volume (`position_size_pct_of_daily_volume`) in `src/strategy/config.py`. **Update `scripts/run_campaign.py` to set `enable_volume_based_sizing=True`.** When gross cap (120%) is breached, cut ALL positions (old + new) proportionally via `RiskState.apply_cap_cuts()` — never top-up. 1 position per coin.
 
 4. **UNIVERSE / VOLUME FILTER EVERYWHERE (PRIMARY)** - Enforce >=$5M daily volume filter on ALL trigger paths (RSI-based and drop-based) and in campaign/universe selection (`filter_universe`, `passes_universe_filter`, `detect_crash`, `detect_crash_rsi`).
 
-5. **STRESS/PROPERTY TESTS (CRITICAL)** - Create `tests/test_stress_campaign.py` with comprehensive tests: cap enforcement with equal-share cuts across old+new positions, funding signs across all legs, liquidation edge cases (boundary prices, multiple liquidations), non-finite serialization, volume filter enforcement, concurrent position ordering. Target >= 85 total passing tests.
+5. **STRESS/PROPERTY TESTS (CRITICAL)** - Create `tests/test_stress_campaign.py` with comprehensive tests: cap enforcement with equal-share cuts across old+new positions, funding signs across all legs, liquidation edge cases (boundary prices, multiple liquidations), non-finite serialization, volume filter enforcement, concurrent position ordering, ETH hedge 3x cap boundary. Target >= 85 total passing tests (currently 78; add >= 7 new stress tests).
 
 6. **END-TO-END CAMPAIGN RUN + METRICS SUITE (CRITICAL)** - Run full campaign on realistic data for the test window (2025-12-20 to 2026-09-28, 283 days). Extend campaign reports with Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Export to JSON + CSV (`research_state/campaign_metrics.json`, `research_state/campaign_metrics.csv`). Fix any issues found; validate scripts run cleanly; all tests green (>=85).
 
@@ -67,12 +68,12 @@ Execute this campaign to completion. Do not skip items. Every item requires impl
 - **Update handoff at end**: Leave timestamped results + next concrete heavy task.
 
 ## SUCCESS CRITERIA
-- [ ] RSI(21)<20 primary crash trigger with price-drop fallback; both legs functional; tests green
-- [ ] ETH hedge on every leg, vol-ratio capped at 3x (boundary tested), funding signs correct
-- [ ] Volume-based sizing default on (1.25% of 24h vol); equal-share cuts across old+new on cap breach
+- [ ] RSI(21)<20 primary crash trigger with price-drop fallback; both legs functional; `run_campaign.py` uses `use_rsi_trigger=True`; tests green
+- [ ] ETH hedge on every leg, vol-ratio capped at 3x (boundary tested), funding signs correct on long + short legs
+- [ ] Volume-based sizing default ON (`enable_volume_based_sizing=True`) at 1.25% of 24h vol; `run_campaign.py` sets it True; equal-share cuts across old+new on cap breach
 - [ ] >= $5M volume filter on all trigger paths + campaign/universe selection
 - [ ] Stress/property tests added (`tests/test_stress_campaign.py`) and passing (>=85 total)
-- [ ] End-to-end campaign run with metrics suite exported to JSON+CSV
+- [ ] End-to-end campaign run with metrics suite exported to JSON+CSV (`campaign_metrics.json`, `campaign_metrics.csv`)
 - [ ] All tests green (>=85)
 - [ ] HANDOFF.md updated with timestamped completion notes + next heavy task
 
@@ -84,4 +85,4 @@ Execute this campaign to completion. Do not skip items. Every item requires impl
 - **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable
 - **HEAVY WORK REQUIRED** - No coasting
 
-(END OF DURABLE HANDOFF - 2026-10-30T09:39:09Z)
+(END OF DURABLE HANDOFF - 2026-10-30T09:42:24Z)
