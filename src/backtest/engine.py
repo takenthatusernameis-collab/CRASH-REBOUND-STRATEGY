@@ -65,8 +65,8 @@ def backtest_simple(
                 pnl=0.0, r_multiple=0.0, exit_reason='blocked',
                 entry_price=entry, exit_price=entry, shares=0.0, bars_held=0,
             )
-        if check.approved_size > 0:
-            shares = check.approved_size
+        if check.size_shares > 0:
+            shares = check.size_shares
         risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False)
 
     trades_log = []

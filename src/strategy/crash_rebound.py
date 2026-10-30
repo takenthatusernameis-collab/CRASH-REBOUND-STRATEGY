@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
-from src.strategy.risk import atr, safety_stop_price
+from src.strategy.risk import atr, safety_stop_price, size_by_risk
 
 
 def _realized_vol(candles: List[Dict[str, Any]], period: int = 336) -> Optional[float]:
@@ -292,7 +292,7 @@ def generate_signal(
         target = entry * (1.0 + config.target_pct / 100.0)
     else:
         target = entry + risk * config.reward_risk
-    size = position_size_shares(entry, stop, capital, config.risk_per_trade_pct)
+    size = size_by_risk(entry, stop, capital, config.risk_per_trade_pct)
     return Signal(
         symbol=symbol,
         side='long',

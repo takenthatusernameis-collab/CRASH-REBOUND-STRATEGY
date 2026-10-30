@@ -27,6 +27,12 @@ class StrategyConfig:
     rebound_lookback: int = 3
     rebound_min_body_ratio: float = 0.5  # close must be in upper half of range
 
+    # Risk / sizing
+    risk_per_trade_pct: float = 1.0      # % of capital risked per trade (fallback sizing)
+    max_positions: int = 5               # max open positions
+    max_daily_loss_pct: float = 3.0      # daily loss halt (%)
+    gross_cap_pct: float = 120.0         # 120% gross cap per spec
+
     # Entry
     entry_next_bar: bool = True        # enter on next bar open (avoid look-ahead)
     entry_limit_offset_pct: float = 0.0  # limit offset from entry price
