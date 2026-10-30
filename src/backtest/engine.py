@@ -115,27 +115,30 @@ def backtest_simple(
             shares = check.size_shares
         # Track notional
         notional = entry_px * shares if entry_px > 0 and shares > 0 else 0.0
-        # Apply gross cap with equal-share cuts if needed
+        # Apply gross cap with equal-share cuts across ALL positions (old + new).
+        # apply_cap_cuts persists the cuts to risk_state (old positions cut too),
+        # so when it runs we skip the separate opened-trade registration below.
+        position_recorded = False
         try:
             cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
             total_exposure = getattr(risk_state, 'gross_exposure', 0.0) + notional
             if total_exposure > cap_value and hasattr(risk_state, 'open_position_notionals'):
-                # Get all notionals including new one
                 all_notionals = list(getattr(risk_state, 'open_position_notionals', [])) + [notional]
-                cut = risk_state.cut_positions_to_cap(capital, config, all_notionals)
-                if cut and len(cut) == len(all_notionals):
-                    # Cut all positions proportionally - update existing positions
-                    # For this trade, we take the cut amount for the new position
-                    new_notional_cut = cut[-1]
-                    if new_notional_cut < notional and entry_px > 0:
-                        shares = new_notional_cut / entry_px
-                    # Note: cutting old positions would require modifying them;
-                    # per spec "equal-share cuts to ALL positions (old + new)" -
-                    # we enforce by sizing new position appropriately
-                    notional = entry_px * shares if shares > 0 else 0.0
+                cuts = risk_state.apply_cap_cuts(capital, config, all_notionals)
+                if cuts and len(cuts) == len(all_notionals):
+                    new_notional_cut = cuts[-1]
+                    if new_notional_cut <= 0 or entry_px <= 0:
+                        return TradeResult(
+                            pnl=0.0, r_multiple=0.0, exit_reason='blocked',
+                            entry_price=entry, exit_price=entry, shares=0.0, bars_held=0,
+                        )
+                    shares = new_notional_cut / entry_px
+                    notional = new_notional_cut
+                    position_recorded = True
         except Exception:
             pass
-        risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False, notional=notional)
+        if risk_state is not None and not position_recorded:
+            risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False, notional=notional)
 
 
     trades_log = []

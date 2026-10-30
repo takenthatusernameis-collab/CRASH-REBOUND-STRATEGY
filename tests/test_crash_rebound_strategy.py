@@ -619,6 +619,59 @@ def test_gross_cap_multi_position_all_cut():
 
 
 
+def test_engine_applies_equal_share_cuts_to_existing_positions():
+    from src.strategy.config import StrategyConfig
+    from src.strategy.risk import RiskState
+    from src.strategy.crash_rebound import Signal
+    from src.backtest.engine import backtest_simple
+
+    class RecordingRiskState(RiskState):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+            self.cap_cuts_seen = []
+
+        def apply_cap_cuts(self, capital, config, open_notional=None):
+            incoming = list(open_notional) if open_notional is not None else list(self.open_position_notionals)
+            self.cap_cuts_seen.append(list(incoming))
+            return super().apply_cap_cuts(capital, config, open_notional)
+
+    # One existing position near cap; new entry breaches 120% gross cap.
+    state = RecordingRiskState(date="2025-01-01")
+    state.open_position_notionals = [70000.0]
+    state.gross_exposure = 70000.0
+    state.open_positions = 1
+
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10000},
+        {"timestamp": "2025-01-01T09:32:00", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10000},
+    ]
+    sig = Signal(
+        symbol="TEST", side="long", reason="crash_then_rebound",
+        entry_price=100.0, stop_price=1.0, target_price=200.0,
+        risk_per_share=1.0, timestamp=candles[0]["timestamp"],
+        size_shares=1000.0, signal_index=0,
+    )
+    config = StrategyConfig(
+        use_rsi_trigger=False, avoid_downtrend=False, entry_next_bar=False,
+        enable_rebound_short=False, enable_eth_hedge=False,
+        slippage_pct=0.0, commission_per_share=0.0,
+        gross_cap_pct=120.0, time_exit_max_bars=50,
+    )
+    capital = 100000.0
+    res = backtest_simple(candles, sig, config=config, capital=capital, risk_state=state)
+
+    # Breach path must call apply_cap_cuts with existing + new position notionals
+    # so cuts persist to ALL open positions (old + new), not just the new entry.
+    assert state.cap_cuts_seen == [[70000.0, 100000.0]]
+    # Equal-share cut persisted to state: old position cut 70000 -> 60000.
+    assert abs(state.gross_exposure - 120000.0) < 1e-6
+    assert state.open_positions == 1
+    # New position sized to its cut share (1000 -> 600 shares).
+    assert abs(res.shares - 600.0) < 1e-6
+    assert res.exit_reason == 'time_exit'
+
+
 def test_rsi_trigger_respects_min_daily_volume():
     from src.strategy.crash_rebound import detect_crash_rsi
     candles = []
