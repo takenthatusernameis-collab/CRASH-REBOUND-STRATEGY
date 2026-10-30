@@ -9,7 +9,9 @@ on:
       - "scripts/**"
       - "tests/**"
   push:
-    branches: [main]
+    branches:
+      - main
+      - fix/campaign-integrity-and-exposure-accounting-20261030
     paths:
       - ".github/workflows/tests.yml"
       - "src/**"
