@@ -1,4 +1,4 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T18:51:01Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T18:51:22Z
 
 ## CURRENT VERIFIED STATUS — 2026-10-30 (supersedes stale state statements below)
 
@@ -13,9 +13,9 @@
 ---
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-10-30T18:51:01Z | METRICS SUITE + END-TO-END CAMPAIGN RUN | REAL 283-DAY HYPERLIQUID WINDOW (2025-12-20 TO 2026-09-28) | NO COASTING | HEAVY WORK MANDATORY`
+> `CRASH-REBOUND-STRATEGY | 2026-10-30T18:51:22Z | METRICS SUITE + END-TO-END CAMPAIGN RUN | REAL 283-DAY HYPERLIQUID WINDOW (2025-12-20 TO 2026-09-28) | NO COASTING | HEAVY WORK MANDATORY`
 
-SESSION SNAPSHOT: 2026-10-30T18:51:01Z — Baseline VERIFIED GREEN (89 passed, 0 failed). All campaign items 1–5 (RSI primary trigger, ETH hedge every leg, volume-based sizing ON, volume filter everywhere, stress tests) are implemented and passing. Remaining heavy work: campaign item #6 — end-to-end campaign run with metrics suite exported to `research_state/campaign_metrics.json` + `.csv`, then the real 283-day Hyperliquid run with verified hourly candles.
+SESSION SNAPSHOT: 2026-10-30T18:51:22Z — Baseline VERIFIED GREEN (89 passed, 0 failed). All campaign items 1–5 (RSI primary trigger, ETH hedge every leg, volume-based sizing ON, volume filter everywhere, stress tests) are implemented and passing. Remaining heavy work: campaign item #6 — end-to-end campaign run with metrics suite exported to `research_state/campaign_metrics.json` + `.csv`, then the real 283-day Hyperliquid run with verified hourly candles.
 
 Single durable handoff is this file only. `research_state/handoff.md` retired/superseded. Never create or read another handoff file.
 
@@ -93,4 +93,4 @@ Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. E
 - **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable
 - **HEAVY WORK REQUIRED** - No coasting
 
-(END OF DURABLE HANDOFF - 2026-10-30T18:51:01Z)
+(END OF DURABLE HANDOFF - 2026-10-30T18:51:22Z)
