@@ -235,6 +235,40 @@ def confirm_rebound(
     return (cur_close - cur_low) / rng >= min_body_ratio
 
 
+
+
+def _sma(candles: List[Dict[str, Any]], period: int) -> Optional[float]:
+    if period <= 0 or len(candles) < period:
+        return None
+    closes = []
+    for c in candles[-period:]:
+        cl = _close(c)
+        if cl is None:
+            return None
+        closes.append(cl)
+    if not closes:
+        return None
+    return sum(closes) / len(closes)
+
+
+def regime_ok(candles: List[Dict[str, Any]], config: StrategyConfig = DEFAULT_CONFIG) -> bool:
+    """Regime filter: avoid trading in downtrends / below minimum price."""
+    if candles is None or len(candles) == 0:
+        return False
+    cur_close = _close(candles[-1])
+    if cur_close is None:
+        return False
+    if hasattr(config, 'regime_min_price') and config.regime_min_price is not None:
+        if cur_close < config.regime_min_price:
+            return False
+    if getattr(config, 'avoid_downtrend', False):
+        ma_period = getattr(config, 'ma_fast_period', 20)
+        ma = _sma(candles, ma_period)
+        if ma is not None and cur_close < ma:
+            return False
+    return True
+
+
 def passes_universe_filter(
     candles: List[Dict[str, Any]],
     min_daily_volume_usd: float = 5_000_000.0,

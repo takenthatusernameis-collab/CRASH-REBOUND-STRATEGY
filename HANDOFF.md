@@ -1,9 +1,10 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T06:40:41Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T06:51:30Z
 
-> SESSION SNAPSHOT: 2026-10-30T06:46:25Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **76 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T06:51:30Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **76 passed, 0 failed**. Baseline VERIFIED GREEN.
 > `python scripts/run_backtest.py` → runs clean (exit: time_exit, PnL: -5.4620).
 >
-> INITIAL TASK (NEXT SESSION): Execute FOCUS CAMPAIGN PRIORITY 2 — universe/volume filters + regime hardening (>= $5M daily volume enforced rigorously across all trigger paths; multi-symbol universe filtering helpers added; regime_ok reviewed). Do NOT deviate; run tests after each change. BOTH LEGS NON-NEGOTIABLE.
+> **INITIAL TASK (NEXT SESSION — MANDATORY HEAVY WORK): EXECUTE FOCUS CAMPAIGN PRIORITY 3 — EXECUTION REALISM.**
+> DO NOT do trivial refactors. DO NOT stop at reading. You MUST implement ALL tasks below with tests passing after each change. BOTH LEGS NON-NEGOTIABLE (long crash + rebound short). ETH hedge intact. Equal-share gross cap enforcement MUST remain correct.
 > MANDATE: Hyperliquid hourly perps crash-rebound backtester. **BOTH LEGS ARE NON-NEGOTIABLE** — long crash entry AND rebound short MUST both function correctly. Every trade hedged with ETH. PDF is source of truth.
 
 ## BOTTLENECK REMOVALS (READ BEFORE WORKING)
@@ -46,13 +47,14 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 3. [x] Review `regime_ok()` against PDF expectations (avoid downtrend / price above fast MA); add tests covering regime block and pass.
 4. [x] Add integration test: sub-$5M coin produces no signal; >= $5M coin with valid crash does.
 
-### PRIORITY 3: EXECUTION REALISM [MEDIUM-HIGH - 1-2h]
-**Goal:** Closer to hourly sim with funding/liquidation checks.
+### PRIORITY 3: EXECUTION REALISM [MEDIUM-HIGH - 2-3h] — MANDATORY
+**Goal:** Closer to hourly sim with funding/liquidation checks. NO SHORTCUTS.
 
-**Tasks:**
-1. Expand funding modeling across all legs (long crash, hedge, rebound short, rebound hedge).
-2. Add simple hourly liquidation checks at worst price of each hour.
-3. Enhance `scripts/run_backtest.py` with detailed reporting.
+**Tasks (ALL REQUIRED):**
+1. [ ] **FUNDING ACROSS ALL LEGS:** Expand funding modeling to cover long crash leg, crash hedge (short), rebound short leg, and rebound hedge (long). Apply funding by hours held using `config.funding_rate_pct_per_hour` with correct sign convention per leg (long pays if positive rate per current convention; short receives). Track funding PnL separately in results and ensure totals remain correct.
+2. [ ] **HOURLY LIQUIDATION CHECKS:** Add simple hourly liquidation checks at worst price of each hour. For longs, liquidate if `low` breaches maintenance margin threshold (implement a conservative configurable check e.g. using stop/maint margin assumption or config `liquidation_buffer_pct`); for shorts if `high` breaches. On liquidation, force exit at worst price with liquidation penalty (configurable) and mark `exit_reason='liquidated'`. Do NOT skip - implement even if conservative.
+3. [ ] **DETAILED REPORTING:** Enhance `scripts/run_backtest.py` with detailed reporting: per-trade breakdown (side, entry/exit, PnL, funding, fees), hedge details, gross exposure, total PnL, win rate, trade counts by leg, and summary stats. Make it immediately useful for debugging.
+4. [ ] **TESTS:** Add at least 2 new tests covering funding across legs and liquidation triggering; keep ALL existing tests green.
 
 ## SUCCESS CRITERIA
 - [ ] Volume-based sizing works end-to-end
@@ -60,7 +62,10 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 - [ ] Both legs ALWAYS functional (long crash + rebound short)
 - [ ] ETH hedge intact (vol-ratio, capped 3x), funding applied
 - [ ] **>= $5M daily volume filter enforced on all trigger paths**
-- [ ] Tests >= 76 passing, 0 failures
+- [ ] **Funding modeled across ALL legs with correct signs**
+- [ ] **Hourly liquidation checks implemented and tested**
+- [ ] **run_backtest.py has detailed per-trade reporting**
+- [ ] Tests >= 78 passing, 0 failures (add >= 2 new tests)
 - [ ] Clean run of `scripts/run_backtest.py`
 
 ## CRITICAL REMINDERS

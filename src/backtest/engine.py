@@ -55,19 +55,53 @@ def _slippage_commission_per_share(price: float, config: StrategyConfig, side: s
     return price + slip + comm if side == "buy" else price - slip - comm
 
 
-def _apply_funding_pnl(notional: float, hours_held: float, funding_rate_pct_per_hour: float) -> float:
-    """Funding cost/profit on a position. Positive notional with positive funding rate means long pays short?
-    For simplicity: long pays funding if rate positive -> cost; short receives funding.
-    Apply as cost to the position holder."""
+def _apply_funding_pnl(notional: float, hours_held: float, funding_rate_pct_per_hour: float, side: str = 'long') -> float:
+    """Funding cost/profit on a position.
+    Convention: positive funding rate means longs pay shorts -> cost to long, profit to short.
+    Return signed funding effect on the position's pnl component as cost to the specified side?
+    We use the sign convention: add funding_cost to pnl adjustment where caller expects.
+    For a long position, funding cost is positive (reduces pnl). For a short position,
+    funding cost received is negative in our current usage? Check usage.
+    """
     if notional == 0 or hours_held <= 0:
         return 0.0
     rate = funding_rate_pct_per_hour / 100.0
-    # Convention: funding is paid by longs if funding rate positive
-    # We'll track by side separately
-    return notional * rate * hours_held
+    funding_amt = abs(notional) * rate * hours_held
+    if side == 'long':
+        return funding_amt  # long pays -> cost
+    elif side == 'short':
+        return -funding_amt  # short receives -> benefit (reduces cost / adds pnl)
+    return funding_amt
 
 
 
+
+
+def _check_liquidation(candle: Dict[str, Any], side: str, entry_px: float, notional: float,
+                       config: StrategyConfig) -> Optional[float]:
+    """Check for liquidation based on worst price of hour. Returns liquidation price or None."""
+    if not getattr(config, 'enable_liquidation_checks', True):
+        return None
+    if notional <= 0 or entry_px <= 0:
+        return None
+    maint_margin_pct = getattr(config, 'liquidation_maint_margin_pct', 5.0)
+    buffer_pct = getattr(config, 'liquidation_buffer_pct', 1.0)
+    # Conservative: liquidation if price moves against position beyond (1 - maint_margin - buffer)% for long
+    if side == 'long':
+        low = candle.get('low')
+        if low is None:
+            return None
+        liq_threshold = entry_px * (1.0 - (maint_margin_pct + buffer_pct) / 100.0)
+        if float(low) <= liq_threshold:
+            return float(low)
+    elif side == 'short':
+        high = candle.get('high')
+        if high is None:
+            return None
+        liq_threshold = entry_px * (1.0 + (maint_margin_pct + buffer_pct) / 100.0)
+        if float(high) >= liq_threshold:
+            return float(high)
+    return None
 
 def backtest_simple(
     candles: List[Dict[str, Any]],

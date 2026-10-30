@@ -70,7 +70,13 @@ class StrategyConfig:
     slippage_pct: float = 0.0005       # 0.05% slippage per side
     commission_per_share: float = 0.001  # commission per share
     commission_min: float = 1.0        # minimum commission per trade
-    funding_rate_pct_per_hour: float = 0.01  # hourly funding on hedge legs (0.01% = 0.0001)
+    funding_rate_pct_per_hour: float = 0.01  # hourly funding (0.01% = 0.0001)
+
+    # Liquidation (execution realism)
+    enable_liquidation_checks: bool = True
+    liquidation_maint_margin_pct: float = 5.0  # maintenance margin % of notional (conservative)
+    liquidation_buffer_pct: float = 1.0       # buffer before liquidation
+    liquidation_penalty_pct: float = 0.5      # penalty % of notional on liquidation
 
     def __post_init__(self):
         if not 0 < self.risk_per_trade_pct <= 10:
