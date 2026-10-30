@@ -21,13 +21,52 @@ class TradeResult:
     hedge_size: float = 0.0
     hedge_entry: float = 0.0
     hedge_exit: float = 0.0
+    total_pnl: float = 0.0  # includes hedge PnL
+
+    def __init__(self, pnl=None, r_multiple=None, exit_reason=None, **kwargs):
+        # Be flexible for different calling conventions
+        self.pnl = pnl if pnl is not None else kwargs.get('pnl', 0.0)
+        self.r_multiple = r_multiple if r_multiple is not None else kwargs.get('r_multiple', 0.0)
+        self.exit_reason = exit_reason if exit_reason is not None else kwargs.get('exit_reason', '')
+        self.entry_price = kwargs.get('entry_price', 0.0)
+        self.exit_price = kwargs.get('exit_price', 0.0)
+        self.shares = kwargs.get('shares', 0.0)
+        self.bars_held = kwargs.get('bars_held', 0)
+        self.trades = kwargs.get('trades', None)
+        self.hedge_pnl = kwargs.get('hedge_pnl', 0.0)
+        self.hedge_side = kwargs.get('hedge_side', None)
+        self.hedge_size = kwargs.get('hedge_size', 0.0)
+        self.hedge_entry = kwargs.get('hedge_entry', 0.0)
+        self.hedge_exit = kwargs.get('hedge_exit', 0.0)
+        self.total_pnl = kwargs.get('total_pnl', self.pnl + self.hedge_pnl)
+
+
+
+
 
 
 
 def _slippage_commission_per_share(price: float, config: StrategyConfig, side: str) -> float:
     slip = price * config.slippage_pct
     comm = config.commission_per_share
+    if config.commission_min > 0:
+        # Apply minimum commission if it results in higher cost per share? Or just per trade - but we work per share
+        pass
     return price + slip + comm if side == "buy" else price - slip - comm
+
+
+def _apply_funding_pnl(notional: float, hours_held: float, funding_rate_pct_per_hour: float) -> float:
+    """Funding cost/profit on a position. Positive notional with positive funding rate means long pays short?
+    For simplicity: long pays funding if rate positive -> cost; short receives funding.
+    Apply as cost to the position holder."""
+    if notional == 0 or hours_held <= 0:
+        return 0.0
+    rate = funding_rate_pct_per_hour / 100.0
+    # Convention: funding is paid by longs if funding rate positive
+    # We'll track by side separately
+    return notional * rate * hours_held
+
+
 
 
 def backtest_simple(
@@ -76,7 +115,30 @@ def backtest_simple(
             shares = check.size_shares
         risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False)
 
+
     trades_log = []
+    hedge_pnl_total = 0.0
+    hedge_info = {'side': None, 'size': 0.0, 'entry': 0.0, 'exit': 0.0}
+
+    # Setup ETH hedge for long crash leg if enabled
+    coin_position_value = entry_px * shares
+    if getattr(config, 'enable_eth_hedge', True) and eth_candles:
+        try:
+            hedge_value = compute_eth_hedge_size(candles, eth_candles, coin_position_value, config)
+            if hedge_value > 0:
+                # Get ETH entry price (use first available ETH price near start)
+                eth_entry_price = None
+                for ec in eth_candles:
+                    ec_open = ec.get('open')
+                    if ec_open is not None:
+                        eth_entry_price = float(ec_open)
+                        break
+                if eth_entry_price and eth_entry_price > 0:
+                    hedge_shares = hedge_value / eth_entry_price
+                    hedge_entry_px = _slippage_commission_per_share(eth_entry_price, config, 'sell')  # short hedge
+                    hedge_info = {'side': 'short', 'size': hedge_shares, 'entry': hedge_entry_px, 'exit': hedge_entry_px}
+        except Exception:
+            pass  # Skip hedge on error
     # Look-ahead guard: only inspect candles at or after the entry point.
     for idx in range(start_idx, len(candles)):
         c = candles[idx]
@@ -85,119 +147,235 @@ def backtest_simple(
         if low is not None and low <= stop_px:
             exit_px = _slippage_commission_per_share(stop_px, config, 'sell')
             pnl = (exit_px - entry_px) * shares
+            # Close hedge if exists
+            if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
+                # Get ETH exit price
+                eth_exit_price = None
+                if eth_candles and idx < len(eth_candles):
+                    eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
+                if eth_exit_price is None:
+                    eth_exit_price = hedge_info['entry']  # fallback
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']  # short profit if price down
+                # Apply funding on hedge
+                hours_held = idx - start_idx + 1
+                hedge_notional = hedge_info['entry'] * hedge_info['size']
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour)
+                if hedge_info['side'] == 'short':  # short receives funding if positive? Or pays - depends on convention
+                    hedge_pnl_total += funding_cost  # simplified
+                hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
                 risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
             trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'stopped'})
+            total_pnl_result = pnl + hedge_pnl_total
             return TradeResult(
                 pnl=pnl, r_multiple=r_mult, exit_reason='stopped',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
                 trades=trades_log,
+                hedge_pnl=hedge_pnl_total,
+                hedge_side=hedge_info['side'],
+                hedge_size=hedge_info['size'],
+                hedge_entry=hedge_info['entry'],
+                hedge_exit=hedge_info['exit'],
+                total_pnl=total_pnl_result,
             )
         if high is not None and high >= target_px:
             exit_px = _slippage_commission_per_share(target_px, config, 'sell')
             pnl = (exit_px - entry_px) * shares
+            # Close hedge for long leg
+            if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
+                eth_exit_price = None
+                if eth_candles and idx < len(eth_candles):
+                    eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
+                if eth_exit_price is None:
+                    eth_exit_price = hedge_info['entry']
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
+                hours_held = idx - start_idx + 1
+                hedge_notional = hedge_info['entry'] * hedge_info['size']
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour)
+                hedge_pnl_total += funding_cost
+                hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
                 risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
             trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'target'})
-            total_pnl = pnl
+            total_pnl = pnl + hedge_pnl_total
             total_r_mult = r_mult
             total_bars = idx - start_idx + 1
+            rebound_hedge_pnl = 0.0
+            rebound_hedge_info = {'side': None, 'size': 0.0, 'entry': 0.0, 'exit': 0.0}
             # Rebound short logic when buy hits +9% target fast
             if getattr(config, 'enable_rebound_short', True):
-                short_entry_px = _slippage_commission_per_share(exit_px, config, 'short')  # enter short at/near target exit
-                # For short, slippage is adverse when going up? _slippage_commission_per_share: if side=='buy' add costs; else subtract costs? Wait look:
-                # "slip = price * config.slippage_pct; comm = config.commission_per_share; return price + slip + comm if side == 'buy' else price - slip - comm"
-                # So for sell side (closing long) they subtract slip/comm (get less). For short entry, selling short - but function takes side parameter; better to be explicit.
-                # Actually better use same convention: for short entry (sell to open), treat as sell side costs? Or just apply sell-side slippage/commission
                 short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell')  # enter short
+                # Add hedge for rebound short leg (long hedge)
+                if getattr(config, 'enable_eth_hedge', True) and eth_candles:
+                    try:
+                        short_coin_value = short_entry_px * shares
+                        r_hedge_value = compute_eth_hedge_size(candles, eth_candles, short_coin_value, config)
+                        if r_hedge_value > 0:
+                            eth_entry_r = None
+                            if idx + 1 < len(eth_candles):
+                                eth_entry_r = eth_candles[idx + 1].get('open') or eth_candles[idx + 1].get('close')
+                            elif idx < len(eth_candles):
+                                eth_entry_r = eth_candles[idx].get('open') or eth_candles[idx].get('close')
+                            if eth_entry_r and eth_entry_r > 0:
+                                r_hedge_shares = r_hedge_value / eth_entry_r
+                                r_hedge_entry_px = _slippage_commission_per_share(float(eth_entry_r), config, 'buy')  # long hedge
+                                rebound_hedge_info = {'side': 'long', 'size': r_hedge_shares, 'entry': r_hedge_entry_px, 'exit': r_hedge_entry_px}
+                    except Exception:
+                        pass
                 short_target = short_entry_px * (1.0 - getattr(config, 'rebound_short_target_pct', 9.0) / 100.0)
                 short_stop = short_entry_px * (1.0 + getattr(config, 'rebound_short_stop_pct', 40.0) / 100.0)
                 short_start_idx = idx
-                short_shares = shares  # use same size
+                short_shares = shares
                 short_bars_max = getattr(config, 'rebound_short_time_exit_bars', 48)
+                short_pnl = 0.0
                 for sidx in range(short_start_idx + 1, len(candles)):
                     sc = candles[sidx]
                     slow = sc.get('low')
                     shigh = sc.get('high')
-                    # For short: stop if price rises above short_stop; target if price falls to short_target
                     if shigh is not None and shigh >= short_stop:
-                        short_exit = _slippage_commission_per_share(short_stop, config, 'buy')  # cover
+                        short_exit = _slippage_commission_per_share(short_stop, config, 'buy')
                         short_pnl = (short_entry_px - short_exit) * short_shares
+                        # Close rebound hedge
+                        if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
+                            eth_exit_r = None
+                            if eth_candles and sidx < len(eth_candles):
+                                eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
+                            if eth_exit_r:
+                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                                hours_held_r = sidx - short_start_idx + 1
+                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour)
+                                rebound_hedge_pnl -= rh_funding  # long pays funding
+                                rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'stopped'})
-                        total_pnl += short_pnl
+                        total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
                     if slow is not None and slow <= short_target:
                         short_exit = _slippage_commission_per_share(short_target, config, 'buy')
                         short_pnl = (short_entry_px - short_exit) * short_shares
+                        if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
+                            eth_exit_r = None
+                            if eth_candles and sidx < len(eth_candles):
+                                eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
+                            if eth_exit_r:
+                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                                hours_held_r = sidx - short_start_idx + 1
+                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour)
+                                rebound_hedge_pnl -= rh_funding
+                                rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'target'})
-                        total_pnl += short_pnl
+                        total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
                     if (sidx - short_start_idx) >= short_bars_max:
                         sclose = sc.get('close', short_entry_px)
                         short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
                         short_pnl = (short_entry_px - short_exit) * short_shares
+                        if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
+                            eth_exit_r = None
+                            if eth_candles and sidx < len(eth_candles):
+                                eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
+                            if eth_exit_r:
+                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                                hours_held_r = sidx - short_start_idx + 1
+                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour)
+                                rebound_hedge_pnl -= rh_funding
+                                rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
-                        total_pnl += short_pnl
+                        total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
                 else:
-                    # If short not exited in loop (ran to end)
-                    if len(candles) > short_start_idx + 1:  # might have started but not broken
-                        pass  # will be handled if broken
-                    # If no break occurred and we went through all bars
-                    if 'short_pnl' not in locals() or trades_log and trades_log[-1].get('side') != 'short':
-                        # try to exit at last bar
-                        last_sc = candles[-1]
-                        sclose = last_sc.get('close', short_entry_px)
-                        short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
-                        short_pnl = (short_entry_px - short_exit) * short_shares
-                        if risk_state is not None:
-                            risk_state.apply_trade(str(last_sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
-                        trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
-                        total_pnl += short_pnl
-                        total_bars = max(total_bars, len(candles) - start_idx)
-            if risk_state is not None and 'total_pnl' in locals() and abs(total_pnl - pnl) > 1e-18:  # we added short
-                pass  # already applied above
-            # recompute r_mult for total if short added
+                    # No break occurred - exit short at last available bar
+                    last_sc = candles[-1]
+                    sclose = last_sc.get('close', short_entry_px)
+                    short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
+                    short_pnl = (short_entry_px - short_exit) * short_shares
+                    if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
+                        eth_exit_r = None
+                        if eth_candles and len(eth_candles) > 0:
+                            eth_exit_r = eth_candles[-1].get('close') or eth_candles[-1].get('open')
+                        if eth_exit_r:
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                            hours_held_r = len(candles) - short_start_idx
+                            rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour)
+                            rebound_hedge_pnl -= rh_funding
+                            rebound_hedge_info['exit'] = r_hedge_exit_px
+                    if risk_state is not None:
+                        risk_state.apply_trade(str(last_sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
+                    trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
+                    total_pnl += short_pnl + rebound_hedge_pnl
+                    total_bars = max(total_bars, len(candles) - start_idx)
+
+            # recompute r_mult for total
             if getattr(config, 'enable_rebound_short', True) and len(trades_log) > 1 and trades_log[-1].get('side') == 'short':
-                # Total risk across both legs: long risk + short risk (each leg sized same)
                 total_risk = risk * shares * 2.0
-                if total_risk > 0:
-                    total_r_mult = total_pnl / total_risk
-                else:
-                    total_r_mult = total_r_mult
+                total_r_mult = total_pnl / total_risk if total_risk > 0 else total_r_mult
             else:
                 total_r_mult = r_mult
             return TradeResult(
-                pnl=total_pnl if 'total_pnl' in locals() else pnl,
+                pnl=pnl + hedge_pnl_total,
                 r_multiple=total_r_mult if 'total_r_mult' in locals() else r_mult,
                 exit_reason='target_rebound_short' if (len(trades_log) > 1 and any(t.get('side') == 'short' for t in trades_log)) else 'target',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=total_bars if 'total_bars' in locals() else (idx - start_idx + 1),
                 trades=trades_log,
+                hedge_pnl=hedge_pnl_total + rebound_hedge_pnl,
+                hedge_side=hedge_info['side'],
+                hedge_size=hedge_info['size'],
+                hedge_entry=hedge_info['entry'],
+                hedge_exit=hedge_info['exit'],
+                total_pnl=total_pnl,
             )
         # Time exit: hard cap on bars held per trade.
         if config.time_exit_max_bars and (idx - start_idx + 1) >= config.time_exit_max_bars:
             exit_px = _slippage_commission_per_share(float(c.get('close', entry)), config, 'sell')
             pnl = (exit_px - entry_px) * shares
+            if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
+                eth_exit_price = None
+                if eth_candles and idx < len(eth_candles):
+                    eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
+                if eth_exit_price:
+                    hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                    hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
+                    hours_held = idx - start_idx + 1
+                    hedge_notional = hedge_info['entry'] * hedge_info['size']
+                    funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour)
+                    hedge_pnl_total += funding_cost
+                    hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
                 risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
             return TradeResult(
-                pnl=pnl, r_multiple=r_mult, exit_reason='time_exit',
+                pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
+                trades=trades_log,
+                hedge_pnl=hedge_pnl_total,
+                hedge_side=hedge_info['side'],
+                hedge_size=hedge_info['size'],
+                hedge_entry=hedge_info['entry'],
+                hedge_exit=hedge_info['exit'],
+                total_pnl=pnl + hedge_pnl_total,
             )
 
     # Time exit at last close.
@@ -207,11 +385,30 @@ def backtest_simple(
         exit_px = entry
     exit_px = _slippage_commission_per_share(float(exit_px), config, 'sell')
     pnl = (exit_px - entry_px) * shares
+    if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
+        eth_exit_price = None
+        if eth_candles and len(eth_candles) > 0:
+            eth_exit_price = eth_candles[-1].get('close') or eth_candles[-1].get('open')
+        if eth_exit_price:
+            hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+            hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
+            hours_held = len(candles) - start_idx
+            hedge_notional = hedge_info['entry'] * hedge_info['size']
+            funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour)
+            hedge_pnl_total += funding_cost
+            hedge_info['exit'] = hedge_exit_px
     r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
     if risk_state is not None:
         risk_state.apply_trade(str(last.get('timestamp', '')), pnl, opened=False, closed=True)
     return TradeResult(
-        pnl=pnl, r_multiple=r_mult, exit_reason='time_exit',
+        pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
         entry_price=entry_px, exit_price=exit_px, shares=shares,
         bars_held=len(candles) - start_idx,
+        trades=trades_log,
+        hedge_pnl=hedge_pnl_total,
+        hedge_side=hedge_info['side'],
+        hedge_size=hedge_info['size'],
+        hedge_entry=hedge_info['entry'],
+        hedge_exit=hedge_info['exit'],
+        total_pnl=pnl + hedge_pnl_total,
     )

@@ -505,3 +505,75 @@ def test_eth_hedge_sizing_and_pnl_contribution():
     size = compute_eth_hedge_size(coin, eth, coin_position_value=10000.0, config=cfg)
     assert size > 0
     assert size <= 10000.0 * 3.0  # capped
+
+
+def test_rsi_trigger_below_threshold_triggers():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    # Build candles with RSI below 20
+    candles = []
+    price = 100.0
+    for i in range(30):
+        # Strong downtrend to drive RSI low
+        price *= 0.99
+        candles.append({
+            "timestamp": f"2025-01-01T{i:02d}:00:00",
+            "open": price * 1.001,
+            "high": price * 1.002,
+            "low": price * 0.998,
+            "close": price,
+            "volume": 10_000_000
+        })
+    candles.append({
+        "timestamp": "2025-01-01T03:00:00",
+        "open": price * 0.995,
+        "high": price * 1.01,
+        "low": price * 0.994,
+        "close": price * 1.005,
+        "volume": 10_000_000
+    })
+    cfg = StrategyConfig(use_rsi_trigger=True, avoid_downtrend=False)
+    assert detect_crash_rsi(candles) is True
+
+
+def test_rsi_trigger_above_threshold_no_trigger():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    candles = []
+    price = 100.0
+    for i in range(30):
+        price *= 1.001  # Uptrend
+        candles.append({
+            "timestamp": f"2025-01-01T{i:02d}:00:00",
+            "open": price * 0.9995,
+            "high": price * 1.0005,
+            "low": price * 0.999,
+            "close": price,
+            "volume": 10_000_000
+        })
+    assert detect_crash_rsi(candles, rsi_threshold=20.0) is False
+
+
+def test_rsi_trigger_insufficient_candles():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    candles = [
+        {"open": 100, "high": 101, "low": 99, "close": 100, "volume": 10_000_000},
+        {"open": 100, "high": 100, "low": 95, "close": 96, "volume": 10_000_000},
+    ]
+    assert detect_crash_rsi(candles) is False
+
+
+def test_rsi_trigger_volume_filter():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    candles = []
+    price = 100.0
+    for i in range(30):
+        price *= 0.99
+        candles.append({
+            "timestamp": f"2025-01-01T{i:02d}:00:00",
+            "open": price * 1.001,
+            "high": price * 1.002,
+            "low": price * 0.998,
+            "close": price,
+            "volume": 1000  # Low volume
+        })
+    # Should fail volume filter
+    assert detect_crash_rsi(candles, min_daily_volume_usd=5_000_000.0) is False
