@@ -128,3 +128,59 @@ def test_campaign_entry_point_refuses_to_publish_fixture_performance() -> None:
 
     with pytest.raises(SystemExit, match="not a valid historical campaign runner"):
         run_campaign.main()
+
+
+def test_rebound_short_exposure_is_opened_and_closed() -> None:
+    candles = [
+        {
+            "timestamp": "2025-01-01T00:00:00Z",
+            "open": 100.0,
+            "high": 160.0,
+            "low": 99.0,
+            "close": 150.0,
+            "volume": 1_000.0,
+        },
+        {
+            "timestamp": "2025-01-01T01:00:00Z",
+            "open": 150.0,
+            "high": 152.0,
+            "low": 140.0,
+            "close": 145.0,
+            "volume": 1_000.0,
+        },
+    ]
+    signal = SimpleNamespace(
+        entry_price=100.0,
+        stop_price=90.0,
+        target_price=150.0,
+        risk_per_share=10.0,
+        size_shares=10.0,
+        signal_index=0,
+    )
+    config = StrategyConfig(
+        entry_next_bar=False,
+        time_exit_max_bars=10,
+        use_rsi_trigger=False,
+        min_daily_volume_usd=0.0,
+        enable_eth_hedge=False,
+        enable_rebound_short=True,
+        rebound_short_time_exit_bars=1,
+        avoid_downtrend=False,
+        regime_min_price=0.0,
+        enable_liquidation_checks=False,
+    )
+    state = RiskState()
+
+    result = backtest_simple(
+        candles,
+        signal,
+        config=config,
+        capital=100_000.0,
+        risk_state=state,
+    )
+
+    assert result.exit_reason == "target_rebound_short"
+    assert any(trade["side"] == "short" for trade in result.trades or [])
+    assert state.open_positions == 0
+    assert state.open_position_notionals == []
+    assert state.gross_exposure == pytest.approx(0.0)
