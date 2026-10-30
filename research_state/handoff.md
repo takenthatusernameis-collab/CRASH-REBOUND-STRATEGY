@@ -1,5 +1,5 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
-**TIMESTAMP:** 2026-10-30T01:40:00Z
+**TIMESTAMP:** 2026-10-30T01:42:10Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean
@@ -26,7 +26,7 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 5. **Tool constraint** - Avoid malformed `edit` calls (must include `filePath`, `oldString`, `newString`).
 
 ## SINGLE DURABLE HANDOFF MESSAGE FOR NEXT AGENTIC SESSION (START HERE — NO DEFERRALS)
-**TIMESTAMP:** 2026-10-30T01:40:00Z
+**TIMESTAMP:** 2026-10-30T01:42:10Z
 **FOCUS CAMPAIGN:** CRASH-REBOUND-STRATEGY — HARDEN BOTH LEGS TO MATCH MANDATE (CORRECTNESS BEFORE EXPANSION)
 
 ### MANDATORY FIRST STEP (BLOCKING)
