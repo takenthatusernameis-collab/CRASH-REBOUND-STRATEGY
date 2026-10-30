@@ -599,18 +599,24 @@ def test_position_size_by_volume_calculation():
     assert position_size_by_volume(100.0, 0) == 0.0
 
 
-def test_gross_cap_enforcement_equal_share_cuts():
+def test_gross_cap_multi_position_all_cut():
     from src.strategy.risk import RiskState
     from src.strategy.config import StrategyConfig
-    state = RiskState(date="2025-01-01", realized_pnl=0.0, open_positions=2, gross_exposure=150000.0)
-    state.open_position_notionals = [75000.0, 75000.0]
+    # Multiple positions, all must be cut equally when adding would breach
+    state = RiskState(date="2025-01-01")
+    state.open_positions = 3
+    state.open_position_notionals = [50000.0, 40000.0, 50000.0]  # total 140000
     config = StrategyConfig(gross_cap_pct=120.0)
     capital = 100000.0
-    # Total 150000 > 120000, should cut to equal share of 120000 = 60000 each
-    cut = state.cut_positions_to_cap(capital, config)
+    cut = state.apply_cap_cuts(capital, config)
     assert abs(sum(cut) - 120000.0) < 1e-6
-    assert abs(cut[0] - 60000.0) < 1e-6
-    assert abs(cut[1] - 60000.0) < 1e-6
+    # Equal share
+    assert abs(cut[0] - 40000.0) < 1e-6
+    assert abs(cut[1] - 40000.0) < 1e-6
+    assert abs(cut[2] - 40000.0) < 1e-6
+    assert abs(state.gross_exposure - 120000.0) < 1e-6
+    assert state.open_positions == 3
+
 
 
 def test_rsi_trigger_respects_min_daily_volume():

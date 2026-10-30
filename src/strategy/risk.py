@@ -87,13 +87,45 @@ class RiskState:
         equally (the vault never tops up; it only cuts).
         """
         if open_notional is None:
-            open_notional = self.open_position_notionals
+            open_notional = list(self.open_position_notionals) if self.open_position_notionals else []
         cap_value = capital * config.gross_cap_pct / 100.0
         total = sum(open_notional)
         if total <= cap_value or total <= 0:
             return list(open_notional)
+        # Equal share across all positions
+        if len(open_notional) > 0:
+            equal_share = cap_value / len(open_notional)
+            return [equal_share for _ in open_notional]
         factor = cap_value / total
         return [n * factor for n in open_notional]
+
+    def apply_cap_cuts(self, capital: float, config: StrategyConfig,
+                       open_notional: List[float] = None) -> List[float]:
+        """Apply equal-share cuts to all positions and update internal state."""
+        if open_notional is None:
+            open_notional = list(self.open_position_notionals) if self.open_position_notionals else []
+        cap_value = capital * config.gross_cap_pct / 100.0
+        total = sum(open_notional)
+        if total <= cap_value or total <= 0:
+            if open_notional and len(open_notional) == len(self.open_position_notionals):
+                self.open_position_notionals = list(open_notional)
+                self.gross_exposure = sum(self.open_position_notionals)
+            elif open_notional:
+                self.open_position_notionals = list(open_notional)
+                self.gross_exposure = sum(self.open_position_notionals)
+                self.open_positions = len(self.open_position_notionals)
+            return list(open_notional)
+        # Equal share across all positions
+        if len(open_notional) > 0:
+            equal_share = cap_value / len(open_notional)
+            cut_list = [equal_share for _ in open_notional]
+        else:
+            factor = cap_value / total
+            cut_list = [n * factor for n in open_notional]
+        self.open_position_notionals = list(cut_list)
+        self.gross_exposure = sum(self.open_position_notionals)
+        self.open_positions = len(self.open_position_notionals)
+        return cut_list
 
 
 # Backwards-compatible alias.
