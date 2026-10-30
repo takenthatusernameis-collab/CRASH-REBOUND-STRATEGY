@@ -1,6 +1,6 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T08:38:00Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T08:38:19Z
 
-> SESSION SNAPSHOT: 2026-10-30T08:38:00Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T08:38:19Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN.
 > `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py` → runs clean with detailed per-trade breakdown.
 > Portfolio/campaign validation tools created and tested.
 
@@ -39,10 +39,8 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 - [x] **PREVIOUS:** Volume filters hardened - enforced `min_daily_volume_usd >= $5M` across ALL trigger paths (drop-based and RSI-based). Added multi-symbol universe filtering helpers.
 - [x] **PREVIOUS:** Funding across all legs, hourly liquidation checks at worst price, detailed reporting in run_backtest.py; all 42 tests passing.
 
-## NEXT FOCUS CAMPAIGN (IF NEEDED - MINIMAL)
-- [ ] **Live Hyperliquid data fetch:** If real market data needed (beyond fixtures), add API fetching to loader with rate limiting, authentication if required.
-- [ ] **Enhanced metrics:** Add Sharpe/Sortino, drawdown series, monthly breakdowns to campaign reports.
-- [ ] **Production hardening:** Add more stress tests for edge cases in portfolio mode.
+## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, DO NOT SKIP)
+INITIAL TASK MESSAGE (2026-10-30T08:38:19Z): Build and validate the production-grade campaign: (1) implement live Hyperliquid candle fetching in src/data/loader.py with rate limiting + retry + auth hooks and wire into run_campaign.py; (2) add full metrics suite (Sharpe, Sortino, max drawdown series, monthly/weekly breakdowns, trade-level attribution) to campaign reports and export CSV/JSON; (3) add stress/property tests for portfolio cap enforcement, equal-share cuts, funding signs, liquidation edges, and non-finite serialization; (4) run full campaign end-to-end on real-ish fixtures and verify all 42+ tests green. Heavy work required; no coasting. Update HANDOFF.md at end with timestamped results.
 
 ## SUCCESS CRITERIA
 - [x] Volume-based sizing works end-to-end
