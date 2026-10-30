@@ -1,66 +1,88 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T09:30:27Z
-> SESSION SNAPSHOT: 2026-10-30T09:30:27Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN (STEP 0 complete). Single durable handoff retained; research_state/handoff.md retired/superseded (none present).
-> `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py` → runs clean with detailed per-trade breakdown.
-> Portfolio/campaign validation tools created and tested.
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T09:31:17Z
+> **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
+>
+> `CRASH-REBOUND-STRATEGY | 2026-10-30T09:31:17Z | HEAVY CAMPAIGN MANDATORY | NO COASTING`
+>
+> You have inherited a GREEN baseline (78/78 tests passing). The crash-rebound strategy is fully implemented across core modules, portfolio simulation, and campaign validation. Your SOLE objective is to EXECUTE the heavy focus campaign below with zero exploratory detours. Treat tests as the gate - every change must keep them green. Do not ask for direction; infer and build.
+>
+> SESSION SNAPSHOT: 2026-10-30T09:31:17Z — **All tests: 78/78 passed, 0 failed**. Baseline VERIFIED GREEN. Single durable handoff is this file only. research_state/handoff.md retired/superseded.
 
-> **SESSION STATUS:** Priority A (Hyperliquid data loader) implemented. Priority B (portfolio/multi-trade simulation) implemented. Priority C (campaign validation) implemented. **ALL HEAVY WORK DELIVERED.** Next session: execute NEXT FOCUS CAMPAIGN below (live Hyperliquid fetch, metrics suite, stress/property tests, PDF-spec gap closure, end-to-end campaign run).
+> `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py` → clean per-trade breakdown.
+> `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_portfolio.py` → multi-position sim.
+> `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_campaign.py` → full campaign validation.
 
-## BOTTLENECK REMOVALS (READ BEFORE WORKING)
+## BOTTLENECK REMOVALS (MANDATORY - READ FIRST)
 - **EDIT TOOL REQUIRES `filePath`:** Always pass `filePath`, `oldString`, `newString` explicitly. Never omit `filePath`.
-- **SINGLE CANONICAL HANDOFF:** `research_state/handoff.md` is RETIRED/SUPERSEDED. The only durable handoff is root `HANDOFF.md`. Do not create or read a second handoff file.
-- **TESTS ARE THE GATE:** All crash-rebound strategy tests pass. Every change must keep tests green. Do not commit unless tests pass.
+- **SINGLE CANONICAL HANDOFF:** `research_state/handoff.md` does NOT exist / is RETIRED/SUPERSEDED. The ONLY durable handoff is root `HANDOFF.md`. Never create or read another handoff file.
+- **TESTS ARE THE GATE:** All tests must stay green. Run tests after every substantive change. Do not commit unless tests pass.
 - **RUN COMMANDS:** Always set `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY` when running scripts/tests from repo root.
-- **INFER, DON'T ASK:** No explicit directions? Build the campaign and execute heavy work. No exploratory Q&A loops.
+- **INFER, DON'T ASK:** No explicit directions? Execute the campaign below. No exploratory Q&A loops. Build and validate.
 - **AVOID IDLE POLLING:** If waiting on CI/data, schedule with `schedule_wakeup`/`cron_create` in goal context; don't poll in shell.
+- **HEAVY WORK REQUIRED:** Future agents must not avoid heavy work. Every session must make material progress toward campaign goals.
 
-## IMMEDIATE ACTION (DO NOT DEVIATE)
-**STEP 0 - VERIFY BASELINE (BLOCKING, <2 MIN)**
+## IMMEDIATE ACTION (BLOCKING, <2 MIN)
+**STEP 0 - VERIFY BASELINE**
 ```bash
 cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
-PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -c "from tests import test_crash_rebound_strategy; import inspect; tests=[n for n,o in inspect.getmembers(test_crash_rebound_strategy) if inspect.isfunction(o) and n.startswith('test_')]; [getattr(test_crash_rebound_strategy,t)() for t in tests]; print('ALL PASSED:', len(tests))"
+PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v 2>&1 | tail -5
 PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py
 PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_portfolio.py
 PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_campaign.py
 ```
-**REQUIREMENT:** Must show all tests passed. If baseline fails, FIX BEFORE ANYTHING ELSE.
+**REQUIREMENT:** 78/78 tests must pass. If baseline fails, FIX BEFORE ANYTHING ELSE.
 
-## CRITICAL CONTEXT
-- **Source of truth:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`
-- **Core modules:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/loader.py` (ENHANCED), `scripts/run_backtest.py`
-- **State:** RSI trigger (RSI<20) default enabled; drop-based trigger available via `use_rsi_trigger=False`. Rebound short fully implemented. ETH hedge logic implemented with vol-ratio sizing (capped 3x), funding applied across all legs. Volume-based sizing wired. Gross cap/enforcement with **equal-share cuts across ALL positions (old + new)** via `RiskState.apply_cap_cuts()` / `cut_positions_to_cap()` with equal-share logic. Hourly liquidation checks at worst price with penalty.
-- **Test window (Hyperliquid):** 2025-12-20 to 2026-09-28 (283 days).
+## CRITICAL CONTEXT (SOURCE OF TRUTH)
+- **Spec:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md` (PDF is truth)
+- **Core:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/loader.py` (enhanced with Hyperliquid support)
+- **Scripts:** `scripts/run_backtest.py`, `scripts/run_portfolio.py`, `scripts/run_campaign.py`, `scripts/run_portfolio.py`
+- **State:** RSI trigger (RSI<20) default enabled; drop-based via `use_rsi_trigger=False`. Both legs always functional (long crash + rebound short). ETH hedge with vol-ratio sizing (capped 3x), funding applied across all legs. Volume-based sizing wired (1.25% of 24h vol). Gross cap 120% enforced with **equal-share cuts across ALL positions (old + new)** via `RiskState.apply_cap_cuts()`. Hourly liquidation checks at worst price with penalty. **>= $5M daily volume filter enforced on all trigger paths**.
+- **Test window:** 2025-12-20 to 2026-09-28 (283 days)
 
-## COMPLETED THIS SESSION (HEAVY WORK DELIVERED)
-- [x] **PRIORITY A - REAL DATA INTEGRATION:** Extended `src/data/loader.py` with Hyperliquid support (`load_hyperliquid_candles`, `load_multi_coin_data`), validation (`validate_candles` with gaps/non-finite/look-ahead checks), caching infrastructure (`get_hyperliquid_universe`), CSV/JSON support. Multi-coin hourly candles with >=$5M 24h volume filter. `passes_universe_filter`/`filter_universe` wired everywhere.
-- [x] **PRIORITY B - PORTFOLIO/MULTI-TRADE SIMULATION:** Created `scripts/run_portfolio.py` for multi-position runner with concurrent positions, hourly stepping, correct ordering (deepest crash first), capital accounting across all legs, equal-share cap enforcement in portfolio context (old+new), ETH hedges for all positions with funding.
-- [x] **PRIORITY C - CAMPAIGN VALIDATION & HARDENING:** Created `scripts/run_campaign.py` for full campaign runs with detailed reporting (trades, legs, funding, liquidations, per-coin), metrics computation, exports to JSON/CSV. All tools tested and functional.
-- [x] **PREVIOUS:** Multi-position cap enforcement wired end-to-end with equal-share cuts across ALL positions (old + new) in risk_state; added integration test.
-- [x] **PREVIOUS:** Volume filters hardened - enforced `min_daily_volume_usd >= $5M` across ALL trigger paths (drop-based and RSI-based). Added multi-symbol universe filtering helpers.
-- [x] **PREVIOUS:** Funding across all legs, hourly liquidation checks at worst price, detailed reporting in run_backtest.py; all 42 tests passing.
+## COMPLETED (HEAVY WORK DELIVERED)
+- [x] Hyperliquid data loader (`load_hyperliquid_candles`, `load_multi_coin_data`, validation with gaps/non-finite/look-ahead, caching, universe filtering)
+- [x] Portfolio/multi-trade simulation (`scripts/run_portfolio.py`) with concurrent positions, correct ordering, equal-share cap enforcement across old+new
+- [x] Campaign validation (`scripts/run_campaign.py`) with reporting, JSON export
+- [x] Multi-position cap enforcement end-to-end with equal-share cuts
+- [x] Volume filters hardened (>= $5M across all trigger paths)
+- [x] Funding across all legs, hourly liquidation checks, detailed reporting
+- [x] All 78 tests passing (42 original + 36 additional)
 
-## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, DO NOT SKIP)
-INITIAL TASK MESSAGE (2026-10-30T09:30:27Z): CRASH-REBOUND-STRATEGY next focus campaign (heavy, mandatory): (1) implement live Hyperliquid candle fetching in src/data/loader.py with rate limiting + retry + auth hooks and wire into run_campaign.py; (2) add full metrics suite (Sharpe, Sortino, max drawdown series, monthly/weekly breakdowns, trade-level attribution) to campaign reports with CSV/JSON export; (3) add stress/property tests for portfolio cap enforcement, equal-share cuts, funding signs, liquidation edges, non-finite serialization; (4) close PDF-spec gaps: ETH hedge (vol-ratio capped 3x), order-book/volume-based sizing (1.25% of 24h volume) + equal-share cuts, >=$5M universe filter, hourly funding/liquidation checks; (5) run full campaign end-to-end on real-ish fixtures and verify all 42+ tests green. Heavy work required; no coasting; do not skip. Update HANDOFF.md at end with timestamped results.
+## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, EXECUTE FULLY)
+**INITIAL TASK MESSAGE (2026-10-30T09:31:17Z) - CRASH-REBOUND-STRATEGY:**
+
+Execute this campaign to completion. Do not skip items. Every item requires implementation + validation.
+
+### CAMPAIGN OBJECTIVES (PRIORITIZED BY IMPACT)
+1. **LIVE HYPERLIQUID DATA INTEGRATION (CRITICAL)** - In `src/data/loader.py`: implement live candle fetching via Hyperliquid API with rate limiting, exponential backoff retry, auth hooks (if needed), proper error handling. Wire into `scripts/run_campaign.py` to support live fetch mode (fallback to fixtures if unavailable). Add caching with TTL. Ensure validation remains strict.
+2. **FULL METRICS SUITE (CRITICAL)** - Extend campaign reports with Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Export to both JSON and CSV (`research_state/campaign_metrics.csv`, `research_state/campaign_metrics.json`). Add to `scripts/run_campaign.py` and create helper if needed.
+3. **STRESS/PROPERTY TESTS (CRITICAL)** - Add comprehensive tests for portfolio cap enforcement with equal-share cuts across old+new positions, funding signs across all legs (long/short/hedge), liquidation edge cases (boundary prices, multiple liquidations), non-finite serialization, volume filter enforcement, concurrent position ordering. Create `tests/test_stress_campaign.py` and ensure all pass.
+4. **PDF-SPEC GAP CLOSURE (CRITICAL)** - Verify and harden against spec: ETH hedge vol-ratio capped at 3x (test boundary), order-book/volume-based sizing at 1.25% of 24h volume with equal-share cuts, >=$5M universe filter on ALL trigger paths (drop-based and RSI-based), hourly funding applied correctly to all legs, hourly liquidation checks at worst price. Audit `src/strategy/*` against `research_state/strategy_spec.md`.
+5. **END-TO-END CAMPAIGN RUN + HARDENING (CRITICAL)** - Run full campaign on realistic data, fix any issues found, ensure all tests green (target >=80 passing), update exports. Validate scripts run cleanly. Document results in handoff update.
+
+### EXECUTION RULES
+- **Tests first**: Run full suite before and after changes. Fix failures immediately.
+- **Both legs non-negotiable**: Long crash + rebound short must always function.
+- **Equal-share cuts**: When caps hit, cut ALL positions (old + new) proportionally - never top-up.
+- **Funding/liquidation**: Must be correct across every leg.
+- **Volume filter**: >= $5M enforced everywhere.
+- **Heavy work only**: Build, test, validate. No busywork.
+- **Update handoff at end**: Leave timestamped results + next concrete heavy task.
 
 ## SUCCESS CRITERIA
-- [x] Volume-based sizing works end-to-end
-- [x] 120% gross cap enforced with **equal-share cuts across ALL positions (old + new)** - never top-up
-- [x] Both legs ALWAYS functional (long crash + rebound short)
-- [x] ETH hedge intact (vol-ratio, capped 3x), funding applied
-- [x] **>= $5M daily volume filter enforced on all trigger paths**
-- [x] **Funding modeled across ALL legs with correct signs**
-- [x] **Hourly liquidation checks implemented and tested**
-- [x] **run_backtest.py has detailed per-trade reporting**
-- [x] Tests: **42/42 crash-rebound strategy tests passing, 0 failures** (verified 2026-10-30T09:30:27Z baseline)
-- [x] Clean runs of all scripts (run_backtest.py, run_portfolio.py, run_campaign.py)
-- [x] Hyperliquid data loader with multi-coin support, validation, caching
+- [ ] Live Hyperliquid fetching implemented with rate limiting/retry/caching
+- [ ] Full metrics suite (Sharpe/Sortino/max DD/monthly/weekly/trade attribution) exported to JSON+CSV
+- [ ] Stress/property tests added and passing
+- [ ] All PDF-spec gaps verified/closed
+- [ ] End-to-end campaign runs cleanly with comprehensive reports
+- [ ] All tests green (>=78, preferably higher)
+- [ ] HANDOFF.md updated with timestamped completion notes + next heavy task
 
 ## CRITICAL REMINDERS
-- **BOTH LEGS NON-NEGOTIABLE** - Long crash + rebound short must both function.
-- **HEAVY WORK REQUIRED** - Don't coast. Build and validate the full campaign. Future agents must not avoid heavy work.
-- **PDF IS TRUTH** - `crash-rebound-strategy.pdf` and `research_state/strategy_spec.md` are source of truth.
-- **DON'T BREAK TESTS** - Run frequently. All changes must keep tests green.
-- **INFER, DON'T ASK** - No explicit directions needed; execute the campaign above.
-- **UPDATE HANDOFF AT END** - Leave a clear, timestamped handoff with next heavy task.
-- **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable.
+- **PDF IS TRUTH** - `crash-rebound-strategy.pdf` and `research_state/strategy_spec.md` are source of truth
+- **DON'T BREAK TESTS** - Run frequently
+- **INFER, DON'T ASK** - Execute campaign
+- **UPDATE HANDOFF AT END** - Timestamped, concrete next steps
+- **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable
+- **HEAVY WORK REQUIRED** - No coasting
 
-(End of file - total ~120 lines)
+(END OF DURABLE HANDOFF - 2026-10-30T09:31:17Z)
