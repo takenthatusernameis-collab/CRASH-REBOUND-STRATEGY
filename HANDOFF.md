@@ -1,4 +1,15 @@
 # DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T13:18:32Z
+
+## CURRENT VERIFIED STATUS — 2026-10-30 (supersedes stale state statements below)
+
+- `src/strategy/config.py` currently defaults to RSI(21)<20 (`use_rsi_trigger=True`), ETH hedging enabled, and volume-based sizing enabled at 1.25% of daily volume. `scripts/run_campaign.py` explicitly enables these controls.
+- The campaign runner uses `make_fixture_crash_rebound_multi()` and a tiny fixture ETH series. It is a **fixture smoke test only**, not a real Hyperliquid historical campaign. The 2025-12-20 to 2026-09-28 (283-day) window remains **NOT RUN**.
+- The committed `research_state/campaign_results.json` is a legacy fixture artifact from an earlier drop-trigger run (`use_rsi_trigger=false`, SPY/QQQ/IWM); it is not a real-data or 283-day result. See `research_state/campaign_artifact_provenance_erratum.md`.
+- `scripts/run_campaign.py` now emits explicit fixture-only provenance, and `tests/test_campaign_provenance.py` asserts that exported JSON cannot be mistaken for market performance evidence.
+- Do not promote fixture PnL or trade counts. The genuine 283-day run requires verified hourly Hyperliquid candles, coverage and data-provenance checks; do not fill gaps with fixtures or static symbol lists.
+- The new provenance tests have been added but their remote CI result is pending; no claim is made that this branch's complete test suite has passed yet.
+
+---
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 
 > `CRASH-REBOUND-STRATEGY | 2026-10-30T13:18:32Z | PDF-SPEC FIDELITY CAMPAIGN | RSI(21) PRIMARY TRIGGER + ETH HEDGE ON EVERY LEG + VOLUME-BASED SIZING DEFAULT ON + METRICS SUITE | NO COASTING | HEAVY WORK MANDATORY`
