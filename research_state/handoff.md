@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-30T00:59:05Z
+**TIMESTAMP:** 2026-10-30T01:00:34Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean (commits only via checkpoints; no manual large artifacts)
@@ -28,25 +28,25 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - **Trigger mismatch**: Spec says RSI(21h)<20; implementation needs alignment (config flag + helper + tests).
 - **Known tooling inefficiency (do not re-create):** prior sessions aborted after 3 consecutive `edit` tool invalid-argument failures (`filePath` missing). Every edit must include `filePath`, `oldString`, and `newString` exactly; do not re-issue malformed input. This is a tool constraint, not a code blocker — work around it by issuing complete, valid edit calls.
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:59:05Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-30T01:00:34Z) — START HERE, NO DEFERRALS
 
 **MANDATORY FIRST STEP (BLOCKING — DO NOT SKIP):**
 1. `python3 -m pytest -q` — confirm 58 green. If anything regresses, fix before moving to campaign. **Do not proceed until green.**
 
 **PRIORITY 1 — HARDEN CRASH→REBOUND PIPELINE (CORE TO REPO IDENTITY - BOTH LEGS MANDATORY):**
 The repo name demands BOTH legs (long crash entry + rebound short). Treat as non-negotiable. Strengthen aggressively:
-1. **Short math correctness:** Explicitly verify short entry uses correct side for slippage/commission; verify cover uses correct side. Add unit tests for PnL on short entry/cover with known fills (prove numbers). Test with concrete prices/costs.
+1. **Short math correctness:** Explicitly verify short entry uses correct side for slippage/commission; verify cover uses correct side. Add unit tests for PnL on short entry/cover with known fills (prove numbers). Test with concrete prices/costs. Look up how `_slippage_commission_per_share` behaves: for `side=='buy'` it does `price + slip + comm` (worse entry/cover for long); for other sides it does `price - slip - comm` (better for selling). For short entry (sell-to-open), you want to receive price minus costs? Or does it depend on convention? The code does `short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell')` when entering short - so treating short entry as "sell" side means it subtracts slip/comm (better entry price). For cover (buy-to-cover), it does `_slippage_commission_per_share(short_stop/target/close, config, 'buy')` adding costs - correct. But verify this is the intended convention and add tests to lock it.
 2. **Multi-leg lifecycle:** Tests for target-hit → short-open → close paths: (a) short hits -9% target, (b) 48h/time-exit, (c) stop hit. Assert `trades` contains both legs with correct direction/qty/pnl/r_multiple. Add assertions for accounting across both legs.
 3. **Config plumbing:** Explicitly exercise `enable_rebound_short`, `rebound_short_target_pct`, `rebound_short_time_exit_bars`, `rebound_short_stop_pct` in tests (enable/disable paths).
-4. **Accounting clarity:** Make TradeResult/trades unambiguous for multi-leg. If r_multiple needs adjustment for total risk, fix with tests; keep API backward compatible.
+4. **Accounting clarity:** Make TradeResult/trades unambiguous for multi-leg. If r_multiple needs adjustment for total risk, fix with tests; keep API backward compatible. Currently when short added, r_multiple is computed as `total_pnl / (risk * shares * 2.0)` as a rough hack - this is wrong/unreliable. Fix properly based on total risk allocated across both legs or define convention clearly with tests.
 
 ## NEXT SESSION FOCUS CAMPAIGN (HEAVY WORK — COMPLETE IN ORDER, NO SKIPPING)
 Run `python3 -m pytest -q` after EVERY change. All tests must stay green. Grow suite toward 70+ with concrete, behavior-asserting tests. **Do heavy work; do not do trivial-only passes.**
 
 ### P0: Rebound-short hardening (CONTINUE - HIGHEST PRIORITY)
-- [ ] Add precise short PnL tests with explicit expected values (entry/exit prices + costs). Cover both entry and cover.
+- [ ] Add precise short PnL tests with explicit expected values (entry/exit prices + costs). Cover both entry and cover. For short: profit if price goes down. PnL = (short_entry_px - short_exit_px) * shares; short_exit_px is cover price after slippage/comm (buy side costs). Verify with concrete numbers.
 - [ ] Verify trades list structure is stable and documented via assertions (both legs present when rebound occurs).
-- [ ] Ensure short uses correct convention (sell-to-open on entry, buy-to-cover on exit) with slippage/commission applied correctly.
+- [ ] Ensure short uses correct convention (sell-to-open on entry, buy-to-cover on exit) with slippage/commission applied correctly. Test the slippage/commission function behavior explicitly.
 - [ ] Test edge cases: short stopped immediately? time exit boundary (exactly 48h).
 - Target: +4-6 behavior tests.
 

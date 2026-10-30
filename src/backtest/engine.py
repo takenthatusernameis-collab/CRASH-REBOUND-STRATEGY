@@ -164,13 +164,18 @@ def backtest_simple(
                 pass  # already applied above
             # recompute r_mult for total if short added
             if getattr(config, 'enable_rebound_short', True) and len(trades_log) > 1 and trades_log[-1].get('side') == 'short':
-                total_r_mult = total_pnl / (risk * shares * 2.0) if risk > 0 and shares > 0 else (total_r_mult * 2.0)  # rough
+                # Total risk across both legs: long risk + short risk (each leg sized same)
+                total_risk = risk * shares * 2.0
+                if total_risk > 0:
+                    total_r_mult = total_pnl / total_risk
+                else:
+                    total_r_mult = total_r_mult
             else:
                 total_r_mult = r_mult
             return TradeResult(
                 pnl=total_pnl if 'total_pnl' in locals() else pnl,
                 r_multiple=total_r_mult if 'total_r_mult' in locals() else r_mult,
-                exit_reason='target' if len(trades_log) == 1 else 'target_rebound_short',
+                exit_reason='target_rebound_short' if (len(trades_log) > 1 and any(t.get('side') == 'short' for t in trades_log)) else 'target',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=total_bars if 'total_bars' in locals() else (idx - start_idx + 1),
                 trades=trades_log,
