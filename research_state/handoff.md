@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-30T00:45:38Z
+**TIMESTAMP:** 2026-10-30T00:50:31Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean (commits only via checkpoints; no manual large artifacts)
@@ -24,7 +24,7 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - **Cap logic not wired**: `cut_positions_to_cap` exists in risk but not obviously enforced across multi-position/multi-symbol flows in engine. Must wire and test.
 - **Trigger mismatch**: Spec says RSI(21h)<20; implementation needs alignment (config flag + helper + tests).
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:45:38Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:50:31Z) — START HERE, NO DEFERRALS
 
 **MANDATORY FIRST STEP (BLOCKING):**
 1. `python3 -m pytest -q` — confirm 58 green. If anything regresses, fix before moving to campaign. **Do not proceed until green.**
