@@ -1,9 +1,14 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T05:48:23Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T05:48:54Z
 
-> SESSION SNAPSHOT: 2026-10-30T05:48:23Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **75 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T05:48:54Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **75 passed, 0 failed**. Baseline VERIFIED GREEN.
 >
-> INITIAL TASK (NEXT SESSION): Execute FOCUS CAMPAIGN PRIORITY 1 — wire multi-position cap enforcement end-to-end (equal-share cuts across ALL open positions, persist cuts to risk_state, add multi-coin integration test). Do NOT deviate; run tests after each change. BOTH LEGS NON-NEGOTIABLE.>
+> INITIAL TASK (NEXT SESSION): Execute FOCUS CAMPAIGN PRIORITY 1 — wire multi-position cap enforcement end-to-end (equal-share cuts across ALL open positions, persist cuts to risk_state, add multi-coin integration test). Do NOT deviate; run tests after each change. BOTH LEGS NON-NEGOTIABLE.
 > MANDATE: Hyperliquid hourly perps crash-rebound backtester. **BOTH LEGS ARE NON-NEGOTIABLE** — long crash entry AND rebound short MUST both function correctly. Every trade hedged with ETH. PDF is source of truth.
+
+## BOTTLENECK REMOVALS (READ BEFORE WORKING)
+- **EDIT TOOL REQUIRES `filePath`:** Repeated session failures came from malformed edit calls missing `filePath`. Always pass `filePath`, `oldString`, `newString` explicitly. Never omit `filePath`.
+- **SINGLE CANONICAL HANDOFF:** `research_state/handoff.md` is RETIRED/SUPERSEDED. The only durable handoff is root `HANDOFF.md`. Do not create or read a second handoff file. Duplicate handoffs caused divergent sessions.
+- **TESTS ARE THE GATE:** Baseline is 75 passed / 0 failed. Every change must keep tests green. Do not commit unless tests pass.
 
 ## IMMEDIATE ACTION (DO NOT DEVIATE)
 **STEP 0 - VERIFY BASELINE (BLOCKING, <2 MIN)**
@@ -27,6 +32,7 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 - [x] Verified both legs functional; ETH hedge intact.
 
 ## REMAINING / NEXT PRIORITIES (FOCUS CAMPAIGN)
+
 ### PRIORITY 1: WIRE MULTI-POSITION CAP ENFORCEMENT END-TO-END [CRITICAL - 45-90min]
 **Goal:** Ensure cuts persist across the portfolio state when multiple positions exist (not just new entries). The engine currently sizes new position after cuts; also propagate cuts back to risk_state and ensure positions are reduced.
 
