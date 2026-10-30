@@ -1,6 +1,5 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T08:38:52Z
-
-> SESSION SNAPSHOT: 2026-10-30T08:38:52Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN. Single durable handoff retained; research_state/handoff.md retired/superseded (none present).
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T08:39:22Z
+> SESSION SNAPSHOT: 2026-10-30T08:39:22Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN. Single durable handoff retained; research_state/handoff.md retired/superseded (none present).
 > `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py` → runs clean with detailed per-trade breakdown.
 > Portfolio/campaign validation tools created and tested.
 
@@ -40,7 +39,7 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 - [x] **PREVIOUS:** Funding across all legs, hourly liquidation checks at worst price, detailed reporting in run_backtest.py; all 42 tests passing.
 
 ## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, DO NOT SKIP)
-INITIAL TASK MESSAGE (2026-10-30T08:38:52Z): CRASH-REBOUND-STRATEGY next focus campaign (heavy, mandatory): (1) implement live Hyperliquid candle fetching in src/data/loader.py with rate limiting + retry + auth hooks and wire into run_campaign.py; (2) add full metrics suite (Sharpe, Sortino, max drawdown series, monthly/weekly breakdowns, trade-level attribution) to campaign reports with CSV/JSON export; (3) add stress/property tests for portfolio cap enforcement, equal-share cuts, funding signs, liquidation edges, non-finite serialization; (4) close PDF-spec gaps: ETH hedge (vol-ratio capped 3x), order-book/volume-based sizing (1.25% of 24h volume) + equal-share cuts, >=$5M universe filter, hourly funding/liquidation checks; (5) run full campaign end-to-end on real-ish fixtures and verify all 42+ tests green. Heavy work required; no coasting; do not skip. Update HANDOFF.md at end with timestamped results.
+INITIAL TASK MESSAGE (2026-10-30T08:39:22Z): CRASH-REBOUND-STRATEGY next focus campaign (heavy, mandatory): (1) implement live Hyperliquid candle fetching in src/data/loader.py with rate limiting + retry + auth hooks and wire into run_campaign.py; (2) add full metrics suite (Sharpe, Sortino, max drawdown series, monthly/weekly breakdowns, trade-level attribution) to campaign reports with CSV/JSON export; (3) add stress/property tests for portfolio cap enforcement, equal-share cuts, funding signs, liquidation edges, non-finite serialization; (4) close PDF-spec gaps: ETH hedge (vol-ratio capped 3x), order-book/volume-based sizing (1.25% of 24h volume) + equal-share cuts, >=$5M universe filter, hourly funding/liquidation checks; (5) run full campaign end-to-end on real-ish fixtures and verify all 42+ tests green. Heavy work required; no coasting; do not skip. Update HANDOFF.md at end with timestamped results.
 
 ## SUCCESS CRITERIA
 - [x] Volume-based sizing works end-to-end
