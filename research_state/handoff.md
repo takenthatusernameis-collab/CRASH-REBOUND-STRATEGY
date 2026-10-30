@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-30T00:56:01Z
+**TIMESTAMP:** 2026-10-30T00:57:57Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean (commits only via checkpoints; no manual large artifacts)
@@ -15,7 +15,7 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - `strategy_spec.md`: resolved PDF rules (+9% target, 50h/48h exits, ATR*8 stop, sizing, 120% cap, ETH hedge). Notes RSI(21h)<20 trigger and ATR-based stop; implementation still uses price-drop/fallback logic in places.
 - `src/strategy/crash_rebound.py`: ATR-based stop wired; target uses `config.target_pct` (+9%) by default; `generate_signal` returns Signal correctly; `backtest_crash_rebound` convenience added.
 - `src/strategy/risk.py`: RiskState/DailyRiskState, gross cap `cut_positions_to_cap` (equal-share cuts), slippage/commission helpers, ATR.
-- `src/backtest/engine.py`: `backtest_simple` with next-bar entry, stop/target/time-exit, look-ahead guard, risk gates; rebound-short logic implemented when long hits +9% target (closes short at -9% target or 48h/time-based; wide stop). Returns `trades` list for multi-leg with both legs logged. **Dead duplicate `backtest_simple` definition removed (was shadowing the real one).**
+- `src/backtest/engine.py`: `backtest_simple` with next-bar entry, stop/target/time-exit, look-ahead guard, risk gates; rebound-short logic implemented when long hits +9% target (closes short at -9% target or 48h/time-based; wide stop). Returns `trades` list for multi-leg with both legs logged. **Dead duplicate `backtest_simple` definition removed.**
 - `src/data/loader.py`: fixtures `make_fixture_crash_rebound()`, `make_fixture_crash_rebound_multi()` (SPY/QQQ/IWM + NO_TRADE).
 - `research_state/backtest_smoke.json`: present with prior multi-symbol results.
 - Tests: 58 passing. Rebound-short paths exist but need hardening against sign/convention errors.
@@ -28,9 +28,9 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - **Trigger mismatch**: Spec says RSI(21h)<20; implementation needs alignment (config flag + helper + tests).
 - **Known tooling inefficiency (do not re-create):** prior sessions aborted after 3 consecutive `edit` tool invalid-argument failures (`filePath` missing). Every edit must include `filePath`, `oldString`, and `newString` exactly; do not re-issue malformed input. This is a tool constraint, not a code blocker — work around it by issuing complete, valid edit calls.
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:56:01Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:57:57Z) — START HERE, NO DEFERRALS
 
-**MANDATORY FIRST STEP (BLOCKING):**
+**MANDATORY FIRST STEP (BLOCKING — DO NOT SKIP):**
 1. `python3 -m pytest -q` — confirm 58 green. If anything regresses, fix before moving to campaign. **Do not proceed until green.**
 
 **PRIORITY 1 — HARDEN CRASH→REBOUND PIPELINE (CORE TO REPO IDENTITY - BOTH LEGS MANDATORY):**
