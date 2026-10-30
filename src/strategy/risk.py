@@ -60,7 +60,9 @@ class RiskState:
             self.date = date
             self.realized_pnl = 0.0
             self.daily_loss_limit_hit = False
-            self.open_position_notionals = []
+            # Daily limits reset at midnight, but positions can remain open.
+            # Preserve their notionals so a close or new entry on the next day
+            # cannot orphan existing gross exposure or corrupt equal-share caps.
         if opened and notional > 0:
             self.open_positions += 1
             self.gross_exposure += notional
