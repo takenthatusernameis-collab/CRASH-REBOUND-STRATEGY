@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
 
-**TIMESTAMP:** 2026-10-30T00:57:57Z
+**TIMESTAMP:** 2026-10-30T00:59:05Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean (commits only via checkpoints; no manual large artifacts)
@@ -28,7 +28,7 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - **Trigger mismatch**: Spec says RSI(21h)<20; implementation needs alignment (config flag + helper + tests).
 - **Known tooling inefficiency (do not re-create):** prior sessions aborted after 3 consecutive `edit` tool invalid-argument failures (`filePath` missing). Every edit must include `filePath`, `oldString`, and `newString` exactly; do not re-issue malformed input. This is a tool constraint, not a code blocker — work around it by issuing complete, valid edit calls.
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:57:57Z) — START HERE, NO DEFERRALS
+## INITIAL TASK MESSAGE (timestamped 2026-10-30T00:59:05Z) — START HERE, NO DEFERRALS
 
 **MANDATORY FIRST STEP (BLOCKING — DO NOT SKIP):**
 1. `python3 -m pytest -q` — confirm 58 green. If anything regresses, fix before moving to campaign. **Do not proceed until green.**
