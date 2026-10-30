@@ -121,36 +121,44 @@ def _rsi(candles: List[Dict[str, Any]], period: int = 21) -> Optional[float]:
     return rsi
 
 
+def _daily_volume_usd(candles: List[Dict[str, Any]], lookback: int = 24) -> Optional[float]:
+    """Estimate daily USD volume from the last `lookback` candles.
+
+    The raw `volume` field is treated as base-coin volume (the standard
+    Hyperliquid perp convention), so quote volume = sum(volume * close).
+    Returns None if no usable bars exist.
+    """
+    total = 0.0
+    has_data = False
+    for c in candles[-lookback:]:
+        v = _volume(c)
+        close = _close(c)
+        if v is not None and close is not None and close > 0:
+            total += v * close
+            has_data = True
+    return total if has_data else None
+
+
 def detect_crash_rsi(
     candles: List[Dict[str, Any]],
     rsi_period: int = 21,
     rsi_threshold: float = 20.0,
     min_daily_volume_usd: float = 5_000_000.0,
 ) -> bool:
-    """Detect crash via RSI(21) < 20 with optional volume filter."""
+    """Detect crash via RSI(21) < threshold with optional volume filter.
+
+    Per the PDF spec the primary trigger is a 21-hour RSI closing below 20,
+    and only coins trading >= $5M in the last 24 hours are considered.
+    """
     rsi = _rsi(candles, period=rsi_period)
     if rsi is None:
         return False
     if rsi >= rsi_threshold:
         return False
     if min_daily_volume_usd > 0:
-        vols = []
-        for c in candles[-24:]:
-            v = _volume(c)
-            if v is not None:
-                vols.append(v)
-        if vols:
-            daily_vol_usd = sum(vols)
-            if daily_vol_usd < min_daily_volume_usd and daily_vol_usd > 0:
-                closes = [_close(c) for c in candles[-24:]]
-                closes = [c for c in closes if c is not None]
-                if closes:
-                    avg_price = sum(closes) / len(closes)
-                    daily_vol_usd_est = daily_vol_usd * avg_price
-                    if daily_vol_usd_est < min_daily_volume_usd:
-                        return False
-                else:
-                    return False
+        daily_vol_usd = _daily_volume_usd(candles, lookback=24)
+        if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
+            return False
     return True
 
 

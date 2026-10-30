@@ -375,6 +375,88 @@ def test_detect_crash_rsi_volume_filter():
     assert result is False
 
 
+def test_detect_crash_rsi_triggers_on_strong_downtrend():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    # Sustained sell-off -> RSI(21) well below 20, high volume
+    candles = []
+    price = 100.0
+    for i in range(60):
+        price -= 1.0
+        candles.append({
+            "timestamp": f"2025-01-01T{i//24:02d}:{i%24:02d}:00",
+            "open": price + 0.5,
+            "high": price + 0.6,
+            "low": price - 0.5,
+            "close": price,
+            "volume": 10_000_000  # ample volume
+        })
+    result = detect_crash_rsi(candles, rsi_period=21, rsi_threshold=20.0, min_daily_volume_usd=5_000_000.0)
+    assert result is True
+
+
+def test_detect_crash_rsi_volume_filter_passes_when_volume_high():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    candles = []
+    price = 100.0
+    for i in range(60):
+        price -= 1.0
+        candles.append({
+            "timestamp": f"2025-01-01T{i//24:02d}:{i%24:02d}:00",
+            "open": price + 0.5,
+            "high": price + 0.6,
+            "low": price - 0.5,
+            "close": price,
+            "volume": 10_000_000  # high volume
+        })
+    # Volume filter should not block when daily volume exceeds threshold
+    result = detect_crash_rsi(candles, rsi_period=21, rsi_threshold=30.0, min_daily_volume_usd=5_000_000.0)
+    assert result is True
+
+
+def test_generate_signal_uses_rsi_trigger_by_default():
+    from src.strategy.crash_rebound import generate_signal, detect_crash_rsi
+    from src.strategy.config import StrategyConfig
+    # Build a strong down-trend fixture that satisfies RSI trigger
+    candles = []
+    price = 100.0
+    for i in range(60):
+        price -= 1.0
+        candles.append({
+            "timestamp": f"2025-01-01T{i//24:02d}:{i%24:02d}:00",
+            "open": price + 0.5,
+            "high": price + 0.6,
+            "low": price - 0.5,
+            "close": price,
+            "volume": 10_000_000
+        })
+    # Rebound candle: bullish body in upper range
+    candles.append({
+        "timestamp": "2025-01-01T03:00:00",
+        "open": 40.0, "high": 45.0, "low": 39.5, "close": 44.0, "volume": 10_000_000
+    })
+    # Default config has use_rsi_trigger=True; disable regime filter to isolate trigger behavior
+    cfg = StrategyConfig(use_rsi_trigger=True, avoid_downtrend=False)
+    assert cfg.use_rsi_trigger is True
+    assert detect_crash_rsi(candles) is True
+    sig = generate_signal(candles, config=cfg)
+    assert sig is not None
+    assert sig.config_used["use_rsi_trigger"] is True
+
+
+def test_generate_signal_drop_path_via_flag():
+    from src.strategy.crash_rebound import generate_signal
+    from src.strategy.config import StrategyConfig
+    candles = [
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 1000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
+        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 3000},  # rebound
+    ]
+    cfg = StrategyConfig(use_rsi_trigger=False, avoid_downtrend=False)
+    sig = generate_signal(candles, config=cfg)
+    assert sig is not None
+    assert sig.config_used["use_rsi_trigger"] is False
+
+
 def test_detect_crash_drop_path_still_works():
     from src.strategy.crash_rebound import detect_crash
     candles = [
