@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Portfolio/multi-trade simulation runner."""
+"""Sequential final-bar signal screen; not a chronological portfolio backtest."""
 import json
 import os
 from datetime import datetime
@@ -16,7 +16,13 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                              config: StrategyConfig = None,
                              capital: float = 100000.0,
                              eth_candles: Dict[str, List[Dict[str, Any]]] = None) -> Dict[str, Any]:
-    """Run portfolio simulation across multiple coins with concurrent positions."""
+    """Screen one final-bar signal per coin and simulate candidates sequentially.
+
+    This prototype does not process every hourly bar as a shared event stream
+    and does not maintain concurrently open positions across symbols. It is
+    useful for fixture/integration checks only, not historical portfolio
+    performance inference.
+    """
     if config is None:
         config = StrategyConfig(use_rsi_trigger=False)
 
@@ -75,6 +81,10 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             continue
 
     return {
+        'simulation_mode': 'sequential_final_bar_screen',
+        'historical_portfolio_validated': False,
+        'performance_inference_permitted': False,
+        'max_signals_per_symbol': 1,
         'total_pnl': total_pnl,
         'num_trades': len(all_trades),
         'trades': all_trades,
@@ -86,7 +96,7 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
 
 def main():
     print("=" * 60)
-    print("PORTFOLIO SIMULATION - CRASH-REBOUND STRATEGY")
+    print("FIXTURE DEMO ONLY - NOT A HISTORICAL CONCURRENT PORTFOLIO BACKTEST")
     print("=" * 60)
 
     # Use fixtures for now
