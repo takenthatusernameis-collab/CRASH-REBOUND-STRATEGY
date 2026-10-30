@@ -1,10 +1,12 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T08:31:23Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T08:32:47Z
 
-> SESSION SNAPSHOT: 2026-10-30T08:31:23Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T08:32:47Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN.
 > `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py` → runs clean with detailed per-trade breakdown.
 
 > **INITIAL TASK (NEXT SESSION — MANDATORY HEAVY WORK): EXECUTE THE NEXT FOCUS CAMPAIGN TO COMPLETION.**
 > **PRIORITIZE BY REPO NAME: CRASH-REBOUND-STRATEGY.** Do NOT coast. Ship heavy work: real Hyperliquid data integration + end-to-end multi-trade portfolio simulation, hardened capital/risk accounting, and full campaign validation. **BOTH LEGS NON-NEGOTIABLE (long crash + rebound short).** ETH hedge intact. Equal-share gross cap enforcement MUST remain correct across ALL positions (old+new), never top-up.
+
+> **IMMEDIATE FIRST STEP (BLOCKING — PRIORITY A):** Implement the Hyperliquid data loader (`src/data/loader.py`) supporting multi-coin hourly candles/volumes with >=$5M 24h volume filter, caching/fixtures for offline runs, and validation (gaps, non-finite, look-ahead safety). Wire `passes_universe_filter`/`filter_universe` everywhere. Add tests. Only after A is green, proceed to B (portfolio/multi-trade simulation) then C (campaign validation).
 
 ## BOTTLENECK REMOVALS (READ BEFORE WORKING)
 - **EDIT TOOL REQUIRES `filePath`:** Always pass `filePath`, `oldString`, `newString` explicitly. Never omit `filePath`.
@@ -27,9 +29,10 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 - **Source of truth:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`
 - **Core modules:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/loader.py`, `scripts/run_backtest.py`
 - **State:** RSI trigger (RSI<20) default enabled; drop-based trigger available via `use_rsi_trigger=False`. Rebound short fully implemented. ETH hedge logic implemented with vol-ratio sizing (capped 3x), funding applied across all legs. Volume-based sizing wired. Gross cap/enforcement with **equal-share cuts across ALL positions (old + new)** via `RiskState.apply_cap_cuts()` / `cut_positions_to_cap()` with equal-share logic. Hourly liquidation checks at worst price with penalty.
+- **Test window (Hyperliquid):** 2025-12-20 to 2026-09-28 (283 days).
 
 ## NEXT FOCUS CAMPAIGN (HEAVY WORK - DO NOT DEFER)
-**PRIORITY A: REAL DATA INTEGRATION (BLOCKING)**
+**PRIORITY A: REAL DATA INTEGRATION (BLOCKING — START HERE)**
 - [ ] **Hyperliquid data loader:** Implement robust loader for Hyperliquid hourly candles/volumes (extend `src/data/loader.py`). Must support multi-coin universe with >=$5M 24h volume filter. Add caching/fixtures for offline runs.
 - [ ] **Universe filtering:** Wire `passes_universe_filter`/`filter_universe` everywhere (drop-based + RSI paths). Enforce $5M minimum daily volume on all triggers. Add tests.
 - [ ] **Data validation:** Add checks for gaps, non-finite values, look-ahead safety. Fail fast with clear errors.
