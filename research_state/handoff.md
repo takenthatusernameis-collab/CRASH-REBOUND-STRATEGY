@@ -1,5 +1,5 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
-**TIMESTAMP:** 2026-10-30T01:38:47Z
+**TIMESTAMP:** 2026-10-30T01:40:00Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean
@@ -18,22 +18,22 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 - `src/data/loader.py`: fixtures `make_fixture_crash_rebound()`, `make_fixture_crash_rebound_multi()`.
 - Tests: 58 passing. Rebound-short paths exist and are tested.
 
-## BOTTLENECKS TO REMOVE (IN ORDER)
-1. **Short slippage/commission convention** (`src/backtest/engine.py`, `src/strategy/risk.py`) - `_slippage_commission_per_share` behavior for sell-to-open and buy-to-cover is unverified. Must lock with explicit tests.
-2. **Multi-leg accounting** (`src/backtest/engine.py`) - `r_multiple` uses `total_risk = risk * shares * 2.0` as a hack. Must define correct convention and fix.
-3. **Cap logic not wired** (`src/backtest/engine.py`, `src/strategy/risk.py`) - `cut_positions_to_cap` exists but not enforced across multi-position/multi-symbol flows. Must wire with tests.
-4. **Trigger mismatch** (`src/strategy/crash_rebound.py`, `research_state/strategy_spec.md`) - Spec requires RSI(21h)<20; implementation needs alignment with flag + fallback.
+## BOTTLENECKS TO REMOVE (IN ORDER - MUST RESOLVE)
+1. **Short slippage/commission convention** (`src/backtest/engine.py`) - `_slippage_commission_per_share` usage for short entry (sell-to-open) and cover (buy-to-cover) is unverified. Lock convention with explicit tests.
+2. **Multi-leg accounting** (`src/backtest/engine.py`) - `r_multiple` uses `total_risk = risk * shares * 2.0` as hack. Define correct convention and fix with tests.
+3. **Cap logic not wired** (`src/backtest/engine.py`, `src/strategy/risk.py`) - `cut_positions_to_cap` exists but not enforced across multi-position/multi-symbol flows. Wire with tests.
+4. **Trigger mismatch** (`src/strategy/crash_rebound.py`, `research_state/strategy_spec.md`) - Spec requires RSI(21h)<20; align implementation with flag + fallback.
 5. **Tool constraint** - Avoid malformed `edit` calls (must include `filePath`, `oldString`, `newString`).
 
 ## SINGLE DURABLE HANDOFF MESSAGE FOR NEXT AGENTIC SESSION (START HERE — NO DEFERRALS)
-**TIMESTAMP:** 2026-10-30T01:38:47Z
+**TIMESTAMP:** 2026-10-30T01:40:00Z
 **FOCUS CAMPAIGN:** CRASH-REBOUND-STRATEGY — HARDEN BOTH LEGS TO MATCH MANDATE (CORRECTNESS BEFORE EXPANSION)
 
 ### MANDATORY FIRST STEP (BLOCKING)
 1. Run tests: `/usr/share/miniconda/bin/python -m pytest -q` — confirm 58 green and record exact count. **Do not proceed until green.**
 
-### P0 — LOCK REBOUND-SHORT CORRECTNESS (BLOCKING, BOTH LEGS)
-- [ ] **Audit convention**: Trace `_slippage_commission_per_share` and engine usage for short entry (`side='sell'`) and cover (`side='buy'`). Document expected PnL formula.
+### P0 — LOCK REBOUND-SHORT CORRECTNESS (BLOCKING, BOTH LEGS) [HIGHEST PRIORITY]
+- [ ] **Audit convention**: Trace `_slippage_commission_per_share` and engine usage for short entry (`side='sell'`) and cover (`side='buy'`). Document expected PnL formula in code comments if clarifying.
 - [ ] **Precise short PnL tests**: Add behavior tests with explicit prices/costs proving PnL = (short_entry_px - short_exit_px)*shares with correct slippage/commission. Cover sell-to-open and buy-to-cover.
 - [ ] **Trades structure**: Assert `trades` contains both legs with correct `side`/`entry`/`exit`/`pnl`/`reason` when rebound occurs.
 - [ ] **Fix if off**: Correct signs/convention if tests fail.
