@@ -1,3 +1,15 @@
+# AUDIT CORRECTION — 2026-10-30
+
+The previously committed `research_state/campaign_results.json` is **not** a historical 283-day Hyperliquid backtest. The original `scripts/run_campaign.py` printed a Hyperliquid universe but actually passed synthetic three-bar SPY/QQQ/IWM fixtures and a synthetic ETH proxy to the portfolio simulator. It could generate at most one candidate signal per symbol. Its reported $244.97 PnL must not be used as evidence of historical strategy performance.
+
+The original numerical output has been preserved, but the artifact is now explicitly labelled `SYNTHETIC_FIXTURE_VALIDATION_NOT_HISTORICAL_BACKTEST`, `historical_backtest=false`, and `valid_for_performance_inference=false`. Its exposure reconciliation is also marked failed: zero final open positions alongside non-zero gross exposure.
+
+The campaign entry point now fails closed and will not write a synthetic fixture result to `campaign_results.json`. A genuine campaign remains blocked until there is a verified Hyperliquid hourly dataset, point-in-time eligibility, and a chronological portfolio engine that evaluates every bar and concurrent positions. No historical performance metrics have been invented.
+
+A separate repair branch also corrects daily risk-state date handling, preserves open positions over midnight, and reconciles long/rebound-short notionals at exits. See PR for the regression tests and CI result. No live or paper trading is authorized.
+
+---
+
 # DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T13:18:32Z
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 
