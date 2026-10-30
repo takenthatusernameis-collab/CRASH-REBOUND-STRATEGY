@@ -3,6 +3,7 @@ from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
 from src.strategy.risk import DailyRiskState
+from src.strategy.crash_rebound import compute_eth_hedge_size
 
 
 @dataclass
@@ -15,6 +16,11 @@ class TradeResult:
     shares: float = 0.0
     bars_held: int = 0
     trades: Optional[List[Dict[str, Any]]] = None  # For multi-leg trades (e.g., crash + rebound)
+    hedge_pnl: float = 0.0
+    hedge_side: Optional[str] = None
+    hedge_size: float = 0.0
+    hedge_entry: float = 0.0
+    hedge_exit: float = 0.0
 
 
 
@@ -30,6 +36,7 @@ def backtest_simple(
     config: StrategyConfig = DEFAULT_CONFIG,
     capital: float = 100000.0,
     risk_state: Optional[DailyRiskState] = None,
+    eth_candles: Optional[List[Dict[str, Any]]] = None,
 ) -> TradeResult:
     if signal is None:
         return TradeResult(pnl=0.0, r_multiple=0.0, exit_reason='no_signal')

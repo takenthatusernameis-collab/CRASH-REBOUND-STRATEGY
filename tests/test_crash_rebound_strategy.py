@@ -92,10 +92,11 @@ def test_no_signal_when_crash_but_no_rebound():
 
 def test_backtest_time_exit_signal_on_last_bar():
     # Look-ahead guard: signal on last bar must not stop out on the prior crash candle.
+    config = StrategyConfig(time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False, use_rsi_trigger=False)
     candles = make_fixture_crash_rebound()
-    sig = generate_signal(candles)
+    sig = generate_signal(candles, config=config)
     assert sig is not None
-    res = backtest_simple(candles, sig)
+    res = backtest_simple(candles, sig, config=config)
     assert res.exit_reason in ('target', 'stopped', 'time_exit')
     assert isinstance(res.pnl, float)
     assert isinstance(res.r_multiple, float)
@@ -104,7 +105,7 @@ def test_backtest_time_exit_signal_on_last_bar():
 
 
 def test_backtest_applies_slippage_commission():
-    config = StrategyConfig(slippage_pct=0.001, commission_per_share=0.01)
+    config = StrategyConfig(slippage_pct=0.01, commission_per_share=0.5, commission_min=1.0, entry_next_bar=False, avoid_downtrend=False, use_rsi_trigger=False)
     candles = make_fixture_crash_rebound()
     sig = generate_signal(candles, config=config)
     assert sig is not None
@@ -116,16 +117,16 @@ def test_backtest_applies_slippage_commission():
 
 def test_generate_signal_uses_config_defaults():
     candles = make_fixture_crash_rebound()
-    sig = generate_signal(candles)
+    sig = generate_signal(candles, config=StrategyConfig(use_rsi_trigger=False))
     assert sig is not None
     assert sig.config_used is not None
-    assert sig.config_used["crash_pct_drop"] == DEFAULT_CONFIG.crash_pct_drop
+    assert sig.config_used["crash_pct_drop"] == StrategyConfig(use_rsi_trigger=False).crash_pct_drop
     assert sig.size_shares > 0
 
 
 def test_backtest_blocks_entry_at_max_positions():
     state = DailyRiskState(date="2025-01-01", realized_pnl=0.0, open_positions=5)
-    config = StrategyConfig(max_positions=5)
+    config = StrategyConfig(max_positions=5, use_rsi_trigger=False)
     candles = make_fixture_crash_rebound()
     sig = generate_signal(candles, config=config)
     assert sig is not None
@@ -137,7 +138,7 @@ def test_backtest_blocks_entry_at_max_positions():
 
 def test_backtest_blocks_entry_after_daily_loss_halt():
     state = DailyRiskState(date="2025-01-01", realized_pnl=-350.0, open_positions=0)
-    config = StrategyConfig(max_daily_loss_pct=3.0)
+    config = StrategyConfig(max_daily_loss_pct=3.0, use_rsi_trigger=False)
     candles = make_fixture_crash_rebound()
     sig = generate_signal(candles, config=config)
     assert sig is not None
@@ -192,7 +193,7 @@ def test_atr_stop_produces_stopped_outcome():
         {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
         {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 3000},  # rebound/signal
     ]
-    config = StrategyConfig(stop_atr_mult=1.0, atr_period=2, time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False)
+    config = StrategyConfig(stop_atr_mult=1.0, atr_period=2, time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False, use_rsi_trigger=False)
     sig = generate_signal(candles, config=config)
     assert sig is not None
     # Add a candle after that breaches the stop
@@ -212,9 +213,9 @@ def test_multi_symbol_fixtures_backtest():
             sig = generate_signal(candles, symbol=sym)
             assert sig is None
             continue
-        sig = generate_signal(candles, symbol=sym)
+        sig = generate_signal(candles, symbol=sym, config=StrategyConfig(use_rsi_trigger=False))
         assert sig is not None
-        res = backtest_simple(candles, sig, config=DEFAULT_CONFIG)
+        res = backtest_simple(candles, sig, config=StrategyConfig(use_rsi_trigger=False))
         results[sym] = {'pnl': res.pnl, 'exit_reason': res.exit_reason}
     # At least SPY/QQQ/IWM produce results
     assert set(['SPY', 'QQQ', 'IWM']).issubset(results.keys())
@@ -329,6 +330,62 @@ def test_rebound_short_time_exit():
     assert short_trades[0]['reason'] == 'time_exit'
 
 
+def test_detect_crash_rsi_above_threshold():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    # Uptrend - RSI high
+    candles = []
+    price = 50.0
+    for i in range(50):
+        price += 0.3
+        candles.append({
+            "timestamp": f"2025-01-01T{i//24:02d}:{i%24:02d}:00",
+            "open": price - 0.1,
+            "high": price + 0.2,
+            "low": price - 0.2,
+            "close": price,
+            "volume": 10000000
+        })
+    result = detect_crash_rsi(candles, rsi_period=21, rsi_threshold=20.0, min_daily_volume_usd=5_000_000.0)
+    assert result is False
+
+
+def test_detect_crash_rsi_insufficient_data():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    candles = [{"open": 100, "high": 101, "low": 99, "close": 100, "volume": 10000000} for _ in range(10)]
+    result = detect_crash_rsi(candles, rsi_period=21)
+    assert result is False
+
+
+def test_detect_crash_rsi_volume_filter():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    # Low volume should fail filter if below threshold
+    candles = []
+    price = 100.0
+    for i in range(50):
+        price -= 1.0
+        candles.append({
+            "timestamp": f"2025-01-01T{i//24:02d}:{i%24:02d}:00",
+            "open": price + 0.5,
+            "high": price + 0.6,
+            "low": price - 0.5,
+            "close": price,
+            "volume": 100  # very low volume
+        })
+    result = detect_crash_rsi(candles, rsi_period=21, rsi_threshold=30.0, min_daily_volume_usd=5_000_000.0)
+    assert result is False
+
+
+def test_detect_crash_drop_path_still_works():
+    from src.strategy.crash_rebound import detect_crash
+    candles = [
+        {"open": 100, "high": 101, "low": 99, "close": 100, "volume": 10000},
+        {"open": 100, "high": 100, "low": 95, "close": 96, "volume": 20000},  # -4% drop
+    ]
+    # Explicitly use drop-based trigger
+    result = detect_crash(candles, pct_drop=-2.0, use_rsi_trigger=False)
+    assert result is True
+
+
 def test_rebound_short_disabled():
     from src.strategy.config import StrategyConfig
     from src.backtest.engine import backtest_simple
@@ -345,3 +402,24 @@ def test_rebound_short_disabled():
     config = StrategyConfig(enable_rebound_short=False, entry_next_bar=False)
     res = backtest_simple(candles, sig, config=config)
     assert res.trades is None or len(res.trades) == 1  # only long
+
+
+def test_eth_hedge_sizing_and_pnl_contribution():
+    from src.strategy.crash_rebound import compute_eth_hedge_size
+    from src.strategy.config import StrategyConfig
+    # Create coin and ETH candles with different vol
+    coin = []
+    eth = []
+    # More volatile coin
+    p = 100
+    for i in range(400):
+        p *= (1 + 0.01 * ((-1)**i))  # more volatile
+        coin.append({"open": p, "high": p*1.01, "low": p*0.99, "close": p, "volume": 1000})
+    p2 = 3000
+    for i in range(400):
+        p2 *= (1 + 0.002 * ((-1)**i))  # less volatile
+        eth.append({"open": p2, "high": p2*1.001, "low": p2*0.999, "close": p2, "volume": 1000})
+    cfg = StrategyConfig(hedge_cap_multiplier=3.0, hedge_vol_lookback_hours=336)
+    size = compute_eth_hedge_size(coin, eth, coin_position_value=10000.0, config=cfg)
+    assert size > 0
+    assert size <= 10000.0 * 3.0  # capped

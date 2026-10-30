@@ -16,7 +16,7 @@ class StrategyConfig:
     universe: tuple = ("SPY", "QQQ", "IWM")
 
     # Crash trigger
-    use_rsi_trigger: bool = False      # use RSI-based trigger (PDF) vs price-drop trigger
+    use_rsi_trigger: bool = True       # use RSI-based trigger (PDF primary) vs price-drop trigger
     rsi_period: int = 21               # RSI period (21h per spec)
     rsi_threshold: float = 20.0        # RSI < threshold triggers
     crash_pct_drop: float = -2.0       # % drop from open or prior close to trigger
@@ -70,6 +70,7 @@ class StrategyConfig:
     slippage_pct: float = 0.0005       # 0.05% slippage per side
     commission_per_share: float = 0.001  # commission per share
     commission_min: float = 1.0        # minimum commission per trade
+    funding_rate_pct_per_hour: float = 0.01  # hourly funding on hedge legs (0.01% = 0.0001)
 
     def __post_init__(self):
         if not 0 < self.risk_per_trade_pct <= 10:
