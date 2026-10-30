@@ -4,8 +4,8 @@
     "use_rsi_trigger": false,
     "enable_rebound_short": true,
     "enable_eth_hedge": true,
-    "min_daily_volume_usd": 5000000.0,
-    "gross_cap_pct": 120.0
+    "min_daily_volume_usd": 5000000,
+    "gross_cap_pct": 120
   },
   "results": {
     "total_pnl": 244.9693146960309,
@@ -38,5 +38,22 @@
         "shares": 22.522522522522532
       }
     ]
+  },
+  "evidence_class": "SYNTHETIC_FIXTURE_VALIDATION_NOT_HISTORICAL_BACKTEST",
+  "historical_backtest": false,
+  "uses_synthetic_data": true,
+  "valid_for_performance_inference": false,
+  "audit_correction": {
+    "audited_utc": "2026-10-30",
+    "original_runner": "scripts/run_campaign.py",
+    "reason": "The original runner used three-bar synthetic SPY/QQQ/IWM fixtures and a synthetic ETH proxy; it did not run the 283-day Hyperliquid hourly historical campaign.",
+    "reported_trade_instruments": [
+      "IWM",
+      "QQQ",
+      "SPY"
+    ],
+    "exposure_reconciliation": "FAILED: final_open_positions is zero while final_gross_exposure is non-zero; do not interpret these figures as a validated portfolio result.",
+    "original_numeric_results_preserved": true,
+    "replacement_historical_metrics_not_available": true
   }
 }
