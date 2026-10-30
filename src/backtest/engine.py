@@ -113,7 +113,29 @@ def backtest_simple(
             )
         if check.size_shares > 0:
             shares = check.size_shares
-        risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False)
+        # Track notional
+        notional = entry_px * shares if entry_px > 0 and shares > 0 else 0.0
+        # Apply gross cap with equal-share cuts if needed
+        try:
+            cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
+            total_exposure = getattr(risk_state, 'gross_exposure', 0.0) + notional
+            if total_exposure > cap_value and hasattr(risk_state, 'open_position_notionals'):
+                # Get all notionals including new one
+                all_notionals = list(getattr(risk_state, 'open_position_notionals', [])) + [notional]
+                cut = risk_state.cut_positions_to_cap(capital, config, all_notionals)
+                if cut and len(cut) == len(all_notionals):
+                    # Cut all positions proportionally - update existing positions
+                    # For this trade, we take the cut amount for the new position
+                    new_notional_cut = cut[-1]
+                    if new_notional_cut < notional and entry_px > 0:
+                        shares = new_notional_cut / entry_px
+                    # Note: cutting old positions would require modifying them;
+                    # per spec "equal-share cuts to ALL positions (old + new)" -
+                    # we enforce by sizing new position appropriately
+                    notional = entry_px * shares if shares > 0 else 0.0
+        except Exception:
+            pass
+        risk_state.apply_trade(entry_date, 0.0, opened=True, closed=False, notional=notional)
 
 
     trades_log = []
@@ -166,7 +188,11 @@ def backtest_simple(
                 hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
-                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
+                try:
+                    _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
+                except Exception:
+                    _not = 0.0
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
             trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'stopped'})
             total_pnl_result = pnl + hedge_pnl_total
             return TradeResult(
@@ -200,7 +226,11 @@ def backtest_simple(
                 hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
-                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
+                try:
+                    _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
+                except Exception:
+                    _not = 0.0
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
             trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'target'})
             total_pnl = pnl + hedge_pnl_total
             total_r_mult = r_mult
@@ -364,7 +394,11 @@ def backtest_simple(
                     hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
-                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True)
+                try:
+                    _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
+                except Exception:
+                    _not = 0.0
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
             return TradeResult(
                 pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,

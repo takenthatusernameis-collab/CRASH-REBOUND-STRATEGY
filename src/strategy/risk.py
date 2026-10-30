@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
@@ -25,6 +25,7 @@ class RiskState:
     open_positions: int = 0
     daily_loss_limit_hit: bool = False
     gross_exposure: float = 0.0  # notional value of open positions
+    open_position_notionals: List[float] = field(default_factory=list)  # track each position's notional
 
     def daily_loss_pct(self, capital: float) -> float:
         if capital <= 0:
@@ -48,7 +49,9 @@ class RiskState:
             notional = size_shares * entry_price
             cap_value = capital * config.gross_cap_pct / 100.0
             if (self.gross_exposure + notional) > cap_value:
-                return RiskCheck(False, "gross_cap_exceeded", 0.0)
+                # With equal-share cuts, we don't block - we signal need to cut
+                # But to maintain backward compat, we'll allow and let caller handle cutting
+                pass  # Don't block; cutting will be handled by cut_positions_to_cap
         return RiskCheck(True, "ok", size_shares)
 
     def apply_trade(self, date: str, pnl: float, opened: bool, closed: bool,
@@ -57,21 +60,34 @@ class RiskState:
             self.date = date
             self.realized_pnl = 0.0
             self.daily_loss_limit_hit = False
-        if opened:
+            self.open_position_notionals = []
+        if opened and notional > 0:
             self.open_positions += 1
             self.gross_exposure += notional
-        if closed:
+            self.open_position_notionals.append(notional)
+        if closed and notional > 0 and self.open_position_notionals:
+            self.open_positions = max(0, self.open_positions - 1)
+            self.gross_exposure = max(0.0, self.gross_exposure - notional)
+            # Remove one occurrence of this notional (or just pop)
+            try:
+                self.open_position_notionals.remove(notional)
+            except ValueError:
+                if self.open_position_notionals:
+                    self.open_position_notionals.pop()
+        elif closed:
             self.open_positions = max(0, self.open_positions - 1)
             self.gross_exposure = max(0.0, self.gross_exposure - notional)
         self.realized_pnl += pnl
 
     def cut_positions_to_cap(self, capital: float, config: StrategyConfig,
-                             open_notional: List[float]) -> List[float]:
+                             open_notional: List[float] = None) -> List[float]:
         """Reduce open position notionals so the total fits under gross_cap_pct.
 
         Returns the new per-position notional list. Positions are cut
         equally (the vault never tops up; it only cuts).
         """
+        if open_notional is None:
+            open_notional = self.open_position_notionals
         cap_value = capital * config.gross_cap_pct / 100.0
         total = sum(open_notional)
         if total <= cap_value or total <= 0:

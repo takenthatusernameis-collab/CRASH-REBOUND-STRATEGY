@@ -577,3 +577,63 @@ def test_rsi_trigger_volume_filter():
         })
     # Should fail volume filter
     assert detect_crash_rsi(candles, min_daily_volume_usd=5_000_000.0) is False
+
+
+def test_volume_based_sizing_enabled():
+    from src.strategy.crash_rebound import generate_signal, position_size_by_volume
+    from src.strategy.config import StrategyConfig
+    from src.data.loader import make_fixture_crash_rebound
+    candles = make_fixture_crash_rebound()
+    config = StrategyConfig(use_rsi_trigger=False, enable_volume_based_sizing=True, position_size_pct_of_daily_volume=1.25)
+    sig = generate_signal(candles, config=config)
+    assert sig is not None
+    assert sig.size_shares > 0
+
+
+def test_position_size_by_volume_calculation():
+    from src.strategy.crash_rebound import position_size_by_volume
+    # 1.25% of 24h volume of $10M at price $100 -> $125000 / 100 = 1250 shares
+    size = position_size_by_volume(100.0, 10_000_000.0, 1.25)
+    assert abs(size - 1250.0) < 1e-6
+    assert position_size_by_volume(0, 10_000_000.0) == 0.0
+    assert position_size_by_volume(100.0, 0) == 0.0
+
+
+def test_gross_cap_enforcement_equal_share_cuts():
+    from src.strategy.risk import RiskState
+    from src.strategy.config import StrategyConfig
+    state = RiskState(date="2025-01-01", realized_pnl=0.0, open_positions=2, gross_exposure=150000.0)
+    state.open_position_notionals = [75000.0, 75000.0]
+    config = StrategyConfig(gross_cap_pct=120.0)
+    capital = 100000.0
+    # Total 150000 > 120000, should cut to equal share of 120000 = 60000 each
+    cut = state.cut_positions_to_cap(capital, config)
+    assert abs(sum(cut) - 120000.0) < 1e-6
+    assert abs(cut[0] - 60000.0) < 1e-6
+    assert abs(cut[1] - 60000.0) < 1e-6
+
+
+def test_rsi_trigger_respects_min_daily_volume():
+    from src.strategy.crash_rebound import detect_crash_rsi
+    candles = []
+    price = 100.0
+    for i in range(30):
+        price *= 0.99
+        candles.append({
+            "timestamp": f"2025-01-01T{i:02d}:00:00",
+            "open": price * 1.001,
+            "high": price * 1.002,
+            "low": price * 0.998,
+            "close": price,
+            "volume": 1  # tiny volume
+        })
+    candles.append({
+        "timestamp": "2025-01-01T03:00:00",
+        "open": price * 0.995,
+        "high": price * 1.01,
+        "low": price * 0.994,
+        "close": price * 1.005,
+        "volume": 1
+    })
+    # With default min_daily_volume_usd 5M, should reject
+    assert detect_crash_rsi(candles) is False

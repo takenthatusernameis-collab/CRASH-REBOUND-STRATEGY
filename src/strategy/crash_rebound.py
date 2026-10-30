@@ -263,6 +263,7 @@ def generate_signal(
     symbol: str = "TEST",
     config: StrategyConfig = DEFAULT_CONFIG,
     capital: float = 100000.0,
+    risk_state: Optional[Any] = None,
 ) -> Optional[Signal]:
     if not detect_crash(
         candles,
@@ -301,6 +302,20 @@ def generate_signal(
     else:
         target = entry + risk * config.reward_risk
     size = size_by_risk(entry, stop, capital, config.risk_per_trade_pct)
+    # Volume-based sizing if enabled
+    if getattr(config, 'enable_volume_based_sizing', False):
+        try:
+            daily_vol_usd = _daily_volume_usd(candles, lookback=24)
+            if daily_vol_usd is not None and daily_vol_usd > 0 and entry > 0:
+                vol_size = position_size_by_volume(
+                    entry,
+                    daily_vol_usd,
+                    getattr(config, 'position_size_pct_of_daily_volume', 1.25),
+                )
+                if vol_size and vol_size > 0:
+                    size = vol_size
+        except Exception:
+            pass  # fall back to risk-based sizing
     return Signal(
         symbol=symbol,
         side='long',
