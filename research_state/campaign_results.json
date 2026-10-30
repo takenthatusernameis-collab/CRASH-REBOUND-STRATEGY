@@ -1,0 +1,42 @@
+{
+  "timestamp": "2026-10-30T08:37:22.836362",
+  "config": {
+    "use_rsi_trigger": false,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0
+  },
+  "results": {
+    "total_pnl": 244.9693146960309,
+    "num_trades": 3,
+    "final_open_positions": 0,
+    "final_gross_exposure": 12482.218890008564,
+    "trades": [
+      {
+        "symbol": "SPY",
+        "exit_reason": "time_exit",
+        "pnl": 80.45203623367091,
+        "total_pnl": 80.45203623367091,
+        "hedge_pnl": 85.51301184342633,
+        "shares": 10.16260162601625
+      },
+      {
+        "symbol": "QQQ",
+        "exit_reason": "time_exit",
+        "pnl": 87.91482912779311,
+        "total_pnl": 87.91482912779311,
+        "hedge_pnl": 90.90576568368404,
+        "shares": 7.5528700906344355
+      },
+      {
+        "symbol": "IWM",
+        "exit_reason": "time_exit",
+        "pnl": 76.60244933456686,
+        "total_pnl": 76.60244933456686,
+        "hedge_pnl": 81.10695383907111,
+        "shares": 22.522522522522532
+      }
+    ]
+  }
+}
