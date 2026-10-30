@@ -56,13 +56,17 @@ class RiskState:
 
     def apply_trade(self, date: str, pnl: float, opened: bool, closed: bool,
                     notional: float = 0.0):
-        if self.date != date:
-            self.date = date
+        # Callers may supply a full candle timestamp. Daily-loss accounting is
+        # keyed to the calendar date, not each hourly bar.
+        date_key = str(date)
+        if len(date_key) >= 10 and date_key[4:5] == "-" and date_key[7:8] == "-":
+            date_key = date_key[:10]
+        if self.date != date_key:
+            self.date = date_key
             self.realized_pnl = 0.0
             self.daily_loss_limit_hit = False
-            # Daily limits reset at midnight, but positions can remain open.
-            # Preserve their notionals so a close or new entry on the next day
-            # cannot orphan existing gross exposure or corrupt equal-share caps.
+            # Keep open-position notionals across dates: only daily PnL limits
+            # reset at midnight; outstanding positions and gross exposure do not.
         if opened and notional > 0:
             self.open_positions += 1
             self.gross_exposure += notional
