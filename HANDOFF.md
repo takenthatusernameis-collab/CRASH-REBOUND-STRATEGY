@@ -1,7 +1,8 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T05:46:00Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T05:48:23Z
 
-> SESSION SNAPSHOT: 2026-10-30T05:46:00Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **75 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T05:48:23Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **75 passed, 0 failed**. Baseline VERIFIED GREEN.
 >
+> INITIAL TASK (NEXT SESSION): Execute FOCUS CAMPAIGN PRIORITY 1 — wire multi-position cap enforcement end-to-end (equal-share cuts across ALL open positions, persist cuts to risk_state, add multi-coin integration test). Do NOT deviate; run tests after each change. BOTH LEGS NON-NEGOTIABLE.>
 > MANDATE: Hyperliquid hourly perps crash-rebound backtester. **BOTH LEGS ARE NON-NEGOTIABLE** — long crash entry AND rebound short MUST both function correctly. Every trade hedged with ETH. PDF is source of truth.
 
 ## IMMEDIATE ACTION (DO NOT DEVIATE)
