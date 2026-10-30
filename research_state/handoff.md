@@ -1,10 +1,9 @@
 # CRASH-REBOUND-STRATEGY — Durable Session Handoff
-
-**TIMESTAMP:** 2026-10-30T01:00:34Z
+**TIMESTAMP:** 2026-10-30T01:33:36Z
 **REPO:** CRASH-REBOUND-STRATEGY
 **BRANCH:** main
 **WORKING TREE:** clean (commits only via checkpoints; no manual large artifacts)
-**TEST BASELINE:** 58 passed, 0 failed (`python3 -m pytest -q`)
+**TEST BASELINE:** 58 passed, 0 failed (`/usr/share/miniconda/bin/python -m pytest -q`)
 
 ## Purpose (from repo name)
 Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy liquid coins after a crash signal, exit at +9% target or 50h time exit, then open a rebound short; ATR(14)*8 safety stop; 120% gross cap with equal-share cuts; ETH hedge per leg. Spec resolved from `crash-rebound-strategy.pdf` into `research_state/strategy_spec.md`.
@@ -12,76 +11,63 @@ Backtester for a crash-rebound trading strategy (Hyperliquid hourly perps): buy 
 **Repo-name mandate — BOTH LEGS ARE NON-NEGOTIABLE:** long crash entry AND rebound short. Any session that only touches the long leg is off-mission.
 
 ## Current verified state
-- `strategy_spec.md`: resolved PDF rules (+9% target, 50h/48h exits, ATR*8 stop, sizing, 120% cap, ETH hedge). Notes RSI(21h)<20 trigger and ATR-based stop; implementation still uses price-drop/fallback logic in places.
-- `src/strategy/crash_rebound.py`: ATR-based stop wired; target uses `config.target_pct` (+9%) by default; `generate_signal` returns Signal correctly; `backtest_crash_rebound` convenience added.
+- `strategy_spec.md`: resolved PDF rules (+9% target, 50h/48h exits, ATR*8 stop, sizing, 120% cap, ETH hedge). Notes RSI(21h)<20 trigger; implementation still uses price-drop/fallback logic in places.
+- `src/strategy/crash_rebound.py`: ATR-based stop wired; target uses `config.target_pct` (+9%) by default.
 - `src/strategy/risk.py`: RiskState/DailyRiskState, gross cap `cut_positions_to_cap` (equal-share cuts), slippage/commission helpers, ATR.
-- `src/backtest/engine.py`: `backtest_simple` with next-bar entry, stop/target/time-exit, look-ahead guard, risk gates; rebound-short logic implemented when long hits +9% target (closes short at -9% target or 48h/time-based; wide stop). Returns `trades` list for multi-leg with both legs logged. **Dead duplicate `backtest_simple` definition removed.**
-- `src/data/loader.py`: fixtures `make_fixture_crash_rebound()`, `make_fixture_crash_rebound_multi()` (SPY/QQQ/IWM + NO_TRADE).
-- `research_state/backtest_smoke.json`: present with prior multi-symbol results.
-- Tests: 58 passing. Rebound-short paths exist but need hardening against sign/convention errors.
+- `src/backtest/engine.py`: `backtest_simple` with next-bar entry, stop/target/time-exit, look-ahead guard, risk gates; rebound-short logic implemented when long hits +9% target (closes short at -9% target or 48h/time-based; wide stop). Returns `trades` list for multi-leg with both legs logged.
+- `src/data/loader.py`: fixtures `make_fixture_crash_rebound()`, `make_fixture_crash_rebound_multi()`.
+- Tests: 58 passing. Rebound-short paths exist and are tested.
 
-## BOTTLENECKS REMOVED / IDENTIFIED (MUST FIX IF HIT)
-- **Removed:** dead duplicate `backtest_simple` in `src/backtest/engine.py` (first definition fully shadowed the real rebound-short implementation; wasted tokens and confused agents on which definition is active).
-- **Short slippage/commission convention**: `_slippage_commission_per_share` adds slip+comm when `side=='buy'`, subtracts when not buy. For short entry (sell-to-open) and short cover (buy-to-cover), the code must use the correct sides explicitly. If PnL signs look off, fix in engine with deterministic unit tests proving values.
-- **Multi-leg accounting**: `r_multiple` when both legs exist must be unambiguous (ideally total PnL / (total risk allocated) or documented consistently). Do not guess; add assertions that lock the convention.
-- **Cap logic not wired**: `cut_positions_to_cap` exists in risk but not obviously enforced across multi-position/multi-symbol flows in engine. Must wire and test.
+## BOTTLENECKS / KNOWN ISSUES (FIX IF HIT)
+- **Short slippage/commission convention**: `_slippage_commission_per_share` adds slip+comm when `side=='buy'`, subtracts when not buy. For short entry (sell-to-open) engine currently passes `'sell'` side (subtracts costs) and for cover passes `'buy'` (adds costs). Verify with explicit unit tests and lock behavior.
+- **Multi-leg accounting**: `r_multiple` when both legs exist uses `total_risk = risk * shares * 2.0` as a rough hack - must be fixed with clear convention and tests.
+- **Cap logic not wired**: `cut_positions_to_cap` exists in risk but not enforced across multi-position/multi-symbol flows in engine. Must wire and test.
 - **Trigger mismatch**: Spec says RSI(21h)<20; implementation needs alignment (config flag + helper + tests).
-- **Known tooling inefficiency (do not re-create):** prior sessions aborted after 3 consecutive `edit` tool invalid-argument failures (`filePath` missing). Every edit must include `filePath`, `oldString`, and `newString` exactly; do not re-issue malformed input. This is a tool constraint, not a code blocker — work around it by issuing complete, valid edit calls.
+- **Tool constraint**: Avoid malformed `edit` calls (must include `filePath`, `oldString`, `newString`).
 
-## INITIAL TASK MESSAGE (timestamped 2026-10-30T01:00:34Z) — START HERE, NO DEFERRALS
+## SINGLE DURABLE HANDOFF MESSAGE FOR NEXT AGENTIC SESSION (START HERE — NO DEFERRALS)
+**TIMESTAMP:** 2026-10-30T01:33:36Z
+**FOCUS CAMPAIGN:** CRASH-REBOUND-STRATEGY — HARDEN BOTH LEGS TO MATCH REPO MANDATE
 
-**MANDATORY FIRST STEP (BLOCKING — DO NOT SKIP):**
-1. `python3 -m pytest -q` — confirm 58 green. If anything regresses, fix before moving to campaign. **Do not proceed until green.**
+### MANDATORY FIRST STEP (BLOCKING)
+1. Run tests: `/usr/share/miniconda/bin/python -m pytest -q` — confirm 58 green. **Do not proceed until green.**
 
-**PRIORITY 1 — HARDEN CRASH→REBOUND PIPELINE (CORE TO REPO IDENTITY - BOTH LEGS MANDATORY):**
-The repo name demands BOTH legs (long crash entry + rebound short). Treat as non-negotiable. Strengthen aggressively:
-1. **Short math correctness:** Explicitly verify short entry uses correct side for slippage/commission; verify cover uses correct side. Add unit tests for PnL on short entry/cover with known fills (prove numbers). Test with concrete prices/costs. Look up how `_slippage_commission_per_share` behaves: for `side=='buy'` it does `price + slip + comm` (worse entry/cover for long); for other sides it does `price - slip - comm` (better for selling). For short entry (sell-to-open), you want to receive price minus costs? Or does it depend on convention? The code does `short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell')` when entering short - so treating short entry as "sell" side means it subtracts slip/comm (better entry price). For cover (buy-to-cover), it does `_slippage_commission_per_share(short_stop/target/close, config, 'buy')` adding costs - correct. But verify this is the intended convention and add tests to lock it.
-2. **Multi-leg lifecycle:** Tests for target-hit → short-open → close paths: (a) short hits -9% target, (b) 48h/time-exit, (c) stop hit. Assert `trades` contains both legs with correct direction/qty/pnl/r_multiple. Add assertions for accounting across both legs.
-3. **Config plumbing:** Explicitly exercise `enable_rebound_short`, `rebound_short_target_pct`, `rebound_short_time_exit_bars`, `rebound_short_stop_pct` in tests (enable/disable paths).
-4. **Accounting clarity:** Make TradeResult/trades unambiguous for multi-leg. If r_multiple needs adjustment for total risk, fix with tests; keep API backward compatible. Currently when short added, r_multiple is computed as `total_pnl / (risk * shares * 2.0)` as a rough hack - this is wrong/unreliable. Fix properly based on total risk allocated across both legs or define convention clearly with tests.
+### P0 — REBOUND-SHORT HARDENING (HIGHEST PRIORITY, BOTH LEGS MANDATORY)
+- [ ] **Precise short PnL tests**: Add behavior tests with explicit expected values for short entry/cover with known prices/costs (prove PnL = (short_entry_px - short_exit_px)*shares with correct slippage/commission application). Cover sell-to-open entry and buy-to-cover exit.
+- [ ] **Verify trades structure**: Assert `trades` contains both legs with correct `side`/`entry`/`exit`/`pnl`/`reason` when rebound occurs.
+- [ ] **Short convention lock**: Explicitly test `_slippage_commission_per_share` behavior and engine usage for short paths; fix if signs off.
+- [ ] **Edge cases**: Short stopped immediately, time-exit boundary (exactly 48h), target hit paths.
+**Target:** +4-6 behavior tests.
 
-## NEXT SESSION FOCUS CAMPAIGN (HEAVY WORK — COMPLETE IN ORDER, NO SKIPPING)
-Run `python3 -m pytest -q` after EVERY change. All tests must stay green. Grow suite toward 70+ with concrete, behavior-asserting tests. **Do heavy work; do not do trivial-only passes.**
+### P1 — 120% GROSS CAP WITH EQUAL-SHARE CUTS
+- [ ] **Wire cap logic**: Enforce `RiskState.cut_positions_to_cap` in engine/multi-symbol flows when combined gross > 120% of equity (equal-share reduction, never top-up).
+- [ ] **Track gross exposure**: Correctly track across multiple open positions/trades.
+- [ ] **Tests**: Add multi-position cap test with assertions on sizes/gross before/after cuts.
+**Target:** +2-4 tests.
 
-### P0: Rebound-short hardening (CONTINUE - HIGHEST PRIORITY)
-- [ ] Add precise short PnL tests with explicit expected values (entry/exit prices + costs). Cover both entry and cover. For short: profit if price goes down. PnL = (short_entry_px - short_exit_px) * shares; short_exit_px is cover price after slippage/comm (buy side costs). Verify with concrete numbers.
-- [ ] Verify trades list structure is stable and documented via assertions (both legs present when rebound occurs).
-- [ ] Ensure short uses correct convention (sell-to-open on entry, buy-to-cover on exit) with slippage/commission applied correctly. Test the slippage/commission function behavior explicitly.
-- [ ] Test edge cases: short stopped immediately? time exit boundary (exactly 48h).
-- Target: +4-6 behavior tests.
+### P2 — ALIGN CRASH TRIGGER TO RSI(21h)<20
+- [ ] **Implement RSI helper**: Add RSI(21h)<20 trigger path in `src/strategy/crash_rebound.py` with config flag; keep price-based as fallback.
+- [ ] **Update spec**: Reflect implementation state in `research_state/strategy_spec.md`.
+- [ ] **Tests**: Add tests for RSI trigger firing and fallback behavior.
+**Target:** +2-4 tests.
 
-### P1: 120% gross cap with equal-share cuts in multi-trade flow
-- [ ] Wire `RiskState.cut_positions_to_cap` through engine/multi-symbol path when combined gross > 120% of equity (equal-share reduction, never top-up).
-- [ ] Track gross exposure correctly across multiple open positions/trades.
-- [ ] Add multi-position cap test with assertions on sizes/gross before/after cuts.
-- [ ] Ensure risk checks interact correctly with cap logic (blocked vs cut behavior).
-- Target: +2-4 tests.
+### P3 — MULTI-SYMBOL FIXTURES & BACKTESTS
+- [ ] **Expand fixtures**: Add liquid-coin style cases, run multi-symbol backtest.
+- [ ] **Update smoke results**: Update `research_state/backtest_smoke.json` with new results; assert non-NO_TRADE produce trades/legs as expected.
+- [ ] **Tests**: Add multi-symbol behavior tests.
+**Target:** +1-3 tests.
 
-### P2: Align crash trigger to RSI(21h)<20
-- [ ] Implement RSI(21h)<20 trigger path in `src/strategy/crash_rebound.py` (add helper). Keep existing price-based as fallback/configurable via config flag.
-- [ ] Update `research_state/strategy_spec.md` to reflect implementation state.
-- [ ] Add tests for RSI trigger firing and fallback behavior.
-- [ ] Make trigger selection explicit via config.
-- Target: +2-4 tests.
+### P4 — GROW SUITE TO 70+
+- [ ] Add focused behavior tests for all items above. Prefer behavior assertions over smoke-only.
+- [ ] Keep all tests green throughout. Run `/usr/share/miniconda/bin/python -m pytest -q` after every change.
+**Target:** >= 70 total tests.
 
-### P3: Expand multi-symbol fixtures/backtests
-- [ ] Add liquid-coin style fixtures (more symbols/cases), run multi-symbol backtest.
-- [ ] Update `research_state/backtest_smoke.json` with new results; assert non-NO_TRADE symbols produce trades/legs where expected.
-- [ ] Add tests exercising multi-symbol flows.
-- Target: +1-3 tests.
+### VERIFICATION GATE (END OF SESSION — MANDATORY)
+- [ ] `/usr/share/miniconda/bin/python -m pytest -q` green with count >= 58 and trending to 70+ (record exact count).
+- [ ] All campaign items touched have corresponding passing tests.
+- [ ] Update this handoff with new timestamp, test count, what was done/blocked, concrete next action.
+- [ ] No uncommitted large experimental artifacts outside `research_state/*`, `src/*`, `tests/*`, `scripts/*`.
 
-### P4: Systematic suite growth to 70+
-- [ ] For each item above add focused behavior tests; track count explicitly.
-- [ ] Prefer behavior tests over smoke-only assertions.
-- [ ] Keep all tests green throughout.
-- Target: reach >= 70 total, with clear behavior coverage.
-
-## VERIFICATION GATE (END OF SESSION — MANDATORY)
-- `python3 -m pytest -q` green with count >= 58 and trending to 70+ (record exact count in handoff if changed).
-- All campaign items touched have corresponding tests added/passing.
-- Update this handoff: new timestamp, test count, what was done/blocked, concrete next action for subsequent session.
-- No uncommitted large experimental artifacts outside `research_state/*`, `src/*`, `tests/*`, `scripts/*`.
-
-## DO-NOT-ESCALATE LIST
+### DO-NOT-ESCALATE
 - Do not cancel/force-push/escalate in-progress runs without explicit user direction.
-- Workflow-file changes remain blocked by GITHUB_TOKEN scope; commit/push only regular files (`research_state/*`, `src/*`, `tests/*`, `scripts/*`).
+- Workflow-file changes remain blocked by GITHUB_TOKEN scope; commit/push only regular files.
