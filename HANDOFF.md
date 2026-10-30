@@ -1,10 +1,10 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T07:33:46Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T07:36:16Z
 
-> SESSION SNAPSHOT: 2026-10-30T07:33:46Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T07:36:16Z — Crash-rebound-strategy tests: **42/42 passed, 0 failed**. Baseline VERIFIED GREEN.
 > `python scripts/run_backtest.py` → runs clean with detailed per-trade breakdown.
 >
-> **INITIAL TASK (NEXT SESSION — MANDATORY HEAVY WORK): BUILD NEXT FOCUS CAMPAIGN.**
-> All PRIs complete; don't coast. Ship heavy work: real Hyperliquid data integration + end-to-end multi-trade portfolio simulation, hardened capital/risk accounting, and full campaign validation. **BOTH LEGS NON-NEGOTIABLE (long crash + rebound short).** ETH hedge intact. Equal-share gross cap enforcement MUST remain correct.
+> **INITIAL TASK (NEXT SESSION — MANDATORY HEAVY WORK): EXECUTE THE NEXT FOCUS CAMPAIGN TO COMPLETION.**
+> All PRIs complete; don't coast. Ship heavy work: real Hyperliquid data integration + end-to-end multi-trade portfolio simulation, hardened capital/risk accounting, and full campaign validation. **BOTH LEGS NON-NEGOTIABLE (long crash + rebound short).** ETH hedge intact. Equal-share gross cap enforcement MUST remain correct across ALL positions (old+new), never top-up.
 
 ## BOTTLENECK REMOVALS (READ BEFORE WORKING)
 - **EDIT TOOL REQUIRES `filePath`:** Always pass `filePath`, `oldString`, `newString` explicitly. Never omit `filePath`.
