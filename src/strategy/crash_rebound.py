@@ -178,6 +178,11 @@ def detect_crash(
                                 min_daily_volume_usd=min_daily_volume_usd)
     if len(candles) < 2:
         return False
+    # Enforce minimum daily volume across all trigger paths per spec
+    if min_daily_volume_usd > 0:
+        daily_vol_usd = _daily_volume_usd(candles, lookback=24)
+        if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
+            return False
     start = max(0, len(candles) - lookback)
     for i in range(len(candles) - 1, start - 1, -1):
         prev = candles[i - 1]
@@ -230,20 +235,34 @@ def confirm_rebound(
     return (cur_close - cur_low) / rng >= min_body_ratio
 
 
-def regime_ok(candles: List[Dict[str, Any]], config: StrategyConfig) -> bool:
-    if not config.avoid_downtrend:
-        return True
-    closes = [_close(c) for c in candles]
-    closes = [c for c in closes if c is not None]
-    if len(closes) < config.ma_fast_period:
-        return True
-    ma = sum(closes[-config.ma_fast_period:]) / config.ma_fast_period
-    cur_close = closes[-1]
-    if cur_close < config.regime_min_price:
-        return False
-    if cur_close < ma:
-        return False
+def passes_universe_filter(
+    candles: List[Dict[str, Any]],
+    min_daily_volume_usd: float = 5_000_000.0,
+    regime_config: Optional[StrategyConfig] = None,
+) -> bool:
+    """Check if a symbol passes universe filters (volume + regime)."""
+    if min_daily_volume_usd > 0:
+        daily_vol_usd = _daily_volume_usd(candles, lookback=24)
+        if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
+            return False
+    if regime_config is not None:
+        if not regime_ok(candles, regime_config):
+            return False
     return True
+
+
+def filter_universe(
+    candles_by_symbol: Dict[str, List[Dict[str, Any]]],
+    min_daily_volume_usd: float = 5_000_000.0,
+    regime_config: Optional[StrategyConfig] = None,
+) -> List[str]:
+    """Return symbols passing universe filters."""
+    passed = []
+    for symbol, candles in candles_by_symbol.items():
+        if passes_universe_filter(candles, min_daily_volume_usd=min_daily_volume_usd,
+                                  regime_config=regime_config):
+            passed.append(symbol)
+    return passed
 
 
 def position_size_by_volume(

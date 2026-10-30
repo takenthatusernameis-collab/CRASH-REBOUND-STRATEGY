@@ -15,19 +15,19 @@ def test_detect_crash_custom_threshold():
         {"open": 100.0, "high": 100.0, "low": 99.0, "close": 99.0, "volume": 1000},
         {"open": 100.0, "high": 100.0, "low": 98.4, "close": 98.5, "volume": 2000},
     ]
-    assert detect_crash(candles, pct_drop=-2.0) is False
-    assert detect_crash(candles, pct_drop=-1.0) is True
+    assert detect_crash(candles, pct_drop=-2.0, min_daily_volume_usd=0.0) is False
+    assert detect_crash(candles, pct_drop=-1.0, min_daily_volume_usd=0.0) is True
 
 
 def test_volume_confirmation_filters_low_volume_crash():
     candles = [
         {"open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1000},
-        {"open": 100.0, "high": 100.0, "low": 97.0, "close": 97.5, "volume": 1000},  # crash, low vol
+        {"open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 1000},  # crash, low vol
     ]
     # Default volume_spike_mult=1.5: 1000 < 1000*1.5 → not confirmed
-    assert detect_crash(candles) is False
+    assert detect_crash(candles, min_daily_volume_usd=0.0) is False
     # With mult=0.5: 1000 >= 1000*0.5 → confirmed
-    assert detect_crash(candles, volume_spike_mult=0.5) is True
+    assert detect_crash(candles, volume_spike_mult=0.5, min_daily_volume_usd=0.0) is True
 
 
 def test_regime_filter_blocks_downtrend():
@@ -74,7 +74,7 @@ def test_no_signal_when_no_crash():
         {"open": 100.0, "high": 101.0, "low": 99.0, "close": 100.5, "volume": 1000},
         {"open": 100.5, "high": 101.5, "low": 100.0, "close": 101.0, "volume": 1000},
     ]
-    assert detect_crash(candles) is False
+    assert detect_crash(candles, min_daily_volume_usd=0.0) is False
     assert generate_signal(candles) is None
 
 
@@ -85,7 +85,7 @@ def test_no_signal_when_crash_but_no_rebound():
         {"open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
         {"open": 97.6, "high": 98.0, "low": 96.0, "close": 96.5, "volume": 3000},  # no rebound
     ]
-    assert detect_crash(candles) is True
+    assert detect_crash(candles, min_daily_volume_usd=0.0) is True
     assert confirm_rebound(candles) is False
     assert generate_signal(candles) is None
 
@@ -189,15 +189,15 @@ def test_atr_stop_produces_stopped_outcome():
     from src.strategy import crash_rebound
     # Build so that signal is generated on candle at index 2, and candle at index 3 breaches stop
     candles = [
-        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 1000},
-        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
-        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 3000},  # rebound/signal
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 50000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 100000},  # crash
+        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 80000},  # rebound/signal
     ]
     config = StrategyConfig(stop_atr_mult=1.0, atr_period=2, time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False, use_rsi_trigger=False)
     sig = generate_signal(candles, config=config)
     assert sig is not None
     # Add a candle after that breaches the stop
-    candles2 = list(candles) + [{"timestamp": "2025-01-01T09:33:00", "open": 98.0, "high": 98.1, "low": 80.0, "close": 90.0, "volume": 1000}]
+    candles2 = list(candles) + [{"timestamp": "2025-01-01T09:33:00", "open": 98.0, "high": 98.1, "low": 80.0, "close": 90.0, "volume": 10000}]
     res = backtest_simple(candles2, sig, config=config)
     assert res.exit_reason == 'stopped'
 
@@ -447,9 +447,9 @@ def test_generate_signal_drop_path_via_flag():
     from src.strategy.crash_rebound import generate_signal
     from src.strategy.config import StrategyConfig
     candles = [
-        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 1000},
-        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
-        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 3000},  # rebound
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 50000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 100000},  # crash
+        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 80000},  # rebound
     ]
     cfg = StrategyConfig(use_rsi_trigger=False, avoid_downtrend=False)
     sig = generate_signal(candles, config=cfg)
@@ -464,7 +464,7 @@ def test_detect_crash_drop_path_still_works():
         {"open": 100, "high": 100, "low": 95, "close": 96, "volume": 20000},  # -4% drop
     ]
     # Explicitly use drop-based trigger
-    result = detect_crash(candles, pct_drop=-2.0, use_rsi_trigger=False)
+    result = detect_crash(candles, pct_drop=-2.0, use_rsi_trigger=False, min_daily_volume_usd=0.0)
     assert result is True
 
 

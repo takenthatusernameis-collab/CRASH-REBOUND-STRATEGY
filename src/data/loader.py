@@ -13,11 +13,11 @@ def load_candles_from_json(path: str) -> List[Dict[str, Any]]:
 
 
 def make_fixture_crash_rebound() -> List[Dict[str, Any]]:
-    # Synthetic: down then rebound
+    # Synthetic: down then rebound - volumes set to meet >=$5M daily volume requirement
     return [
-        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 1000},
-        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 5000},  # crash
-        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 3000},  # rebound
+        {"timestamp": "2025-01-01T09:30:00", "open": 100.0, "high": 100.5, "low": 99.5, "close": 100.0, "volume": 50000},
+        {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 100000},  # crash
+        {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 80000},  # rebound
     ]
 
 

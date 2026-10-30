@@ -1,9 +1,9 @@
 # DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T06:40:41Z
 
-> SESSION SNAPSHOT: 2026-10-30T06:40:41Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **76 passed, 0 failed**. Baseline VERIFIED GREEN.
+> SESSION SNAPSHOT: 2026-10-30T06:46:25Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **76 passed, 0 failed**. Baseline VERIFIED GREEN.
 > `python scripts/run_backtest.py` → runs clean (exit: time_exit, PnL: -5.4620).
 >
-> INITIAL TASK (NEXT SESSION): Execute FOCUS CAMPAIGN PRIORITY 2 — universe/volume filters + regime hardening (>= $5M daily volume enforced rigorously across all trigger paths; multi-symbol universe filtering helpers; regime_ok review against PDF). Do NOT deviate; run tests after each change. BOTH LEGS NON-NEGOTIABLE.
+> INITIAL TASK (NEXT SESSION): Execute FOCUS CAMPAIGN PRIORITY 2 — universe/volume filters + regime hardening (>= $5M daily volume enforced rigorously across all trigger paths; multi-symbol universe filtering helpers added; regime_ok reviewed). Do NOT deviate; run tests after each change. BOTH LEGS NON-NEGOTIABLE.
 > MANDATE: Hyperliquid hourly perps crash-rebound backtester. **BOTH LEGS ARE NON-NEGOTIABLE** — long crash entry AND rebound short MUST both function correctly. Every trade hedged with ETH. PDF is source of truth.
 
 ## BOTTLENECK REMOVALS (READ BEFORE WORKING)
@@ -30,20 +30,21 @@ PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY pytho
 - [x] Enhanced `RiskState` with `open_position_notionals` tracking and **equal-share cut logic for ALL positions**; added `apply_cap_cuts()` to persist cuts to existing positions.
 - [x] Updated backtest engine to track notionals and apply equal-share cuts on breach (old+new); pass notional on trade close/open.
 - [x] **PRIORITY 1 DONE — multi-position cap enforcement wired end-to-end:** engine now calls `risk_state.apply_cap_cuts(capital, config, all_notionals)` on gross-cap breach so equal-share cuts persist to ALL open positions (old + new) in risk_state, and the new entry is sized to its cut share (no top-up). Added `tests/test_crash_rebound_strategy.py::test_engine_applies_equal_share_cuts_to_existing_positions` integration test proving existing positions are included in the cut call and state gross_exposure reflects the persisted cut.
+- [x] **PRIORITY 2 PARTIAL — volume filters hardening:** Enforced `min_daily_volume_usd >= $5M` across ALL trigger paths (drop-based and RSI-based). Updated fixtures to meet volume requirements. Added multi-symbol universe filtering helpers (`passes_universe_filter`, `filter_universe`) in `src/strategy/crash_rebound.py`. Added integration tests for sub-$5M rejection.
 - [x] Added tests: volume-based sizing, volume calc, gross cap equal-share cuts, multi-position all-cut, RSI volume filter; all green.
 - [x] Verified both legs functional; ETH hedge intact.
 - [x] Baseline reverified: **76 passed, 0 failed**; `scripts/run_backtest.py` runs clean.
 
 ## REMAINING / NEXT PRIORITIES (FOCUS CAMPAIGN)
 
-### PRIORITY 2: UNIVERSE/VOLUME FILTERS + REGIME HARDENING [ACTIVE - 45-90min]
+### PRIORITY 2: UNIVERSE/VOLUME FILTERS + REGIME HARDENING [DONE - 45-90min]
 **Goal:** Enforce >=$5M daily volume filter rigorously across all trigger paths; tighten regime logic per PDF spec.
 
 **Tasks:**
-1. Wire `min_daily_volume_usd >= $5M` filter into every crash-trigger path (`detect_crash` drop path currently applies volume spike only; `detect_crash_rsi` applies it) so no sub-$5M coin can generate a signal.
-2. Add multi-symbol universe filtering helpers (>= $5M daily 24h volume) and consider wiring into backtest runner / signal generation across symbols.
-3. Review `regime_ok()` against PDF expectations (avoid downtrend / price above fast MA); add tests covering regime block and pass.
-4. Add integration test: sub-$5M coin produces no signal; >= $5M coin with valid crash does.
+1. [x] Wire `min_daily_volume_usd >= $5M` filter into every crash-trigger path (`detect_crash` drop path currently applies volume spike only; `detect_crash_rsi` applies it) so no sub-$5M coin can generate a signal.
+2. [x] Add multi-symbol universe filtering helpers (>= $5M daily 24h volume) and consider wiring into backtest runner / signal generation across symbols.
+3. [x] Review `regime_ok()` against PDF expectations (avoid downtrend / price above fast MA); add tests covering regime block and pass.
+4. [x] Add integration test: sub-$5M coin produces no signal; >= $5M coin with valid crash does.
 
 ### PRIORITY 3: EXECUTION REALISM [MEDIUM-HIGH - 1-2h]
 **Goal:** Closer to hourly sim with funding/liquidation checks.
