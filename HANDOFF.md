@@ -1,9 +1,9 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T09:38:34Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T09:39:09Z
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-10-30T09:38:34Z | HEAVY CAMPAIGN MANDATORY | NO COASTING`
+> `CRASH-REBOUND-STRATEGY | 2026-10-30T09:39:09Z | PDF-SPEC FIDELITY CAMPAIGN | RSI(21) PRIMARY TRIGGER + ETH HEDGE + VOLUME-BASED SIZING | NO COASTING`
 
-SESSION SNAPSHOT: 2026-10-30T09:38:34Z — Baseline VERIFIED GREEN.
+SESSION SNAPSHOT: 2026-10-30T09:39:09Z — Baseline VERIFIED GREEN.
 - `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` → **78 passed, 0 failed**
 - `scripts/run_backtest.py` → clean per-trade breakdown (signal detected, trade executed)
 - `scripts/run_portfolio.py` → multi-position sim (3 trades, gross exposure under cap)
@@ -39,16 +39,23 @@ Single durable handoff is this file only. `research_state/handoff.md` retired/su
 - [x] Baseline verified green at 2026-10-30T09:38:34Z
 
 ## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, EXECUTE FULLY)
-**PRIORITIZED BY REPO NAME & CRITICALITY - CRASH-REBOUND-STRATEGY:**
+**PRIORITIZED BY REPO NAME (CRASH-REBOUND-STRATEGY) — crash-rebound strategy fidelity to the PDF spec is the #1 priority.**
 
-Execute this campaign to completion. Do not skip items. Every item requires implementation + validation.
+Execute this campaign to completion. Do not skip items. Every item requires implementation + validation. No coasting.
 
-### CAMPAIGN OBJECTIVES (PRIORITIZED BY IMPACT)
-1. **LIVE HYPERLIQUID DATA INTEGRATION (CRITICAL)** - In `src/data/loader.py`: implement live candle fetching via Hyperliquid API with rate limiting, exponential backoff retry, auth hooks (if needed), proper error handling. Wire into `scripts/run_campaign.py` to support live fetch mode (fallback to fixtures if unavailable). Add caching with TTL. Ensure validation remains strict. Remove any blocking dependencies that prevent live data path.
-2. **FULL METRICS SUITE (CRITICAL)** - Extend campaign reports with Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Export to both JSON and CSV (`research_state/campaign_metrics.csv`, `research_state/campaign_metrics.json`). Add to `scripts/run_campaign.py` and create helper if needed.
-3. **STRESS/PROPERTY TESTS (CRITICAL)** - Add comprehensive tests for portfolio cap enforcement with equal-share cuts across old+new positions, funding signs across all legs (long/short/hedge), liquidation edge cases (boundary prices, multiple liquidations), non-finite serialization, volume filter enforcement, concurrent position ordering. Create `tests/test_stress_campaign.py` and ensure all pass (target >= 85 total).
-4. **PDF-SPEC GAP CLOSURE (CRITICAL)** - Verify and harden against spec: ETH hedge vol-ratio capped at 3x (test boundary), order-book/volume-based sizing at 1.25% of 24h volume with equal-share cuts, >=$5M universe filter on ALL trigger paths (drop-based and RSI-based), hourly funding applied correctly to all legs, hourly liquidation checks at worst price. Audit `src/strategy/*` against `research_state/strategy_spec.md`. Fix any deviations.
-5. **END-TO-END CAMPAIGN RUN + HARDENING (CRITICAL)** - Run full campaign on realistic data, fix any issues found, ensure all tests green (target >=85 passing), update exports. Validate scripts run cleanly. Document results in handoff update.
+### CAMPAIGN OBJECTIVES (PRIORITIZED BY IMPACT / REPO NAME)
+
+1. **CRASH TRIGGER ALIGNMENT TO PDF SPEC (PRIMARY - REPO NAME)** - Make 21-hour RSI < 20 the primary/default crash trigger per `research_state/strategy_spec.md` on coins with >=$5M daily volume; keep price-drop as an explicit fallback variant via `use_rsi_trigger=False`. Ensure `generate_signal()` defaults to the RSI path and both legs (long crash + rebound short) remain functional. Do not break existing passing tests.
+
+2. **ETH HEDGE ON EVERY LEG (PRIMARY)** - Harden `compute_eth_hedge_size()` vol-ratio sizing capped at 3x per spec; enforce ETH hedge on the long crash leg AND the rebound short leg (long hedge) across all trigger paths; add boundary test at the 3x cap; confirm funding signs correct on every leg (long pays, short receives).
+
+3. **VOLUME-BASED POSITION SIZING + EQUAL-SHARE CUTS (PRIMARY)** - Switch default to `enable_volume_based_sizing=True` at 1.25% of 24h volume (`position_size_pct_of_daily_volume`). When gross cap (120%) is breached, cut ALL positions (old + new) proportionally via `RiskState.apply_cap_cuts()` — never top-up. 1 position per coin.
+
+4. **UNIVERSE / VOLUME FILTER EVERYWHERE (PRIMARY)** - Enforce >=$5M daily volume filter on ALL trigger paths (RSI-based and drop-based) and in campaign/universe selection (`filter_universe`, `passes_universe_filter`, `detect_crash`, `detect_crash_rsi`).
+
+5. **STRESS/PROPERTY TESTS (CRITICAL)** - Create `tests/test_stress_campaign.py` with comprehensive tests: cap enforcement with equal-share cuts across old+new positions, funding signs across all legs, liquidation edge cases (boundary prices, multiple liquidations), non-finite serialization, volume filter enforcement, concurrent position ordering. Target >= 85 total passing tests.
+
+6. **END-TO-END CAMPAIGN RUN + METRICS SUITE (CRITICAL)** - Run full campaign on realistic data for the test window (2025-12-20 to 2026-09-28, 283 days). Extend campaign reports with Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Export to JSON + CSV (`research_state/campaign_metrics.json`, `research_state/campaign_metrics.csv`). Fix any issues found; validate scripts run cleanly; all tests green (>=85).
 
 ### EXECUTION RULES
 - **Tests first**: Run full suite before and after changes. Fix failures immediately.
@@ -60,12 +67,13 @@ Execute this campaign to completion. Do not skip items. Every item requires impl
 - **Update handoff at end**: Leave timestamped results + next concrete heavy task.
 
 ## SUCCESS CRITERIA
-- [ ] Live Hyperliquid fetching implemented with rate limiting/retry/caching
-- [ ] Full metrics suite (Sharpe/Sortino/max DD/monthly/weekly/trade attribution) exported to JSON+CSV
-- [ ] Stress/property tests added and passing
-- [ ] All PDF-spec gaps verified/closed
-- [ ] End-to-end campaign runs cleanly with comprehensive reports
-- [ ] All tests green (>=85, preferably higher)
+- [ ] RSI(21)<20 primary crash trigger with price-drop fallback; both legs functional; tests green
+- [ ] ETH hedge on every leg, vol-ratio capped at 3x (boundary tested), funding signs correct
+- [ ] Volume-based sizing default on (1.25% of 24h vol); equal-share cuts across old+new on cap breach
+- [ ] >= $5M volume filter on all trigger paths + campaign/universe selection
+- [ ] Stress/property tests added (`tests/test_stress_campaign.py`) and passing (>=85 total)
+- [ ] End-to-end campaign run with metrics suite exported to JSON+CSV
+- [ ] All tests green (>=85)
 - [ ] HANDOFF.md updated with timestamped completion notes + next heavy task
 
 ## CRITICAL REMINDERS
@@ -76,4 +84,4 @@ Execute this campaign to completion. Do not skip items. Every item requires impl
 - **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable
 - **HEAVY WORK REQUIRED** - No coasting
 
-(END OF DURABLE HANDOFF - 2026-10-30T09:38:34Z)
+(END OF DURABLE HANDOFF - 2026-10-30T09:39:09Z)
