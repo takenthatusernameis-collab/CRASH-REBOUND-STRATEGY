@@ -1,71 +1,66 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T05:05:00Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T05:39:32Z
 
-> SESSION VERIFIED: 2026-10-30T05:05:00Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **71 passed, 0 failed**. Baseline green. BOTH legs (long crash + rebound short) are non-negotiable per repo name.
+> SESSION SNAPSHOT: 2026-10-30T05:39:32Z — `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q` → **71 passed, 0 failed**. Baseline VERIFIED GREEN.
+>
+> MANDATE: Hyperliquid hourly perps crash-rebound backtester. **BOTH LEGS ARE NON-NEGOTIABLE** — long crash entry AND rebound short MUST both function correctly. Every trade hedged with ETH. PDF is source of truth.
 
-## MISSION FOR NEXT SESSION
-**DO NOT SKIM. START HERE. IMMEDIATELY EXECUTE STEP 0.**
-
-Repo: **CRASH-REBOUND-STRATEGY**. Mandate: Hyperliquid hourly perps crash-rebound backtester. BOTH legs are non-negotiable — long crash entry AND rebound short must both work correctly.
-
-Source of truth: `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Treat PDF as ground truth.
-
-## VERIFIED CURRENT STATE
-- Tests: `python -m pytest -q` → **71 passed, 0 failed**
-- RSI trigger default path (RSI<20) tested and enabled; drop-based trigger available via `use_rsi_trigger=False`
-- Rebound short fully implemented and tested (hits target/stop/time exit)
-- ETH hedge logic implemented in backtest (vol-ratio sizing via `compute_eth_hedge_size`, caps at 3x) with funding applied; hedge PnL tracked in results
-- Core modules wired: `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`
-- End-to-end runner: `scripts/run_backtest.py`
-
-## BOTTLENECKS (current)
-**NONE BLOCKING.** Suite passes. No import errors.
-
-## NEXT CAMPAIGN (HEAVY IMPLEMENTATION)
-
-### STEP 0: VERIFY BASELINE (BLOCKING)
+## IMMEDIATE ACTION (DO NOT DEVIATE)
+**STEP 0 - VERIFY BASELINE (BLOCKING, <2 MIN)**
 ```bash
 cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest -q
 PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python scripts/run_backtest.py
 ```
-Must show **>= 71 passed, 0 failed**.
+**REQUIREMENT:** Must show >= 71 passed, 0 failed. If anything fails, FIX IT BEFORE MOVING ON.
 
-### PRIORITY 1: VOLUME-BASED SIZING + 120% GROSS CAP WITH EQUAL-SHARE CUTS (2-4h)
-**Goal:** Match PDF exactly - 1.25% of 24h volume sizing, 120% gross cap with equal-share cuts.
+## CRITICAL CONTEXT
+- **Source of truth:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md` (treat PDF as ground truth)
+- **Core modules:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `scripts/run_backtest.py`
+- **Current state:** RSI trigger (RSI<20) default enabled; drop-based trigger available via `use_rsi_trigger=False`. Rebound short fully implemented. ETH hedge logic implemented with vol-ratio sizing (capped 3x), funding applied. All tests green.
 
-Tasks:
-1. Wire `position_size_by_volume()` and `enable_volume_based_sizing` into signal generation/backtest sizing path. Compute daily volume from candles (quote USD = sum(volume*close) over last 24h).
-2. Track gross exposure across positions in backtest; enforce 120% gross cap. When breaching, cut all positions to equal share (use `RiskState.cut_positions_to_cap`).
-3. Add tests for volume-based sizing and cap enforcement with equal-share cuts.
-4. Ensure all existing tests still pass.
+## HEAVY IMPLEMENTATION CAMPAIGN (PRIORITIZED - EXECUTE IN ORDER)
 
-### PRIORITY 2: UNIVERSE/VOLUME FILTERS + REGIME HARDENING (1-2h)
-**Goal:** Enforce >=$5M daily volume filter as per spec; tighten regime logic if needed.
+### PRIORITY 1: VOLUME-BASED SIZING + 120% GROSS CAP WITH EQUAL-SHARE CUTS [CRITICAL - 3-5h]
+**Goal:** Match PDF exactly - position size = 1.25% of 24h volume; 120% gross cap with equal-share cuts (never top-up, only cut).
 
-Tasks:
-1. Ensure RSI trigger path enforces `min_daily_volume_usd` (already implemented) and add tests.
-2. Add universe-level filtering helpers if running multi-symbol.
+**Tasks (MUST COMPLETE ALL):**
+1. **Wire volume-based sizing:** In `src/strategy/crash_rebound.py`, when `config.enable_volume_based_sizing` is True, compute size using `position_size_by_volume(entry_price, daily_volume_usd, config.position_size_pct_of_daily_volume)`. Compute `daily_volume_usd` via `_daily_volume_usd(candles, lookback=24)`. Fall back to risk-based sizing if volume data missing/invalid.
+2. **Enforce gross cap in signal generation:** Ensure sizing respects gross cap considering existing exposure. When cap would be breached, apply equal-share cuts to ALL positions (old + new) via `RiskState.cut_positions_to_cap()`. Track notional across positions.
+3. **Backtest gross exposure tracking:** In `src/backtest/engine.py`, properly track/update `risk_state.gross_exposure` and `risk_state.open_positions` across multi-position scenarios. Enforce 120% gross cap (config.gross_cap_pct). When breached, cut all positions to equal share - NO top-ups.
+4. **Add comprehensive tests:** Add tests for volume-based sizing and gross cap enforcement with equal-share cuts. Ensure new tests are added (target >= 75 total passing).
+5. **Regression check:** All existing 71 tests MUST still pass.
 
-### PRIORITY 3: EXECUTION REALISM (1-2h)
+### PRIORITY 2: UNIVERSE/VOLUME FILTERS + REGIME HARDENING [HIGH - 1-2h]
+**Goal:** Enforce >=$5M daily volume filter rigorously; harden regime logic.
+
+**Tasks:**
+1. **Volume filter enforcement:** Ensure RSI trigger path enforces `min_daily_volume_usd` (already implemented in `detect_crash_rsi`) - add/strengthen tests to verify rejection when volume < $5M.
+2. **Universe filtering helpers:** Add helpers for multi-symbol universe filtering (>= $5M daily volume). Wire into backtest runner if needed.
+3. **Regime hardening:** Review and tighten regime logic if gaps found. Both legs must remain functional.
+
+### PRIORITY 3: EXECUTION REALISM [MEDIUM-HIGH - 1-2h]
 **Goal:** Closer to hourly sim with funding/liquidation checks.
 
-Tasks:
-1. Expand funding modeling, add simple liquidation checks.
-2. Improve end-to-end runner with detailed reporting.
+**Tasks:**
+1. **Expand funding modeling:** Review funding application across all legs (long crash + hedge + rebound short + hedge). Ensure correct convention.
+2. **Liquidation checks:** Add simple hourly liquidation checks at worst price of each hour as per spec.
+3. **Runner improvements:** Enhance `scripts/run_backtest.py` with detailed reporting (trades, legs, hedge PnL, totals).
 
-## SUCCESS CRITERIA
-- [ ] Volume-based sizing (1.25% of 24h vol) wired with fallback to risk-based sizing
-- [ ] 120% gross cap enforced with equal-share cuts when breached
-- [ ] Both legs always functional; hedge PnL contributes to totals
-- [ ] All tests pass + new tests added (target >= 75)
-- [ ] `scripts/run_backtest.py` runs end-to-end cleanly
+## SUCCESS CRITERIA (MUST ALL BE MET)
+- [ ] **Volume-based sizing wired:** `enable_volume_based_sizing` works end-to-end; uses 1.25% of 24h volume; falls back gracefully
+- [ ] **120% gross cap enforced:** Cap enforced across positions with equal-share cuts when breached; old positions cut, never topped up
+- [ ] **Both legs ALWAYS functional:** Long crash + rebound short both work correctly under all changes
+- [ ] **ETH hedge intact:** Hedge PnL contributes to totals; vol-ratio sizing (capped 3x) working
+- [ ] **Tests expanded:** >= 75 tests passing, 0 failures (add tests for new functionality)
+- [ ] **Clean run:** `scripts/run_backtest.py` runs end-to-end cleanly with detailed output
+- [ ] **No regressions:** All existing functionality preserved
 
 ## CRITICAL REMINDERS
-- **BOTH LEGS NON-NEGOTIABLE**
-- **HEAVY WORK REQUIRED** - build, test, wire everything
-- **PDF IS TRUTH**
-- **DON'T BREAK TESTS**
-- **INFER, DON'T ASK**
-- **UPDATE HANDOFF AT END**
+- **BOTH LEGS NON-NEGOTIABLE** - Never break crash buy OR rebound short
+- **HEAVY WORK REQUIRED** - Build, test, wire everything. Don't just read.
+- **PDF IS TRUTH** - When in doubt, check `crash-rebound-strategy.pdf` and `research_state/strategy_spec.md`
+- **DON'T BREAK TESTS** - Run tests frequently, fix immediately
+- **INFER, DON'T ASK** - Make reasonable assumptions aligned with spec
+- **UPDATE HANDOFF AT END** - Leave clear state for next session with updated timestamp
 
-**START WITH STEP 0 NOW. BEGIN PRIORITY 1.**
+**START WITH STEP 0 NOW. BEGIN PRIORITY 1 IMMEDIATELY. NO EXCUSES.**
