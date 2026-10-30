@@ -1,6 +1,6 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T04:39:41Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T04:44:43Z
 
-> SESSION VERIFIED: 2026-10-30T04:39:41Z — `python -m pytest -q` → **63 passed, 0 failed**. Baseline green. Bottlenecks removed. BOTH legs (long crash + rebound short) are non-negotiable per repo name.
+> SESSION VERIFIED: 2026-10-30T04:44:43Z — `python -m pytest -q` → **67 passed, 0 failed**. Baseline green. Bottlenecks removed. BOTH legs (long crash + rebound short) are non-negotiable per repo name.
 
 ## MISSION FOR NEXT SESSION
 **DO NOT SKIM. START HERE. IMMEDIATELY EXECUTE STEP 0.**
@@ -10,7 +10,7 @@ Repo: **CRASH-REBOUND-STRATEGY**. Mandate: Hyperliquid hourly perps crash-reboun
 Source of truth: `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Treat PDF as ground truth; trace major behavioral changes to it. Keep passing tests passing unless spec explicitly contradicts and justification is documented.
 
 ## VERIFIED CURRENT STATE
-- Tests: `python -m pytest -q` → **63 passed, 0 failed** (rebound-short paths exercised)
+- Tests: `python -m pytest -q` → **67 passed, 0 failed** (rebound-short paths exercised)
 - Spec: `research_state/strategy_spec.md` (+9% target, 50h/48h exits, ATR(14)*8 stop, 1.25% of 24h vol sizing, 120% gross cap w/ equal-share cuts, ETH hedge per leg, RSI(21h)<20 trigger, >=$5M vol)
 - Gap analysis: `research_state/gap_analysis.md`
 - Core modules: `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/loader.py`
@@ -28,7 +28,7 @@ python -m pytest -q
 cat research_state/strategy_spec.md | head -80
 cat research_state/gap_analysis.md | head -60
 ```
-Must show **>= 63 passed, 0 failed**. Do not proceed if not green.
+Must show **>= 67 passed, 0 failed**. Do not proceed if not green.
 
 ### CAMPAIGN 1: MAKE RSI TRIGGER DEFAULT + HARDEN (Priority 1 - 1-2h)
 **Goal:** Make PDF's primary trigger (RSI(21)<20 on >=$5M vol) the default path. Drop-based remains available via flag.
@@ -93,7 +93,7 @@ Files: `scripts/run_backtest.py`, `README.md`, `src/backtest/engine.py`
 ## IMMEDIATE NEXT ACTION (EXECUTE NOW)
 ```bash
 cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
-python -m pytest -q  # MUST be 63 passed, 0 failed
+python -m pytest -q  # MUST be 67 passed, 0 failed
 ```
 Then read `research_state/strategy_spec.md` fully and `research_state/gap_analysis.md`. Start **CAMPAIGN 1** immediately. Do not ask questions - infer from PDF and existing codebase patterns. Prioritize heavy implementation.
 
