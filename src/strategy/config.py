@@ -52,7 +52,7 @@ class StrategyConfig:
 
     # Position sizing / caps (PDF)
     position_size_pct_of_daily_volume: float = 1.25  # 1.25% of coin's 24h volume
-    enable_volume_based_sizing: bool = False  # if True, use volume-based sizing
+    enable_volume_based_sizing: bool = True  # if True, use volume-based sizing
 
     # ETH hedge
     enable_eth_hedge: bool = True

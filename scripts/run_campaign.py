@@ -29,10 +29,10 @@ def main():
     eth_candles = make_fixture_crash_rebound()
 
     config = StrategyConfig(
-        use_rsi_trigger=False,
+        use_rsi_trigger=True,
         enable_rebound_short=True,
         enable_eth_hedge=True,
-        enable_volume_based_sizing=False,
+        enable_volume_based_sizing=True,
         min_daily_volume_usd=5_000_000.0
     )
 
