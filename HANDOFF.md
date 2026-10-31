@@ -1,4 +1,4 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-31T14:23:35Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-31T14:24:35Z
 
 ## CURRENT VERIFIED STATUS — 2026-10-31 (supersedes stale state statements below)
 
@@ -9,14 +9,15 @@
 - `scripts/run_campaign.py` emits explicit fixture-only provenance; `tests/test_campaign_provenance.py` asserts exported JSON cannot be mistaken for market performance evidence.
 - Do not promote fixture PnL or trade counts. The genuine 283-day run requires verified hourly Hyperliquid candles, coverage and data-provenance checks; do not fill gaps with fixtures or static symbol lists.
 - Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). Do not claim 78. **Verified green 2026-10-31.**
+- NOTE: `run_campaign.py` with `use_rsi_trigger=True` on 3-bar fixtures yields 0 trades (RSI needs 22+ bars). This is expected for a fixture smoke test; the metrics suite must handle empty/no-trade campaign runs without crashing.
 
 ---
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-10-31T14:23:35Z | ITEM 6: END-TO-END CAMPAIGN RUN + METRICS SUITE | REAL 283-DAY HYPERLIQUID WINDOW (2025-12-20 TO 2026-09-28) | NO COASTING | HEAVY WORK MANDATORY`
+> `CRASH-REBOUND-STRATEGY | 2026-10-31T14:24:35Z | ITEM 6: END-TO-END CAMPAIGN RUN + METRICS SUITE | REAL 283-DAY HYPERLIQUID WINDOW (2025-12-20 TO 2026-09-28) | NO COASTING | HEAVY WORK MANDATORY`
 
-SESSION SNAPSHOT: 2026-10-31T14:23:35Z — Baseline VERIFIED GREEN (89 passed, 0 failed). All campaign items 1–5 (RSI primary trigger, ETH hedge every leg, volume-based sizing ON, volume filter everywhere, stress tests) are implemented and passing. Remaining heavy work: campaign item #6 — end-to-end campaign run with metrics suite exported to `research_state/campaign_metrics.json` + `.csv`, then the real 283-day Hyperliquid run with verified hourly candles.
+SESSION SNAPSHOT: 2026-10-31T14:24:35Z — Baseline VERIFIED GREEN (89 passed, 0 failed). All campaign items 1–5 (RSI primary trigger, ETH hedge every leg, volume-based sizing ON, volume filter everywhere, stress tests) are implemented and passing. Remaining heavy work: campaign item #6 — end-to-end campaign run with metrics suite exported to `research_state/campaign_metrics.json` + `.csv`, then the real 283-day Hyperliquid run with verified hourly candles.
 
 Single durable handoff is this file only. `research_state/handoff.md` retired/superseded. Never create or read another handoff file.
 
@@ -60,7 +61,7 @@ Single durable handoff is this file only. `research_state/handoff.md` retired/su
 
 **PRIORITIZED BY REPO NAME (CRASH-REBOUND-STRATEGY) — crash-rebound strategy fidelity to the PDF spec is the #1 priority.**
 
-Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. Every item requires implementation + validation. No coasting.
+Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. Every item requires implementation + validation. No coasting. Idle sessions are bottlenecks.
 
 ### CAMPAIGN OBJECTIVE (REMAINING)
 
@@ -68,20 +69,22 @@ Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. E
 
 #### SUB-TASKS (EXECUTE IN ORDER, EACH REQUIRES IMPLEMENTATION + VALIDATION)
 
-1. **Build metrics computation** — Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Implement in a dedicated metrics module under `src/` or `scripts/`.
+1. **Build metrics computation** — Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Implement in a dedicated metrics module under `src/` or `scripts/`. Must handle empty/no-trade campaign runs without crashing.
 2. **Wire metrics into campaign export** — Extend `scripts/run_campaign.py` (and/or `scripts/run_portfolio.py`) to compute and attach the metrics suite to the campaign export.
 3. **Export JSON + CSV** — Write `research_state/campaign_metrics.json` and `research_state/campaign_metrics.csv` from a clean end-to-end run.
 4. **Validate end-to-end** — Run scripts cleanly from repo root with `PYTHONPATH` set; fix any issues; confirm all tests green (>=89).
 5. **Pursue real 283-day Hyperliquid run** — Verified hourly candles (not fixtures), coverage and data-provenance checks; do not substitute fixtures or static symbol lists.
 
-### EXECUTION RULES
-- **Tests first**: Run full suite before and after changes. Fix failures immediately.
+#### EXECUTION RULES (NON-NEGOTIABLE)
+
+- **Tests first**: Run full suite before and after changes. Fix failures immediately. `pytest` is installed (9.2.0).
 - **Both legs non-negotiable**: Long crash + rebound short must always function.
 - **Equal-share cuts**: When caps hit, cut ALL positions (old + new) proportionally - never top-up.
 - **Funding/liquidation**: Must be correct across every leg.
 - **Volume filter**: >= $5M enforced everywhere.
-- **Heavy work only**: Build, test, validate. No busywork.
+- **Heavy work only**: Build, test, validate. No busywork. No exploratory Q&A loops. INFER, DON'T ASK.
 - **Update handoff at end**: Leave timestamped results + next concrete heavy task.
+- **Single handoff file**: Only root `HANDOFF.md` is durable. Never create or read another handoff file.
 
 ## SUCCESS CRITERIA
 
@@ -103,4 +106,4 @@ Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. E
 - **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable
 - **HEAVY WORK REQUIRED** - No coasting
 
-(END OF DURABLE HANDOFF - 2026-10-31T14:23:35Z)
+(END OF DURABLE HANDOFF - 2026-10-31T14:24:35Z)
