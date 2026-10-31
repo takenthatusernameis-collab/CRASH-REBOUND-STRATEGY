@@ -1,6 +1,6 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-30T22:58:12Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-10-31T08:08:54Z
 
-## CURRENT VERIFIED STATUS — 2026-10-30 (supersedes stale state statements below)
+## CURRENT VERIFIED STATUS — 2026-10-31 (supersedes stale state statements below)
 
 - `src/strategy/config.py` defaults: `use_rsi_trigger=True` (RSI(21)<20 primary crash trigger), `enable_eth_hedge=True`, `enable_volume_based_sizing=True` (1.25% of 24h volume), `min_daily_volume_usd=5_000_000.0`, `gross_cap_pct=120.0` with equal-share cuts via `RiskState.apply_cap_cuts()`. **These are already ON; do not treat them as open bottlenecks.**
 - `scripts/run_campaign.py` already runs `use_rsi_trigger=True`, `enable_eth_hedge=True`, `enable_volume_based_sizing=True`. It is a **fixture smoke test only**, not a real Hyperliquid historical campaign. The 2025-12-20 to 2026-09-28 (283-day) window remains **NOT RUN**.
@@ -8,28 +8,30 @@
 - `committed `research_state/campaign_results.json` is a legacy fixture artifact; not real-data or 283-day result. See `research_state/campaign_artifact_provenance_erratum.md`.
 - `scripts/run_campaign.py` emits explicit fixture-only provenance; `tests/test_campaign_provenance.py` asserts exported JSON cannot be mistaken for market performance evidence.
 - Do not promote fixture PnL or trade counts. The genuine 283-day run requires verified hourly Hyperliquid candles, coverage and data-provenance checks; do not fill gaps with fixtures or static symbol lists.
-- Test suite: **89 passed, 0 failed** (`PYTHONPATH=... python -m pytest tests/ -v`). Do not claim 78.
+- Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). Do not claim 78. **Verified green 2026-10-31.**
 
 ---
+
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-10-30T22:58:12Z | METRICS SUITE + END-TO-END CAMPAIGN RUN | REAL 283-DAY HYPERLIQUID WINDOW (2025-12-20 TO 2026-09-28) | NO COASTING | HEAVY WORK MANDATORY`
+> `CRASH-REBOUND-STRATEGY | 2026-10-31T08:08:54Z | ITEM 6: END-TO-END CAMPAIGN RUN + METRICS SUITE | REAL 283-DAY HYPERLIQUID WINDOW (2025-12-20 TO 2026-09-28) | NO COASTING | HEAVY WORK MANDATORY`
 
-SESSION SNAPSHOT: 2026-10-30T18:51:38Z — Baseline VERIFIED GREEN (89 passed, 0 failed). All campaign items 1–5 (RSI primary trigger, ETH hedge every leg, volume-based sizing ON, volume filter everywhere, stress tests) are implemented and passing. Remaining heavy work: campaign item #6 — end-to-end campaign run with metrics suite exported to `research_state/campaign_metrics.json` + `.csv`, then the real 283-day Hyperliquid run with verified hourly candles.
+SESSION SNAPSHOT: 2026-10-31T08:08:54Z — Baseline VERIFIED GREEN (89 passed, 0 failed). All campaign items 1–5 (RSI primary trigger, ETH hedge every leg, volume-based sizing ON, volume filter everywhere, stress tests) are implemented and passing. Remaining heavy work: campaign item #6 — end-to-end campaign run with metrics suite exported to `research_state/campaign_metrics.json` + `.csv`, then the real 283-day Hyperliquid run with verified hourly candles.
 
 Single durable handoff is this file only. `research_state/handoff.md` retired/superseded. Never create or read another handoff file.
 
 ## BOTTLENECK REMOVALS (MANDATORY - READ FIRST)
 
 - **STALE HANDOFF CLAIMS REMOVED:** `enable_volume_based_sizing=False` default and `run_campaign.py` drop-based trigger were already fixed (both True/RSI). Do not re-open them as tasks. Do not re-file already-green items.
-- **EDIT TOOL REQUIRES `filePath`:** Always pass `filePath`, `oldString`, `newString` explicitly. Never omit `filePath`.
+- **EDIT TOOL REQUIRES `filePath`:** Always pass `filePath`, `oldString`, `newString` explicitly. Never omit `filePath`. Dozens of prior sessions aborted with `The edit tool was called with invalid arguments: ["filePath"]: is missing and is required`, producing `Stopped after 3 consecutive invalid-argument failures for the "edit" tool` turn aborts. This is the #1 systemic inefficiency — fix it by passing `filePath` on every edit call. No exceptions.
 - **SINGLE CANONICAL HANDOFF:** Only root `HANDOFF.md` is durable. `research_state/handoff.md` does NOT exist / is RETIRED/SUPERSEDED.
-- **TESTS ARE THE GATE:** All tests must stay green. Run tests after every substantive change. Do not commit unless tests pass.
+- **TESTS ARE THE GATE:** All tests must stay green. Run tests after every substantive change. Do not commit unless tests pass. `pytest` is NOT installed in the bare environment — run `pip install pytest` first if the shell lacks it.
 - **RUN COMMANDS:** Always set `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY` when running scripts/tests from repo root.
 - **INFER, DON'T ASK:** No explicit directions? Execute the campaign below. No exploratory Q&A loops. Build and validate.
 - **AVOID IDLE POLLING:** If waiting on CI/data, schedule with `schedule_wakeup`/`cron_create` in goal context; don't poll in shell.
 - **HEAVY WORK REQUIRED:** Future agents must not avoid heavy work. Every session must make material progress toward campaign goals.
 - **NO COASTING:** Idle sessions are bottlenecks. If blocked on data/CI, schedule a wakeup and switch to the next independent campaign item.
+- **WORKFLOW RUN FAILURES (DIAGNOSTICS):** Prior runs failed/cancelled due to missing pytest (#41013441603, #41139622215), file-not-found (#40227044034), inference connection error (#41108961385), and idle cancellation (#40406455865, #40590666345, #40898202894, #40951245799). Verify environment before running; do not leave sessions idle.
 
 ## CRITICAL CONTEXT (SOURCE OF TRUTH)
 
@@ -52,7 +54,7 @@ Single durable handoff is this file only. `research_state/handoff.md` retired/su
 - [x] ETH hedge on every leg, vol-ratio capped at 3x
 - [x] Volume-based sizing default ON at 1.25% of 24h vol
 - [x] Stress/property tests added (`tests/test_stress_campaign.py`)
-- [x] All tests green: **89 passed, 0 failed** (baseline verified 2026-10-30T18:49:10Z)
+- [x] All tests green: **89 passed, 0 failed** (baseline verified 2026-10-31T08:08:54Z)
 
 ## NEXT FOCUS CAMPAIGN (HEAVY - MANDATORY, EXECUTE FULLY)
 
@@ -63,6 +65,14 @@ Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. E
 ### CAMPAIGN OBJECTIVE (REMAINING)
 
 **6. END-TO-END CAMPAIGN RUN + METRICS SUITE (CRITICAL)** - Run the full campaign for the test window (2025-12-20 to 2026-09-28, 283 days). Extend campaign reports with Sharpe ratio, Sortino ratio, max drawdown series **with timestamps**, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Export to JSON + CSV (`research_state/campaign_metrics.json`, `research_state/campaign_metrics.csv`). Fix any issues found; validate scripts run cleanly; all tests green (>=89). Then pursue the real 283-day Hyperliquid run with verified hourly candles (not fixtures), with coverage and data-provenance checks.
+
+#### SUB-TASKS (EXECUTE IN ORDER, EACH REQUIRES IMPLEMENTATION + VALIDATION)
+
+1. **Build metrics computation** — Sharpe ratio, Sortino ratio, max drawdown series with timestamps, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution (by symbol/leg), exposure metrics. Implement in a dedicated metrics module under `src/` or `scripts/`.
+2. **Wire metrics into campaign export** — Extend `scripts/run_campaign.py` (and/or `scripts/run_portfolio.py`) to compute and attach the metrics suite to the campaign export.
+3. **Export JSON + CSV** — Write `research_state/campaign_metrics.json` and `research_state/campaign_metrics.csv` from a clean end-to-end run.
+4. **Validate end-to-end** — Run scripts cleanly from repo root with `PYTHONPATH` set; fix any issues; confirm all tests green (>=89).
+5. **Pursue real 283-day Hyperliquid run** — Verified hourly candles (not fixtures), coverage and data-provenance checks; do not substitute fixtures or static symbol lists.
 
 ### EXECUTION RULES
 - **Tests first**: Run full suite before and after changes. Fix failures immediately.
@@ -93,4 +103,4 @@ Items 1–5 are complete and green. Execute item 6 to completion. Do not skip. E
 - **SINGLE HANDOFF** - Only root `HANDOFF.md` is durable
 - **HEAVY WORK REQUIRED** - No coasting
 
-(END OF DURABLE HANDOFF - 2026-10-30T18:51:38Z)
+(END OF DURABLE HANDOFF - 2026-10-31T08:08:54Z)
