@@ -1,6 +1,6 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-01T01:56:40Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-01T01:57:40Z
 
-## CURRENT VERIFIED STATUS — 2026-11-01T01:56:40Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-01T01:57:40Z (supersedes all prior state)
 
 - `src/strategy/config.py` defaults: `use_rsi_trigger=True` (RSI(21)<20 primary crash trigger), `enable_eth_hedge=True`, `enable_volume_based_sizing=True` (1.25% of 24h volume), `min_daily_volume_usd=5_000_000.0`, `gross_cap_pct=120.0` with equal-share cuts via `RiskState.apply_cap_cuts()`. **Already ON — do not re-open.**
 - `scripts/run_campaign.py` sets `use_rsi_trigger=True`, `enable_eth_hedge=True`, `enable_volume_based_sizing=True`. It is explicitly a **fixture smoke test only** (synthetic data). The 2025-12-20 to 2026-09-28 (283-day) Hyperliquid window remains **NOT RUN** with real data.
@@ -13,9 +13,9 @@
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-01T01:56:40Z | PRIORITY 1: ITEM 6 - END-TO-END CAMPAIGN RUN + METRICS SUITE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | REAL HYPERLIQUID HOURLY CANDLES | NO COASTING | HEAVY WORK MANDATORY`
+> `CRASH-REBOUND-STRATEGY | 2026-11-01T01:57:40Z | PRIORITY 1: ITEM 6 - END-TO-END CAMPAIGN RUN + METRICS SUITE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | REAL HYPERLIQUID HOURLY CANDLES | NO COASTING | HEAVY WORK MANDATORY`
 
-**SESSION SNAPSHOT (2026-11-01T01:56:40Z):** Baseline VERIFIED GREEN (89 passed, 0 failed). Items 1–5 complete. **Only remaining heavy work is item #6.** Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`.
+**SESSION SNAPSHOT (2026-11-01T01:57:40Z):** Baseline re-verified GREEN (89 passed, 0 failed). Items 1–5 complete. **Only remaining heavy work is item #6.** Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`.
 
 **SINGLE CANONICAL HANDOFF:** Only `HANDOFF.md` (repo root) is durable. `research_state/handoff.md` is retired/superseded. Do **not** create or read any other handoff file.
 
@@ -28,6 +28,7 @@
 - **NO IDLE POLLING:** If blocked on data/CI, use `schedule_wakeup`/`cron_create` in goal context or switch to an independent subtask. Do not spin.
 - **HEAVY WORK MANDATORY:** Every session must make material progress toward item #6. Idle sessions are bottlenecks.
 - **ENVIRONMENT HYGIENE:** Verify environment before long runs. Prior failures came from missing pytest, path issues, inference hiccups, or idle cancellation.
+- **BOTTLENECK STATUS — CLEARED 2026-11-01T01:57:40Z:** pytest installed, suite green (89/89), `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY`. No session is blocked on environment. Next session starts heavy work immediately; do not re-verify env as a substitute for item #6 progress.
 
 ## CRITICAL CONTEXT (SOURCE OF TRUTH)
 
@@ -76,6 +77,14 @@
 - **Heavy work only:** Build, test, validate. No busywork, no Q&A loops. **INFER, DON'T ASK.**
 - **No idle:** If blocked, schedule `schedule_wakeup`/`cron_create` and tackle next independent heavy item.
 - **Single handoff:** Only root `HANDOFF.md`. Update it at end with timestamped results + next concrete heavy task.
+
+### GUARDRAILS — FUTURE AGENTS CANNOT DEFER HEAVY WORK
+
+- **Item #6 is the only open item.** Items 1–5 are closed and green; reopening them is prohibited busywork.
+- **Every session must ship at least one of:** metrics module code, wired campaign export, `campaign_metrics.json`, `campaign_metrics.csv`, or a real-data run attempt with concrete evidence. A session that ships none of these is a bottleneck and must be replaced.
+- **No coasting on fixtures.** Fixture smoke tests are scaffolding, not the deliverable. The deliverable is the metrics suite + real 283-day Hyperliquid run with provenance checks.
+- **Do not ask for direction.** Repo name = CRASH-REBOUND-STRATEGY ⇒ crash-rebound fidelity to the PDF is the mission. Infer and execute.
+- **If data/CI blocks the real run,** schedule `schedule_wakeup`/`cron_create` and complete the metrics module + fixture-wired export in parallel so no turn is idle.
 
 ## SUCCESS CRITERIA
 
