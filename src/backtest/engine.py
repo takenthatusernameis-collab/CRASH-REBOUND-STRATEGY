@@ -15,6 +15,8 @@ class TradeResult:
     exit_price: float = 0.0
     shares: float = 0.0
     bars_held: int = 0
+    entry_timestamp: str = ""
+    exit_timestamp: str = ""
     trades: Optional[List[Dict[str, Any]]] = None  # For multi-leg trades (e.g., crash + rebound)
     hedge_pnl: float = 0.0
     hedge_side: Optional[str] = None
@@ -32,6 +34,8 @@ class TradeResult:
         self.exit_price = kwargs.get('exit_price', 0.0)
         self.shares = kwargs.get('shares', 0.0)
         self.bars_held = kwargs.get('bars_held', 0)
+        self.entry_timestamp = kwargs.get('entry_timestamp', '')
+        self.exit_timestamp = kwargs.get('exit_timestamp', '')
         self.trades = kwargs.get('trades', None)
         self.hedge_pnl = kwargs.get('hedge_pnl', 0.0)
         self.hedge_side = kwargs.get('hedge_side', None)
@@ -130,6 +134,7 @@ def backtest_simple(
             entry_px = float(next_open)
             start_idx = signal_index + 1
     entry_px = _slippage_commission_per_share(entry_px, config, 'buy')
+    entry_timestamp = str(candles[start_idx].get('timestamp', '')) if candles else ''
 
     stop_px = stop
     target_px = target
@@ -142,6 +147,7 @@ def backtest_simple(
             return TradeResult(
                 pnl=0.0, r_multiple=0.0, exit_reason='blocked',
                 entry_price=entry, exit_price=entry, shares=0.0, bars_held=0,
+                entry_timestamp=entry_timestamp,
             )
         if check.size_shares > 0:
             shares = check.size_shares
@@ -235,6 +241,8 @@ def backtest_simple(
                 pnl=pnl, r_multiple=r_mult, exit_reason='liquidated',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
+                entry_timestamp=entry_timestamp,
+                exit_timestamp=str(c.get('timestamp', '')),
                 trades=trades_log,
                 hedge_pnl=hedge_pnl_total,
                 hedge_side=hedge_info['side'],
@@ -275,6 +283,8 @@ def backtest_simple(
                 pnl=pnl, r_multiple=r_mult, exit_reason='stopped',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
+                entry_timestamp=entry_timestamp,
+                exit_timestamp=str(c.get('timestamp', '')),
                 trades=trades_log,
                 hedge_pnl=hedge_pnl_total,
                 hedge_side=hedge_info['side'],
@@ -469,6 +479,8 @@ def backtest_simple(
                 exit_reason='target_rebound_short' if (len(trades_log) > 1 and any(t.get('side') == 'short' for t in trades_log)) else 'target',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=total_bars if 'total_bars' in locals() else (idx - start_idx + 1),
+                entry_timestamp=entry_timestamp,
+                exit_timestamp=str(c.get('timestamp', '')),
                 trades=trades_log,
                 hedge_pnl=hedge_pnl_total + rebound_hedge_pnl,
                 hedge_side=hedge_info['side'],
@@ -504,6 +516,8 @@ def backtest_simple(
                 pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
+                entry_timestamp=entry_timestamp,
+                exit_timestamp=str(c.get('timestamp', '')),
                 trades=trades_log,
                 hedge_pnl=hedge_pnl_total,
                 hedge_side=hedge_info['side'],
@@ -539,6 +553,8 @@ def backtest_simple(
         pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
         entry_price=entry_px, exit_price=exit_px, shares=shares,
         bars_held=len(candles) - start_idx,
+        entry_timestamp=entry_timestamp,
+        exit_timestamp=str(last.get('timestamp', '')),
         trades=trades_log,
         hedge_pnl=hedge_pnl_total,
         hedge_side=hedge_info['side'],

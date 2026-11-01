@@ -52,6 +52,9 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     # Simulate with risk management
     total_pnl = 0.0
     all_trades = []
+    # Build a timestamped equity curve: cumulative PnL keyed by exit timestamp.
+    # We start at capital and walk through trades in chronological exit order.
+    equity_curve = [{"timestamp": "", "equity": capital, "pnl": 0.0}]
 
     for item in signals_list:
         if risk_state.open_positions >= config.max_positions:
@@ -62,14 +65,27 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                                  risk_state=risk_state,
                                  eth_candles=eth_data)
             if res.exit_reason != 'blocked' and res.exit_reason != 'no_signal':
-                total_pnl += getattr(res, 'total_pnl', res.pnl)
+                trade_pnl = getattr(res, 'total_pnl', res.pnl)
+                total_pnl += trade_pnl
                 all_trades.append({
                     'symbol': item['symbol'],
                     'exit_reason': res.exit_reason,
                     'pnl': res.pnl,
-                    'total_pnl': getattr(res, 'total_pnl', res.pnl),
+                    'total_pnl': trade_pnl,
                     'hedge_pnl': getattr(res, 'hedge_pnl', 0.0),
-                    'shares': res.shares
+                    'shares': res.shares,
+                    'entry_timestamp': getattr(res, 'entry_timestamp', ''),
+                    'exit_timestamp': getattr(res, 'exit_timestamp', ''),
+                    'r_multiple': getattr(res, 'r_multiple', 0.0),
+                    'bars_held': getattr(res, 'bars_held', 0),
+                    'hedge_side': getattr(res, 'hedge_side', None),
+                    'hedge_size': getattr(res, 'hedge_size', 0.0),
+                })
+                # Append to equity curve at exit timestamp
+                equity_curve.append({
+                    'timestamp': getattr(res, 'exit_timestamp', ''),
+                    'equity': capital + total_pnl,
+                    'pnl': trade_pnl,
                 })
         except Exception as e:
             continue
@@ -80,7 +96,9 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         'trades': all_trades,
         'final_open_positions': risk_state.open_positions,
         'final_gross_exposure': risk_state.gross_exposure,
-        'risk_state': risk_state
+        'risk_state': risk_state,
+        'equity_curve': equity_curve,
+        'starting_capital': capital,
     }
 
 
