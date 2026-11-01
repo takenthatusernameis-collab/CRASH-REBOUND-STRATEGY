@@ -1,21 +1,21 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-01T13:56:09Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-01T14:03:27Z
 
-## CURRENT VERIFIED STATUS — 2026-11-01T13:56:09Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-01T14:03:27Z (supersedes all prior state)
 
 - `src/strategy/config.py` defaults: `use_rsi_trigger=True` (RSI(21)<20 primary crash trigger), `enable_eth_hedge=True`, `enable_volume_based_sizing=True` (1.25% of 24h volume), `min_daily_volume_usd=5_000_000.0`, `gross_cap_pct=120.0` with equal-share cuts via `RiskState.apply_cap_cuts()`. **Already ON — do not re-open.**
 - `scripts/run_campaign.py` sets `use_rsi_trigger=True`, `enable_eth_hedge=True`, `enable_volume_based_sizing=True`. It is explicitly a **fixture smoke test only** (synthetic data). The 2025-12-20 to 2026-09-28 (283-day) Hyperliquid window remains **NOT RUN** with real data.
 - `tests/test_stress_campaign.py` exists (7 stress tests). Provenance guard: `tests/test_campaign_provenance.py` enforces fixture artifacts cannot be misread as real performance.
 - Legacy `research_state/campaign_results.json` is fixture-only; see `research_state/campaign_artifact_provenance_erratum.md`. Do **not** promote fixture PnL/trade counts.
-- Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). **Verified green 2026-11-01T13:56:09Z; re-verify before/after changes.**
+- Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). **Verified green 2026-11-01T14:03:27Z; re-verify before/after changes.**
 - NOTE: `run_campaign.py` with `use_rsi_trigger=True` on 3-bar fixtures yields 0 trades (RSI needs ~22+ bars). Expected for fixture smoke test; metrics must handle empty/no-trade runs without crashing.
 
 ---
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-01T13:56:09Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6 - END-TO-END CAMPAIGN RUN + METRICS SUITE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | REAL HYPERLIQUID HOURLY CANDLES | NO FIXTURE COASTING | HEAVY WORK MANDATORY | BLOCKERS MUST BE SCHEDULED OR ELIMINATED`
+> `CRASH-REBOUND-STRATEGY | 2026-11-01T14:03:27Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6 - END-TO-END CAMPAIGN RUN + METRICS SUITE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | REAL HYPERLIQUID HOURLY CANDLES | NO FIXTURE COASTING | HEAVY WORK MANDATORY | BLOCKERS MUST BE SCHEDULED OR ELIMINATED`
 
-**SESSION SNAPSHOT (2026-11-01T13:56:09Z):** Baseline re-verified GREEN (89 passed, 0 failed). Items 1–5 complete. **Only remaining heavy work is item #6.** Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Bottlenecks (pytest missing/PYTHONPATH/env issues) have been cleared. Do not waste turns re-verifying environment — ship code.
+**SESSION SNAPSHOT (2026-11-01T14:03:27Z):** Baseline re-verified GREEN (89 passed, 0 failed). Items 1–5 complete. **Only remaining heavy work is item #6.** Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Bottlenecks (pytest missing/PYTHONPATH/env issues) have been cleared. Do not waste turns re-verifying environment — ship code.
 
 **SINGLE CANONICAL HANDOFF:** Only `HANDOFF.md` (repo root) is durable. `research_state/handoff.md` is retired/superseded. Do **not** create or read any other handoff file.
 
