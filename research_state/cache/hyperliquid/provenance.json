@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-05T18:44:49.039905+00:00",
+  "generated_at_utc": "2026-11-05T18:49:29.226220+00:00",
   "run_type": "data_acquisition_provenance",
   "real_market_data_intended": true,
   "fabricated_data": false,
@@ -29,18 +29,43 @@
       "status": "incomplete",
       "source": "hyperliquid_info_api",
       "url": "https://api.hyperliquid.xyz/info",
-      "request_payload": {
-        "type": "candleSnapshot",
-        "req": {
-          "coin": "BTC",
-          "interval": "1h",
+      "request_count": 5,
+      "requests": [
+        {
           "startTime": 1766188800000,
-          "endTime": 1790636400000
+          "endTime": 1771585200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1771588800000,
+          "endTime": 1776985200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1776988800000,
+          "endTime": 1782385200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782388800000,
+          "endTime": 1787785200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787788800000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
         }
-      },
-      "response_type": "list",
-      "raw_count": 4094,
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
       "normalized_count": 4094,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
       "coverage": {
         "expected_hourly_bars": 6792,
         "observed_in_window_bars": 4094,
@@ -64,18 +89,43 @@
       "status": "incomplete",
       "source": "hyperliquid_info_api",
       "url": "https://api.hyperliquid.xyz/info",
-      "request_payload": {
-        "type": "candleSnapshot",
-        "req": {
-          "coin": "ETH",
-          "interval": "1h",
+      "request_count": 5,
+      "requests": [
+        {
           "startTime": 1766188800000,
-          "endTime": 1790636400000
+          "endTime": 1771585200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1771588800000,
+          "endTime": 1776985200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1776988800000,
+          "endTime": 1782385200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782388800000,
+          "endTime": 1787785200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787788800000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
         }
-      },
-      "response_type": "list",
-      "raw_count": 4094,
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
       "normalized_count": 4094,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
       "coverage": {
         "expected_hourly_bars": 6792,
         "observed_in_window_bars": 4094,

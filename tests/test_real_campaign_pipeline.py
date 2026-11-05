@@ -1,0 +1,240 @@
+from __future__ import annotations
+
+import csv
+import json
+import os
+import sys
+from datetime import datetime, timezone, timedelta
+from pathlib import Path
+
+import pytest
+
+from src.data.provenance import (
+    TARGET_START,
+    TARGET_END,
+    expected_hourly_bars,
+    validate_provenance,
+    require_verified_provenance,
+    ProvenanceError,
+)
+from scripts.fetch_hyperliquid_candles import (
+    analyze_coverage,
+    ingest_archive,
+    _expected_hourly_bars,
+    _parse_iso,
+    _dt_to_ms,
+)
+from src.data.loader import load_hyperliquid_candles
+
+
+EXP = expected_hourly_bars(TARGET_START, TARGET_END)
+
+
+def _write_csv_candles(path: Path, start_iso: str, n: int, symbol: str = "BTC"):
+    start = _parse_iso(start_iso)
+    with path.open("w", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["timestamp", "open", "high", "low", "close", "volume"])
+        for i in range(n):
+            ts = start + timedelta(hours=i)
+            o = 100.0 + i * 0.01
+            w.writerow([ts.strftime("%Y-%m-%dT%H:%M:%SZ"), o, o + 1.0, o - 1.0, o + 0.5, 100000.0])
+
+
+def _complete_manifest(tmp_path: Path, symbol: str = "BTC") -> Path:
+    m = {
+        "fabricated_data": False,
+        "real_market_data_intended": True,
+        "target_window": {
+            "start": TARGET_START,
+            "end": TARGET_END,
+            "expected_hourly_bars": EXP,
+        },
+        "symbols": {
+            symbol: {
+                "status": "ok",
+                "coverage": {
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": EXP,
+                    "gap_count": 0,
+                    "complete_for_target_window": True,
+                },
+            }
+        },
+    }
+    p = tmp_path / "provenance.json"
+    p.write_text(json.dumps(m))
+    return p
+
+
+def test_run_real_campaign_rejects_incomplete_manifest(tmp_path, monkeypatch):
+    """run_real_campaign.main must exit non-zero on incomplete provenance (gate holds)."""
+    incomplete = {
+        "fabricated_data": False,
+        "real_market_data_intended": True,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+        "symbols": {
+            "BTC": {
+                "status": "incomplete",
+                "coverage": {
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": EXP - 1,
+                    "gap_count": 0,
+                    "complete_for_target_window": False,
+                },
+            }
+        },
+    }
+    mp = tmp_path / "provenance_incomplete.json"
+    mp.write_text(json.dumps(incomplete))
+
+    import scripts.run_real_campaign as rrc
+
+    argv = ["run_real_campaign.py", "--manifest", str(mp), "--min-symbols", "1"]
+    monkeypatch.setattr(sys, "argv", argv)
+    rc = rrc.main()
+    assert rc == 2
+
+
+def test_require_verified_provenance_accepts_complete(tmp_path):
+    p = _complete_manifest(tmp_path)
+    m = require_verified_provenance(p)
+    assert m["real_market_data_intended"] is True
+    assert m["symbols"]["BTC"]["coverage"]["complete_for_target_window"] is True
+
+
+def test_ingest_archive_csv_normalizes_and_counts(tmp_path):
+    archive = tmp_path / "archive"
+    archive.mkdir()
+    _write_csv_candles(archive / "BTC.csv", "2025-12-20T00:00:00Z", 200)
+    candles, meta = ingest_archive(archive, "BTC")
+    assert len(candles) == 200
+    assert meta["source"] == "user_supplied_archive"
+    assert "sha256" in meta and len(meta["sha256"]) == 64
+    c0 = candles[0]
+    assert c0["open"] == 100.0 and c0["close"] == 100.5 and c0["volume"] == 100000.0
+    assert "timestamp" in c0
+
+
+def test_ingest_archive_json_normalizes(tmp_path):
+    archive = tmp_path / "archive"
+    archive.mkdir()
+    start = _parse_iso("2025-12-20T00:00:00Z")
+    candles = []
+    for i in range(50):
+        ts = start + timedelta(hours=i)
+        o = 50.0 + i
+        candles.append(
+            {
+                "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "open": o,
+                "high": o + 2,
+                "low": o - 2,
+                "close": o + 1,
+                "volume": 50000.0,
+            }
+        )
+    (archive / "ETH.json").write_text(json.dumps(candles))
+    out, meta = ingest_archive(archive, "ETH")
+    assert len(out) == 50
+    assert all(k in out[0] for k in ("open", "high", "low", "close", "volume", "timestamp"))
+
+
+def test_ingest_archive_missing_file_raises(tmp_path):
+    with pytest.raises(FileNotFoundError):
+        ingest_archive(tmp_path / "nope", "BTC")
+
+
+def test_analyze_coverage_detects_gap_marks_incomplete(tmp_path):
+    start = _parse_iso(TARGET_START)
+    # 100 hourly bars then a 48-hour gap then 100 more bars within window
+    candles = []
+    for i in range(100):
+        ts = start + timedelta(hours=i)
+        candles.append({"timestamp_ms": int(ts.timestamp() * 1000), "open": 1.0, "high": 2.0, "low": 0.5, "close": 1.0, "volume": 1.0})
+    gap_end = start + timedelta(hours=148)
+    for i in range(100):
+        ts = gap_end + timedelta(hours=i)
+        candles.append({"timestamp_ms": int(ts.timestamp() * 1000), "open": 1.0, "high": 2.0, "low": 0.5, "close": 1.0, "volume": 1.0})
+    cov = analyze_coverage(candles, _parse_iso(TARGET_START), _parse_iso(TARGET_END))
+    assert cov["observed_in_window_bars"] == 200
+    assert cov["gap_count"] >= 1
+    assert cov["complete_for_target_window"] is False
+    assert cov["coverage_pct"] < 100.0
+
+
+def test_analyze_coverage_complete_exact_window_marks_complete():
+    start = _parse_iso(TARGET_START)
+    end = _parse_iso(TARGET_END)
+    candles = []
+    ts = start
+    while ts <= end:
+        candles.append(
+            {
+                "timestamp_ms": int(ts.timestamp() * 1000),
+                "timestamp": ts.isoformat(),
+                "open": 100.0,
+                "high": 101.0,
+                "low": 99.0,
+                "close": 100.0,
+                "volume": 100000.0,
+            }
+        )
+        ts += timedelta(hours=1)
+    assert len(candles) == EXP
+    cov = analyze_coverage(candles, start, end)
+    assert cov["observed_in_window_bars"] == EXP
+    assert cov["gap_count"] == 0
+    assert cov["complete_for_target_window"] is True
+    assert cov["first_timestamp_ms"] == _dt_to_ms(start)
+    assert cov["last_timestamp_ms"] == _dt_to_ms(end)
+
+
+def test_load_hyperliquid_candles_from_csv_validates(tmp_path):
+    p = tmp_path / "BTC.csv"
+    _write_csv_candles(p, "2025-12-20T00:00:00Z", 10)
+    candles = load_hyperliquid_candles(str(p), symbol="BTC")
+    assert len(candles) == 10
+    assert all(k in candles[0] for k in ("open", "high", "low", "close", "volume", "timestamp"))
+
+
+def test_max_drawdown_series_with_timestamps_deterministic():
+    from src.metrics.campaign_metrics import compute_campaign_metrics, metrics_to_dict
+    trades = [
+        {"exit_timestamp": "2026-01-01T00:00:00Z", "total_pnl": 100.0, "pnl": 100.0, "symbol": "BTC", "side": "long"},
+        {"exit_timestamp": "2026-01-02T00:00:00Z", "total_pnl": -150.0, "pnl": -150.0, "symbol": "BTC", "side": "long"},
+        {"exit_timestamp": "2026-01-03T00:00:00Z", "total_pnl": -50.0, "pnl": -50.0, "symbol": "ETH", "side": "short"},
+        {"exit_timestamp": "2026-01-04T00:00:00Z", "total_pnl": 200.0, "pnl": 200.0, "symbol": "BTC", "side": "long"},
+    ]
+    m = metrics_to_dict(compute_campaign_metrics(trades=trades))
+    assert m["max_drawdown"] == -200.0
+    assert m["max_drawdown_timestamp"] == "2026-01-03T00:00:00Z"
+    series = m["max_drawdown_series"]
+    assert len(series) == 4
+    assert series[0]["drawdown"] == 0.0
+    assert series[1]["drawdown"] == -150.0
+    assert series[2]["drawdown"] == -200.0
+    assert series[3]["drawdown"] == 0.0
+    assert m["max_drawdown"] == -200.0
+    assert m["max_drawdown_timestamp"] == "2026-01-03T00:00:00Z"
+    assert m["calmar_ratio"] == 0.5  # total_pnl=100 / abs(max_dd=200)
+    assert m["win_rate"] == 0.5
+    assert m["profit_factor"] == 300.0 / 200.0
+
+
+def test_compute_campaign_metrics_equity_curve_no_trades():
+    from src.metrics.campaign_metrics import compute_campaign_metrics, metrics_to_dict
+    equity_curve = [
+        {"timestamp": "2026-01-01T00:00:00Z", "equity": 100000.0, "pnl": 0.0},
+        {"timestamp": "2026-01-02T00:00:00Z", "equity": 90000.0, "pnl": -10000.0},
+        {"timestamp": "2026-01-03T00:00:00Z", "equity": 95000.0, "pnl": 5000.0},
+    ]
+    m = metrics_to_dict(compute_campaign_metrics(trades=[], equity_curve=equity_curve))
+    assert m["max_drawdown"] == -10000.0
+    assert m["max_drawdown_timestamp"] == "2026-01-02T00:00:00Z"
+    assert len(m["max_drawdown_series"]) == 3
+
+
+def test_expected_hourly_bars_matches_manifest():
+    assert EXP == 6792
+    assert _expected_hourly_bars(_parse_iso(TARGET_START), _parse_iso(TARGET_END)) == EXP
