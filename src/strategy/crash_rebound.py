@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
-from src.strategy.risk import atr, safety_stop_price, size_by_risk
+from src.strategy.risk import atr, safety_stop_price, size_by_risk, usual_hourly_range_ratio
 
 
 def _realized_vol(candles: List[Dict[str, Any]], period: int = 336) -> Optional[float]:
@@ -342,11 +342,23 @@ def generate_signal(
     low = _low(cur)
     if entry is None or low is None or entry <= 0:
         return None
-    atr_value = atr(candles, period=config.atr_period)
-    if atr_value is not None and atr_value > 0:
-        stop = safety_stop_price(entry, atr_value, config.stop_atr_mult, side='long')
+    # Spec safety stop: 8x usual hourly range = avg (high-low)/prev_close over 14h
+    if getattr(config, "use_spec_safety_stop", True):
+        range_ratio = usual_hourly_range_ratio(candles, period=config.atr_period)
+        if range_ratio is not None and range_ratio > 0:
+            stop = safety_stop_price(entry, range_ratio, config.stop_atr_mult, side='long', use_ratio=True)
+        else:
+            atr_value = atr(candles, period=config.atr_period)
+            if atr_value is not None and atr_value > 0:
+                stop = safety_stop_price(entry, atr_value, config.stop_atr_mult, side='long', use_ratio=False)
+            else:
+                stop = low * 0.999
     else:
-        stop = low * 0.999
+        atr_value = atr(candles, period=config.atr_period)
+        if atr_value is not None and atr_value > 0:
+            stop = safety_stop_price(entry, atr_value, config.stop_atr_mult, side='long', use_ratio=False)
+        else:
+            stop = low * 0.999
     risk = entry - stop
     if risk <= 0:
         return None

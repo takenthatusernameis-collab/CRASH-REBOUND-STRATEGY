@@ -192,12 +192,70 @@ def atr(candles: List[Dict[str, Any]], period: int = 14) -> Optional[float]:
     return sum(ranges) / len(ranges)
 
 
-def safety_stop_price(entry_price: float, atr_value: float, mult: float,
-                      side: str = "long") -> float:
-    """Price at which the safety stop fires for a long/short position."""
+def usual_hourly_range_ratio(candles: List[Dict[str, Any]], period: int = 14) -> Optional[float]:
+    """Average hourly range ratio over last `period` bars, per crash-rebound spec.
+
+    Spec: "hourly range = avg distance high-low/prev close over last 14 hours".
+    Returns the mean of (high-low)/prev_close across the last `period` bars that
+    have valid high/low/prev_close with prev_close > 0. Returns None if
+    insufficient data.
+    """
+    if not candles or len(candles) < 2 or period < 1:
+        return None
+    ratios = []
+    start = max(1, len(candles) - period)
+    for i in range(start, len(candles)):
+        c = candles[i]
+        prev = candles[i - 1]
+        high = c.get("high")
+        low = c.get("low")
+        prev_close = prev.get("close")
+        if high is None or low is None or prev_close is None:
+            continue
+        prev_close_f = float(prev_close)
+        if prev_close_f <= 0:
+            continue
+        ratios.append((float(high) - float(low)) / prev_close_f)
+    if not ratios:
+        return None
+    return sum(ratios) / len(ratios)
+
+
+def safety_stop_price(entry_price: float, range_value: Optional[float] = None,
+                      mult: float = 8.0, side: str = "long",
+                      atr_value: Optional[float] = None,
+                      use_ratio: Optional[bool] = None,
+                      avg_range_ratio: Optional[float] = None) -> float:
+    """Buy/short safety stop price.
+
+    Spec (primary): stop = entry * (1 - mult * avg_range_ratio) for long, where
+    avg_range_ratio is the mean (high-low)/prev_close over the last 14 hours.
+
+    Backward-compatible with legacy ATR-absolute form:
+      safety_stop_price(entry, atr_absolute, mult, side='long')
+    """
+    if avg_range_ratio is not None and range_value is None:
+        range_value = avg_range_ratio
+        if use_ratio is None:
+            use_ratio = True
+    if atr_value is not None:
+        if side == "long":
+            return entry_price - mult * atr_value
+        return entry_price + mult * atr_value
+    if range_value is None:
+        return entry_price
+    if use_ratio is True:
+        if side == "long":
+            return entry_price * (1.0 - mult * range_value)
+        return entry_price * (1.0 + mult * range_value)
+    if use_ratio is False:
+        if side == "long":
+            return entry_price - mult * range_value
+        return entry_price + mult * range_value
+    # Default: spec ratio semantics
     if side == "long":
-        return entry_price - mult * atr_value
-    return entry_price + mult * atr_value
+        return entry_price * (1.0 - mult * range_value)
+    return entry_price * (1.0 + mult * range_value)
 
 
 DEFAULT_RISK_STATE = RiskState()

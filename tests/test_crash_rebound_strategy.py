@@ -193,7 +193,8 @@ def test_atr_stop_produces_stopped_outcome():
         {"timestamp": "2025-01-01T09:31:00", "open": 100.0, "high": 100.1, "low": 97.0, "close": 97.5, "volume": 100000},  # crash
         {"timestamp": "2025-01-01T09:32:00", "open": 97.6, "high": 99.0, "low": 97.5, "close": 98.5, "volume": 80000},  # rebound/signal
     ]
-    config = StrategyConfig(stop_atr_mult=1.0, atr_period=2, time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False, use_rsi_trigger=False, enable_liquidation_checks=False)
+    config = StrategyConfig(stop_atr_mult=1.0, atr_period=2, time_exit_max_bars=50, avoid_downtrend=False, entry_next_bar=False, use_rsi_trigger=False, enable_liquidation_checks=False, use_spec_safety_stop=False)
+
     sig = generate_signal(candles, config=config)
     assert sig is not None
     # Add a candle after that breaches the stop

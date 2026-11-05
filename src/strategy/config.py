@@ -40,8 +40,9 @@ class StrategyConfig:
     # Exit
     reward_risk: float = 1.5           # target = entry + risk * reward_risk (fallback)
     target_pct: Optional[float] = 9.0  # target = entry * (1 + target_pct/100) when set
-    stop_atr_mult: float = 8.0         # buy safety stop = entry - mult * ATR(14)
-    atr_period: int = 14               # ATR lookback for safety stop
+    stop_atr_mult: float = 8.0         # buy safety stop multiplier (spec: 8x usual hourly range)
+    atr_period: int = 14               # lookback for usual hourly range / safety stop (spec: 14h)
+    use_spec_safety_stop: bool = True  # spec: entry * (1 - mult * avg(high-low)/prev_close over 14h); False = legacy ATR absolute offset
     time_exit_max_bars: int = 50       # max bars in trade before time exit
 
     # Rebound short (after buy hits +9% target)
