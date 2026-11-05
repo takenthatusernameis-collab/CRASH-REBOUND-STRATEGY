@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-05T19:56:30.899097+00:00",
+  "generated_at_utc": "2026-11-05T22:53:33.465284+00:00",
   "run_type": "data_acquisition_provenance",
   "real_market_data_intended": true,
   "fabricated_data": false,
@@ -64,15 +64,15 @@
       ],
       "requests_truncated": 0,
       "last_error": null,
-      "normalized_count": 4094,
+      "normalized_count": 4090,
       "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
       "coverage": {
         "expected_hourly_bars": 6792,
-        "observed_in_window_bars": 4094,
-        "coverage_pct": 60.276796,
-        "first_timestamp_ms": 1775901600000,
+        "observed_in_window_bars": 4090,
+        "coverage_pct": 60.217903,
+        "first_timestamp_ms": 1775916000000,
         "last_timestamp_ms": 1790636400000,
-        "first_timestamp": "2026-04-11T10:00:00+00:00",
+        "first_timestamp": "2026-04-11T14:00:00+00:00",
         "last_timestamp": "2026-09-28T23:00:00+00:00",
         "gap_count": 0,
         "gaps": [],
@@ -81,7 +81,15 @@
         "start": "2025-12-20T00:00:00+00:00",
         "end": "2026-09-28T23:00:00+00:00"
       },
-      "sha256": "264a54872f8b960a5ad712863aeec7612a85e83e091f0ee2ca5187c7bf31782d",
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 31056645.2784,
+        "observed_mean_24h_usd_volume": 2363918900.762119,
+        "bars_checked": 4090,
+        "bars_passing": 4090,
+        "volume_filter_ok": true
+      },
+      "sha256": "50282d9415b807594a940622206a9612951572b0695e5a8b90e34bd1eaf8cb87",
       "cache_path": "research_state/cache/hyperliquid/candles/BTC.json"
     },
     "ETH": {
@@ -124,15 +132,15 @@
       ],
       "requests_truncated": 0,
       "last_error": null,
-      "normalized_count": 4094,
+      "normalized_count": 4090,
       "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
       "coverage": {
         "expected_hourly_bars": 6792,
-        "observed_in_window_bars": 4094,
-        "coverage_pct": 60.276796,
-        "first_timestamp_ms": 1775901600000,
+        "observed_in_window_bars": 4090,
+        "coverage_pct": 60.217903,
+        "first_timestamp_ms": 1775916000000,
         "last_timestamp_ms": 1790636400000,
-        "first_timestamp": "2026-04-11T10:00:00+00:00",
+        "first_timestamp": "2026-04-11T14:00:00+00:00",
         "last_timestamp": "2026-09-28T23:00:00+00:00",
         "gap_count": 0,
         "gaps": [],
@@ -141,7 +149,15 @@
         "start": "2025-12-20T00:00:00+00:00",
         "end": "2026-09-28T23:00:00+00:00"
       },
-      "sha256": "6ca1d9920bb32afe56425dd7a16b8a3440ada61c91da8778c48aeec1936e2da4",
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 20521928.00343,
+        "observed_mean_24h_usd_volume": 950312624.484521,
+        "bars_checked": 4090,
+        "bars_passing": 4090,
+        "volume_filter_ok": true
+      },
+      "sha256": "ad2c6b60b9c07dc127b730c838a888b12c0a08df4af31c91214f6e01fb756e21",
       "cache_path": "research_state/cache/hyperliquid/candles/ETH.json"
     }
   },

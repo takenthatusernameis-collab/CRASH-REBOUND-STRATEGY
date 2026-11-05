@@ -438,6 +438,66 @@ def analyze_coverage(candles: List[Dict[str, Any]], start: datetime, end: dateti
     }
 
 
+def _candle_close(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("close")
+    try:
+        return float(v) if v is not None else None
+    except Exception:
+        return None
+
+
+def _candle_volume(c: Dict[str, Any]) -> Optional[float]:
+    v = c.get("volume")
+    try:
+        return float(v) if v is not None else None
+    except Exception:
+        return None
+
+
+def analyze_symbol_volume_coverage(candles: List[Dict[str, Any]], min_daily_volume_usd: float) -> Dict[str, Any]:
+    """Rolling 24h USD volume coverage vs min_daily_volume_usd.
+
+    USD volume per bar = volume * close (Hyperliquid perp base volume * quote price).
+    For each bar, sum volume*close over the trailing 24 hourly bars including current;
+    a symbol passes the universe filter when every bar's 24h USD volume >= threshold.
+    Returns pass/fail plus min/mean observed 24h USD volume for provenance.
+    """
+    n = len(candles)
+    usd_vols: List[float] = []
+    for i in range(n):
+        close = _candle_close(candles[i])
+        vol = _candle_volume(candles[i])
+        window_start = max(0, i - 23)
+        total = 0.0
+        has = False
+        for j in range(window_start, i + 1):
+            vj = _candle_volume(candles[j])
+            cj = _candle_close(candles[j])
+            if vj is not None and cj is not None and cj > 0:
+                total += vj * cj
+                has = True
+        if has:
+            usd_vols.append(total)
+    if not usd_vols:
+        return {
+            "min_daily_volume_usd": min_daily_volume_usd,
+            "observed_min_24h_usd_volume": None,
+            "observed_mean_24h_usd_volume": None,
+            "bars_checked": 0,
+            "bars_passing": 0,
+            "volume_filter_ok": False,
+        }
+    passing = sum(1 for v in usd_vols if v >= min_daily_volume_usd)
+    return {
+        "min_daily_volume_usd": min_daily_volume_usd,
+        "observed_min_24h_usd_volume": round(min(usd_vols), 6),
+        "observed_mean_24h_usd_volume": round(sum(usd_vols) / len(usd_vols), 6),
+        "bars_checked": len(usd_vols),
+        "bars_passing": passing,
+        "volume_filter_ok": passing == len(usd_vols),
+    }
+
+
 def main():
     ap = argparse.ArgumentParser(description="Fetch/ingest verifiable Hyperliquid hourly candles + provenance")
     ap.add_argument("--symbols", nargs="*", default=None, help="Symbols to fetch (default: built-in universe or all from archive)")
@@ -452,6 +512,7 @@ def main():
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--allow-partial", action="store_true", help="Write manifest even if incomplete (still marked incomplete; real run must refuse)")
     ap.add_argument("--universe-file", default=None, help="Optional JSON file with symbol list")
+    ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0, help="Minimum 24h USD volume per symbol (>= $5M spec filter)")
     args = ap.parse_args()
 
     start = _parse_iso(args.start)
@@ -518,9 +579,11 @@ def main():
             except Exception as ve:
                 entry["validation_warning"] = str(ve)
             cov = analyze_coverage(candles, start, end)
+            volcov = analyze_symbol_volume_coverage(candles, args.min_daily_volume_usd)
             payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             entry.update(meta)
             entry["coverage"] = cov
+            entry["volume_coverage"] = volcov
             entry["sha256"] = _sha256_bytes(payload)
             entry["status"] = "ok" if cov.get("complete_for_target_window") else "incomplete"
             if entry["status"] != "ok":

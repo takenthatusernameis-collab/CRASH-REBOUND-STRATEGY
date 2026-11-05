@@ -18,6 +18,7 @@ import hashlib
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import List, Optional
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -28,6 +29,49 @@ from src.data.loader import load_hyperliquid_candles  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
 from src.metrics import compute_campaign_metrics, metrics_to_dict, metrics_to_csv_rows  # noqa: E402
+
+
+def load_universe(universe_file: Optional[Path], manifest: dict) -> List[str]:
+    if universe_file and universe_file.exists():
+        u = json.loads(universe_file.read_text())
+        syms = u.get("symbols") if isinstance(u, dict) else u
+        return [str(s).upper() for s in syms]
+    return [str(s).upper() for s in (manifest.get("symbols") or {}).keys()]
+
+
+def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
+                                    min_daily_volume_usd: float) -> List[str]:
+    """Require every universe symbol to pass the >= $5M 24h volume filter per verified coverage.
+
+    Returns list of symbols that pass; raises ProvenanceError with concrete blockers
+    for any symbol that lacks complete coverage or fails the volume filter.
+    """
+    errs: List[str] = []
+    passing: List[str] = []
+    symbols_map = manifest.get("symbols") or {}
+    for sym in symbols:
+        info = symbols_map.get(sym)
+        if not isinstance(info, dict):
+            errs.append(f"{sym}: missing from provenance manifest")
+            continue
+        cov = info.get("coverage") or {}
+        if info.get("status") != "ok" or cov.get("complete_for_target_window") is not True:
+            errs.append(
+                f"{sym}: incomplete coverage (status={info.get('status')}, "
+                f"observed={cov.get('observed_in_window_bars')}/{cov.get('expected_hourly_bars')})"
+            )
+            continue
+        volcov = info.get("volume_coverage") or {}
+        if not volcov.get("volume_filter_ok"):
+            errs.append(
+                f"{sym}: volume filter not met (min_24h_usd={volcov.get('observed_min_24h_usd_volume')}, "
+                f"mean={volcov.get('observed_mean_24h_usd_volume')}, bars={volcov.get('bars_passing')}/{volcov.get('bars_checked')})"
+            )
+            continue
+        passing.append(sym)
+    if errs:
+        raise ProvenanceError("Real campaign blocked by per-symbol coverage/volume validation:\n- " + "\n- ".join(errs))
+    return passing
 
 
 def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
@@ -76,6 +120,7 @@ def main():
     ap.add_argument("--output-prefix", default="campaign_results_real")
     ap.add_argument("--min-symbols", type=int, default=1)
     ap.add_argument("--universe-file", default=None, help="Optional JSON file with verified symbol universe (list or {symbols:[...]}).")
+    ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0, help="Minimum 24h USD volume per symbol (>= $5M spec filter)")
     ap.add_argument(
         "--allow-partial-not-evidence",
         action="store_true",
@@ -122,29 +167,47 @@ def main():
             print("For non-evidence pipeline debugging on a verified subset, use --allow-partial-not-evidence with >=1 complete symbol.", file=sys.stderr)
             return 2
     # Optional verified universe filter
-    universe_symbols = None
+    universe_symbols: Optional[List[str]] = None
     if args.universe_file:
-        up = Path(args.universe_file)
-        if not up.exists():
-            print(f"BLOCKER: universe file not found: {up}", file=sys.stderr)
+        universe_symbols = load_universe(Path(args.universe_file), manifest)
+        if not universe_symbols:
+            print("BLOCKER: universe file empty or not found.", file=sys.stderr)
             return 2
-        raw = json.loads(up.read_text())
-        if isinstance(raw, dict):
-            universe_symbols = raw.get("symbols") or raw.get("universe") or []
-        else:
-            universe_symbols = raw
-        universe_symbols = [str(s).upper() for s in universe_symbols]
         # restrict manifest symbols to universe intersection
         syms = manifest.get("symbols") or {}
-        filtered = {k: v for k, v in syms.items() if k.upper() in universe_symbols}
+        filtered = {k: v for k, v in syms.items() if k.upper() in set(universe_symbols)}
         if not filtered:
             print("BLOCKER: no manifest symbols match universe file.", file=sys.stderr)
             return 2
         manifest = dict(manifest)
         manifest["symbols"] = filtered
-        manifest["universe_filter"] = {"source": str(up), "symbols": universe_symbols}
+        manifest["universe_filter"] = {"source": str(Path(args.universe_file)), "symbols": universe_symbols}
+
+    # Per-symbol verified volume-coverage gating (>= $5M 24h USD volume per spec).
+    # Applies to the full-evidence path only; partial-not-evidence runs skip strict gating.
+    validation_symbols: List[str] = []
+    if args.universe_file:
+        validation_symbols = universe_symbols
+    else:
+        validation_symbols = [str(s).upper() for s in (manifest.get("symbols") or {}).keys()]
+    if not partial_mode and validation_symbols:
+        try:
+            passing_symbols = validate_symbol_volume_coverage(manifest, validation_symbols, args.min_daily_volume_usd)
+        except ProvenanceError as e:
+            print(str(e), file=sys.stderr)
+            print(f"\nBLOCKER: Per-symbol coverage/volume validation failed for {TARGET_START}→{TARGET_END}.", file=sys.stderr)
+            print("Provide a verified archive covering all universe symbols with >= $5M 24h volume via scripts/fetch_hyperliquid_candles.py --source archive --input-archive <path>.", file=sys.stderr)
+            return 2
+    else:
+        passing_symbols = validation_symbols
 
     data = load_verified_cache(cache_dir, manifest)
+    # Restrict to symbols that passed coverage + volume validation (full-evidence path).
+    if not partial_mode and passing_symbols:
+        data = {s: d for s, d in data.items() if s in set(passing_symbols)}
+    if not data:
+        print("BLOCKER: No verified symbol data passed coverage + volume validation.", file=sys.stderr)
+        return 2
     eth = data.get("ETH")
     config = StrategyConfig(
         use_rsi_trigger=True,

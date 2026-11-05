@@ -21,11 +21,13 @@ from scripts.run_real_campaign import _complete_symbol_subset, main as run_real_
 from scripts.fetch_hyperliquid_candles import (
     analyze_coverage,
     ingest_archive,
+    analyze_symbol_volume_coverage,
     _expected_hourly_bars,
     _parse_iso,
     _dt_to_ms,
 )
 from src.data.loader import load_hyperliquid_candles
+from scripts.run_real_campaign import load_universe, validate_symbol_volume_coverage
 
 
 EXP = expected_hourly_bars(TARGET_START, TARGET_END)
@@ -362,6 +364,14 @@ def _complete_verified_manifest(cache_dir: Path, symbols):
                 "complete_for_target_window": True,
                 "start": TARGET_START,
                 "end": TARGET_END,
+            },
+            "volume_coverage": {
+                "min_daily_volume_usd": 5_000_000.0,
+                "observed_min_24h_usd_volume": 240000000.0,
+                "observed_mean_24h_usd_volume": 240000000.0,
+                "bars_checked": EXP,
+                "bars_passing": EXP,
+                "volume_filter_ok": True,
             },
         }
     m["summary"] = {
