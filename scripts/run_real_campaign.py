@@ -50,6 +50,24 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
     return out
 
 
+def _complete_symbol_subset(manifest: dict) -> dict:
+    """Return a manifest view containing only symbols complete for the target window."""
+    syms = manifest.get("symbols") or {}
+    complete = {}
+    for k, v in syms.items():
+        if not isinstance(v, dict):
+            continue
+        cov = v.get("coverage") or {}
+        if v.get("status") == "ok" and cov.get("complete_for_target_window") is True:
+            complete[k] = v
+    out = dict(manifest)
+    out["symbols"] = complete
+    out["summary"] = dict(manifest.get("summary") or {})
+    out["summary"]["complete_symbols_subset"] = sorted(complete.keys())
+    out["summary"]["complete_symbols_subset_count"] = len(complete)
+    return out
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--cache-dir", default=str(REPO_ROOT / "research_state" / "cache" / "hyperliquid"))
@@ -58,17 +76,51 @@ def main():
     ap.add_argument("--output-prefix", default="campaign_results_real")
     ap.add_argument("--min-symbols", type=int, default=1)
     ap.add_argument("--universe-file", default=None, help="Optional JSON file with verified symbol universe (list or {symbols:[...]}).")
+    ap.add_argument(
+        "--allow-partial-not-evidence",
+        action="store_true",
+        help=(
+            "Run on a verified COMPLETE SUBSET of symbols from an incomplete manifest. "
+            "Outputs are explicitly marked NOT_EVIDENCE_PARTIAL_UNIVERSE and NEVER set "
+            "performance_evidence=true. Use for pipeline/debug hardening only; NOT spec evidence."
+        ),
+    )
     args = ap.parse_args()
     cache_dir = Path(args.cache_dir)
     manifest_path = Path(args.manifest) if args.manifest else cache_dir / "provenance.json"
+    partial_mode = bool(args.allow_partial_not_evidence)
 
     try:
-        manifest = require_verified_provenance(manifest_path, require_complete=True, min_symbols=args.min_symbols)
+        manifest = require_verified_provenance(
+            manifest_path,
+            require_complete=not partial_mode,
+            min_symbols=args.min_symbols,
+        )
     except ProvenanceError as e:
-        print(str(e), file=sys.stderr)
-        print(f"\nBLOCKER: Verified 283-day Hyperliquid dataset unavailable for {TARGET_START}→{TARGET_END}.", file=sys.stderr)
-        print("Do NOT fabricate data. Provide a verified archive via scripts/fetch_hyperliquid_candles.py --source archive --input-archive <path>.", file=sys.stderr)
-        return 2
+        if partial_mode:
+            # In partial mode, accept a non-fabricated manifest and run only on complete symbols.
+            raw = json.loads(manifest_path.read_text()) if manifest_path.exists() else {}
+            if raw.get("fabricated_data") is True:
+                print("BLOCKER: fabricated_data=true is prohibited.", file=sys.stderr)
+                return 2
+            tw = raw.get("target_window") or {}
+            if tw.get("start") and tw.get("end"):
+                from src.data.provenance import _parse_iso
+                if _parse_iso(tw["start"]) != _parse_iso(TARGET_START) or _parse_iso(tw["end"]) != _parse_iso(TARGET_END):
+                    print(f"BLOCKER: target_window mismatch for partial run: {tw}", file=sys.stderr)
+                    return 2
+            manifest = _complete_symbol_subset(raw)
+            if len(manifest.get("symbols") or {}) < args.min_symbols:
+                print(str(e), file=sys.stderr)
+                print(f"\nBLOCKER: no complete verified symbols available for partial-not-evidence run (need >= {args.min_symbols}).", file=sys.stderr)
+                print("Provide verified archive coverage; do NOT fabricate data.", file=sys.stderr)
+                return 2
+        else:
+            print(str(e), file=sys.stderr)
+            print(f"\nBLOCKER: Verified 283-day Hyperliquid dataset unavailable for {TARGET_START}→{TARGET_END}.", file=sys.stderr)
+            print("Do NOT fabricate data. Provide a verified archive via scripts/fetch_hyperliquid_candles.py --source archive --input-archive <path>.", file=sys.stderr)
+            print("For non-evidence pipeline debugging on a verified subset, use --allow-partial-not-evidence with >=1 complete symbol.", file=sys.stderr)
+            return 2
     # Optional verified universe filter
     universe_symbols = None
     if args.universe_file:
@@ -108,13 +160,21 @@ def main():
     out_dir.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).isoformat()
     manifest_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest() if manifest_path.exists() else None
+    research_status = "NOT_EVIDENCE_PARTIAL_UNIVERSE" if partial_mode else "REAL_MARKET_RUN"
+    run_type = "real_market_campaign_partial_not_evidence" if partial_mode else "real_market_campaign"
     export = {
         "timestamp": ts,
-        "run_type": "real_market_campaign",
-        "research_status": "REAL_MARKET_RUN",
+        "run_type": run_type,
+        "research_status": research_status,
         "real_market_data": True,
-        "performance_evidence": True,
+        "performance_evidence": False if partial_mode else True,
         "fabricated_data": False,
+        "partial_universe_not_evidence": bool(partial_mode),
+        "evidence_warning": (
+            "PARTIAL VERIFIED-SUBSET RUN: NOT performance evidence and NOT a spec 283-day campaign result. "
+            "Only complete-coverage symbols from the manifest were loaded; universe/coverage is incomplete. "
+            "Do not compare to spec targets or cite as campaign performance."
+        ) if partial_mode else None,
         "data_provenance": {
             "manifest_path": str(manifest_path.relative_to(REPO_ROOT)) if str(manifest_path).startswith(str(REPO_ROOT)) else str(manifest_path),
             "manifest_sha256": manifest_sha,
@@ -129,6 +189,7 @@ def main():
                 "applied_in": ["src.strategy.crash_rebound.filter_universe", "scripts.run_portfolio.run_portfolio_simulation"],
                 "note": "Real-universe membership must be justified by verified per-symbol data/provenance for the target window.",
             },
+            "partial_mode": partial_mode,
         },
         "config": {
             "use_rsi_trigger": config.use_rsi_trigger,
@@ -152,15 +213,16 @@ def main():
         "metrics": metrics,
     }
     (out_dir / f"{args.output_prefix}.json").write_text(json.dumps(export, indent=2, default=str) + "\n")
-    # Also write canonical metrics files for real run (separate naming to avoid overwriting fixture smoke by accident?)
-    # The handoff asks for campaign_metrics.json/.csv marked real; keep fixture separate via explicit name.
     (out_dir / f"{args.output_prefix}_metrics.json").write_text(json.dumps(metrics, indent=2, default=str) + "\n")
     with (out_dir / f"{args.output_prefix}_metrics.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["metric", "value"])
         w.writeheader()
         for row in metrics_to_csv_rows(metrics):
             w.writerow(row)
-    print(f"REAL run complete: {export['results']['num_trades']} trades, total_pnl={export['results']['total_pnl']}")
+    if partial_mode:
+        print(f"PARTIAL NOT-EVIDENCE run complete (performance_evidence=false): {export['results']['num_trades']} trades, total_pnl={export['results']['total_pnl']}, symbols={sorted(data.keys())}")
+    else:
+        print(f"REAL run complete: {export['results']['num_trades']} trades, total_pnl={export['results']['total_pnl']}")
     print(f"Wrote {out_dir / f'{args.output_prefix}.json'}")
     return 0
 

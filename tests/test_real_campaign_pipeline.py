@@ -17,6 +17,7 @@ from src.data.provenance import (
     require_verified_provenance,
     ProvenanceError,
 )
+from scripts.run_real_campaign import _complete_symbol_subset, main as run_real_main
 from scripts.fetch_hyperliquid_candles import (
     analyze_coverage,
     ingest_archive,
@@ -67,33 +68,93 @@ def _complete_manifest(tmp_path: Path, symbol: str = "BTC") -> Path:
     return p
 
 
-def test_run_real_campaign_rejects_incomplete_manifest(tmp_path, monkeypatch):
-    """run_real_campaign.main must exit non-zero on incomplete provenance (gate holds)."""
-    incomplete = {
+def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypatch):
+    """Heavy safety test: incomplete manifest with >=1 complete symbol can run ONLY in explicit
+    partial-not-evidence mode, producing artifacts that are never marked performance_evidence."""
+    cache_dir = tmp_path / "cache" / "hyperliquid"
+    _write_full_hourly_cache(cache_dir, "BTC", n=EXP)
+    # incomplete manifest view: BTC complete, ETH missing/incomplete
+    m = {
+        "schema_version": 1,
+        "generated_at_utc": "2026-11-05T00:00:00Z",
+        "run_type": "data_acquisition_provenance",
+        "real_market_data_intended": True,
+        "fabricated_data": False,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+        "source": {"kind": "hyperliquid_info_api"},
+        "symbols": {
+            "BTC": {
+                "status": "ok",
+                "coverage": {
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": EXP,
+                    "gap_count": 0,
+                    "complete_for_target_window": True,
+                },
+            },
+            "ETH": {
+                "status": "incomplete",
+                "coverage": {
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": 4094,
+                    "gap_count": 0,
+                    "complete_for_target_window": False,
+                },
+            },
+        },
+        "summary": {"all_complete": False, "ready_for_real_campaign": False, "complete_symbols": ["BTC"]},
+    }
+    mp = cache_dir / "provenance.json"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    mp.write_text(json.dumps(m, indent=2))
+    fake_repo = tmp_path / "repo"
+    (fake_repo / "research_state").mkdir(parents=True)
+    monkeypatch.setattr(sys, "argv", [
+        "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
+        "--output-prefix", "campaign_results_partial_debug", "--min-symbols", "1",
+        "--allow-partial-not-evidence",
+    ])
+    import scripts.run_real_campaign as rrc
+    monkeypatch.setattr(rrc, "REPO_ROOT", fake_repo)
+    rc = rrc.main()
+    assert rc == 0
+    data = json.loads((fake_repo / "research_state" / "campaign_results_partial_debug.json").read_text())
+    assert data["performance_evidence"] is False
+    assert data["partial_universe_not_evidence"] is True
+    assert data["research_status"] == "NOT_EVIDENCE_PARTIAL_UNIVERSE"
+    assert data["real_market_data"] is True  # data source is real, but run is not evidence
+    assert data["fabricated_data"] is False
+    assert data["data_provenance"]["symbols_loaded"] == ["BTC"]
+    assert "NOT performance evidence" in (data.get("evidence_warning") or "")
+
+
+def test_partial_not_evidence_refuses_without_complete_symbols(tmp_path, monkeypatch):
+    m = {
         "fabricated_data": False,
         "real_market_data_intended": True,
         "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
         "symbols": {
-            "BTC": {
-                "status": "incomplete",
-                "coverage": {
-                    "expected_hourly_bars": EXP,
-                    "observed_in_window_bars": EXP - 1,
-                    "gap_count": 0,
-                    "complete_for_target_window": False,
-                },
-            }
+            "BTC": {"status": "incomplete", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": 1, "gap_count": 0, "complete_for_target_window": False}},
         },
+        "summary": {"all_complete": False},
     }
-    mp = tmp_path / "provenance_incomplete.json"
-    mp.write_text(json.dumps(incomplete))
-
+    mp = tmp_path / "p.json"
+    mp.write_text(json.dumps(m))
     import scripts.run_real_campaign as rrc
+    monkeypatch.setattr(sys, "argv", ["run_real_campaign.py", "--manifest", str(mp), "--allow-partial-not-evidence", "--cache-dir", str(tmp_path)])
+    assert rrc.main() == 2
 
-    argv = ["run_real_campaign.py", "--manifest", str(mp), "--min-symbols", "1"]
-    monkeypatch.setattr(sys, "argv", argv)
-    rc = rrc.main()
-    assert rc == 2
+
+def test_complete_symbol_subset_filters_correctly():
+    raw = {
+        "symbols": {
+            "A": {"status": "ok", "coverage": {"complete_for_target_window": True}},
+            "B": {"status": "incomplete", "coverage": {"complete_for_target_window": False}},
+            "C": {"status": "ok", "coverage": {"complete_for_target_window": False}},
+        }
+    }
+    sub = _complete_symbol_subset(raw)
+    assert list(sub["symbols"].keys()) == ["A"]
 
 
 def test_require_verified_provenance_accepts_complete(tmp_path):
