@@ -290,7 +290,14 @@ def main():
     if not symbols:
         # Conservative default: top liquid perps likely relevant; caller should supply verified universe.
         symbols = ["BTC", "ETH", "SOL", "XRP", "DOGE", "AVAX", "LINK", "SUI", "ADA", "ARB", "OP", "NEAR", "APT", "TIA", "INJ", "LTC", "BCH", "DOT", "ATOM", "UNI", "AAVE", "MATIC", "SEI", "FTM", "ALGO", "ICP"]
-    symbols = [str(s).upper() for s in symbols]
+    # Accept comma-separated symbols in any position for CLI robustness.
+    norm = []
+    for s in symbols:
+        for part in str(s).replace(';', ',').split(','):
+            part = part.strip().upper()
+            if part:
+                norm.append(part)
+    symbols = norm
 
     manifest = {
         "schema_version": 1,

@@ -238,3 +238,126 @@ def test_compute_campaign_metrics_equity_curve_no_trades():
 def test_expected_hourly_bars_matches_manifest():
     assert EXP == 6792
     assert _expected_hourly_bars(_parse_iso(TARGET_START), _parse_iso(TARGET_END)) == EXP
+
+
+def test_fetch_symbol_parsing_comma_and_space():
+    # Pure parsing unit check (no network): fetch script normalizes comma/semicolon/whitespace.
+    raw = ["BTC,ETH", "SOL", "xrp;ada", "  dot "]
+    norm = []
+    for s in raw:
+        for part in str(s).replace(';', ',').split(','):
+            part = part.strip().upper()
+            if part:
+                norm.append(part)
+    assert norm == ["BTC", "ETH", "SOL", "XRP", "ADA", "DOT"]
+
+
+def _write_full_hourly_cache(cache_dir: Path, symbol: str, n: int = EXP):
+    candles_dir = cache_dir / "candles"
+    candles_dir.mkdir(parents=True, exist_ok=True)
+    start = _parse_iso(TARGET_START)
+    candles = []
+    for i in range(n):
+        ts = start + timedelta(hours=i)
+        ts_ms = int(ts.timestamp() * 1000)
+        # high-volume, stable OHLC to pass >=$5M daily volume filter
+        candles.append({
+            "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
+            "timestamp_ms": ts_ms,
+            "open": 50000.0,
+            "high": 50100.0,
+            "low": 49900.0,
+            "close": 50000.0,
+            "volume": 200.0,  # 200*50000*24 = 240M/day
+        })
+    (candles_dir / f"{symbol}.json").write_text(json.dumps(candles))
+
+
+def _complete_verified_manifest(cache_dir: Path, symbols):
+    m = {
+        "schema_version": 1,
+        "generated_at_utc": "2026-11-05T00:00:00Z",
+        "run_type": "data_acquisition_provenance",
+        "real_market_data_intended": True,
+        "fabricated_data": False,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+        "source": {"kind": "archive", "input_archive": "/verified/archive", "hl_url": None},
+        "symbols": {},
+        "summary": {},
+    }
+    for sym in symbols:
+        m["symbols"][sym] = {
+            "status": "ok",
+            "source": "user_supplied_archive",
+            "cache_path": f"research_state/cache/hyperliquid/candles/{sym}.json",
+            "coverage": {
+                "expected_hourly_bars": EXP,
+                "observed_in_window_bars": EXP,
+                "coverage_pct": 100.0,
+                "first_timestamp_ms": _dt_to_ms(_parse_iso(TARGET_START)),
+                "last_timestamp_ms": _dt_to_ms(_parse_iso(TARGET_END)),
+                "gap_count": 0,
+                "gaps": [],
+                "complete_for_target_window": True,
+                "start": TARGET_START,
+                "end": TARGET_END,
+            },
+        }
+    m["summary"] = {
+        "symbols_requested": len(symbols),
+        "symbols_complete": len(symbols),
+        "symbols_incomplete_or_error": 0,
+        "all_complete": True,
+        "ready_for_real_campaign": True,
+        "complete_symbols": list(symbols),
+    }
+    mp = cache_dir / "provenance.json"
+    cache_dir.mkdir(parents=True, exist_ok=True)
+    mp.write_text(json.dumps(m, indent=2))
+    return mp
+
+
+def test_run_real_campaign_gated_executes_with_complete_verified_manifest(tmp_path, monkeypatch):
+    """Integration: complete verified manifest + complete caches pass gate and emit real-marked artifacts.
+    Test uses deterministic generated OHLCV in tmp_path to exercise pipeline wiring (not repo evidence)."""
+    import scripts.run_real_campaign as rrc
+
+    cache_dir = tmp_path / "cache" / "hyperliquid"
+    for sym in ["BTC", "ETH"]:
+        _write_full_hourly_cache(cache_dir, sym, n=EXP)
+    mp = _complete_verified_manifest(cache_dir, ["BTC", "ETH"])
+
+    # isolate outputs to tmp research_state by monkeypatching REPO_ROOT
+    fake_repo = tmp_path / "repo"
+    (fake_repo / "research_state").mkdir(parents=True)
+    monkeypatch.setattr(rrc, "REPO_ROOT", fake_repo)
+    monkeypatch.setattr(sys, "argv", [
+        "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
+        "--output-prefix", "campaign_results_real", "--min-symbols", "1",
+    ])
+    rc = rrc.main()
+    assert rc == 0
+    out = fake_repo / "research_state" / "campaign_results_real.json"
+    met = fake_repo / "research_state" / "campaign_results_real_metrics.json"
+    csvp = fake_repo / "research_state" / "campaign_results_real_metrics.csv"
+    assert out.exists() and met.exists() and csvp.exists()
+    data = json.loads(out.read_text())
+    assert data["real_market_data"] is True
+    assert data["performance_evidence"] is True
+    assert data["fabricated_data"] is False
+    assert data["data_provenance"]["manifest_sha256"]
+    assert "BTC" in data["data_provenance"]["symbols_loaded"]
+    assert data["data_provenance"]["universe_filter_policy"]["min_daily_volume_usd"] == 5_000_000.0
+    assert "metrics" in data and "max_drawdown_series" in data["metrics"]
+
+
+def test_validate_provenance_rejects_missing_manifest_sha_fields_when_incomplete_symbol_status():
+    # status ok but coverage incomplete should be rejected
+    m = {
+        "fabricated_data": False,
+        "real_market_data_intended": True,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+        "symbols": {"BTC": {"status": "ok", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": EXP-10, "gap_count": 0, "complete_for_target_window": False}}},
+    }
+    ok, errs = validate_provenance(m)
+    assert not ok

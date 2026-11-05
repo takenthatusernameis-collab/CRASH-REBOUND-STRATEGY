@@ -14,6 +14,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import hashlib
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -83,6 +84,7 @@ def main():
     out_dir = REPO_ROOT / "research_state"
     out_dir.mkdir(parents=True, exist_ok=True)
     ts = datetime.now(timezone.utc).isoformat()
+    manifest_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest() if manifest_path.exists() else None
     export = {
         "timestamp": ts,
         "run_type": "real_market_campaign",
@@ -92,11 +94,17 @@ def main():
         "fabricated_data": False,
         "data_provenance": {
             "manifest_path": str(manifest_path.relative_to(REPO_ROOT)) if str(manifest_path).startswith(str(REPO_ROOT)) else str(manifest_path),
-            "manifest_sha256_hint": None,
+            "manifest_sha256": manifest_sha,
             "source": manifest.get("source"),
             "target_window": manifest.get("target_window"),
             "symbols_complete": manifest.get("summary", {}).get("complete_symbols"),
-            "coverage_summary": {s: v.get("coverage") for s, v in (manifest.get("symbols") or {}).items()},
+            "symbols_loaded": sorted(data.keys()),
+            "coverage_summary": {s: v.get("coverage") for s, v in (manifest.get("symbols") or {}).items() if v.get("status") == "ok"},
+            "universe_filter_policy": {
+                "min_daily_volume_usd": config.min_daily_volume_usd,
+                "applied_in": ["src.strategy.crash_rebound.filter_universe", "scripts.run_portfolio.run_portfolio_simulation"],
+                "note": "Real-universe membership must be justified by verified per-symbol data/provenance for the target window.",
+            },
         },
         "config": {
             "use_rsi_trigger": config.use_rsi_trigger,
