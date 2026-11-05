@@ -1,9 +1,9 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T18:52:05Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T18:52:30Z
 
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file.
 
-## CURRENT VERIFIED STATUS — 2026-11-05T18:52:05Z (supersedes prior state)
+## CURRENT VERIFIED STATUS — 2026-11-05T18:52:30Z (supersedes prior state)
 - **Items 1–5 DONE/GREEN (do not reopen):** RSI(21)<20 primary trigger ON, ETH hedge on every leg (vol-ratio capped 3x), volume-based sizing ON (1.25% 24h vol), >=$5M volume filter on all trigger/universe paths, equal-share cap cuts across old+new via `RiskState.apply_cap_cuts()`, funding/liquidation checks correct.
 - **Item 6a/6b DONE/GREEN (code + tests + fixture wiring):** `src/metrics/campaign_metrics.py` implements full suite (Sharpe, Sortino, max drawdown series **with timestamps** + max DD timestamp, Calmar, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution by symbol/leg, exposure metrics), robust to empty/no-trade runs. `scripts/run_campaign.py` computes/exports `research_state/campaign_metrics.json` + `.csv` and embeds metrics in `campaign_results.json`. **Fixture smoke provenance remains explicit** (`fixture_smoke_test` / `real_market_data=false` / `performance_evidence=false` / target 283d `NOT_RUN`) — **NOT real Hyperliquid performance evidence**.
 - **Data pipeline + provenance gates ADDED (2026-11-05):**
@@ -21,7 +21,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-05T18:52:05Z | PRIORITY 1 (REPO-NAME): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c UNBLOCK + EXECUTE REAL 283-DAY HYPERLIQUID RUN (2025-12-20→2026-09-28, 6792 hourly bars/symbol) WITH VERIFIED PROVENANCE/COVERAGE | NO FIXTURES | NO FABRICATED DATA | HEAVY WORK MANDATORY — ELIMINATE BOTTLENECKS`
+> `CRASH-REBOUND-STRATEGY | 2026-11-05T18:52:30Z | PRIORITY 1 (REPO-NAME): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c UNBLOCK + EXECUTE REAL 283-DAY HYPERLIQUID RUN (2025-12-20→2026-09-28, 6792 hourly bars/symbol) WITH VERIFIED PROVENANCE/COVERAGE | NO FIXTURES | NO FABRICATED DATA | HEAVY WORK MANDATORY — ELIMINATE BOTTLENECKS`
 >
 > **EXECUTE NOW (no re-verifying env, no Q&A):**
 > 1. **Unblock verified data (primary path):** Obtain a **verifiable, non-fabricated** hourly OHLCV archive for the full target window (`6792/6792` bars/symbol, zero gaps, documented source/checksums) for the spec-relevant universe (>= $5M 24h vol; symbol selection documented). Ingest via:
