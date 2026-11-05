@@ -1,9 +1,10 @@
 metric,value
+calmar_ratio,0.0
+max_drawdown,0.0
+max_drawdown_series_points,0
+max_drawdown_timestamp,
+profit_factor,0.0
 sharpe_ratio,0.0
 sortino_ratio,0.0
-max_drawdown,0.0
-max_drawdown_timestamp,
-calmar_ratio,0.0
+timestamp,2026-11-05T17:47:14.660780
 win_rate,0.0
-profit_factor,0.0
-timestamp,2026-11-05T17:42:03.998843

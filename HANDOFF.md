@@ -1,34 +1,35 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:44:57Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:47:30Z
 
-## CURRENT VERIFIED STATUS — 2026-11-05T17:44:57Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-05T17:47:30Z (supersedes all prior state)
 
-- `src/strategy/config.py` defaults: `use_rsi_trigger=True` (RSI(21)<20 primary crash trigger), `enable_eth_hedge=True`, `enable_volume_based_sizing=True` (1.25% of 24h volume), `min_daily_volume_usd=5_000_000.0`, `gross_cap_pct=120.0` with equal-share cuts via `RiskState.apply_cap_cuts()`. **Already ON — do not re-open.**
-- `scripts/run_campaign.py` sets `use_rsi_trigger=True`, `enable_eth_hedge=True`, `enable_volume_based_sizing=True`. It is explicitly a **fixture smoke test only** (synthetic data). The 2025-12-20 to 2026-09-28 (283-day) Hyperliquid window remains **NOT RUN** with real data.
-- `tests/test_stress_campaign.py` exists (7 stress tests). Provenance guard: `tests/test_campaign_provenance.py` enforces fixture artifacts cannot be misread as real performance.
-- Legacy `research_state/campaign_results.json` is fixture-only; see `research_state/campaign_artifact_provenance_erratum.md`. Do **not** promote fixture PnL/trade counts.
-- Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). **Re-verified green 2026-11-05T17:44:57Z; pytest installed; re-verify before/after changes.**
-- NOTE: `run_campaign.py` with `use_rsi_trigger=True` on 3-bar fixtures yields 0 trades (RSI needs ~22+ bars). Expected for fixture smoke test; metrics must handle empty/no-trade runs without crashing.
-- **BOTTLENECK (ACTIVE):** `src/metrics/__init__.py` imports from `src.metrics.campaign_metrics` which **does not exist**. This must be fixed before any campaign metrics export can work. Do **not** defer.
+- Items 1–5 remain **done/green** (RSI primary trigger ON, ETH hedge on every leg, volume-based sizing ON 1.25% 24h vol, >=$5M volume filter on trigger/universe paths, equal-share cap cuts across old+new, funding/liquidation checks). **Do not reopen.**
+- **ITEM 6a/6b COMPLETE (2026-11-05T17:47Z):** `src/metrics/campaign_metrics.py` implemented with the full API expected by `src/metrics/__init__.py`: `compute_campaign_metrics(...)`, `compute_metrics_from_trades(...)`, `metrics_to_dict(...)`, `metrics_to_csv_rows(...)`.
+  - Computes: Sharpe, Sortino, max drawdown **series with timestamps** + max DD timestamp, Calmar, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution by symbol/leg, exposure metrics.
+  - **Robust to empty/no-trade runs** (returns well-formed zeros/empty structures; no crash). Verified by smoke + fixture E2E.
+- **Wired + exported (fixture smoke only):** `scripts/run_campaign.py` computes/attaches metrics and writes `research_state/campaign_metrics.json` + `research_state/campaign_metrics.csv` (and `campaign_results.json` with embedded metrics). All artifacts remain explicitly `fixture_smoke_test`/synthetic provenance — **NOT real Hyperliquid performance evidence**. E2E run completed cleanly at 2026-11-05T17:47:14Z.
+- **Validation:** `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` → **89 passed, 0 failed** (re-verified 2026-11-05T17:47Z). Metrics import OK.
+- **ITEM 6c REAL 283-DAY RUN — BLOCKED BY DATA (concrete evidence, 2026-11-05T17:47Z):** Target window 2025-12-20 → 2026-09-28 (283 days), Hyperliquid hourly candles. Blockers found in workspace:
+  - No verified real-market OHLCV dataset/cache present (searched `*hyperliquid*`; none; `research_state/` has no candle cache). `src/data/loader.py` provides loaders/validation but no fetched/verified 283-day dataset.
+  - `scripts/run_campaign.py` is intentionally fixture-only and must not silently substitute toy fixtures/static candidate lists; real run requires independently verified, complete hourly cache with coverage + provenance checks.
+  - No network/data-fetch path or credentials/provenance manifest for Hyperliquid historical candles in repo; fabricating/substituting data is prohibited.
+  - **Status:** `target_historical_window 2025-12-20→2026-09-28 (283d) = NOT_RUN`. Do not claim performance.
 
 ---
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-05T17:44:57Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6a - IMPLEMENT MISSING METRICS MODULE (BLOCKING) → ITEM 6b WIRE+EXPORT → ITEM 6c REAL 283-DAY HYPERLIQUID RUN | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
+> `CRASH-REBOUND-STRATEGY | 2026-11-05T17:47:30Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c - REAL 283-DAY HYPERLIQUID RUN (DATA-GATED) → BUILD VERIFIED DATA PIPELINE/PROVENANCE + COVERAGE CHECKS, THEN EXECUTE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | NO FABRICATED DATA | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
 >
 > **CONCRETE FIRST ACTION (EXECUTE NOW, NO ENV RE-CHECK, NO Q&A):**
-> 1. **Create `src/metrics/campaign_metrics.py`** implementing the full API declared by `src/metrics/__init__.py`: `compute_campaign_metrics(...)`, `compute_metrics_from_trades(...)`, `metrics_to_dict(...)`, `metrics_to_csv_rows(...)`.
->    - Compute: Sharpe ratio, Sortino ratio, max drawdown series **with timestamps**, Calmar ratio, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution by symbol/leg, exposure metrics.
->    - Must be **robust to empty/no-trade runs** (return well-formed zeros/empty structures; never crash).
->    - Follow conventions implied by `research_state/strategy_spec.md` and existing codebase style. Do not invent a different API.
-> 2. **Verify import**: `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -c "from src.metrics import compute_campaign_metrics, compute_metrics_from_trades, metrics_to_dict, metrics_to_csv_rows; print('ok')"`
-> 3. **Wire into campaign**: Extend `scripts/run_campaign.py` to compute/attach the full metrics suite (and/or `scripts/run_portfolio.py` if cleaner). Keep fixture provenance explicit when using fixtures; for real runs mark provenance as real market data with coverage checks.
-> 4. **Export artifacts**: Produce `research_state/campaign_metrics.json` and `research_state/campaign_metrics.csv` from a clean end-to-end run.
-> 5. **Validate & progress**: Run full suite before/after (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` must stay >=89 green). Only after 1-4: attempt the real 283-day Hyperliquid hourly-candle run with coverage + provenance checks. If data/CI blocks, **schedule `schedule_wakeup`/`cron_create` and continue independent heavy work** (do not idle). Never fabricate data.
+> 1. **Create a verifiable Hyperliquid hourly-candle acquisition + provenance path** for the 283-day window (2025-12-20 → 2026-09-28). Add `scripts/fetch_hyperliquid_candles.py` (or equivalent) that:
+>    - Fetches/ingests hourly OHLCV per symbol from a documented, verifiable source (Hyperliquid public candle API or a user-supplied verified archive path). Support `--source`, `--cache-dir`, `--start`, `--end`, `--symbols`/universe, `--dry-run`.
+>    - Writes `research_state/cache/hyperliquid/{SYMBOL}.json` (or csv) and a machine-readable **provenance manifest** `research_state/cache/hyperliquid/provenance.json` (source URL/method, fetch time, request params, symbol list, per-symbol row counts, first/last timestamps, hash/checksum, coverage %, gap report). **No silent static list as "real data".**
+> 2. **Add coverage/provenance validation** (loader/script): enforce 283-day hourly coverage expectations, gap detection, non-finite/look-ahead checks, and refuse to run the real campaign if coverage/provenance is incomplete; emit a concrete gap report under `research_state/`.
+> 3. **Run the real campaign** once verified data exists: produce `research_state/campaign_results_real.json` + real `campaign_metrics.json/.csv` **marked `real_market_data=true` with provenance reference** (keep fixture artifacts clearly separate). Include trade count, PnL, drawdown series w/ timestamps, and coverage summary.
+> 4. **If data/CI/network blocks fetching in this environment:** document the exact blocker with evidence, generate a deterministic "data request + verification checklist" artifact, and **schedule `schedule_wakeup`/`cron_create`** (goal context) to retry; meanwhile do independent heavy work: add tests for provenance/coverage validation, harden metrics edge cases, or add a real-run CLI path guarded by provenance checks. **Do not idle. Never fabricate data.**
+> 5. **Validate & handoff:** Keep `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` >=89 green. Update this `HANDOFF.md` with timestamped results + next concrete heavy task.
 >
-> **RULES FOR THIS SESSION:** Items 1-5 done. Do not reopen them. Both legs non-negotiable. Equal-share cap cuts across old+new. Funding/liquidation correct. >= $5M volume filter on all trigger paths. Infer from repo/name/spec. Heavy work only. Bottlenecks must be eliminated. Update HANDOFF.md at end with timestamped results + next concrete heavy task.
-
-**SESSION SNAPSHOT (2026-11-05T17:44:57Z):** Baseline re-verified GREEN (89 passed, 0 failed). Items 1–5 complete. Env cleared: pytest installed, `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY`, working tree clean. **Only remaining heavy work is item #6.** Latent gap to close first: `src/metrics/__init__.py` imports `src.metrics.campaign_metrics` which does not exist — implement it (it is item 6, task #1). Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Bottlenecks (pytest missing/PYTHONPATH/env issues) have been cleared. Do not waste turns re-verifying environment — ship code.
+> **RULES:** Items 1–5 and 6a/6b done. Both legs non-negotiable. Equal-share cap cuts across old+new. Funding/liquidation correct. >=$5M volume filter on all trigger paths. PDF/spec is truth. Heavy work only. No coasting on fixtures.
 
 **SINGLE CANONICAL HANDOFF:** Only `HANDOFF.md` (repo root) is durable. `research_state/handoff.md` is retired/superseded. Do **not** create or read any other handoff file.
 

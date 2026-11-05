@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-05T17:42:03.998850",
+  "timestamp": "2026-11-05T17:47:14.660799",
   "run_type": "fixture_smoke_test",
   "research_status": "SMOKE_TEST_ONLY",
   "data_provenance": {
@@ -51,18 +51,23 @@
     "sortino_ratio": 0.0,
     "max_drawdown": 0.0,
     "max_drawdown_timestamp": null,
+    "max_drawdown_series": [],
     "calmar_ratio": 0.0,
     "win_rate": 0.0,
     "profit_factor": 0.0,
     "monthly_breakdown": {},
     "weekly_breakdown": {},
     "trade_attribution": [],
+    "trade_attribution_by_leg": [],
     "exposure_metrics": {
       "total_trades": 0,
       "gross_profit": 0,
       "gross_loss": 0,
-      "total_pnl": 0
+      "total_pnl": 0,
+      "avg_pnl_per_trade": 0.0,
+      "winning_trades": 0,
+      "losing_trades": 0
     },
-    "timestamp": "2026-11-05T17:42:03.998843"
+    "timestamp": "2026-11-05T17:47:14.660780"
   }
 }
