@@ -1,6 +1,6 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:47:30Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:48:56Z
 
-## CURRENT VERIFIED STATUS — 2026-11-05T17:47:30Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-05T17:48:56Z (supersedes all prior state)
 
 - Items 1–5 remain **done/green** (RSI primary trigger ON, ETH hedge on every leg, volume-based sizing ON 1.25% 24h vol, >=$5M volume filter on trigger/universe paths, equal-share cap cuts across old+new, funding/liquidation checks). **Do not reopen.**
 - **ITEM 6a/6b COMPLETE (2026-11-05T17:47Z):** `src/metrics/campaign_metrics.py` implemented with the full API expected by `src/metrics/__init__.py`: `compute_campaign_metrics(...)`, `compute_metrics_from_trades(...)`, `metrics_to_dict(...)`, `metrics_to_csv_rows(...)`.
@@ -18,7 +18,7 @@
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-05T17:47:30Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c - REAL 283-DAY HYPERLIQUID RUN (DATA-GATED) → BUILD VERIFIED DATA PIPELINE/PROVENANCE + COVERAGE CHECKS, THEN EXECUTE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | NO FABRICATED DATA | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
+> `CRASH-REBOUND-STRATEGY | 2026-11-05T17:48:56Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c - REAL 283-DAY HYPERLIQUID RUN (DATA-GATED) → BUILD VERIFIED DATA PIPELINE/PROVENANCE + COVERAGE CHECKS, THEN EXECUTE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | NO FABRICATED DATA | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
 >
 > **CONCRETE FIRST ACTION (EXECUTE NOW, NO ENV RE-CHECK, NO Q&A):**
 > 1. **Create a verifiable Hyperliquid hourly-candle acquisition + provenance path** for the 283-day window (2025-12-20 → 2026-09-28). Add `scripts/fetch_hyperliquid_candles.py` (or equivalent) that:
