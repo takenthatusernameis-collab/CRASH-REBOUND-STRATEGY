@@ -307,6 +307,11 @@ def backtest_simple(
         if high is not None and high >= target_px:
             exit_px = _slippage_commission_per_share(target_px, config, 'sell')
             pnl = (exit_px - entry_px) * shares
+            # Funding on the long leg (spec: hourly funding on every leg).
+            hours_held_target = idx - start_idx + 1
+            long_funding = _apply_funding_pnl(entry_px * shares, hours_held_target,
+                                              config.funding_rate_pct_per_hour, side='long')
+            pnl -= long_funding
             # Close hedge for long leg
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
                 eth_exit_price = None
@@ -545,6 +550,11 @@ def backtest_simple(
         exit_px = entry
     exit_px = _slippage_commission_per_share(float(exit_px), config, 'sell')
     pnl = (exit_px - entry_px) * shares
+    # Funding on the long leg (spec: hourly funding on every leg).
+    hours_held_final = len(candles) - start_idx
+    long_funding = _apply_funding_pnl(entry_px * shares, hours_held_final,
+                                      config.funding_rate_pct_per_hour, side='long')
+    pnl -= long_funding
     if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
         eth_exit_price = None
         if eth_candles and len(eth_candles) > 0:
@@ -555,7 +565,7 @@ def backtest_simple(
             hours_held = len(candles) - start_idx
             hedge_notional = hedge_info['entry'] * hedge_info['size']
             funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
-            hedge_pnl_total += funding_cost
+            hedge_pnl_total -= funding_cost
             hedge_info['exit'] = hedge_exit_px
     r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
     if risk_state is not None:

@@ -740,3 +740,87 @@ def test_liquidation_triggers_on_low_price():
                             enable_eth_hedge=False)
     res = backtest_simple(candles, sig, config=config, capital=100000.0)
     assert res.exit_reason in ('liquidated', 'stopped')  # liquidation or stopped
+
+
+def test_long_leg_funding_applied_on_target_exit():
+    """Spec: hourly funding on every leg. Long target exit must include long funding."""
+    from src.backtest.engine import backtest_simple
+    from src.strategy.config import StrategyConfig
+    from types import SimpleNamespace
+
+    candles = [
+        {"timestamp": "t0", "open": 100.0, "high": 100.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+        {"timestamp": "t1", "open": 100.0, "high": 110.0, "low": 99.0, "close": 110.0, "volume": 10_000_000},
+        {"timestamp": "t2", "open": 110.0, "high": 110.0, "low": 100.0, "close": 105.0, "volume": 10_000_000},
+    ]
+    sig = SimpleNamespace(entry_price=100.0, stop_price=90.0, target_price=109.0,
+                          risk_per_share=10.0, size_shares=1.0, signal_index=0)
+    cfg = StrategyConfig(enable_rebound_short=False, enable_eth_hedge=False, entry_next_bar=False,
+                         slippage_pct=0.0, commission_per_share=0.0, commission_min=0.0,
+                         funding_rate_pct_per_hour=0.01, enable_liquidation_checks=False,
+                         time_exit_max_bars=50)
+    res = backtest_simple(candles, sig, config=cfg)
+    assert res.exit_reason == 'target'
+    assert res.bars_held == 2
+    # Gross (109-100)=9, funding 2h on 100 notional @0.01%/hr = 0.02 cost => 8.98
+    assert abs(res.pnl - 8.98) < 1e-9
+    assert abs(res.total_pnl - 8.98) < 1e-9
+
+
+def test_long_leg_funding_applied_on_final_time_exit():
+    """Spec: hourly funding on every leg. Final close time-exit must include long funding."""
+    from src.backtest.engine import backtest_simple
+    from src.strategy.config import StrategyConfig
+    from types import SimpleNamespace
+
+    candles = [
+        {"timestamp": "t0", "open": 100.0, "high": 100.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+        {"timestamp": "t1", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+        {"timestamp": "t2", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+    ]
+    sig = SimpleNamespace(entry_price=100.0, stop_price=90.0, target_price=120.0,
+                          risk_per_share=10.0, size_shares=1.0, signal_index=0)
+    cfg = StrategyConfig(enable_rebound_short=False, enable_eth_hedge=False, entry_next_bar=False,
+                         slippage_pct=0.0, commission_per_share=0.0, commission_min=0.0,
+                         funding_rate_pct_per_hour=0.01, enable_liquidation_checks=False,
+                         time_exit_max_bars=99)
+    res = backtest_simple(candles, sig, config=cfg)
+    assert res.exit_reason == 'time_exit'
+    # Flat price PnL 0, held 3 bars (idx0->end), funding 3h on 100 = 0.03 cost
+    assert abs(res.pnl - (-0.03)) < 1e-9
+
+
+def test_hedge_funding_sign_on_final_time_exit():
+    """Short hedge funding: positive rate means shorts receive (benefit). Sign must be correct."""
+    from src.backtest.engine import backtest_simple
+    from src.strategy.config import StrategyConfig
+    from types import SimpleNamespace
+
+    candles = [
+        {"timestamp": "t0", "open": 100.0, "high": 100.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+        {"timestamp": "t1", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+        {"timestamp": "t2", "open": 100.0, "high": 101.0, "low": 99.0, "close": 100.0, "volume": 10_000_000},
+    ]
+    eth = [
+        {"timestamp": "t0", "open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1},
+        {"timestamp": "t1", "open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1},
+        {"timestamp": "t2", "open": 100.0, "high": 100.0, "low": 100.0, "close": 100.0, "volume": 1},
+    ]
+    sig = SimpleNamespace(entry_price=100.0, stop_price=90.0, target_price=120.0,
+                          risk_per_share=10.0, size_shares=1.0, signal_index=0)
+    cfg = StrategyConfig(enable_rebound_short=False, enable_eth_hedge=True, entry_next_bar=False,
+                         slippage_pct=0.0, commission_per_share=0.0, commission_min=0.0,
+                         funding_rate_pct_per_hour=0.01, enable_liquidation_checks=False,
+                         time_exit_max_bars=99)
+    # Monkeypatch hedge sizing to deterministic 1 ETH short at 100, no vol calc dependency issues.
+    import src.backtest.engine as eng
+    orig = eng.compute_eth_hedge_size
+    eng.compute_eth_hedge_size = lambda *a, **k: 100.0
+    try:
+        res = backtest_simple(candles, sig, config=cfg, eth_candles=eth)
+    finally:
+        eng.compute_eth_hedge_size = orig
+    assert res.exit_reason == 'time_exit'
+    assert res.hedge_side == 'short'
+    # Hedge flat price PnL 0. Short receives funding: 100 notional * 0.0001 * 3 bars = 0.03 benefit.
+    assert abs(res.hedge_pnl - 0.03) < 1e-9
