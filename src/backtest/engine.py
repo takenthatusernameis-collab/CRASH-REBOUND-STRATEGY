@@ -187,18 +187,20 @@ def backtest_simple(
     coin_position_value = entry_px * shares
     if getattr(config, 'enable_eth_hedge', True) and eth_candles:
         try:
-            hedge_value = compute_eth_hedge_size(candles, eth_candles, coin_position_value, config)
+            # No look-ahead: hedge sizing uses only history available at entry decision.
+            hedge_hist_end = min(start_idx + 1, len(candles))
+            coin_hist = candles[:hedge_hist_end]
+            eth_hist = eth_candles[:min(hedge_hist_end, len(eth_candles))]
+            hedge_value = compute_eth_hedge_size(coin_hist, eth_hist, coin_position_value, config)
             if hedge_value > 0:
-                # Get ETH entry price (use first available ETH price near start)
+                # Get ETH entry price at hedge open (use bar aligned to start/entry)
                 eth_entry_price = None
-                for ec in eth_candles:
-                    ec_open = ec.get('open')
-                    if ec_open is not None:
-                        eth_entry_price = float(ec_open)
-                        break
-                if eth_entry_price and eth_entry_price > 0:
-                    hedge_shares = hedge_value / eth_entry_price
-                    hedge_entry_px = _slippage_commission_per_share(eth_entry_price, config, 'sell')  # short hedge
+                eth_ref_idx = min(start_idx, len(eth_candles) - 1)
+                if eth_ref_idx >= 0:
+                    eth_entry_price = eth_candles[eth_ref_idx].get('open') or eth_candles[eth_ref_idx].get('close')
+                if eth_entry_price and float(eth_entry_price) > 0:
+                    hedge_shares = hedge_value / float(eth_entry_price)
+                    hedge_entry_px = _slippage_commission_per_share(float(eth_entry_price), config, 'sell')  # short hedge
                     hedge_info = {'side': 'short', 'size': hedge_shares, 'entry': hedge_entry_px, 'exit': hedge_entry_px}
         except Exception:
             pass  # Skip hedge on error
@@ -346,15 +348,18 @@ def backtest_simple(
                 if getattr(config, 'enable_eth_hedge', True) and eth_candles:
                     try:
                         short_coin_value = short_entry_px * shares
-                        r_hedge_value = compute_eth_hedge_size(candles, eth_candles, short_coin_value, config)
+                        # No look-ahead: size hedge using history available at rebound entry decision.
+                        r_hist_end = min(idx + 1, len(candles))
+                        r_coin_hist = candles[:r_hist_end]
+                        r_eth_hist = eth_candles[:min(r_hist_end, len(eth_candles))]
+                        r_hedge_value = compute_eth_hedge_size(r_coin_hist, r_eth_hist, short_coin_value, config)
                         if r_hedge_value > 0:
                             eth_entry_r = None
-                            if idx + 1 < len(eth_candles):
-                                eth_entry_r = eth_candles[idx + 1].get('open') or eth_candles[idx + 1].get('close')
-                            elif idx < len(eth_candles):
-                                eth_entry_r = eth_candles[idx].get('open') or eth_candles[idx].get('close')
-                            if eth_entry_r and eth_entry_r > 0:
-                                r_hedge_shares = r_hedge_value / eth_entry_r
+                            r_entry_idx = min(idx + 1, len(eth_candles) - 1) if (idx + 1) < len(eth_candles) else min(idx, len(eth_candles) - 1)
+                            if r_entry_idx >= 0:
+                                eth_entry_r = eth_candles[r_entry_idx].get('open') or eth_candles[r_entry_idx].get('close')
+                            if eth_entry_r and float(eth_entry_r) > 0:
+                                r_hedge_shares = r_hedge_value / float(eth_entry_r)
                                 r_hedge_entry_px = _slippage_commission_per_share(float(eth_entry_r), config, 'buy')  # long hedge
                                 rebound_hedge_info = {'side': 'long', 'size': r_hedge_shares, 'entry': r_hedge_entry_px, 'exit': r_hedge_entry_px}
                     except Exception:
