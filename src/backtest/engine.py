@@ -376,6 +376,11 @@ def backtest_simple(
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         s_pen = getattr(config, 'liquidation_penalty_pct', 0.5) / 100.0 * (short_entry_px * short_shares)
                         short_pnl -= s_pen
+                        # Funding on rebound short coin leg (spec: hourly funding on every leg).
+                        hours_held_short = sidx - short_start_idx + 1
+                        short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
+                                                           config.funding_rate_pct_per_hour, side='short')
+                        short_pnl -= short_funding
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
@@ -397,6 +402,11 @@ def backtest_simple(
                     if shigh is not None and shigh >= short_stop:
                         short_exit = _slippage_commission_per_share(short_stop, config, 'buy')
                         short_pnl = (short_entry_px - short_exit) * short_shares
+                        # Funding on rebound short coin leg (spec: hourly funding on every leg).
+                        hours_held_short = sidx - short_start_idx + 1
+                        short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
+                                                           config.funding_rate_pct_per_hour, side='short')
+                        short_pnl -= short_funding
                         # Close rebound hedge
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
@@ -419,6 +429,11 @@ def backtest_simple(
                     if slow is not None and slow <= short_target:
                         short_exit = _slippage_commission_per_share(short_target, config, 'buy')
                         short_pnl = (short_entry_px - short_exit) * short_shares
+                        # Funding on rebound short coin leg (spec: hourly funding on every leg).
+                        hours_held_short = sidx - short_start_idx + 1
+                        short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
+                                                           config.funding_rate_pct_per_hour, side='short')
+                        short_pnl -= short_funding
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
@@ -441,6 +456,11 @@ def backtest_simple(
                         sclose = sc.get('close', short_entry_px)
                         short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
                         short_pnl = (short_entry_px - short_exit) * short_shares
+                        # Funding on rebound short coin leg (spec: hourly funding on every leg).
+                        hours_held_short = sidx - short_start_idx + 1
+                        short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
+                                                           config.funding_rate_pct_per_hour, side='short')
+                        short_pnl -= short_funding
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
@@ -465,6 +485,11 @@ def backtest_simple(
                     sclose = last_sc.get('close', short_entry_px)
                     short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
                     short_pnl = (short_entry_px - short_exit) * short_shares
+                    # Funding on rebound short coin leg (spec: hourly funding on every leg).
+                    hours_held_short = len(candles) - short_start_idx
+                    short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
+                                                       config.funding_rate_pct_per_hour, side='short')
+                    short_pnl -= short_funding
                     if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                         eth_exit_r = None
                         if eth_candles and len(eth_candles) > 0:

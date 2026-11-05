@@ -824,3 +824,44 @@ def test_hedge_funding_sign_on_final_time_exit():
     assert res.hedge_side == 'short'
     # Hedge flat price PnL 0. Short receives funding: 100 notional * 0.0001 * 3 bars = 0.03 benefit.
     assert abs(res.hedge_pnl - 0.03) < 1e-9
+
+
+def test_rebound_short_coin_funding_applied():
+    """Rebound short coin leg must pay/receive hourly funding (spec: funding on every leg)."""
+    from src.backtest.engine import backtest_simple
+    base = dict(
+        use_rsi_trigger=False, enable_rebound_short=True, enable_eth_hedge=False,
+        target_pct=9.0, time_exit_max_bars=50, rebound_short_time_exit_bars=3,
+        rebound_short_target_pct=50.0, rebound_short_stop_pct=50.0,
+        entry_next_bar=False, avoid_downtrend=False, min_daily_volume_usd=0.0,
+        slippage_pct=0.0, commission_per_share=0.0, commission_min=0.0,
+    )
+    config_no_fund = StrategyConfig(**base, funding_rate_pct_per_hour=0.0)
+    config_fund = StrategyConfig(**base, funding_rate_pct_per_hour=0.1)
+    # signal at index 1 (entry 100, target 109). idx2 hits long target at high 110 -> rebound short opens.
+    # subsequent bars stay flat so rebound short exits on time (3 bars), no target/stop/liquidation.
+    candles = [
+        {"timestamp": "2025-01-01T00:00:00Z", "open": 100, "high": 101, "low": 99, "close": 100, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T01:00:00Z", "open": 100, "high": 101, "low": 99, "close": 100, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T02:00:00Z", "open": 100, "high": 110, "low": 100, "close": 108, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T03:00:00Z", "open": 108, "high": 109, "low": 107, "close": 108, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T04:00:00Z", "open": 108, "high": 109, "low": 107, "close": 108, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T05:00:00Z", "open": 108, "high": 109, "low": 107, "close": 108, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T06:00:00Z", "open": 108, "high": 109, "low": 107, "close": 108, "volume": 10_000_000},
+        {"timestamp": "2025-01-01T07:00:00Z", "open": 108, "high": 109, "low": 107, "close": 108, "volume": 10_000_000},
+    ]
+    sig = generate_signal(candles[:2], config=config_no_fund)
+    # If auto-detection doesn't produce a signal on this simple shape, use an explicit signal
+    # by constructing via backtest path with a manual-like approach: ensure we get a target+rebound.
+    if sig is None:
+        # manual signal consistent with engine expectations
+        from src.strategy.crash_rebound import Signal
+        sig = Signal(symbol='TEST', side='long', reason='test', entry_price=100.0, stop_price=90.0,
+                     target_price=109.0, risk_per_share=10.0, size_shares=1.0, signal_index=1,
+                     config_used=config_no_fund.__dict__)
+    r0 = backtest_simple(candles, sig, config=config_no_fund)
+    r1 = backtest_simple(candles, sig, config=config_fund)
+    assert r0.trades and any(t.get('side') == 'short' for t in r0.trades), f"expected rebound short, got {r0.trades} {r0.exit_reason}"
+    # Positive funding rate: short receives funding (benefit) => pnl -= negative => higher total pnl
+    assert abs(r1.total_pnl - r0.total_pnl) > 1e-9, f"expected funding impact, got {r0.total_pnl} vs {r1.total_pnl}"
+    assert r1.total_pnl > r0.total_pnl

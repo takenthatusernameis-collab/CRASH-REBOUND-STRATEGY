@@ -29,25 +29,54 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                                        min_daily_volume_usd=config.min_daily_volume_usd,
                                        regime_config=config)
 
-    # Collect all potential signals with timestamps for ordering (deepest crash first per spec)
+    # Collect all potential signals; deepest crash first per spec.
+    # Severity proxy: prefer lower RSI(21) at signal (deeper oversold). Fallback to
+    # largest recent drop magnitude when RSI unavailable.
+    def _crash_severity(candles, sig, config):
+        try:
+            from src.strategy.crash_rebound import _rsi
+            rsi = _rsi(candles[: max(1, getattr(sig, "signal_index", len(candles)-1) + 1)],
+                       period=getattr(config, "rsi_period", 21))
+            if rsi is not None:
+                # lower RSI => more severe; sort descending by (-rsi)
+                return (-float(rsi), 0.0)
+        except Exception:
+            pass
+        try:
+            idx = max(1, min(getattr(sig, "signal_index", len(candles)-1), len(candles)-1))
+            cur = candles[idx]
+            prev = candles[idx - 1]
+            co, cc, pc = cur.get("close"), cur.get("close"), prev.get("close")
+            oo = cur.get("open")
+            drops = []
+            if oo and cc and oo > 0:
+                drops.append((float(cc) - float(oo)) / float(oo))
+            if pc and cc and pc > 0:
+                drops.append((float(cc) - float(pc)) / float(pc))
+            if drops:
+                return (0.0, min(drops))  # more negative = deeper
+        except Exception:
+            pass
+        return (0.0, 0.0)
+
     signals_list = []
     for symbol in filtered_symbols:
         candles = candles_by_symbol[symbol]
         try:
             sig = generate_signal(candles, symbol=symbol, config=config, capital=capital)
             if sig is not None:
+                sev = _crash_severity(candles, sig, config)
                 signals_list.append({
                     'symbol': symbol,
                     'signal': sig,
                     'candles': candles,
-                    'priority': 0  # Could compute crash depth
+                    'severity': sev,
                 })
-        except Exception as e:
+        except Exception:
             continue
 
-    # Sort by deepest crash first (higher priority = deeper crash) - simple heuristic
-    # In practice, would look at magnitude of drop
-    signals_list.sort(key=lambda x: x['signal'].entry_price, reverse=True)
+    # Sort deepest crash first: lower RSI first, then more negative drop.
+    signals_list.sort(key=lambda x: (x['severity'][0], x['severity'][1]))
 
     # Simulate with risk management
     total_pnl = 0.0

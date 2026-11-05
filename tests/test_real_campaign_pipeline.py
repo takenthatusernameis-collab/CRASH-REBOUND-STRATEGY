@@ -422,3 +422,57 @@ def test_validate_provenance_rejects_missing_manifest_sha_fields_when_incomplete
     }
     ok, errs = validate_provenance(m)
     assert not ok
+
+
+def test_e2e_archive_to_manifest_universe_and_gate(tmp_path):
+    """Deterministic non-evidence e2e: archive ingest manifest -> universe derivation -> gate behavior.
+    Uses synthetic hourly OHLCV in tmp_path only (not repo performance evidence)."""
+    import csv
+    from scripts.fetch_hyperliquid_candles import ingest_archive, analyze_coverage, _parse_iso
+    from scripts.derive_verified_universe import max_rolling_24h_quote_volume
+    from src.data.provenance import validate_provenance, ProvenanceError, expected_hourly_bars
+    archive = tmp_path / "archive"
+    archive.mkdir()
+    start = _parse_iso(TARGET_START)
+    # write a small incomplete archive for BTC (10 bars) to prove gate refuses
+    def _write(sym, n):
+        with (archive / f"{sym}.csv").open("w", newline="") as f:
+            w = csv.writer(f)
+            w.writerow(["timestamp","open","high","low","close","volume"])
+            for i in range(n):
+                ts = start + timedelta(hours=i)
+                o = 50000.0
+                w.writerow([ts.strftime("%Y-%m-%dT%H:%M:%SZ"), o, o+10, o-10, o, 200.0])
+    _write("BTC", 10)
+    candles, meta = ingest_archive(archive, "BTC")
+    cov = analyze_coverage(candles, _parse_iso(TARGET_START), _parse_iso(TARGET_END))
+    assert cov["complete_for_target_window"] is False
+    manifest = {
+        "schema_version": 1, "generated_at_utc": "2026-01-01T00:00:00Z",
+        "run_type": "data_acquisition_provenance", "real_market_data_intended": True,
+        "fabricated_data": False,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+        "source": {"kind": "archive"}, "symbols": {
+            "BTC": {"status": "incomplete", "coverage": cov, "source": meta.get("source"),
+                    "cache_path": "tmp/BTC.json"}
+        },
+        "summary": {"symbols_requested":1,"symbols_complete":0,"all_complete":False,"ready_for_real_campaign":False,"complete_symbols":[]},
+    }
+    ok, errs = validate_provenance(manifest)
+    assert not ok
+    # derive universe on synthetic rows (passes volume proxy)
+    vol = max_rolling_24h_quote_volume(candles)
+    assert isinstance(vol, dict)
+    # complete verified-like manifest in tmp should validate structure when all coverage fields satisfied
+    full = {
+        "schema_version": 1, "generated_at_utc": "2026-01-01T00:00:00Z",
+        "run_type": "data_acquisition_provenance", "real_market_data_intended": True,
+        "fabricated_data": False,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+        "source": {"kind": "archive"}, "symbols": {
+            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": EXP,
+                    "gap_count": 0, "complete_for_target_window": True}}
+        }, "summary": {"all_complete": True, "complete_symbols": ["BTC"]},
+    }
+    ok2, errs2 = validate_provenance(full)
+    assert ok2, errs2
