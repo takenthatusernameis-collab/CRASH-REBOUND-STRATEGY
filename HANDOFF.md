@@ -1,14 +1,14 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:48:56Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T18:41:00Z
 
-## CURRENT VERIFIED STATUS — 2026-11-05T17:48:56Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-05T18:41:00Z (supersedes all prior state)
 
 - Items 1–5 remain **done/green** (RSI primary trigger ON, ETH hedge on every leg, volume-based sizing ON 1.25% 24h vol, >=$5M volume filter on trigger/universe paths, equal-share cap cuts across old+new, funding/liquidation checks). **Do not reopen.**
-- **ITEM 6a/6b COMPLETE (2026-11-05T17:47Z):** `src/metrics/campaign_metrics.py` implemented with the full API expected by `src/metrics/__init__.py`: `compute_campaign_metrics(...)`, `compute_metrics_from_trades(...)`, `metrics_to_dict(...)`, `metrics_to_csv_rows(...)`.
+- **ITEM 6a/6b COMPLETE (2026-11-05T18:41:00Z):** `src/metrics/campaign_metrics.py` implemented with the full API expected by `src/metrics/__init__.py`: `compute_campaign_metrics(...)`, `compute_metrics_from_trades(...)`, `metrics_to_dict(...)`, `metrics_to_csv_rows(...)`.
   - Computes: Sharpe, Sortino, max drawdown **series with timestamps** + max DD timestamp, Calmar, win rate, profit factor, monthly/weekly breakdowns, trade-level attribution by symbol/leg, exposure metrics.
   - **Robust to empty/no-trade runs** (returns well-formed zeros/empty structures; no crash). Verified by smoke + fixture E2E.
-- **Wired + exported (fixture smoke only):** `scripts/run_campaign.py` computes/attaches metrics and writes `research_state/campaign_metrics.json` + `research_state/campaign_metrics.csv` (and `campaign_results.json` with embedded metrics). All artifacts remain explicitly `fixture_smoke_test`/synthetic provenance — **NOT real Hyperliquid performance evidence**. E2E run completed cleanly at 2026-11-05T17:47:14Z.
-- **Validation:** `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` → **89 passed, 0 failed** (re-verified 2026-11-05T17:47Z). Metrics import OK.
-- **ITEM 6c REAL 283-DAY RUN — BLOCKED BY DATA (concrete evidence, 2026-11-05T17:47Z):** Target window 2025-12-20 → 2026-09-28 (283 days), Hyperliquid hourly candles. Blockers found in workspace:
+- **Wired + exported (fixture smoke only):** `scripts/run_campaign.py` computes/attaches metrics and writes `research_state/campaign_metrics.json` + `research_state/campaign_metrics.csv` (and `campaign_results.json` with embedded metrics). All artifacts remain explicitly `fixture_smoke_test`/synthetic provenance — **NOT real Hyperliquid performance evidence**. E2E run completed cleanly at 2026-11-05T18:41:00Z.
+- **Validation:** `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v` → **89 passed, 0 failed** (re-verified 2026-11-05T18:41:00Z). Metrics import OK.
+- **ITEM 6c REAL 283-DAY RUN — BLOCKED BY DATA (concrete evidence, 2026-11-05T18:41:00Z):** Target window 2025-12-20 → 2026-09-28 (283 days), Hyperliquid hourly candles. Blockers found in workspace:
   - No verified real-market OHLCV dataset/cache present (searched `*hyperliquid*`; none; `research_state/` has no candle cache). `src/data/loader.py` provides loaders/validation but no fetched/verified 283-day dataset.
   - `scripts/run_campaign.py` is intentionally fixture-only and must not silently substitute toy fixtures/static candidate lists; real run requires independently verified, complete hourly cache with coverage + provenance checks.
   - No network/data-fetch path or credentials/provenance manifest for Hyperliquid historical candles in repo; fabricating/substituting data is prohibited.
@@ -18,7 +18,7 @@
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-05T17:48:56Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c - REAL 283-DAY HYPERLIQUID RUN (DATA-GATED) → BUILD VERIFIED DATA PIPELINE/PROVENANCE + COVERAGE CHECKS, THEN EXECUTE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | NO FABRICATED DATA | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
+> `CRASH-REBOUND-STRATEGY | 2026-11-05T18:41:00Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6c - REAL 283-DAY HYPERLIQUID RUN (DATA-GATED) → BUILD VERIFIED DATA PIPELINE/PROVENANCE + COVERAGE CHECKS, THEN EXECUTE | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | NO FABRICATED DATA | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
 >
 > **CONCRETE FIRST ACTION (EXECUTE NOW, NO ENV RE-CHECK, NO Q&A):**
 > 1. **Create a verifiable Hyperliquid hourly-candle acquisition + provenance path** for the 283-day window (2025-12-20 → 2026-09-28). Add `scripts/fetch_hyperliquid_candles.py` (or equivalent) that:
