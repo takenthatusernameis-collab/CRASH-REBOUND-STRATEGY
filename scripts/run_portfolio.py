@@ -90,6 +90,14 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             if occupied_until[sym] < i:
                 del occupied_until[sym]
 
+# Same-decision-bar reservation: candidates fired at decision bar i are probed
+        # against a copy of risk_state, and each probe runs the trade to its exit.
+        # Without reserving, a probe that exits within the decision bar frees
+        # max_positions/gross-cap capacity for later same-bar candidates,
+        # violating the spec's concurrent-cap intent. The committed state below
+        # re-adds the candidate's entry notional so later same-bar probes see the
+        # accumulated exposure and apply equal-share cuts across old+new.
+
         candidates = []
         for symbol in filtered_symbols:
             if symbol in occupied_until:
@@ -119,6 +127,11 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             try:
                 # Probe admission in priority order (deepest first) so max_positions/gross-cap
                 # decisions for the same decision bar reflect earlier accepted candidates.
+                max_pos = getattr(config, 'max_positions', None)
+                if max_pos is not None and risk_state.open_positions >= max_pos:
+                    # Capacity for this decision bar is exhausted; later candidates
+                    # (including ones that would exit within the bar) must wait.
+                    continue
                 probe_state = copy.deepcopy(risk_state)
                 res = backtest_simple(candles, sig, config=config, capital=capital,
                                       risk_state=probe_state, eth_candles=eth_data)
@@ -133,6 +146,16 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         start_idx = start_idx + 1
                     exit_idx = min(len(candles) - 1, max(start_idx, start_idx + max(1, bars_held) - 1))
                     occupied_until[symbol] = exit_idx
+                    # Reserve the candidate's entry notional in the committed state so
+                    # later same-bar probes see the accumulated exposure and apply
+                    # equal-share cuts across old+new (spec: every position holds equal
+                    # share of the 120% cap).
+                    entry_px = getattr(res, 'entry_price', 0.0)
+                    reserved_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
+                    if reserved_notional > 0:
+                        risk_state.open_position_notionals = list(risk_state.open_position_notionals) + [reserved_notional]
+                        risk_state.gross_exposure = sum(risk_state.open_position_notionals)
+                    risk_state.open_positions = max(risk_state.open_positions, len(risk_state.open_position_notionals))
                     all_trades.append({
                         'symbol': symbol,
                         'exit_reason': res.exit_reason,
@@ -152,20 +175,6 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         'equity': capital + total_pnl,
                         'pnl': trade_pnl,
                     })
-                    # Same-decision-bar admission guard: if this trade consumed capacity
-                    # at decision bar i (entered at/for i), do not free max_positions
-                    # capacity for later same-bar candidates even if it exited on i.
-                    # Preserves concurrent-cap semantics for simultaneous signals.
-                    try:
-                        if bars_held <= 1 and exit_idx <= i and getattr(risk_state, 'open_positions', 0) == 0:
-                            max_pos = getattr(config, 'max_positions', None)
-                            if max_pos is not None and risk_state.open_positions < max_pos:
-                                # Reserve a virtual slot only when this was the only/limiting case?
-                                # Keep simple: mark symbol occupied (already done) and prevent
-                                # same-bar over-admission by setting a temporary floor.
-                                risk_state.open_positions = max(risk_state.open_positions, 1)
-                    except Exception:
-                        pass
                 elif res.exit_reason == 'blocked':
                     pass
             except Exception:
