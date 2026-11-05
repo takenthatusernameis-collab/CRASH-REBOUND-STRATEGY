@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-05T18:53:21.504956+00:00",
+  "generated_at_utc": "2026-11-05T19:01:54.299886+00:00",
   "run_type": "data_acquisition_provenance",
   "real_market_data_intended": true,
   "fabricated_data": false,
@@ -19,14 +19,14 @@
     "start_ms": 1766188800000,
     "end_ms": 1790636400000,
     "symbols": [
-      "BTC,ETH"
+      "BTC",
+      "ETH"
     ]
   },
   "symbols": {
-    "BTC,ETH": {
-      "symbol": "BTC,ETH",
+    "BTC": {
+      "symbol": "BTC",
       "status": "incomplete",
-      "validation_warning": "Empty candles list",
       "source": "hyperliquid_info_api",
       "url": "https://api.hyperliquid.xyz/info",
       "request_count": 5,
@@ -34,46 +34,46 @@
         {
           "startTime": 1766188800000,
           "endTime": 1771585200000,
-          "ok": false,
+          "ok": true,
           "error": null
         },
         {
           "startTime": 1771588800000,
           "endTime": 1776985200000,
-          "ok": false,
+          "ok": true,
           "error": null
         },
         {
           "startTime": 1776988800000,
           "endTime": 1782385200000,
-          "ok": false,
+          "ok": true,
           "error": null
         },
         {
           "startTime": 1782388800000,
           "endTime": 1787785200000,
-          "ok": false,
+          "ok": true,
           "error": null
         },
         {
           "startTime": 1787788800000,
           "endTime": 1790636400000,
-          "ok": false,
+          "ok": true,
           "error": null
         }
       ],
       "requests_truncated": 0,
       "last_error": null,
-      "normalized_count": 0,
+      "normalized_count": 4094,
       "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
       "coverage": {
         "expected_hourly_bars": 6792,
-        "observed_in_window_bars": 0,
-        "coverage_pct": 0.0,
-        "first_timestamp_ms": null,
-        "last_timestamp_ms": null,
-        "first_timestamp": null,
-        "last_timestamp": null,
+        "observed_in_window_bars": 4094,
+        "coverage_pct": 60.276796,
+        "first_timestamp_ms": 1775901600000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-04-11T10:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
         "gap_count": 0,
         "gaps": [],
         "gaps_truncated": 0,
@@ -81,14 +81,74 @@
         "start": "2025-12-20T00:00:00+00:00",
         "end": "2026-09-28T23:00:00+00:00"
       },
-      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
-      "cache_path": "research_state/cache/hyperliquid/candles/BTC,ETH.json"
+      "sha256": "264a54872f8b960a5ad712863aeec7612a85e83e091f0ee2ca5187c7bf31782d",
+      "cache_path": "research_state/cache/hyperliquid/candles/BTC.json"
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "incomplete",
+      "source": "hyperliquid_info_api",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 5,
+      "requests": [
+        {
+          "startTime": 1766188800000,
+          "endTime": 1771585200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1771588800000,
+          "endTime": 1776985200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1776988800000,
+          "endTime": 1782385200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782388800000,
+          "endTime": 1787785200000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787788800000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 4094,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 4094,
+        "coverage_pct": 60.276796,
+        "first_timestamp_ms": 1775901600000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-04-11T10:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": false,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "sha256": "6ca1d9920bb32afe56425dd7a16b8a3440ada61c91da8778c48aeec1936e2da4",
+      "cache_path": "research_state/cache/hyperliquid/candles/ETH.json"
     }
   },
   "summary": {
-    "symbols_requested": 1,
+    "symbols_requested": 2,
     "symbols_complete": 0,
-    "symbols_incomplete_or_error": 1,
+    "symbols_incomplete_or_error": 2,
     "all_complete": false,
     "ready_for_real_campaign": false,
     "complete_symbols": []
