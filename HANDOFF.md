@@ -1,9 +1,9 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T23:02:14Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T23:31:10Z
 
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. This file is the sole source of next-session direction.
 
-## CURRENT VERIFIED STATUS — 2026-11-05T23:02:14Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-05T23:31:10Z (supersedes all prior state)
 - **Items 1–5 DONE/GREEN (do not reopen):** RSI(21)<20 primary trigger ON (`use_rsi_trigger=True`), ETH hedge on every leg (vol-ratio capped 3x), volume-based sizing ON (1.25% 24h vol), >=$5M volume filter on all trigger/universe paths, equal-share cap cuts across old+new via `RiskState.apply_cap_cuts()`, funding/liquidation checks correct.
 - **Item 6a/6b DONE/GREEN:** `src/metrics/campaign_metrics.py` full suite. `scripts/run_campaign.py` exports fixture-smoke artifacts with explicit provenance (`fixture_smoke_test` / `real_market_data=false` / `performance_evidence=false`).
 - **Data/provenance pipeline + hard gates (GREEN):** `scripts/fetch_hyperliquid_candles.py` (API/archive ingest, chunks, normalizes, provenance; `--min-daily-volume-usd` default 5,000,000 + `analyze_symbol_volume_coverage()` writes `volume_coverage` (`volume_filter_ok`, min/mean 24h USD volume, bars_passing/bars_checked) per symbol; never fabricates). `src/data/provenance.py` + `require_verified_provenance()` enforce 283-day coverage/gap checks and refuse real runs. `scripts/run_real_campaign.py` hard-gated; **this session added** `--universe-file`, `--min-daily-volume-usd`, and `validate_symbol_volume_coverage()` per-symbol gating (requires complete coverage AND `volume_filter_ok` before loading data; concrete blocker errors otherwise; `--allow-partial-not-evidence` is NOT performance evidence). `scripts/derive_verified_universe.py` derives verifiable `universe_verified.json` from local verified caches only.
