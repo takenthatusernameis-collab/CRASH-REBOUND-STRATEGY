@@ -57,6 +57,7 @@ def main():
     ap.add_argument("--capital", type=float, default=100000.0)
     ap.add_argument("--output-prefix", default="campaign_results_real")
     ap.add_argument("--min-symbols", type=int, default=1)
+    ap.add_argument("--universe-file", default=None, help="Optional JSON file with verified symbol universe (list or {symbols:[...]}).")
     args = ap.parse_args()
     cache_dir = Path(args.cache_dir)
     manifest_path = Path(args.manifest) if args.manifest else cache_dir / "provenance.json"
@@ -68,6 +69,28 @@ def main():
         print(f"\nBLOCKER: Verified 283-day Hyperliquid dataset unavailable for {TARGET_START}→{TARGET_END}.", file=sys.stderr)
         print("Do NOT fabricate data. Provide a verified archive via scripts/fetch_hyperliquid_candles.py --source archive --input-archive <path>.", file=sys.stderr)
         return 2
+    # Optional verified universe filter
+    universe_symbols = None
+    if args.universe_file:
+        up = Path(args.universe_file)
+        if not up.exists():
+            print(f"BLOCKER: universe file not found: {up}", file=sys.stderr)
+            return 2
+        raw = json.loads(up.read_text())
+        if isinstance(raw, dict):
+            universe_symbols = raw.get("symbols") or raw.get("universe") or []
+        else:
+            universe_symbols = raw
+        universe_symbols = [str(s).upper() for s in universe_symbols]
+        # restrict manifest symbols to universe intersection
+        syms = manifest.get("symbols") or {}
+        filtered = {k: v for k, v in syms.items() if k.upper() in universe_symbols}
+        if not filtered:
+            print("BLOCKER: no manifest symbols match universe file.", file=sys.stderr)
+            return 2
+        manifest = dict(manifest)
+        manifest["symbols"] = filtered
+        manifest["universe_filter"] = {"source": str(up), "symbols": universe_symbols}
 
     data = load_verified_cache(cache_dir, manifest)
     eth = data.get("ETH")
@@ -100,6 +123,7 @@ def main():
             "symbols_complete": manifest.get("summary", {}).get("complete_symbols"),
             "symbols_loaded": sorted(data.keys()),
             "coverage_summary": {s: v.get("coverage") for s, v in (manifest.get("symbols") or {}).items() if v.get("status") == "ok"},
+            "universe_filter": manifest.get("universe_filter"),
             "universe_filter_policy": {
                 "min_daily_volume_usd": config.min_daily_volume_usd,
                 "applied_in": ["src.strategy.crash_rebound.filter_universe", "scripts.run_portfolio.run_portfolio_simulation"],
