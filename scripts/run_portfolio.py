@@ -2,6 +2,7 @@
 """Portfolio/multi-trade simulation runner."""
 import json
 import os
+import copy
 from datetime import datetime
 from typing import Dict, List, Any
 
@@ -13,26 +14,33 @@ from src.backtest.engine import backtest_simple
 
 
 def _crash_severity(candles, sig, config):
+    """Return a sort key where smaller means higher priority (deeper crash first).
+
+    RSI trigger: lower RSI => more severe (use -RSI in first element? easier: (rsi, 0)).
+    Drop trigger: most negative drop in the recent crash window => more severe.
+    """
     try:
         from src.strategy.crash_rebound import _rsi
         rsi = _rsi(candles[: max(1, getattr(sig, "signal_index", len(candles)-1) + 1)],
                    period=getattr(config, "rsi_period", 21))
-        if rsi is not None:
-            return (-float(rsi), 0.0)  # lower RSI => more severe
+        if getattr(config, 'use_rsi_trigger', False) and rsi is not None:
+            return (float(rsi), 0.0)  # lower RSI first
     except Exception:
         pass
     try:
-        idx = max(1, min(getattr(sig, "signal_index", len(candles)-1), len(candles)-1))
-        cur = candles[idx]
-        prev = candles[idx - 1]
-        drops = []
-        oo = cur.get("open"); cc = cur.get("close"); pc = prev.get("close")
-        if oo and cc and float(oo) > 0:
-            drops.append((float(cc) - float(oo)) / float(oo))
-        if pc and cc and float(pc) > 0:
-            drops.append((float(cc) - float(pc)) / float(pc))
-        if drops:
-            return (0.0, min(drops))
+        sig_idx = max(1, min(getattr(sig, "signal_index", len(candles)-1), len(candles)-1))
+        lookback = max(1, int(getattr(config, "crash_lookback", 5)))
+        start = max(1, sig_idx - lookback + 1)
+        worst = 0.0
+        for idx in range(start, sig_idx + 1):
+            cur = candles[idx]
+            prev = candles[idx - 1]
+            oo = cur.get("open"); cc = cur.get("close"); pc = prev.get("close")
+            if oo and cc and float(oo) > 0:
+                worst = min(worst, (float(cc) - float(oo)) / float(oo))
+            if pc and cc and float(pc) > 0:
+                worst = min(worst, (float(cc) - float(pc)) / float(pc))
+        return (0.0, worst)  # more negative first
     except Exception:
         pass
     return (0.0, 0.0)
@@ -67,9 +75,14 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     occupied_until = {}
 
     max_len = max((len(v) for v in candles_by_symbol.values()), default=0)
-    warmup = max(getattr(config, 'rsi_period', 21) + 2,
-                 getattr(config, 'atr_period', 14) + 2,
-                 getattr(config, 'crash_lookback', 5) + 2, 3)
+    # Bar-by-bar scan across the full series (no look-ahead): use history up to i.
+    # Start as early as indicators can be meaningful while letting signal/indicator
+    # guards reject insufficient history. RSI trigger needs RSI period history;
+    # drop trigger only needs crash lookback.
+    if getattr(config, 'use_rsi_trigger', False):
+        warmup = max(2, getattr(config, 'rsi_period', 21))
+    else:
+        warmup = max(2, getattr(config, 'crash_lookback', 5))
 
     for i in range(warmup, max_len):
         # free symbols whose prior trade ended before/at i
@@ -104,13 +117,17 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             if symbol in occupied_until:
                 continue
             try:
+                # Probe admission in priority order (deepest first) so max_positions/gross-cap
+                # decisions for the same decision bar reflect earlier accepted candidates.
+                probe_state = copy.deepcopy(risk_state)
                 res = backtest_simple(candles, sig, config=config, capital=capital,
-                                      risk_state=risk_state, eth_candles=eth_data)
+                                      risk_state=probe_state, eth_candles=eth_data)
                 if res.exit_reason not in ('blocked', 'no_signal'):
+                    # Commit probe state and record trade.
+                    risk_state = probe_state
                     trade_pnl = getattr(res, 'total_pnl', res.pnl)
                     total_pnl += trade_pnl
                     bars_held = getattr(res, 'bars_held', 0) or 0
-                    # start_idx in engine: signal_index or signal_index+1 if next bar entry
                     start_idx = getattr(sig, 'signal_index', i)
                     if getattr(config, 'entry_next_bar', True) and start_idx + 1 < len(candles):
                         start_idx = start_idx + 1
@@ -135,8 +152,21 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         'equity': capital + total_pnl,
                         'pnl': trade_pnl,
                     })
+                    # Same-decision-bar admission guard: if this trade consumed capacity
+                    # at decision bar i (entered at/for i), do not free max_positions
+                    # capacity for later same-bar candidates even if it exited on i.
+                    # Preserves concurrent-cap semantics for simultaneous signals.
+                    try:
+                        if bars_held <= 1 and exit_idx <= i and getattr(risk_state, 'open_positions', 0) == 0:
+                            max_pos = getattr(config, 'max_positions', None)
+                            if max_pos is not None and risk_state.open_positions < max_pos:
+                                # Reserve a virtual slot only when this was the only/limiting case?
+                                # Keep simple: mark symbol occupied (already done) and prevent
+                                # same-bar over-admission by setting a temporary floor.
+                                risk_state.open_positions = max(risk_state.open_positions, 1)
+                    except Exception:
+                        pass
                 elif res.exit_reason == 'blocked':
-                    # blocked by risk/cap; symbol not occupied
                     pass
             except Exception:
                 continue
