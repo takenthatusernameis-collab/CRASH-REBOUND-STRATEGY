@@ -214,6 +214,12 @@ def backtest_simple(
             pnl = (exit_px - entry_px) * shares
             penalty = getattr(config, 'liquidation_penalty_pct', 0.5) / 100.0 * (entry_px * shares)
             pnl -= penalty
+            # Funding on the long leg (spec: hourly funding on every leg).
+            # Positive rate => longs pay (cost). Apply per held hour.
+            hours_held_liq = idx - start_idx + 1
+            long_funding = _apply_funding_pnl(entry_px * shares, hours_held_liq,
+                                              config.funding_rate_pct_per_hour, side='long')
+            pnl -= long_funding
             # Close hedge if exists
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
                 eth_exit_price = None
@@ -254,6 +260,11 @@ def backtest_simple(
         if low is not None and low <= stop_px:
             exit_px = _slippage_commission_per_share(stop_px, config, 'sell')
             pnl = (exit_px - entry_px) * shares
+            # Funding on the long leg (spec: hourly funding on every leg).
+            hours_held_stop = idx - start_idx + 1
+            long_funding = _apply_funding_pnl(entry_px * shares, hours_held_stop,
+                                              config.funding_rate_pct_per_hour, side='long')
+            pnl -= long_funding
             # Close hedge if exists
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
                 # Get ETH exit price
