@@ -7,11 +7,16 @@ from datetime import datetime
 from src.data.loader import make_fixture_crash_rebound_multi
 from src.strategy.config import StrategyConfig
 from scripts.run_portfolio import run_portfolio_simulation
+from src.metrics import (
+    compute_campaign_metrics,
+    metrics_to_dict,
+    metrics_to_csv_rows,
+)
 
 
-def build_campaign_export(results, config, fixtures, timestamp):
+def build_campaign_export(results, config, fixtures, timestamp, metrics=None):
     """Build an explicitly non-economic fixture smoke-test artifact."""
-    return {
+    export = {
         "timestamp": timestamp,
         "run_type": "fixture_smoke_test",
         "research_status": "SMOKE_TEST_ONLY",
@@ -50,6 +55,9 @@ def build_campaign_export(results, config, fixtures, timestamp):
             "trades": results["trades"],
         },
     }
+    if metrics is not None:
+        export["metrics"] = metrics
+    return export
 
 
 def main():
@@ -100,12 +108,29 @@ def main():
     output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'research_state')
     os.makedirs(output_dir, exist_ok=True)
 
-    export_data = build_campaign_export(results, config, fixtures, datetime.now().isoformat())
+    # Compute full metrics suite from the trade list (robust to no-trade runs)
+    metrics = compute_campaign_metrics(trades=results["trades"])
+    metrics = metrics_to_dict(metrics)
+
+    export_data = build_campaign_export(results, config, fixtures, datetime.now().isoformat(),
+                                        metrics=metrics)
 
     with open(os.path.join(output_dir, 'campaign_results.json'), 'w') as f:
         json.dump(export_data, f, indent=2)
 
+    # Export dedicated metrics artifacts
+    with open(os.path.join(output_dir, 'campaign_metrics.json'), 'w') as f:
+        json.dump(metrics, f, indent=2, default=str)
+
+    import csv
+    with open(os.path.join(output_dir, 'campaign_metrics.csv'), 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=["metric", "value"])
+        writer.writeheader()
+        for row in metrics_to_csv_rows(metrics):
+            writer.writerow(row)
+
     print(f"\nResults exported to research_state/campaign_results.json")
+    print(f"Metrics exported to research_state/campaign_metrics.json and campaign_metrics.csv")
 
 
 if __name__ == '__main__':

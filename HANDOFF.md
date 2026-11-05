@@ -1,12 +1,12 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:40:00Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-05T17:44:57Z
 
-## CURRENT VERIFIED STATUS — 2026-11-05T02:33:15Z (supersedes all prior state)
+## CURRENT VERIFIED STATUS — 2026-11-05T17:44:57Z (supersedes all prior state)
 
 - `src/strategy/config.py` defaults: `use_rsi_trigger=True` (RSI(21)<20 primary crash trigger), `enable_eth_hedge=True`, `enable_volume_based_sizing=True` (1.25% of 24h volume), `min_daily_volume_usd=5_000_000.0`, `gross_cap_pct=120.0` with equal-share cuts via `RiskState.apply_cap_cuts()`. **Already ON — do not re-open.**
 - `scripts/run_campaign.py` sets `use_rsi_trigger=True`, `enable_eth_hedge=True`, `enable_volume_based_sizing=True`. It is explicitly a **fixture smoke test only** (synthetic data). The 2025-12-20 to 2026-09-28 (283-day) Hyperliquid window remains **NOT RUN** with real data.
 - `tests/test_stress_campaign.py` exists (7 stress tests). Provenance guard: `tests/test_campaign_provenance.py` enforces fixture artifacts cannot be misread as real performance.
 - Legacy `research_state/campaign_results.json` is fixture-only; see `research_state/campaign_artifact_provenance_erratum.md`. Do **not** promote fixture PnL/trade counts.
-- Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). **Re-verified green 2026-11-05T02:33:15Z; pytest installed; re-verify before/after changes.**
+- Test suite: **89 passed, 0 failed** (`PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY python -m pytest tests/ -v`). **Re-verified green 2026-11-05T17:44:57Z; pytest installed; re-verify before/after changes.**
 - NOTE: `run_campaign.py` with `use_rsi_trigger=True` on 3-bar fixtures yields 0 trades (RSI needs ~22+ bars). Expected for fixture smoke test; metrics must handle empty/no-trade runs without crashing.
 - **BOTTLENECK (ACTIVE):** `src/metrics/__init__.py` imports from `src.metrics.campaign_metrics` which **does not exist**. This must be fixed before any campaign metrics export can work. Do **not** defer.
 
@@ -14,7 +14,7 @@
 
 > **INITIAL TASK MESSAGE (TIMESTAMPED) FOR NEXT AGENTIC WORK SESSION:**
 >
-> `CRASH-REBOUND-STRATEGY | 2026-11-05T02:33:15Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6a - IMPLEMENT MISSING METRICS MODULE (BLOCKING) → ITEM 6b WIRE+EXPORT → ITEM 6c REAL 283-DAY HYPERLIQUID RUN | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
+> `CRASH-REBOUND-STRATEGY | 2026-11-05T17:44:57Z | PRIORITY 1 (REPO-NAME DRIVEN): CRASH-REBOUND FIDELITY TO crash-rebound-strategy.pdf | ITEM 6a - IMPLEMENT MISSING METRICS MODULE (BLOCKING) → ITEM 6b WIRE+EXPORT → ITEM 6c REAL 283-DAY HYPERLIQUID RUN | TARGET WINDOW 2025-12-20 → 2026-09-28 (283 DAYS) | NO FIXTURE COASTING | HEAVY WORK MANDATORY | ELIMINATE BOTTLENECKS IMMEDIATELY`
 >
 > **CONCRETE FIRST ACTION (EXECUTE NOW, NO ENV RE-CHECK, NO Q&A):**
 > 1. **Create `src/metrics/campaign_metrics.py`** implementing the full API declared by `src/metrics/__init__.py`: `compute_campaign_metrics(...)`, `compute_metrics_from_trades(...)`, `metrics_to_dict(...)`, `metrics_to_csv_rows(...)`.
@@ -28,7 +28,7 @@
 >
 > **RULES FOR THIS SESSION:** Items 1-5 done. Do not reopen them. Both legs non-negotiable. Equal-share cap cuts across old+new. Funding/liquidation correct. >= $5M volume filter on all trigger paths. Infer from repo/name/spec. Heavy work only. Bottlenecks must be eliminated. Update HANDOFF.md at end with timestamped results + next concrete heavy task.
 
-**SESSION SNAPSHOT (2026-11-05T02:32:16Z):** Baseline re-verified GREEN (89 passed, 0 failed). Items 1–5 complete. Env cleared: pytest installed, `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY`, working tree clean. **Only remaining heavy work is item #6.** Latent gap to close first: `src/metrics/__init__.py` imports `src.metrics.campaign_metrics` which does not exist — implement it (it is item 6, task #1). Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Bottlenecks (pytest missing/PYTHONPATH/env issues) have been cleared. Do not waste turns re-verifying environment — ship code.
+**SESSION SNAPSHOT (2026-11-05T17:44:57Z):** Baseline re-verified GREEN (89 passed, 0 failed). Items 1–5 complete. Env cleared: pytest installed, `PYTHONPATH=/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY`, working tree clean. **Only remaining heavy work is item #6.** Latent gap to close first: `src/metrics/__init__.py` imports `src.metrics.campaign_metrics` which does not exist — implement it (it is item 6, task #1). Focus ruthlessly on crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Bottlenecks (pytest missing/PYTHONPATH/env issues) have been cleared. Do not waste turns re-verifying environment — ship code.
 
 **SINGLE CANONICAL HANDOFF:** Only `HANDOFF.md` (repo root) is durable. `research_state/handoff.md` is retired/superseded. Do **not** create or read any other handoff file.
 
@@ -116,4 +116,4 @@
 - **SINGLE HANDOFF** — only root `HANDOFF.md`
 - **HEAVY WORK REQUIRED** — no coasting
 
-(END OF DURABLE HANDOFF - 2026-11-05T02:32:16Z)
+(END OF DURABLE HANDOFF - 2026-11-05T17:44:57Z)
