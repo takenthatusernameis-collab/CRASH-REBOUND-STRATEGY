@@ -189,23 +189,201 @@ def fetch_hl_candles(coin: str, start_ms: int, end_ms: int, interval: str = "1h"
     return norm, meta
 
 
-def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    # Accept: dir/<SYMBOL>.json|csv, file per symbol, or multi-coin json.
+def _normalize_loaded_candle(c: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Normalize loader-style candle dicts to a stable shape with timestamp_ms."""
+    if not isinstance(c, dict):
+        return None
+    out = dict(c)
+    ts = out.get("timestamp_ms")
+    if ts is None:
+        t = out.get("timestamp") or out.get("time") or out.get("t")
+        if isinstance(t, (int, float)):
+            it = int(t)
+            ts = it if it > 10**12 else it * 1000
+        elif isinstance(t, str):
+            try:
+                ts = _dt_to_ms(_parse_iso(t))
+            except Exception:
+                ts = None
+    if ts is not None:
+        out["timestamp_ms"] = int(ts)
+        if "timestamp" not in out:
+            out["timestamp"] = datetime.fromtimestamp(int(ts) / 1000, tz=timezone.utc).isoformat()
+    need = ("open", "high", "low", "close", "volume")
+    if not all(k in out for k in need):
+        # try HL-style keys
+        nc = _normalize_hl_candle(out)
+        if nc:
+            out.update(nc)
+    if all(k in out for k in need):
+        try:
+            for k in need:
+                out[k] = float(out[k])
+            return out
+        except Exception:
+            return None
+    return None
+
+
+def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Read per-symbol candles from JSON/CSV, including multi-symbol containers."""
+    suffix = p.suffix.lower()
+    if suffix == ".csv":
+        import csv
+        rows = []
+        sym_rows = []
+        with p.open("r", newline="") as f:
+            reader = csv.DictReader(f)
+            has_symbol = "symbol" in {str(k).lower() for k in (reader.fieldnames or [])}
+            for row in reader:
+                rows.append(row)
+                if has_symbol:
+                    rv = None
+                    for k, v in row.items():
+                        if str(k).lower() == "symbol":
+                            rv = str(v).strip().upper()
+                            break
+                    if rv == symbol.upper():
+                        sym_rows.append(row)
+        use = sym_rows if sym_rows else rows
+        if has_symbol and not sym_rows:
+            raise ValueError(f"CSV contains symbol column but no rows for {symbol}: {p}")
+        candles = []
+        for row in use:
+            # synthesize dict matching loader expectations
+            mapped = {}
+            for k, v in row.items():
+                kl = str(k).lower()
+                if kl in ("timestamp", "time", "date", "t"):
+                    mapped["timestamp"] = v
+                elif kl in ("open", "o"):
+                    mapped["open"] = v
+                elif kl in ("high", "h"):
+                    mapped["high"] = v
+                elif kl in ("low", "l"):
+                    mapped["low"] = v
+                elif kl in ("close", "c"):
+                    mapped["close"] = v
+                elif kl in ("volume", "v", "vol"):
+                    mapped["volume"] = v
+            nc = _normalize_loaded_candle(mapped)
+            if nc:
+                candles.append(nc)
+        meta = {"format": "csv", "multi_symbol_container": bool(sym_rows), "rows_total": len(rows)}
+        return candles, meta
+    # JSON / other: try loader first (handles dict-of-symbols and lists)
+    try:
+        raw = load_hyperliquid_candles(str(p), symbol=symbol)
+        candles = []
+        for c in raw:
+            nc = _normalize_loaded_candle(c)
+            if nc:
+                candles.append(nc)
+        meta = {"format": suffix.lstrip(".") or "json", "loaded_via": "data_loader"}
+        return candles, meta
+    except Exception as e:
+        # fallback: raw JSON parse for odd shapes
+        obj = json.loads(p.read_text())
+        seq = None
+        if isinstance(obj, dict):
+            for k in (symbol, symbol.upper(), symbol.lower()):
+                if k in obj and isinstance(obj[k], list):
+                    seq = obj[k]
+                    break
+            if seq is None and isinstance(obj.get("candles"), list):
+                seq = obj["candles"]
+            if seq is None and isinstance(obj.get("data"), list):
+                seq = obj["data"]
+        elif isinstance(obj, list):
+            seq = obj
+        if seq is None:
+            raise
+        candles = []
+        for c in seq:
+            nc = _normalize_loaded_candle(c if isinstance(c, dict) else {})
+            if nc:
+                candles.append(nc)
+        meta = {"format": suffix.lstrip(".") or "json", "loaded_via": "raw_parse_fallback", "loader_error": f"{type(e).__name__}: {e}"}
+        return candles, meta
+
+
+def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str, Any]:
+    """Discover ingest sources for symbols in a directory or single file.
+
+    Supports per-symbol files (`<SYMBOL>.json|csv`), and multi-symbol container
+    files where a single JSON/CSV holds multiple symbols (loader/normalizer
+    extracts the requested symbol).
+    """
     p = archive_path
+    report = {"archive_path": str(p.resolve()), "is_dir": p.is_dir(), "symbols": {}, "container_files": []}
+    if p.is_file():
+        # single container may serve many symbols
+        report["container_files"].append(str(p.resolve()))
+        for sym in symbols:
+            report["symbols"][sym] = {"source_path": str(p.resolve()), "kind": "multi_symbol_container_candidate"}
+        return report
+    if not p.is_dir():
+        raise FileNotFoundError(str(p))
+    # gather files
+    files = [x for x in p.iterdir() if x.is_file()]
+    by_stem = {}
+    for f in files:
+        by_stem.setdefault(f.stem.upper(), []).append(f)
+        by_stem.setdefault(f.name.upper(), []).append(f)
+    for sym in symbols:
+        candidates = [p / f"{sym}.json", p / f"{sym.upper()}.json", p / f"{sym.lower()}.json",
+                      p / f"{sym}.csv", p / f"{sym.upper()}.csv", p / f"{sym}_candles.json", p / f"{sym.upper()}_candles.json"]
+        chosen = next((c for c in candidates if c.exists()), None)
+        if chosen is None and sym.upper() in by_stem:
+            # prefer exact-ish matches
+            prefs = by_stem[sym.upper()]
+            chosen = sorted(prefs, key=lambda x: (x.suffix != ".json", x.name))[0]
+        if chosen is not None:
+            report["symbols"][sym] = {"source_path": str(chosen.resolve()), "kind": "per_symbol_file"}
+        else:
+            # fallback: any json/csv container
+            containers = [f for f in files if f.suffix.lower() in (".json", ".csv")]
+            report["symbols"][sym] = {"source_path": None, "kind": "missing", "container_candidates": [str(c) for c in containers[:50]]}
+    report["container_files"] = [str(f.resolve()) for f in files if f.suffix.lower() in (".json", ".csv")]
+    return report
+
+
+def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    # Accept: dir/<SYMBOL>.json|csv, file per symbol, or multi-coin json/csv container.
+    p = archive_path
+    container_meta: Dict[str, Any] = {}
     if p.is_dir():
         candidates = [p / f"{symbol}.json", p / f"{symbol.upper()}.json", p / f"{symbol.lower()}.json",
-                      p / f"{symbol}.csv", p / f"{symbol.upper()}.csv"]
+                      p / f"{symbol}.csv", p / f"{symbol.upper()}.csv", p / f"{symbol}_candles.json"]
         for c in candidates:
             if c.exists():
                 p = c
                 break
         else:
-            raise FileNotFoundError(f"No archive file for {symbol} in {archive_path}")
+            # try multi-symbol containers in directory (deterministic order)
+            containers = sorted([f for f in p.iterdir() if f.is_file() and f.suffix.lower() in (".json", ".csv")])
+            found = None
+            for c in containers:
+                try:
+                    probe, pm = _read_symbol_candles_from_file(c, symbol)
+                    if probe:
+                        found = (c, probe, pm)
+                        break
+                except Exception:
+                    continue
+            if found is None:
+                raise FileNotFoundError(f"No archive file/rows for {symbol} in {archive_path}")
+            p, candles, container_meta = found
+            file_sha = _sha256_bytes(p.read_bytes()) if p.exists() else None
+            meta = {"source": "user_supplied_archive", "archive_path": str(p.resolve()), "normalized_count": len(candles),
+                    "sha256": file_sha, "archive_kind": "multi_symbol_container", **container_meta}
+            return candles, meta
     if not p.exists():
         raise FileNotFoundError(str(p))
-    candles = load_hyperliquid_candles(str(p), symbol=symbol)
+    candles, container_meta = _read_symbol_candles_from_file(p, symbol)
+    file_sha = _sha256_bytes(p.read_bytes())
     meta = {"source": "user_supplied_archive", "archive_path": str(p.resolve()), "normalized_count": len(candles),
-            "sha256": _sha256_bytes(p.read_bytes())}
+            "sha256": file_sha, **container_meta}
     return candles, meta
 
 
@@ -287,8 +465,19 @@ def main():
     if not symbols and args.universe_file and Path(args.universe_file).exists():
         u = json.loads(Path(args.universe_file).read_text())
         symbols = u.get("symbols") if isinstance(u, dict) else u
+    if not symbols and args.source == "archive" and args.input_archive:
+        # Auto-discover symbols from archive directory contents (per-symbol files).
+        apth = Path(args.input_archive)
+        if apth.is_dir():
+            discovered = []
+            for f in sorted(apth.iterdir()):
+                if f.is_file() and f.suffix.lower() in (".json", ".csv"):
+                    stem = f.stem.upper().replace("_CANDLES", "")
+                    if stem and stem.isalnum() and 2 <= len(stem) <= 15:
+                        discovered.append(stem)
+            symbols = sorted(set(discovered))
     if not symbols:
-        # Conservative default: top liquid perps likely relevant; caller should supply verified universe.
+        # Conservative default: caller should supply verified universe.
         symbols = ["BTC", "ETH", "SOL", "XRP", "DOGE", "AVAX", "LINK", "SUI", "ADA", "ARB", "OP", "NEAR", "APT", "TIA", "INJ", "LTC", "BCH", "DOT", "ATOM", "UNI", "AAVE", "MATIC", "SEI", "FTM", "ALGO", "ICP"]
     # Accept comma-separated symbols in any position for CLI robustness.
     norm = []
