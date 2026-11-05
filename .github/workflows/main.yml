@@ -1208,7 +1208,8 @@ jobs:
               data = path.read_bytes()
               if b"\0" in data:
                   continue
-              cleaned = re.sub(rb"[ \t]+(?=\r?$)", b"", data, flags=re.MULTILINE)
+              # CSV writers commonly emit CRLF; strip the carriage return too so git diff --check sees LF text.
+              cleaned = re.sub(rb"[ \t\r]+(?=\n|$)", b"", data)
               cleaned = re.sub(rb"(?:[ \t]*\r?\n)+\Z", b"\n", cleaned)
               if cleaned != data:
                   path.write_bytes(cleaned)
