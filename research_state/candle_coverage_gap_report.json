@@ -1,58 +1,9 @@
 {
-  "generated_at_utc": "2026-11-06T07:25:25.088319+00:00",
-  "report_type": "candle_coverage_gap_report",
-  "item": "6c_real_283d_hyperliquid_campaign",
+  "generated_at_utc": "2026-11-06T07:32:27.781564+00:00",
   "target_window": {
-    "start": "2025-12-20T00:00:00Z",
-    "end": "2026-09-28T23:00:00Z",
-    "expected_hourly_bars": 6792
+    "start": "2025-01-01T00:00:00+00:00",
+    "end": "2025-01-01T03:00:00+00:00",
+    "expected_hourly_bars": 4
   },
-  "real_market_data": true,
-  "fabricated_data": false,
-  "ready_for_real_campaign": false,
-  "all_complete": false,
-  "symbols": {
-    "BTC": {
-      "status": "incomplete",
-      "observed_in_window_bars": 4082,
-      "expected_hourly_bars": 6792,
-      "complete_for_target_window": false,
-      "gap_count": 0,
-      "first_timestamp": "2026-04-11T22:00:00+00:00",
-      "last_timestamp": "2026-09-28T23:00:00+00:00",
-      "first_timestamp_ms": 1775944800000,
-      "last_timestamp_ms": 1790636400000,
-      "sha256": "99ad5bb8aa22cb4a6a9defa75ac78fbc7e221676d97f2f4f2dc4155106d48c58",
-      "cache_path": "research_state/cache/hyperliquid/candles/BTC.json"
-    },
-    "ETH": {
-      "status": "incomplete",
-      "observed_in_window_bars": 4082,
-      "expected_hourly_bars": 6792,
-      "complete_for_target_window": false,
-      "gap_count": 0,
-      "first_timestamp": "2026-04-11T22:00:00+00:00",
-      "last_timestamp": "2026-09-28T23:00:00+00:00",
-      "first_timestamp_ms": 1775944800000,
-      "last_timestamp_ms": 1790636400000,
-      "sha256": "5f1606cc25aad73590bda304620d6f713ed31721ba578c56289006cd79d2a8be",
-      "cache_path": "research_state/cache/hyperliquid/candles/ETH.json"
-    }
-  },
-  "probe_evidence": null,
-  "archive_scan": {
-    "searched_paths": [],
-    "verified_archives_found": []
-  },
-  "target_window_consistent_with_spec": true,
-  "blocker": {
-    "item_6c_blocked": true,
-    "reason": "Insufficient verified 283-day hourly coverage/provenance for required universe.",
-    "required_to_unblock": [
-      "Verified archive or API coverage delivering 6792/6792 hourly bars per required symbol for 2025-12-20T00:00:00Z\u21922026-09-28T23:00:00Z",
-      "Documented source/extraction, checksums, provenance.json all_complete=true ready_for_real_campaign=true",
-      "Spec-relevant >=$5M 24h volume universe derived/reconciled from verified data"
-    ],
-    "target_window_mismatch": false
-  }
+  "gaps": {}
 }
