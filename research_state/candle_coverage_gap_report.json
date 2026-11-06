@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T07:41:26.477558+00:00",
+  "generated_at_utc": "2026-11-06T08:28:24.125467+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -40,7 +40,7 @@
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-06T07:40:42Z",
+    "ts": "2026-11-06T08:25:22Z",
     "window": {
       "start": "2025-12-20T00:00:00Z",
       "end": "2026-09-28T23:00:00Z",
@@ -85,7 +85,7 @@
       ],
       "found": []
     },
-    "conclusion": "ITEM 6c STILL DATA-BLOCKED. Early segment missing before 2026-04-11T22:00:00Z (~2710 bars/symbol). No verified archive found."
+    "conclusion": "ITEM 6c STILL DATA-BLOCKED. Early segment missing before 2026-04-11T22:00Z (~2710 bars/symbol). No verified archive found."
   },
   "archive_scan": {
     "searched_paths": [

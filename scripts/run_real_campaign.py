@@ -24,7 +24,14 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from src.data.provenance import require_verified_provenance, ProvenanceError, TARGET_START, TARGET_END, verify_cache_sha256  # noqa: E402
+from src.data.provenance import (  # noqa: E402
+    require_verified_provenance,
+    ProvenanceError,
+    TARGET_START,
+    TARGET_END,
+    verify_cache_sha256,
+    complete_symbol_subset,
+)
 from src.data.loader import load_hyperliquid_candles  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
@@ -117,21 +124,13 @@ def _execution_realism_metadata(config):
 
 
 def _complete_symbol_subset(manifest: dict) -> dict:
-    """Return a manifest view containing only symbols complete for the target window."""
-    syms = manifest.get("symbols") or {}
-    complete = {}
-    for k, v in syms.items():
-        if not isinstance(v, dict):
-            continue
-        cov = v.get("coverage") or {}
-        if v.get("status") == "ok" and cov.get("complete_for_target_window") is True:
-            complete[k] = v
-    out = dict(manifest)
-    out["symbols"] = complete
-    out["summary"] = dict(manifest.get("summary") or {})
-    out["summary"]["complete_symbols_subset"] = sorted(complete.keys())
-    out["summary"]["complete_symbols_subset_count"] = len(complete)
-    return out
+    """Return a manifest view containing only symbols verified complete for the target window.
+
+    Safety-critical for partial-not-evidence mode: delegates to provenance.complete_symbol_subset,
+    which requires consistent coverage fields (expected==observed, gap_count==0). Never trust a
+    bare complete_for_target_window flag.
+    """
+    return complete_symbol_subset(manifest)
 
 
 def main():

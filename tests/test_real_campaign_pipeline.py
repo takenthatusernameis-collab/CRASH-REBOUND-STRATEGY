@@ -150,9 +150,33 @@ def test_partial_not_evidence_refuses_without_complete_symbols(tmp_path, monkeyp
 def test_complete_symbol_subset_filters_correctly():
     raw = {
         "symbols": {
-            "A": {"status": "ok", "coverage": {"complete_for_target_window": True}},
-            "B": {"status": "incomplete", "coverage": {"complete_for_target_window": False}},
-            "C": {"status": "ok", "coverage": {"complete_for_target_window": False}},
+            "A": {
+                "status": "ok",
+                "coverage": {
+                    "complete_for_target_window": True,
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": EXP,
+                    "gap_count": 0,
+                },
+            },
+            "B": {
+                "status": "incomplete",
+                "coverage": {
+                    "complete_for_target_window": False,
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": 1,
+                    "gap_count": 0,
+                },
+            },
+            "C": {
+                "status": "ok",
+                "coverage": {
+                    "complete_for_target_window": False,
+                    "expected_hourly_bars": EXP,
+                    "observed_in_window_bars": EXP - 1,
+                    "gap_count": 0,
+                },
+            },
         }
     }
     sub = _complete_symbol_subset(raw)
