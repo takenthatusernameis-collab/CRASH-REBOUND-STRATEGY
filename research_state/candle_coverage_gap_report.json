@@ -1,25 +1,9 @@
 {
-  "generated_at_utc": "2026-11-06T03:43:50.846958+00:00",
+  "generated_at_utc": "2026-11-06T03:43:51.335927+00:00",
   "target_window": {
     "start": "2025-01-01T00:00:00+00:00",
     "end": "2025-01-01T03:00:00+00:00",
     "expected_hourly_bars": 4
   },
-  "gaps": {
-    "AAA": {
-      "expected_hourly_bars": 4,
-      "observed_in_window_bars": 2,
-      "coverage_pct": 50.0,
-      "first_timestamp_ms": 1735689600000,
-      "last_timestamp_ms": 1735693200000,
-      "first_timestamp": "2025-01-01T00:00:00+00:00",
-      "last_timestamp": "2025-01-01T01:00:00+00:00",
-      "gap_count": 0,
-      "gaps": [],
-      "gaps_truncated": 0,
-      "complete_for_target_window": false,
-      "start": "2025-01-01T00:00:00+00:00",
-      "end": "2025-01-01T03:00:00+00:00"
-    }
-  }
+  "gaps": {}
 }
