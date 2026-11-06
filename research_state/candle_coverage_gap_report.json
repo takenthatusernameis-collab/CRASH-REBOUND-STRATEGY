@@ -1,9 +1,35 @@
 {
-  "generated_at_utc": "2026-11-06T02:47:53.101147+00:00",
+  "timestamp": "2026-11-06T02:51:08Z",
   "target_window": {
-    "start": "2025-01-01T00:00:00+00:00",
-    "end": "2025-01-01T03:00:00+00:00",
-    "expected_hourly_bars": 4
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars_per_symbol": 6792
   },
-  "gaps": {}
+  "source": "Hyperliquid public info API candleSnapshot 1h (full window single request); early probe endTime=1775865600000",
+  "symbols": {
+    "BTC": {
+      "bars": 4086,
+      "expected": 6792,
+      "complete": false,
+      "first": "2026-04-11T18:00:00Z",
+      "last": "2026-09-28T23:00:00Z"
+    },
+    "ETH": {
+      "bars": 4086,
+      "expected": 6792,
+      "complete": false,
+      "first": "2026-04-11T18:00:00Z",
+      "last": "2026-09-28T23:00:00Z"
+    }
+  },
+  "early_window_probe": {
+    "window": "2025-12-20T00:00:00Z->2026-04-11T00:00:00Z",
+    "BTC_bars": 0,
+    "ETH_bars": 0
+  },
+  "blocker": "Public API does not serve full 283-day window for required symbols; verified complete archive not found in filesystem scan. 6c remains data-blocked. No partial-not-evidence run satisfies 6c. No performance evidence claimed.",
+  "ready_for_real_campaign": false,
+  "real_market_data": false,
+  "performance_evidence": false,
+  "fabricated_data": false
 }
