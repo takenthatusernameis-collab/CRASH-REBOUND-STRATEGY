@@ -50,6 +50,29 @@ def _probe_summary(probe_syms: Dict[str, Any], exp: int) -> Dict[str, Any]:
     }
 
 
+def _probe_gap_summary(probe_syms: Dict[str, Any], exp: int) -> Dict[str, Any]:
+    """Per-symbol probe gap evidence (missing bars). Backward-compatible evidence field."""
+    out: Dict[str, Any] = {}
+    for sym, v in probe_syms.items():
+        if not isinstance(v, dict):
+            continue
+        count = v.get("count") if v.get("count") is not None else v.get("observed_in_window_bars")
+        try:
+            count_i = int(count) if count is not None else 0
+        except Exception:
+            count_i = 0
+        out[sym] = {
+            "count": count_i,
+            "expected": int(exp),
+            "missing_bars": max(0, int(exp) - count_i),
+            "complete": bool(v.get("complete")),
+        }
+        for k in ("first_t_ms", "last_t_ms", "probed_at_utc"):
+            if k in v:
+                out[sym][k] = v[k]
+    return out
+
+
 def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any = None,
                      generated_at_utc: Optional[str] = None, archive_scan: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
@@ -84,7 +107,10 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     probe_unsafe = False
     if probe_syms:
         out["probe_summary"] = _probe_summary(probe_syms, exp)
+        out["probe_gap_summary"] = _probe_gap_summary(probe_syms, exp)
         probe_unsafe = (not bool(out["probe_summary"]["all_complete"])) or int(out["probe_summary"].get("expected_mismatch_symbols", 0) or 0) > 0
+    else:
+        out["probe_gap_summary"] = None
     if not manifest:
         out["manifest_path"] = None
         out["manifest_error"] = "manifest_missing_or_unreadable"
