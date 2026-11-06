@@ -32,6 +32,24 @@ def _normalize_iso(ts: Any) -> str:
         return ts.strip()
 
 
+def _probe_summary(probe_syms: Dict[str, Any], exp: int) -> Dict[str, Any]:
+    vals = [bool(v.get("complete")) if isinstance(v, dict) else False for v in probe_syms.values()]
+    mismatch = 0
+    for v in probe_syms.values():
+        if not isinstance(v, dict):
+            continue
+        pe = v.get("expected") if "expected" in v else v.get("expected_hourly_bars")
+        if pe is not None and int(pe) != int(exp):
+            mismatch += 1
+    return {
+        "symbols_probed": len(vals),
+        "all_complete": all(vals) and bool(vals),
+        "any_complete": any(vals),
+        "target_expected_bars": int(exp),
+        "expected_mismatch_symbols": int(mismatch),
+    }
+
+
 def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any = None,
                      generated_at_utc: Optional[str] = None, archive_scan: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
@@ -62,20 +80,20 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             ],
         },
     }
+    probe_syms = _probe_symbols(probe_evidence)
+    probe_unsafe = False
+    if probe_syms:
+        out["probe_summary"] = _probe_summary(probe_syms, exp)
+        probe_unsafe = (not bool(out["probe_summary"]["all_complete"])) or int(out["probe_summary"].get("expected_mismatch_symbols", 0) or 0) > 0
     if not manifest:
         out["manifest_path"] = None
         out["manifest_error"] = "manifest_missing_or_unreadable"
-        # Probe evidence can still be summarized when manifest is missing.
-        probe_syms = _probe_symbols(probe_evidence)
-        if probe_syms:
-            vals = [bool(v.get("complete")) if isinstance(v, dict) else False for v in probe_syms.values()]
-            out["probe_summary"] = {"symbols_probed": len(vals), "all_complete": all(vals) and bool(vals), "any_complete": any(vals)}
-            if not out["probe_summary"]["all_complete"]:
-                out["ready_for_real_campaign"] = False
-                out["all_complete"] = False
-                out["blocked"] = True
-                out["item_6c_blocked"] = True
-                out["blocker"]["item_6c_blocked"] = True
+        if probe_unsafe:
+            out["ready_for_real_campaign"] = False
+            out["all_complete"] = False
+            out["blocked"] = True
+            out["item_6c_blocked"] = True
+            out["blocker"]["item_6c_blocked"] = True
         return out
     tw = manifest.get("target_window") or {}
     tw_start = _normalize_iso(tw.get("start"))
@@ -115,14 +133,14 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             "volume_coverage": info.get("volume_coverage"),
         }
     # Probe evidence is informational but must never make the report optimistic.
-    probe_syms = _probe_symbols(probe_evidence)
-    if probe_syms:
-        vals = [bool(v.get("complete")) if isinstance(v, dict) else False for v in probe_syms.values()]
-        out["probe_summary"] = {"symbols_probed": len(vals), "all_complete": all(vals) and bool(vals), "any_complete": any(vals)}
-        if not out["probe_summary"]["all_complete"]:
-            out["ready_for_real_campaign"] = False
-            out["all_complete"] = False
-    if out["ready_for_real_campaign"]:
+    # Any incomplete/mismatched probe forces blocked (safety over optimism).
+    if probe_unsafe:
+        out["ready_for_real_campaign"] = False
+        out["all_complete"] = False
+        out["blocker"]["item_6c_blocked"] = True
+        if int((out.get("probe_summary") or {}).get("expected_mismatch_symbols", 0) or 0) > 0:
+            out["blocker"]["reason"] = "Probe evidence expected-bar count mismatches spec target window; cannot confirm readiness."
+    if out["ready_for_real_campaign"] and out["target_window_consistent_with_spec"] and not probe_unsafe:
         out["blocker"]["item_6c_blocked"] = False
         out["blocker"]["reason"] = "Manifest indicates complete verified coverage; run gated real campaign."
     out["blocked"] = bool(out["blocker"]["item_6c_blocked"])
