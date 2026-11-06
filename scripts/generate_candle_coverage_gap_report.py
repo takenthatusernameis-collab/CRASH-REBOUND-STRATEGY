@@ -19,13 +19,12 @@ if str(REPO_ROOT) not in sys.path:
 
 from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars, load_provenance, ProvenanceError, _parse_iso  # noqa: E402
 
-# Default documented paths searched for a verified 283d archive. Extensible via CLI.
+# Default documented path searched for a verified 283d archive. Kept to the
+# canonical research_state/archives location only: scanning broad system trees
+# (/tmp, /home/runner/work, /opt, ...) made build_gap_report() hang the test
+# suite and produced no verified archives. Extensible via --archive-searched.
 archive_scan_paths: List[str] = [
     str(REPO_ROOT / "research_state" / "archives"),
-    "/home/runner/work",
-    "/tmp",
-    "/var/tmp",
-    "/opt",
 ]
 
 

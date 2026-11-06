@@ -33,9 +33,13 @@ def _write_large_parquet(path, symbols, row_group_size=512):
     rows = []
     for sym, close, vol in symbols:
         for i in range(EXPECTED_BARS):
+            # Varied closes (non-constant): a flat series is correctly rejected as
+            # synthetic by the provenance gate, so this fixture must move to be
+            # valid real-market-shaped evidence the test can validate end-to-end.
             ts = START_MS + i * 3_600_000
-            rows.append({"symbol": sym, "timestamp_ms": ts, "open": close, "high": close * 1.02,
-                         "low": close * 0.98, "close": close, "volume": vol})
+            c = close * (1.0 + 0.001 * (i % 5))
+            rows.append({"symbol": sym, "timestamp_ms": ts, "open": c, "high": c * 1.02,
+                         "low": c * 0.98, "close": c, "volume": vol})
     tbl = pa.table({k: pa.array([r[k] for r in rows]) for k in rows[0]})
     pq.write_table(tbl, str(path), row_group_size=row_group_size)
 
