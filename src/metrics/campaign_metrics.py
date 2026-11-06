@@ -146,6 +146,12 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
     attribution = list(by_symbol.values())
     attribution_by_leg = list(by_leg.values())
 
+    # Per-leg breakdown: win rate, profit factor, R-multiple mean, and PnL share.
+    # The PDF spec cites per-leg statistics explicitly ("73 buys (71% profitable),
+    # 12 shorts (83% profitable)", "rebound short contributes ~27% of profit"), so
+    # this decomposition must be machine-checkable, not just an aggregate win_rate.
+    leg_breakdown = _compute_leg_breakdown(trades, total_pnl)
+
     exposure = {
         "total_trades": len(trades),
         "gross_profit": gross_profit,
@@ -169,8 +175,68 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
         "weekly_breakdown": dict(weekly),
         "trade_attribution": attribution,
         "trade_attribution_by_leg": attribution_by_leg,
+        "leg_breakdown": leg_breakdown,
         "exposure_metrics": exposure,
     }
+
+
+def _leg_key(t: Dict[str, Any]) -> str:
+    """Determine the leg of a trade for per-leg attribution.
+
+    Prefers an explicit 'leg' field; falls back to 'side'. Unknown legs are
+    bucketed under 'unknown' so attribution never silently drops a trade.
+    """
+    leg = t.get("leg")
+    if isinstance(leg, str) and leg.strip():
+        return leg.strip()
+    side = t.get("side")
+    if isinstance(side, str) and side.strip():
+        return side.strip()
+    return "unknown"
+
+
+def _compute_leg_breakdown(trades: List[Dict[str, Any]], total_pnl: float) -> List[Dict[str, Any]]:
+    """Per-leg win rate / profit factor / avg R-multiple / PnL share."""
+    groups: Dict[str, List[float]] = {}
+    r_groups: Dict[str, List[float]] = {}
+    for t in trades:
+        key = _leg_key(t)
+        groups.setdefault(key, []).append(_trade_pnl(t))
+        r = _finite(t.get("r_multiple"))
+        r_groups.setdefault(key, []).append(r)
+
+    out: List[Dict[str, Any]] = []
+    for leg, pnls in groups.items():
+        wins = [p for p in pnls if p > 0]
+        losses = [p for p in pnls if p < 0]
+        gp = sum(wins)
+        gl = abs(sum(losses))
+        pf = (gp / gl) if gl else (1.0 if gp > 0 else 0.0)
+        if not math.isfinite(pf):
+            pf = 0.0
+        rs = r_groups.get(leg, [])
+        avg_r = (sum(rs) / len(rs)) if rs else 0.0
+        if not math.isfinite(avg_r):
+            avg_r = 0.0
+        pnl = sum(pnls)
+        share = (pnl / total_pnl * 100.0) if total_pnl else 0.0
+        if not math.isfinite(share):
+            share = 0.0
+        out.append({
+            "leg": leg,
+            "trades": len(pnls),
+            "wins": len(wins),
+            "losses": len(losses),
+            "win_rate": (len(wins) / len(pnls)) if pnls else 0.0,
+            "gross_profit": gp,
+            "gross_loss": gl,
+            "profit_factor": pf,
+            "total_pnl": pnl,
+            "avg_r_multiple": avg_r,
+            "pnl_share_pct": share,
+        })
+    out.sort(key=lambda d: d["leg"])
+    return out
 
 
 def compute_campaign_metrics(result=None, trades=None, equity_curve=None, **kwargs):
@@ -243,6 +309,20 @@ def metrics_to_csv_rows(metrics: Optional[Dict[str, Any]]):
             if k == "max_drawdown_series" and isinstance(v, list):
                 # Represent series length as a scalar hint; full series lives in JSON.
                 rows.append({"metric": "max_drawdown_series_points", "value": len(v)})
+                continue
+            if k == "leg_breakdown" and isinstance(v, list):
+                # Emit one row per leg so per-leg win rate / profit factor / PnL share
+                # are machine-checkable in the flat CSV (full detail in JSON).
+                for leg in v:
+                    if not isinstance(leg, dict):
+                        continue
+                    name = str(leg.get("leg", "unknown"))
+                    for field in ("trades", "wins", "losses", "win_rate",
+                                  "gross_profit", "gross_loss", "profit_factor",
+                                  "total_pnl", "avg_r_multiple", "pnl_share_pct"):
+                        rows.append({"metric": f"leg_breakdown.{name}.{field}",
+                                     "value": leg.get(field)})
+                continue
             continue
         if isinstance(v, float) and not math.isfinite(v):
             v = 0.0
