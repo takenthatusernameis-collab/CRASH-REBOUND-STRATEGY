@@ -37,15 +37,19 @@ def _make_candles(symbol: str, n: int, start_ms: int, close: float, base_vol: fl
     for i in range(n):
         ts = start_ms + i * 3_600_000
         iso = f"2025-01-01T{i:02d}:00:00+00:00"
-        vol = base_vol
+        # Varied (non-flat) bars so the synthetic/flat-series guard does not reject
+        # this non-evidence pipeline fixture. Keeps volume comfortably above/below
+        # the 5M threshold per symbol class.
+        c = close * (1.0 + 0.002 * i)
+        v = base_vol * (1.0 + 0.05 * (i % 3))
         out.append({
             "timestamp": iso,
             "timestamp_ms": ts,
-            "open": close,
-            "high": close * 1.01,
-            "low": close * 0.99,
-            "close": close,
-            "volume": vol,
+            "open": c,
+            "high": c * 1.01,
+            "low": c * 0.99,
+            "close": c,
+            "volume": v,
         })
     return out
 

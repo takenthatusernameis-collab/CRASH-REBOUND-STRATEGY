@@ -18,8 +18,11 @@ def _candles(close, vol, n=EXPECTED_BARS):
     out=[]
     for i in range(n):
         ts=START_MS+i*3_600_000
+        # Varied (non-flat) bars so the synthetic/flat-series guard does not reject
+        # this non-evidence pipeline fixture.
+        c=close*(1.0+0.002*i); v=vol*(1.0+0.05*(i%3))
         out.append({"timestamp":f"2025-01-01T{i:02d}:00:00+00:00","timestamp_ms":ts,
-                    "open":close,"high":close*1.01,"low":close*0.99,"close":close,"volume":vol})
+                    "open":c,"high":c*1.01,"low":c*0.99,"close":c,"volume":v})
     return out
 
 def _run(cmd):

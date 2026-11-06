@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T18:01:45.987043+00:00",
+  "generated_at_utc": "2026-11-06T18:28:14.047949+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -15,7 +15,7 @@
   "item_6c_blocked": true,
   "symbols": {
     "AAA": {
-      "status": "error",
+      "status": "ok",
       "observed_in_window_bars": 4,
       "expected_hourly_bars": 4,
       "complete_for_target_window": true,
@@ -24,19 +24,19 @@
       "last_timestamp": "2025-01-01T03:00:00+00:00",
       "first_timestamp_ms": 1735689600000,
       "last_timestamp_ms": 1735700400000,
-      "sha256": "9a1a4c964ca77fd1b2ccec4d0565dd6aab59ca57a71291d84ad59ddf3d573ce0",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/cache_hl/candles/AAA.json",
+      "sha256": "9c44db8d12c821c81cfe30d8ed5e6d359b7f04a65c8e62c16fe9b47e17bc3dd0",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpcgo_ml8k/cache_hl/candles/AAA.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 10000000.0,
-        "observed_mean_24h_usd_volume": 25000000.0,
+        "observed_mean_24h_usd_volume": 25927750.0,
         "bars_checked": 4,
         "bars_passing": 4,
         "volume_filter_ok": true
       }
     },
-    "ETH": {
-      "status": "error",
+    "LOW": {
+      "status": "ok",
       "observed_in_window_bars": 4,
       "expected_hourly_bars": 4,
       "complete_for_target_window": true,
@@ -45,20 +45,20 @@
       "last_timestamp": "2025-01-01T03:00:00+00:00",
       "first_timestamp_ms": 1735689600000,
       "last_timestamp_ms": 1735700400000,
-      "sha256": "d6782b0d9f3089a2d57ae39acfabe52586ffb0b06518af24afe6cff59afefe06",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/cache_hl/candles/ETH.json",
+      "sha256": "61be820dc94252aea66811d8f58b80dabcf0e31f8fb194b7f7dd6316485d63f4",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpcgo_ml8k/cache_hl/candles/LOW.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 10000000.0,
-        "observed_mean_24h_usd_volume": 25000000.0,
+        "observed_min_24h_usd_volume": 1.0,
+        "observed_mean_24h_usd_volume": 2.592775,
         "bars_checked": 4,
-        "bars_passing": 4,
-        "volume_filter_ok": true
+        "bars_passing": 0,
+        "volume_filter_ok": false
       }
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-06T18:01:45.987043+00:00",
+    "ts": "2026-11-06T18:28:14.047949+00:00",
     "window": {
       "start": "2025-01-01T00:00:00+00:00",
       "end": "2025-01-01T03:00:00+00:00",
@@ -72,8 +72,8 @@
         "last_t": 1735700400000,
         "complete": true
       },
-      "ETH": {
-        "coin": "ETH",
+      "LOW": {
+        "coin": "LOW",
         "count": 4,
         "first_t": 1735689600000,
         "last_t": 1735700400000,
@@ -83,13 +83,13 @@
     "source": {
       "kind": "archive",
       "hl_url": null,
-      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/archive",
+      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpcgo_ml8k/all.jsonl",
       "input_archives": []
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/archive"
+      "/home/runner/work/_temp/kilo-tmp/tmpcgo_ml8k/all.jsonl"
     ],
     "verified_archives_found": []
   },
@@ -118,7 +118,7 @@
       "missing_bars": 6788,
       "complete": true
     },
-    "ETH": {
+    "LOW": {
       "count": 4,
       "expected": 6792,
       "missing_bars": 6788,
