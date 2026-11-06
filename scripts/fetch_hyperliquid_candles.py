@@ -238,9 +238,64 @@ def _normalize_loaded_candle(c: Dict[str, Any]) -> Optional[Dict[str, Any]]:
     return None
 
 
+def _read_symbol_candles_from_parquet(p: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Read per-symbol candles from a Parquet file (single- or multi-symbol container).
+
+    Streaming-safe: reads only the columns needed and filters by symbol in a
+    single pass via row-group filtering, so large archives do not need to be
+    loaded fully into memory. Falls back gracefully when pyarrow is unavailable.
+    """
+    if _pq is None:
+        raise RuntimeError("pyarrow not installed; cannot read parquet archive")
+    import pyarrow.parquet as pq
+
+    pf = pq.ParquetFile(str(p))
+    # Column projection: only read what the normalizer needs (+ optional symbol col).
+    schema_names = set(pf.schema_arrow.names)
+    want = {"open", "high", "low", "close", "volume", "timestamp", "timestamp_ms", "time", "t"}
+    cols = [c for c in want if c in schema_names]
+    if "symbol" in schema_names or "coin" in schema_names:
+        cols += [c for c in ("symbol", "coin") if c in schema_names]
+    if not cols:
+        cols = None  # read all
+
+    candles: List[Dict[str, Any]] = []
+    sym_col = None
+    sym_values = set()
+    had_rows = False
+    for batch in pf.iter_batches(columns=cols, batch_size=65536):
+        rows = batch.to_pylist()
+        for r in rows:
+            had_rows = True
+            if sym_col is None:
+                for k in ("symbol", "coin"):
+                    if k in r:
+                        sym_col = k
+                        break
+            if sym_col is not None:
+                rv = str(r.get(sym_col) or "").strip().upper()
+                if rv:
+                    sym_values.add(rv)
+                    if rv != symbol.upper():
+                        continue
+            nc = _normalize_loaded_candle(r)
+            if nc:
+                candles.append(nc)
+    if had_rows and sym_col is not None and not candles:
+        raise ValueError(f"Parquet contains symbol-tagged rows but none for {symbol}: {p}")
+    multi = sym_col is not None and len(sym_values) > 1
+    meta = {"format": "parquet", "multi_symbol_container": multi,
+            "symbol_column": sym_col, "distinct_symbols_seen": len(sym_values),
+            "row_groups": pf.metadata.num_row_groups,
+            "rows_scanned": len(candles) if multi else None}
+    return candles, meta
+
+
 def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    """Read per-symbol candles from JSON/NDJSON/JSONL/CSV, including multi-symbol containers."""
+    """Read per-symbol candles from JSON/NDJSON/JSONL/CSV/Parquet, including multi-symbol containers."""
     suffix = p.suffix.lower()
+    if suffix == ".parquet":
+        return _read_symbol_candles_from_parquet(p, symbol)
     if suffix == ".csv":
         import csv
         rows = []
@@ -378,7 +433,8 @@ def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str
     for sym in symbols:
         candidates = [p / f"{sym}.json", p / f"{sym.upper()}.json", p / f"{sym.lower()}.json",
                       p / f"{sym}.csv", p / f"{sym.upper()}.csv", p / f"{sym}.ndjson", p / f"{sym}.jsonl",
-                      p / f"{sym}_candles.json", p / f"{sym.upper()}_candles.json"]
+                      p / f"{sym}.parquet", p / f"{sym.upper()}.parquet", p / f"{sym}_candles.json",
+                      p / f"{sym.upper()}_candles.json", p / f"{sym}_candles.parquet"]
         chosen = next((c for c in candidates if c.exists()), None)
         if chosen is None and sym.upper() in by_stem:
             # prefer exact-ish matches
@@ -387,10 +443,10 @@ def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str
         if chosen is not None:
             report["symbols"][sym] = {"source_path": str(chosen.resolve()), "kind": "per_symbol_file"}
         else:
-            # fallback: any json/csv/ndjson container
-            containers = [f for f in files if f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl")]
+            # fallback: any json/csv/ndjson/parquet container
+            containers = [f for f in files if f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl", ".parquet")]
             report["symbols"][sym] = {"source_path": None, "kind": "missing", "container_candidates": [str(c) for c in containers[:50]]}
-    report["container_files"] = [str(f.resolve()) for f in files if f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl")]
+    report["container_files"] = [str(f.resolve()) for f in files if f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl", ".parquet")]
     return report
 
 
@@ -401,14 +457,15 @@ def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]
     if p.is_dir():
         candidates = [p / f"{symbol}.json", p / f"{symbol.upper()}.json", p / f"{symbol.lower()}.json",
                       p / f"{symbol}.csv", p / f"{symbol.upper()}.csv", p / f"{symbol}.ndjson", p / f"{symbol}.jsonl",
-                      p / f"{symbol}_candles.json"]
+                      p / f"{symbol}.parquet", p / f"{symbol.upper()}.parquet", p / f"{symbol}_candles.json",
+                      p / f"{symbol}_candles.parquet"]
         for c in candidates:
             if c.exists():
                 p = c
                 break
         else:
             # try multi-symbol containers in directory (deterministic order)
-            containers = sorted([f for f in p.iterdir() if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl")])
+            containers = sorted([f for f in p.iterdir() if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl", ".parquet")])
             found = None
             for c in containers:
                 try:
