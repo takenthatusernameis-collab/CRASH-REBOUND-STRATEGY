@@ -46,6 +46,8 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         "fabricated_data": False,
         "ready_for_real_campaign": False,
         "all_complete": False,
+        "blocked": True,
+        "item_6c_blocked": True,
         "symbols": {},
         "probe_evidence": probe_evidence,
         "archive_scan": archive_scan or {"searched_paths": [], "verified_archives_found": []},
@@ -63,6 +65,17 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     if not manifest:
         out["manifest_path"] = None
         out["manifest_error"] = "manifest_missing_or_unreadable"
+        # Probe evidence can still be summarized when manifest is missing.
+        probe_syms = _probe_symbols(probe_evidence)
+        if probe_syms:
+            vals = [bool(v.get("complete")) if isinstance(v, dict) else False for v in probe_syms.values()]
+            out["probe_summary"] = {"symbols_probed": len(vals), "all_complete": all(vals) and bool(vals), "any_complete": any(vals)}
+            if not out["probe_summary"]["all_complete"]:
+                out["ready_for_real_campaign"] = False
+                out["all_complete"] = False
+                out["blocked"] = True
+                out["item_6c_blocked"] = True
+                out["blocker"]["item_6c_blocked"] = True
         return out
     tw = manifest.get("target_window") or {}
     tw_start = _normalize_iso(tw.get("start"))
@@ -102,28 +115,30 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             "volume_coverage": info.get("volume_coverage"),
         }
     # Probe evidence is informational but must never make the report optimistic.
-    # Summarize probe completeness for evidence; if probe indicates all probed
-    # symbols are incomplete, keep explicit blocked signal.
-    probe_syms = {}
-    if isinstance(probe_evidence, dict):
-        probe_syms = probe_evidence.get("symbols") or {}
-    elif isinstance(probe_evidence, list):
-        for row in probe_evidence:
-            if isinstance(row, dict) and row.get("symbol"):
-                probe_syms[row["symbol"]] = row
+    probe_syms = _probe_symbols(probe_evidence)
     if probe_syms:
         vals = [bool(v.get("complete")) if isinstance(v, dict) else False for v in probe_syms.values()]
         out["probe_summary"] = {"symbols_probed": len(vals), "all_complete": all(vals) and bool(vals), "any_complete": any(vals)}
         if not out["probe_summary"]["all_complete"]:
             out["ready_for_real_campaign"] = False
             out["all_complete"] = False
-            out["blocker"]["item_6c_blocked"] = True
-            if "early segment missing" not in str(out["blocker"].get("reason","")) and not out["blocker"].get("target_window_mismatch"):
-                pass
     if out["ready_for_real_campaign"]:
         out["blocker"]["item_6c_blocked"] = False
         out["blocker"]["reason"] = "Manifest indicates complete verified coverage; run gated real campaign."
+    out["blocked"] = bool(out["blocker"]["item_6c_blocked"])
+    out["item_6c_blocked"] = bool(out["blocker"]["item_6c_blocked"])
     return out
+
+
+def _probe_symbols(probe_evidence: Any) -> Dict[str, Any]:
+    probe_syms: Dict[str, Any] = {}
+    if isinstance(probe_evidence, dict):
+        probe_syms = probe_evidence.get("symbols") or {}
+    elif isinstance(probe_evidence, list):
+        for row in probe_evidence:
+            if isinstance(row, dict) and row.get("symbol"):
+                probe_syms[row["symbol"]] = row
+    return probe_syms if isinstance(probe_syms, dict) else {}
 
 
 def write_gap_report(path: Path, report: Dict[str, Any]) -> None:
