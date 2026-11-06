@@ -26,12 +26,14 @@ except Exception:  # pragma: no cover
 
 
 def _candles(close, vol, n=EXPECTED_BARS):
+    import math
     out = []
     for i in range(n):
         ts = START_MS + i * 3_600_000
+        px = close + i * 0.01 * close + 10.0 * math.sin(i / 2.0)
         out.append({"timestamp": f"2025-01-01T{i:02d}:00:00+00:00", "timestamp_ms": ts,
-                    "open": close, "high": close * 1.01, "low": close * 0.99,
-                    "close": close, "volume": vol})
+                    "open": px * 0.999, "high": px * 1.0015, "low": px * 0.9985,
+                    "close": px, "volume": vol * (1.0 + i * 0.01)})
     return out
 
 

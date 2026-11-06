@@ -31,12 +31,14 @@ def _run(cmd):
 
 
 def _multi_rowgroup_parquet(path, symbols, row_group_size=1024):
+    import math
     rows = []
     for sym, close, vol in symbols:
         for i in range(EXPECTED_BARS):
             ts = START_MS + i * 3_600_000
-            rows.append({"symbol": sym, "timestamp_ms": ts, "open": close, "high": close * 1.02,
-                         "low": close * 0.98, "close": close, "volume": vol})
+            px = close + i * 0.001 * close + 5.0 * math.sin(i / 13.0)
+            rows.append({"symbol": sym, "timestamp_ms": ts, "open": px * 0.9995, "high": px * 1.0015,
+                         "low": px * 0.9985, "close": px, "volume": vol * (1.0 + (i % 10) * 0.01)})
     tbl = pa.table({k: pa.array([r[k] for r in rows]) for k in rows[0]})
     pq.write_table(tbl, str(path), row_group_size=row_group_size)
     return pq.ParquetFile(str(path)).metadata.num_row_groups
