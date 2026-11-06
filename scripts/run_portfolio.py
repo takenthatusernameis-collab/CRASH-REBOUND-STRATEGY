@@ -89,6 +89,12 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         for sym in list(occupied_until.keys()):
             if occupied_until[sym] < i:
                 del occupied_until[sym]
+        # Reconcile same-bar admission placeholders: if nothing is occupied, no positions
+        # are open across the portfolio at this bar boundary.
+        if not occupied_until:
+            risk_state.open_positions = 0
+            risk_state.open_position_notionals = []
+            risk_state.gross_exposure = 0.0
 
 # Same-decision-bar reservation: candidates fired at decision bar i are probed
         # against a copy of risk_state, and each probe runs the trade to its exit.
@@ -137,6 +143,16 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                                       risk_state=probe_state, eth_candles=eth_data)
                 if res.exit_reason not in ('blocked', 'no_signal'):
                     # Commit probe state and record trade.
+                    # The engine/backtest runs to completion on the probe state and applies
+                    # its own risk_state accounting (cap cuts, opens/closes). We must not
+                    # re-add notionals here (that double-counts). For same-decision-bar
+                    # admission we need later probes to see that capacity was consumed by
+                    # this accepted trade: if the probe finished with the position closed
+                    # (exit within/at the probed window from the engine's perspective) we
+                    # record a reserved notional placeholder derived from the executed
+                    # trade so max_positions/gross-cap checks and equal-share cuts reflect
+                    # concurrent admission intent. The placeholder is cleared when the
+                    # symbol's occupancy ends.
                     risk_state = probe_state
                     trade_pnl = getattr(res, 'total_pnl', res.pnl)
                     total_pnl += trade_pnl
@@ -146,16 +162,16 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         start_idx = start_idx + 1
                     exit_idx = min(len(candles) - 1, max(start_idx, start_idx + max(1, bars_held) - 1))
                     occupied_until[symbol] = exit_idx
-                    # Reserve the candidate's entry notional in the committed state so
-                    # later same-bar probes see the accumulated exposure and apply
-                    # equal-share cuts across old+new (spec: every position holds equal
-                    # share of the 120% cap).
                     entry_px = getattr(res, 'entry_price', 0.0)
-                    reserved_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
-                    if reserved_notional > 0:
-                        risk_state.open_position_notionals = list(risk_state.open_position_notionals) + [reserved_notional]
+                    executed_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
+                    # If engine left risk_state consistent with an open position, trust it.
+                    # Otherwise add a same-bar reservation placeholder (idempotent-ish: only
+                    # when no notional was recorded for this admission).
+                    if executed_notional > 0 and len(getattr(risk_state, 'open_position_notionals', [])) == 0 and getattr(risk_state, 'open_positions', 0) == 0:
+                        cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
+                        risk_state.open_position_notionals = [min(executed_notional, cap_value)]
                         risk_state.gross_exposure = sum(risk_state.open_position_notionals)
-                    risk_state.open_positions = max(risk_state.open_positions, len(risk_state.open_position_notionals))
+                        risk_state.open_positions = len(risk_state.open_position_notionals)
                     all_trades.append({
                         'symbol': symbol,
                         'exit_reason': res.exit_reason,

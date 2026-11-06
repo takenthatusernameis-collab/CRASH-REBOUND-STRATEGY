@@ -67,8 +67,19 @@ class StrategyConfig:
     avoid_downtrend: bool = True       # require price above fast MA to avoid catching knife
     ma_fast_period: int = 20           # fast MA period for regime filter
 
-    # Backtest realism
-    slippage_pct: float = 0.0005       # 0.05% slippage per side
+    # Backtest realism (hourly simulation per spec: fees, spread, order-book impact proxy,
+    # hourly funding on every leg, hourly liquidation check at worst price of each hour).
+    # SPEC LIMITATION (explicit): 20-second order slicing is NOT simulated in the hourly engine.
+    # The spec states "Large orders in slices: never send > half resting on order book near
+    # price in one go, next slice ~20s later" and "hourly simulation with ... order-book impact".
+    # This implementation models fees + slippage + commissions and hourly funding/liquidation;
+    # it does not model sub-hourly slicing or a live order book. Results should not be
+    # interpreted as evidence that 20s slicing/market impact were reproduced.
+    execution_model: str = "hourly_bar_simplified"  # explicit simplification vs spec 20s slicing
+    order_slicing_simulated: bool = False           # 20s slicing NOT simulated (documented)
+    order_book_impact_model: str = "slippage_proxy" # proxy via slippage_pct, not L2 book impact
+    spread_bps_assumed: float = 0.0                 # spread not modeled separately (fold into slippage)
+    slippage_pct: float = 0.0005       # 0.05% slippage per side (impact/spread proxy)
     commission_per_share: float = 0.001  # commission per share
     commission_min: float = 1.0        # minimum commission per trade
     funding_rate_pct_per_hour: float = 0.01  # hourly funding (0.01% = 0.0001)
