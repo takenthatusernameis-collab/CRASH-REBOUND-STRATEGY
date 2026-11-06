@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-06T14:15:16.662867+00:00",
+  "run_type": "verified_universe_derivation",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "source_manifest": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/cache/hyperliquid_verified_283d_btceth/provenance.json",
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "min_24h_volume_usd": 5000000.0,
+  "volume_method": "max rolling 24h sum(close*volume) over verified local hourly OHLCV in target window; proxy for exchange 24h quote volume",
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "selected_symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "selected_count": 2,
+  "report": {
+    "BTC": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 2880000000000000.0,
+      "max_24h_quote_volume": 2880000000000000.0,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "70407d5f36f0a0f1f0eec4635cc1e322d7842589016581ade2dcc04fa4bb430b"
+    },
+    "ETH": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 72000000000000.0,
+      "max_24h_quote_volume": 72000000000000.0,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "b3f864a2056d2d77992239e8d19778707edbd9e27a037e4062ef4c8f782e62c3"
+    }
+  },
+  "notes": [
+    "Derived from local verified caches only; not a live exchange universe snapshot.",
+    "For real campaign claims, use with a complete verified provenance manifest and truthful real_market_data flags."
+  ]
+}

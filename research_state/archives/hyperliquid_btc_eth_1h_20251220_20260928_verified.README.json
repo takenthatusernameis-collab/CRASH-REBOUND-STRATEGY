@@ -1,0 +1,12 @@
+{
+  "artifact": "hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+  "sha256": "e0e783f64f0ee18aabc8b490da56d2750396b21b3d99d55d63baf000f757c28c",
+  "source_path_found": "/home/runner/work/_temp/kilo-tmp/tmp67sjtviy/archive.parquet",
+  "discovered_utc": "2026-11-06T14:14:00Z",
+  "persisted_utc": "2026-11-06T14:17:00Z",
+  "symbols": ["BTC","ETH"],
+  "window": {"start":"2025-12-20T00:00:00Z","end":"2026-09-28T23:00:00Z","expected_hourly_bars":6792},
+  "coverage_verified": {"BTC": {"count":6792,"missing_vs_window":0,"set_match":true}, "ETH": {"count":6792,"missing_vs_window":0,"set_match":true}},
+  "schema": ["symbol","timestamp_ms","open","high","low","close","volume"],
+  "note": "Verified 283d BTC/ETH slice only; NOT full spec-relevant >=$5M universe. Do not fabricate."
+}

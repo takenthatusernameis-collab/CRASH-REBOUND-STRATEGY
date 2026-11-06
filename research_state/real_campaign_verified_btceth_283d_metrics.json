@@ -1,0 +1,31 @@
+{
+  "sharpe_ratio": 0.0,
+  "sortino_ratio": 0.0,
+  "max_drawdown": 0.0,
+  "max_drawdown_timestamp": null,
+  "max_drawdown_series": [
+    {
+      "timestamp": "",
+      "equity": 100000.0,
+      "drawdown": 0.0
+    }
+  ],
+  "calmar_ratio": 0.0,
+  "win_rate": 0.0,
+  "profit_factor": 0.0,
+  "monthly_breakdown": {},
+  "weekly_breakdown": {},
+  "trade_attribution": [],
+  "trade_attribution_by_leg": [],
+  "leg_breakdown": [],
+  "exposure_metrics": {
+    "total_trades": 0,
+    "gross_profit": 0,
+    "gross_loss": 0,
+    "total_pnl": 0,
+    "avg_pnl_per_trade": 0.0,
+    "winning_trades": 0,
+    "losing_trades": 0
+  },
+  "timestamp": "2026-11-06T14:15:55.821453"
+}

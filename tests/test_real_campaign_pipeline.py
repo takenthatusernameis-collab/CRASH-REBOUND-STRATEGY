@@ -17,7 +17,7 @@ from src.data.provenance import (
     require_verified_provenance,
     ProvenanceError,
 )
-from scripts.run_real_campaign import _complete_symbol_subset, main as run_real_main
+from scripts.run_real_campaign import _complete_symbol_subset, _normalize_output_prefix, main as run_real_main
 from scripts.fetch_hyperliquid_candles import (
     analyze_coverage,
     ingest_archive,
@@ -410,6 +410,21 @@ def _complete_verified_manifest(cache_dir: Path, symbols):
     cache_dir.mkdir(parents=True, exist_ok=True)
     mp.write_text(json.dumps(m, indent=2))
     return mp
+
+
+def test_normalize_output_prefix_strips_research_state_and_rejects_traversal():
+    assert _normalize_output_prefix("campaign_results_real") == "campaign_results_real"
+    assert _normalize_output_prefix("research_state/campaign_results_real") == "campaign_results_real"
+    assert _normalize_output_prefix("research_state/research_state/foo_bar") == "foo_bar"
+    assert _normalize_output_prefix("./research_state/foo") == "foo"
+    with pytest.raises(Exception):
+        _normalize_output_prefix("../escape")
+    with pytest.raises(Exception):
+        _normalize_output_prefix("/abs/path")
+    with pytest.raises(Exception):
+        _normalize_output_prefix("research_state/subdir/file")
+    with pytest.raises(Exception):
+        _normalize_output_prefix("")
 
 
 def test_run_real_campaign_gated_executes_with_complete_verified_manifest(tmp_path, monkeypatch):

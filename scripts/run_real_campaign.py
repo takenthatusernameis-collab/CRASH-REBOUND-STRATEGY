@@ -102,6 +102,31 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
     return out
 
 
+def _normalize_output_prefix(output_prefix: str) -> str:
+    """Normalize --output-prefix to a safe basename stem under research_state/.
+
+    Prevents accidental nested paths like research_state/research_state/* when
+    callers pass a prefix that already includes research_state/. Rejects
+    path traversal / absolute prefixes.
+    """
+    raw = str(output_prefix or "").replace("\\", "/").strip()
+    while raw.startswith("./"):
+        raw = raw[2:]
+    # Strip repeated leading research_state/ segments.
+    while raw == "research_state" or raw.startswith("research_state/"):
+        raw = raw[len("research_state"):] if raw == "research_state" else raw[len("research_state/"):]
+        raw = raw.lstrip("/")
+    raw = raw.strip("/")
+    if not raw:
+        raise ProvenanceError("output-prefix resolves to an empty filename stem")
+    p = Path(raw)
+    if p.is_absolute() or ".." in p.parts or len(p.parts) != 1:
+        raise ProvenanceError(
+            f"Unsafe output-prefix {output_prefix!r}: must resolve to a single filename stem under research_state/"
+        )
+    return p.name
+
+
 def _execution_realism_metadata(config):
     """Explicit spec-vs-implementation execution realism markers (no microstructure claims)."""
     return {
@@ -251,6 +276,7 @@ def main():
     metrics = metrics_to_dict(compute_campaign_metrics(trades=results.get("trades", []), equity_curve=results.get("equity_curve")))
     out_dir = REPO_ROOT / "research_state"
     out_dir.mkdir(parents=True, exist_ok=True)
+    output_prefix = _normalize_output_prefix(args.output_prefix)
     ts = datetime.now(timezone.utc).isoformat()
     manifest_sha = hashlib.sha256(manifest_path.read_bytes()).hexdigest() if manifest_path.exists() else None
     research_status = "NOT_EVIDENCE_PARTIAL_UNIVERSE" if partial_mode else "REAL_MARKET_RUN"
@@ -313,9 +339,9 @@ def main():
         },
         "metrics": metrics,
     }
-    (out_dir / f"{args.output_prefix}.json").write_text(json.dumps(export, indent=2, default=str) + "\n")
-    (out_dir / f"{args.output_prefix}_metrics.json").write_text(json.dumps(metrics, indent=2, default=str) + "\n")
-    with (out_dir / f"{args.output_prefix}_metrics.csv").open("w", newline="") as f:
+    (out_dir / f"{output_prefix}.json").write_text(json.dumps(export, indent=2, default=str) + "\n")
+    (out_dir / f"{output_prefix}_metrics.json").write_text(json.dumps(metrics, indent=2, default=str) + "\n")
+    with (out_dir / f"{output_prefix}_metrics.csv").open("w", newline="") as f:
         w = csv.DictWriter(f, fieldnames=["metric", "value"])
         w.writeheader()
         for row in metrics_to_csv_rows(metrics):
@@ -324,7 +350,7 @@ def main():
         print(f"PARTIAL NOT-EVIDENCE run complete (performance_evidence=false): {export['results']['num_trades']} trades, total_pnl={export['results']['total_pnl']}, symbols={sorted(data.keys())}")
     else:
         print(f"REAL run complete: {export['results']['num_trades']} trades, total_pnl={export['results']['total_pnl']}")
-    print(f"Wrote {out_dir / f'{args.output_prefix}.json'}")
+    print(f"Wrote {out_dir / f'{output_prefix}.json'}")
     return 0
 
 

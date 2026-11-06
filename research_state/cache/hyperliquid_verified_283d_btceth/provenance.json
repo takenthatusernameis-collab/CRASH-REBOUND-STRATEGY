@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-06T14:15:12.540729+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "source": {
+    "kind": "archive",
+    "hl_url": null,
+    "input_archive": "/home/runner/work/_temp/kilo-tmp/tmp67sjtviy/archive.parquet"
+  },
+  "request_params": {
+    "interval": "1h",
+    "start_ms": 1766188800000,
+    "end_ms": 1790636400000,
+    "symbols": [
+      "BTC",
+      "ETH"
+    ]
+  },
+  "symbols": {
+    "BTC": {
+      "symbol": "BTC",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/_temp/kilo-tmp/tmp67sjtviy/archive.parquet",
+      "normalized_count": 6792,
+      "sha256": "70407d5f36f0a0f1f0eec4635cc1e322d7842589016581ade2dcc04fa4bb430b",
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 2,
+      "row_groups": 14,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 120000000000000.0,
+        "observed_mean_24h_usd_volume": 2875123674911661.0,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_verified_283d_btceth/candles/BTC.json"
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/_temp/kilo-tmp/tmp67sjtviy/archive.parquet",
+      "normalized_count": 6792,
+      "sha256": "b3f864a2056d2d77992239e8d19778707edbd9e27a037e4062ef4c8f782e62c3",
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 2,
+      "row_groups": 14,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 3000000000000.0,
+        "observed_mean_24h_usd_volume": 71878091872791.52,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_verified_283d_btceth/candles/ETH.json"
+    }
+  },
+  "summary": {
+    "symbols_requested": 2,
+    "symbols_complete": 2,
+    "symbols_incomplete_or_error": 0,
+    "all_complete": true,
+    "ready_for_real_campaign": true,
+    "complete_symbols": [
+      "BTC",
+      "ETH"
+    ]
+  }
+}
