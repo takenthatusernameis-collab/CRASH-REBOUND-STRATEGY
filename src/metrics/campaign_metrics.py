@@ -29,8 +29,17 @@ def _trade_pnl(t: Dict[str, Any]) -> float:
 def _trade_ts(t: Dict[str, Any], *keys: str) -> Optional[str]:
     for k in keys:
         v = t.get(k)
-        if isinstance(v, str) and v:
-            return v
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+        # accept numeric epoch ms/seconds for deterministic provenance-aligned artifacts
+        if isinstance(v, (int, float)) and math.isfinite(v):
+            iv = int(v)
+            # heuristic: ms if large
+            if abs(iv) > 10_000_000_000:
+                dt = datetime.utcfromtimestamp(iv / 1000.0)
+            else:
+                dt = datetime.utcfromtimestamp(iv)
+            return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
     return None
 
 
@@ -90,7 +99,8 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
     down_std = math.sqrt(down_var) if down_var > 0 else 0.0
     sortino = (mean_r / down_std) if down_std > 0 else 0.0
 
-    # Drawdown series with timestamps (cumulative PnL equity curve)
+    # Drawdown series with timestamps (cumulative PnL equity curve).
+    # Prefer exit_timestamp for realized-PnL attribution; fall back deterministically.
     equity = 0.0
     peak = 0.0
     max_dd = 0.0
@@ -98,10 +108,10 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
     max_dd_series: List[Dict[str, Any]] = []
     for t in trades:
         pnl = _trade_pnl(t)
-        equity += pnl
+        equity = _finite(equity + pnl)
         if equity > peak:
             peak = equity
-        dd = equity - peak  # <= 0
+        dd = _finite(equity - peak)  # <= 0
         ts = _trade_ts(t, "exit_timestamp", "timestamp", "entry_timestamp")
         max_dd_series.append({"timestamp": ts, "equity": equity, "drawdown": dd})
         if dd < max_dd:
