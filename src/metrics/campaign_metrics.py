@@ -10,7 +10,7 @@ from __future__ import annotations
 import csv
 import math
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Any, Dict, Iterable, List, Optional
 
 
@@ -36,9 +36,9 @@ def _trade_ts(t: Dict[str, Any], *keys: str) -> Optional[str]:
             iv = int(v)
             # heuristic: ms if large
             if abs(iv) > 10_000_000_000:
-                dt = datetime.utcfromtimestamp(iv / 1000.0)
+                dt = datetime.fromtimestamp(iv / 1000.0, tz=timezone.utc)
             else:
-                dt = datetime.utcfromtimestamp(iv)
+                dt = datetime.fromtimestamp(iv, tz=timezone.utc)
             return dt.strftime("%Y-%m-%dT%H:%M:%SZ")
     return None
 
