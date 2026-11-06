@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T18:53:17.583217+00:00",
+  "generated_at_utc": "2026-11-06T19:05:34.005565+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -24,8 +24,8 @@
       "last_timestamp": "2025-01-01T03:00:00+00:00",
       "first_timestamp_ms": 1735689600000,
       "last_timestamp_ms": 1735700400000,
-      "sha256": "9c44db8d12c821c81cfe30d8ed5e6d359b7f04a65c8e62c16fe9b47e17bc3dd0",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp_ua5snev/cache_hl/candles/AAA.json",
+      "sha256": "7a4ea135e9d90a219424f66849eac818dd6557077e5dcea582482046a2c9fb02",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpcrbr1sgm/cache_hl/candles/AAA.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 10000000.0,
@@ -35,7 +35,7 @@
         "volume_filter_ok": true
       }
     },
-    "LOW": {
+    "ETH": {
       "status": "ok",
       "observed_in_window_bars": 4,
       "expected_hourly_bars": 4,
@@ -45,20 +45,20 @@
       "last_timestamp": "2025-01-01T03:00:00+00:00",
       "first_timestamp_ms": 1735689600000,
       "last_timestamp_ms": 1735700400000,
-      "sha256": "61be820dc94252aea66811d8f58b80dabcf0e31f8fb194b7f7dd6316485d63f4",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp_ua5snev/cache_hl/candles/LOW.json",
+      "sha256": "d6dd58a5354960627d8c59c78389ea76991ac87de448dbff823f9aad7d552861",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpcrbr1sgm/cache_hl/candles/ETH.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 1.0,
-        "observed_mean_24h_usd_volume": 2.592775,
+        "observed_min_24h_usd_volume": 10000000.0,
+        "observed_mean_24h_usd_volume": 25927750.0,
         "bars_checked": 4,
-        "bars_passing": 0,
-        "volume_filter_ok": false
+        "bars_passing": 4,
+        "volume_filter_ok": true
       }
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-06T18:53:17.583217+00:00",
+    "ts": "2026-11-06T19:05:34.005565+00:00",
     "window": {
       "start": "2025-01-01T00:00:00+00:00",
       "end": "2025-01-01T03:00:00+00:00",
@@ -72,8 +72,8 @@
         "last_t": 1735700400000,
         "complete": true
       },
-      "LOW": {
-        "coin": "LOW",
+      "ETH": {
+        "coin": "ETH",
         "count": 4,
         "first_t": 1735689600000,
         "last_t": 1735700400000,
@@ -83,13 +83,13 @@
     "source": {
       "kind": "archive",
       "hl_url": null,
-      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmp_ua5snev/all.jsonl",
+      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpcrbr1sgm/archive",
       "input_archives": []
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/_temp/kilo-tmp/tmp_ua5snev/all.jsonl"
+      "/home/runner/work/_temp/kilo-tmp/tmpcrbr1sgm/archive"
     ],
     "verified_archives_found": []
   },
@@ -118,7 +118,7 @@
       "missing_bars": 6788,
       "complete": true
     },
-    "LOW": {
+    "ETH": {
       "count": 4,
       "expected": 6792,
       "missing_bars": 6788,
