@@ -89,36 +89,53 @@ def _volume(c: Dict[str, Any]) -> Optional[float]:
     return float(v) if v is not None else None
 
 
-def _rsi(candles: List[Dict[str, Any]], period: int = 21) -> Optional[float]:
-    """Calculate RSI using Wilder's smoothing method."""
+def _rsi(candles: List[Dict[str, Any]], period: int = 21,
+         cache: Optional[Dict[Any, Any]] = None) -> Optional[float]:
+    """Calculate RSI using Wilder's smoothing method.
+
+    Exact same result as the uncached path. When a per-symbol `cache` dict is
+    supplied, results are memoized by (len(candles), period). Callers that pass
+    prefixes of the *same* underlying candle list (e.g. the portfolio scanner,
+    which advances one bar at a time) get O(1) amortized RSI per bar instead of
+    O(n) — turning the scanner's O(n^2) RSI cost into O(n). The cache is caller-
+    owned (no global mutable state), so tests that omit it are unaffected.
+    """
+    key = (len(candles), period) if cache is not None else None
+    if key is not None and key in cache:
+        return cache[key]
     if len(candles) < period + 1:
-        return None
-    gains = []
-    losses = []
-    for i in range(1, len(candles)):
-        close = _close(candles[i])
-        prev_close = _close(candles[i - 1])
-        if close is None or prev_close is None:
-            continue
-        change = close - prev_close
-        if change >= 0:
-            gains.append(change)
-            losses.append(0.0)
+        result = None
+    else:
+        gains = []
+        losses = []
+        for i in range(1, len(candles)):
+            close = _close(candles[i])
+            prev_close = _close(candles[i - 1])
+            if close is None or prev_close is None:
+                continue
+            change = close - prev_close
+            if change >= 0:
+                gains.append(change)
+                losses.append(0.0)
+            else:
+                gains.append(0.0)
+                losses.append(abs(change))
+        if len(gains) < period:
+            result = None
         else:
-            gains.append(0.0)
-            losses.append(abs(change))
-    if len(gains) < period:
-        return None
-    avg_gain = sum(gains[:period]) / period
-    avg_loss = sum(losses[:period]) / period
-    for i in range(period, len(gains)):
-        avg_gain = (avg_gain * (period - 1) + gains[i]) / period
-        avg_loss = (avg_loss * (period - 1) + losses[i]) / period
-    if avg_loss == 0:
-        return 100.0
-    rs = avg_gain / avg_loss
-    rsi = 100.0 - (100.0 / (1.0 + rs))
-    return rsi
+            avg_gain = sum(gains[:period]) / period
+            avg_loss = sum(losses[:period]) / period
+            for i in range(period, len(gains)):
+                avg_gain = (avg_gain * (period - 1) + gains[i]) / period
+                avg_loss = (avg_loss * (period - 1) + losses[i]) / period
+            if avg_loss == 0:
+                result = 100.0
+            else:
+                rs = avg_gain / avg_loss
+                result = 100.0 - (100.0 / (1.0 + rs))
+    if key is not None:
+        cache[key] = result
+    return result
 
 
 def _daily_volume_usd(candles: List[Dict[str, Any]], lookback: int = 24) -> Optional[float]:
@@ -144,13 +161,14 @@ def detect_crash_rsi(
     rsi_period: int = 21,
     rsi_threshold: float = 20.0,
     min_daily_volume_usd: float = 5_000_000.0,
+    cache: Optional[Dict[Any, Any]] = None,
 ) -> bool:
     """Detect crash via RSI(21) < threshold with optional volume filter.
 
     Per the PDF spec the primary trigger is a 21-hour RSI closing below 20,
     and only coins trading >= $5M in the last 24 hours are considered.
     """
-    rsi = _rsi(candles, period=rsi_period)
+    rsi = _rsi(candles, period=rsi_period, cache=cache)
     if rsi is None:
         return False
     if rsi >= rsi_threshold:
@@ -171,11 +189,13 @@ def detect_crash(
     rsi_period: int = 21,
     rsi_threshold: float = 20.0,
     min_daily_volume_usd: float = 5_000_000.0,
+    cache: Optional[Dict[Any, Any]] = None,
 ) -> bool:
     if use_rsi_trigger:
         return detect_crash_rsi(candles, rsi_period=rsi_period,
                                 rsi_threshold=rsi_threshold,
-                                min_daily_volume_usd=min_daily_volume_usd)
+                                min_daily_volume_usd=min_daily_volume_usd,
+                                cache=cache)
     if len(candles) < 2:
         return False
     # Enforce minimum daily volume across all trigger paths per spec
@@ -317,6 +337,7 @@ def generate_signal(
     config: StrategyConfig = DEFAULT_CONFIG,
     capital: float = 100000.0,
     risk_state: Optional[Any] = None,
+    cache: Optional[Dict[Any, Any]] = None,
 ) -> Optional[Signal]:
     if not detect_crash(
         candles,
@@ -327,6 +348,7 @@ def generate_signal(
         rsi_period=getattr(config, 'rsi_period', 21),
         rsi_threshold=getattr(config, 'rsi_threshold', 20.0),
         min_daily_volume_usd=getattr(config, 'min_daily_volume_usd', 5_000_000.0),
+        cache=cache,
     ):
         return None
     if not confirm_rebound(

@@ -13,7 +13,7 @@ from src.strategy.risk import RiskState
 from src.backtest.engine import backtest_simple
 
 
-def _crash_severity(candles, sig, config):
+def _crash_severity(candles, sig, config, cache=None):
     """Return a sort key where smaller means higher priority (deeper crash first).
 
     RSI trigger: lower RSI => more severe (use -RSI in first element? easier: (rsi, 0)).
@@ -22,7 +22,7 @@ def _crash_severity(candles, sig, config):
     try:
         from src.strategy.crash_rebound import _rsi
         rsi = _rsi(candles[: max(1, getattr(sig, "signal_index", len(candles)-1) + 1)],
-                   period=getattr(config, "rsi_period", 21))
+                   period=getattr(config, "rsi_period", 21), cache=cache)
         if getattr(config, 'use_rsi_trigger', False) and rsi is not None:
             return (float(rsi), 0.0)  # lower RSI first
     except Exception:
@@ -74,6 +74,12 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     # symbol -> index of bar until which it is occupied (inclusive exit bar)
     occupied_until = {}
 
+    # Per-symbol RSI cache (length-keyed): the scanner advances one bar at a time
+    # over each symbol's full series, so identical-length prefixes hit the cache.
+    # This turns the scanner's O(n^2) RSI cost into O(n) per symbol. Caller-owned
+    # (no global state); uncached callers (tests) are unaffected.
+    rsi_cache = {sym: {} for sym in filtered_symbols}
+
     max_len = max((len(v) for v in candles_by_symbol.values()), default=0)
     # Bar-by-bar scan across the full series (no look-ahead): use history up to i.
     # Start as early as indicators can be meaningful while letting signal/indicator
@@ -113,11 +119,12 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                 continue
             try:
                 hist = candles[:i + 1]
-                sig = generate_signal(hist, symbol=symbol, config=config, capital=capital)
+                sig = generate_signal(hist, symbol=symbol, config=config, capital=capital,
+                                      cache=rsi_cache.get(symbol))
                 if sig is not None:
                     # normalize signal_index to decision bar on full series
                     sig.signal_index = i
-                    sev = _crash_severity(hist, sig, config)
+                    sev = _crash_severity(hist, sig, config, cache=rsi_cache.get(symbol))
                     candidates.append((sev, symbol, sig, candles))
             except Exception:
                 continue
@@ -205,6 +212,7 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         'risk_state': risk_state,
         'equity_curve': equity_curve,
         'starting_capital': capital,
+        'rsi_cache': rsi_cache,
     }
 
 
