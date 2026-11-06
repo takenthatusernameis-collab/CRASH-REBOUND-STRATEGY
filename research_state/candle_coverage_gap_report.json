@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T13:08:40.917868+00:00",
+  "generated_at_utc": "2026-11-06T13:13:27.157894+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -9,91 +9,96 @@
   },
   "real_market_data": true,
   "fabricated_data": false,
-  "ready_for_real_campaign": true,
-  "all_complete": true,
+  "ready_for_real_campaign": false,
+  "all_complete": false,
   "symbols": {
     "BTC": {
-      "status": "ok",
-      "observed_in_window_bars": 6792,
+      "status": "incomplete",
+      "observed_in_window_bars": 4078,
       "expected_hourly_bars": 6792,
-      "complete_for_target_window": true,
+      "complete_for_target_window": false,
       "gap_count": 0,
-      "first_timestamp": "2025-12-20T00:00:00+00:00",
+      "first_timestamp": "2026-04-12T02:00:00+00:00",
       "last_timestamp": "2026-09-28T23:00:00+00:00",
-      "first_timestamp_ms": 1766188800000,
+      "first_timestamp_ms": 1775959200000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "4758391838935bf9e9a34afb3463a3a08c8d2438ce5195a9f51caf80ca9e4dd6",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpgxf2jni1/cache_hl/candles/BTC.json",
+      "sha256": "036e173ad89e2af9021e00eca92eaf7395653001a9c820e349efc44ab6049ce3",
+      "cache_path": "research_state/cache/hyperliquid/candles/BTC.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 120000000000000.0,
-        "observed_mean_24h_usd_volume": 2875123674911661.0,
-        "bars_checked": 6792,
-        "bars_passing": 6792,
+        "observed_min_24h_usd_volume": 151544559.57639,
+        "observed_mean_24h_usd_volume": 2364710111.895833,
+        "bars_checked": 4078,
+        "bars_passing": 4078,
         "volume_filter_ok": true
       }
     },
     "ETH": {
-      "status": "ok",
-      "observed_in_window_bars": 6792,
+      "status": "incomplete",
+      "observed_in_window_bars": 4078,
       "expected_hourly_bars": 6792,
-      "complete_for_target_window": true,
+      "complete_for_target_window": false,
       "gap_count": 0,
-      "first_timestamp": "2025-12-20T00:00:00+00:00",
+      "first_timestamp": "2026-04-12T02:00:00+00:00",
       "last_timestamp": "2026-09-28T23:00:00+00:00",
-      "first_timestamp_ms": 1766188800000,
+      "first_timestamp_ms": 1775959200000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "671a366cdba79d88f6890d23ef46f20afeead2e7eb33e23d36db6b02869cf7a0",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpgxf2jni1/cache_hl/candles/ETH.json",
+      "sha256": "6925ad2819fa03d2f3c0439a0817d631775cd5c0c2cc2261e17c60284dca8f34",
+      "cache_path": "research_state/cache/hyperliquid/candles/ETH.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 3000000000000.0,
-        "observed_mean_24h_usd_volume": 71878091872791.52,
-        "bars_checked": 6792,
-        "bars_passing": 6792,
+        "observed_min_24h_usd_volume": 55279228.0937,
+        "observed_mean_24h_usd_volume": 949762084.992736,
+        "bars_checked": 4078,
+        "bars_passing": 4078,
         "volume_filter_ok": true
       }
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-06T13:08:40.917868+00:00",
+    "probed_at_utc": "2026-11-06T13:13:13Z",
+    "source": "https://api.hyperliquid.xyz/info candleSnapshot 1h",
     "window": {
-      "start": "2025-12-20T00:00:00+00:00",
-      "end": "2026-09-28T23:00:00+00:00",
-      "expected_hourly_bars": 6792
+      "start": "2025-12-20T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "start_ms": 1766188800000,
+      "end_ms": 1790636400000,
+      "expected": 6792
     },
-    "full": {
+    "symbols": {
       "BTC": {
-        "coin": "BTC",
-        "count": 6792,
-        "first_t": 1766188800000,
-        "last_t": 1790636400000,
-        "complete": true
+        "count": 4078,
+        "expected": 6792,
+        "complete": false,
+        "first_t": "2026-04-12T02:00:00Z",
+        "last_t": "2026-09-28T23:00:00Z",
+        "first_t_ms": 1775959200000,
+        "last_t_ms": 1790636400000
       },
       "ETH": {
-        "coin": "ETH",
-        "count": 6792,
-        "first_t": 1766188800000,
-        "last_t": 1790636400000,
-        "complete": true
+        "count": 4078,
+        "expected": 6792,
+        "complete": false,
+        "first_t": "2026-04-12T02:00:00Z",
+        "last_t": "2026-09-28T23:00:00Z",
+        "first_t_ms": 1775959200000,
+        "last_t_ms": 1790636400000
       }
-    },
-    "source": {
-      "kind": "archive",
-      "hl_url": null,
-      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpgxf2jni1/archive.parquet"
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/_temp/kilo-tmp/tmpgxf2jni1/archive.parquet"
+      "/home/runner/work",
+      "/tmp",
+      "/var/tmp",
+      "/opt"
     ],
     "verified_archives_found": []
   },
   "target_window_consistent_with_spec": true,
   "blocker": {
-    "item_6c_blocked": false,
-    "reason": "Manifest indicates complete verified coverage; run gated real campaign.",
+    "item_6c_blocked": true,
+    "reason": "Insufficient verified 283-day hourly coverage/provenance for required universe.",
     "required_to_unblock": [
       "Verified archive or API coverage delivering 6792/6792 hourly bars per required symbol for 2025-12-20T00:00:00Z\u21922026-09-28T23:00:00Z",
       "Documented source/extraction, checksums, provenance.json all_complete=true ready_for_real_campaign=true",

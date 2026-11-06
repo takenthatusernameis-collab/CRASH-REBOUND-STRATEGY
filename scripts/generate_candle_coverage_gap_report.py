@@ -101,6 +101,25 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             "cache_path": info.get("cache_path"),
             "volume_coverage": info.get("volume_coverage"),
         }
+    # Probe evidence is informational but must never make the report optimistic.
+    # Summarize probe completeness for evidence; if probe indicates all probed
+    # symbols are incomplete, keep explicit blocked signal.
+    probe_syms = {}
+    if isinstance(probe_evidence, dict):
+        probe_syms = probe_evidence.get("symbols") or {}
+    elif isinstance(probe_evidence, list):
+        for row in probe_evidence:
+            if isinstance(row, dict) and row.get("symbol"):
+                probe_syms[row["symbol"]] = row
+    if probe_syms:
+        vals = [bool(v.get("complete")) if isinstance(v, dict) else False for v in probe_syms.values()]
+        out["probe_summary"] = {"symbols_probed": len(vals), "all_complete": all(vals) and bool(vals), "any_complete": any(vals)}
+        if not out["probe_summary"]["all_complete"]:
+            out["ready_for_real_campaign"] = False
+            out["all_complete"] = False
+            out["blocker"]["item_6c_blocked"] = True
+            if "early segment missing" not in str(out["blocker"].get("reason","")) and not out["blocker"].get("target_window_mismatch"):
+                pass
     if out["ready_for_real_campaign"]:
         out["blocker"]["item_6c_blocked"] = False
         out["blocker"]["reason"] = "Manifest indicates complete verified coverage; run gated real campaign."
