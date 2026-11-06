@@ -77,7 +77,7 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             continue
         cov = info.get("coverage") or {}
         if info.get("status") == "ok" and cov.get("complete_for_target_window") is True:
-            # verify coverage fields
+            # verify coverage fields for any symbol claiming completeness
             if cov.get("expected_hourly_bars") != exp:
                 errs.append(f"{sym}: expected_hourly_bars {cov.get('expected_hourly_bars')} != {exp}")
                 continue
@@ -95,6 +95,42 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
     if len(complete) < min_symbols:
         errs.append(f"complete symbols {len(complete)} < {min_symbols}")
     return (len(errs) == 0), errs
+
+
+def _complete_symbol_subset_safe(manifest: Dict[str, Any], *, start: str = TARGET_START, end: str = TARGET_END) -> Dict[str, Any]:
+    """Return a manifest view containing only symbols verified complete for the target window.
+
+    Conservative/safe: only includes symbols with status==ok and coverage fields proving
+    completeness against expected bars for the window. Malformed entries excluded.
+    """
+    if not isinstance(manifest, dict):
+        return {"symbols": {}, "summary": {"complete_symbols_subset": [], "complete_symbols_subset_count": 0}}
+    syms = manifest.get("symbols") or {}
+    exp = expected_hourly_bars(start, end)
+    complete: Dict[str, Any] = {}
+    for k, v in (syms.items() if isinstance(syms, dict) else []):
+        if not isinstance(v, dict):
+            continue
+        cov = v.get("coverage") or {}
+        if (
+            v.get("status") == "ok"
+            and cov.get("complete_for_target_window") is True
+            and cov.get("expected_hourly_bars") == exp
+            and cov.get("observed_in_window_bars") == exp
+            and (cov.get("gap_count") or 0) == 0
+        ):
+            complete[k] = v
+    out = dict(manifest)
+    out["symbols"] = complete
+    out["summary"] = dict(manifest.get("summary") or {})
+    out["summary"]["complete_symbols_subset"] = sorted(complete.keys())
+    out["summary"]["complete_symbols_subset_count"] = len(complete)
+    return out
+
+
+def complete_symbol_subset(manifest: Dict[str, Any], *, start: str = TARGET_START, end: str = TARGET_END) -> Dict[str, Any]:
+    """Public alias for safe complete-subset extraction (testable, deterministic)."""
+    return _complete_symbol_subset_safe(manifest, start=start, end=end)
 
 
 def sha256_file(path: str | Path) -> str:
