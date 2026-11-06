@@ -76,6 +76,10 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             errs.append(f"{sym}: invalid symbol entry")
             continue
         cov = info.get("coverage") or {}
+        synth = info.get("synthetic_check") or {}
+        if isinstance(synth, dict) and synth.get("is_synthetic"):
+            errs.append(f"{sym}: synthetic/flat data series detected ({synth.get('reason')}); not real market evidence")
+            continue
         if info.get("status") == "ok" and cov.get("complete_for_target_window") is True:
             # verify coverage fields for any symbol claiming completeness
             if cov.get("expected_hourly_bars") != exp:
@@ -112,6 +116,9 @@ def _complete_symbol_subset_safe(manifest: Dict[str, Any], *, start: str = TARGE
         if not isinstance(v, dict):
             continue
         cov = v.get("coverage") or {}
+        synth = v.get("synthetic_check") or {}
+        if isinstance(synth, dict) and synth.get("is_synthetic"):
+            continue
         if (
             v.get("status") == "ok"
             and cov.get("complete_for_target_window") is True

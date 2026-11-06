@@ -491,6 +491,67 @@ def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]
     return candles, meta
 
 
+def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start: datetime, end: datetime,
+                            min_daily_volume_usd: float) -> Dict[str, Any]:
+    """Merge multiple verified archives into a single symbol-union manifest.
+
+    Track-4 hardening (multi-source / multi-archive): several independently
+    verified archives may each cover a disjoint subset of the >= $5M universe.
+    This ingests every archive, unions symbols, and records per-source
+    provenance (archive path + sha256) for every symbol so downstream gates
+    can verify each symbol against its own source. Never fabricates: a symbol
+    is only "ok" if its coverage is complete for the target window.
+    """
+    if not archive_paths:
+        raise ValueError("merge_verified_archives requires at least one archive path")
+    seen: Dict[str, Dict[str, Any]] = {}
+    conflicts: List[Dict[str, str]] = []
+    for archive_path in archive_paths:
+        ap = Path(archive_path)
+        if not ap.exists():
+            raise FileNotFoundError(f"archive not found: {ap}")
+        for sym in symbols:
+            try:
+                candles, meta = ingest_archive(ap, sym)
+            except FileNotFoundError:
+                continue
+            cov = analyze_coverage(candles, start, end)
+            volcov = analyze_symbol_volume_coverage(candles, min_daily_volume_usd)
+            entry = {
+                "symbol": sym,
+                "status": "ok" if cov.get("complete_for_target_window") else "incomplete",
+                "source": meta.get("source", "user_supplied_archive"),
+                "archive_path": str(ap.resolve()),
+                "archive_sha256": meta.get("sha256"),
+                "normalized_count": meta.get("normalized_count"),
+                "format": meta.get("format"),
+                "multi_symbol_container": meta.get("multi_symbol_container"),
+                "symbol_column": meta.get("symbol_column"),
+                "distinct_symbols_seen": meta.get("distinct_symbols_seen"),
+                "coverage": cov,
+                "volume_coverage": volcov,
+            }
+            prev = seen.get(sym)
+            if prev is None:
+                seen[sym] = entry
+            else:
+                # Same symbol from multiple archives: require identical coverage
+                # evidence (same bar count + same endpoints); otherwise flag conflict.
+                pc, nc = prev.get("coverage"), cov
+                same = (pc.get("observed_in_window_bars") == nc.get("observed_in_window_bars")
+                        and pc.get("first_timestamp_ms") == nc.get("first_timestamp_ms")
+                        and pc.get("last_timestamp_ms") == nc.get("last_timestamp_ms"))
+                if same:
+                    entry["merged_from"] = [prev.get("archive_path"), str(ap.resolve())]
+                    seen[sym] = entry
+                else:
+                    conflicts.append({"symbol": sym, "archive_a": prev.get("archive_path"),
+                                      "archive_b": str(ap.resolve()),
+                                      "bars_a": pc.get("observed_in_window_bars"),
+                                      "bars_b": nc.get("observed_in_window_bars")})
+    return {"symbols": seen, "conflicts": conflicts}
+
+
 def analyze_coverage(candles: List[Dict[str, Any]], start: datetime, end: datetime) -> Dict[str, Any]:
     expected = _expected_hourly_bars(start, end)
     start_ms = _dt_to_ms(start)
@@ -602,6 +663,38 @@ def analyze_symbol_volume_coverage(candles: List[Dict[str, Any]], min_daily_volu
     }
 
 
+def detect_synthetic_candles(candles: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Reject flat/synthetic-looking series.
+
+    A real hourly OHLCV series over 283 days varies. A series where every bar
+    shares the identical (open, high, low, close, volume) signature is a
+    placeholder/fabricated dataset, not market evidence. Returns a dict describing
+    the finding; `is_synthetic` True means the series must never be treated as
+    real market data.
+    """
+    n = len(candles)
+    if n == 0:
+        return {"is_synthetic": True, "reason": "empty_series", "distinct_signatures": 0, "bars_checked": 0}
+    def sig(c: Dict[str, Any]) -> Any:
+        return (c.get("open"), c.get("high"), c.get("low"), c.get("close"), c.get("volume"))
+    signatures = [sig(c) for c in candles]
+    distinct = len(set(signatures))
+    # Also flag series where close is constant (no price movement at all).
+    closes = [_candle_close(c) for c in candles]
+    close_vals = [c for c in closes if c is not None]
+    constant_close = bool(close_vals) and len(set(close_vals)) == 1
+    flat = distinct == 1
+    is_synthetic = flat or constant_close
+    return {
+        "is_synthetic": is_synthetic,
+        "reason": ("flat_series_all_bars_identical" if flat else
+                   "constant_close_no_price_movement" if constant_close else "varied_series_ok"),
+        "distinct_signatures": distinct,
+        "bars_checked": n,
+        "distinct_signature_ratio": round(distinct / n, 6) if n else 0.0,
+    }
+
+
 def main():
     ap = argparse.ArgumentParser(description="Fetch/ingest verifiable Hyperliquid hourly candles + provenance")
     ap.add_argument("--symbols", nargs="*", default=None, help="Symbols to fetch (default: built-in universe or all from archive)")
@@ -611,6 +704,7 @@ def main():
     ap.add_argument("--cache-dir", default=str(REPO_ROOT / "research_state" / "cache" / "hyperliquid"))
     ap.add_argument("--source", choices=["hyperliquid_api", "archive"], default="hyperliquid_api")
     ap.add_argument("--input-archive", default=None, help="Path to user-supplied verified archive dir/file")
+    ap.add_argument("--input-archives", nargs="+", default=None, help="Multiple verified archive paths to merge into one symbol-union manifest (Track-4 multi-source).")
     ap.add_argument("--hl-url", default=HL_INFO_URL)
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--timeout", type=int, default=30)
@@ -661,48 +755,77 @@ def main():
         "fabricated_data": False,
         "target_window": {"start": start.isoformat(), "end": end.isoformat(), "expected_hourly_bars": _expected_hourly_bars(start, end)},
         "source": {"kind": args.source, "hl_url": args.hl_url if args.source == "hyperliquid_api" else None,
-                   "input_archive": str(Path(args.input_archive).resolve()) if args.input_archive else None},
+                   "input_archive": str(Path(args.input_archive).resolve()) if args.input_archive else None,
+                   "input_archives": [str(Path(p).resolve()) for p in (args.input_archives or [])]},
         "request_params": {"interval": args.interval, "start_ms": start_ms, "end_ms": end_ms, "symbols": symbols},
         "symbols": {},
         "summary": {},
     }
 
-    ok_all = True
-    for sym in symbols:
-        entry = {"symbol": sym, "status": "pending"}
-        try:
-            if args.source == "archive":
-                if not args.input_archive:
-                    raise ValueError("--input-archive required for --source archive")
-                candles, meta = ingest_archive(Path(args.input_archive), sym)
-            else:
-                candles, meta = fetch_hl_candles(sym, start_ms, end_ms, interval=args.interval, url=args.hl_url, timeout=args.timeout)
-            # Validate structure (best-effort; allow archive to carry timestamps)
+    # Multi-archive / multi-source merge path (Track-4): union symbols across several
+    # independently verified archives, each with its own sha256 provenance.
+    if args.source == "archive" and args.input_archives:
+        merged = merge_verified_archives([Path(p) for p in args.input_archives], symbols, start, end, args.min_daily_volume_usd)
+        manifest["merge_conflicts"] = merged.get("conflicts")
+        for sym, entry in merged.get("symbols", {}).items():
+            candles = None
             try:
-                validate_candles(candles, check_gaps=False)
-            except Exception as ve:
-                entry["validation_warning"] = str(ve)
-            cov = analyze_coverage(candles, start, end)
-            volcov = analyze_symbol_volume_coverage(candles, args.min_daily_volume_usd)
-            payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
-            entry.update(meta)
-            entry["coverage"] = cov
-            entry["volume_coverage"] = volcov
-            entry["sha256"] = _sha256_bytes(payload)
-            entry["status"] = "ok" if cov.get("complete_for_target_window") else "incomplete"
-            if entry["status"] != "ok":
-                ok_all = False
-            out_path = candles_dir / f"{sym}.json"
-            entry["cache_path"] = str(out_path.relative_to(REPO_ROOT)) if str(out_path).startswith(str(REPO_ROOT)) else str(out_path)
-            if not args.dry_run:
-                out_path.write_bytes(payload)
-        except Exception as e:
-            ok_all = False
-            entry["status"] = "error"
-            entry["error"] = f"{type(e).__name__}: {e}"
-        manifest["symbols"][sym] = entry
-        print(f"{sym}: {entry['status']} {entry.get('coverage',{}).get('observed_in_window_bars','?')}/{entry.get('coverage',{}).get('expected_hourly_bars','?')}")
+                candles, _meta = ingest_archive(Path(entry["archive_path"]), sym)
+            except Exception:
+                candles = None
+            if candles is None:
+                entry["status"] = "error"
+                entry["error"] = "Failed to re-read candles for cache write"
+            else:
+                payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                entry["sha256"] = _sha256_bytes(payload)
+                out_path = candles_dir / f"{sym}.json"
+                entry["cache_path"] = str(out_path.relative_to(REPO_ROOT)) if str(out_path).startswith(str(REPO_ROOT)) else str(out_path)
+                if not args.dry_run:
+                    out_path.write_bytes(payload)
+            manifest["symbols"][sym] = entry
+            print(f"{sym}: {entry['status']} {entry.get('coverage',{}).get('observed_in_window_bars','?')}/{entry.get('coverage',{}).get('expected_hourly_bars','?')}")
+else:
+        for sym in symbols:
+            entry = {"symbol": sym, "status": "pending"}
+            try:
+                if args.source == "archive":
+                    if not args.input_archive:
+                        raise ValueError("--input-archive required for --source archive")
+                    candles, meta = ingest_archive(Path(args.input_archive), sym)
+                else:
+                    candles, meta = fetch_hl_candles(sym, start_ms, end_ms, interval=args.interval, url=args.hl_url, timeout=args.timeout)
+                # Validate structure (best-effort; allow archive to carry timestamps)
+                try:
+                    validate_candles(candles, check_gaps=False)
+                except Exception as ve:
+                    entry["validation_warning"] = str(ve)
+                cov = analyze_coverage(candles, start, end)
+                volcov = analyze_symbol_volume_coverage(candles, args.min_daily_volume_usd)
+                synth = detect_synthetic_candles(candles)
+                payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                entry.update(meta)
+                entry["coverage"] = cov
+                entry["volume_coverage"] = volcov
+                entry["synthetic_check"] = synth
+                entry["sha256"] = _sha256_bytes(payload)
+                # A flat/constant series is not real market evidence; never mark it ok/complete.
+                if synth.get("is_synthetic"):
+                    entry["status"] = "error"
+                    entry["error"] = f"{synth.get('reason')}: {synth.get('distinct_signatures')}/{synth.get('bars_checked')} distinct signatures"
+                else:
+                    entry["status"] = "ok" if cov.get("complete_for_target_window") else "incomplete"
+                out_path = candles_dir / f"{sym}.json"
+                entry["cache_path"] = str(out_path.relative_to(REPO_ROOT)) if str(out_path).startswith(str(REPO_ROOT)) else str(out_path)
+                if not args.dry_run:
+                    out_path.write_bytes(payload)
+            except Exception as e:
+                entry["status"] = "error"
+                entry["error"] = f"{type(e).__name__}: {e}"
+            manifest["symbols"][sym] = entry
+            print(f"{sym}: {entry['status']} {entry.get('coverage',{}).get('observed_in_window_bars','?')}/{entry.get('coverage',{}).get('expected_hourly_bars','?')}")
 
+    ok_all = all(v.get("status") == "ok" for v in manifest["symbols"].values()) and len(manifest["symbols"]) > 0
     complete_syms = [s for s, v in manifest["symbols"].items() if v.get("status") == "ok" and v.get("coverage", {}).get("complete_for_target_window")]
     manifest["summary"] = {
         "symbols_requested": len(symbols),
