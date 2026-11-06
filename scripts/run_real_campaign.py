@@ -94,6 +94,27 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
     return out
 
 
+def _execution_realism_metadata(config):
+    """Explicit spec-vs-implementation execution realism markers (no microstructure claims)."""
+    return {
+        "execution_model": getattr(config, "execution_model", "hourly_bar_simplified"),
+        "order_slicing_simulated": bool(getattr(config, "order_slicing_simulated", False)),
+        "order_book_impact_model": getattr(config, "order_book_impact_model", "slippage_proxy"),
+        "spread_bps_assumed": getattr(config, "spread_bps_assumed", 0.0),
+        "slippage_pct": getattr(config, "slippage_pct", None),
+        "funding_rate_pct_per_hour": getattr(config, "funding_rate_pct_per_hour", None),
+        "enable_liquidation_checks": bool(getattr(config, "enable_liquidation_checks", False)),
+        "liquidation_maint_margin_pct": getattr(config, "liquidation_maint_margin_pct", None),
+        "limitation_note": (
+            "Hourly bar simulation only. Per spec the strategy uses 20s order slicing and "
+            "order-book-aware impact; this implementation does NOT simulate sub-hourly 20s "
+            "slicing, explicit spread, or live L2 order-book impact. Fees/funding/hourly "
+            "worst-price liquidation checks and slippage proxy may be modeled, but results "
+            "must not be interpreted as evidence that 20s slicing/market impact were reproduced."
+        ),
+    }
+
+
 def _complete_symbol_subset(manifest: dict) -> dict:
     """Return a manifest view containing only symbols complete for the target window."""
     syms = manifest.get("symbols") or {}
@@ -254,6 +275,7 @@ def main():
             },
             "partial_mode": partial_mode,
         },
+        "execution_realism": _execution_realism_metadata(config),
         "config": {
             "use_rsi_trigger": config.use_rsi_trigger,
             "rsi_period": config.rsi_period,
@@ -264,6 +286,13 @@ def main():
             "position_size_pct_of_daily_volume": config.position_size_pct_of_daily_volume,
             "min_daily_volume_usd": config.min_daily_volume_usd,
             "gross_cap_pct": config.gross_cap_pct,
+            "execution_model": getattr(config, "execution_model", "hourly_bar_simplified"),
+            "order_slicing_simulated": bool(getattr(config, "order_slicing_simulated", False)),
+            "order_book_impact_model": getattr(config, "order_book_impact_model", "slippage_proxy"),
+            "spread_bps_assumed": getattr(config, "spread_bps_assumed", 0.0),
+            "slippage_pct": getattr(config, "slippage_pct", None),
+            "funding_rate_pct_per_hour": getattr(config, "funding_rate_pct_per_hour", None),
+            "enable_liquidation_checks": bool(getattr(config, "enable_liquidation_checks", False)),
         },
         "results": {
             "total_pnl": results.get("total_pnl"),

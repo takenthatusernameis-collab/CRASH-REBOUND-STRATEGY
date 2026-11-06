@@ -14,6 +14,27 @@ from src.metrics import (
 )
 
 
+def _execution_realism_metadata(config):
+    """Explicit spec-vs-implementation execution realism markers (no microstructure claims)."""
+    return {
+        "execution_model": getattr(config, "execution_model", "hourly_bar_simplified"),
+        "order_slicing_simulated": bool(getattr(config, "order_slicing_simulated", False)),
+        "order_book_impact_model": getattr(config, "order_book_impact_model", "slippage_proxy"),
+        "spread_bps_assumed": getattr(config, "spread_bps_assumed", 0.0),
+        "slippage_pct": getattr(config, "slippage_pct", None),
+        "funding_rate_pct_per_hour": getattr(config, "funding_rate_pct_per_hour", None),
+        "enable_liquidation_checks": bool(getattr(config, "enable_liquidation_checks", False)),
+        "liquidation_maint_margin_pct": getattr(config, "liquidation_maint_margin_pct", None),
+        "limitation_note": (
+            "Hourly bar simulation only. Per spec the strategy uses 20s order slicing and "
+            "order-book-aware impact; this implementation does NOT simulate sub-hourly 20s "
+            "slicing, explicit spread, or live L2 order-book impact. Fees/funding/hourly "
+            "worst-price liquidation checks and slippage proxy may be modeled, but results "
+            "must not be interpreted as evidence that 20s slicing/market impact were reproduced."
+        ),
+    }
+
+
 def build_campaign_export(results, config, fixtures, timestamp, metrics=None):
     """Build an explicitly non-economic fixture smoke-test artifact."""
     export = {
@@ -33,6 +54,7 @@ def build_campaign_export(results, config, fixtures, timestamp, metrics=None):
                 "days": 283,
             },
         },
+        "execution_realism": _execution_realism_metadata(config),
         "symbols": sorted(fixtures),
         "candle_counts_by_symbol": {symbol: len(candles) for symbol, candles in fixtures.items()},
         "config": {
@@ -46,6 +68,13 @@ def build_campaign_export(results, config, fixtures, timestamp, metrics=None):
             "position_size_pct_of_daily_volume": config.position_size_pct_of_daily_volume,
             "min_daily_volume_usd": config.min_daily_volume_usd,
             "gross_cap_pct": config.gross_cap_pct,
+            "execution_model": getattr(config, "execution_model", "hourly_bar_simplified"),
+            "order_slicing_simulated": bool(getattr(config, "order_slicing_simulated", False)),
+            "order_book_impact_model": getattr(config, "order_book_impact_model", "slippage_proxy"),
+            "spread_bps_assumed": getattr(config, "spread_bps_assumed", 0.0),
+            "slippage_pct": getattr(config, "slippage_pct", None),
+            "funding_rate_pct_per_hour": getattr(config, "funding_rate_pct_per_hour", None),
+            "enable_liquidation_checks": bool(getattr(config, "enable_liquidation_checks", False)),
         },
         "results": {
             "total_pnl": results["total_pnl"],
