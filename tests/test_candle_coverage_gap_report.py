@@ -125,3 +125,17 @@ def test_canonical_gap_report_always_retains_blocker_fields():
     assert report["ready_for_real_campaign"] is False
     assert report["all_complete"] is False
     assert report["target_window"] == {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp}
+
+def test_gap_report_includes_probe_missing_bars_evidence():
+    from scripts.generate_candle_coverage_gap_report import build_gap_report
+    exp = expected_hourly_bars(TARGET_START, TARGET_END)
+    manifest = _incomplete_manifest()
+    probe = [{"symbol": "BTC", "count": 4074, "expected": exp, "first_t_ms": 1775973600000, "last_t_ms": 1790636400000, "complete": False, "probed_at_utc": "2026-11-06T13:24:30Z"}]
+    report = build_gap_report(manifest=manifest, probe_evidence=probe, generated_at_utc="2026-11-06T13:25:00Z")
+    pgs = report.get("probe_gap_summary")
+    assert isinstance(pgs, dict)
+    assert pgs["BTC"]["missing_bars"] == exp - 4074
+    assert pgs["BTC"]["count"] == 4074
+    assert pgs["BTC"]["complete"] is False
+    assert report["ready_for_real_campaign"] is False
+    assert report["blocker"]["item_6c_blocked"] is True
