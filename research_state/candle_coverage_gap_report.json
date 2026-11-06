@@ -1,69 +1,9 @@
 {
-  "generated_at_utc": "2026-11-06T04:44:06.482351+00:00",
+  "generated_at_utc": "2026-11-06T05:22:04.189476+00:00",
   "target_window": {
-    "start": "2025-12-20T00:00:00+00:00",
-    "end": "2026-09-28T23:00:00+00:00",
-    "expected_hourly_bars": 6792
+    "start": "2025-01-01T00:00:00+00:00",
+    "end": "2025-01-01T03:00:00+00:00",
+    "expected_hourly_bars": 4
   },
-  "source_provenance": "research_state/cache/hyperliquid/provenance.json",
-  "probe_evidence_utc": "2026-11-06T04:43Z",
-  "probe_note": "candleSnapshot 1h full window BTC/ETH=4086/6792 first_t=1775930400000(2026-04-11T18:00:00Z) last_t=1790636400000(2026-09-28T23:00:00Z). early 2025-12-20->2026-04-11 BTC returned 0 bars (HTTP 500 on early probe endpoint variant; prior verified 0 bars). Filesystem archive scan: none found.",
-  "summary": {
-    "symbols_requested": 2,
-    "symbols_complete": 0,
-    "symbols_incomplete_or_error": 2,
-    "all_complete": false,
-    "ready_for_real_campaign": false,
-    "complete_symbols": []
-  },
-  "ready_for_real_campaign": false,
-  "all_complete": false,
-  "gaps": {
-    "BTC": {
-      "status": "incomplete",
-      "observed_in_window_bars": 4086,
-      "expected_hourly_bars": 6792,
-      "coverage_pct": 60.159011,
-      "first_timestamp": "2026-04-11T18:00:00+00:00",
-      "last_timestamp": "2026-09-28T23:00:00+00:00",
-      "gap_count_in_observed": 0,
-      "complete_for_target_window": false,
-      "missing_segment_evidence": {
-        "start": "2025-12-20T00:00:00+00:00",
-        "end_before_first_observed": "2026-04-11T18:00:00+00:00",
-        "note": "Public API missing early segment up to first observed bar; no verified archive found."
-      },
-      "volume_coverage": {
-        "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 133882532.03832,
-        "observed_mean_24h_usd_volume": 2365013083.196667,
-        "bars_checked": 4086,
-        "bars_passing": 4086,
-        "volume_filter_ok": true
-      }
-    },
-    "ETH": {
-      "status": "incomplete",
-      "observed_in_window_bars": 4086,
-      "expected_hourly_bars": 6792,
-      "coverage_pct": 60.159011,
-      "first_timestamp": "2026-04-11T18:00:00+00:00",
-      "last_timestamp": "2026-09-28T23:00:00+00:00",
-      "gap_count_in_observed": 0,
-      "complete_for_target_window": false,
-      "missing_segment_evidence": {
-        "start": "2025-12-20T00:00:00+00:00",
-        "end_before_first_observed": "2026-04-11T18:00:00+00:00",
-        "note": "Public API missing early segment up to first observed bar; no verified archive found."
-      },
-      "volume_coverage": {
-        "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 131330217.44802,
-        "observed_mean_24h_usd_volume": 950633449.608155,
-        "bars_checked": 4086,
-        "bars_passing": 4086,
-        "volume_filter_ok": true
-      }
-    }
-  }
+  "gaps": {}
 }
