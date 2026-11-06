@@ -167,6 +167,26 @@
     "symbols_incomplete_or_error": 2,
     "all_complete": false,
     "ready_for_real_campaign": false,
-    "complete_symbols": []
+    "complete_symbols": [],
+    "reprobe_2026_11_06T0141Z_all_complete": false
+  },
+  "reprobe_2026_11_06T0141Z": {
+    "probed_at_utc": "2026-11-06T01:46:16.190147+00:00",
+    "symbols": {
+      "BTC": {
+        "bars_returned": 4086,
+        "expected": 6792,
+        "first": "2026-04-11T18:00:00+00:00",
+        "last": "2026-09-28T23:00:00+00:00",
+        "complete": false
+      },
+      "ETH": {
+        "bars_returned": 4086,
+        "expected": 6792,
+        "first": "2026-04-11T18:00:00+00:00",
+        "last": "2026-09-28T23:00:00+00:00",
+        "complete": false
+      }
+    }
   }
 }

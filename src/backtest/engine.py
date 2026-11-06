@@ -539,6 +539,11 @@ def backtest_simple(
         if config.time_exit_max_bars and (idx - start_idx + 1) >= config.time_exit_max_bars:
             exit_px = _slippage_commission_per_share(float(c.get('close', entry)), config, 'sell')
             pnl = (exit_px - entry_px) * shares
+            # Funding on the long coin leg (spec: hourly funding on every leg).
+            hours_held_time = idx - start_idx + 1
+            long_funding = _apply_funding_pnl(entry_px * shares, hours_held_time,
+                                              config.funding_rate_pct_per_hour, side='long')
+            pnl -= long_funding
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
                 eth_exit_price = None
                 if eth_candles and idx < len(eth_candles):
