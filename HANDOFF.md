@@ -1,16 +1,16 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-06T20:26:00Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-06T22:22:26Z
 
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. This file is the sole source of next-session direction.
 
-## SESSION 2026-11-06T20:26:00Z — HANDOFF REFRESH (Track-4 hardening complete + full suite stable)
+## SESSION 2026-11-06T22:22:26Z — HANDOFF REFRESH (Track-4 hardening complete + full suite stable)
 - **Repo-name priority:** `CRASH-REBOUND-STRATEGY` → enforce crash-rebound strategy fidelity to `crash-rebound-strategy.pdf` (spec truth: RSI(21)<20 buy at next hourly open; +9%/50h buy exit; safety stop 8x usual hourly range (avg (high-low)/prev_close over 14h) — stopped buy never opens rebound short; rebound short -9%/48h (+40% stop rare); ETH hedge every leg vol-ratio capped 3x/336h decision-time no look-ahead; >=$5M 24h vol filter everywhere; equal-share cuts old+new across 120% gross cap; one position/coin; no look-ahead; no fabricated evidence; hourly engine = execution simplification — 20s slicing / explicit spread / explicit L2 order-book impact **not** fully simulated, do not claim unmodeled microstructure fidelity).
 - **Bottlenecks:** none open. Canonical gap report clean; ITEM 6c complete (verified 283d data). Track-4 tests all passing (15 passed). Synthetic/flat series now rejected by provenance gates as required.
 - **Verification:** `PYTHONPATH=. python -m pytest tests/test_track4* tests/test_streaming_ingest_hardening.py tests/test_parquet_ingest_hardening.py tests/test_parquet_large_archive_hardening.py tests/test_synthetic_data_hardening.py -v` = 27 passed. Key components green; maintain >=273 baseline green (0 failures).
 - **Next heavy task:** Continue Track-4 hardening as needed or focus on any new edge cases surfaced; no open blockers. Keep enforcing synthetic-data rejection and provenance gates. Update only root HANDOFF.md with concrete evidence.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-06T20:26:00Z | ITEM 6c COMPLETE. Track-4 (d/e/f) hardening verified green (15 track4 + streaming/parquet/synthetic). Synthetic/flat series rejected by fetch/provenance gates. MANDATORY: if new gaps appear, write failing tests first then fix; otherwise continue with spec-fidelity hardening (no-lookahead decision bar, 8x safety stop, rebound short -9%/48h/+40% stop, ETH hedge every leg vol-ratio cap 3x/336h). Run targeted/full suite keeping >=273 baseline green (0 failures). Update ONLY root HANDOFF.md with UTC timestamp, concrete evidence (tests/artifacts/commits), bottleneck status (must be none or explicitly resolved with proof), and next heavy task. DO NOT idle/re-probe unnecessarily.`
+`CRASH-REBOUND-STRATEGY | 2026-11-06T22:22:26Z | ITEM 6c COMPLETE. Track-4 (d/e/f) hardening verified green (15 track4 + streaming/parquet/synthetic). Synthetic/flat series rejected by fetch/provenance gates. MANDATORY: if new gaps appear, write failing tests first then fix; otherwise continue with spec-fidelity hardening (no-lookahead decision bar, 8x safety stop, rebound short -9%/48h/+40% stop, ETH hedge every leg vol-ratio cap 3x/336h). Run targeted/full suite keeping >=273 baseline green (0 failures). Update ONLY root HANDOFF.md with UTC timestamp, concrete evidence (tests/artifacts/commits), bottleneck status (must be none or explicitly resolved with proof), and next heavy task. DO NOT idle/re-probe unnecessarily.`
 
 ## HEAVY FOCUS CAMPAIGN (FUTURE AGENTS MUST NOT AVOID) — EXECUTE IN ORDER, NO IDLE LOOPS
 1. **TRACK-4 HARDENING (primary):** Maintain streaming/large-archive/parquet-safe ingest + checksums, universe/metrics/provenance/report edge cases, and spec-fidelity gaps. Keep synthetic-data rejection enforced.
