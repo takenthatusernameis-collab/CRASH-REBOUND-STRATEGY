@@ -139,3 +139,31 @@ def test_gap_report_includes_probe_missing_bars_evidence():
     assert pgs["BTC"]["complete"] is False
     assert report["ready_for_real_campaign"] is False
     assert report["blocker"]["item_6c_blocked"] is True
+
+
+def test_gap_report_probe_evidence_full_key_generates_gap_summary():
+    """Track-4(e): probe_evidence from fetch_hyperliquid_candles.py uses a "full"
+    key (dict of symbol->coverage) instead of "symbols". _probe_symbols must handle
+    both shapes so probe_gap_summary is never None when probe evidence exists."""
+    from scripts.generate_candle_coverage_gap_report import build_gap_report
+    exp = expected_hourly_bars(TARGET_START, TARGET_END)
+    manifest = _incomplete_manifest()
+    probe = {
+        "ts": "2026-11-06T14:06:31Z",
+        "window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
+        "full": {
+            "BTC": {"coin": "BTC", "count": 4074, "first_t": 1775973600000, "last_t": 1790636400000, "complete": False},
+            "ETH": {"coin": "ETH", "count": 4074, "first_t": 1775973600000, "last_t": 1790636400000, "complete": False},
+        },
+        "source": {"kind": "hyperliquid_info_api"},
+    }
+    report = build_gap_report(manifest=manifest, probe_evidence=probe, generated_at_utc="2026-11-06T14:07:00Z")
+    pgs = report.get("probe_gap_summary")
+    assert isinstance(pgs, dict), "probe_gap_summary must be a dict when probe evidence exists"
+    assert pgs["BTC"]["missing_bars"] == exp - 4074
+    assert pgs["BTC"]["count"] == 4074
+    assert pgs["BTC"]["complete"] is False
+    assert pgs["ETH"]["missing_bars"] == exp - 4074
+    assert pgs["ETH"]["count"] == 4074
+    assert report["ready_for_real_campaign"] is False
+    assert report["blocker"]["item_6c_blocked"] is True

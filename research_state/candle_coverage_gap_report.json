@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T13:24:46.336104+00:00",
+  "generated_at_utc": "2026-11-06T14:12:50.594196+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -24,8 +24,8 @@
       "last_timestamp": "2026-09-28T23:00:00+00:00",
       "first_timestamp_ms": 1766188800000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "4e0c773a6f9c54e0a8d8773bbc5d08c8528dd8839e4030b320bfc1103e48a194",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp1yclbs8l/cache_hl/candles/BTC.json",
+      "sha256": "69f23131bbc79b099a28faf10dfca6bf1cceb941cc8f74f3035ffe77099b17bc",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp82fhmzkh/cache_hl/candles/BTC.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 120000000000000.0,
@@ -45,8 +45,8 @@
       "last_timestamp": "2026-09-28T23:00:00+00:00",
       "first_timestamp_ms": 1766188800000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "e98119ee1f7327bfb9a55e081bd970c423246f880a65e83720f107dd044e732a",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp1yclbs8l/cache_hl/candles/ETH.json",
+      "sha256": "fcae71a13cad6fa61ae5c682ec3c995a785cbf27ac02512e4211ddd6daade2e3",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp82fhmzkh/cache_hl/candles/ETH.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 3000000000000.0,
@@ -58,7 +58,7 @@
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-06T13:24:46.336104+00:00",
+    "ts": "2026-11-06T14:12:50.594196+00:00",
     "window": {
       "start": "2025-12-20T00:00:00+00:00",
       "end": "2026-09-28T23:00:00+00:00",
@@ -83,12 +83,12 @@
     "source": {
       "kind": "archive",
       "hl_url": null,
-      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmp1yclbs8l/archive.parquet"
+      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmp82fhmzkh/archive.parquet"
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/_temp/kilo-tmp/tmp1yclbs8l/archive.parquet"
+      "/home/runner/work/_temp/kilo-tmp/tmp82fhmzkh/archive.parquet"
     ],
     "verified_archives_found": []
   },
@@ -102,5 +102,26 @@
       "Spec-relevant >=$5M 24h volume universe derived/reconciled from verified data"
     ],
     "target_window_mismatch": false
+  },
+  "probe_summary": {
+    "symbols_probed": 2,
+    "all_complete": true,
+    "any_complete": true,
+    "target_expected_bars": 6792,
+    "expected_mismatch_symbols": 0
+  },
+  "probe_gap_summary": {
+    "BTC": {
+      "count": 6792,
+      "expected": 6792,
+      "missing_bars": 0,
+      "complete": true
+    },
+    "ETH": {
+      "count": 6792,
+      "expected": 6792,
+      "missing_bars": 0,
+      "complete": true
+    }
   }
 }

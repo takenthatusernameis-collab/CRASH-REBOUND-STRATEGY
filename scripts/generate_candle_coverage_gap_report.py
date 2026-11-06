@@ -177,7 +177,7 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
 def _probe_symbols(probe_evidence: Any) -> Dict[str, Any]:
     probe_syms: Dict[str, Any] = {}
     if isinstance(probe_evidence, dict):
-        probe_syms = probe_evidence.get("symbols") or {}
+        probe_syms = probe_evidence.get("symbols") or probe_evidence.get("full") or {}
     elif isinstance(probe_evidence, list):
         for row in probe_evidence:
             if isinstance(row, dict) and row.get("symbol"):
