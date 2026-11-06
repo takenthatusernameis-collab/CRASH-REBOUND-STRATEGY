@@ -151,16 +151,25 @@ def main():
             "performance_evidence=true. Use for pipeline/debug hardening only; NOT spec evidence."
         ),
     )
+    ap.add_argument("--window-start", default=None, help="PARTIAL-NOT-EVIDENCE ONLY: override target window start for synthetic pipeline tests; ignored for real evidence runs.")
+    ap.add_argument("--window-end", default=None, help="PARTIAL-NOT-EVIDENCE ONLY: override target window end for synthetic pipeline tests; ignored for real evidence runs.")
     args = ap.parse_args()
     cache_dir = Path(args.cache_dir)
     manifest_path = Path(args.manifest) if args.manifest else cache_dir / "provenance.json"
     partial_mode = bool(args.allow_partial_not_evidence)
+    target_start = TARGET_START
+    target_end = TARGET_END
+    if partial_mode and args.window_start and args.window_end:
+        target_start = args.window_start
+        target_end = args.window_end
 
     try:
         manifest = require_verified_provenance(
             manifest_path,
             require_complete=not partial_mode,
             min_symbols=args.min_symbols,
+            start=target_start,
+            end=target_end,
         )
     except ProvenanceError as e:
         if partial_mode:
@@ -172,8 +181,8 @@ def main():
             tw = raw.get("target_window") or {}
             if tw.get("start") and tw.get("end"):
                 from src.data.provenance import _parse_iso
-                if _parse_iso(tw["start"]) != _parse_iso(TARGET_START) or _parse_iso(tw["end"]) != _parse_iso(TARGET_END):
-                    print(f"BLOCKER: target_window mismatch for partial run: {tw}", file=sys.stderr)
+                if _parse_iso(tw["start"]) != _parse_iso(target_start) or _parse_iso(tw["end"]) != _parse_iso(target_end):
+                    print(f"BLOCKER: target_window mismatch for partial run: {tw} vs expected {target_start}->{target_end}", file=sys.stderr)
                     return 2
             manifest = _complete_symbol_subset(raw)
             if len(manifest.get("symbols") or {}) < args.min_symbols:
