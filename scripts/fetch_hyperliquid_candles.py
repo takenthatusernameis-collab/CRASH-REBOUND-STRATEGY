@@ -785,7 +785,7 @@ def main():
                     out_path.write_bytes(payload)
             manifest["symbols"][sym] = entry
             print(f"{sym}: {entry['status']} {entry.get('coverage',{}).get('observed_in_window_bars','?')}/{entry.get('coverage',{}).get('expected_hourly_bars','?')}")
-else:
+    else:
         for sym in symbols:
             entry = {"symbol": sym, "status": "pending"}
             try:

@@ -101,10 +101,19 @@ def _scan_archives(searched_paths) -> Dict[str, Any]:
     found: List[Dict[str, Any]] = []
     seen_files = set()
     for base in searched_paths or []:
-        bp = Path(base)
-        if not bp.exists():
+        try:
+            bp = Path(base)
+            if not bp.exists():
+                continue
+            if bp.is_file():
+                files = [bp]
+            else:
+                try:
+                    files = sorted([f for f in bp.rglob("*") if f.is_file()])
+                except Exception:
+                    files = []
+        except Exception:
             continue
-        files = [bp] if bp.is_file() else sorted([f for f in bp.rglob("*") if f.is_file()])
         for f in files:
             try:
                 key = str(f.resolve())
@@ -113,9 +122,24 @@ def _scan_archives(searched_paths) -> Dict[str, Any]:
             if key in seen_files:
                 continue
             seen_files.add(key)
-            if f.suffix.lower() not in (".parquet", ".json", ".csv", ".ndjson", ".jsonl"):
+            try:
+                if f.suffix.lower() not in (".parquet", ".json", ".csv", ".ndjson", ".jsonl"):
+                    continue
+            except Exception:
                 continue
-            entry: Dict[str, Any] = {"path": str(f), "sha256": hashlib.sha256(f.read_bytes()).hexdigest()}
+            entry: Dict[str, Any] = {"path": str(f)}
+            try:
+                file_hash = hashlib.sha256()
+                with f.open("rb") as fh:
+                    for chunk in iter(lambda: fh.read(1 << 20), b""):
+                        file_hash.update(chunk)
+                entry["sha256"] = file_hash.hexdigest()
+            except Exception as e:
+                entry["error"] = f"unreadable_skipped: {type(e).__name__}: {e}"
+                entry["verified"] = False
+                entry["verdict"] = "unreadable_skipped"
+                found.append(entry)
+                continue
             try:
                 symbols = {}
                 all_complete = True
@@ -169,11 +193,13 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
                      generated_at_utc: Optional[str] = None, archive_scan: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     if archive_scan is None:
         archive_scan = _scan_archives(archive_scan_paths)
-    else:
-        # If a caller passes searched_paths, re-scan them so verified_archives_found is real.
-        sp = archive_scan.get("searched_paths") if isinstance(archive_scan, dict) else None
-        if sp:
+    elif isinstance(archive_scan, dict):
+        # Honor precomputed archive_scan (tests/callers) to avoid expensive scans.
+        has_precomputed = ("candidate_archives" in archive_scan) or ("verified_archives_found" in archive_scan)
+        sp = archive_scan.get("searched_paths")
+        if not has_precomputed and sp is not None:
             archive_scan = _scan_archives(sp)
+        # else: use as-is
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
     ts = generated_at_utc or datetime.now(timezone.utc).isoformat()
     spec_window = {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp}
