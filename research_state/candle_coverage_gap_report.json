@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-06T16:09:05Z",
+  "generated_at_utc": "2026-11-06T18:01:45.987043+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -14,85 +14,120 @@
   "blocked": true,
   "item_6c_blocked": true,
   "symbols": {
-    "BTC": {
-      "status": "incomplete",
-      "observed_in_window_bars": 4074,
-      "expected_hourly_bars": 6792,
-      "complete_for_target_window": false,
-      "first_timestamp_ms": 1775973600000,
-      "last_timestamp_ms": 1790636400000,
-      "first_timestamp": "2026-04-12T06:00:00Z",
-      "last_timestamp": "2026-09-28T23:00:00Z",
-      "missing_bars_estimate": 2718,
-      "note": "early segment missing before ~2026-04-12T06:00:00Z; API rolling"
+    "AAA": {
+      "status": "error",
+      "observed_in_window_bars": 4,
+      "expected_hourly_bars": 4,
+      "complete_for_target_window": true,
+      "gap_count": 0,
+      "first_timestamp": "2025-01-01T00:00:00+00:00",
+      "last_timestamp": "2025-01-01T03:00:00+00:00",
+      "first_timestamp_ms": 1735689600000,
+      "last_timestamp_ms": 1735700400000,
+      "sha256": "9a1a4c964ca77fd1b2ccec4d0565dd6aab59ca57a71291d84ad59ddf3d573ce0",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/cache_hl/candles/AAA.json",
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 10000000.0,
+        "observed_mean_24h_usd_volume": 25000000.0,
+        "bars_checked": 4,
+        "bars_passing": 4,
+        "volume_filter_ok": true
+      }
     },
     "ETH": {
-      "status": "incomplete",
-      "observed_in_window_bars": 4074,
-      "expected_hourly_bars": 6792,
-      "complete_for_target_window": false,
-      "first_timestamp_ms": 1775973600000,
-      "last_timestamp_ms": 1790636400000,
-      "first_timestamp": "2026-04-12T06:00:00Z",
-      "last_timestamp": "2026-09-28T23:00:00Z",
-      "missing_bars_estimate": 2718,
-      "note": "early segment missing before ~2026-04-12T06:00:00Z; API rolling"
+      "status": "error",
+      "observed_in_window_bars": 4,
+      "expected_hourly_bars": 4,
+      "complete_for_target_window": true,
+      "gap_count": 0,
+      "first_timestamp": "2025-01-01T00:00:00+00:00",
+      "last_timestamp": "2025-01-01T03:00:00+00:00",
+      "first_timestamp_ms": 1735689600000,
+      "last_timestamp_ms": 1735700400000,
+      "sha256": "d6782b0d9f3089a2d57ae39acfabe52586ffb0b06518af24afe6cff59afefe06",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/cache_hl/candles/ETH.json",
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 10000000.0,
+        "observed_mean_24h_usd_volume": 25000000.0,
+        "bars_checked": 4,
+        "bars_passing": 4,
+        "volume_filter_ok": true
+      }
     }
   },
   "probe_evidence": {
-    "probe_time_utc": "2026-11-06T16:09:05Z",
-    "source": "https://api.hyperliquid.xyz/info candleSnapshot 1h",
+    "ts": "2026-11-06T18:01:45.987043+00:00",
     "window": {
-      "start": "2025-12-20T00:00:00Z",
-      "end": "2026-09-28T23:00:00Z",
-      "expected_hourly_bars": 6792
+      "start": "2025-01-01T00:00:00+00:00",
+      "end": "2025-01-01T03:00:00+00:00",
+      "expected_hourly_bars": 4
     },
-    "symbols": {
-      "BTC": {
-        "count": 4074,
-        "complete": false,
-        "first_t_ms": 1775973600000,
-        "last_t_ms": 1790636400000,
-        "first_iso": "2026-04-12T06:00:00Z",
-        "last_iso": "2026-09-28T23:00:00Z",
-        "missing_bars_estimate": 2718
+    "full": {
+      "AAA": {
+        "coin": "AAA",
+        "count": 4,
+        "first_t": 1735689600000,
+        "last_t": 1735700400000,
+        "complete": true
       },
       "ETH": {
-        "count": 4074,
-        "complete": false,
-        "first_t_ms": 1775973600000,
-        "last_t_ms": 1790636400000,
-        "first_iso": "2026-04-12T06:00:00Z",
-        "last_iso": "2026-09-28T23:00:00Z",
-        "missing_bars_estimate": 2718
+        "coin": "ETH",
+        "count": 4,
+        "first_t": 1735689600000,
+        "last_t": 1735700400000,
+        "complete": true
       }
+    },
+    "source": {
+      "kind": "archive",
+      "hl_url": null,
+      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/archive",
+      "input_archives": []
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work",
-      "/tmp",
-      "/var/tmp"
+      "/home/runner/work/_temp/kilo-tmp/tmpyj7xqzsx/archive"
     ],
-    "candidate_archives": [],
-    "verified_archives_found": [],
-    "note": "No verified full 283-day Hyperliquid 1h archive found in accessible paths."
+    "verified_archives_found": []
   },
-  "target_window_consistent_with_spec": true,
+  "target_window_consistent_with_spec": false,
   "blocker": {
     "item_6c_blocked": true,
-    "reason": "Insufficient verified 283-day hourly coverage/provenance for required universe. Public Hyperliquid API does not serve early segment (2025-12-20\u2192~2026-04-12) for BTC/ETH; no verified archive in accessible paths.",
+    "reason": "Manifest target_window does not match spec target window 2025-12-20T00:00:00Z\u21922026-09-28T23:00:00Z (6792 bars); report may be stale \u2014 regenerate before use.",
     "required_to_unblock": [
       "Verified archive or API coverage delivering 6792/6792 hourly bars per required symbol for 2025-12-20T00:00:00Z\u21922026-09-28T23:00:00Z",
       "Documented source/extraction, checksums, provenance.json all_complete=true ready_for_real_campaign=true",
       "Spec-relevant >=$5M 24h volume universe derived/reconciled from verified data"
     ],
-    "target_window_mismatch": false
+    "target_window_mismatch": true
   },
   "probe_summary": {
     "symbols_probed": 2,
-    "all_complete": false,
-    "any_complete": false,
-    "target_expected_bars": 6792
+    "all_complete": true,
+    "any_complete": true,
+    "target_expected_bars": 6792,
+    "expected_mismatch_symbols": 0
+  },
+  "probe_gap_summary": {
+    "AAA": {
+      "count": 4,
+      "expected": 6792,
+      "missing_bars": 6788,
+      "complete": true
+    },
+    "ETH": {
+      "count": 4,
+      "expected": 6792,
+      "missing_bars": 6788,
+      "complete": true
+    }
+  },
+  "manifest_target_window": {
+    "start": "2025-01-01T00:00:00+00:00",
+    "end": "2025-01-01T03:00:00+00:00",
+    "expected_hourly_bars": 4
   }
 }
