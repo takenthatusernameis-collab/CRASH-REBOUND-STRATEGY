@@ -226,7 +226,7 @@ def _normalize_loaded_candle(c: Dict[str, Any]) -> Optional[Dict[str, Any]]:
 
 
 def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    """Read per-symbol candles from JSON/CSV, including multi-symbol containers."""
+    """Read per-symbol candles from JSON/NDJSON/JSONL/CSV, including multi-symbol containers."""
     suffix = p.suffix.lower()
     if suffix == ".csv":
         import csv
@@ -270,6 +270,38 @@ def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str,
             if nc:
                 candles.append(nc)
         meta = {"format": "csv", "multi_symbol_container": bool(sym_rows), "rows_total": len(rows)}
+        return candles, meta
+    if suffix in (".ndjson", ".jsonl"):
+        rows_total = 0
+        sym_rows = 0
+        candles = []
+        with p.open("r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                rows_total += 1
+                try:
+                    obj = json.loads(line)
+                except Exception:
+                    continue
+                if not isinstance(obj, dict):
+                    continue
+                rv = None
+                for k, v in obj.items():
+                    if str(k).lower() in ("symbol", "coin", "s"):
+                        rv = str(v).strip().upper()
+                        break
+                if rv is not None:
+                    if rv != symbol.upper():
+                        continue
+                    sym_rows += 1
+                nc = _normalize_loaded_candle(obj)
+                if nc:
+                    candles.append(nc)
+        if rows_total > 0 and sym_rows == 0 and not candles:
+            raise ValueError(f"NDJSON contains symbol-tagged rows but none for {symbol}: {p}")
+        meta = {"format": "ndjson", "multi_symbol_container": sym_rows > 0, "rows_total": rows_total}
         return candles, meta
     # JSON / other: try loader first (handles dict-of-symbols and lists)
     try:
@@ -332,7 +364,8 @@ def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str
         by_stem.setdefault(f.name.upper(), []).append(f)
     for sym in symbols:
         candidates = [p / f"{sym}.json", p / f"{sym.upper()}.json", p / f"{sym.lower()}.json",
-                      p / f"{sym}.csv", p / f"{sym.upper()}.csv", p / f"{sym}_candles.json", p / f"{sym.upper()}_candles.json"]
+                      p / f"{sym}.csv", p / f"{sym.upper()}.csv", p / f"{sym}.ndjson", p / f"{sym}.jsonl",
+                      p / f"{sym}_candles.json", p / f"{sym.upper()}_candles.json"]
         chosen = next((c for c in candidates if c.exists()), None)
         if chosen is None and sym.upper() in by_stem:
             # prefer exact-ish matches
@@ -341,27 +374,28 @@ def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str
         if chosen is not None:
             report["symbols"][sym] = {"source_path": str(chosen.resolve()), "kind": "per_symbol_file"}
         else:
-            # fallback: any json/csv container
-            containers = [f for f in files if f.suffix.lower() in (".json", ".csv")]
+            # fallback: any json/csv/ndjson container
+            containers = [f for f in files if f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl")]
             report["symbols"][sym] = {"source_path": None, "kind": "missing", "container_candidates": [str(c) for c in containers[:50]]}
-    report["container_files"] = [str(f.resolve()) for f in files if f.suffix.lower() in (".json", ".csv")]
+    report["container_files"] = [str(f.resolve()) for f in files if f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl")]
     return report
 
 
 def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    # Accept: dir/<SYMBOL>.json|csv, file per symbol, or multi-coin json/csv container.
+    # Accept: dir/<SYMBOL>.json|csv|ndjson|jsonl, file per symbol, or multi-coin container.
     p = archive_path
     container_meta: Dict[str, Any] = {}
     if p.is_dir():
         candidates = [p / f"{symbol}.json", p / f"{symbol.upper()}.json", p / f"{symbol.lower()}.json",
-                      p / f"{symbol}.csv", p / f"{symbol.upper()}.csv", p / f"{symbol}_candles.json"]
+                      p / f"{symbol}.csv", p / f"{symbol.upper()}.csv", p / f"{symbol}.ndjson", p / f"{symbol}.jsonl",
+                      p / f"{symbol}_candles.json"]
         for c in candidates:
             if c.exists():
                 p = c
                 break
         else:
             # try multi-symbol containers in directory (deterministic order)
-            containers = sorted([f for f in p.iterdir() if f.is_file() and f.suffix.lower() in (".json", ".csv")])
+            containers = sorted([f for f in p.iterdir() if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl")])
             found = None
             for c in containers:
                 try:
@@ -532,7 +566,7 @@ def main():
         if apth.is_dir():
             discovered = []
             for f in sorted(apth.iterdir()):
-                if f.is_file() and f.suffix.lower() in (".json", ".csv"):
+                if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl"):
                     stem = f.stem.upper().replace("_CANDLES", "")
                     if stem and stem.isalnum() and 2 <= len(stem) <= 15:
                         discovered.append(stem)
