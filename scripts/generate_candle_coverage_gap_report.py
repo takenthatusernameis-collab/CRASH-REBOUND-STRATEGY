@@ -17,7 +17,19 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars, load_provenance, ProvenanceError  # noqa: E402
+from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars, load_provenance, ProvenanceError, _parse_iso  # noqa: E402
+
+
+def _normalize_iso(ts: Any) -> str:
+    if not isinstance(ts, str):
+        return ""
+    try:
+        dt = _parse_iso(ts)
+        if dt is None:
+            return ts.strip()
+        return dt.astimezone(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+    except Exception:
+        return ts.strip()
 
 
 def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any = None,
@@ -53,7 +65,11 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         out["manifest_error"] = "manifest_missing_or_unreadable"
         return out
     tw = manifest.get("target_window") or {}
-    if tw and (tw.get("start") != TARGET_START or tw.get("end") != TARGET_END or tw.get("expected_hourly_bars") != exp):
+    tw_start = _normalize_iso(tw.get("start"))
+    tw_end = _normalize_iso(tw.get("end"))
+    spec_start = _normalize_iso(TARGET_START)
+    spec_end = _normalize_iso(TARGET_END)
+    if tw and (tw_start != spec_start or tw_end != spec_end or tw.get("expected_hourly_bars") != exp):
         out["target_window_consistent_with_spec"] = False
         out["manifest_target_window"] = {"start": tw.get("start"), "end": tw.get("end"), "expected_hourly_bars": tw.get("expected_hourly_bars")}
         out["blocker"]["item_6c_blocked"] = True

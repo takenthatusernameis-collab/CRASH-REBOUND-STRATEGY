@@ -15,13 +15,26 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import gzip
 import json
+import math
 import os
 import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Dict, Iterable, List, Optional, Tuple
+
+try:
+    import pandas as _pd  # type: ignore
+except Exception:
+    _pd = None
+
+try:
+    import pyarrow  # type: ignore  # noqa: F401
+    import pyarrow.parquet as _pq  # type: ignore
+except Exception:
+    _pq = None
 
 try:
     import requests
