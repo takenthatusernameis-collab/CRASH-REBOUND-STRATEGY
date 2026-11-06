@@ -77,3 +77,26 @@ def test_gap_report_flags_stale_target_window_mismatch(tmp_path):
     loaded = json.loads(out.read_text())
     assert loaded["target_window_consistent_with_spec"] is False
     assert loaded["blocker"]["target_window_mismatch"] is True
+import json
+from pathlib import Path
+from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars
+
+def test_gap_report_includes_volume_coverage_evidence(tmp_path):
+    from scripts.generate_candle_coverage_gap_report import build_gap_report
+    exp = expected_hourly_bars(TARGET_START, TARGET_END)
+    manifest = {
+        "generated_at_utc": "2026-11-06T05:35:00Z",
+        "fabricated_data": False,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
+        "summary": {"all_complete": False, "ready_for_real_campaign": False, "complete_symbols": [], "symbols_requested": 1},
+        "symbols": {
+            "BTC": {"status": "incomplete", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": 4082, "gap_count": 0, "complete_for_target_window": False},
+                    "volume_coverage": {"min_daily_volume_usd": 5000000, "observed_min_24h_usd_volume": 42891961.89, "bars_checked": 4082, "bars_passing": 4082, "volume_filter_ok": True}},
+        },
+    }
+    report = build_gap_report(manifest=manifest, probe_evidence=None, generated_at_utc="2026-11-06T08:30:00Z")
+    vc = report["symbols"]["BTC"]["volume_coverage"]
+    assert vc["min_daily_volume_usd"] == 5000000
+    assert vc["volume_filter_ok"] is True
+    assert vc["observed_min_24h_usd_volume"] == 42891961.89
+    assert vc["bars_passing"] == 4082

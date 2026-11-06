@@ -99,6 +99,7 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             "last_timestamp_ms": cov.get("last_timestamp_ms"),
             "sha256": info.get("sha256"),
             "cache_path": info.get("cache_path"),
+            "volume_coverage": info.get("volume_coverage"),
         }
     if out["ready_for_real_campaign"]:
         out["blocker"]["item_6c_blocked"] = False
