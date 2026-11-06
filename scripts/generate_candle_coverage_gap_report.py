@@ -24,11 +24,12 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
                      generated_at_utc: Optional[str] = None, archive_scan: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
     ts = generated_at_utc or datetime.now(timezone.utc).isoformat()
+    spec_window = {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp}
     out: Dict[str, Any] = {
         "generated_at_utc": ts,
         "report_type": "candle_coverage_gap_report",
         "item": "6c_real_283d_hyperliquid_campaign",
-        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
+        "target_window": dict(spec_window),
         "real_market_data": True,
         "fabricated_data": False,
         "ready_for_real_campaign": False,
@@ -36,6 +37,7 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         "symbols": {},
         "probe_evidence": probe_evidence,
         "archive_scan": archive_scan or {"searched_paths": [], "verified_archives_found": []},
+        "target_window_consistent_with_spec": True,
         "blocker": {
             "item_6c_blocked": True,
             "reason": "Insufficient verified 283-day hourly coverage/provenance for required universe.",
@@ -51,11 +53,20 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         out["manifest_error"] = "manifest_missing_or_unreadable"
         return out
     tw = manifest.get("target_window") or {}
-    if tw.get("expected_hourly_bars"):
-        out["target_window"]["expected_hourly_bars"] = tw["expected_hourly_bars"]
+    if tw and (tw.get("start") != TARGET_START or tw.get("end") != TARGET_END or tw.get("expected_hourly_bars") != exp):
+        out["target_window_consistent_with_spec"] = False
+        out["manifest_target_window"] = {"start": tw.get("start"), "end": tw.get("end"), "expected_hourly_bars": tw.get("expected_hourly_bars")}
+        out["blocker"]["item_6c_blocked"] = True
+        out["blocker"]["target_window_mismatch"] = True
+        out["blocker"]["reason"] = ("Manifest target_window does not match spec target window "
+                                    f"{TARGET_START}→{TARGET_END} ({exp} bars); report may be stale — regenerate before use.")
+        out["ready_for_real_campaign"] = False
+        out["all_complete"] = False
+    else:
+        out["blocker"]["target_window_mismatch"] = False
     summary = manifest.get("summary") or {}
-    out["all_complete"] = bool(summary.get("all_complete"))
-    out["ready_for_real_campaign"] = bool(summary.get("ready_for_real_campaign"))
+    out["all_complete"] = bool(summary.get("all_complete")) and out["target_window_consistent_with_spec"]
+    out["ready_for_real_campaign"] = bool(summary.get("ready_for_real_campaign")) and out["target_window_consistent_with_spec"]
     for sym, info in (manifest.get("symbols") or {}).items():
         if not isinstance(info, dict):
             continue

@@ -49,3 +49,31 @@ def test_generate_gap_report_not_ready_when_manifest_missing(tmp_path):
     report = build_gap_report(manifest=None, probe_evidence=None, generated_at_utc="2026-11-06T05:41:00Z")
     assert report["ready_for_real_campaign"] is False
     assert report["blocker"]["item_6c_blocked"] is True
+
+
+def test_gap_report_flags_stale_target_window_mismatch(tmp_path):
+    from scripts.generate_candle_coverage_gap_report import build_gap_report, write_gap_report
+    exp = expected_hourly_bars(TARGET_START, TARGET_END)
+    # Simulates the stale wrong-window report that was previously on disk.
+    stale_manifest = {
+        "generated_at_utc": "2026-11-06T00:00:00Z",
+        "fabricated_data": False,
+        "target_window": {"start": "2025-01-01T00:00:00Z", "end": "2025-01-01T03:00:00Z", "expected_hourly_bars": 4},
+        "summary": {"all_complete": False, "ready_for_real_campaign": False, "complete_symbols": [], "symbols_requested": 1},
+        "symbols": {
+            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": 4, "observed_in_window_bars": 4, "gap_count": 0, "complete_for_target_window": True}}
+        },
+    }
+    report = build_gap_report(manifest=stale_manifest, probe_evidence=None, generated_at_utc="2026-11-06T05:41:00Z")
+    assert report["target_window"] == {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp}
+    assert report["target_window"] != stale_manifest["target_window"]
+    assert report["target_window_consistent_with_spec"] is False
+    assert report["ready_for_real_campaign"] is False
+    assert report["all_complete"] is False
+    assert report["blocker"]["item_6c_blocked"] is True
+    assert report["blocker"].get("target_window_mismatch") is True
+    out = tmp_path / "report.json"
+    write_gap_report(out, report)
+    loaded = json.loads(out.read_text())
+    assert loaded["target_window_consistent_with_spec"] is False
+    assert loaded["blocker"]["target_window_mismatch"] is True
