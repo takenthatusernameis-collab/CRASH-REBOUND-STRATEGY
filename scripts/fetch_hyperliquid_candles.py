@@ -658,9 +658,37 @@ def main():
     manifest_path = cache_dir / "provenance.json"
     if not args.dry_run:
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
-        # Gap report
-        gap_report = {s: v.get("coverage", {}) for s, v in manifest["symbols"].items() if not v.get("coverage", {}).get("complete_for_target_window")}
-        (REPO_ROOT / "research_state" / "candle_coverage_gap_report.json").write_text(json.dumps({"generated_at_utc": manifest["generated_at_utc"], "target_window": manifest["target_window"], "gaps": gap_report}, indent=2) + "\n")
+        # Canonical gap report (blocker/provenance fields preserved; never clobbered to a simplified form).
+        from scripts.generate_candle_coverage_gap_report import build_gap_report  # noqa: E402
+        probe_full = {}
+        for sym, info in manifest.get("symbols", {}).items():
+            cov = info.get("coverage") or {}
+            probe_full[sym] = {
+                "coin": sym,
+                "count": cov.get("observed_in_window_bars"),
+                "first_t": cov.get("first_timestamp_ms"),
+                "last_t": cov.get("last_timestamp_ms"),
+                "complete": bool(cov.get("complete_for_target_window")),
+            }
+        probe_evidence = {
+            "ts": manifest.get("generated_at_utc"),
+            "window": manifest.get("target_window"),
+            "full": probe_full,
+            "source": manifest.get("source"),
+        }
+        archive_scan = {
+            "searched_paths": [str(Path(args.input_archive).resolve())] if args.input_archive else [],
+            "verified_archives_found": [],
+        }
+        canonical_report = build_gap_report(
+            manifest=manifest,
+            probe_evidence=probe_evidence,
+            generated_at_utc=manifest.get("generated_at_utc"),
+            archive_scan=archive_scan,
+        )
+        (REPO_ROOT / "research_state" / "candle_coverage_gap_report.json").write_text(
+            json.dumps(canonical_report, indent=2) + "\n"
+        )
         print(f"Wrote manifest: {manifest_path}")
     else:
         print("Dry run; manifest not written.")
