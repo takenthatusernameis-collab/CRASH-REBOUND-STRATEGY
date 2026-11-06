@@ -74,7 +74,14 @@ def max_rolling_24h_quote_volume(candles: List[Dict[str, Any]], start_ms: int = 
         rows.append((ts, qv))
     rows.sort(key=lambda x: x[0])
     if not rows:
-        return {"bars": 0, "max_24h_quote_volume": 0.0, "passes_5m_any_24h_window": False}
+        return {
+            "bars": 0,
+            "max_rolling_24h_quote_volume_usd_proxy": 0.0,
+            "max_24h_quote_volume": 0.0,  # legacy alias
+            "passes_5m_any_24h_window": False,
+            "first_ts_ms": None,
+            "last_ts_ms": None,
+        }
     # rolling 24 bars/hours window by count is sufficient for hourly bars; also safe by timestamp span.
     best = 0.0
     from collections import deque
@@ -92,6 +99,7 @@ def max_rolling_24h_quote_volume(candles: List[Dict[str, Any]], start_ms: int = 
     return {
         "bars": len(rows),
         "max_rolling_24h_quote_volume_usd_proxy": round(best, 6),
+        "max_24h_quote_volume": round(best, 6),  # legacy alias
         "passes_5m_any_24h_window": best >= 5_000_000.0,
         "first_ts_ms": rows[0][0],
         "last_ts_ms": rows[-1][0],
