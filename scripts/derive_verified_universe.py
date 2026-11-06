@@ -13,6 +13,7 @@ with a verified provenance manifest for any real campaign claim.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import sys
 from datetime import datetime, timezone, timedelta
@@ -24,7 +25,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.data.loader import load_hyperliquid_candles  # noqa: E402
-from src.data.provenance import load_provenance, ProvenanceError  # noqa: E402
+from src.data.provenance import load_provenance, ProvenanceError, verify_cache_sha256  # noqa: E402
 
 
 def _parse_iso(s: str) -> datetime:
@@ -105,6 +106,8 @@ def main():
     ap.add_argument("--output", default=str(REPO_ROOT / "research_state" / "universe_verified.json"))
     ap.add_argument("--require-complete-manifest", action="store_true", help="Fail unless manifest is fully complete/verified for real run")
     ap.add_argument("--min-symbols", type=int, default=1)
+    ap.add_argument("--verify-cache-sha256", action="store_true",
+                    help="Verify each cache file's sha256 against manifest before use; refuses tampered/corrupted caches. Backward compatible no-op when manifest sha256 absent.")
     args = ap.parse_args()
 
     manifest = load_provenance(args.manifest)
@@ -130,6 +133,8 @@ def main():
         if not p.exists():
             report[sym] = {"error": f"missing cache: {p}", "selected": False}
             continue
+        if args.verify_cache_sha256:
+            verify_cache_sha256(p, info.get("sha256"), sym)
         candles = load_hyperliquid_candles(str(p), symbol=sym)
         vol = max_rolling_24h_quote_volume(candles, start_ms=start_ms, end_ms=end_ms)
         passes = float(vol.get("max_rolling_24h_quote_volume_usd_proxy") or 0.0) >= args.min_24h_volume_usd

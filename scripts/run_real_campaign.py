@@ -24,7 +24,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from src.data.provenance import require_verified_provenance, ProvenanceError, TARGET_START, TARGET_END  # noqa: E402
+from src.data.provenance import require_verified_provenance, ProvenanceError, TARGET_START, TARGET_END, verify_cache_sha256  # noqa: E402
 from src.data.loader import load_hyperliquid_candles  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
@@ -88,6 +88,7 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
                 p = REPO_ROOT / mp
         if not p.exists():
             raise ProvenanceError(f"Missing verified cache file for {sym}: {p}")
+        verify_cache_sha256(p, info.get("sha256"), sym)
         out[sym] = load_hyperliquid_candles(str(p), symbol=sym)
     if not out:
         raise ProvenanceError("No complete verified symbol caches loaded")

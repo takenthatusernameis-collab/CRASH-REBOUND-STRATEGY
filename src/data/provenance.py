@@ -6,6 +6,7 @@ provides machine-checkable validation and gap reporting.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 from dataclasses import dataclass
 from datetime import datetime, timezone
@@ -94,6 +95,29 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
     if len(complete) < min_symbols:
         errs.append(f"complete symbols {len(complete)} < {min_symbols}")
     return (len(errs) == 0), errs
+
+
+def sha256_file(path: str | Path) -> str:
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def verify_cache_sha256(path: str | Path, expected: Optional[str], symbol: str) -> None:
+    """If manifest provides expected sha256, verify cached file bytes match.
+
+    Backward compatible: no expected value -> no-op. Mismatch raises ProvenanceError
+    with concrete evidence (never silent)."""
+    if expected is None:
+        return
+    exp = str(expected).strip()
+    if not exp:
+        return
+    actual = sha256_file(path)
+    if actual != exp:
+        raise ProvenanceError(
+            f"Cache checksum mismatch for {symbol}: file={path} "
+            f"expected_sha256={exp} actual_sha256={actual}. "
+            "Refusing to use tampered/corrupted cache; re-fetch or restore verified archive."
+        )
 
 
 def require_verified_provenance(manifest_path: str | Path, **kwargs) -> Dict[str, Any]:
