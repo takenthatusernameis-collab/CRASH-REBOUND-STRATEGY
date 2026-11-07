@@ -161,13 +161,22 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
         errs.append(f"not all symbols complete: {len(complete)}/{len(symbols)}")
     # Campaign item 4: fail-closed summary consistency. Manifest summary fields
     # are evidence labels; when present they must not contradict symbol facts.
-    # Legacy manifests lacking summary/fields remain compatible.
+    # Optimistic contradictions (summary claims ready/complete but validated facts
+    # do not prove it) fail-closed. Stale-pessimistic labels must NOT block when
+    # validated facts prove completeness/non-synthetic evidence; consumers recompute
+    # from validated symbol facts. Legacy manifests lacking summary/fields remain
+    # compatible.
     summary = manifest.get("summary")
     if isinstance(summary, dict):
         if summary.get("ready_for_real_campaign") is True and synthetic_detected_actual:
             errs.append(
                 "summary.ready_for_real_campaign=true contradicts synthetic symbol(s): "
                 + ",".join(sorted(synthetic_detected_actual))
+            )
+        if summary.get("ready_for_real_campaign") is True and len(complete) != len(symbols):
+            errs.append(
+                "summary.ready_for_real_campaign=true optimistic contradiction: validated symbol facts do not prove complete non-synthetic readiness "
+                f"(complete={len(complete)}/{len(symbols)} symbols={sorted(symbols.keys())})"
             )
         if summary.get("all_complete") is True and len(complete) != len(symbols):
             errs.append(
