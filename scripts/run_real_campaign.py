@@ -204,6 +204,15 @@ def main():
     cache_dir = Path(args.cache_dir)
     manifest_path = Path(args.manifest) if args.manifest else cache_dir / "provenance.json"
     partial_mode = bool(args.allow_partial_not_evidence)
+    spec_min_daily_volume_usd = 5_000_000.0
+    if not partial_mode and float(args.min_daily_volume_usd) < spec_min_daily_volume_usd:
+        print(
+            f"BLOCKER: spec-compliant full-evidence runs require --min-daily-volume-usd >= {spec_min_daily_volume_usd:g} "
+            f"(requested {args.min_daily_volume_usd!r}).",
+            file=sys.stderr,
+        )
+        return 2
+
     target_start = TARGET_START
     target_end = TARGET_END
     if partial_mode and args.window_start and args.window_end:
@@ -269,7 +278,7 @@ def main():
         validation_symbols = [str(s).upper() for s in (manifest.get("symbols") or {}).keys()]
     if not partial_mode and validation_symbols:
         try:
-            passing_symbols = validate_symbol_volume_coverage(manifest, validation_symbols, args.min_daily_volume_usd)
+            passing_symbols = validate_symbol_volume_coverage(manifest, validation_symbols, max(spec_min_daily_volume_usd, float(args.min_daily_volume_usd)))
         except ProvenanceError as e:
             print(str(e), file=sys.stderr)
             print(f"\nBLOCKER: Per-symbol coverage/volume validation failed for {TARGET_START}→{TARGET_END}.", file=sys.stderr)
@@ -291,7 +300,7 @@ def main():
         enable_rebound_short=True,
         enable_eth_hedge=True,
         enable_volume_based_sizing=True,
-        min_daily_volume_usd=5_000_000.0,
+        min_daily_volume_usd=max(spec_min_daily_volume_usd, float(args.min_daily_volume_usd)) if not partial_mode else float(args.min_daily_volume_usd),
     )
     results = run_portfolio_simulation(data, config=config, capital=args.capital,
                                        eth_candles={"ETH": eth} if eth else None)
@@ -327,7 +336,7 @@ def main():
             "universe_filter": manifest.get("universe_filter"),
             "universe_filter_policy": {
                 "min_daily_volume_usd": config.min_daily_volume_usd,
-                "applied_in": ["src.strategy.crash_rebound.filter_universe", "scripts.run_portfolio.run_portfolio_simulation"],
+                "applied_in": ["src.strategy.crash_rebound.filter_universe", "scripts.run_portfolio.run_portfolio_simulation"], "spec_min_daily_volume_usd": 5_000_000.0 if not partial_mode else None,
                 "note": "Real-universe membership must be justified by verified per-symbol data/provenance for the target window.",
             },
             "partial_mode": partial_mode,
