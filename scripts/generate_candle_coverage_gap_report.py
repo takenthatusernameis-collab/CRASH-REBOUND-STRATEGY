@@ -29,16 +29,23 @@ archive_scan_paths: List[str] = [
 ]
 
 
-def _volume_coverage_spec_compliant(volume_coverage: Any) -> tuple[bool, str]:
+def _volume_coverage_spec_compliant(volume_coverage: Any) -> tuple[bool, str, bool]:
     """Fail-closed spec-volume evidence check for gap-report readiness decisions.
 
     Campaign item 3/4: stale/sub-spec volume fields must never make the report
     optimistic. Missing evidence is non-compliant.
+
+    Returns (ok, reason, present). `present` is True only when the caller supplied
+    a volume_coverage field (even None) to be judged; when the field is absent from
+    the manifest entry entirely (legacy shape), present=False and ok=True so the
+    report defers to the manifest's own summary rather than inventing a block.
     """
+    if volume_coverage is None:
+        return False, "volume_coverage present but null (not spec-compliant evidence)", True
     if not isinstance(volume_coverage, dict):
-        return False, "missing volume_coverage"
+        return False, "volume_coverage present but not an object (not spec-compliant evidence)", True
     if not volume_coverage.get("volume_filter_ok"):
-        return False, "volume_filter_ok is not true"
+        return False, "volume_filter_ok is not true", True
     floor = float(SPEC_MIN_DAILY_VOLUME_USD)
     def _num(key):
         v = volume_coverage.get(key)
@@ -52,14 +59,14 @@ def _volume_coverage_spec_compliant(volume_coverage: Any) -> tuple[bool, str]:
     eff = _num("min_daily_volume_usd_effective")
     eff_or_legacy = eff if eff is not None else _num("min_daily_volume_usd")
     if eff_or_legacy is None:
-        return False, "missing numeric min_daily_volume_usd/effective"
+        return False, "present volume_coverage missing numeric min_daily_volume_usd/effective", True
     if eff_or_legacy < floor:
-        return False, f"effective min_daily_volume_usd {eff_or_legacy:g} < spec floor {floor:g}"
+        return False, f"effective min_daily_volume_usd {eff_or_legacy:g} < spec floor {floor:g}", True
     # Fail closed on provenance intent: a sub-spec request means artifact was not
     # produced under clean spec-compliant volume intent, even if floored.
     if req is not None and req < floor:
-        return False, f"requested min_daily_volume_usd {req:g} < spec floor {floor:g}"
-    return True, "ok"
+        return False, f"requested min_daily_volume_usd {req:g} < spec floor {floor:g}", True
+    return True, "ok", True
 
 
 
@@ -300,11 +307,12 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     out["all_complete"] = bool(summary.get("all_complete")) and out["target_window_consistent_with_spec"]
     out["ready_for_real_campaign"] = bool(summary.get("ready_for_real_campaign")) and out["target_window_consistent_with_spec"]
     volume_issues: Dict[str, str] = {}
+    volume_absent: List[str] = []
     for sym, info in (manifest.get("symbols") or {}).items():
         if not isinstance(info, dict):
             continue
         cov = info.get("coverage") or {}
-        vol_ok, vol_reason = _volume_coverage_spec_compliant(info.get("volume_coverage"))
+        vol_ok, vol_reason, vol_present = _volume_coverage_spec_compliant(info.get("volume_coverage"))
         out["symbols"][sym] = {
             "status": info.get("status"),
             "observed_in_window_bars": cov.get("observed_in_window_bars"),
@@ -318,18 +326,24 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             "sha256": info.get("sha256"),
             "cache_path": info.get("cache_path"),
             "volume_coverage": info.get("volume_coverage"),
+            "volume_coverage_present": bool(vol_present),
             "volume_floor_compliant": bool(vol_ok),
             "volume_floor_reason": vol_reason,
         }
-        if not vol_ok:
+        if not vol_present:
+            # Legacy manifest entry: no volume_coverage field at all. Defer to the
+            # manifest's own summary rather than inventing a block here.
+            volume_absent.append(sym)
+        elif not vol_ok:
             volume_issues[sym] = vol_reason
     if (manifest.get("symbols") or {}):
         out["volume_floor_compliant"] = len(volume_issues) == 0
         out["volume_floor_issues"] = volume_issues
+        out["volume_coverage_absent_symbols"] = volume_absent
     else:
         out["volume_floor_compliant"] = False
         out["volume_floor_issues"] = {"_manifest": "no symbols in manifest"}
-    if not out["volume_floor_compliant"]:
+    if volume_issues:
         out["ready_for_real_campaign"] = False
         out["all_complete"] = False
         out["blocker"]["item_6c_blocked"] = True
