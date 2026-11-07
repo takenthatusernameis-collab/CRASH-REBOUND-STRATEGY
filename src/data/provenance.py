@@ -76,7 +76,13 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             errs.append(f"{sym}: invalid symbol entry")
             continue
         cov = info.get("coverage") or {}
-        synth = info.get("synthetic_check") or {}
+        synth = info.get("synthetic_check")
+        # Fail-closed: a provenance entry that never computed synthetic_check is
+        # unverified. A missing field must not be treated as "clean" — real
+        # acquisition always populates it (fetch_hyperliquid_candles does).
+        if synth is None:
+            errs.append(f"{sym}: synthetic_check missing; provenance entry is unverified")
+            continue
         if isinstance(synth, dict) and synth.get("is_synthetic"):
             errs.append(f"{sym}: synthetic/flat data series detected ({synth.get('reason')}); not real market evidence")
             continue
@@ -116,7 +122,9 @@ def _complete_symbol_subset_safe(manifest: Dict[str, Any], *, start: str = TARGE
         if not isinstance(v, dict):
             continue
         cov = v.get("coverage") or {}
-        synth = v.get("synthetic_check") or {}
+        synth = v.get("synthetic_check")
+        if synth is None:
+            continue
         if isinstance(synth, dict) and synth.get("is_synthetic"):
             continue
         if (
@@ -138,6 +146,74 @@ def _complete_symbol_subset_safe(manifest: Dict[str, Any], *, start: str = TARGE
 def complete_symbol_subset(manifest: Dict[str, Any], *, start: str = TARGET_START, end: str = TARGET_END) -> Dict[str, Any]:
     """Public alias for safe complete-subset extraction (testable, deterministic)."""
     return _complete_symbol_subset_safe(manifest, start=start, end=end)
+
+
+def _candle_signature(c: Dict[str, Any]) -> Any:
+    return (c.get("open"), c.get("high"), c.get("low"), c.get("close"), c.get("volume"))
+
+
+def detect_synthetic_candles(candles: List[Dict[str, Any]]) -> Dict[str, Any]:
+    """Reject flat / constant-close / synthetic-looking candle series at runtime.
+
+    A real hourly OHLCV series over hundreds of days varies. A series where every
+    bar shares the identical (open, high, low, close, volume) signature, or where
+    the close is constant while everything else moves, is a placeholder / fabricated
+    dataset, not market evidence.
+
+    Returns a dict describing the finding; `is_synthetic` True means the series must
+    never be treated as real market data. This is a runtime re-check: it does not
+    trust a manifest's synthetic_check flag, it inspects the actual candles.
+    """
+    n = len(candles)
+    if n == 0:
+        return {"is_synthetic": True, "reason": "empty_series",
+                "distinct_signatures": 0, "bars_checked": 0,
+                "distinct_signature_ratio": 0.0}
+    signatures = [_candle_signature(c) for c in candles]
+    distinct = len(set(signatures))
+    closes = [c.get("close") for c in candles]
+    close_vals = [c for c in closes if c is not None]
+    constant_close = bool(close_vals) and len(set(close_vals)) == 1
+    flat = distinct == 1
+    is_synthetic = flat or constant_close
+    return {
+        "is_synthetic": is_synthetic,
+        "reason": ("flat_series_all_bars_identical" if flat else
+                   "constant_close_no_price_movement" if constant_close else "varied_series_ok"),
+        "distinct_signatures": distinct,
+        "bars_checked": n,
+        "distinct_signature_ratio": round(distinct / n, 6) if n else 0.0,
+    }
+
+
+def verify_candles_not_synthetic(
+    candles: List[Dict[str, Any]],
+    *,
+    require_synthetic_check: bool = False,
+    raise_on_synthetic: bool = False,
+) -> Dict[str, Any]:
+    """Runtime re-detection of synthetic/flat candle series.
+
+    Never trusts a manifest's synthetic_check flag: recompute from the actual
+    candles. If `require_synthetic_check` is True, a manifest entry that omitted
+    synthetic_check entirely is treated as unverified (fail-closed) rather than
+    trusted. Raises ProvenanceError when the series is synthetic and
+    `raise_on_synthetic` is True.
+    """
+    if require_synthetic_check:
+        # Caller-supplied manifest entry must have an explicit synthetic_check dict.
+        # A missing field means the provenance was never computed -> not verified.
+        raise ProvenanceError(
+            "synthetic_check missing from provenance entry; cannot treat as verified real data"
+        )
+    res = detect_synthetic_candles(candles)
+    if res["is_synthetic"] and raise_on_synthetic:
+        raise ProvenanceError(
+            f"synthetic/flat candle series detected ({res['reason']}: "
+            f"{res['distinct_signatures']}/{res['bars_checked']} distinct signatures); "
+            "refusing to treat as real market evidence"
+        )
+    return res
 
 
 def sha256_file(path: str | Path) -> str:

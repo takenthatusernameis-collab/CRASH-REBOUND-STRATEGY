@@ -31,6 +31,7 @@ from src.data.provenance import (  # noqa: E402
     TARGET_END,
     verify_cache_sha256,
     complete_symbol_subset,
+    verify_candles_not_synthetic,
 )
 from src.data.loader import load_hyperliquid_candles  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
@@ -118,7 +119,17 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
         if not p.exists():
             raise ProvenanceError(f"Missing verified cache file for {sym}: {p}")
         verify_cache_sha256(p, info.get("sha256"), sym)
-        out[sym] = load_hyperliquid_candles(str(p), symbol=sym)
+        candles = load_hyperliquid_candles(str(p), symbol=sym)
+        # Runtime re-detection: never trust the manifest's synthetic_check flag.
+        # A flat / constant-close series is a placeholder dataset, not market
+        # evidence, and must fail closed even if provenance claims status=ok.
+        try:
+            verify_candles_not_synthetic(candles, raise_on_synthetic=True)
+        except ProvenanceError as e:
+            raise ProvenanceError(
+                f"{sym}: cached candle series rejected as synthetic ({p}): {e}"
+            ) from e
+        out[sym] = candles
     if not out:
         raise ProvenanceError("No complete verified symbol caches loaded")
     return out

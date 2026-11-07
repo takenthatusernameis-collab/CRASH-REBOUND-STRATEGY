@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-06T14:15:12.540729+00:00",
+  "generated_at_utc": "2026-11-07T05:10:00+00:00",
   "run_type": "data_acquisition_provenance",
   "real_market_data_intended": true,
   "fabricated_data": false,
@@ -26,7 +26,7 @@
   "symbols": {
     "BTC": {
       "symbol": "BTC",
-      "status": "ok",
+      "status": "error",
       "source": "user_supplied_archive",
       "archive_path": "/home/runner/work/_temp/kilo-tmp/tmp67sjtviy/archive.parquet",
       "normalized_count": 6792,
@@ -60,11 +60,21 @@
         "bars_passing": 6792,
         "volume_filter_ok": true
       },
-      "cache_path": "research_state/cache/hyperliquid_verified_283d_btceth/candles/BTC.json"
+      "cache_path": "research_state/cache/hyperliquid_verified_283d_btceth/candles/BTC.json",
+      "synthetic_check": {
+        "is_synthetic": true,
+        "reason": "flat_series_all_bars_identical",
+        "distinct_signatures": 1,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.000147,
+        "detected_at_utc": "2026-11-07T05:10:00Z",
+        "note": "Runtime re-detection of the cached candle file. This dataset is a placeholder (constant OHLCV across all bars) and is NOT real market evidence. Real 283-day Hyperliquid candles are unavailable in this environment (API returns empty / 405 / 422); data must not be fabricated."
+      },
+      "error": "flat_series_all_bars_identical: 1/6792 distinct signatures"
     },
     "ETH": {
       "symbol": "ETH",
-      "status": "ok",
+      "status": "error",
       "source": "user_supplied_archive",
       "archive_path": "/home/runner/work/_temp/kilo-tmp/tmp67sjtviy/archive.parquet",
       "normalized_count": 6792,
@@ -98,18 +108,31 @@
         "bars_passing": 6792,
         "volume_filter_ok": true
       },
-      "cache_path": "research_state/cache/hyperliquid_verified_283d_btceth/candles/ETH.json"
+      "cache_path": "research_state/cache/hyperliquid_verified_283d_btceth/candles/ETH.json",
+      "synthetic_check": {
+        "is_synthetic": true,
+        "reason": "flat_series_all_bars_identical",
+        "distinct_signatures": 1,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.000147,
+        "detected_at_utc": "2026-11-07T05:10:00Z",
+        "note": "Runtime re-detection of the cached candle file. This dataset is a placeholder (constant OHLCV across all bars) and is NOT real market evidence. Real 283-day Hyperliquid candles are unavailable in this environment (API returns empty / 405 / 422); data must not be fabricated."
+      },
+      "error": "flat_series_all_bars_identical: 1/6792 distinct signatures"
     }
   },
   "summary": {
     "symbols_requested": 2,
-    "symbols_complete": 2,
-    "symbols_incomplete_or_error": 0,
-    "all_complete": true,
-    "ready_for_real_campaign": true,
-    "complete_symbols": [
+    "symbols_complete": 0,
+    "symbols_incomplete_or_error": 2,
+    "all_complete": false,
+    "ready_for_real_campaign": false,
+    "complete_symbols": [],
+    "synthetic_series_detected": [
       "BTC",
       "ETH"
-    ]
-  }
+    ],
+    "evidence_note": "Both BTC and ETH cached series are flat/constant placeholder data, not real market evidence. Any campaign result produced from this cache is NOT_EVIDENCE and must not be cited as a spec 283-day campaign result. Real data acquisition is blocked (see research_state/DATA_REQUEST_283D_HYPERLIQUID.md)."
+  },
+  "updated_at_utc": "2026-11-07T05:10:00+00:00"
 }
