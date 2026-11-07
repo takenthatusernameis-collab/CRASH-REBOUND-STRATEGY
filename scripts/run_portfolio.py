@@ -251,17 +251,17 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     if executed_notional <= 0 and entry_px > 0 and res.shares > 0:
                         executed_notional = float(res.shares) * float(entry_px)
                     if executed_notional > 0:
-                        # Backward-compatible fallback for older TradeResult shapes:
-                        # rebound short opens at short_entry (> long entry after +target).
-                        if not float(getattr(res, 'max_live_coin_notional', 0.0) or 0.0):
-                            for _leg in (getattr(res, 'trades', None) or []):
-                                if isinstance(_leg, dict) and _leg.get('side') == 'short':
-                                    try:
-                                        _sn = float(_leg.get('entry', 0.0) or 0.0) * float(res.shares)
-                                    except Exception:
-                                        _sn = 0.0
-                                    if _sn > executed_notional:
-                                        executed_notional = _sn
+                        # Rebound short opens at short_entry (> long entry after +target).
+                        # Always consider the live short-leg notional for cap/reservation
+                        # so a live rebound short counts toward gross cap / occupancy.
+                        for _leg in (getattr(res, 'trades', None) or []):
+                            if isinstance(_leg, dict) and _leg.get('side') == 'short':
+                                try:
+                                    _sn = float(_leg.get('entry', 0.0) or 0.0) * float(res.shares)
+                                except Exception:
+                                    _sn = 0.0
+                                if _sn > executed_notional:
+                                    executed_notional = _sn
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
                         probe_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
                         # If the engine applied equal-share cuts (old+new) to the cap,
