@@ -545,12 +545,12 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
                 # Same symbol from multiple archives: require identical coverage
                 # evidence (same bar count + same endpoints); otherwise flag conflict.
                 pc, nc = prev.get("coverage"), cov
+                prev_synth = prev.get("synthetic_check") if isinstance(prev.get("synthetic_check"), dict) else {}
                 same = (pc.get("observed_in_window_bars") == nc.get("observed_in_window_bars")
                         and pc.get("first_timestamp_ms") == nc.get("first_timestamp_ms")
                         and pc.get("last_timestamp_ms") == nc.get("last_timestamp_ms"))
                 if same:
                     # Preserve fail-closed synthetic evidence from either source.
-                    prev_synth = prev.get("synthetic_check") if isinstance(prev.get("synthetic_check"), dict) else {}
                     if prev_synth.get("is_synthetic") and not synth.get("is_synthetic"):
                         entry["synthetic_check"] = prev_synth
                         entry["status"] = "error"
@@ -567,7 +567,65 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
                                       "archive_b": str(ap.resolve()),
                                       "bars_a": pc.get("observed_in_window_bars"),
                                       "bars_b": nc.get("observed_in_window_bars")})
+                    # Campaign item 4 residual (fetch emission hardening): divergent
+                    # coverage evidence between merged archives is not trustworthy.
+                    # Fail-close the kept entry so no downstream consumer can treat a
+                    # conflicting symbol as complete/ok. Preserve synthetic evidence
+                    # from either source (never drop it because the archives disagreed).
+                    entry["status"] = "error"
+                    entry["conflict"] = {
+                        "archive_a": prev.get("archive_path"),
+                        "archive_b": str(ap.resolve()),
+                        "bars_a": pc.get("observed_in_window_bars"),
+                        "bars_b": nc.get("observed_in_window_bars"),
+                        "reason": "divergent coverage evidence across merged archives; cannot confirm completeness",
+                    }
+                    if synth.get("is_synthetic"):
+                        entry["error"] = f"{synth.get('reason')}: conflicting synthetic evidence from {ap.resolve()}"
+                    elif prev_synth.get("is_synthetic"):
+                        entry["error"] = f"{prev_synth.get('reason')}: conflicting synthetic evidence from {prev.get('archive_path')}"
+                    else:
+                        entry["error"] = "divergent coverage evidence across merged archives; cannot confirm completeness"
+                    seen[sym] = entry
     return {"symbols": seen, "conflicts": conflicts}
+
+
+def _summary_from_symbols(symbols: Dict[str, Any]) -> Dict[str, Any]:
+    """Recompute manifest summary labels from validated symbol facts.
+
+    Campaign item 4 residual (fetch emission hardening): the emitted summary must
+    never be a stale/optimistic upstream label. `complete_symbols` and
+    `symbols_complete` are recomputed from symbol entries that are simultaneously
+    status==ok, coverage complete for the target window, and synthetic_check clean.
+    An entry with status=ok but synthetic_check.is_synthetic=True is NOT complete,
+    even if a stale label claimed otherwise. Legacy callers can still read the
+    returned dict; the booleans are always derived from the recomputed facts.
+    """
+    complete_syms: List[str] = []
+    for sym, info in (symbols.items() if isinstance(symbols, dict) else []):
+        if not isinstance(info, dict):
+            continue
+        cov = info.get("coverage") or {}
+        synth = info.get("synthetic_check")
+        if info.get("status") != "ok":
+            continue
+        if cov.get("complete_for_target_window") is not True:
+            continue
+        if not isinstance(synth, dict) or synth.get("is_synthetic"):
+            # Missing synthetic_check is unverified; synthetic is a hard block.
+            continue
+        complete_syms.append(sym)
+    complete_syms = sorted(set(complete_syms))
+    n_syms = len(symbols) if isinstance(symbols, dict) else 0
+    all_complete = bool(n_syms) and len(complete_syms) == n_syms
+    return {
+        "symbols_requested": n_syms,
+        "symbols_complete": len(complete_syms),
+        "symbols_incomplete_or_error": n_syms - len(complete_syms),
+        "all_complete": all_complete,
+        "ready_for_real_campaign": all_complete and len(complete_syms) > 0,
+        "complete_symbols": complete_syms,
+    }
 
 
 def analyze_coverage(candles: List[Dict[str, Any]], start: datetime, end: datetime) -> Dict[str, Any]:
@@ -887,16 +945,12 @@ def main():
             manifest["symbols"][sym] = entry
             print(f"{sym}: {entry['status']} {entry.get('coverage',{}).get('observed_in_window_bars','?')}/{entry.get('coverage',{}).get('expected_hourly_bars','?')}")
 
-    ok_all = all(v.get("status") == "ok" for v in manifest["symbols"].values()) and len(manifest["symbols"]) > 0
-    complete_syms = [s for s, v in manifest["symbols"].items() if v.get("status") == "ok" and v.get("coverage", {}).get("complete_for_target_window")]
-    manifest["summary"] = {
-        "symbols_requested": len(symbols),
-        "symbols_complete": len(complete_syms),
-        "symbols_incomplete_or_error": len(symbols) - len(complete_syms),
-        "all_complete": ok_all and len(complete_syms) == len(symbols),
-        "ready_for_real_campaign": ok_all and len(complete_syms) > 0 and len(complete_syms) == len(symbols),
-        "complete_symbols": complete_syms,
-    }
+    # Campaign item 4 residual (fetch emission hardening): recompute summary labels
+    # from validated symbol facts. The summary must never be a stale/optimistic
+    # upstream label; complete_symbols/symbols_complete are derived from entries
+    # that are simultaneously status==ok, coverage complete, and synthetic_check
+    # clean. A synthetic entry or a merge conflict must never be counted complete.
+    manifest["summary"] = _summary_from_symbols(manifest.get("symbols") or {})
     manifest_path = cache_dir / "provenance.json"
     if not args.dry_run:
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
