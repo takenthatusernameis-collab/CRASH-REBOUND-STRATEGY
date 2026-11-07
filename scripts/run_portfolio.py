@@ -225,7 +225,18 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                 res = backtest_simple(candles, sig, config=config, capital=capital,
                                       risk_state=probe_state, eth_candles=eth_data)
                 if res.exit_reason not in ('blocked', 'no_signal'):
-                    trade_pnl = getattr(res, 'total_pnl', res.pnl)
+                    # total_pnl is authoritative (engine always sets it on TradeResult).
+                    # If ever absent, compute the grand total from all legs rather
+                    # than falling back to bare `pnl`, which would silently drop
+                    # rebound_short_pnl / rebound_hedge_pnl.
+                    trade_pnl = getattr(res, 'total_pnl', None)
+                    if trade_pnl is None:
+                        trade_pnl = (
+                            float(getattr(res, 'pnl', 0.0) or 0.0)
+                            + float(getattr(res, 'hedge_pnl', 0.0) or 0.0)
+                            + float(getattr(res, 'rebound_short_pnl', 0.0) or 0.0)
+                            + float(getattr(res, 'rebound_hedge_pnl', 0.0) or 0.0)
+                        )
                     total_pnl += trade_pnl
                     bars_held = getattr(res, 'bars_held', 0) or 0
                     start_idx = getattr(sig, 'signal_index', i)

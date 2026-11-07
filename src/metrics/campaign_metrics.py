@@ -23,7 +23,18 @@ def _finite(x: Any, default: float = 0.0) -> float:
 
 
 def _trade_pnl(t: Dict[str, Any]) -> float:
-    return _finite(t.get("total_pnl", t.get("pnl", 0.0)))
+    # Grand total across all legs (coin + hedge + rebound short + rebound hedge),
+    # mirroring TradeResult.__init__ default semantics. Explicit `total_pnl` stays
+    # authoritative (engine/runtime path). Never fall back to bare `pnl`, which
+    # silently drops rebound legs and corrupts attribution/aggregation.
+    if "total_pnl" in t and t["total_pnl"] is not None:
+        return _finite(t["total_pnl"])
+    return _finite(
+        _finite(t.get("pnl", 0.0))
+        + _finite(t.get("hedge_pnl", 0.0))
+        + _finite(t.get("rebound_short_pnl", 0.0))
+        + _finite(t.get("rebound_hedge_pnl", 0.0)),
+    )
 
 
 def _trade_ts(t: Dict[str, Any], *keys: str) -> Optional[str]:
