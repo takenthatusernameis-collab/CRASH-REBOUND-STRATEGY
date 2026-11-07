@@ -106,14 +106,20 @@ class TestDeriveSummaryContradictionFailClosed:
         assert d.get("real_market_data") is True, d
         assert "BTC" in (d.get("selected_symbols") or []), d
 
-    def test_summary_all_complete_false_never_real_market_data(self, tmp_path, monkeypatch):
-        # Summary says incomplete; even if symbol facts are complete, derivation must
-        # not emit real_market_data=true (existing fail-closed SystemExit preserved).
+    def test_summary_all_complete_false_does_not_block_when_facts_prove_complete(self, tmp_path, monkeypatch):
+        # Campaign item 4 residual (stale-pessimistic hardening): manifest summary is
+        # advisory only. When validated symbol facts prove all symbols are complete,
+        # non-synthetic, and coverage-consistent, stale-pessimistic summary labels must
+        # NOT block derivation or prevent truthful real_market_data/selection output.
+        # Optimistic contradictions (summary claims complete but facts do not prove it)
+        # remain fail-closed (covered by test_summary_claims_complete_but_coverage_fields_do_not_prove_it).
         candles = _varied_candles()
         mp, cache_dir, out = _manifest(
             tmp_path, candles, summary_all_complete=False,
             coverage_complete_flag=True, coverage_expected_bars=len(candles),
         )
         rc = _run(["derive_verified_universe.py", "--manifest", str(mp), "--cache-dir", str(cache_dir), "--output", str(out)], monkeypatch)
-        assert rc != 0, "derivation must refuse to emit when summary says not complete"
-        assert not out.exists() or json.loads(out.read_text()).get("real_market_data") is not True
+        assert rc == 0, rc
+        d = json.loads(out.read_text())
+        assert d.get("real_market_data") is True, d
+        assert "BTC" in (d.get("selected_symbols") or []), d

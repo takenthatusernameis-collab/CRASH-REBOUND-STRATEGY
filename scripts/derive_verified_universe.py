@@ -249,9 +249,13 @@ def main():
 
     summary_all_complete = bool(summary.get("all_complete"))
     summary_ready = bool(summary.get("ready_for_real_campaign"))
-    # Fail-closed summary-consumer hardening (campaign item 4): optimistic summary
-    # labels must never make real_market_data true when validated symbol facts
-    # contradict them. Advisory summary booleans cannot override recomputed facts.
+    # Campaign item 4 residual (summary-consumer hardening): manifest summary labels
+    # are advisory only. Optimistic contradictions remain fail-closed (never emit
+    # real_market_data/selection when summary claims complete but validated facts do
+    # not prove it). Stale-pessimistic labels must NOT block when validated symbol
+    # facts prove completeness and non-synthetic evidence for all symbols; do not
+    # emit real_market_data/selection without validated complete non-synthetic
+    # evidence. Archived-verified evidence only; never fabricate.
     summary_contradiction = (summary_all_complete and not computed_all_complete)
     selected_rows = [r for r in report.values() if isinstance(r, dict) and r.get("selected")]
     all_selected_verified_non_synthetic = bool(selected_rows) and all(
@@ -263,8 +267,7 @@ def main():
         for r in selected_rows
     )
     real_market_data = (
-        summary_all_complete
-        and computed_all_complete
+        computed_all_complete
         and all_selected_verified_non_synthetic
         and not summary_contradiction
     )
