@@ -265,6 +265,11 @@ def load_multi_coin_data(data_source, symbols: List[str] = None,
 
     # Apply volume filter if requested
     if min_daily_volume_usd > 0:
+        try:
+            from src.strategy.config import enforce_spec_volume_floor
+            min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
+        except Exception:
+            pass
         from src.strategy.crash_rebound import passes_universe_filter, filter_universe
         from src.strategy.config import DEFAULT_CONFIG
         filtered = filter_universe(result, min_daily_volume_usd=min_daily_volume_usd,
@@ -277,7 +282,18 @@ def load_multi_coin_data(data_source, symbols: List[str] = None,
 def get_hyperliquid_universe(min_daily_volume_usd: float = 5_000_000.0,
                             use_cache: bool = True,
                             cache_dir: str = None) -> List[str]:
-    """Get Hyperliquid universe filtered by >= $5M 24h volume."""
+    """Get a Hyperliquid symbol list. NOT a verified live >= $5M universe filter.
+
+    This returns a static default/cache list and does not fetch or validate live
+    24h volume. Do not treat output as spec-compliant $5M-gated evidence.
+    For spec-compliant volume gating use `filter_universe`/gated runners with
+    verified per-symbol data and provenance.
+    """
+    try:
+        from src.strategy.config import enforce_spec_volume_floor
+        min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
+    except Exception:
+        pass
     # Try to load from cache or fixtures if available
     if cache_dir is None:
         cache_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))),

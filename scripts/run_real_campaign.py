@@ -348,7 +348,7 @@ def main():
             "universe_filter": manifest.get("universe_filter"),
             "universe_filter_policy": {
                 "min_daily_volume_usd": config.min_daily_volume_usd,
-                "applied_in": ["src.strategy.crash_rebound.filter_universe", "scripts.run_portfolio.run_portfolio_simulation"], "spec_min_daily_volume_usd": 5_000_000.0 if not partial_mode else None,
+                "applied_in": ["src.strategy.crash_rebound.filter_universe", "src.data.loader.load_multi_coin_data", "scripts.run_portfolio.run_portfolio_simulation"], "spec_min_daily_volume_usd": 5_000_000.0 if not partial_mode else None,
                 "note": "Real-universe membership must be justified by verified per-symbol data/provenance for the target window.",
             },
             "partial_mode": partial_mode,

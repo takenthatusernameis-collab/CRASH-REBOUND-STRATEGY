@@ -626,7 +626,15 @@ def analyze_symbol_volume_coverage(candles: List[Dict[str, Any]], min_daily_volu
     For each bar, sum volume*close over the trailing 24 hourly bars including current;
     a symbol passes the universe filter when every bar's 24h USD volume >= threshold.
     Returns pass/fail plus min/mean observed 24h USD volume for provenance.
+
+    Spec-compliant volume analysis enforces the $5M floor for non-zero sub-$5M
+    thresholds (min_daily_volume_usd=0 remains a non-spec escape hatch).
     """
+    try:
+        from src.strategy.config import enforce_spec_volume_floor
+        min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
+    except Exception:
+        pass
     n = len(candles)
     usd_vols: List[float] = []
     for i in range(n):
