@@ -1,5 +1,4 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T11:36:33Z (refreshed)
-
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T11:40:02Z (refreshed)
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. This file is the sole source of next-session direction.
 
