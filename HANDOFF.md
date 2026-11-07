@@ -1,4 +1,4 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T17:22:58Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T17:25:13Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. Do **not** create TODO/NEXT/PROGRESS/session handoff variants.
 
@@ -15,7 +15,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 - **Files changed:** `scripts/fetch_hyperliquid_candles.py`, `tests/test_fetch_hyperliquid_volume_floor_20261107.py` (new), `HANDOFF.md`.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — MANDATORY HEAVY EXECUTION
-`CRASH-REBOUND-STRATEGY | 2026-11-07T17:22:58Z | REPO-NAME PRIORITY (MANDATORY): CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. HOURLY ENGINE ONLY — never claim 20s slicing / explicit spread / L2 order-book impact. LAST VERIFIED PYTEST BASELINE 414 PASSED / 11 SKIPPED (2026-11-07T16:44Z); this env lacks pytest — CI installs it; local non-pytest unittest discovery over 56 modules passed 69 OK/11 skipped after 2026-11-07 changes. NO BOTTLENECKS BLOCKING. SOLE DURABLE HANDOFF = ROOT HANDOFF.md (no other handoff files; __pycache__ is not evidence). YOU MAY NOT SKIP HEAVY WORK, CLAIM BLOCKED WITHOUT A REAL MISSING INPUT, OR STOP AFTER PASSIVE RE-VERIFICATION. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM WITH EVIDENCE (spec-fidelity hardening, verified-data/provenance hardening, or gated-pipeline/API-guardrail hardening) BEFORE ENDING SESSION. FINAL GATE: python -m pytest tests/ -q --tb=no must stay green where pytest is available (CI). UPDATE ONLY THIS HANDOFF.md.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T17:25:13Z | REPO-NAME PRIORITY (MANDATORY): CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. HOURLY ENGINE ONLY — never claim 20s slicing / explicit spread / L2 order-book impact. LAST VERIFIED PYTEST BASELINE 414 PASSED / 11 SKIPPED (2026-11-07T16:44Z); this env lacks pytest — CI installs it; local non-pytest unittest discovery over 56 modules passed 69 OK/11 skipped after 2026-11-07 changes. NO BOTTLENECKS BLOCKING. SOLE DURABLE HANDOFF = ROOT HANDOFF.md (no other handoff files; __pycache__ is not evidence). YOU MAY NOT SKIP HEAVY WORK, CLAIM BLOCKED WITHOUT A REAL MISSING INPUT, OR STOP AFTER PASSIVE RE-VERIFICATION. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM WITH EVIDENCE (spec-fidelity hardening, verified-data/provenance hardening, or gated-pipeline/API-guardrail hardening) BEFORE ENDING SESSION. FINAL GATE: python -m pytest tests/ -q --tb=no must stay green where pytest is available (CI). UPDATE ONLY THIS HANDOFF.md.`
 
 ## HEAVY FOCUS CAMPAIGN — EXECUTE IN ORDER (NON-OPTIONAL)
 Every session must complete steps 1 and 8, and ship at least one material item from steps 2–5. Re-running tests / updating handoff alone is **not** a shipped item.
