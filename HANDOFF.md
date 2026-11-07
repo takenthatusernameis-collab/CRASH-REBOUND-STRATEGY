@@ -1,8 +1,8 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:50:06Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:53:41Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file.
 
-## SESSION 2026-11-07T14:50:06Z — BASELINE RE-VERIFIED GREEN (406/11); WORKING TREE CLEAN; NEXT TASK MESSAGE LEFT; NO BOTTLENOCKS
+## SESSION 2026-11-07T14:53:41Z — BASELINE RE-VERIFIED GREEN (406/11); WORKING TREE CLEAN; NEXT TASK MESSAGE LEFT; NO BOTTLENOCKS
 - **Repo-name priority:** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only; **do not claim** 20s slicing / explicit spread / L2 order-book impact.
 - **Non-negotiable spec contracts (unchanged):** hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths and missing/incomplete bars as applicable; hourly liquidation at worst price with correct sequencing vs stop/target/time, correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
 - **Bottlenecks:** none blocking. Sole durable handoff remains this root `HANDOFF.md`. `research_state/candle_coverage_gap_report.json` may be dirtied by local tooling; reverted to HEAD (no material change). `__pycache__` artifacts from imports are not evidence.
@@ -17,7 +17,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
   - Campaign item 4: verified-data/provenance hardening (fail-closed checksums/manifests); broaden universe only with archived verified data + full provenance. BTC/ETH 283d 0-trade remains sole verified truth.
 
 ## PRIOR SESSIONS (CONDENSED)
-- **2026-11-07T14:50:06Z:** baseline re-verified green (406 passed, 11 skipped); working tree clean; no bottlenecks; next initial task message left in this HANDOFF.md.
+- **2026-11-07T14:53:41Z:** baseline re-verified green (406 passed, 11 skipped); working tree clean; no bottlenecks; next initial task message left in this HANDOFF.md.
 - **2026-11-07T14:48:14Z:** baseline re-verified green (406 passed, 11 skipped); no bottlenecks; working tree clean; HANDOFF.md refreshed for next session.
 - **2026-11-07T14:43:40Z:** PORTFOLIO LIVE REBOUND-SHORT NOTIONAL RESERVATION HARDENED; SUITE GREEN 406/11; HANDOFF REFRESHED.
 - **2026-11-07T13:50:27Z:** grand-total consumer audit shipped (`campaign_metrics:_trade_pnl` + runner fallback); rebound legs never dropped. 404 passed, 11 skipped.
@@ -27,7 +27,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 - **2026-11-07T12:27:42Z:** cleared bottlenecks; fixed RiskState timestamp-normalized daily accounting preserving live cap-cut/notional state (3 tests). 387 passed, 11 skipped.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-07T14:50:06Z | MANDATORY: REPO-NAME PRIORITY → CRASH-REBOUND STRATEGY FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly engine only; no 20s slicing / explicit spread / L2 impact claims). BASELINE 406 PASSED / 11 SKIPPED GREEN; WORKING TREE CLEAN; NO BOTTLENECKS; SOLE DURABLE HANDOFF IS THIS ROOT HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T14:53:41Z | MANDATORY: REPO-NAME PRIORITY → CRASH-REBOUND STRATEGY FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly engine only; no 20s slicing / explicit spread / L2 impact claims). BASELINE 406 PASSED / 11 SKIPPED GREEN; WORKING TREE CLEAN; NO BOTTLENECKS; SOLE DURABLE HANDOFF IS THIS ROOT HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
 
 **Required execution order:**
 1. `python -m pytest tests/ -q --tb=no` (must stay green baseline: 406 passed, 11 skipped expected absent environment drift).
@@ -40,7 +40,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 ## HEAVY FOCUS CAMPAIGN (MUST EXECUTE IN ORDER; FUTURE AGENTS MAY NOT AVOID)
 1. **[DONE 2026-11-07T12:37:09Z]** Rebound-short hedge funding/attribution + atomic risk/trade-log contracts; same-bar boundary lock.
 2. **[DONE 2026-11-07T13:50:27Z]** Rebound grand-total consumer audit hardened (`campaign_metrics:_trade_pnl` + `run_portfolio.py:228`); rebound short/hedge legs never silently dropped in attribution/aggregation.
-3. **[IN PROGRESS, 2026-11-07T14:50:06Z]** No-lookahead & portfolio-cap/timestamp/daily-loss regression watch (admission/sizing/gating/history/cap cuts equal-share old+new, no top-ups; realized exits reconciled only at/through exit bar). Portfolio reserves max(long-entry, rebound-short-leg-entry) live notional from `res.trades` for overlay/cap. Remaining: rebound hedge live-notional/edge cases, explicit TradeResult live/max leg notional if needed, timestamp/day normalization, multi-leg occupancy invariants.
+3. **[IN PROGRESS, 2026-11-07T14:53:41Z]** No-lookahead & portfolio-cap/timestamp/daily-loss regression watch (admission/sizing/gating/history/cap cuts equal-share old+new, no top-ups; realized exits reconciled only at/through exit bar). Portfolio reserves max(long-entry, rebound-short-leg-entry) live notional from `res.trades` for overlay/cap. Remaining: rebound hedge live-notional/edge cases, explicit TradeResult live/max leg notional if needed, timestamp/day normalization, multi-leg occupancy invariants.
 4. **$5M gating integrity regression watch** (all spec-compliant surfaces; `backtest_simple` is low-level/non-gated).
 5. **Verified-data/provenance hardening** (fail-closed checksums/manifests; broaden universe only with archived verified data + full provenance).
 6. **Every session gate:** `python -m pytest tests/ -q --tb=no` green, ship >=1 material hardened item with evidence, update only `HANDOFF.md`.
