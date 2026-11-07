@@ -56,11 +56,19 @@ class RiskState:
 
     def apply_trade(self, date: str, pnl: float, opened: bool, closed: bool,
                     notional: float = 0.0):
-        if self.date != date:
-            self.date = date
+        # Normalize timestamps to calendar day for daily-loss tracking; do not
+        # wipe live position accounting on format-only changes (e.g. 'YYYY-MM-DD'
+        # vs 'YYYY-MM-DDTHH:MM:SS') while positions are still open.
+        new_day = str(date)[:10] if date else ""
+        cur_day = str(self.date)[:10] if self.date else ""
+        if new_day and new_day != cur_day:
+            self.date = new_day
             self.realized_pnl = 0.0
             self.daily_loss_limit_hit = False
-            self.open_position_notionals = []
+            if self.open_positions <= 0 and self.gross_exposure <= 0.0:
+                self.open_position_notionals = []
+        elif date and not self.date:
+            self.date = new_day or str(date)
         if opened and notional > 0:
             self.open_positions += 1
             self.gross_exposure += notional
