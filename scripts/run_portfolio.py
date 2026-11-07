@@ -263,20 +263,29 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                                 if _sn > executed_notional:
                                     executed_notional = _sn
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
-                        probe_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
-                        # If the engine applied equal-share cuts (old+new) to the cap,
-                        # reconcile the reservation overlay to the post-cut schedule so
-                        # same-bar siblings and future bars see post-cut exposure. Cuts
-                        # make every position an equal share of the cap; recompute each
-                        # open notional and reserve this admission at the same share.
-                        # If no cut fired, reserve the executed notional for this admission.
-                        if probe_notionals and getattr(probe_state, 'open_positions', 0) > 0:
-                            n_positions = len(open_notionals) + 1  # old positions + this admission
-                            equal_share = cap_value / n_positions if n_positions > 0 else 0.0
-                            for _sym in open_notionals:
-                                open_notionals[_sym] = equal_share
-                            open_notionals[symbol] = equal_share
+                        # Reconcile the reservation overlay from the engine's ACTUAL
+                        # post-run position schedule (probe_state.open_position_notionals),
+                        # which is authoritative for both the cut and no-cut cases:
+                        #   - cut fired: equal shares of the cap across old+new (cuts only,
+                        #     never top-ups — the engine never inflates an open position);
+                        #   - no cut:    old positions unchanged, this admission reserved
+                        #     at its executed notional.
+                        # Mapping is positional: the engine appends the new position after
+                        # the existing open positions in overlay order, so the first
+                        # len(open_notionals) entries are the existing symbols and the
+                        # last entry is this admission. NEVER recompute an equal share
+                        # unconditionally — that tops up open positions to the cap even
+                        # when no cut fired, inflating reserved exposure and distorting
+                        # future admissions (spec: cuts only, never top-ups).
+                        post_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
+                        existing_syms = list(open_notionals.keys())
+                        if post_notionals and len(post_notionals) == len(existing_syms) + 1:
+                            for _sym, _not in zip(existing_syms, post_notionals[:len(existing_syms)]):
+                                open_notionals[_sym] = float(_not)
+                            open_notionals[symbol] = float(post_notionals[-1])
                         else:
+                            # Fallback: reserve this admission at its executed notional
+                            # (capped); leave existing open positions unchanged.
                             open_notionals[symbol] = min(executed_notional, cap_value)
                         _bar_notionals = list(open_notionals.values())
                         _bar_gross = float(sum(_bar_notionals))
