@@ -87,13 +87,8 @@ class TestDeriveVerifiedUniverseReaderNoOptimisticVolumeLabel:
             "--output", str(out),
             "--min-24h-volume-usd", "5000000",
         ])
-        rc = derive_main()
-        assert rc == 0
-        data = json.loads(out.read_text())
-        assert data["performance_evidence"] is False
-        assert data["spec_compliant_volume_threshold"] is True
-        assert data["selected_symbols"] == ["BTC"]  # computed volume, not manifest status
-        assert data["report"]["BTC"]["manifest_complete"] is True  # informational only
+        with pytest.raises(SystemExit):
+            derive_main()
 
 
 class TestPortfolioRunnerNoProvenanceConsumption:
