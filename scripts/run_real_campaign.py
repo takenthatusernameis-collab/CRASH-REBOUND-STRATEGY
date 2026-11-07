@@ -48,14 +48,16 @@ def load_universe(universe_file: Optional[Path], manifest: dict) -> List[str]:
 
 def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
                                     min_daily_volume_usd: float) -> List[str]:
-    """Require every universe symbol to pass the >= $5M 24h volume filter per verified coverage.
+    """Require every universe symbol to pass the >= min_daily_volume_usd 24h volume filter per verified coverage.
 
-    Returns list of symbols that pass; raises ProvenanceError with concrete blockers
-    for any symbol that lacks complete coverage or fails the volume filter.
+    Enforces both the manifest's volume_filter_ok flag AND the requested numeric
+    threshold against observed_min_24h_usd_volume (never trust a stale/lying flag).
+    Returns list of symbols that pass; raises ProvenanceError with concrete blockers.
     """
     errs: List[str] = []
     passing: List[str] = []
     symbols_map = manifest.get("symbols") or {}
+    threshold = float(min_daily_volume_usd) if min_daily_volume_usd is not None else 0.0
     for sym in symbols:
         info = symbols_map.get(sym)
         if not isinstance(info, dict):
@@ -69,12 +71,32 @@ def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
             )
             continue
         volcov = info.get("volume_coverage") or {}
+        obs_min = volcov.get("observed_min_24h_usd_volume")
         if not volcov.get("volume_filter_ok"):
             errs.append(
-                f"{sym}: volume filter not met (min_24h_usd={volcov.get('observed_min_24h_usd_volume')}, "
+                f"{sym}: volume filter not met (min_24h_usd={obs_min}, "
                 f"mean={volcov.get('observed_mean_24h_usd_volume')}, bars={volcov.get('bars_passing')}/{volcov.get('bars_checked')})"
             )
             continue
+        # Never trust flag alone: enforce requested threshold against observed minimum.
+        if threshold > 0:
+            if obs_min is None:
+                errs.append(
+                    f"{sym}: volume threshold {threshold:g} required but observed_min_24h_usd_volume missing "
+                    f"(volume_filter_ok={volcov.get('volume_filter_ok')})"
+                )
+                continue
+            try:
+                obs_min_f = float(obs_min)
+            except (TypeError, ValueError):
+                errs.append(f"{sym}: observed_min_24h_usd_volume not numeric: {obs_min!r}")
+                continue
+            if obs_min_f < threshold:
+                errs.append(
+                    f"{sym}: observed_min_24h_usd_volume {obs_min_f:g} < required threshold {threshold:g} "
+                    f"(volume_filter_ok={volcov.get('volume_filter_ok')})"
+                )
+                continue
         passing.append(sym)
     if errs:
         raise ProvenanceError("Real campaign blocked by per-symbol coverage/volume validation:\n- " + "\n- ".join(errs))
