@@ -120,6 +120,7 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
     if not isinstance(symbols, dict) or len(symbols) < min_symbols:
         errs.append(f"insufficient symbols in manifest (need >= {min_symbols})")
     complete = []
+    synthetic_detected_actual: List[str] = []
     for sym, info in (symbols.items() if isinstance(symbols, dict) else []):
         if not isinstance(info, dict):
             errs.append(f"{sym}: invalid symbol entry")
@@ -133,6 +134,7 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             errs.append(f"{sym}: synthetic_check missing; provenance entry is unverified")
             continue
         if isinstance(synth, dict) and synth.get("is_synthetic"):
+            synthetic_detected_actual.append(sym)
             errs.append(f"{sym}: synthetic/flat data series detected ({synth.get('reason')}); not real market evidence")
             continue
         if info.get("status") == "ok" and cov.get("complete_for_target_window") is True:
@@ -157,6 +159,35 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             errs.append(f"{sym}: incomplete or error (status={info.get('status')}, observed={cov.get('observed_in_window_bars')}/{cov.get('expected_hourly_bars')})")
     if require_complete and len(complete) != len(symbols):
         errs.append(f"not all symbols complete: {len(complete)}/{len(symbols)}")
+    # Campaign item 4: fail-closed summary consistency. Manifest summary fields
+    # are evidence labels; when present they must not contradict symbol facts.
+    # Legacy manifests lacking summary/fields remain compatible.
+    summary = manifest.get("summary")
+    if isinstance(summary, dict):
+        if summary.get("ready_for_real_campaign") is True and synthetic_detected_actual:
+            errs.append(
+                "summary.ready_for_real_campaign=true contradicts synthetic symbol(s): "
+                + ",".join(sorted(synthetic_detected_actual))
+            )
+        if summary.get("all_complete") is True and len(complete) != len(symbols):
+            errs.append(
+                f"summary.all_complete=true contradicts symbol completeness: {len(complete)}/{len(symbols)} complete"
+            )
+        ssd = summary.get("synthetic_series_detected")
+        if isinstance(ssd, list):
+            listed = [str(x) for x in ssd]
+            actual = sorted(set(synthetic_detected_actual))
+            if sorted(set(listed)) != actual:
+                errs.append(
+                    "summary.synthetic_series_detected inconsistent with symbol synthetic_check facts "
+                    f"(listed={sorted(set(listed))} actual={actual})"
+                )
+            non_synthetic_listed = [s for s in listed if s in symbols and not (isinstance((symbols[s] or {}).get("synthetic_check"), dict) and (symbols[s] or {}).get("synthetic_check", {}).get("is_synthetic"))]
+            if non_synthetic_listed:
+                errs.append(
+                    "summary.synthetic_series_detected lists non-synthetic symbol(s): "
+                    + ",".join(sorted(set(non_synthetic_listed)))
+                )
     # Also enforce manifest-level request_params intent when present (fail-closed
     # on stale audit fields). Legacy manifests without request_params unaffected.
     floor = _as_volume_number(require_spec_volume_floor)
