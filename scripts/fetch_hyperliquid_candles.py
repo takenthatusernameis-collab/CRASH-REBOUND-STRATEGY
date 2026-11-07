@@ -590,16 +590,20 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
     return {"symbols": seen, "conflicts": conflicts}
 
 
-def _summary_from_symbols(symbols: Dict[str, Any]) -> Dict[str, Any]:
+def _summary_from_symbols(symbols: Dict[str, Any], expected_bars: Optional[int] = None) -> Dict[str, Any]:
     """Recompute manifest summary labels from validated symbol facts.
 
     Campaign item 4 residual (fetch emission hardening): the emitted summary must
     never be a stale/optimistic upstream label. `complete_symbols` and
     `symbols_complete` are recomputed from symbol entries that are simultaneously
     status==ok, coverage complete for the target window, and synthetic_check clean.
-    An entry with status=ok but synthetic_check.is_synthetic=True is NOT complete,
-    even if a stale label claimed otherwise. Legacy callers can still read the
-    returned dict; the booleans are always derived from the recomputed facts.
+    When `expected_bars` is supplied, entries must also prove
+    expected_hourly_bars==observed_in_window_bars==expected_bars and gap_count==0
+    for the current target window (belt-and-suspenders over complete_for_target_window),
+    matching the strict validated-facts path used by derive_verified_universe and
+    provenance.complete_symbol_subset. An entry with status=ok but
+    synthetic_check.is_synthetic=True is NOT complete, even if a stale label claimed
+    otherwise. Legacy callers passing only `symbols` keep the previous behavior.
     """
     complete_syms: List[str] = []
     for sym, info in (symbols.items() if isinstance(symbols, dict) else []):
@@ -611,6 +615,16 @@ def _summary_from_symbols(symbols: Dict[str, Any]) -> Dict[str, Any]:
             continue
         if cov.get("complete_for_target_window") is not True:
             continue
+        # Belt-and-suspenders: the entry must prove coverage for the *current*
+        # target window, not just carry a stale complete_for_target_window label
+        # computed against a different window.
+        if expected_bars is not None:
+            if cov.get("expected_hourly_bars") != expected_bars:
+                continue
+            if cov.get("observed_in_window_bars") != expected_bars:
+                continue
+            if (cov.get("gap_count") or 0) != 0:
+                continue
         if not isinstance(synth, dict) or synth.get("is_synthetic"):
             # Missing synthetic_check is unverified; synthetic is a hard block.
             continue
@@ -950,7 +964,13 @@ def main():
     # upstream label; complete_symbols/symbols_complete are derived from entries
     # that are simultaneously status==ok, coverage complete, and synthetic_check
     # clean. A synthetic entry or a merge conflict must never be counted complete.
-    manifest["summary"] = _summary_from_symbols(manifest.get("symbols") or {})
+    # Recompute authority from validated symbol facts for the CURRENT target window
+    # (belt-and-suspenders over complete_for_target_window), matching the strict
+    # validated-facts path used by derive_verified_universe and
+    # provenance.complete_symbol_subset, so fetch never declares readiness that the
+    # real-campaign gate would reject.
+    exp = _expected_hourly_bars(start, end)
+    manifest["summary"] = _summary_from_symbols(manifest.get("symbols") or {}, expected_bars=exp)
     manifest_path = cache_dir / "provenance.json"
     if not args.dry_run:
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
