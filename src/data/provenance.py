@@ -200,32 +200,39 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
                 errs.append(f"manifest request_params.min_daily_volume_usd_requested {g_req:g} < required spec floor {floor:g}")
             if g_eff is not None and g_eff < floor:
                 errs.append(f"manifest request_params.min_daily_volume_usd_effective {g_eff:g} < required spec floor {floor:g}")
-    # Campaign item 4 residual (2026-11-07): fail-closed on stale/optimistic
-    # summary.complete_symbols / summary.symbols_complete labels. These are
-    # evidence labels; when present they must match recomputed symbol facts so
-    # consumers cannot trust contradictory manifest summaries. Legacy manifests
-    # lacking these fields remain compatible.
+    # Campaign item 4 residual: summary.complete_symbols / summary.symbols_complete
+    # are advisory evidence labels. Fail-closed on OPTIMISTIC contradictions only
+    # (summary claims completeness that validated symbol facts do not prove). Do NOT
+    # block on stale-pessimistic labels when validated facts prove completeness:
+    # consumers must recompute from validated symbol coverage/synthetic/status facts
+    # and never trust stale labels over facts, but stale pessimism is not fabricated
+    # evidence. Legacy manifests lacking these fields remain compatible.
     if isinstance(summary, dict):
         actual_complete = sorted(set(complete))
+        actual_complete_set = set(complete)
         scs = summary.get("complete_symbols")
         if isinstance(scs, list):
             listed_complete = [str(x) for x in scs]
-            if sorted(set(listed_complete)) != actual_complete:
-                errs.append(
-                    "summary.complete_symbols inconsistent with validated symbol facts "
-                    f"(listed={sorted(set(listed_complete))} actual={actual_complete})"
-                )
             invalid_listed = [s for s in listed_complete if s not in symbols]
             if invalid_listed:
                 errs.append(
                     "summary.complete_symbols lists unknown symbol(s): "
                     + ",".join(sorted(set(invalid_listed)))
                 )
-            noncomplete_listed = [s for s in listed_complete if s in symbols and s not in set(complete)]
+            noncomplete_listed = [s for s in listed_complete if s in symbols and s not in actual_complete_set]
             if noncomplete_listed:
                 errs.append(
                     "summary.complete_symbols lists incomplete/invalid symbol(s): "
                     + ",".join(sorted(set(noncomplete_listed)))
+                )
+            # Fail-closed only when summary claims symbols complete that facts do not
+            # validate (unknown/noncomplete). Omitting actually-complete symbols is
+            # stale-pessimistic and must not block validated-fact completeness.
+            optimistic_listed = sorted(set(invalid_listed) | set(noncomplete_listed))
+            if optimistic_listed:
+                errs.append(
+                    "summary.complete_symbols optimistic contradiction: claims complete without validated symbol facts "
+                    f"(claimed={sorted(set(listed_complete))} unproven={optimistic_listed} actual_validated={actual_complete})"
                 )
         scn = summary.get("symbols_complete")
         if scn is not None:
@@ -234,9 +241,11 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             except (TypeError, ValueError):
                 errs.append(f"summary.symbols_complete not an integer: {scn!r}")
             else:
-                if scn_i != len(complete):
+                # Fail-closed on optimistic overcount; stale-pessimistic undercount
+                # must not block when validated facts prove completeness.
+                if scn_i > len(complete):
                     errs.append(
-                        f"summary.symbols_complete={scn_i} contradicts validated complete symbol count {len(complete)}"
+                        f"summary.symbols_complete={scn_i} optimistic contradiction: exceeds validated complete symbol count {len(complete)}"
                     )
     if len(complete) < min_symbols:
         errs.append(f"complete symbols {len(complete)} < {min_symbols}")

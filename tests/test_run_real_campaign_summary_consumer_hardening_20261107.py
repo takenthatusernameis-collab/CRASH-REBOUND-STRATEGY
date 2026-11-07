@@ -77,17 +77,36 @@ class TestSummaryCompleteSymbolsValidation(unittest.TestCase):
             errs,
         )
 
-    def test_validate_provenance_rejects_complete_symbols_omitting_actual_complete_symbol(self):
+    def test_validate_provenance_allows_stale_pessimistic_complete_symbols_when_facts_prove_complete(self):
+        """Campaign item 4 residual: stale-pessimistic summary labels (omitting a
+        validated-complete symbol / undercount) must NOT block when validated symbol
+        facts prove completeness. Consumers recompute from validated facts; stale
+        pessimism is not fabricated evidence."""
         m = base_manifest()
         m["symbols"]["ETH"] = _ok_sym()
-        m["summary"]["complete_symbols"] = ["BTC"]  # omits ETH
-        m["summary"]["symbols_complete"] = 1
-        m["summary"]["all_complete"] = True
+        m["summary"]["complete_symbols"] = ["BTC"]  # stale pessimistic: omits ETH
+        m["summary"]["symbols_complete"] = 1       # stale pessimistic undercount
+        m["summary"]["all_complete"] = False      # advisory/pessimistic
+        ok, errs = validate_provenance(m, require_complete=False, min_symbols=1,
+                                       require_spec_volume_floor=5_000_000)
+        self.assertTrue(ok, errs)
+
+    def test_validate_provenance_rejects_optimistic_complete_symbols_claim(self):
+        """Optimistic summary claims (listing incomplete/unknown symbols as complete,
+        or overcounting) remain fail-closed."""
+        m = base_manifest()
+        m["symbols"]["ETH"] = _ok_sym(observed=100)
+        m["symbols"]["ETH"]["status"] = "incomplete"
+        m["symbols"]["ETH"]["coverage"]["complete_for_target_window"] = False
+        m["symbols"]["ETH"]["coverage"]["observed_in_window_bars"] = 100
+        m["summary"]["complete_symbols"] = ["BTC", "ETH"]  # optimistic: ETH not validated
+        m["summary"]["symbols_complete"] = 2               # optimistic overcount
+        m["summary"]["all_complete"] = False
         ok, errs = validate_provenance(m, require_complete=False, min_symbols=1,
                                        require_spec_volume_floor=5_000_000)
         self.assertFalse(ok, errs)
         self.assertTrue(
-            any("complete_symbols" in e or "symbols_complete" in e for e in errs),
+            any("optimistic" in e or "incomplete/invalid" in e or "complete_symbols" in e for e in errs),
             errs,
         )
 
