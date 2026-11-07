@@ -1,15 +1,15 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T16:44:00Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T16:51:08Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. Do **not** create TODO/NEXT/PROGRESS/session handoff variants.
 
-## SESSION 2026-11-07T16:44:00Z — CAMPAIGN ITEM 3/4 HARDENED (derive_verified_universe $5M FLOOR); 414/11 GREEN
+## SESSION 2026-11-07T16:51:08Z — BASELINE RE-VERIFIED GREEN 414/11; NO BOTTLENECKS; SOLE DURABLE HANDOFF = ROOT HANDOFF.md
 - **Repo-name priority (mandatory):** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only. **Never claim** 20s slicing / explicit spread / L2 order-book impact.
 - **Non-negotiable spec contracts:** hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths and missing/incomplete bars as applicable; hourly liquidation at worst price with correct sequencing vs stop/target/time, correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
 - **Bottlenecks:** none blocking. No alternate handoff files found. Sole durable handoff is this root `HANDOFF.md`. `__pycache__` artifacts are not evidence. Unrelated `research_state/candle_coverage_gap_report.json` modification was restored (not part of this shipped item).
 - **Baseline (verified 2026-11-07T16:44Z):** `python -m pytest tests/ -q --tb=no` → **414 passed, 11 skipped in 42.11s**. Suite green.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — MANDATORY HEAVY EXECUTION
-`CRASH-REBOUND-STRATEGY | 2026-11-07T16:44:00Z | MANDATORY: FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly only; no 20s slicing / explicit spread / L2 impact claims). BASELINE GREEN 414 PASSED / 11 SKIPPED. NO BOTTLENECKS. SOLE DURABLE HANDOFF = ROOT HANDOFF.md. YOU MAY NOT SKIP HEAVY WORK, CLAIM BLOCKED WITHOUT A REAL MISSING INPUT, OR STOP AFTER PASSIVE RE-VERIFICATION. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM WITH EVIDENCE BEFORE ENDING SESSION.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T16:51:08Z | REPO-NAME PRIORITY (MANDATORY): CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. HOURLY ENGINE ONLY — never claim 20s slicing / explicit spread / L2 order-book impact. BASELINE GREEN 414 PASSED / 11 SKIPPED (re-verified 2026-11-07T16:51Z). NO BOTTLENECKS BLOCKING. SOLE DURABLE HANDOFF = ROOT HANDOFF.md (no other handoff files; __pycache__ is not evidence). YOU MAY NOT SKIP HEAVY WORK, CLAIM BLOCKED WITHOUT A REAL MISSING INPUT, OR STOP AFTER PASSIVE RE-VERIFICATION. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM WITH EVIDENCE (spec-fidelity hardening, verified-data/provenance hardening, or gated-pipeline/API-guardrail hardening) BEFORE ENDING SESSION. FINAL GATE: python -m pytest tests/ -q --tb=no must stay green. UPDATE ONLY THIS HANDOFF.md.`
 
 ## HEAVY FOCUS CAMPAIGN — EXECUTE IN ORDER (NON-OPTIONAL)
 Every session must complete steps 1 and 8, and ship at least one material item from steps 2–5. Re-running tests / updating handoff alone is **not** a shipped item.
