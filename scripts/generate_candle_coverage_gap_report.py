@@ -303,9 +303,66 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         out["all_complete"] = False
     else:
         out["blocker"]["target_window_mismatch"] = False
+    # Campaign item 4: fail-closed on contradictory manifest summary labels.
+    # Recompute readiness-critical facts from validated symbol data; never trust a
+    # summary that contradicts symbol synthetic/coverage facts.
     summary = manifest.get("summary") or {}
-    out["all_complete"] = bool(summary.get("all_complete")) and out["target_window_consistent_with_spec"]
-    out["ready_for_real_campaign"] = bool(summary.get("ready_for_real_campaign")) and out["target_window_consistent_with_spec"]
+    contradiction_errors: List[str] = []
+    # Compute all_complete from actual symbol facts (authoritative over summary).
+    # synthetic_check missing = unknown for legacy manifests (not positive evidence
+    # of synthetic); is_synthetic=true is a hard contradiction.
+    syms = manifest.get("symbols") or {}
+    actual_complete = []
+    actual_synthetic = []
+    for sym, info in syms.items():
+        if not isinstance(info, dict):
+            continue
+        cov = info.get("coverage") or {}
+        synth = info.get("synthetic_check")
+        if cov.get("complete_for_target_window") is True:
+            actual_complete.append(sym)
+        if isinstance(synth, dict) and synth.get("is_synthetic") is True:
+            actual_synthetic.append(sym)
+    computed_all_complete = bool(syms) and len(actual_complete) == len(syms) and not actual_synthetic
+
+    try:
+        from src.data.provenance import validate_provenance
+        v_ok, v_errs = validate_provenance(manifest, require_complete=False, require_spec_volume_floor=None)
+        if not v_ok:
+            # Keep only summary-contradiction errors that align with computed facts
+            # (e.g. summary claims all_complete/ready while synthetic symbols exist,
+            # or while computed completeness disagrees). Ignore unrelated structural/
+            # unverified-entry noise for gap-report summary labeling.
+            for e in v_errs:
+                if "summary.ready_for_real_campaign" in e and actual_synthetic:
+                    contradiction_errors.append(e)
+                elif "summary.all_complete" in e and not computed_all_complete:
+                    contradiction_errors.append(e)
+                elif "summary.synthetic_series_detected" in e:
+                    contradiction_errors.append(e)
+            structural = [e for e in v_errs if e not in contradiction_errors and "summary." not in e and "contradict" not in e.lower() and "inconsistent" not in e.lower()]
+            if structural and not syms:
+                out["manifest_structural_errors"] = structural
+    except Exception as e:
+        contradiction_errors = [f"summary validation failed: {e}"]
+
+    # Summary booleans are advisory only when consistent; contradictory/missing
+    # summary must not make the report optimistic.
+    summary_all_complete = summary.get("all_complete")
+    summary_ready = summary.get("ready_for_real_campaign")
+    out["all_complete"] = computed_all_complete and out["target_window_consistent_with_spec"]
+    out["ready_for_real_campaign"] = bool(summary_ready is True) and computed_all_complete and out["target_window_consistent_with_spec"]
+    if contradiction_errors or actual_synthetic or (summary_all_complete is True and not computed_all_complete) or (summary_ready is True and (not computed_all_complete or actual_synthetic)):
+        out["ready_for_real_campaign"] = False
+        out["all_complete"] = computed_all_complete and out["target_window_consistent_with_spec"] and not contradiction_errors
+        out["manifest_summary_contradiction"] = True
+        out["summary_contradiction_errors"] = contradiction_errors
+        out["summary_contradiction_actual_synthetic_symbols"] = actual_synthetic
+        out["blocker"]["item_6c_blocked"] = True
+        reason = "; ".join(contradiction_errors[:4]) if contradiction_errors else (
+            f"synthetic symbols present: {actual_synthetic}" if actual_synthetic else "manifest summary contradicts validated symbol facts"
+        )
+        out["blocker"]["reason"] = f"Manifest summary contradicts validated symbol facts (fail-closed): {reason}"
     volume_issues: Dict[str, str] = {}
     volume_absent: List[str] = []
     for sym, info in (manifest.get("symbols") or {}).items():
