@@ -1,4 +1,4 @@
-"""Material spec-fidelity hardening (2026-11-07T03:01:44Z): concurrent portfolio
+"""Material spec-fidelity hardening (2026-11-07T03:01:44Z, extended): concurrent
 120% cap + equal-share cuts interacting with liquidation/rebound exits, real engine.
 
 Minimal mocking only: force controlled entry signals (deterministic admission points)
@@ -56,12 +56,48 @@ def _cfg(**kw):
     return StrategyConfig(**d)
 
 
+class _RecordingRiskState:
+    """Mixin-style wrapper built in-test to record apply_cap_cuts calls."""
+
+    @staticmethod
+    def attach(base_cls):
+        recorded = []
+
+        class Rec(base_cls):
+            def apply_cap_cuts(self, capital, config, open_notional=None):
+                incoming = list(open_notional) if open_notional is not None else list(self.open_position_notionals)
+                out = super().apply_cap_cuts(capital, config, open_notional)
+                recorded.append((incoming, list(out), capital * config.gross_cap_pct / 100.0))
+                return out
+
+        return Rec, recorded
+
+
+def _assert_equal_share_old_new(testcase, recorded, min_positions=2):
+    testcase.assertTrue(recorded, "expected apply_cap_cuts to record at least one call")
+    saw_multi = False
+    for incoming, out, capv in recorded:
+        testcase.assertEqual(len(out), len(incoming), f"cut schedule must cover old+new: {out} vs {incoming}")
+        testcase.assertAlmostEqual(sum(out), min(sum(incoming), capv) if sum(incoming) <= capv else capv, places=6)
+        if len(out) >= min_positions:
+            saw_multi = True
+            first = out[0]
+            for n in out:
+                testcase.assertAlmostEqual(n, first, places=6, msg=f"unequal cut schedule old+new: {out}")
+            testcase.assertAlmostEqual(sum(out), capv, places=6)
+    testcase.assertTrue(saw_multi, f"expected a multi-position equal-share cut; recorded={recorded}")
+
+
 class TestConcurrentCapWithLiquidationRealEngine(unittest.TestCase):
     def test_three_same_bar_admissions_under_120_cap_all_liquidate_reconcile_clean(self):
         """Three symbols fire same decision bar; volume-sized notionals breach 120% cap,
         forcing equal-share cuts (old+new). Each position later liquidates at different
         bars. Real engine runs liquidation/funding/penalty paths. Portfolio must end
         with no open positions, zero gross exposure, no notional leak, correct trade count."""
+        import scripts.run_portfolio as rp
+        from src.strategy.risk import RiskState as Base
+
+        Rec, recorded = _RecordingRiskState.attach(Base)
         n = 140
         capital = 100000.0
         base = [_c(i, 100.0, 101.0, 99.0, 100.0) for i in range(n)]
@@ -84,7 +120,7 @@ class TestConcurrentCapWithLiquidationRealEngine(unittest.TestCase):
                 s = copy.copy(signals[symbol]); s.signal_index = len(hist) - 1; return s
             return None
 
-        with patch("scripts.run_portfolio.generate_signal", side_effect=fake_gen):
+        with patch.object(rp, "RiskState", Rec), patch("scripts.run_portfolio.generate_signal", side_effect=fake_gen):
             res = run_portfolio_simulation(
                 {"A": a, "B": b, "C": c}, config=cfg, capital=capital, eth_candles={"ETH": eth}
             )
@@ -102,6 +138,8 @@ class TestConcurrentCapWithLiquidationRealEngine(unittest.TestCase):
         for t in res["trades"]:
             self.assertIsInstance(t.get("total_pnl"), (int, float))
             self.assertIn("hedge_pnl", t)
+        # Real-engine admission + reservation overlay must still apply equal-share cuts old+new.
+        _assert_equal_share_old_new(self, recorded, min_positions=3)
 
     def test_two_admit_under_cap_third_blocked_by_max_positions_after_liq_reconcile(self):
         """Same bar: A,B admitted (max_positions=2), C blocked. A liquidates early,
@@ -135,6 +173,10 @@ class TestConcurrentCapWithReboundExitRealEngine(unittest.TestCase):
         both hit target -> rebound short path completes (rebound target). Real engine
         executes target, rebound short, hedge/funding/timing. Portfolio must reconcile
         occupancy/gross/notionals to zero."""
+        import scripts.run_portfolio as rp
+        from src.strategy.risk import RiskState as Base
+
+        Rec, recorded = _RecordingRiskState.attach(Base)
         n = 160
         capital = 100000.0
         def mk(target_bar, rebound_bar):
@@ -156,7 +198,7 @@ class TestConcurrentCapWithReboundExitRealEngine(unittest.TestCase):
             if symbol in signals and len(hist) - 1 == 20:
                 s = copy.copy(signals[symbol]); s.signal_index = len(hist) - 1; return s
             return None
-        with patch("scripts.run_portfolio.generate_signal", side_effect=fake_gen):
+        with patch.object(rp, "RiskState", Rec), patch("scripts.run_portfolio.generate_signal", side_effect=fake_gen):
             res = run_portfolio_simulation({"A": a, "B": b}, config=cfg, capital=capital,
                                             eth_candles={"ETH": eth})
         self.assertEqual(res["num_trades"], 2)
@@ -168,6 +210,7 @@ class TestConcurrentCapWithReboundExitRealEngine(unittest.TestCase):
             self.assertIsInstance(t.get("total_pnl"), (int, float))
             self.assertIsNotNone(t.get("exit_reason"))
             self.assertGreaterEqual(int(t.get("bars_held") or 0), 1)
+        _assert_equal_share_old_new(self, recorded, min_positions=2)
 
     def test_mixed_same_bar_liquidation_and_rebound_reconcile_under_120_cap(self):
         """Same bar admissions: A liquidates, B completes rebound path. Validates
