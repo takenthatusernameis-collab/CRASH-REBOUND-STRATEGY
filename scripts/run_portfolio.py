@@ -64,9 +64,11 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     risk_state = RiskState(date="")
     eth_data = eth_candles.get('ETH') if eth_candles else None
 
-    filtered_symbols = filter_universe(candles_by_symbol,
-                                       min_daily_volume_usd=config.min_daily_volume_usd,
-                                       regime_config=config)
+    # Do NOT prefilter by full-series universe/volume/regime here: that leaks
+    # future bars (end-of-series state) into historical admission decisions.
+    # Spec-compliant gating is applied per decision bar via generate_signal on
+    # hist[:i+1], which enforces volume/regime/trigger without look-ahead.
+    filtered_symbols = list(candles_by_symbol.keys())
 
     total_pnl = 0.0
     all_trades = []
