@@ -22,8 +22,8 @@ def _complete_manifest():
         "real_market_data_intended": True,
         "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
         "symbols": {
-            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}},
-            "ETH": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}},
+            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}, "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"}},
+            "ETH": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}, "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"}},
         },
     }
 

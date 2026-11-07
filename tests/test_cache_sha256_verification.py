@@ -41,11 +41,14 @@ def _make_candles(n=EXP, start_ms=START_MS, close=100.0, vol=100000.0):
     out = []
     for i in range(n):
         ts = start_ms + i * 3600000
+        # Varied per-bar signatures: the runtime synthetic/flat guard re-detects
+        # constant OHLCV at load time, so fixtures must carry distinct signatures.
+        c = close + (i % 7) * 0.5
         out.append({
             "timestamp_ms": ts,
             "timestamp": f"2025-01-01T{i:02d}:00:00+00:00",
-            "open": close, "high": close * 1.01, "low": close * 0.99,
-            "close": close, "volume": vol,
+            "open": c, "high": c * 1.01 + (i % 3), "low": c * 0.99 - (i % 2),
+            "close": c, "volume": vol + (i % 5),
         })
     return out
 
@@ -66,6 +69,7 @@ def _manifest(cache_dir: Path, sym: str, sha256: str | None, status="ok", comple
             sym: {
                 "symbol": sym, "status": status, "source": "user_supplied_archive",
                 "sha256": sha256,
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "cache_path": None,
                 "coverage": {
                     "expected_hourly_bars": EXP, "observed_in_window_bars": EXP if complete else 2,

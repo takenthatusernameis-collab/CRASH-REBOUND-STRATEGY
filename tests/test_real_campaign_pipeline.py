@@ -56,6 +56,7 @@ def _complete_manifest(tmp_path: Path, symbol: str = "BTC") -> Path:
         "symbols": {
             symbol: {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "expected_hourly_bars": EXP,
                     "observed_in_window_bars": EXP,
@@ -87,6 +88,7 @@ def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypa
         "symbols": {
             "BTC": {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "expected_hourly_bars": EXP,
                     "observed_in_window_bars": EXP,
@@ -96,6 +98,7 @@ def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypa
             },
             "ETH": {
                 "status": "incomplete",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "expected_hourly_bars": EXP,
                     "observed_in_window_bars": 4094,
@@ -152,6 +155,7 @@ def test_complete_symbol_subset_filters_correctly():
         "symbols": {
             "A": {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "complete_for_target_window": True,
                     "expected_hourly_bars": EXP,
@@ -161,6 +165,7 @@ def test_complete_symbol_subset_filters_correctly():
             },
             "B": {
                 "status": "incomplete",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "complete_for_target_window": False,
                     "expected_hourly_bars": EXP,
@@ -170,6 +175,7 @@ def test_complete_symbol_subset_filters_correctly():
             },
             "C": {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "complete_for_target_window": False,
                     "expected_hourly_bars": EXP,
@@ -347,15 +353,18 @@ def _write_full_hourly_cache(cache_dir: Path, symbol: str, n: int = EXP):
     for i in range(n):
         ts = start + timedelta(hours=i)
         ts_ms = int(ts.timestamp() * 1000)
-        # high-volume, stable OHLC to pass >=$5M daily volume filter
+        # Varied OHLCV: a real hourly series over 283 days is not flat. The
+        # synthetic/flat-series guard re-detects constant signatures at load time,
+        # so fixtures must carry distinct per-bar signatures to pass load_verified_cache.
+        o = 50000.0 + (i % 7) * 0.25
         candles.append({
             "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "timestamp_ms": ts_ms,
-            "open": 50000.0,
-            "high": 50100.0,
-            "low": 49900.0,
-            "close": 50000.0,
-            "volume": 200.0,  # 200*50000*24 = 240M/day
+            "open": o,
+            "high": o + 100.0 + (i % 5),
+            "low": o - 100.0 - (i % 3),
+            "close": o + 50.0 + (i % 11),
+            "volume": 200.0 + (i % 13),
         })
     (candles_dir / f"{symbol}.json").write_text(json.dumps(candles))
 
@@ -377,6 +386,7 @@ def _complete_verified_manifest(cache_dir: Path, symbols):
             "status": "ok",
             "source": "user_supplied_archive",
             "cache_path": f"research_state/cache/hyperliquid/candles/{sym}.json",
+            "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
             "coverage": {
                 "expected_hourly_bars": EXP,
                 "observed_in_window_bars": EXP,
@@ -467,7 +477,7 @@ def test_validate_provenance_rejects_missing_manifest_sha_fields_when_incomplete
         "fabricated_data": False,
         "real_market_data_intended": True,
         "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
-        "symbols": {"BTC": {"status": "ok", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": EXP-10, "gap_count": 0, "complete_for_target_window": False}}},
+        "symbols": {"BTC": {"status": "ok", "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"}, "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": EXP-10, "gap_count": 0, "complete_for_target_window": False}}},
     }
     ok, errs = validate_provenance(m)
     assert not ok
@@ -519,7 +529,8 @@ def test_e2e_archive_to_manifest_universe_and_gate(tmp_path):
         "fabricated_data": False,
         "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
         "source": {"kind": "archive"}, "symbols": {
-            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": EXP,
+            "BTC": {"status": "ok", "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
+                    "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": EXP,
                     "gap_count": 0, "complete_for_target_window": True}}
         }, "summary": {"all_complete": True, "complete_symbols": ["BTC"]},
     }

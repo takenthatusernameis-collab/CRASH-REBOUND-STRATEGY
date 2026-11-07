@@ -56,6 +56,7 @@ def test_partial_mode_excludes_inconsistent_complete_claim(tmp_path, monkeypatch
         "symbols": {
             "BTC": {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "cache_path": f"cache/candles/BTC.json",
                 "coverage": {
                     "expected_hourly_bars": EXP,
@@ -67,6 +68,7 @@ def test_partial_mode_excludes_inconsistent_complete_claim(tmp_path, monkeypatch
             },
             "ETH": {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "cache_path": f"cache/candles/ETH.json",
                 "coverage": {
                     "expected_hourly_bars": EXP,

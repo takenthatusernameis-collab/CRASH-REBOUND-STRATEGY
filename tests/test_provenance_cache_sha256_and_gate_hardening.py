@@ -33,6 +33,7 @@ EXP = expected_hourly_bars(TARGET_START, TARGET_END)
 def _complete_entry(observed: int = EXP, status: str = "ok", gap_count: int = 0) -> dict:
     return {
         "status": status,
+        "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
         "coverage": {
             "complete_for_target_window": status == "ok" and observed == EXP and gap_count == 0,
             "expected_hourly_bars": EXP,

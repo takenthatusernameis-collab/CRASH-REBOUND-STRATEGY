@@ -28,11 +28,14 @@ def _write_full_hourly_cache(cache_dir: Path, symbol: str, n: int = EXP):
     candles = []
     for i in range(n):
         ts = start + dt.timedelta(hours=i)
+        # Varied per-bar signatures: the runtime synthetic/flat guard re-detects
+        # constant OHLCV at load time, so fixtures must carry distinct signatures.
+        o = 50000.0 + (i % 7) * 0.25
         candles.append({
             "timestamp": ts.strftime("%Y-%m-%dT%H:%M:%SZ"),
             "timestamp_ms": _dt_to_ms(ts),
-            "open": 50000.0, "high": 50100.0, "low": 49900.0, "close": 50000.0,
-            "volume": 200.0,
+            "open": o, "high": o + 100.0 + (i % 5), "low": o - 100.0 - (i % 3),
+            "close": o + 50.0 + (i % 11), "volume": 200.0 + (i % 13),
         })
     (candles_dir / f"{symbol}.json").write_text(json.dumps(candles))
 
@@ -54,6 +57,7 @@ def _complete_verified_manifest(cache_dir: Path, symbols):
             "status": "ok",
             "source": "user_supplied_archive",
             "cache_path": f"research_state/cache/hyperliquid/candles/{sym}.json",
+            "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
             "coverage": {
                 "expected_hourly_bars": EXP,
                 "observed_in_window_bars": EXP,

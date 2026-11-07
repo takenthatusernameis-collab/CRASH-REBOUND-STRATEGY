@@ -21,6 +21,7 @@ def _base_manifest():
         "symbols": {
             "BTC": {
                 "status": "ok",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "complete_for_target_window": True,
                     "expected_hourly_bars": exp,
@@ -30,6 +31,7 @@ def _base_manifest():
             },
             "ETH": {
                 "status": "error",
+                "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                 "coverage": {
                     "complete_for_target_window": False,
                     "observed_in_window_bars": 4082,

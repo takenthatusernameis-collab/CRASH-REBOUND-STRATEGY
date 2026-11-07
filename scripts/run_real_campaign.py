@@ -181,14 +181,15 @@ def _execution_realism_metadata(config):
     }
 
 
-def _complete_symbol_subset(manifest: dict) -> dict:
+def _complete_symbol_subset(manifest: dict, *, start: str = TARGET_START, end: str = TARGET_END) -> dict:
     """Return a manifest view containing only symbols verified complete for the target window.
 
     Safety-critical for partial-not-evidence mode: delegates to provenance.complete_symbol_subset,
     which requires consistent coverage fields (expected==observed, gap_count==0). Never trust a
-    bare complete_for_target_window flag.
+    bare complete_for_target_window flag. Honors the (possibly overridden) target window so
+    partial-mode test windows with different expected bar counts are handled correctly.
     """
-    return complete_symbol_subset(manifest)
+    return complete_symbol_subset(manifest, start=start, end=end)
 
 
 def main():
@@ -251,7 +252,7 @@ def main():
                 if _parse_iso(tw["start"]) != _parse_iso(target_start) or _parse_iso(tw["end"]) != _parse_iso(target_end):
                     print(f"BLOCKER: target_window mismatch for partial run: {tw} vs expected {target_start}->{target_end}", file=sys.stderr)
                     return 2
-            manifest = _complete_symbol_subset(raw)
+            manifest = _complete_symbol_subset(raw, start=target_start, end=target_end)
             if len(manifest.get("symbols") or {}) < args.min_symbols:
                 print(str(e), file=sys.stderr)
                 print(f"\nBLOCKER: no complete verified symbols available for partial-not-evidence run (need >= {args.min_symbols}).", file=sys.stderr)

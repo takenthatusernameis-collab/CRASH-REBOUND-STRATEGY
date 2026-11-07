@@ -231,6 +231,7 @@ class TestE2EArchiveManifestUniverseGate(unittest.TestCase):
             "symbols": {
                 "AAA": {
                     "status": "ok",
+                    "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
                     "coverage": {
                         "expected_hourly_bars": EXPECTED_BARS,
                         "observed_in_window_bars": EXPECTED_BARS,
@@ -362,6 +363,7 @@ class TestE2EArchiveManifestUniverseGate(unittest.TestCase):
         partial_manifest["summary"]["ready_for_real_campaign"] = False
         partial_manifest["symbols"]["BBB"] = {
             "status": "incomplete",
+            "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
             "coverage": {"expected_hourly_bars": EXPECTED_BARS, "observed_in_window_bars": 1, "gap_count": 0, "complete_for_target_window": False},
         }
         pmanifest = cache / "partial_provenance.json"
