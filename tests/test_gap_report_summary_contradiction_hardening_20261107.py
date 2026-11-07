@@ -86,3 +86,33 @@ class TestGapReportSummaryContradictionHardening(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class TestGapReportStalePessimisticSummaryRecomputes(unittest.TestCase):
+    def _scan(self):
+        return {"searched_paths": [], "verified_archives_found": []}
+
+    def test_stale_pessimistic_summary_recomputes_ready_from_validated_facts(self):
+        """Campaign item 4 residual (2026-11-07): stale/missing pessimistic summary
+        labels must not block when validated symbol facts prove complete,
+        non-synthetic, spec-window-consistent, and volume-compliant coverage."""
+        exp = expected_hourly_bars(TARGET_START, TARGET_END)
+        m = _manifest(summary_overrides={
+            "all_complete": False, "ready_for_real_campaign": False,
+            "complete_symbols": [], "symbols_complete": 0,
+        })
+        m["real_market_data_intended"] = True
+        m["symbols"]["BTC"]["coverage"].update({
+            "missing_bars_in_window": 0, "gaps": [],
+            "first_timestamp_ms": 1766188800000, "last_timestamp_ms": 1790636400000,
+        })
+        m["symbols"]["BTC"]["volume_coverage"].update({
+            "min_daily_volume_usd": 5_000_000, "observed_min_24h_usd_volume": 10_000_000,
+            "min_daily_volume_usd_requested": 5_000_000, "min_daily_volume_usd_effective": 5_000_000,
+            "bars_checked": exp, "bars_passing": exp,
+        })
+        r = build_gap_report(manifest=m, probe_evidence=None, archive_scan=self._scan())
+        self.assertTrue(r["all_complete"], r)
+        self.assertTrue(r["ready_for_real_campaign"], r)
+        self.assertFalse(r["blocker"]["item_6c_blocked"], r)
+        self.assertFalse(r.get("blocked"), r)
+        self.assertTrue(r.get("volume_floor_compliant"), r)

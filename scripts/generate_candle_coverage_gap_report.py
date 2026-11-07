@@ -346,13 +346,25 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     except Exception as e:
         contradiction_errors = [f"summary validation failed: {e}"]
 
-    # Summary booleans are advisory only when consistent; contradictory/missing
-    # summary must not make the report optimistic.
+    # Summary booleans are advisory labels only. Recompute readiness-critical facts
+    # from validated symbol data; never make the report optimistic from summary, and
+    # never keep it pessimistic when validated facts prove the target window is complete,
+    # non-synthetic, and spec-consistent. Missing/invalid summary fields therefore do not
+    # block by themselves when facts are clean.
     summary_all_complete = summary.get("all_complete")
     summary_ready = summary.get("ready_for_real_campaign")
     out["all_complete"] = computed_all_complete and out["target_window_consistent_with_spec"]
-    out["ready_for_real_campaign"] = bool(summary_ready is True) and computed_all_complete and out["target_window_consistent_with_spec"]
-    if contradiction_errors or actual_synthetic or (summary_all_complete is True and not computed_all_complete) or (summary_ready is True and (not computed_all_complete or actual_synthetic)):
+    # Ready is a fact derived from validated symbol evidence + spec-consistent target window.
+    # Volume/probe/other fail-closed gates below may still block it.
+    out["ready_for_real_campaign"] = computed_all_complete and out["target_window_consistent_with_spec"]
+    if computed_all_complete and out["target_window_consistent_with_spec"] and not contradiction_errors and not actual_synthetic:
+        out["blocker"]["item_6c_blocked"] = False
+        out["blocker"]["reason"] = "Manifest indicates complete verified coverage for spec target window (validated from symbol facts)."
+    stale_optimistic_summary = (
+        (summary_all_complete is True and not computed_all_complete)
+        or (summary_ready is True and (not computed_all_complete or actual_synthetic))
+    )
+    if contradiction_errors or actual_synthetic or stale_optimistic_summary:
         out["ready_for_real_campaign"] = False
         out["all_complete"] = computed_all_complete and out["target_window_consistent_with_spec"] and not contradiction_errors
         out["manifest_summary_contradiction"] = True
