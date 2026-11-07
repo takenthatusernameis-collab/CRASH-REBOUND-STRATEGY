@@ -394,14 +394,15 @@ def backtest_simple(
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
-                            if eth_exit_r:
-                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
-                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
-                                hours_held_r = sidx - short_start_idx + 1
-                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
-                                rebound_hedge_pnl -= rh_funding
-                                rebound_hedge_info['exit'] = r_hedge_exit_px
+                            if eth_exit_r is None:
+                                eth_exit_r = rebound_hedge_info['entry']
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                            hours_held_r = sidx - short_start_idx + 1
+                            rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rebound_hedge_pnl -= rh_funding
+                            rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'liquidated'})
@@ -421,14 +422,15 @@ def backtest_simple(
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
-                            if eth_exit_r:
-                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
-                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
-                                hours_held_r = sidx - short_start_idx + 1
-                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
-                                rebound_hedge_pnl -= rh_funding
-                                rebound_hedge_info['exit'] = r_hedge_exit_px
+                            if eth_exit_r is None:
+                                eth_exit_r = rebound_hedge_info['entry']
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                            hours_held_r = sidx - short_start_idx + 1
+                            rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rebound_hedge_pnl -= rh_funding
+                            rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'stopped'})
@@ -447,14 +449,15 @@ def backtest_simple(
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
-                            if eth_exit_r:
-                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
-                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
-                                hours_held_r = sidx - short_start_idx + 1
-                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
-                                rebound_hedge_pnl -= rh_funding
-                                rebound_hedge_info['exit'] = r_hedge_exit_px
+                            if eth_exit_r is None:
+                                eth_exit_r = rebound_hedge_info['entry']
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                            hours_held_r = sidx - short_start_idx + 1
+                            rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rebound_hedge_pnl -= rh_funding
+                            rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'target'})
@@ -474,14 +477,15 @@ def backtest_simple(
                             eth_exit_r = None
                             if eth_candles and sidx < len(eth_candles):
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
-                            if eth_exit_r:
-                                r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
-                                rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
-                                hours_held_r = sidx - short_start_idx + 1
-                                rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                                rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
-                                rebound_hedge_pnl -= rh_funding
-                                rebound_hedge_info['exit'] = r_hedge_exit_px
+                            if eth_exit_r is None:
+                                eth_exit_r = rebound_hedge_info['entry']
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                            hours_held_r = sidx - short_start_idx + 1
+                            rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rebound_hedge_pnl -= rh_funding
+                            rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
@@ -503,14 +507,15 @@ def backtest_simple(
                         eth_exit_r = None
                         if eth_candles and len(eth_candles) > 0:
                             eth_exit_r = eth_candles[-1].get('close') or eth_candles[-1].get('open')
-                        if eth_exit_r:
-                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
-                            rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
-                            hours_held_r = len(candles) - short_start_idx
-                            rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
-                            rebound_hedge_pnl -= rh_funding
-                            rebound_hedge_info['exit'] = r_hedge_exit_px
+                        if eth_exit_r is None:
+                            eth_exit_r = rebound_hedge_info['entry']
+                        r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                        rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
+                        hours_held_r = len(candles) - short_start_idx
+                        rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
+                        rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                        rebound_hedge_pnl -= rh_funding
+                        rebound_hedge_info['exit'] = r_hedge_exit_px
                     if risk_state is not None:
                         risk_state.apply_trade(str(last_sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                     trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
@@ -552,14 +557,15 @@ def backtest_simple(
                 eth_exit_price = None
                 if eth_candles and idx < len(eth_candles):
                     eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
-                if eth_exit_price:
-                    hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
-                    hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
-                    hours_held = idx - start_idx + 1
-                    hedge_notional = hedge_info['entry'] * hedge_info['size']
-                    funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
-                    hedge_pnl_total -= funding_cost
-                    hedge_info['exit'] = hedge_exit_px
+                if eth_exit_price is None:
+                    eth_exit_price = hedge_info['entry']
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
+                hours_held = idx - start_idx + 1
+                hedge_notional = hedge_info['entry'] * hedge_info['size']
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+                hedge_pnl_total -= funding_cost
+                hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
                 try:
@@ -598,14 +604,15 @@ def backtest_simple(
         eth_exit_price = None
         if eth_candles and len(eth_candles) > 0:
             eth_exit_price = eth_candles[-1].get('close') or eth_candles[-1].get('open')
-        if eth_exit_price:
-            hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
-            hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
-            hours_held = len(candles) - start_idx
-            hedge_notional = hedge_info['entry'] * hedge_info['size']
-            funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
-            hedge_pnl_total -= funding_cost
-            hedge_info['exit'] = hedge_exit_px
+        if eth_exit_price is None:
+            eth_exit_price = hedge_info['entry']
+        hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+        hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
+        hours_held = len(candles) - start_idx
+        hedge_notional = hedge_info['entry'] * hedge_info['size']
+        funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+        hedge_pnl_total -= funding_cost
+        hedge_info['exit'] = hedge_exit_px
     r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
     if risk_state is not None:
         risk_state.apply_trade(str(last.get('timestamp', '')), pnl, opened=False, closed=True)
