@@ -1,4 +1,4 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T13:50:27Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:48:14Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file.
 
@@ -32,6 +32,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
   - Campaign item 4: verified-data/provenance hardening (fail-closed checksums/manifests); broaden universe only with archived verified data + full provenance. BTC/ETH 283d 0-trade remains sole verified truth.
 
 ## PRIOR SESSIONS (CONDENSED)
+- **2026-11-07T14:48:14Z:** baseline re-verified green (406 passed, 11 skipped); no bottlenecks; working tree clean; HANDOFF.md refreshed for next session.
 - **2026-11-07T13:50:27Z:** grand-total consumer audit shipped (`campaign_metrics:_trade_pnl` + runner fallback); rebound legs never dropped. 404 passed, 11 skipped.
 - **2026-11-07T13:47:34Z:** baseline re-verified green; rebound `total_pnl` default fix shipped (TradeResult). 400 passed, 11 skipped.
 - **2026-11-07T13:41:05Z:** portfolio daily-loss/exposure no-lookahead reconciliation; realized exits applied only at/through exit bar (3 tests). 397 passed, 11 skipped.
@@ -39,7 +40,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 - **2026-11-07T12:27:42Z:** cleared bottlenecks; fixed RiskState timestamp-normalized daily accounting preserving live cap-cut/notional state (3 tests). 387 passed, 11 skipped.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-07T14:47:11Z | MANDATORY: CAMPAIGN ITEM 2/3 RESIDUAL (NO-LOOKAHEAD/ADMISSION/CAP/TIMESTAMP + $5M GATING INTEGRITY). Baseline 406 passed/11 skipped green; portfolio live rebound-short notional reservation hardened (cap/admission sees short-leg notional, not long entry). No bottlenecks; sole durable handoff is this root HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T14:48:14Z | MANDATORY: REPO-NAME PRIORITY → CRASH-REBOUND STRATEGY FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly engine only; no 20s slicing / explicit spread / L2 impact claims). BASELINE 406 PASSED / 11 SKIPPED GREEN; PORTFOLIO LIVE REBOUND-SHORT NOTIONAL RESERVATION HARDENED. NO BOTTLENOCKS; SOLE DURABLE HANDOFF IS THIS ROOT HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
 
 **Required execution order:**
 1. `python -m pytest tests/ -q --tb=no` (must stay green baseline: 406 passed, 11 skipped expected absent environment drift).
