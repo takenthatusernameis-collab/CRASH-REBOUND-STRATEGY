@@ -1,4 +1,4 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:48:14Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:49:45Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file.
 
@@ -40,7 +40,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 - **2026-11-07T12:27:42Z:** cleared bottlenecks; fixed RiskState timestamp-normalized daily accounting preserving live cap-cut/notional state (3 tests). 387 passed, 11 skipped.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-07T14:48:14Z | MANDATORY: REPO-NAME PRIORITY → CRASH-REBOUND STRATEGY FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly engine only; no 20s slicing / explicit spread / L2 impact claims). BASELINE 406 PASSED / 11 SKIPPED GREEN; PORTFOLIO LIVE REBOUND-SHORT NOTIONAL RESERVATION HARDENED. NO BOTTLENOCKS; SOLE DURABLE HANDOFF IS THIS ROOT HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T14:49:45Z | MANDATORY: REPO-NAME PRIORITY → CRASH-REBOUND STRATEGY FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly engine only; no 20s slicing / explicit spread / L2 impact claims). BASELINE 406 PASSED / 11 SKIPPED GREEN; PORTFOLIO LIVE REBOUND-SHORT NOTIONAL RESERVATION HARDENED. NO BOTTLENECKS; SOLE DURABLE HANDOFF IS THIS ROOT HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
 
 **Required execution order:**
 1. `python -m pytest tests/ -q --tb=no` (must stay green baseline: 406 passed, 11 skipped expected absent environment drift).
