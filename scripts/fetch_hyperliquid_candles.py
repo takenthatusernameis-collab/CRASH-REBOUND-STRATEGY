@@ -718,12 +718,40 @@ def main():
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--allow-partial", action="store_true", help="Write manifest even if incomplete (still marked incomplete; real run must refuse)")
     ap.add_argument("--universe-file", default=None, help="Optional JSON file with symbol list")
-    ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0, help="Minimum 24h USD volume per symbol (>= $5M spec filter)")
+    ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0,
+                    help="Minimum 24h USD volume per symbol. Spec-compliant provenance/coverage analysis enforces a $5M floor for all thresholds (including 0).")
     args = ap.parse_args()
 
     start = _parse_iso(args.start)
     end = _parse_iso(args.end)
     start_ms, end_ms = _dt_to_ms(start), _dt_to_ms(end)
+    # Spec-compliant provenance acquisition must not label sub-$5M/0 thresholds as
+    # valid volume gating evidence. Record requested value for audit, use effective.
+    try:
+        from src.strategy.config import enforce_spec_volume_floor, SPEC_MIN_DAILY_VOLUME_USD
+    except Exception:
+        SPEC_MIN_DAILY_VOLUME_USD = 5_000_000.0
+        def enforce_spec_volume_floor(v):
+            try:
+                fv = float(v)
+            except Exception:
+                return SPEC_MIN_DAILY_VOLUME_USD
+            if fv <= 0 or not (fv == fv):
+                return SPEC_MIN_DAILY_VOLUME_USD
+            return fv if fv >= SPEC_MIN_DAILY_VOLUME_USD else SPEC_MIN_DAILY_VOLUME_USD
+    requested_min_daily_volume_usd = float(args.min_daily_volume_usd)
+    # For provenance/volume-coverage acquisition, 0 is NOT a spec-compliant
+    # evidence threshold: treat any sub-$5M or non-positive request as floored.
+    if requested_min_daily_volume_usd < SPEC_MIN_DAILY_VOLUME_USD or not (requested_min_daily_volume_usd == requested_min_daily_volume_usd):
+        effective_min_daily_volume_usd = float(SPEC_MIN_DAILY_VOLUME_USD)
+        print(
+            f"WARNING: --min-daily-volume-usd {requested_min_daily_volume_usd:g} is below ${SPEC_MIN_DAILY_VOLUME_USD:g} spec floor "
+            f"or invalid; using effective ${effective_min_daily_volume_usd:g} for spec-compliant provenance/volume coverage.",
+            file=sys.stderr,
+        )
+    else:
+        effective_min_daily_volume_usd = float(requested_min_daily_volume_usd)
+    args.min_daily_volume_usd = effective_min_daily_volume_usd
     cache_dir = Path(args.cache_dir)
     candles_dir = cache_dir / "candles"
     candles_dir.mkdir(parents=True, exist_ok=True)
@@ -765,7 +793,15 @@ def main():
         "source": {"kind": args.source, "hl_url": args.hl_url if args.source == "hyperliquid_api" else None,
                    "input_archive": str(Path(args.input_archive).resolve()) if args.input_archive else None,
                    "input_archives": [str(Path(p).resolve()) for p in (args.input_archives or [])]},
-        "request_params": {"interval": args.interval, "start_ms": start_ms, "end_ms": end_ms, "symbols": symbols},
+        "request_params": {
+            "interval": args.interval, "start_ms": start_ms, "end_ms": end_ms, "symbols": symbols,
+            "min_daily_volume_usd_requested": requested_min_daily_volume_usd,
+            "min_daily_volume_usd_effective": effective_min_daily_volume_usd,
+            "spec_floor_enforced": requested_min_daily_volume_usd < SPEC_MIN_DAILY_VOLUME_USD,
+            "spec_compliant_volume_floor_usd": SPEC_MIN_DAILY_VOLUME_USD,
+            # Backward-compat key; always effective (floored).
+            "min_daily_volume_usd": effective_min_daily_volume_usd,
+        },
         "symbols": {},
         "summary": {},
     }
