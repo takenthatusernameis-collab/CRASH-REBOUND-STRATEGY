@@ -33,7 +33,8 @@ def _candles(close: float = 100.0, volume: float = 3000.0, n: int = 30):
     return [
         {"timestamp_ms": int((base + timedelta(hours=i)).timestamp() * 1000),
          "timestamp": (base + timedelta(hours=i)).strftime("%Y-%m-%dT%H:%M:%SZ"),
-         "open": close, "high": close + 1, "low": close - 1, "close": close, "volume": volume}
+         "open": close + i * 0.01, "high": close + i * 0.01 + 1, "low": close + i * 0.01 - 1,
+         "close": close + i * 0.01, "volume": volume}
         for i in range(n)
     ]
 
