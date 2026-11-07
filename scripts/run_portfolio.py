@@ -249,6 +249,18 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     entry_px = getattr(res, 'entry_price', 0.0)
                     executed_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
                     if executed_notional > 0:
+                        # Multi-leg rebound short: the short leg opens at short_entry
+                        # (typically > long entry after +target). Portfolio must reserve
+                        # the live notional for occupancy/cap; reserving only long-entry
+                        # understates exposure while the short holds. Use max leg notional.
+                        for _leg in (getattr(res, 'trades', None) or []):
+                            if isinstance(_leg, dict) and _leg.get('side') == 'short':
+                                try:
+                                    _sn = float(_leg.get('entry', 0.0) or 0.0) * float(res.shares)
+                                except Exception:
+                                    _sn = 0.0
+                                if _sn > executed_notional:
+                                    executed_notional = _sn
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
                         probe_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
                         # If the engine applied equal-share cuts (old+new) to the cap,
