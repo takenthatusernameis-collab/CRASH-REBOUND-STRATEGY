@@ -247,20 +247,21 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     _exit_ts = getattr(res, 'exit_timestamp', '') or (candles[exit_idx].get('timestamp', '') if exit_idx < len(candles) else '')
                     pending_realized_exits.append((int(exit_idx), str(_exit_ts), float(trade_pnl)))
                     entry_px = getattr(res, 'entry_price', 0.0)
-                    executed_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
+                    executed_notional = float(getattr(res, 'max_live_coin_notional', 0.0) or 0.0)
+                    if executed_notional <= 0 and entry_px > 0 and res.shares > 0:
+                        executed_notional = float(res.shares) * float(entry_px)
                     if executed_notional > 0:
-                        # Multi-leg rebound short: the short leg opens at short_entry
-                        # (typically > long entry after +target). Portfolio must reserve
-                        # the live notional for occupancy/cap; reserving only long-entry
-                        # understates exposure while the short holds. Use max leg notional.
-                        for _leg in (getattr(res, 'trades', None) or []):
-                            if isinstance(_leg, dict) and _leg.get('side') == 'short':
-                                try:
-                                    _sn = float(_leg.get('entry', 0.0) or 0.0) * float(res.shares)
-                                except Exception:
-                                    _sn = 0.0
-                                if _sn > executed_notional:
-                                    executed_notional = _sn
+                        # Backward-compatible fallback for older TradeResult shapes:
+                        # rebound short opens at short_entry (> long entry after +target).
+                        if not float(getattr(res, 'max_live_coin_notional', 0.0) or 0.0):
+                            for _leg in (getattr(res, 'trades', None) or []):
+                                if isinstance(_leg, dict) and _leg.get('side') == 'short':
+                                    try:
+                                        _sn = float(_leg.get('entry', 0.0) or 0.0) * float(res.shares)
+                                    except Exception:
+                                        _sn = 0.0
+                                    if _sn > executed_notional:
+                                        executed_notional = _sn
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
                         probe_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
                         # If the engine applied equal-share cuts (old+new) to the cap,

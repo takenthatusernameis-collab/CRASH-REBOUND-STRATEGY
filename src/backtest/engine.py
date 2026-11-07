@@ -30,6 +30,11 @@ class TradeResult:
     rebound_hedge_entry: float = 0.0
     rebound_hedge_exit: float = 0.0
     total_pnl: float = 0.0  # includes hedge PnL
+    # Max live coin-position notional across long-entry and rebound-short-entry legs
+    # (post cap-cut shares * executed entry price). Hedges are excluded from the coin
+    # positions cap context; portfolio runners use this for occupancy/gross-cap reservation
+    # without parsing trades-leg internals.
+    max_live_coin_notional: float = 0.0
 
     def __init__(self, pnl=None, r_multiple=None, exit_reason=None, **kwargs):
         # Be flexible for different calling conventions
@@ -53,10 +58,14 @@ class TradeResult:
         self.rebound_hedge_side = kwargs.get('rebound_hedge_side', None)
         self.rebound_hedge_size = kwargs.get('rebound_hedge_size', 0.0)
         self.rebound_hedge_entry = kwargs.get('rebound_hedge_entry', 0.0)
-        self.rebound_hedge_exit = kwargs.get('rebound_hedge_exit', 0.0)
+        self.rebound_hedge_exit = kwargs.get('rebound_hedge_entry', 0.0) if False else kwargs.get('rebound_hedge_exit', 0.0)
         self.total_pnl = kwargs.get(
             'total_pnl',
             self.pnl + self.hedge_pnl + self.rebound_short_pnl + self.rebound_hedge_pnl,
+        )
+        self.max_live_coin_notional = kwargs.get(
+            'max_live_coin_notional',
+            self.entry_price * self.shares if self.entry_price > 0 and self.shares > 0 else 0.0,
         )
 
 
