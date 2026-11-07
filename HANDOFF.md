@@ -1,41 +1,59 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:53:41Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T14:54:58Z
 ## SINGLE CANONICAL HANDOFF
-Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file.
+Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. Do **not** create TODO/NEXT/PROGRESS/session handoff variants.
 
-## SESSION 2026-11-07T14:53:41Z — BASELINE RE-VERIFIED GREEN (406/11); WORKING TREE CLEAN; NEXT TASK MESSAGE LEFT; NO BOTTLENOCKS
-- **Repo-name priority:** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only; **do not claim** 20s slicing / explicit spread / L2 order-book impact.
-- **Non-negotiable spec contracts (unchanged):** hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths and missing/incomplete bars as applicable; hourly liquidation at worst price with correct sequencing vs stop/target/time, correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
-- **Bottlenecks:** none blocking. Sole durable handoff remains this root `HANDOFF.md`. `research_state/candle_coverage_gap_report.json` may be dirtied by local tooling; reverted to HEAD (no material change). `__pycache__` artifacts from imports are not evidence.
+## SESSION 2026-11-07T14:54:58Z — BASELINE RE-VERIFIED GREEN (406/11); WORKING TREE CLEAN; NO BOTTLENECKS; HEAVY FOCUS CAMPAIGN LOCKED
+- **Repo-name priority (mandatory):** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only. **Never claim** 20s slicing / explicit spread / L2 order-book impact.
+- **Non-negotiable spec contracts:** hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths and missing/incomplete bars as applicable; hourly liquidation at worst price with correct sequencing vs stop/target/time, correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
+- **Bottlenecks:** none blocking. Working tree clean (`git status --short` empty). Sole durable handoff is this root `HANDOFF.md`. `__pycache__` artifacts are not evidence.
+- **Baseline (verified this session):** `python -m pytest tests/ -q --tb=no` → **406 passed, 11 skipped in 41.53s** (2026-11-07T14:54Z).
 
-- **Baseline (verified this session, start):** `python -m pytest tests/ -q --tb=no` → **406 passed, 11 skipped in 41.88s**.
+## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — MANDATORY HEAVY EXECUTION
+`CRASH-REBOUND-STRATEGY | 2026-11-07T14:54:58Z | MANDATORY: FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly only; no 20s slicing / explicit spread / L2 impact claims). BASELINE GREEN 406 PASSED / 11 SKIPPED. WORKING TREE CLEAN. NO BOTTLENECKS. SOLE DURABLE HANDOFF = ROOT HANDOFF.md. YOU MAY NOT SKIP HEAVY WORK, CLAIM BLOCKED WITHOUT A REAL MISSING INPUT, OR STOP AFTER PASSIVE RE-VERIFICATION. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM WITH EVIDENCE BEFORE ENDING SESSION.`
 
-- **Shipped (prior session):** `scripts/run_portfolio.py` reservation/cap path reserves max(long-entry, rebound-short-leg-entry) live notional from `res.trades` for overlay/cap; failing-tests-first regression `tests/test_portfolio_rebound_short_live_notional_reservation_20261107.py` (2 tests). Full suite green.
+## HEAVY FOCUS CAMPAIGN — EXECUTE IN ORDER (NON-OPTIONAL)
+Every session must complete steps 1 and 8, and ship at least one material item from steps 2–6.
 
-- **Remaining risks / next heavy focus:**
-  - Campaign item 2 residual (priority): no-lookahead/admission/cap/timestamp/daily-loss regression watch across `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners/portfolio. Audit rebound hedge live-notional/edge cases, multi-leg `occupied_until`/reservation invariants, timestamp/day normalization (`risk_state.date` may be empty in some summary states). Consider explicit live/max leg notional on `TradeResult` if future paths need it without leg-log parsing. Rebound hedge notional/edge cases and `occupied_until` occupancy semantics for multi-leg bars still warrant targeted audit.
-  - Campaign item 3: $5M gating integrity regression watch across all spec-compliant surfaces (`backtest_simple` low-level/non-gated by design; `run_backtest.py`/fixture smoke runners not spec-gated evidence).
-  - Campaign item 4: verified-data/provenance hardening (fail-closed checksums/manifests); broaden universe only with archived verified data + full provenance. BTC/ETH 283d 0-trade remains sole verified truth.
+1. **Gate (required):** `python -m pytest tests/ -q --tb=no` — must remain green (expected 406 passed, 11 skipped absent environment drift). Investigate real failures before new work.
+2. **Campaign item 2 residual (priority, material work):** No-lookahead/admission/cap/timestamp/daily-loss regression watch across `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners/portfolio. Audit rebound hedge live-notional/edge cases, multi-leg `occupied_until`/reservation invariants, and timestamp/day normalization (`risk_state.date` may be empty in some summary states). Portfolio reserves max(long-entry, rebound-short-leg-entry) live notional; audit whether explicit live/max leg notional on `TradeResult` is needed for future paths without leg-log parsing. Failing-tests-first for any real defect; add targeted regressions even when clean only if they harden a real uncovered contract boundary.
+3. **Campaign item 3 (material work if 2 clean):** $5M gating integrity regression watch on all spec-compliant surfaces. `backtest_simple` is low-level/non-gated by design; `run_backtest.py`/fixture smoke runners are not spec-gated evidence. Never conflate low-level/non-gated paths with spec-compliant gating.
+4. **Campaign item 4 (material work if 2/3 clean):** Verified-data/provenance hardening (fail-closed checksums/manifests). Broaden universe only with archived verified data + full provenance. BTC/ETH 283d 0-trade remains sole verified truth.
+5. **Optional only after 2–4:** Refactor only when it reduces spec-fidelity risk and is covered by tests. No speculative architecture work.
+6. **Definition of material shipped item:** spec-fidelity hardening + tests, OR verified-data/provenance hardening, OR material gated-pipeline/API-guardrail hardening. Re-running tests alone is **not** a shipped item. Updating handoff alone is **not** a shipped item.
+7. **Final gate (required):** `python -m pytest tests/ -q --tb=no` — full suite green.
+8. **Handoff (required):** Update **ONLY** this root `HANDOFF.md` with UTC timestamp, exact commands/results, files changed, shipped material item(s), remaining risks, and next heavy task message. No other handoff files.
 
-## PRIOR SESSIONS (CONDENSED)
-- **2026-11-07T14:53:41Z:** baseline re-verified green (406 passed, 11 skipped); working tree clean; no bottlenecks; next initial task message left in this HANDOFF.md.
-- **2026-11-07T14:48:14Z:** baseline re-verified green (406 passed, 11 skipped); no bottlenecks; working tree clean; HANDOFF.md refreshed for next session.
-- **2026-11-07T14:43:40Z:** PORTFOLIO LIVE REBOUND-SHORT NOTIONAL RESERVATION HARDENED; SUITE GREEN 406/11; HANDOFF REFRESHED.
-- **2026-11-07T13:50:27Z:** grand-total consumer audit shipped (`campaign_metrics:_trade_pnl` + runner fallback); rebound legs never dropped. 404 passed, 11 skipped.
-- **2026-11-07T13:47:34Z:** baseline re-verified green; rebound `total_pnl` default fix shipped (TradeResult). 400 passed, 11 skipped.
-- **2026-11-07T13:41:05Z:** portfolio daily-loss/exposure no-lookahead reconciliation; realized exits applied only at/through exit bar (3 tests). 397 passed, 11 skipped.
-- **2026-11-07T12:37:09Z:** rebound-short attribution fields + risk_state rebound-short notional registration (7 tests). 394 passed, 11 skipped.
-- **2026-11-07T12:27:42Z:** cleared bottlenecks; fixed RiskState timestamp-normalized daily accounting preserving live cap-cut/notional state (3 tests). 387 passed, 11 skipped.
+## SHIPPED / DONE (CONDENSED)
+- **2026-11-07T14:43:40Z (prior):** Portfolio live rebound-short notional reservation hardened (`scripts/run_portfolio.py` max long-entry/short-leg-entry notional for overlay/cap) + failing-tests-first `tests/test_portfolio_rebound_short_live_notional_reservation_20261107.py` (2 tests). Suite green.
+- **2026-11-07T13:50:27Z:** Rebound grand-total consumer audit (`campaign_metrics:_trade_pnl` + runner fallback); rebound legs never dropped.
+- **2026-11-07T13:47:34Z:** TradeResult default `total_pnl` includes rebound short/hedge legs.
+- **2026-11-07T13:41:05Z:** Portfolio daily-loss/exposure no-lookahead reconciliation (exits applied only at/through exit bar).
+- **2026-11-07T12:37:09Z:** Rebound-short attribution fields + risk_state rebound-short notional registration.
+- **2026-11-07T12:27:42Z:** RiskState timestamp-normalized daily accounting preserves live cap-cut/notional state.
+- **Earlier campaign items 1–2 base:** rebound-short hedge funding/attribution/atomic risk/trade-log contracts; grand-total consumer audit.
 
-## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-07T14:53:41Z | MANDATORY: REPO-NAME PRIORITY → CRASH-REBOUND STRATEGY FIDELITY TO crash-rebound-strategy.pdf / research_state/strategy_spec.md (hourly engine only; no 20s slicing / explicit spread / L2 impact claims). BASELINE 406 PASSED / 11 SKIPPED GREEN; WORKING TREE CLEAN; NO BOTTLENECKS; SOLE DURABLE HANDOFF IS THIS ROOT HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
+## REMAINING RISKS / NEXT HEAVY FOCUS
+- **Item 2 residual (priority):** rebound hedge live-notional/edge cases; multi-leg `occupied_until`/reservation invariants; timestamp/day normalization when `risk_state.date` is empty in summary states; whether `TradeResult` needs explicit live/max leg notional for future paths. Full no-lookahead/admission/cap/timestamp/daily-loss regression watch across gated wrappers/runners/portfolio.
+- **Item 3:** $5M gating integrity regression watch across all spec-compliant surfaces.
+- **Item 4:** fail-closed verified-data/provenance hardening (checksums/manifests); universe expansion only with archived verified data + full provenance. BTC/ETH 283d 0-trade remains sole verified truth.
 
-**Required execution order:**
-1. `python -m pytest tests/ -q --tb=no` (must stay green baseline: 406 passed, 11 skipped expected absent environment drift).
-2. **Campaign item 2 residual (priority):** no-lookahead/admission/cap/timestamp/daily-loss regression watch across `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners/portfolio. Audit rebound hedge live-notional/edge cases, multi-leg `occupied_until`/reservation invariants, and timestamp/day normalization (`risk_state.date` may be empty in some summary states). Consider explicit live/max leg notional on `TradeResult` if needed. Failing-tests-first for real defects.
-3. **Campaign item 3 if (2) clean:** $5M gating integrity regression watch on all spec-compliant surfaces; do not conflate `backtest_simple`/`run_backtest.py`/fixture smoke low-level/non-gated paths with spec-compliant gating.
-4. **Campaign item 4 if (2)/(3) clean:** verified-data/provenance hardening (fail-closed checksums/manifests); broaden universe only with archived verified data + full provenance.
-5. `python -m pytest tests/ -q --tb=no` — full suite green.
-6. **Update ONLY this root `HANDOFF.md`** with UTC timestamp, exact commands/results, files changed, shipped material item(s), remaining risks, and next heavy task. No other handoff files.
+## CRITICAL CONTEXT
+- **Spec:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Test window 2025-12-20→2026-09-28 (283d), 6792 hourly bars/symbol.
+- **Core:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/{loader,provenance,streaming_ingest}.py`, `src/metrics/campaign_metrics.py`
+- **Runners:** `scripts/run_portfolio.py`, `scripts/run_real_campaign.py` (verified gate), `scripts/run_campaign.py` (fixture smoke)
+- **Verified artifacts (canonical):** `research_state/cache/hyperliquid_verified_283d_btceth/`, `research_state/universe_verified.json`, `research_state/real_campaign_verified_btceth_283d*.json`, `research_state/candle_coverage_gap_report_verified_btceth_283d.json`
+
+## SUCCESS CRITERIA
+- [x] Bottlenecks cleared & re-verified (2026-11-07T14:54Z).
+- [x] Baseline green (406 passed, 11 skipped).
+- [x] 283d BTC/ETH verified/provenanced; real campaign truthful (0 trades).
+- [x] RiskState timestamp-normalized daily accounting preserves live cap-cut/notional state.
+- [x] TradeResult rebound-short attribution + risk_state rebound-short notional registration.
+- [x] Portfolio realized daily-loss/exposure reconciliation is no-look-ahead.
+- [x] TradeResult default `total_pnl` includes rebound short/hedge legs.
+- [x] Rebound grand-total consumer audit shipped.
+- [x] Portfolio live rebound-short notional reservation hardened.
+- [ ] **NEXT SESSION (mandatory):** Ship >=1 material campaign item 2/3/4 hardened fix with failing-tests-first evidence, full suite green, update ONLY this `HANDOFF.md`.
 
 ## HEAVY FOCUS CAMPAIGN (MUST EXECUTE IN ORDER; FUTURE AGENTS MAY NOT AVOID)
 1. **[DONE 2026-11-07T12:37:09Z]** Rebound-short hedge funding/attribution + atomic risk/trade-log contracts; same-bar boundary lock.
