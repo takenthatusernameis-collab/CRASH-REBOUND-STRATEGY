@@ -1,6 +1,27 @@
 from dataclasses import dataclass, field
 from typing import Optional
 
+# Spec requires >= $5M 24h volume in all spec-compliant gating paths.
+# min_daily_volume_usd=0 is a non-spec fixture escape hatch (tests only);
+# any non-zero value below this floor is treated as a spec bypass attempt.
+SPEC_MIN_DAILY_VOLUME_USD: float = 5_000_000.0
+
+
+def enforce_spec_volume_floor(min_daily_volume_usd: float) -> float:
+    """Return the spec-compliant volume threshold for gating paths.
+
+    0 is preserved as an explicit non-spec fixture escape hatch. Any non-zero
+    value below $5M is raised to the $5M spec floor so all spec-compliant
+    gating paths cannot be bypassed by a sub-threshold caller.
+    """
+    try:
+        v = float(min_daily_volume_usd)
+    except Exception:
+        v = SPEC_MIN_DAILY_VOLUME_USD
+    if v <= 0:
+        return 0.0
+    return v if v >= SPEC_MIN_DAILY_VOLUME_USD else SPEC_MIN_DAILY_VOLUME_USD
+
 
 @dataclass
 class StrategyConfig:
@@ -111,6 +132,11 @@ class StrategyConfig:
             raise ValueError("rsi_threshold must be in (0, 100]")
         if self.min_daily_volume_usd < 0:
             raise ValueError("min_daily_volume_usd must be >= 0")
+        # Spec-compliant gating paths (detect_crash/generate_signal/filter_universe/
+        # passes_universe_filter and gated wrappers/runners) enforce the $5M floor
+        # via enforce_spec_volume_floor() for any non-zero threshold. Config allows
+        # sub-$5M non-zero values for non-evidence test scenarios; callers must not
+        # treat sub-$5M gating as spec-compliant.
 
 
 DEFAULT_CONFIG = StrategyConfig()

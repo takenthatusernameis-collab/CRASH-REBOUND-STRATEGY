@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import List, Dict, Any, Optional
 
-from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
+from src.strategy.config import StrategyConfig, DEFAULT_CONFIG, SPEC_MIN_DAILY_VOLUME_USD, enforce_spec_volume_floor
 from src.strategy.risk import atr, safety_stop_price, size_by_risk, usual_hourly_range_ratio
 
 
@@ -173,6 +173,7 @@ def detect_crash_rsi(
         return False
     if rsi >= rsi_threshold:
         return False
+    min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
     if min_daily_volume_usd > 0:
         daily_vol_usd = _daily_volume_usd(candles, lookback=24)
         if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
@@ -199,6 +200,7 @@ def detect_crash(
     if len(candles) < 2:
         return False
     # Enforce minimum daily volume across all trigger paths per spec
+    min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
     if min_daily_volume_usd > 0:
         daily_vol_usd = _daily_volume_usd(candles, lookback=24)
         if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
@@ -295,6 +297,7 @@ def passes_universe_filter(
     regime_config: Optional[StrategyConfig] = None,
 ) -> bool:
     """Check if a symbol passes universe filters (volume + regime)."""
+    min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
     if min_daily_volume_usd > 0:
         daily_vol_usd = _daily_volume_usd(candles, lookback=24)
         if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
