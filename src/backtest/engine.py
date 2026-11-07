@@ -54,7 +54,10 @@ class TradeResult:
         self.rebound_hedge_size = kwargs.get('rebound_hedge_size', 0.0)
         self.rebound_hedge_entry = kwargs.get('rebound_hedge_entry', 0.0)
         self.rebound_hedge_exit = kwargs.get('rebound_hedge_exit', 0.0)
-        self.total_pnl = kwargs.get('total_pnl', self.pnl + self.hedge_pnl)
+        self.total_pnl = kwargs.get(
+            'total_pnl',
+            self.pnl + self.hedge_pnl + self.rebound_short_pnl + self.rebound_hedge_pnl,
+        )
 
 
 
