@@ -18,6 +18,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars, load_provenance, ProvenanceError, _parse_iso  # noqa: E402
+from src.strategy.config import SPEC_MIN_DAILY_VOLUME_USD  # noqa: E402
 
 # Default documented path searched for a verified 283d archive. Kept to the
 # canonical research_state/archives location only: scanning broad system trees
@@ -26,6 +27,40 @@ from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars, 
 archive_scan_paths: List[str] = [
     str(REPO_ROOT / "research_state" / "archives"),
 ]
+
+
+def _volume_coverage_spec_compliant(volume_coverage: Any) -> tuple[bool, str]:
+    """Fail-closed spec-volume evidence check for gap-report readiness decisions.
+
+    Campaign item 3/4: stale/sub-spec volume fields must never make the report
+    optimistic. Missing evidence is non-compliant.
+    """
+    if not isinstance(volume_coverage, dict):
+        return False, "missing volume_coverage"
+    if not volume_coverage.get("volume_filter_ok"):
+        return False, "volume_filter_ok is not true"
+    floor = float(SPEC_MIN_DAILY_VOLUME_USD)
+    def _num(key):
+        v = volume_coverage.get(key)
+        if v is None:
+            return None
+        try:
+            return float(v)
+        except Exception:
+            return None
+    req = _num("min_daily_volume_usd_requested")
+    eff = _num("min_daily_volume_usd_effective")
+    eff_or_legacy = eff if eff is not None else _num("min_daily_volume_usd")
+    if eff_or_legacy is None:
+        return False, "missing numeric min_daily_volume_usd/effective"
+    if eff_or_legacy < floor:
+        return False, f"effective min_daily_volume_usd {eff_or_legacy:g} < spec floor {floor:g}"
+    # Fail closed on provenance intent: a sub-spec request means artifact was not
+    # produced under clean spec-compliant volume intent, even if floored.
+    if req is not None and req < floor:
+        return False, f"requested min_daily_volume_usd {req:g} < spec floor {floor:g}"
+    return True, "ok"
+
 
 
 def _normalize_iso(ts: Any) -> str:
@@ -264,10 +299,12 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     summary = manifest.get("summary") or {}
     out["all_complete"] = bool(summary.get("all_complete")) and out["target_window_consistent_with_spec"]
     out["ready_for_real_campaign"] = bool(summary.get("ready_for_real_campaign")) and out["target_window_consistent_with_spec"]
+    volume_issues: Dict[str, str] = {}
     for sym, info in (manifest.get("symbols") or {}).items():
         if not isinstance(info, dict):
             continue
         cov = info.get("coverage") or {}
+        vol_ok, vol_reason = _volume_coverage_spec_compliant(info.get("volume_coverage"))
         out["symbols"][sym] = {
             "status": info.get("status"),
             "observed_in_window_bars": cov.get("observed_in_window_bars"),
@@ -281,7 +318,24 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             "sha256": info.get("sha256"),
             "cache_path": info.get("cache_path"),
             "volume_coverage": info.get("volume_coverage"),
+            "volume_floor_compliant": bool(vol_ok),
+            "volume_floor_reason": vol_reason,
         }
+        if not vol_ok:
+            volume_issues[sym] = vol_reason
+    if (manifest.get("symbols") or {}):
+        out["volume_floor_compliant"] = len(volume_issues) == 0
+        out["volume_floor_issues"] = volume_issues
+    else:
+        out["volume_floor_compliant"] = False
+        out["volume_floor_issues"] = {"_manifest": "no symbols in manifest"}
+    if not out["volume_floor_compliant"]:
+        out["ready_for_real_campaign"] = False
+        out["all_complete"] = False
+        out["blocker"]["item_6c_blocked"] = True
+        out["blocker"]["volume_floor_compliant"] = False
+        detail = "; ".join(f"{s}: {r}" for s, r in list(volume_issues.items())[:8]) or "missing spec-compliant volume evidence"
+        out["blocker"]["reason"] = f"Manifest/provenance volume evidence is not spec-compliant (>=${float(SPEC_MIN_DAILY_VOLUME_USD):g} required, fail-closed): {detail}"
     # Probe evidence is informational but must never make the report optimistic.
     # Any incomplete/mismatched probe forces blocked (safety over optimism).
     if probe_unsafe:
@@ -290,9 +344,10 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         out["blocker"]["item_6c_blocked"] = True
         if int((out.get("probe_summary") or {}).get("expected_mismatch_symbols", 0) or 0) > 0:
             out["blocker"]["reason"] = "Probe evidence expected-bar count mismatches spec target window; cannot confirm readiness."
-    if out["ready_for_real_campaign"] and out["target_window_consistent_with_spec"] and not probe_unsafe:
+    if out["ready_for_real_campaign"] and out["target_window_consistent_with_spec"] and not probe_unsafe and out.get("volume_floor_compliant"):
         out["blocker"]["item_6c_blocked"] = False
-        out["blocker"]["reason"] = "Manifest indicates complete verified coverage; run gated real campaign."
+        out["blocker"]["volume_floor_compliant"] = True
+        out["blocker"]["reason"] = "Manifest indicates complete verified coverage with spec-compliant volume floor evidence; run gated real campaign."
     out["blocked"] = bool(out["blocker"]["item_6c_blocked"])
     out["item_6c_blocked"] = bool(out["blocker"]["item_6c_blocked"])
     return out
