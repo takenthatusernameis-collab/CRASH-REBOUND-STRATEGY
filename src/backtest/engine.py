@@ -628,7 +628,11 @@ def backtest_simple(
         hedge_info['exit'] = hedge_exit_px
     r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
     if risk_state is not None:
-        risk_state.apply_trade(str(last.get('timestamp', '')), pnl, opened=False, closed=True)
+        try:
+            _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
+        except Exception:
+            _not = 0.0
+        risk_state.apply_trade(str(last.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
     return TradeResult(
         pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
         entry_price=entry_px, exit_price=exit_px, shares=shares,

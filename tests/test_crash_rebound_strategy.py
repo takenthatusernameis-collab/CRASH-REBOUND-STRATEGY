@@ -665,9 +665,12 @@ def test_engine_applies_equal_share_cuts_to_existing_positions():
     # Breach path must call apply_cap_cuts with existing + new position notionals
     # so cuts persist to ALL open positions (old + new), not just the new entry.
     assert state.cap_cuts_seen == [[70000.0, 100000.0]]
-    # Equal-share cut persisted to state: old position cut 70000 -> 60000.
-    assert abs(state.gross_exposure - 120000.0) < 1e-6
+    # Equal-share cut persisted to state: both old+new cut to 60k/60k. After
+    # the new trade exits, only the pre-existing (still-open) cut notional
+    # remains; closed-notional must not leak into gross_exposure.
     assert state.open_positions == 1
+    assert abs(state.gross_exposure - 60000.0) < 1e-6
+    assert list(state.open_position_notionals) == [60000.0]
     # New position sized to its cut share (1000 -> 600 shares).
     assert abs(res.shares - 600.0) < 1e-6
     assert res.exit_reason == 'time_exit'
