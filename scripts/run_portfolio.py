@@ -75,6 +75,10 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     equity_curve = [{"timestamp": "", "equity": capital, "pnl": 0.0}]
     # symbol -> index of bar until which it is occupied (inclusive exit bar)
     occupied_until = {}
+    # symbol -> reserved notional of a currently-open position (post-cut). Carried
+    # across bars so an open position counts toward gross cap / max_positions for
+    # later same-bar and future-bar admissions (no look-ahead into future bars).
+    open_notionals = {}
 
     # Per-symbol RSI cache (length-keyed): the scanner advances one bar at a time
     # over each symbol's full series, so identical-length prefixes hit the cache.
@@ -93,16 +97,15 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         warmup = max(2, getattr(config, 'crash_lookback', 5))
 
     for i in range(warmup, max_len):
-        # free symbols whose prior trade ended before/at i
+        # free symbols whose prior trade ended before/at i, releasing their reserved notional
         for sym in list(occupied_until.keys()):
             if occupied_until[sym] < i:
                 del occupied_until[sym]
-        # Reconcile same-bar admission placeholders: if nothing is occupied, no positions
-        # are open across the portfolio at this bar boundary.
-        if not occupied_until:
-            risk_state.open_positions = 0
-            risk_state.open_position_notionals = []
-            risk_state.gross_exposure = 0.0
+                open_notionals.pop(sym, None)
+        # Persistent same-bar reservation overlay (symbol -> reserved notional), carried
+        # across bars so an open position counts toward gross cap / max_positions for
+        # later same-bar and future-bar admissions. Derived from open_notionals, not from
+        # the stale risk_state, so cross-bar exposure is never dropped.
 
 # Same-decision-bar reservation: candidates fired at decision bar i are probed
         # against a copy of risk_state, and each probe runs the trade to its exit.
@@ -140,9 +143,9 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         # runs to completion for execution realism, but sibling admission/capacity uses only
         # reservation state — a probe's future exit/daily PnL must not distort same-bar
         # concurrent 120% cap / max_positions / equal-share-cut decisions.
-        _bar_open_positions = int(getattr(risk_state, 'open_positions', 0) or 0)
-        _bar_notionals = list(getattr(risk_state, 'open_position_notionals', []) or [])
-        _bar_gross = float(getattr(risk_state, 'gross_exposure', 0.0) or 0.0)
+        _bar_notionals = list(open_notionals.values())
+        _bar_gross = float(sum(_bar_notionals))
+        _bar_open_positions = len(_bar_notionals)
         _bar_realized = float(getattr(risk_state, 'realized_pnl', 0.0) or 0.0)
         _bar_daily_hit = bool(getattr(risk_state, 'daily_loss_limit_hit', False))
         _bar_date = getattr(risk_state, 'date', '')
@@ -177,13 +180,22 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     if executed_notional > 0:
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
                         probe_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
-                        # If engine/cap logic persisted an open-position view including cuts, reuse it.
-                        # If probe completed to closed, reserve this admission for same-bar siblings.
+                        # If the engine applied equal-share cuts (old+new) to the cap,
+                        # reconcile the reservation overlay to the post-cut schedule so
+                        # same-bar siblings and future bars see post-cut exposure. Cuts
+                        # make every position an equal share of the cap; recompute each
+                        # open notional and reserve this admission at the same share.
+                        # If no cut fired, reserve the executed notional for this admission.
                         if probe_notionals and getattr(probe_state, 'open_positions', 0) > 0:
-                            _bar_notionals = probe_notionals
+                            n_positions = len(open_notionals) + 1  # old positions + this admission
+                            equal_share = cap_value / n_positions if n_positions > 0 else 0.0
+                            for _sym in open_notionals:
+                                open_notionals[_sym] = equal_share
+                            open_notionals[symbol] = equal_share
                         else:
-                            _bar_notionals = list(_bar_notionals) + [min(executed_notional, cap_value)]
-                        _bar_gross = sum(_bar_notionals)
+                            open_notionals[symbol] = min(executed_notional, cap_value)
+                        _bar_notionals = list(open_notionals.values())
+                        _bar_gross = float(sum(_bar_notionals))
                         _bar_open_positions = len(_bar_notionals)
                     all_trades.append({
                         'symbol': symbol,
