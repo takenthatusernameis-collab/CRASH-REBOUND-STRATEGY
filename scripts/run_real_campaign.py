@@ -47,18 +47,47 @@ def load_universe(universe_file: Optional[Path], manifest: dict) -> List[str]:
     return [str(s).upper() for s in (manifest.get("symbols") or {}).keys()]
 
 
+def _as_volume_number(value):
+    if value is None or isinstance(value, bool):
+        return None
+    try:
+        return float(value)
+    except (TypeError, ValueError):
+        return None
+
+
 def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
                                     min_daily_volume_usd: float) -> List[str]:
     """Require every universe symbol to pass the >= min_daily_volume_usd 24h volume filter per verified coverage.
 
     Enforces both the manifest's volume_filter_ok flag AND the requested numeric
     threshold against observed_min_24h_usd_volume (never trust a stale/lying flag).
+    When manifests carry volume intent/effective fields (requested/effective),
+    fail-closed if they indicate sub-spec-compliant intent/effective evidence
+    (< 5,000,000 USD) — a stale/mislabeled field is not trustworthy spec evidence.
+    Legacy manifests lacking those fields remain subject to existing checks only.
     Returns list of symbols that pass; raises ProvenanceError with concrete blockers.
     """
     errs: List[str] = []
     passing: List[str] = []
     symbols_map = manifest.get("symbols") or {}
     threshold = float(min_daily_volume_usd) if min_daily_volume_usd is not None else 0.0
+    spec_floor = 5_000_000.0
+    intent_floor = max(threshold, spec_floor) if threshold > 0 else spec_floor
+
+    req_params = manifest.get("request_params") if isinstance(manifest.get("request_params"), dict) else {}
+    global_requested = _as_volume_number(req_params.get("min_daily_volume_usd_requested"))
+    global_effective = _as_volume_number(req_params.get("min_daily_volume_usd_effective"))
+    if global_requested is not None and global_requested < intent_floor:
+        errs.append(
+            f"manifest request_params.min_daily_volume_usd_requested {global_requested:g} < required spec-compliant floor {intent_floor:g}; "
+            f"manifest volume intent is not trustworthy for real-campaign evidence"
+        )
+    if global_effective is not None and global_effective < intent_floor:
+        errs.append(
+            f"manifest request_params.min_daily_volume_usd_effective {global_effective:g} < required spec-compliant floor {intent_floor:g}"
+        )
+
     for sym in symbols:
         info = symbols_map.get(sym)
         if not isinstance(info, dict):
@@ -73,6 +102,25 @@ def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
             continue
         volcov = info.get("volume_coverage") or {}
         obs_min = volcov.get("observed_min_24h_usd_volume")
+        req = _as_volume_number(volcov.get("min_daily_volume_usd_requested"))
+        eff = _as_volume_number(volcov.get("min_daily_volume_usd_effective"))
+        eff_thr = _as_volume_number(volcov.get("min_daily_volume_usd"))
+        if req is not None and req < intent_floor:
+            errs.append(
+                f"{sym}: volume intent min_daily_volume_usd_requested {req:g} < required spec-compliant floor {intent_floor:g}; "
+                f"stale/sub-spec requested intent is not trustworthy evidence"
+            )
+            continue
+        if eff is not None and eff < intent_floor:
+            errs.append(
+                f"{sym}: volume evidence min_daily_volume_usd_effective {eff:g} < required spec-compliant floor {intent_floor:g}"
+            )
+            continue
+        if eff_thr is not None and eff_thr < intent_floor and (eff is not None or req is not None):
+            errs.append(
+                f"{sym}: volume evidence min_daily_volume_usd {eff_thr:g} < required spec-compliant floor {intent_floor:g}"
+            )
+            continue
         if not volcov.get("volume_filter_ok"):
             errs.append(
                 f"{sym}: volume filter not met (min_24h_usd={obs_min}, "
