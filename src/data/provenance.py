@@ -48,9 +48,58 @@ def load_provenance(path: str | Path) -> Dict[str, Any]:
         raise ProvenanceError(f"Invalid provenance manifest JSON: {e}") from e
 
 
+def _as_volume_number(value: Any) -> Optional[float]:
+    if value is None or isinstance(value, bool):
+        return None
+    if isinstance(value, (int, float)):
+        try:
+            n = float(value)
+        except Exception:
+            return None
+        return n if n == n and n not in (float("inf"), float("-inf")) else None
+    try:
+        n = float(str(value).strip())
+    except Exception:
+        return None
+    return n if n == n and n not in (float("inf"), float("-inf")) else None
+
+
+def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: float,
+                                     errs: List[str]) -> None:
+    """Fail-closed spec volume evidence check for provenance consumers.
+
+    Legacy-compatible: manifests lacking requested/effective intent fields are
+    accepted when volume_filter_ok is true, min_daily_volume_usd >= floor, and
+    observed_min_24h_usd_volume (when present and numeric) >= floor. Manifests
+    carrying intent fields must not declare sub-spec requested/effective values.
+    """
+    volcov = info.get("volume_coverage")
+    if not isinstance(volcov, dict):
+        errs.append(f"{sym}: missing volume_coverage; cannot prove >= ${floor:g} 24h volume evidence")
+        return
+    if not volcov.get("volume_filter_ok"):
+        errs.append(f"{sym}: volume_filter_ok is not true; spec-compliant volume evidence required")
+    req = _as_volume_number(volcov.get("min_daily_volume_usd_requested"))
+    eff = _as_volume_number(volcov.get("min_daily_volume_usd_effective"))
+    legacy = _as_volume_number(volcov.get("min_daily_volume_usd"))
+    eff_or_legacy = eff if eff is not None else legacy
+    if eff_or_legacy is None:
+        errs.append(f"{sym}: volume_coverage missing numeric min_daily_volume_usd/effective")
+    elif eff_or_legacy < floor:
+        errs.append(f"{sym}: effective min_daily_volume_usd {eff_or_legacy:g} < required spec floor {floor:g}")
+    if req is not None and req < floor:
+        errs.append(f"{sym}: requested min_daily_volume_usd {req:g} < required spec floor {floor:g}")
+    # Manifest-level intent audit (optional; checked at symbol level context by callers
+    # too, but provenance may see request_params via manifest root in future; no-op here).
+    observed = _as_volume_number(volcov.get("observed_min_24h_usd_volume"))
+    if observed is not None and observed < floor:
+        errs.append(f"{sym}: observed_min_24h_usd_volume {observed:g} < required spec floor {floor:g}")
+
+
 def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = True,
                         require_real_market_data: bool = True,
                         min_symbols: int = 1,
+                        require_spec_volume_floor: Optional[float] = None,
                         start: str = TARGET_START, end: str = TARGET_END) -> Tuple[bool, List[str]]:
     errs: List[str] = []
     if not isinstance(manifest, dict):
@@ -97,11 +146,29 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             if (cov.get("gap_count") or 0) != 0:
                 errs.append(f"{sym}: gap_count != 0")
                 continue
+            # Campaign item 3/4: consumer-boundary volume evidence check. Only
+            # when a caller requires a spec-compliant floor (real campaign path).
+            # Does not invalidate completeness claim for non-volume callers.
+            floor = _as_volume_number(require_spec_volume_floor)
+            if floor is not None and floor > 0:
+                _validate_symbol_volume_evidence(sym, info, floor, errs)
             complete.append(sym)
         elif require_complete:
             errs.append(f"{sym}: incomplete or error (status={info.get('status')}, observed={cov.get('observed_in_window_bars')}/{cov.get('expected_hourly_bars')})")
     if require_complete and len(complete) != len(symbols):
         errs.append(f"not all symbols complete: {len(complete)}/{len(symbols)}")
+    # Also enforce manifest-level request_params intent when present (fail-closed
+    # on stale audit fields). Legacy manifests without request_params unaffected.
+    floor = _as_volume_number(require_spec_volume_floor)
+    if floor is not None and floor > 0 and isinstance(manifest, dict):
+        rp = manifest.get("request_params")
+        if isinstance(rp, dict):
+            g_req = _as_volume_number(rp.get("min_daily_volume_usd_requested"))
+            g_eff = _as_volume_number(rp.get("min_daily_volume_usd_effective"))
+            if g_req is not None and g_req < floor:
+                errs.append(f"manifest request_params.min_daily_volume_usd_requested {g_req:g} < required spec floor {floor:g}")
+            if g_eff is not None and g_eff < floor:
+                errs.append(f"manifest request_params.min_daily_volume_usd_effective {g_eff:g} < required spec floor {floor:g}")
     if len(complete) < min_symbols:
         errs.append(f"complete symbols {len(complete)} < {min_symbols}")
     return (len(errs) == 0), errs

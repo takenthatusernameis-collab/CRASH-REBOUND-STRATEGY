@@ -312,7 +312,10 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         if not isinstance(info, dict):
             continue
         cov = info.get("coverage") or {}
-        vol_ok, vol_reason, vol_present = _volume_coverage_spec_compliant(info.get("volume_coverage"))
+        if "volume_coverage" not in info:
+            vol_ok, vol_reason, vol_present = True, "volume_coverage absent (legacy manifest; deferred to summary)", False
+        else:
+            vol_ok, vol_reason, vol_present = _volume_coverage_spec_compliant(info.get("volume_coverage"))
         out["symbols"][sym] = {
             "status": info.get("status"),
             "observed_in_window_bars": cov.get("observed_in_window_bars"),

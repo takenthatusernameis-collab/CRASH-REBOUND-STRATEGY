@@ -284,6 +284,7 @@ def main():
             manifest_path,
             require_complete=not partial_mode,
             min_symbols=args.min_symbols,
+            require_spec_volume_floor=None if partial_mode else spec_min_daily_volume_usd,
             start=target_start,
             end=target_end,
         )
