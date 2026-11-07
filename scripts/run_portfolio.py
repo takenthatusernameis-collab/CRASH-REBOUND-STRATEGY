@@ -79,6 +79,50 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     # across bars so an open position counts toward gross cap / max_positions for
     # later same-bar and future-bar admissions (no look-ahead into future bars).
     open_notionals = {}
+    # Realized exits reconciled into master risk_state only when exit_idx <= i (no look-ahead).
+    # Tuple: (exit_idx, exit_timestamp, trade_pnl). Master exposure is managed by overlay.
+    pending_realized_exits = []
+
+    def _sync_master_overlay(bar_date: str):
+        risk_state.open_position_notionals = list(open_notionals.values())
+        risk_state.gross_exposure = float(sum(risk_state.open_position_notionals))
+        risk_state.open_positions = len(risk_state.open_position_notionals)
+        if bar_date:
+            day = str(bar_date)[:10]
+            cur = str(getattr(risk_state, 'date', '') or '')[:10]
+            if day and day != cur:
+                risk_state.date = day
+                risk_state.realized_pnl = 0.0
+                risk_state.daily_loss_limit_hit = False
+            elif not cur:
+                risk_state.date = day
+
+    def _reconcile_realized_through(bar_idx: int, max_len_local: int):
+        if not pending_realized_exits:
+            return
+        # Apply in exit order; only exits known at/through bar_idx.
+        pending_realized_exits.sort(key=lambda x: (x[0], str(x[1])))
+        keep = []
+        for exit_idx, exit_ts, trade_pnl in pending_realized_exits:
+            if exit_idx <= bar_idx:
+                day = str(exit_ts)[:10] if exit_ts else ''
+                cur = str(getattr(risk_state, 'date', '') or '')[:10]
+                if day and day != cur:
+                    risk_state.date = day
+                    risk_state.realized_pnl = 0.0
+                    risk_state.daily_loss_limit_hit = False
+                elif day and not cur:
+                    risk_state.date = day
+                risk_state.realized_pnl = float(getattr(risk_state, 'realized_pnl', 0.0) or 0.0) + float(trade_pnl)
+                if capital > 0:
+                    try:
+                        if risk_state.daily_loss_pct(capital) >= getattr(config, 'max_daily_loss_pct', 3.0):
+                            risk_state.daily_loss_limit_hit = True
+                    except Exception:
+                        pass
+            else:
+                keep.append((exit_idx, exit_ts, trade_pnl))
+        pending_realized_exits[:] = keep
 
     # Per-symbol RSI cache (length-keyed): the scanner advances one bar at a time
     # over each symbol's full series, so identical-length prefixes hit the cache.
@@ -97,11 +141,24 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         warmup = max(2, getattr(config, 'crash_lookback', 5))
 
     for i in range(warmup, max_len):
+        # Reconcile exits realized at or before this decision bar (no look-ahead), then
+        # sync master exposure from the reservation overlay.
+        _reconcile_realized_through(i, max_len)
+        # infer bar date from any symbol with this bar
+        _bar_ts = ''
+        for _s in filtered_symbols:
+            _cd = candles_by_symbol.get(_s)
+            if _cd and i < len(_cd):
+                _bar_ts = str(_cd[i].get('timestamp', '') or '')
+                if _bar_ts:
+                    break
+        _sync_master_overlay(_bar_ts)
         # free symbols whose prior trade ended before/at i, releasing their reserved notional
         for sym in list(occupied_until.keys()):
             if occupied_until[sym] < i:
                 del occupied_until[sym]
                 open_notionals.pop(sym, None)
+        _sync_master_overlay(_bar_ts)
         # Persistent same-bar reservation overlay (symbol -> reserved notional), carried
         # across bars so an open position counts toward gross cap / max_positions for
         # later same-bar and future-bar admissions. Derived from open_notionals, not from
@@ -142,7 +199,8 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         # Same-bar admission reservation overlay (deepest crash first). Real-engine probe
         # runs to completion for execution realism, but sibling admission/capacity uses only
         # reservation state — a probe's future exit/daily PnL must not distort same-bar
-        # concurrent 120% cap / max_positions / equal-share-cut decisions.
+        # concurrent 120% cap / max_positions / equal-share-cut decisions. Master realized
+        # PnL/halt reflect only exits reconciled at/through bar i (no look-ahead).
         _bar_notionals = list(open_notionals.values())
         _bar_gross = float(sum(_bar_notionals))
         _bar_open_positions = len(_bar_notionals)
@@ -175,6 +233,8 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         start_idx = start_idx + 1
                     exit_idx = min(len(candles) - 1, max(start_idx, start_idx + max(1, bars_held) - 1))
                     occupied_until[symbol] = exit_idx
+                    _exit_ts = getattr(res, 'exit_timestamp', '') or (candles[exit_idx].get('timestamp', '') if exit_idx < len(candles) else '')
+                    pending_realized_exits.append((int(exit_idx), str(_exit_ts), float(trade_pnl)))
                     entry_px = getattr(res, 'entry_price', 0.0)
                     executed_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
                     if executed_notional > 0:
@@ -221,6 +281,12 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             except Exception:
                 continue
 
+    # Reconcile any exits realized at/after the final scanned bar (no future bars exist).
+    _reconcile_realized_through(max_len - 1 if max_len > 0 else 0, max_len)
+    _sync_master_overlay('')
+    risk_state.open_position_notionals = list(open_notionals.values())
+    risk_state.gross_exposure = float(sum(open_notionals.values()))
+    risk_state.open_positions = len(open_notionals)
     return {
         'total_pnl': total_pnl,
         'num_trades': len(all_trades),
