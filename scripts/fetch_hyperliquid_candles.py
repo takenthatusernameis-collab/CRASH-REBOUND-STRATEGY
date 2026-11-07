@@ -517,9 +517,13 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
                 continue
             cov = analyze_coverage(candles, start, end)
             volcov = analyze_symbol_volume_coverage(candles, min_daily_volume_usd)
+            synth = detect_synthetic_candles(candles)
+            status = "ok" if cov.get("complete_for_target_window") else "incomplete"
+            if synth.get("is_synthetic"):
+                status = "error"
             entry = {
                 "symbol": sym,
-                "status": "ok" if cov.get("complete_for_target_window") else "incomplete",
+                "status": status,
                 "source": meta.get("source", "user_supplied_archive"),
                 "archive_path": str(ap.resolve()),
                 "archive_sha256": meta.get("sha256"),
@@ -530,7 +534,10 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
                 "distinct_symbols_seen": meta.get("distinct_symbols_seen"),
                 "coverage": cov,
                 "volume_coverage": volcov,
+                "synthetic_check": synth,
             }
+            if synth.get("is_synthetic"):
+                entry["error"] = f"{synth.get('reason')}: {synth.get('distinct_signatures')}/{synth.get('bars_checked')} distinct signatures"
             prev = seen.get(sym)
             if prev is None:
                 seen[sym] = entry
@@ -542,6 +549,17 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
                         and pc.get("first_timestamp_ms") == nc.get("first_timestamp_ms")
                         and pc.get("last_timestamp_ms") == nc.get("last_timestamp_ms"))
                 if same:
+                    # Preserve fail-closed synthetic evidence from either source.
+                    prev_synth = prev.get("synthetic_check") if isinstance(prev.get("synthetic_check"), dict) else {}
+                    if prev_synth.get("is_synthetic") and not synth.get("is_synthetic"):
+                        entry["synthetic_check"] = prev_synth
+                        entry["status"] = "error"
+                        entry["error"] = prev.get("error") or f"{prev_synth.get('reason')}: synthetic evidence from merged source"
+                    elif synth.get("is_synthetic") and not prev_synth.get("is_synthetic"):
+                        # current entry already marked error above
+                        pass
+                    elif prev_synth.get("is_synthetic") and synth.get("is_synthetic"):
+                        entry["status"] = "error"
                     entry["merged_from"] = [prev.get("archive_path"), str(ap.resolve())]
                     seen[sym] = entry
                 else:

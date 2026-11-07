@@ -248,6 +248,11 @@ def main():
     computed_all_complete = bool(symbols) and len(actual_complete) == len(symbols)
 
     summary_all_complete = bool(summary.get("all_complete"))
+    summary_ready = bool(summary.get("ready_for_real_campaign"))
+    # Fail-closed summary-consumer hardening (campaign item 4): optimistic summary
+    # labels must never make real_market_data true when validated symbol facts
+    # contradict them. Advisory summary booleans cannot override recomputed facts.
+    summary_contradiction = (summary_all_complete and not computed_all_complete)
     selected_rows = [r for r in report.values() if isinstance(r, dict) and r.get("selected")]
     all_selected_verified_non_synthetic = bool(selected_rows) and all(
         r.get("manifest_status") == "ok"
@@ -257,7 +262,12 @@ def main():
         and not r.get("excluded_reason")
         for r in selected_rows
     )
-    real_market_data = summary_all_complete and computed_all_complete and all_selected_verified_non_synthetic
+    real_market_data = (
+        summary_all_complete
+        and computed_all_complete
+        and all_selected_verified_non_synthetic
+        and not summary_contradiction
+    )
     if selected and not real_market_data:
         raise SystemExit(
             "Refusing to emit selected verified-universe symbols without complete verified non-synthetic source evidence. "
