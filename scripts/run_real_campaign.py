@@ -152,6 +152,20 @@ def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
     return passing
 
 
+def _validated_complete_symbols(manifest: dict, *, start: str = TARGET_START, end: str = TARGET_END) -> List[str]:
+    """Recompute complete symbols from validated symbol facts; never trust manifest summary labels.
+
+    Campaign item 4 residual (2026-11-07): consumers must fail-closed/recompute
+    from symbol coverage+synthetic facts. Uses the same conservative complete-
+    subset extraction as provenance (status ok, synthetic_check clean, coverage
+    complete for target window, no gaps). Legacy/optimistic summary labels are
+    ignored.
+    """
+    subset = complete_symbol_subset(manifest, start=start, end=end)
+    syms = ((subset.get("symbols") or {}) if isinstance(subset, dict) else {})
+    return sorted(syms.keys())
+
+
 def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
     candles_dir = cache_dir / "candles"
     out = {}
@@ -391,7 +405,7 @@ def main():
             "manifest_sha256": manifest_sha,
             "source": manifest.get("source"),
             "target_window": manifest.get("target_window"),
-            "symbols_complete": manifest.get("summary", {}).get("complete_symbols"),
+            "symbols_complete": _validated_complete_symbols(manifest, start=target_start, end=target_end),
             "symbols_loaded": sorted(data.keys()),
             "coverage_summary": {s: v.get("coverage") for s, v in (manifest.get("symbols") or {}).items() if v.get("status") == "ok"},
             "universe_filter": manifest.get("universe_filter"),
