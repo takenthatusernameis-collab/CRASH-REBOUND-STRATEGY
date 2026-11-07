@@ -134,33 +134,34 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         # deepest crash first
         candidates.sort(key=lambda x: (x[0][0], x[0][1]))
 
+        # Same-bar admission reservation overlay (deepest crash first). Real-engine probe
+        # runs to completion for execution realism, but sibling admission/capacity uses only
+        # reservation state — a probe's future exit/daily PnL must not distort same-bar
+        # concurrent 120% cap / max_positions / equal-share-cut decisions.
+        _bar_open_positions = int(getattr(risk_state, 'open_positions', 0) or 0)
+        _bar_notionals = list(getattr(risk_state, 'open_position_notionals', []) or [])
+        _bar_gross = float(getattr(risk_state, 'gross_exposure', 0.0) or 0.0)
+        _bar_realized = float(getattr(risk_state, 'realized_pnl', 0.0) or 0.0)
+        _bar_daily_hit = bool(getattr(risk_state, 'daily_loss_limit_hit', False))
+        _bar_date = getattr(risk_state, 'date', '')
+
         for sev, symbol, sig, candles in candidates:
             if symbol in occupied_until:
                 continue
             try:
-                # Probe admission in priority order (deepest first) so max_positions/gross-cap
-                # decisions for the same decision bar reflect earlier accepted candidates.
                 max_pos = getattr(config, 'max_positions', None)
-                if max_pos is not None and risk_state.open_positions >= max_pos:
-                    # Capacity for this decision bar is exhausted; later candidates
-                    # (including ones that would exit within the bar) must wait.
+                if max_pos is not None and _bar_open_positions >= max_pos:
                     continue
                 probe_state = copy.deepcopy(risk_state)
+                probe_state.open_positions = _bar_open_positions
+                probe_state.open_position_notionals = list(_bar_notionals)
+                probe_state.gross_exposure = _bar_gross
+                probe_state.realized_pnl = _bar_realized
+                probe_state.daily_loss_limit_hit = _bar_daily_hit
+                probe_state.date = _bar_date
                 res = backtest_simple(candles, sig, config=config, capital=capital,
                                       risk_state=probe_state, eth_candles=eth_data)
                 if res.exit_reason not in ('blocked', 'no_signal'):
-                    # Commit probe state and record trade.
-                    # The engine/backtest runs to completion on the probe state and applies
-                    # its own risk_state accounting (cap cuts, opens/closes). We must not
-                    # re-add notionals here (that double-counts). For same-decision-bar
-                    # admission we need later probes to see that capacity was consumed by
-                    # this accepted trade: if the probe finished with the position closed
-                    # (exit within/at the probed window from the engine's perspective) we
-                    # record a reserved notional placeholder derived from the executed
-                    # trade so max_positions/gross-cap checks and equal-share cuts reflect
-                    # concurrent admission intent. The placeholder is cleared when the
-                    # symbol's occupancy ends.
-                    risk_state = probe_state
                     trade_pnl = getattr(res, 'total_pnl', res.pnl)
                     total_pnl += trade_pnl
                     bars_held = getattr(res, 'bars_held', 0) or 0
@@ -171,14 +172,17 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     occupied_until[symbol] = exit_idx
                     entry_px = getattr(res, 'entry_price', 0.0)
                     executed_notional = float(res.shares) * float(entry_px) if entry_px > 0 and res.shares > 0 else 0.0
-                    # If engine left risk_state consistent with an open position, trust it.
-                    # Otherwise add a same-bar reservation placeholder (idempotent-ish: only
-                    # when no notional was recorded for this admission).
-                    if executed_notional > 0 and len(getattr(risk_state, 'open_position_notionals', [])) == 0 and getattr(risk_state, 'open_positions', 0) == 0:
+                    if executed_notional > 0:
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
-                        risk_state.open_position_notionals = [min(executed_notional, cap_value)]
-                        risk_state.gross_exposure = sum(risk_state.open_position_notionals)
-                        risk_state.open_positions = len(risk_state.open_position_notionals)
+                        probe_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
+                        # If engine/cap logic persisted an open-position view including cuts, reuse it.
+                        # If probe completed to closed, reserve this admission for same-bar siblings.
+                        if probe_notionals and getattr(probe_state, 'open_positions', 0) > 0:
+                            _bar_notionals = probe_notionals
+                        else:
+                            _bar_notionals = list(_bar_notionals) + [min(executed_notional, cap_value)]
+                        _bar_gross = sum(_bar_notionals)
+                        _bar_open_positions = len(_bar_notionals)
                     all_trades.append({
                         'symbol': symbol,
                         'exit_reason': res.exit_reason,
