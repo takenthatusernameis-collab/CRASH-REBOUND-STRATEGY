@@ -1,8 +1,8 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T13:47:07Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-07T13:47:34Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file.
 
-## SESSION 2026-11-07T13:47:07Z — TRADERESULT TOTAL_PNL REBOUND-LEG DEFAULT CONTRACT HARDENED (MATERIAL, EVIDENCED)
+## SESSION 2026-11-07T13:47:34Z — BASELINE RE-VERIFIED GREEN; NO BLOCKERS; HANDOFF REFRESHED FOR NEXT HEAVY SESSION
 - **Repo-name priority:** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only; **do not claim** 20s slicing / explicit spread / L2 order-book impact.
 - **Non-negotiable spec contracts (unchanged):** hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths and missing/incomplete bars as applicable; hourly liquidation at worst price with correct sequencing vs stop/target/time, correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
 - **Bottlenecks:** none blocking. Sole durable handoff remains this root `HANDOFF.md`. `scripts/__pycache__/run_portfolio.cpython-312.pyc` may appear in worktree from imports; not evidence.
@@ -41,12 +41,12 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 - **2026-11-07T12:27:42Z:** cleared bottlenecks; fixed RiskState timestamp-normalized daily accounting preserving live cap-cut/notional state (3 tests). 387 passed, 11 skipped.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-07T13:47:07Z | MANDATORY: REBOUND TOTAL_PNL CONSUMER AUDIT + NO-LOOKAHEAD/PORTFOLIO RESIDUAL. Baseline 400 passed/11 skipped green. FAILING-TESTS-FIRST.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T13:47:34Z | MANDATORY: REBOUND TOTAL_PNL GRAND-TOTAL CONSUMER AUDIT + CAMPAIGN ITEM 2/3 RESIDUAL. Baseline 400 passed/11 skipped green (re-verified this session). No bottlenecks; sole durable handoff is this root HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
 
-**Required execution order (ship >=1 material hardened item this session):**
+**Required execution order:**
 1. `python -m pytest tests/ -q --tb=no` (must stay green baseline: 400 passed, 11 skipped expected absent environment drift).
-2. **Audit `pnl + hedge_pnl` grand-total consumers for rebound trades:** find reachable code/tests/runners that compute totals without `total_pnl`/rebound legs. Write FAILING tests first for any real defect, minimal fix only.
-3. **Campaign item 2 residual in parallel priority:** no-lookahead/admission/cap/timestamp/daily-loss regression watch across `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners/portfolio. Confirm live rebound-short notional invariants and timestamp/day normalization. Failing-tests-first for real defects.
+2. **Grand-total consumer audit (rebound trades):** harden every consumer that computes a trade grand total from `pnl`/`pnl + hedge_pnl` instead of `total_pnl` so rebound short + rebound hedge legs are never silently dropped (prime surface: `src/metrics/campaign_metrics.py:_trade_pnl` fallback `t.get("pnl", 0.0)`; runner surface: `scripts/run_portfolio.py:228` `getattr(res, "total_pnl", res.pnl)`). Write FAILING tests first for any real reachable defect, minimal fix only.
+3. **Campaign item 2 residual (parallel priority):** no-lookahead/admission/cap/timestamp/daily-loss regression watch across `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners/portfolio. Confirm live rebound-short notional invariants and timestamp/day normalization. Failing-tests-first for real defects.
 4. **Campaign item 3 if (2)/(3) clean:** $5M gating integrity regression watch on all spec-compliant surfaces; do not conflate `backtest_simple` low-level executor behavior.
 5. `python -m pytest tests/ -q --tb=no` — full suite green.
 6. **Update ONLY this root `HANDOFF.md`** with UTC timestamp, exact commands/results, files changed, shipped material item(s), remaining risks, and next heavy task. No other handoff files.
