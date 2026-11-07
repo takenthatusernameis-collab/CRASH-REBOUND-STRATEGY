@@ -39,7 +39,7 @@ Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff
 - **2026-11-07T12:27:42Z:** cleared bottlenecks; fixed RiskState timestamp-normalized daily accounting preserving live cap-cut/notional state (3 tests). 387 passed, 11 skipped.
 
 ## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — EXECUTE HEAVY WORK NOW
-`CRASH-REBOUND-STRATEGY | 2026-11-07T14:43:40Z | MANDATORY: CAMPAIGN ITEM 2/3 RESIDUAL (NO-LOOKAHEAD/ADMISSION/CAP/TIMESTAMP + $5M GATING INTEGRITY). Baseline 406 passed/11 skipped green; portfolio live rebound-short notional reservation hardened (cap/admission sees short-leg notional, not long entry). No bottlenecks; sole durable handoff is this root HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
+`CRASH-REBOUND-STRATEGY | 2026-11-07T14:46:02Z | MANDATORY: CAMPAIGN ITEM 2/3 RESIDUAL (NO-LOOKAHEAD/ADMISSION/CAP/TIMESTAMP + $5M GATING INTEGRITY). Baseline 406 passed/11 skipped green; portfolio live rebound-short notional reservation hardened (cap/admission sees short-leg notional, not long entry). No bottlenecks; sole durable handoff is this root HANDOFF.md. FAILING-TESTS-FIRST. SHIP >=1 MATERIAL HARDENED ITEM.`
 
 **Required execution order:**
 1. `python -m pytest tests/ -q --tb=no` (must stay green baseline: 406 passed, 11 skipped expected absent environment drift).
