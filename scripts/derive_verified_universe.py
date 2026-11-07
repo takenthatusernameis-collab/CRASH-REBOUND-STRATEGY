@@ -25,7 +25,12 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from src.data.loader import load_hyperliquid_candles  # noqa: E402
-from src.data.provenance import load_provenance, ProvenanceError, verify_cache_sha256  # noqa: E402
+from src.data.provenance import (  # noqa: E402
+    ProvenanceError,
+    detect_synthetic_candles,
+    load_provenance,
+    verify_cache_sha256,
+)
 
 
 def _parse_iso(s: str) -> datetime:
@@ -158,29 +163,66 @@ def main():
         if mp and not p.exists():
             p = REPO_ROOT / mp
         if not p.exists():
-            report[sym] = {"error": f"missing cache: {p}", "selected": False}
+            report[sym] = {"error": f"missing cache: {p}", "selected": False, "excluded_reason": "missing_cache"}
             continue
         if args.verify_cache_sha256:
             verify_cache_sha256(p, info.get("sha256"), sym)
         candles = load_hyperliquid_candles(str(p), symbol=sym)
         vol = max_rolling_24h_quote_volume(candles, start_ms=start_ms, end_ms=end_ms)
-        passes = float(vol.get("max_rolling_24h_quote_volume_usd_proxy") or 0.0) >= args.min_24h_volume_usd
+        manifest_status = info.get("status")
+        manifest_complete = bool((info.get("coverage") or {}).get("complete_for_target_window"))
+        synth_manifest = info.get("synthetic_check") if isinstance(info.get("synthetic_check"), dict) else None
+        runtime_synth = detect_synthetic_candles(candles)
+        excluded_reason = None
+        if manifest_status != "ok":
+            excluded_reason = f"manifest_status:{manifest_status}"
+        elif not manifest_complete:
+            excluded_reason = "manifest_incomplete_coverage"
+        elif isinstance(synth_manifest, dict) and synth_manifest.get("is_synthetic"):
+            excluded_reason = f"manifest_synthetic:{synth_manifest.get('reason') or 'unknown'}"
+        elif runtime_synth.get("is_synthetic"):
+            excluded_reason = f"runtime_synthetic:{runtime_synth.get('reason') or 'unknown'}"
+        elif int(vol.get("bars") or 0) <= 0:
+            excluded_reason = "no_in_window_bars"
+        passes_volume = float(vol.get("max_rolling_24h_quote_volume_usd_proxy") or 0.0) >= args.min_24h_volume_usd
+        selected_ok = passes_volume and excluded_reason is None
         rec = {
             **vol,
-            "selected": passes,
-            "manifest_status": info.get("status"),
-            "manifest_complete": bool((info.get("coverage") or {}).get("complete_for_target_window")),
+            "selected": selected_ok,
+            "volume_passes_threshold": passes_volume,
+            "manifest_status": manifest_status,
+            "manifest_complete": manifest_complete,
             "cache_sha256_from_manifest": info.get("sha256"),
+            "synthetic_check": synth_manifest,
+            "runtime_synthetic_check": runtime_synth,
         }
+        if excluded_reason:
+            rec["excluded_reason"] = excluded_reason
         report[sym] = rec
-        if passes:
+        if selected_ok:
             selected.append(sym)
 
+    summary_all_complete = bool((manifest.get("summary") or {}).get("all_complete"))
+    selected_rows = [r for r in report.values() if isinstance(r, dict) and r.get("selected")]
+    all_selected_verified_non_synthetic = bool(selected_rows) and all(
+        r.get("manifest_status") == "ok"
+        and r.get("manifest_complete") is True
+        and not bool((r.get("synthetic_check") or {}).get("is_synthetic"))
+        and not bool((r.get("runtime_synthetic_check") or {}).get("is_synthetic"))
+        and not r.get("excluded_reason")
+        for r in selected_rows
+    )
+    real_market_data = summary_all_complete and all_selected_verified_non_synthetic
+    if selected and not real_market_data:
+        raise SystemExit(
+            "Refusing to emit selected verified-universe symbols without complete verified non-synthetic source evidence. "
+            "Use --require-complete-manifest for real-campaign derivation and ensure manifest/symbol status, coverage, and synthetic checks are truthful."
+        )
     out = {
         "schema_version": 1,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "run_type": "verified_universe_derivation",
-        "real_market_data": bool(manifest.get("summary", {}).get("all_complete")),
+        "real_market_data": real_market_data,
         "performance_evidence": False,
         "fabricated_data": False,
         "source_manifest": str(Path(args.manifest).resolve()),
@@ -190,13 +232,14 @@ def main():
         "spec_compliant_volume_threshold": spec_compliant_volume_threshold,
         "volume_method": "max rolling 24h sum(close*volume) over verified local hourly OHLCV in target window; proxy for exchange 24h quote volume",
         "symbols": sorted(report.keys()),
-        "selected_symbols": sorted(selected),
-        "selected_count": len(selected),
+        "selected_symbols": sorted(selected) if real_market_data else [],
+        "selected_count": len(selected) if real_market_data else 0,
         "report": report,
         "notes": [
             "Derived from local verified caches only; not a live exchange universe snapshot.",
             "For real campaign claims, use with a complete verified provenance manifest and truthful real_market_data flags.",
             "min_24h_volume_usd is the effective threshold after spec-floor enforcement; requested_min_24h_volume_usd records the caller input. sub-$5M non-zero inputs are raised to $5M for spec-compliant derivation.",
+            "Symbols with manifest status!=ok, incomplete coverage, manifest synthetic_check, runtime synthetic detection, or missing in-window evidence are excluded fail-closed and never labeled real_market_data.",
         ],
     }
     Path(args.output).write_text(json.dumps(out, indent=2) + "\n")
