@@ -1,4 +1,10 @@
 #!/usr/bin/env python3
+"""Low-level demo script (NOT volume-gated/spec-compliant production gating).
+
+Uses fixture data and direct engine/wrapper calls for local inspection. Production
+spec-compliant gating must flow through generate_signal/filter_universe and gated
+runners (e.g. run_portfolio/run_real_campaign validators).
+"""
 from src.data.loader import make_fixture_crash_rebound
 from src.strategy.config import StrategyConfig
 from src.strategy.crash_rebound import generate_signal, backtest_crash_rebound

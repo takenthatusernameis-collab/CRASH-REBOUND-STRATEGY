@@ -437,6 +437,8 @@ def backtest_crash_rebound(
     capital: float = 100000.0,
     risk_state: Optional[Any] = None,
 ):
+    """Gated convenience wrapper: applies strategy gating via generate_signal, then
+    executes with low-level backtest_simple. Not a portfolio/multi-symbol runner."""
     from src.backtest.engine import backtest_simple
     sig = generate_signal(candles, symbol=symbol, config=config, capital=capital)
     if sig is None:

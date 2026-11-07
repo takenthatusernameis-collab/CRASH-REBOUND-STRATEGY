@@ -113,6 +113,10 @@ def backtest_simple(
     risk_state: Optional[DailyRiskState] = None,
     eth_candles: Optional[List[Dict[str, Any]]] = None,
 ) -> TradeResult:
+    """Low-level execution engine (signal assumed). NOT volume-gated/spec-compliant
+    universe gating. Callers must not treat this as a gated production entrypoint.
+    Spec-compliant gating belongs in generate_signal/filter_universe and gated
+    wrappers/runners (e.g. portfolio/real-campaign paths) before execution."""
     if signal is None:
         return TradeResult(pnl=0.0, r_multiple=0.0, exit_reason='no_signal')
     entry = signal.entry_price
