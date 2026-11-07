@@ -27,7 +27,10 @@ if str(REPO_ROOT) not in sys.path:
 from src.data.loader import load_hyperliquid_candles  # noqa: E402
 from src.data.provenance import (  # noqa: E402
     ProvenanceError,
+    TARGET_END,
+    TARGET_START,
     detect_synthetic_candles,
+    expected_hourly_bars,
     load_provenance,
     verify_cache_sha256,
 )
@@ -157,6 +160,7 @@ def main():
 
     report = {}
     selected = []
+    runtime_synth_by_sym: Dict[str, Dict[str, Any]] = {}
     for sym, info in (manifest.get("symbols") or {}).items():
         p = candles_dir / f"{sym}.json"
         mp = info.get("cache_path")
@@ -173,6 +177,7 @@ def main():
         manifest_complete = bool((info.get("coverage") or {}).get("complete_for_target_window"))
         synth_manifest = info.get("synthetic_check") if isinstance(info.get("synthetic_check"), dict) else None
         runtime_synth = detect_synthetic_candles(candles)
+        runtime_synth_by_sym[sym] = runtime_synth
         excluded_reason = None
         if manifest_status != "ok":
             excluded_reason = f"manifest_status:{manifest_status}"
@@ -202,7 +207,47 @@ def main():
         if selected_ok:
             selected.append(sym)
 
-    summary_all_complete = bool((manifest.get("summary") or {}).get("all_complete"))
+    # Campaign item 4 residual: summary-consumer hardening. Manifest summary labels
+    # (all_complete / ready_for_real_campaign) are evidence only; authoritative
+    # completeness is recomputed from validated symbol facts and is fail-closed when
+    # the summary contradicts those facts. Never trust a summary boolean over symbol
+    # coverage/synthetic/status facts.
+    summary = manifest.get("summary") or {}
+    symbols = manifest.get("symbols") or {}
+    tw_start = tw.get("start")
+    tw_end = tw.get("end")
+    exp = (
+        expected_hourly_bars(tw_start, tw_end)
+        if (tw_start and tw_end)
+        else expected_hourly_bars(TARGET_START, TARGET_END)
+    )
+    actual_complete: List[str] = []
+    for sym, info in (symbols.items() if isinstance(symbols, dict) else []):
+        if not isinstance(info, dict):
+            continue
+        cov = info.get("coverage") or {}
+        synth = info.get("synthetic_check")
+        rt = runtime_synth_by_sym.get(sym)
+        if info.get("status") != "ok":
+            continue
+        if cov.get("complete_for_target_window") is not True:
+            continue
+        if cov.get("expected_hourly_bars") != exp:
+            continue
+        if cov.get("observed_in_window_bars") != exp:
+            continue
+        if (cov.get("gap_count") or 0) != 0:
+            continue
+        if synth is None:
+            continue
+        if isinstance(synth, dict) and synth.get("is_synthetic"):
+            continue
+        if rt and rt.get("is_synthetic"):
+            continue
+        actual_complete.append(sym)
+    computed_all_complete = bool(symbols) and len(actual_complete) == len(symbols)
+
+    summary_all_complete = bool(summary.get("all_complete"))
     selected_rows = [r for r in report.values() if isinstance(r, dict) and r.get("selected")]
     all_selected_verified_non_synthetic = bool(selected_rows) and all(
         r.get("manifest_status") == "ok"
@@ -212,7 +257,7 @@ def main():
         and not r.get("excluded_reason")
         for r in selected_rows
     )
-    real_market_data = summary_all_complete and all_selected_verified_non_synthetic
+    real_market_data = summary_all_complete and computed_all_complete and all_selected_verified_non_synthetic
     if selected and not real_market_data:
         raise SystemExit(
             "Refusing to emit selected verified-universe symbols without complete verified non-synthetic source evidence. "
