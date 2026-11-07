@@ -135,7 +135,12 @@ def main():
     manifest = load_provenance(args.manifest)
     if args.require_complete_manifest:
         from src.data.provenance import validate_provenance
-        ok, errs = validate_provenance(manifest, require_complete=True, min_symbols=args.min_symbols)
+        ok, errs = validate_provenance(
+            manifest,
+            require_complete=True,
+            min_symbols=args.min_symbols,
+            require_spec_volume_floor=SPEC_MIN_DAILY_VOLUME_USD,
+        )
         if not ok:
             raise SystemExit("Manifest not complete/verified:\n- " + "\n- ".join(errs))
 

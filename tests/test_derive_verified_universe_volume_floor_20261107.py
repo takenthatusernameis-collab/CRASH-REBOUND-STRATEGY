@@ -16,7 +16,10 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from scripts.derive_verified_universe import max_rolling_24h_quote_volume
+from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars
 from src.strategy.config import SPEC_MIN_DAILY_VOLUME_USD
+
+EXP = expected_hourly_bars(TARGET_START, TARGET_END)
 
 
 def _candles(close: float, volume: float, n: int = 30, start_ms: int = 1_700_000_000_000):
@@ -103,3 +106,82 @@ class TestDeriveVerifiedUniverseVolumeFloor:
             out = json.loads(out_path.read_text())
             # must not claim spec-compliant selection at 0 without labeling; at minimum threshold reflected
             assert out.get("min_24h_volume_usd") == 0 or float(out.get("min_24h_volume_usd", 0)) >= SPEC_MIN_DAILY_VOLUME_USD
+
+
+class TestDeriveVerifiedUniverseProvenanceFloor:
+    """--require-complete-manifest (real-campaign derive path) must fail-closed on
+    complete-coverage manifests whose volume evidence is below the spec floor or
+    missing, so stale/mislabeled volume cannot slip into a "verified" universe."""
+
+    def _manifest_with_volume(self, tmp_path, volume_coverage):
+        cache_dir = tmp_path / "cache"
+        candles_dir = cache_dir / "candles"
+        candles_dir.mkdir(parents=True)
+        (candles_dir / "BTC.json").write_text(json.dumps(_candles(100.0, 3000.0, n=30)))
+        manifest = {
+            "schema_version": 1, "source": "test",
+            "real_market_data_intended": True, "fabricated_data": False,
+            "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+            "summary": {"all_complete": True, "ready_for_real_campaign": True},
+            "symbols": {
+                "BTC": {
+                    "status": "ok", "cache_path": str(candles_dir / "BTC.json"),
+                    "synthetic_check": {"is_synthetic": False, "reason": "varied_series_ok"},
+                    "coverage": {
+                        "complete_for_target_window": True,
+                        "expected_hourly_bars": EXP,
+                        "observed_in_window_bars": EXP,
+                        "gap_count": 0,
+                    },
+                    "volume_coverage": volume_coverage,
+                }
+            },
+        }
+        manifest_path = tmp_path / "manifest.json"
+        manifest_path.write_text(json.dumps(manifest))
+        return manifest_path, cache_dir, tmp_path / "universe.json"
+
+    def _run_derive(self, monkeypatch, manifest_path, cache_dir, out_path, require_complete=True):
+        import scripts.derive_verified_universe as dv
+        argv = [
+            "derive_verified_universe.py",
+            "--manifest", str(manifest_path),
+            "--cache-dir", str(cache_dir),
+            "--min-24h-volume-usd", str(SPEC_MIN_DAILY_VOLUME_USD),
+            "--output", str(out_path),
+        ]
+        if require_complete:
+            argv.append("--require-complete-manifest")
+        monkeypatch.setattr(sys, "argv", argv)
+        try:
+            return dv.main()
+        except SystemExit as e:
+            code = e.code
+            if code is None or isinstance(code, str):
+                return 1
+            return int(code)
+
+    def test_require_complete_manifest_rejects_subspec_volume_floor(self, tmp_path, monkeypatch):
+        manifest_path, cache_dir, out_path = self._manifest_with_volume(
+            tmp_path,
+            {"volume_filter_ok": True, "min_daily_volume_usd": 1_000_000, "observed_min_24h_usd_volume": 1_000_000},
+        )
+        rc = self._run_derive(monkeypatch, manifest_path, cache_dir, out_path)
+        assert rc != 0, "derive must reject complete manifest with sub-spec volume floor"
+
+    def test_require_complete_manifest_rejects_missing_volume_coverage(self, tmp_path, monkeypatch):
+        manifest_path, cache_dir, out_path = self._manifest_with_volume(tmp_path, None)
+        manifest = json.loads(manifest_path.read_text())
+        manifest["symbols"]["BTC"].pop("volume_coverage", None)
+        manifest_path.write_text(json.dumps(manifest))
+        rc = self._run_derive(monkeypatch, manifest_path, cache_dir, out_path)
+        assert rc != 0, "derive must reject complete manifest missing volume_coverage"
+
+    def test_require_complete_manifest_accepts_spec_compliant_volume(self, tmp_path, monkeypatch):
+        manifest_path, cache_dir, out_path = self._manifest_with_volume(
+            tmp_path,
+            {"volume_filter_ok": True, "min_daily_volume_usd_effective": 5_000_000,
+             "min_daily_volume_usd_requested": 5_000_000, "observed_min_24h_usd_volume": 6_000_000},
+        )
+        rc = self._run_derive(monkeypatch, manifest_path, cache_dir, out_path)
+        assert rc == 0, f"derive must accept spec-compliant volume evidence; rc={rc}"
