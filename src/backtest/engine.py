@@ -345,6 +345,8 @@ def backtest_simple(
             total_bars = idx - start_idx + 1
             rebound_hedge_pnl = 0.0
             rebound_hedge_info = {'side': None, 'size': 0.0, 'entry': 0.0, 'exit': 0.0}
+            short_exit_ts = str(c.get('timestamp', ''))
+            short_exit_price_final = exit_px
             # Rebound short logic when buy hits +9% target fast
             if getattr(config, 'enable_rebound_short', True):
                 short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell')  # enter short
@@ -406,6 +408,8 @@ def backtest_simple(
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'liquidated'})
+                        short_exit_ts = str(sc.get('timestamp', ''))
+                        short_exit_price_final = short_exit
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
@@ -434,6 +438,8 @@ def backtest_simple(
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'stopped'})
+                        short_exit_ts = str(sc.get('timestamp', ''))
+                        short_exit_price_final = short_exit
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
@@ -461,6 +467,8 @@ def backtest_simple(
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'target'})
+                        short_exit_ts = str(sc.get('timestamp', ''))
+                        short_exit_price_final = short_exit
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
@@ -489,6 +497,8 @@ def backtest_simple(
                         if risk_state is not None:
                             risk_state.apply_trade(str(sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                         trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
+                        short_exit_ts = str(sc.get('timestamp', ''))
+                        short_exit_price_final = short_exit
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
@@ -519,6 +529,8 @@ def backtest_simple(
                     if risk_state is not None:
                         risk_state.apply_trade(str(last_sc.get('timestamp', '')), short_pnl, opened=False, closed=True)
                     trades_log.append({'side': 'short', 'entry': short_entry_px, 'exit': short_exit, 'pnl': short_pnl, 'reason': 'time_exit'})
+                    short_exit_ts = str(last_sc.get('timestamp', ''))
+                    short_exit_price_final = short_exit
                     total_pnl += short_pnl + rebound_hedge_pnl
                     total_bars = max(total_bars, len(candles) - start_idx)
 
@@ -528,14 +540,15 @@ def backtest_simple(
                 total_r_mult = total_pnl / total_risk if total_risk > 0 else total_r_mult
             else:
                 total_r_mult = r_mult
+            _has_rebound_short = len(trades_log) > 1 and any(t.get('side') == 'short' for t in trades_log)
             return TradeResult(
                 pnl=pnl + hedge_pnl_total,
                 r_multiple=total_r_mult if 'total_r_mult' in locals() else r_mult,
-                exit_reason='target_rebound_short' if (len(trades_log) > 1 and any(t.get('side') == 'short' for t in trades_log)) else 'target',
-                entry_price=entry_px, exit_price=exit_px, shares=shares,
+                exit_reason='target_rebound_short' if _has_rebound_short else 'target',
+                entry_price=entry_px, exit_price=short_exit_price_final if _has_rebound_short else exit_px, shares=shares,
                 bars_held=total_bars if 'total_bars' in locals() else (idx - start_idx + 1),
                 entry_timestamp=entry_timestamp,
-                exit_timestamp=str(c.get('timestamp', '')),
+                exit_timestamp=short_exit_ts if _has_rebound_short else str(c.get('timestamp', '')),
                 trades=trades_log,
                 hedge_pnl=hedge_pnl_total + rebound_hedge_pnl,
                 hedge_side=hedge_info['side'],
