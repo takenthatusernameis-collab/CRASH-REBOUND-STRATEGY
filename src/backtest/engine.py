@@ -63,10 +63,31 @@ class TradeResult:
             'total_pnl',
             self.pnl + self.hedge_pnl + self.rebound_short_pnl + self.rebound_hedge_pnl,
         )
-        self.max_live_coin_notional = kwargs.get(
-            'max_live_coin_notional',
-            self.entry_price * self.shares if self.entry_price > 0 and self.shares > 0 else 0.0,
-        )
+        # Max live coin-position notional across the long-entry leg and the
+        # rebound-short-entry leg (hedges excluded from the 120% coin-positions
+        # cap context). The engine runs the rebound short at the same share count
+        # as the long entry, so the short leg's live notional is short_entry * shares,
+        # which can exceed the long-entry notional (e.g. short opens at +9% target).
+        # Callers without leg-log parsing (portfolio reservation overlay, future
+        # paths) must not reserve only the long-entry notional while the short is live.
+        _explicit_mln = kwargs.get('max_live_coin_notional', None)
+        if _explicit_mln is not None:
+            self.max_live_coin_notional = float(_explicit_mln)
+        else:
+            _max = self.entry_price * self.shares if self.entry_price > 0 and self.shares > 0 else 0.0
+            for _leg in (self.trades or []):
+                if not isinstance(_leg, dict):
+                    continue
+                # Coin legs only ('long' buy, 'short' rebound). Hedges are tracked
+                # separately (hedge_* / rebound_hedge_*) and excluded from the cap.
+                if _leg.get('side') in ('long', 'short'):
+                    try:
+                        _leg_not = float(_leg.get('entry', 0.0) or 0.0) * float(self.shares)
+                    except Exception:
+                        _leg_not = 0.0
+                    if _leg_not > _max:
+                        _max = _leg_not
+            self.max_live_coin_notional = float(_max)
 
 
 

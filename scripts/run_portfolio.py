@@ -247,21 +247,14 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     _exit_ts = getattr(res, 'exit_timestamp', '') or (candles[exit_idx].get('timestamp', '') if exit_idx < len(candles) else '')
                     pending_realized_exits.append((int(exit_idx), str(_exit_ts), float(trade_pnl)))
                     entry_px = getattr(res, 'entry_price', 0.0)
+                    # TradeResult.max_live_coin_notional is authoritative: it is the
+                    # max live coin-position notional across the long-entry leg and the
+                    # rebound-short-entry leg (hedges excluded from the 120% cap
+                    # context). No leg-log parsing needed here.
                     executed_notional = float(getattr(res, 'max_live_coin_notional', 0.0) or 0.0)
                     if executed_notional <= 0 and entry_px > 0 and res.shares > 0:
                         executed_notional = float(res.shares) * float(entry_px)
                     if executed_notional > 0:
-                        # Rebound short opens at short_entry (> long entry after +target).
-                        # Always consider the live short-leg notional for cap/reservation
-                        # so a live rebound short counts toward gross cap / occupancy.
-                        for _leg in (getattr(res, 'trades', None) or []):
-                            if isinstance(_leg, dict) and _leg.get('side') == 'short':
-                                try:
-                                    _sn = float(_leg.get('entry', 0.0) or 0.0) * float(res.shares)
-                                except Exception:
-                                    _sn = 0.0
-                                if _sn > executed_notional:
-                                    executed_notional = _sn
                         cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
                         # Reconcile the reservation overlay from the engine's ACTUAL
                         # post-run position schedule (probe_state.open_position_notionals),
