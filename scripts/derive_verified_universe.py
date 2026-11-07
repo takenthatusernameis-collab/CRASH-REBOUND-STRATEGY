@@ -118,6 +118,20 @@ def main():
                     help="Verify each cache file's sha256 against manifest before use; refuses tampered/corrupted caches. Backward compatible no-op when manifest sha256 absent.")
     args = ap.parse_args()
 
+    from src.strategy.config import enforce_spec_volume_floor, SPEC_MIN_DAILY_VOLUME_USD
+    requested_min = float(args.min_24h_volume_usd)
+    effective_min = enforce_spec_volume_floor(requested_min)
+    if requested_min != effective_min:
+        print(
+            f"WARNING: spec-compliant derivation enforces >= ${SPEC_MIN_DAILY_VOLUME_USD:g} 24h volume; "
+            f"requested {requested_min:g} raised to {effective_min:g}.",
+            file=sys.stderr,
+        )
+    args.min_24h_volume_usd = effective_min
+    spec_compliant_volume_threshold = effective_min >= SPEC_MIN_DAILY_VOLUME_USD or effective_min == 0.0 and False
+    # 0 is explicit non-spec escape hatch only; never label as spec-compliant selection.
+    spec_compliant_volume_threshold = effective_min >= SPEC_MIN_DAILY_VOLUME_USD
+
     manifest = load_provenance(args.manifest)
     if args.require_complete_manifest:
         from src.data.provenance import validate_provenance
@@ -166,7 +180,9 @@ def main():
         "fabricated_data": False,
         "source_manifest": str(Path(args.manifest).resolve()),
         "target_window": tw,
+        "requested_min_24h_volume_usd": requested_min,
         "min_24h_volume_usd": args.min_24h_volume_usd,
+        "spec_compliant_volume_threshold": spec_compliant_volume_threshold,
         "volume_method": "max rolling 24h sum(close*volume) over verified local hourly OHLCV in target window; proxy for exchange 24h quote volume",
         "symbols": sorted(report.keys()),
         "selected_symbols": sorted(selected),
@@ -175,6 +191,7 @@ def main():
         "notes": [
             "Derived from local verified caches only; not a live exchange universe snapshot.",
             "For real campaign claims, use with a complete verified provenance manifest and truthful real_market_data flags.",
+            "min_24h_volume_usd is the effective threshold after spec-floor enforcement; requested_min_24h_volume_usd records the caller input. sub-$5M non-zero inputs are raised to $5M for spec-compliant derivation.",
         ],
     }
     Path(args.output).write_text(json.dumps(out, indent=2) + "\n")
