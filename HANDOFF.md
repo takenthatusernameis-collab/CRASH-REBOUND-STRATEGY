@@ -1,10 +1,10 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T19:41:01Z
+**Updated (UTC):** 2026-11-08T19:44:56Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## BOTTLENECK CHECK (2026-11-08T19:41:01Z)
+## BOTTLENECK CHECK (2026-11-08T19:44:56Z)
 - **Status:** **NO BLOCKERS / NO INEFFICIENCIES BLOCKING PROGRESS.** Verified absent: duplicate durable handoff files (only root `HANDOFF.md`), stale `.lock` files (none outside git internals), broken gate, contradictory canonical artifacts. `main` tracks `origin/main`; no uncommitted changes at check time. `scripts/controller_progress.py` is CI tooling, not a durable handoff; `tests/test_session_hardening_*.py` / `tests/test_controller_progress_accounting.py` are tests, not handoff variants — none are durable task files.
-- **Gate (re-verified 2026-11-08T19:41:01Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **`600 passed`** (31.03s, 0 skipped).
+- **Gate (re-verified 2026-11-08T19:44:56Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **`600 passed`** (31.03s, 0 skipped).
 - **CI:** `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
 - **Env bootstrap (if deps missing):** `python3.12 -m pip install pytest pyarrow numpy pandas requests`.
 - **Known remote branches (context, not blockers):** `origin/fix/campaign-fixture-provenance-20261030`, `origin/fix/campaign-integrity-and-exposure-accounting-20261030` — do not merge/rebase unless explicitly requested and verified.
@@ -16,13 +16,13 @@
 
 Non-negotiables (never regress): hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback/final paths; hourly liquidation at worst price with correct sequencing vs stop/target/time and correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics: `entry*(1-8*avg(hourly high-low/prev_close over 14h))`); rebound short `-9%/48h/+40%`, anchored to executed short entry (slippage/commission-aware); ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (**cuts only, never top-ups**); one position/coin; strict no-look-ahead. Fail-closed on missing provenance/verification for real paths.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-08T19:41:01Z, MANDATORY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-08T19:44:56Z, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T19:41:01Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-08T19:44:56Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck check (2026-11-08T19:41:01Z): NO BLOCKERS. Only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` files. `main` tracks `origin/main`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Gate re-verified: `600 passed` (31.03s) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. If deps missing: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. Intentional non-bottleneck: `scripts/fetch_hyperliquid_candles.py` fail-closed on incomplete coverage/provenance is correct; real 283d Hyperliquid data unavailable here — NEVER fabricate. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck check (2026-11-08T19:44:56Z): NO BLOCKERS. Only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` files. `main` tracks `origin/main`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Gate re-verified: `600 passed` (31.03s) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. If deps missing: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. Intentional non-bottleneck: `scripts/fetch_hyperliquid_candles.py` fail-closed on incomplete coverage/provenance is correct; real 283d Hyperliquid data unavailable here — NEVER fabricate. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 HEAVY-WORK GUARANTEE (future agents cannot avoid this): each session MUST ship >=1 MATERIAL item with concrete evidence — do not end idle, do not substitute passive re-verification, handoff-only edits, speculative refactors, or "blocked" without a concrete missing input. Material = spec-fidelity defect fix + tests, OR a failing-tests-first regression lock for a real uncovered spec path, OR material gated-pipeline/API/provenance guardrail hardening with proof. If you are tempted to mark a session "done" with only a gate re-run, a status recheck, or a handoff refresh, you have not shipped material; find and lock/fix a real gap instead.
 
@@ -44,7 +44,7 @@ Spec non-negotiables (never regress): hourly funding on every leg and every exit
 ```
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
-- **2026-11-08T19:41:01Z (handoff/bottleneck sweep):** Bottleneck sweep found **no blockers** (no duplicate durable handoff, no stale locks, gate green `600 passed` in 31.03s). Confirmed `scripts/controller_progress.py` is CI tooling (not a durable handoff) and `tests/test_session_hardening_*.py`/`test_controller_progress_accounting.py` are tests (not handoff variants). Updated single durable `HANDOFF.md` with current timestamp and explicit heavy Priority A/B campaign.
+- **2026-11-08T19:44:56Z (handoff/bottleneck sweep):** Bottleneck sweep found **no blockers** (no duplicate durable handoff, no stale locks, gate green `600 passed` in 31.03s). Confirmed `scripts/controller_progress.py` is CI tooling (not a durable handoff) and `tests/test_session_hardening_*.py`/`test_controller_progress_accounting.py` are tests (not handoff variants). Updated single durable `HANDOFF.md` with current timestamp and explicit heavy Priority A/B campaign.
 - **2026-11-08T19:28:45Z (lock / 2g/2b cross-bar settlement):** `tests/test_portfolio_cross_bar_settlement_reentry_commission_min_cap_cut_20261108.py` — cross-bar pending realized-exit settlement + same-bar re-admission/occupancy under commission_min+cap pressure. **No src fix required.**
 - **2026-11-08T16:40:00Z (lock / 2g/2b ii):** `tests/test_rebound_short_liquidation_eth_hedge_commission_min_cap_cut_entry_next_bar_20261108.py` — rebound-short liquidation w/ ETH hedge, commission_min+cap-cut+`entry_next_bar`; no src fix.
 - **2026-11-08T16:18:33Z (lock / 2b):** `tests/test_rebound_short_liquidation_commission_min_cap_cut_entry_next_bar_20261108.py` — rebound-short liquidation, cap-cut+commission_min+`entry_next_bar`; no src fix.
