@@ -1,11 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T10:20:13Z
+**Updated (UTC):** 2026-11-08T10:22:20Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
-- **Status:** No bottlenecks. Only root `HANDOFF.md` exists (verified 2026-11-08T10:20:13Z; `find` maxdepth 3 returned only `HANDOFF.md` plus test filenames containing `handoff` in name patterns? — no, actual hits: `HANDOFF.md` and `scripts/controller_progress.py`/its test; no parallel handoff/todo/next/roadmap/progress files). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`). `git status --short`/`diff --name-only HEAD` clean at 2026-11-08T10:20:13Z. No untracked non-ignored files. Do not stage unrelated files.
+- **Status:** No bottlenecks. Only root `HANDOFF.md` exists (verified 2026-11-08T10:22:20Z; `find` maxdepth 3 returned only `HANDOFF.md` plus test filenames containing `handoff` in name patterns? — no, actual hits: `HANDOFF.md` and `scripts/controller_progress.py`/its test; no parallel handoff/todo/next/roadmap/progress files). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`). `git status --short`/`diff --name-only HEAD` clean at 2026-11-08T10:22:20Z. No untracked non-ignored files. Do not stage unrelated files.
 - **Intentional non-bottleneck:** `scripts/fetch_hyperliquid_candles.py` prints fail-closed "BLOCKED..." on incomplete coverage/provenance — correct by design (Rule: fail-closed). Real 283d Hyperliquid data unavailable in this environment; expand universe only with archived verified data + full provenance.
-- **Verified gate (this session, 2026-11-08T10:20:13Z):** `558 passed, 11 skipped` (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, ~27s). 569 tests collected. 11 skips = `pyarrow` not installed (parquet/streaming ingest tests). Core imports OK. Recent spec-fidelity locks pass (17 targeted tests).
+- **Verified gate (this session, 2026-11-08T10:22:20Z):** `558 passed, 11 skipped` (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, ~27s). 569 tests collected. 11 skips = `pyarrow` not installed (parquet/streaming ingest tests). Core imports OK. Recent spec-fidelity locks pass (17 targeted tests).
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
@@ -14,11 +14,11 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T10:20:13Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
+CRASH-REBOUND-STRATEGY | 2026-11-08T10:22:20Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
 Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-Verified gate (2026-11-08T10:20:13Z): 558 passed, 11 skipped (569 collected; 11 pyarrow skips) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Core imports OK. No bottlenecks; working tree clean; sole durable handoff is root HANDOFF.md.
+Verified gate (2026-11-08T10:22:20Z): 558 passed, 11 skipped (569 collected; 11 pyarrow skips) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Core imports OK. No bottlenecks; working tree clean; sole durable handoff is root HANDOFF.md.
 
 You MUST ship >=1 MATERIAL item this session. Passive re-verification, handoff-only edits, or claiming "blocked" without a concrete missing input is NOT allowed. Use failing-tests-first for every change.
 
