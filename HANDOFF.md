@@ -1,10 +1,10 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T06:00:26Z
+**Updated (UTC):** 2026-11-08T06:00:50Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
 - **Status:** No bottlenecks. Only root HANDOFF.md exists (scan confirmed). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
-- **Baseline (this session):** gate `527 passed, 11 skipped` (~27.10s) after shipping raw-ingress/verified-evidence hardening (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, 2026-11-08T05:56Z). Entry gate was `525 passed, 11 skipped`; +2 from new failing-tests-first hardening tests.
+- **Baseline (this session):** gate `527 passed, 11 skipped` (~27.11s) after shipping raw-ingress/verified-evidence hardening (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, 2026-11-08T06:00:50Z). Entry gate was `525 passed, 11 skipped`; +2 from prior failing-tests-first hardening tests. Item 3 residual complete.
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
@@ -13,11 +13,11 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T06:00:26Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
+CRASH-REBOUND-STRATEGY | 2026-11-08T06:00:50Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
 Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-Verified baseline: 527 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, ~27.1s, 2026-11-08T05:56Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
+Verified baseline: 527 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, ~27.11s, 2026-11-08T06:00:50Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only. Item 3 residual (raw-ingress/verified-evidence hardening) SHIPPED.
 
 You MUST ship >=1 MATERIAL item this session. Passive re-verification, handoff-only edits, or claiming "blocked" without a concrete missing input is NOT allowed. Use failing-tests-first for every change.
 
@@ -39,15 +39,15 @@ MANDATORY EXECUTION ORDER:
 
 ## HEAVY FOCUS CAMPAIGN (EXECUTE IN ORDER)
 1. **Gate first:** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`.
-2. **Next heavy — spec-fidelity engine hardening** (above, failing-tests-first): funding/liquidation/stops/rebound/hedge/volume-gating/cap/no-look-ahead per spec.
-3. **Item 3 residual (SHIPPED this session):** verified-data/provenance/raw-ingress hardening complete — `_read_symbol_candles_from_file` raw-ingress fallback fail-closed (require_verified rejects missing provenance before any read); `_scan_archives` never upgrades probed files to `verified_complete_non_synthetic` coverage truth; repo-wide raw usage re-audit done (all verified-path consumers guarded; fixtures/tests/non-evidence fine); `run_portfolio.py` confirmed fixture-only, no verified-evidence dependency. Fix regressions only with failing tests.
+2. **ACTIVE — spec-fidelity engine hardening** (failing-tests-first, one material item minimum): hourly funding/liquidation/stops/rebound/hedge/volume-gating/cap/no-look-ahead per `crash-rebound-strategy.pdf`/`strategy_spec.md` (see INITIAL TASK MESSAGE step 2).
+3. **Item 3 residual (SHIPPED 2026-11-08T06:00:26Z):** verified-data/provenance/raw-ingress hardening complete — `_read_symbol_candles_from_file` raw-ingress fallback fail-closed (require_verified rejects missing provenance before any read); `_scan_archives` never upgrades probed files to `verified_complete_non_synthetic` coverage truth; repo-wide raw usage re-audit done (all verified-path consumers guarded; fixtures/tests/non-evidence fine); `run_portfolio.py` confirmed fixture-only, no verified-evidence dependency. Fix regressions only with failing tests.
 4. **Item 4 watch (cleared):** production consumers recompute from validated facts; missing `synthetic_check` unverified/fail-closed. Fix regressions only with failing tests.
 5. **Optional only after 2–3:** refactor only when it reduces spec-fidelity risk and is test-covered.
 6. **Material shipped item definition:** spec-fidelity hardening+tests, or verified-data/provenance hardening, or material gated-pipeline/API-guardrail hardening — with concrete failing-tests-first evidence.
 7. **Final gate + handoff required.**
 
 ## SHIPPED (CONDENSED)
-- **2026-11-08T06:00:26Z (this session):** Item 3 residual complete — raw-ingress/verified-evidence hardening.
+- **2026-11-08T06:00:26Z (prior session):** Item 3 residual complete — raw-ingress/verified-evidence hardening.
   - `scripts/fetch_hyperliquid_candles._read_symbol_candles_from_file`: `require_verified=True` now rejects missing/non-dict `provenance_info` before any read (ProvenanceError); the raw JSON/other fallback can no longer bypass the verified-evidence contract (present+clean `synthetic_check`, runtime re-detection, sha256 when manifest provides it, fail-closed).
   - `scripts/generate_candle_coverage_gap_report._scan_archives`: scanned (untrusted) files never marked `verified=True` / `verified_complete_non_synthetic`; stay `verified=False` (verdict `runtime_probed_unverified` when clean/complete, `synthetic_or_incomplete_rejected` otherwise) and never enter `verified_archives_found` — scan never upgrades unverified files to trusted coverage truth.
   - New failing-tests-first evidence: `tests/test_gap_report_archive_scan_never_upgrades_unverified_20261108.py` (2 tests — complete probed file not upgraded to verified truth; flat probed file rejected without upgrading).
@@ -63,7 +63,7 @@ MANDATORY EXECUTION ORDER:
 - **2026-11-08T00:29:47Z:** Item 4 residual cleared (validated-fact authority). 486/11.
 
 ## REMAINING RISKS / NEXT HEAVY FOCUS
-- **Next heavy (this session's open campaign):** spec-fidelity engine hardening per `crash-rebound-strategy.pdf`/`strategy_spec.md` — hourly funding on every leg/all exit paths, hourly liquidation at worst price, 8x safety stop (stopped buy never opens rebound short), rebound short `-9%/48h/+40%`, ETH hedge every leg vol-ratio capped 3x, `RSI(21)<20` next-hour open deepest-first, `>= $5M` gating everywhere, equal-share cuts across 120% cap, one position/coin, strict no-look-ahead. Failing-tests-first.
+- **Next heavy (active campaign):** spec-fidelity engine hardening per `crash-rebound-strategy.pdf`/`strategy_spec.md` — hourly funding on every leg/all exit paths, hourly liquidation at worst price, 8x safety stop (stopped buy never opens rebound short), rebound short `-9%/48h/+40%`, ETH hedge every leg vol-ratio capped 3x, `RSI(21)<20` next-hour open deepest-first, `>= $5M` gating everywhere, equal-share cuts across 120% cap, one position/coin, strict no-look-ahead. Failing-tests-first.
 - **Item 2/4 (watch):** occupancy/lifecycle/no-lookahead/cap and validated-fact regressions — fix regressions only with failing tests.
 - **Environment constraint:** real 283d Hyperliquid candles unavailable here; expand universe only with archived verified data + full provenance. Canonical BTC/ETH placeholder remains fail-closed by design.
 
