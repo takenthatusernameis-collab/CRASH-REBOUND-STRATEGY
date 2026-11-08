@@ -117,12 +117,13 @@ def _candles_for_path(exit_kind):
     return candles
 
 
-PATH_SHORT_HOURS = {"target": 2, "stop": 2, "liquidation": 2, "time_exit": 6, "final_exit": 5}
+PATH_SHORT_HOURS = {"target": 2, "stop": 2, "liquidation": 2, "time_exit": 5, "final_exit": 5}
 
 
 @pytest.mark.parametrize("exit_kind", ["target", "stop", "liquidation", "time_exit", "final_exit"])
 def test_rebound_short_funding_applied_on_all_exit_paths(exit_kind):
     liq = exit_kind == "liquidation"
+    # Spec-consistent: N-bar max hold = N funding hours (inclusive, same as long leg).
     reb_time = 5 if exit_kind == "time_exit" else 100
     cfg_on = _base_cfg(enable_liquidation_checks=liq,
                        rebound_short_time_exit_bars=reb_time)
