@@ -579,8 +579,9 @@ def backtest_simple(
                     short_pnl -= short_funding
                     if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                         eth_exit_r = None
-                        if eth_candles and len(eth_candles) > 0:
-                            eth_exit_r = eth_candles[-1].get('close') or eth_candles[-1].get('open')
+                        final_coin_idx = len(candles) - 1
+                        if eth_candles and final_coin_idx < len(eth_candles):
+                            eth_exit_r = eth_candles[final_coin_idx].get('close') or eth_candles[final_coin_idx].get('open')
                         if eth_exit_r is None:
                             eth_exit_r = rebound_hedge_info['entry']
                         r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
@@ -685,8 +686,9 @@ def backtest_simple(
     pnl -= long_funding
     if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
         eth_exit_price = None
-        if eth_candles and len(eth_candles) > 0:
-            eth_exit_price = eth_candles[-1].get('close') or eth_candles[-1].get('open')
+        final_coin_idx = len(candles) - 1
+        if eth_candles and final_coin_idx < len(eth_candles):
+            eth_exit_price = eth_candles[final_coin_idx].get('close') or eth_candles[final_coin_idx].get('open')
         if eth_exit_price is None:
             eth_exit_price = hedge_info['entry']
         hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
