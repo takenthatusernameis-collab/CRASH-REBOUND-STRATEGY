@@ -133,8 +133,56 @@ def sha256_bytes(b: bytes) -> str:
     return digest()
 
 
+def stream_normalize_verified(
+    path: Path,
+    symbol: str,
+    *,
+    provenance_info: Optional[Dict[str, Any]] = None,
+) -> List[Dict[str, Any]]:
+    """Guarded streaming normalize for verified real-data paths (Item 3 residual).
+
+    Low-level ``stream_normalize`` is a raw row parser with no provenance checks;
+    any verified consumer using it directly bypasses fail-closed gates. This helper
+    verifies file sha256 when ``provenance_info['sha256']`` is present, requires a
+    present dict ``synthetic_check`` (missing/non-dict/declared-synthetic =>
+    unverified, fail-closed), then runtime re-inspects the normalized series for
+    synthetic/flat patterns (never trust manifest alone). Returns the normalized
+    candle list on success; raises ProvenanceError on unverified/synthetic data.
+
+    Backward compatibility: ``stream_normalize`` is unchanged for raw parsing.
+    """
+    from src.data.provenance import ProvenanceError, verify_cache_sha256, verify_candles_not_synthetic
+
+    pth = Path(path)
+    sym = str(symbol).upper()
+    if not isinstance(provenance_info, dict):
+        raise ProvenanceError(
+            f"{sym}: provenance_info missing/non-dict; cannot treat streamed candles as verified real-data evidence"
+        )
+    expected_sha = provenance_info.get("sha256")
+    if expected_sha is not None and str(expected_sha).strip():
+        verify_cache_sha256(pth, expected_sha, sym)
+    candles = list(stream_normalize(pth, sym))
+    try:
+        verify_candles_not_synthetic(
+            candles,
+            require_synthetic_check=True,
+            synthetic_check=provenance_info.get("synthetic_check"),
+            raise_on_synthetic=True,
+        )
+    except ProvenanceError as e:
+        raise ProvenanceError(
+            f"{sym}: streamed candle series rejected (synthetic/unverified provenance, {pth}): {e}"
+        ) from e
+    return candles
+
+
 def stream_normalize(path: Path, symbol: str) -> Iterator[Dict[str, Any]]:
-    """Stream-normalize rows for a symbol from JSONL/CSV/Parquet (row-by-row)."""
+    """Stream-normalize rows for a symbol from JSONL/CSV/Parquet (row-by-row).
+
+    Low-level raw parser: no provenance/synthetic/sha256 checks. For verified
+    real-data paths use ``stream_normalize_verified``.
+    """
     suffix = Path(path).suffix.lower()
     if suffix in (".ndjson", ".jsonl"):
         for r in iter_jsonl_rows(Path(path)):

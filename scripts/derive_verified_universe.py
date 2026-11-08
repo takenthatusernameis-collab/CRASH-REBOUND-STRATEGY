@@ -169,9 +169,38 @@ def main():
         if not p.exists():
             report[sym] = {"error": f"missing cache: {p}", "selected": False, "excluded_reason": "missing_cache"}
             continue
-        if args.verify_cache_sha256:
-            verify_cache_sha256(p, info.get("sha256"), sym)
-        candles = load_hyperliquid_candles(str(p), symbol=sym)
+        # Item 3 residual: fail-closed on verified-evidence reads.
+        # - synthetic_check present+clean and runtime re-detection: ALWAYS enforced
+        #   (missing/non-dict/declared-synthetic/runtime-synthetic => unverified).
+        # - sha256 vs manifest: enforced when --verify-cache-sha256 is set (explicit
+        #   tamper check) OR always via guarded path? Backward compat: without the
+        #   flag, do not reject solely on sha mismatch (test contract), but still
+        #   reject missing/unverified synthetic_check. To satisfy both, strip sha256
+        #   from provenance context when flag is off, and let sha mismatch hard-fail
+        #   (nonzero, message) when flag is on.
+        prov = dict(info) if isinstance(info, dict) else {}
+        if not args.verify_cache_sha256:
+            prov.pop("sha256", None)
+        try:
+            from src.data.loader import load_hyperliquid_candles as _load_verified
+            candles = _load_verified(str(p), symbol=sym, require_verified=True, provenance_info=prov)
+        except Exception as ve:
+            msg = str(ve)
+            low = msg.lower()
+            if args.verify_cache_sha256 and ("sha256" in low or "checksum" in low or "mismatch" in low or "hash" in low):
+                raise SystemExit(f"Cache checksum verification failed for {sym}: {ve}") from ve
+            # Preserve specific fail-closed reason codes (Item 3/4 contracts):
+            # missing synthetic_check => unverified; manifest/runtime synthetic.
+            if "synthetic_check missing" in low or ("synthetic_check" in low and "unverified" in low):
+                excluded_reason = "manifest_synthetic_check_missing_unverified"
+            elif "provenance-declared synthetic" in low or "declared synthetic" in low:
+                excluded_reason = f"manifest_synthetic:provenance_declared"
+            elif "synthetic/flat" in low or "runtime" in low and "synthetic" in low:
+                excluded_reason = f"runtime_synthetic:detected"
+            else:
+                excluded_reason = "verified_load_rejected"
+            report[sym] = {"error": f"verified_load_rejected: {ve}", "selected": False, "excluded_reason": excluded_reason}
+            continue
         vol = max_rolling_24h_quote_volume(candles, start_ms=start_ms, end_ms=end_ms)
         manifest_status = info.get("status")
         manifest_complete = bool((info.get("coverage") or {}).get("complete_for_target_window"))

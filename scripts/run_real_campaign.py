@@ -181,10 +181,14 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
         if not p.exists():
             raise ProvenanceError(f"Missing verified cache file for {sym}: {p}")
         verify_cache_sha256(p, info.get("sha256"), sym)
-        candles = load_hyperliquid_candles(str(p), symbol=sym)
-        # Fail-closed: manifest synthetic_check must be present/clean (unverified
-        # provenance entry cannot be treated as real evidence), AND runtime
-        # re-detection always inspects actual candles (never trust manifest alone).
+        # Fail-closed verified read (Item 3 residual): delegate to guarded loader
+        # path so sha256/synthetic_check/runtime re-detection are enforced at the
+        # raw-ingress boundary too (defense-in-depth over the checks below).
+        candles = load_hyperliquid_candles(str(p), symbol=sym, require_verified=True, provenance_info=info)
+        # Belt-and-suspenders: manifest synthetic_check must be present/clean
+        # (unverified provenance entry cannot be treated as real evidence), AND
+        # runtime re-detection always inspects actual candles (never trust
+        # manifest alone).
         try:
             verify_candles_not_synthetic(
                 candles,

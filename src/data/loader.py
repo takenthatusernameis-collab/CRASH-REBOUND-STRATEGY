@@ -1,5 +1,5 @@
 import json
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 
 
 def load_candles_from_json(path: str) -> List[Dict[str, Any]]:
@@ -154,19 +154,57 @@ def load_candles_from_csv(path: str) -> List[Dict[str, Any]]:
     return candles
 
 
-def load_hyperliquid_candles(path_or_data, symbol: str = None) -> List[Dict[str, Any]]:
+def load_hyperliquid_candles(
+    path_or_data,
+    symbol: str = None,
+    *,
+    require_verified: bool = False,
+    provenance_info: Dict[str, Any] = None,
+) -> List[Dict[str, Any]]:
+    """Load Hyperliquid candles from file or data structure.
+
+    Backward-compatible: default behavior unchanged for raw/fixture use.
+
+    Item 3 residual (raw-ingress hardening): when ``require_verified`` is True,
+    fail-closed on unverified real-data evidence — the source must be a file path
+    (not in-memory raw data), manifest ``provenance_info`` must carry a present
+    dict ``synthetic_check`` (missing/non-dict => unverified), the file sha256
+    must match ``provenance_info['sha256']`` when provided, and the actual candle
+    series is runtime re-inspected for synthetic/flat patterns (never trust
+    manifest alone). This closes the bypass where raw cache readers accepted data
+    without consulting provenance.
+    """
     """Load Hyperliquid candles from file or data structure."""
-    if isinstance(path_or_data, str):
-        if path_or_data.endswith('.json'):
+    # Fail-closed verified path: only file-backed sources with provenance context
+    # are acceptable evidence. In-memory/raw data has no manifest-backed identity.
+    if require_verified and not isinstance(path_or_data, (str, os.PathLike, Path)):
+        from src.data.provenance import ProvenanceError
+        raise ProvenanceError(
+            f"{symbol or 'symbol'}: require_verified=True requires a file-backed source; "
+            "in-memory/raw data cannot be treated as verified real-data evidence"
+        )
+
+    source_path = None
+    if isinstance(path_or_data, (str, os.PathLike, Path)):
+        source_path = Path(path_or_data)
+        if path_or_data.endswith('.json') if isinstance(path_or_data, str) else str(path_or_data).endswith('.json'):
             with open(path_or_data, 'r') as f:
                 data = json.load(f)
-        elif path_or_data.endswith('.csv'):
-            return load_candles_from_csv(path_or_data)
+        elif (isinstance(path_or_data, str) and path_or_data.endswith('.csv')) or str(path_or_data).endswith('.csv'):
+            data = None  # loaded below via CSV path with verification hook
         else:
             with open(path_or_data, 'r') as f:
                 data = json.load(f)
     else:
         data = path_or_data
+
+    # CSV file-backed path: preserve existing loader semantics, then verify.
+    if source_path is not None and ((isinstance(path_or_data, str) and path_or_data.endswith('.csv')) or str(path_or_data).endswith('.csv')):
+        normalized = load_candles_from_csv(str(path_or_data))
+        validate_candles(normalized)
+        if require_verified:
+            _verify_loaded_candles(normalized, symbol=symbol, source_path=source_path, provenance_info=provenance_info)
+        return normalized
 
     # Handle various Hyperliquid API formats
     if isinstance(data, dict):
@@ -215,14 +253,35 @@ def load_hyperliquid_candles(path_or_data, symbol: str = None) -> List[Dict[str,
             normalized.append(norm)
 
     validate_candles(normalized)
+    if require_verified:
+        _verify_loaded_candles(normalized, symbol=symbol, source_path=source_path, provenance_info=provenance_info)
     return normalized
 
 
 def load_multi_coin_data(data_source, symbols: List[str] = None,
                          min_daily_volume_usd: float = 5_000_000.0,
-                         cache_dir: str = None) -> Dict[str, List[Dict[str, Any]]]:
-    """Load multi-coin hourly candles with volume filtering and caching."""
+                         cache_dir: str = None,
+                         *,
+                         require_verified: bool = False,
+                         manifest: Dict[str, Any] = None) -> Dict[str, List[Dict[str, Any]]]:
+    """Load multi-coin hourly candles with volume filtering and caching.
+
+    Backward-compatible. When ``require_verified`` is True, file-backed loads are
+    fail-closed: each symbol's manifest entry (``manifest['symbols'][SYM]``) must
+    provide a present dict ``synthetic_check`` and (when present) matching sha256;
+    runtime synthetic re-detection always inspects actual candles. Dict/in-memory
+    sources are rejected in verified mode (no manifest-backed identity). This
+    closes Item 3 residual where raw multi-coin cache reads bypassed provenance.
+    """
     result = {}
+    if require_verified and isinstance(data_source, dict):
+        from src.data.provenance import ProvenanceError
+        raise ProvenanceError(
+            "load_multi_coin_data require_verified=True requires a file-backed directory/source; "
+            "in-memory dict data cannot be treated as verified real-data evidence"
+        )
+    manifest_symbols = (manifest.get("symbols") or {}) if isinstance(manifest, dict) else {}
+
 
     # Check cache first
     if cache_dir:
@@ -247,20 +306,35 @@ def load_multi_coin_data(data_source, symbols: List[str] = None,
                 if symbols and symbol not in symbols:
                     continue
                 try:
-                    candles = load_hyperliquid_candles(os.path.join(data_source, fname), symbol)
+                    prov = manifest_symbols.get(symbol) if require_verified else None
+                    if require_verified and not isinstance(prov, dict):
+                        from src.data.provenance import ProvenanceError
+                        raise ProvenanceError(f"{symbol}: require_verified manifest entry missing")
+                    candles = load_hyperliquid_candles(os.path.join(data_source, fname), symbol,
+                                                       require_verified=require_verified,
+                                                       provenance_info=prov)
                     result[symbol] = candles
                 except Exception:
+                    if require_verified:
+                        raise
                     continue
     elif isinstance(data_source, str) and os.path.isfile(data_source):
         # Single file with multi-coin data
         try:
-            candles = load_hyperliquid_candles(data_source)
+            sym1 = symbols[0] if symbols and len(symbols) == 1 else None
+            prov = manifest_symbols.get(sym1) if (require_verified and sym1) else None
+            if require_verified and sym1 and not isinstance(prov, dict):
+                from src.data.provenance import ProvenanceError
+                raise ProvenanceError(f"{sym1}: require_verified manifest entry missing")
+            candles = load_hyperliquid_candles(data_source, require_verified=require_verified, provenance_info=prov)
             # Try to assign to symbols or use as single
             if symbols and len(symbols) == 1:
                 result[symbols[0]] = candles
             else:
                 result['UNKNOWN'] = candles
         except Exception:
+            if require_verified:
+                raise
             pass
 
     # Apply volume filter if requested
@@ -321,3 +395,42 @@ def get_hyperliquid_universe(min_daily_volume_usd: float = 5_000_000.0,
         "TIA", "SEI", "ATOM", "FTM", "ALGO", "ICP"
     ]
     return default_universe
+
+
+def _verify_loaded_candles(
+    candles: List[Dict[str, Any]],
+    *,
+    symbol: Optional[str],
+    source_path: Optional[Path],
+    provenance_info: Optional[Dict[str, Any]],
+) -> None:
+    """Fail-closed verification for real-data loaders (Item 3 residual).
+
+    Requires: provenance_info is a dict with a present dict ``synthetic_check``
+    (missing/non-dict/declared-synthetic => unverified); sha256 matches file bytes
+    when provided; runtime re-detection confirms the actual series is not
+    synthetic/flat. Never trusts manifest labels alone.
+    """
+    from src.data.provenance import ProvenanceError, verify_candles_not_synthetic, verify_cache_sha256
+
+    sym = str(symbol).upper() if symbol else "UNKNOWN"
+    if not isinstance(provenance_info, dict):
+        raise ProvenanceError(
+            f"{sym}: provenance_info missing/non-dict; cannot treat loaded candles as verified real-data evidence"
+        )
+    if source_path is not None:
+        expected_sha = provenance_info.get("sha256")
+        if expected_sha is not None and str(expected_sha).strip():
+            verify_cache_sha256(source_path, expected_sha, sym)
+    try:
+        verify_candles_not_synthetic(
+            candles,
+            require_synthetic_check=True,
+            synthetic_check=provenance_info.get("synthetic_check"),
+            raise_on_synthetic=True,
+        )
+    except ProvenanceError as e:
+        where = f" ({source_path})" if source_path else ""
+        raise ProvenanceError(
+            f"{sym}: loaded candle series rejected (synthetic/unverified provenance{where}): {e}"
+        ) from e
