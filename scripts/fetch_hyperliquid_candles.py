@@ -523,12 +523,16 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
             status = "ok" if cov.get("complete_for_target_window") else "incomplete"
             if synth.get("is_synthetic"):
                 status = "error"
+            payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             entry = {
                 "symbol": sym,
                 "status": status,
                 "source": meta.get("source", "user_supplied_archive"),
                 "archive_path": str(ap.resolve()),
                 "archive_sha256": meta.get("sha256"),
+                # Normalized payload sha256 for cache-integrity checks (verify_cache_sha256).
+                # Main merge path may recompute after cache serialization; value must be present.
+                "sha256": _sha256_bytes(payload),
                 "normalized_count": meta.get("normalized_count"),
                 "format": meta.get("format"),
                 "multi_symbol_container": meta.get("multi_symbol_container"),
