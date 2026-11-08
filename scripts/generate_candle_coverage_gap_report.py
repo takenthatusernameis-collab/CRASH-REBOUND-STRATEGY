@@ -134,7 +134,7 @@ def _scan_archives(searched_paths) -> Dict[str, Any]:
     """
     import hashlib
     from scripts.fetch_hyperliquid_candles import detect_synthetic_candles, _read_symbol_candles_from_file
-    from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars
+    from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars, ProvenanceError
 
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
     start_ms = int(_parse_iso(TARGET_START).timestamp() * 1000)
@@ -182,6 +182,35 @@ def _scan_archives(searched_paths) -> Dict[str, Any]:
                 found.append(entry)
                 continue
             try:
+                # Fail-closed (Item 3 residual): honor declared synthetic_check in JSON
+                # cache payloads. A file that declares synthetic evidence must never be
+                # treated as verified coverage truth, even if runtime heuristics miss it.
+                declared_synthetic = False
+                declared_reason = None
+                if f.suffix.lower() == ".json":
+                    try:
+                        obj = json.loads(f.read_text())
+                        if isinstance(obj, dict):
+                            sc = obj.get("synthetic_check")
+                            if isinstance(sc, dict) and sc.get("is_synthetic") is True:
+                                declared_synthetic = True
+                                declared_reason = sc.get("reason") or sc.get("status") or "declared_synthetic"
+                            elif "synthetic_check" in obj and not isinstance(sc, dict):
+                                # present but malformed/unverifiable in a verified-evidence context
+                                declared_synthetic = True
+                                declared_reason = "synthetic_check_present_but_not_dict"
+                    except Exception:
+                        # unreadable/invalid JSON as verified evidence: fail-closed below
+                        pass
+                if declared_synthetic:
+                    entry["synthetic_detected"] = True
+                    entry["declared_synthetic"] = True
+                    entry["declared_synthetic_reason"] = declared_reason
+                    entry["verified"] = False
+                    entry["verdict"] = "declared_synthetic_rejected"
+                    entry["symbols"] = {}
+                    found.append(entry)
+                    continue
                 symbols = {}
                 all_complete = True
                 any_synth = False
