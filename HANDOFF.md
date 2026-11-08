@@ -1,11 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T15:06:30Z
+**Updated (UTC):** 2026-11-08T15:14:57Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
-- **Status (2026-11-08T15:06:30Z):** No blockers. Only root `HANDOFF.md` exists as durable handoff. No `.lock` files. No duplicate durable handoff/task files found. CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`). Bottleneck removal rule: if you find another durable handoff/task file, stale lock, or failing gate, delete/consolidate the duplicate handoff into root `HANDOFF.md` or fix the gate **before** other work (failing-tests-first). No blockers found — shipped material 2b regression lock; proceed to next heavy work.
+- **Status (2026-11-08T15:14:57Z):** No blockers. Only root `HANDOFF.md` exists as durable handoff. No `.lock` files. No duplicate durable handoff/task files found. CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`). Bottleneck removal rule: if you find another durable handoff/task file, stale lock, or failing gate, delete/consolidate the duplicate handoff into root `HANDOFF.md` or fix the gate **before** other work (failing-tests-first). No blockers found — shipped material 2b regression lock; proceed to next heavy work.
 - **Intentional non-bottleneck (do NOT "fix" by relaxing):** `scripts/fetch_hyperliquid_candles.py` prints fail-closed `BLOCKED...` on incomplete coverage/provenance — correct by design. Real 283d Hyperliquid data unavailable in this environment; expand universe only with archived verified data + full provenance. Never fabricate numbers/artifacts.
-- **Verified gate (2026-11-08T15:06:30Z):** `596 passed` (596 collected) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Core imports OK. New: `tests/test_liquidation_commission_min_cap_cut_entry_next_bar_20261108.py` (3 tests, passed).
+- **Verified gate (2026-11-08T15:14:57Z):** `596 passed` (596 collected) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Core imports OK. New: `tests/test_liquidation_commission_min_cap_cut_entry_next_bar_20261108.py` (3 tests, passed).
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
@@ -14,11 +14,11 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T15:06:30Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-08T15:14:57Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact — those are not implemented in this hourly engine.
 
-Bottleneck check (done 2026-11-08T15:06:30Z): no blockers. Only root `HANDOFF.md` exists. No `.lock` files. CI runs `python -m pytest tests/ -q`. Gate: `596 passed` (596 collected). 2a/e rebound hedge entry ETH alignment (`engine.py:430`, `min(idx, len(eth_candles)-1)`) is already regression-locked by `tests/test_rebound_hedge_entry_eth_alignment_20261108.py` (4). 2b narrowed gap shipped this session: commission_min + cap-cut + liquidation + entry_next_bar locked. If you find a blocker (duplicate handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove it first with failing-tests-first evidence, then continue heavy work.
+Bottleneck check (done 2026-11-08T15:14:57Z): no blockers. Only root `HANDOFF.md` exists. No `.lock` files. CI runs `python -m pytest tests/ -q`. Gate: `596 passed` (596 collected). 2a/e rebound hedge entry ETH alignment (`engine.py:430`, `min(idx, len(eth_candles)-1)`) is already regression-locked by `tests/test_rebound_hedge_entry_eth_alignment_20261108.py` (4). 2b narrowed gap shipped this session: commission_min + cap-cut + liquidation + entry_next_bar locked. If you find a blocker (duplicate handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove it first with failing-tests-first evidence, then continue heavy work.
 
 You MUST ship >=1 MATERIAL item this session. "Material" = spec-fidelity defect fix + tests, or a failing-tests-first regression lock for a real uncovered spec path, or material gated-pipeline/API/provenance guardrail hardening. NOT material: passive re-verification, handoff-only edits, speculative refactors, or "blocked" without a concrete missing input.
 
