@@ -479,15 +479,17 @@ def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]
                 raise FileNotFoundError(f"No archive file/rows for {symbol} in {archive_path}")
             p, candles, container_meta = found
             file_sha = _sha256_bytes(p.read_bytes()) if p.exists() else None
+            synth = detect_synthetic_candles(candles)
             meta = {"source": "user_supplied_archive", "archive_path": str(p.resolve()), "normalized_count": len(candles),
-                    "sha256": file_sha, "archive_kind": "multi_symbol_container", **container_meta}
+                    "sha256": file_sha, "archive_kind": "multi_symbol_container", "synthetic_check": synth, **container_meta}
             return candles, meta
     if not p.exists():
         raise FileNotFoundError(str(p))
     candles, container_meta = _read_symbol_candles_from_file(p, symbol)
     file_sha = _sha256_bytes(p.read_bytes())
+    synth = detect_synthetic_candles(candles)
     meta = {"source": "user_supplied_archive", "archive_path": str(p.resolve()), "normalized_count": len(candles),
-            "sha256": file_sha, **container_meta}
+            "sha256": file_sha, "synthetic_check": synth, **container_meta}
     return candles, meta
 
 

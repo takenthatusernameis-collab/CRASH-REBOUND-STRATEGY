@@ -182,14 +182,19 @@ def load_verified_cache(cache_dir: Path, manifest: dict) -> dict:
             raise ProvenanceError(f"Missing verified cache file for {sym}: {p}")
         verify_cache_sha256(p, info.get("sha256"), sym)
         candles = load_hyperliquid_candles(str(p), symbol=sym)
-        # Runtime re-detection: never trust the manifest's synthetic_check flag.
-        # A flat / constant-close series is a placeholder dataset, not market
-        # evidence, and must fail closed even if provenance claims status=ok.
+        # Fail-closed: manifest synthetic_check must be present/clean (unverified
+        # provenance entry cannot be treated as real evidence), AND runtime
+        # re-detection always inspects actual candles (never trust manifest alone).
         try:
-            verify_candles_not_synthetic(candles, raise_on_synthetic=True)
+            verify_candles_not_synthetic(
+                candles,
+                require_synthetic_check=True,
+                synthetic_check=info.get("synthetic_check"),
+                raise_on_synthetic=True,
+            )
         except ProvenanceError as e:
             raise ProvenanceError(
-                f"{sym}: cached candle series rejected as synthetic ({p}): {e}"
+                f"{sym}: cached candle series rejected (synthetic/unverified provenance, {p}): {e}"
             ) from e
         out[sym] = candles
     if not out:
