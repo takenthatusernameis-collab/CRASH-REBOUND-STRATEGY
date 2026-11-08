@@ -129,8 +129,14 @@ def _scan_archives(searched_paths) -> Dict[str, Any]:
     A candidate is any .parquet/.json/.csv/.ndjson/.jsonl file. Each is probed for
     per-symbol hourly coverage of the spec target window AND for synthetic/flat
     content. Only archives that are complete, non-synthetic, and timestamped inside
-    the target window are reported as verified. Never fabricates; an archive that
-    fails any check is reported as rejected with the reason.
+    the target window are reported as probed candidates. **The scan probes
+    UNTRUSTED files without manifest provenance: runtime detection + complete
+    coverage is NOT verified evidence, so a scanned file is never marked
+    verified=True / verdict verified_complete_non_synthetic and never enters
+    verified_archives_found.** Verified archives require fail-closed provenance
+    (present clean synthetic_check, sha256 when available, validated-fact
+    authority) that this scan does not possess. An archive that fails any check is
+    reported as rejected with the reason. Never fabricates.
     """
     import hashlib
     from scripts.fetch_hyperliquid_candles import detect_synthetic_candles, _read_symbol_candles_from_file
@@ -236,9 +242,19 @@ def _scan_archives(searched_paths) -> Dict[str, Any]:
                 entry["symbols"] = symbols
                 entry["all_complete"] = bool(all_complete and len(symbols) > 0 and not any_synth)
                 entry["synthetic_detected"] = bool(any_synth)
-                entry["verified"] = bool(entry["all_complete"])
-                entry["verdict"] = ("verified_complete_non_synthetic" if entry["verified"]
-                                    else "synthetic_or_incomplete_rejected")
+                # Fail-closed (Item 3 residual): probed files are untrusted and
+                # carry no manifest provenance. Runtime detection + complete
+                # coverage must never upgrade a scanned file to verified coverage
+                # truth (verified_complete_non_synthetic). Scanned files always
+                # stay verified=False; only fail-closed provenance (outside this
+                # scan) can mark an archive verified.
+                entry["verified"] = False
+                if any_synth:
+                    entry["verdict"] = "synthetic_or_incomplete_rejected"
+                elif entry["all_complete"]:
+                    entry["verdict"] = "runtime_probed_unverified"
+                else:
+                    entry["verdict"] = "synthetic_or_incomplete_rejected"
             except Exception as e:
                 entry["error"] = f"{type(e).__name__}: {e}"
                 entry["verified"] = False

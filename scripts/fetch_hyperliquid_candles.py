@@ -301,9 +301,22 @@ def _read_symbol_candles_from_file(p: Path, symbol: str,
     provenance_info must carry a present dict ``synthetic_check`` (missing/non-dict
     / declared-synthetic => ProvenanceError), sha256 is verified against file bytes
     when provided, and the actual candle series is runtime re-inspected for
-    synthetic/flat patterns. Never trusts manifest labels alone.
+    synthetic/flat patterns. Never trusts manifest labels alone. The raw JSON/other
+    fallback path is subject to the same verification: require_verified=True without
+    a provenance_info dict is rejected before any read, so the fallback can never
+    bypass the verified-evidence contract.
     """
     from src.data.loader import _verify_loaded_candles
+    from src.data.provenance import ProvenanceError
+
+    # Fail-closed: require_verified without provenance context is never treated as
+    # verified real-data evidence — the raw/fallback read path must not bypass it.
+    if require_verified and not isinstance(provenance_info, dict):
+        raise ProvenanceError(
+            f"{symbol or 'symbol'}: require_verified=True requires manifest provenance_info "
+            "with a present dict synthetic_check; cannot treat read candles as verified "
+            "real-data evidence without provenance"
+        )
 
     suffix = p.suffix.lower()
     if suffix == ".parquet":
