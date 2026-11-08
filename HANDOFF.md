@@ -1,11 +1,12 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T10:34:10Z
+**Updated (UTC):** 2026-11-08T10:45:47Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
-- **Status (2026-11-08T10:31:02Z):** No active bottlenecks blocking spec-fidelity progress. Verified: only root `HANDOFF.md` exists as durable handoff (`find . -name 'HANDOFF*' -o -name 'TODO*' -o -name 'NEXT*' -o -name 'SESSION*' -o -name 'TASK*' -not -path '*/.git/*'` → `./HANDOFF.md`); no parallel handoff/todo/next/roadmap/progress files. `git status` clean at inspection (working tree clean, branch up to date with `origin/main`). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`). Bottleneck removal rule: if you find another durable handoff/task file, stale lock, or failing gate, delete/consolidate the duplicate handoff into root `HANDOFF.md` or fix the gate **before** other work (failing-tests-first).
+- **Status (2026-11-08T10:45:47Z):** No active bottlenecks blocking spec-fidelity progress. Verified: only root `HANDOFF.md` exists as durable handoff (`find . -name 'HANDOFF*' -o -name 'TODO*' -o -name 'NEXT*' -o -name 'SESSION*' -o -name 'TASK*' -not -path '*/.git/*'` → `./HANDOFF.md`). Working tree status before handoff write: clean except this session's material test file and updated `HANDOFF.md` (uncommitted). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`). Bottleneck removal rule: if you find another durable handoff/task file, stale lock, or failing gate, delete/consolidate the duplicate handoff into root `HANDOFF.md` or fix the gate **before** other work (failing-tests-first).
 - **Intentional non-bottleneck (do NOT “fix” by relaxing):** `scripts/fetch_hyperliquid_candles.py` prints fail-closed `BLOCKED...` on incomplete coverage/provenance — correct by design. Real 283d Hyperliquid data unavailable in this environment; expand universe only with archived verified data + full provenance. Never fabricate numbers/artifacts.
-- **Verified gate (2026-11-08T10:31:02Z):** `562 passed, 11 skipped` (573 collected; 11 pyarrow skips) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Core imports OK.
+- **Environment note (this session):** system `python3` lacked `pytest`; used `python3 -m pip install --user --disable-pip-version-check pytest numpy pandas` (CI-equivalent deps; `requests` not needed for tests run here). Gate executed with `PYTHONPATH=.`.
+- **Verified gate (2026-11-08T10:45:47Z):** `564 passed, 11 skipped` (575 collected; 11 pyarrow skips) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Core imports OK.
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
@@ -14,20 +15,20 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T10:32:04Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-08T10:45:47Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact — those are not implemented in this hourly engine.
 
-Bottleneck check (done 2026-11-08T10:32:04Z): no duplicate durable handoffs (`./HANDOFF.md` only), git clean, CI runs `python -m pytest tests/ -q`. Gate: `562 passed, 11 skipped` (573 collected; 11 pyarrow skips). If you find a blocker (duplicate handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove it first with failing-tests-first evidence, then continue heavy work.
+Bottleneck check (done 2026-11-08T10:45:47Z): no duplicate durable handoffs (`./HANDOFF.md` only). CI runs `python -m pytest tests/ -q`. Gate: `564 passed, 11 skipped` (575 collected; 11 pyarrow skips). If you find a blocker (duplicate handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove it first with failing-tests-first evidence, then continue heavy work.
 
 You MUST ship >=1 MATERIAL item this session. “Material” = spec-fidelity defect fix + tests, or a failing-tests-first regression lock for a real uncovered spec path, or material gated-pipeline/API/provenance guardrail hardening. NOT material: passive re-verification, handoff-only edits, speculative refactors, or “blocked” without a concrete missing input.
 
 MANDATORY HEAVY CAMPAIGN (execute in order, no skipping to easy tasks):
-1) Gate: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (expect 562 passed, 11 skipped).
+1) Gate: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (expect 564 passed, 11 skipped).
 2) Pick the highest-risk unproven spec path below and produce failing-tests-first evidence. Do not stop at audit prose.
-   a) **2b HIGH:** liquidation worst-price + sequencing (checked before stop/target/time each bar) × `entry_next_bar` (fill at next open; liq on same/next bars) × cap-cut-adjusted shares/notional; exact penalty base when commission/slippage active — lock/add fix only where spec requires.
-   b) **2g HIGH:** portfolio admission must not leak a same-bar probe’s later-exit *positive* realized PnL or capacity release into sibling admission (reservation overlay only; exits reconciled at/through bar `i`). `test_portfolio_daily_loss_cross_bar_reconciliation_20261107.py` covers loss/halt — add positive/capacity-release lock if missing.
-   c) **2a/e:** ETH/coin bar alignment when series diverge non-trivially at rebound entry/start/final boundaries. Mid-exit short/missing ETH funding and final-exit misaligned aligned-fallback are locked; audit remaining rebound-start/short-ETH-series edge assumptions and lock gaps.
+   a) **2b HIGH:** liquidation worst-price + sequencing (checked before stop/target/time each bar) × `entry_next_bar` (fill at next open; liq on same/next bars) × cap-cut-adjusted shares/notional; exact penalty base when commission/slippage active — lock/add fix only where spec requires. Verify `max_live_coin_notional`/reservation under rebound-short notional > long-entry notional when cap cuts applied (portfolio reservation already uses engine post-run schedule; add explicit interaction lock if missing).
+   b) **2g HIGH (partially locked 2026-11-08):** same-bar probe later-exit *positive* realized PnL/capacity-release must not leak into sibling admission (`tests/test_portfolio_same_bar_probe_positive_pnl_capacity_no_leak_20261108.py`) and loss/halt reconciliation locked (`test_portfolio_daily_loss_cross_bar_reconciliation_20261107.py`). Extend only for a concrete uncovered branch (e.g., profit-driven reservation/overlay edge under forced cap cuts with multi-symbol admissions) — failing-tests-first.
+   c) **2a/e:** ETH/coin bar alignment when series diverge non-trivially at rebound entry/start/final boundaries. Mid-exit short/missing ETH funding and final-exit aligned fallback locked; audit remaining rebound-start/short-ETH-series edge assumptions and lock gaps.
    d) **2c:** 8x spec safety stop ratio semantics (`entry*(1-8*avg(hourly high-low/prev_close over 14h))`), stopped-buy never opens rebound short, `entry_next_bar` re-anchor — lock missing-candle-field comparison paths only if present in spec-compliant flow.
    e) **2d:** rebound short opens only after long +9% target; anchored to executed short entry (slippage/commission-aware); exits `-9%`/`48h`/`+40%`; funding on coin short + long ETH hedge on every exit — lock 48h/funding attribution under ETH-series divergence if uncovered.
    f) **2e:** ETH hedge every leg, vol-ratio `coin_vol/eth_vol` over 336h capped 3x, no look-ahead (`candles[:hedge_hist_end]`). Add engine-level lock only for a real branch gap.
@@ -42,19 +43,20 @@ Spec non-negotiables (never regress): hourly funding on every leg and every exit
 ```
 
 ## HEAVY FOCUS CAMPAIGN (NEXT AGENT MUST EXECUTE; CANNOT AVOID)
-1. **Gate:** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (expect 562/11).
-2. **2b (highest):** liquidation worst-price + sequencing × `entry_next_bar` × cap-cut-adjusted shares/notional; exact penalty base under commission/slippage if spec-specific. Write failing test first.
-3. **2g (highest):** same-bar probe later-exit *positive* realized PnL/capacity-release must not leak into sibling admission (reservation overlay only). Add failing-tests-first lock.
-4. **2a/e:** remaining ETH/coin divergence at rebound start/boundaries; final-exit/mid-exit ETH funding already locked — only add lock/fix for a real uncovered path.
+1. **Gate:** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (expect 564/11).
+2. **2b (highest):** liquidation worst-price + sequencing × `entry_next_bar` × cap-cut-adjusted shares/notional; penalty base under commission/slippage if spec-specific. Write failing test first.
+3. **2g extension (if real gap):** positive-PnL/capacity-release probe no-leak under additional cap-cut/multi-symbol reservation branches only if uncovered; do not duplicate existing locks.
+4. **2a/e:** remaining ETH/coin divergence at rebound start/boundaries; mid-exit/final-exit paths partially locked — only add lock/fix for a real uncovered path.
 5. **2c/d/h:** missing-candle-field stop comparison, rebound 48h/funding attribution under ETH divergence, anchor-drift — only if real gap found.
 6. **If clean after evidence-backed 2–5:** ship a different material guardrail (pipeline/API/provenance/coverage) with failing-tests-first proof.
 7. **Always:** final gate + update ONLY root `HANDOFF.md` with evidence and a new timestamped heavy task.
 
 ## SHIPPED (CONDENSED)
-- **2026-11-08T10:32:04Z (handoff/bottleneck consolidation only, non-material to engine):** verified no duplicate durable handoffs, git clean, CI gate present, tests `562 passed, 11 skipped`. Refreshed root `HANDOFF.md` with explicit timestamped heavy initial task and bottleneck-removal instructions. No engine/spec logic changed this turn.
-- **2026-11-08T10:24:00Z (MATERIAL spec-fidelity defect fix + regression locks / 2a):** Failing-tests-first: long/rebound final-exit used `eth_candles[-1]` unconditionally when ETH series shorter than coin exit index (misaligned). Fixed to use aligned ETH bar only when `final_coin_idx < len(eth_candles)` else fallback to hedge-entry accounting while still applying funding. Added `tests/test_final_exit_short_eth_series_aligned_fallback_20261108.py` (4). Gate 562/11 (+4).
+- **2026-11-08T10:45:47Z (MATERIAL regression-lock / 2g):** Added `tests/test_portfolio_same_bar_probe_positive_pnl_capacity_no_leak_20261108.py` (2 tests). Locks: (1) same-bar probe later-exit *positive* realized PnL/capacity release must not free `max_positions`/admission capacity for a third sibling — reservation overlay blocks C when A,B admitted (A exits later with profit); final occupancy/notional/gross reconciled to zero. (2) large probe positive PnL + sibling later loss must not distort same-bar sibling admission/master-state usage for admission; both admitted, final reconciled. Evidence: targeted `5 passed` with `test_portfolio_daily_loss_cross_bar_reconciliation_20261107.py`; full gate `564 passed, 11 skipped`. No engine/spec logic changed.
+- **2026-11-08T10:32:04Z (handoff/bottleneck consolidation only, non-material to engine):** verified no duplicate durable handoffs, git clean, CI gate present, tests `562 passed, 11 skipped`. Refreshed root `HANDOFF.md`. No engine/spec logic changed.
+- **2026-11-08T10:24:00Z (MATERIAL spec-fidelity defect fix + regression locks / 2a):** final-exit ETH aligned-fallback fixed (`eth_candles[-1]` misalignment when ETH shorter). Added `tests/test_final_exit_short_eth_series_aligned_fallback_20261108.py` (4). Gate 562/11.
 - **2026-11-08T10:15:30Z (MATERIAL regression-lock / 2a):** mid-exit short-ETH-series funding all exit paths locked (`tests/test_eth_short_series_hedge_funding_all_exits_20261108.py`, 8). Gate 558/11.
-- **2026-11-08T09:25:16Z (MATERIAL regression-lock / 2c,2e):** engine-level 8x spec safety stop `entry_next_bar` re-anchor + signal->engine invariant; ETH hedge 336h window/cap locks at sizing (`tests/test_engine_spec_safety_stop_hedge_ratio_locks_20261108.py`, 5). Gate 550/11.
+- **2026-11-08T09:25:16Z (MATERIAL regression-lock / 2c,2e):** engine-level 8x spec safety stop `entry_next_bar` re-anchor + ETH hedge 336h window/cap locks (`tests/test_engine_spec_safety_stop_hedge_ratio_locks_20261108.py`, 5). Gate 550/11.
 - **2026-11-08T09:15:40Z (MATERIAL regression-lock / 2a):** missing-ETH-bar hedge funding all-exit-path coverage (`tests/test_missing_eth_hedge_funding_all_exit_paths_20261108.py`, 4). Gate 545/11.
 - **2026-11-08T09:00:31Z (MATERIAL spec-fidelity defect fix):** RSI trigger no-op removed at universe-gating boundary (`filter_universe`/`passes_universe_filter`). Gate 541/11 (+6).
 - **2026-11-08T07:13:10Z (MATERIAL spec-fidelity defect fix):** RSI<20 trigger not nullified by non-spec `avoid_downtrend`. Gate 535/11 (+5).
@@ -63,8 +65,8 @@ Spec non-negotiables (never regress): hourly funding on every leg and every exit
 - **Earlier 2026-11-08/07:** Item 3 residual provenance/raw-ingress fail-closed hardening, synthetic-check/sha256 emission, structural validation fail-closed, final-bar exit occupancy release.
 
 ## REMAINING RISKS / NEXT HEAVY FOCUS (EVIDENCE-BACKED PRIORITY)
-- **2b (HIGH, unproven interaction):** liquidation worst-price + sequencing vs stop/target/time each bar, especially with `entry_next_bar` and cap-cut-adjusted shares/notional; penalty base under commission/slippage — needs failing-tests-first lock/fix only if spec-specific.
-- **2g (HIGH):** prove same-bar probe later-exit positive realized PnL/capacity-release cannot leak into sibling admission; daily-loss/halt cross-bar reconciliation already locked.
+- **2b (HIGH, unproven interaction):** liquidation worst-price + sequencing vs stop/target/time each bar, especially with `entry_next_bar` and cap-cut-adjusted shares/notional; penalty base under commission/slippage — needs failing-tests-first lock/fix only if spec-specific. Portfolio reservation uses `TradeResult.max_live_coin_notional`/engine post-run schedule; explicit lock for liquidation+cap-cut+entry_next_bar interaction remains valuable.
+- **2g (HIGH, partially locked):** positive-PnL/capacity-release probe no-leak and daily-loss/halt cross-bar reconciliation locked. Extend only for a concrete uncovered cap-cut/reservation branch with failing-tests-first evidence.
 - **2a/e (MEDIUM):** remaining ETH/coin series divergence assumptions at rebound boundaries/start (mid-exit short/missing ETH and final-exit aligned fallback locked).
 - **2c/d/h (LOWER/MONITORED):** missing-candle-field stop comparison paths; rebound 48h/funding attribution under ETH divergence; anchor drift in any untouched path.
 - **Environment constraint:** real 283d Hyperliquid candles unavailable here; expand universe only with archived verified data + full provenance. Canonical BTC/ETH placeholder remains fail-closed by design.
