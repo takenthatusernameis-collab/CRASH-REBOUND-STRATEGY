@@ -304,15 +304,29 @@ def passes_universe_filter(
     candles: List[Dict[str, Any]],
     min_daily_volume_usd: float = 5_000_000.0,
     regime_config: Optional[StrategyConfig] = None,
+    skip_downtrend_filter: Optional[bool] = None,
 ) -> bool:
-    """Check if a symbol passes universe filters (volume + regime)."""
+    """Check if a symbol passes universe filters (volume + regime).
+
+    `skip_downtrend_filter` defaults to True when `regime_config` uses the
+    spec-primary RSI trigger (`use_rsi_trigger=True`), because RSI(21)<20 IS the
+    downtrend confirmation per crash-rebound-strategy.pdf. The non-spec
+    `avoid_downtrend` fast-MA filter (price above the fast MA) is only meaningful
+    for the price-drop trigger, where a single -2% bar can occur inside an
+    uptrend. Applying it at the universe-gating boundary would silently reject
+    every RSI-trigger crash coin (the same silent no-op the RSI fix removed from
+    `generate_signal`, one layer down). `regime_min_price` and the volume floor
+    remain enforced in all paths.
+    """
     min_daily_volume_usd = enforce_spec_volume_floor(min_daily_volume_usd)
     if min_daily_volume_usd > 0:
         daily_vol_usd = _daily_volume_usd(candles, lookback=24)
         if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd:
             return False
     if regime_config is not None:
-        if not regime_ok(candles, regime_config):
+        if skip_downtrend_filter is None:
+            skip_downtrend_filter = bool(getattr(regime_config, 'use_rsi_trigger', False))
+        if not regime_ok(candles, regime_config, skip_downtrend_filter=skip_downtrend_filter):
             return False
     return True
 
@@ -321,12 +335,19 @@ def filter_universe(
     candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     min_daily_volume_usd: float = 5_000_000.0,
     regime_config: Optional[StrategyConfig] = None,
+    skip_downtrend_filter: Optional[bool] = None,
 ) -> List[str]:
-    """Return symbols passing universe filters."""
+    """Return symbols passing universe filters.
+
+    `skip_downtrend_filter` is forwarded to `passes_universe_filter` and defaults
+    to True when `regime_config` uses the spec-primary RSI trigger (see
+    `passes_universe_filter`).
+    """
     passed = []
     for symbol, candles in candles_by_symbol.items():
         if passes_universe_filter(candles, min_daily_volume_usd=min_daily_volume_usd,
-                                  regime_config=regime_config):
+                                  regime_config=regime_config,
+                                  skip_downtrend_filter=skip_downtrend_filter):
             passed.append(symbol)
     return passed
 
