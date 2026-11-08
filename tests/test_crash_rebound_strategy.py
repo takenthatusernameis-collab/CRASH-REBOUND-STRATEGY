@@ -656,7 +656,7 @@ def test_engine_applies_equal_share_cuts_to_existing_positions():
     config = StrategyConfig(
         use_rsi_trigger=False, avoid_downtrend=False, entry_next_bar=False,
         enable_rebound_short=False, enable_eth_hedge=False,
-        slippage_pct=0.0, commission_per_share=0.0,
+        slippage_pct=0.0, commission_per_share=0.0, commission_min=0.0,
         gross_cap_pct=120.0, time_exit_max_bars=50,
     )
     capital = 100000.0

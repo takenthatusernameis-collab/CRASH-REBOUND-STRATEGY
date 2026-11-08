@@ -95,12 +95,11 @@ class TradeResult:
 
 
 
-def _slippage_commission_per_share(price: float, config: StrategyConfig, side: str) -> float:
+def _slippage_commission_per_share(price: float, config: StrategyConfig, side: str, shares: float = 0.0) -> float:
     slip = price * config.slippage_pct
     comm = config.commission_per_share
-    if config.commission_min > 0:
-        # Apply minimum commission if it results in higher cost per share? Or just per trade - but we work per share
-        pass
+    if config.commission_min > 0 and shares > 0:
+        comm = max(comm, config.commission_min / shares)
     return price + slip + comm if side == "buy" else price - slip - comm
 
 
@@ -182,7 +181,7 @@ def backtest_simple(
         if next_open is not None:
             entry_px = float(next_open)
             start_idx = signal_index + 1
-    entry_px = _slippage_commission_per_share(entry_px, config, 'buy')
+    entry_px = _slippage_commission_per_share(entry_px, config, 'buy', shares=shares)
     entry_timestamp = str(candles[start_idx].get('timestamp', '')) if candles else ''
 
     stop_px = stop
@@ -265,7 +264,7 @@ def backtest_simple(
                     eth_entry_price = eth_candles[eth_ref_idx].get('open') or eth_candles[eth_ref_idx].get('close')
                 if eth_entry_price and float(eth_entry_price) > 0:
                     hedge_shares = hedge_value / float(eth_entry_price)
-                    hedge_entry_px = _slippage_commission_per_share(float(eth_entry_price), config, 'sell')  # short hedge
+                    hedge_entry_px = _slippage_commission_per_share(float(eth_entry_price), config, 'sell', shares=hedge_shares)  # short hedge
                     hedge_info = {'side': 'short', 'size': hedge_shares, 'entry': hedge_entry_px, 'exit': hedge_entry_px}
         except Exception:
             pass  # Skip hedge on error
@@ -277,7 +276,7 @@ def backtest_simple(
         # Check liquidation first (hourly worst price)
         liq_px = _check_liquidation(c, side='long', entry_px=entry_px, notional=entry_px * shares if entry_px > 0 and shares > 0 else 0.0, config=config)
         if liq_px is not None:
-            exit_px = _slippage_commission_per_share(float(liq_px), config, 'sell')
+            exit_px = _slippage_commission_per_share(float(liq_px), config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             penalty = getattr(config, 'liquidation_penalty_pct', 0.5) / 100.0 * (entry_px * shares)
             pnl -= penalty
@@ -294,7 +293,7 @@ def backtest_simple(
                     eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
                 if eth_exit_price is None:
                     eth_exit_price = hedge_info['entry']
-                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy', shares=hedge_info['size'])
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
@@ -325,7 +324,7 @@ def backtest_simple(
                 total_pnl=total_pnl_result,
             )
         if low is not None and low <= stop_px:
-            exit_px = _slippage_commission_per_share(stop_px, config, 'sell')
+            exit_px = _slippage_commission_per_share(stop_px, config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             # Funding on the long leg (spec: hourly funding on every leg).
             hours_held_stop = idx - start_idx + 1
@@ -340,7 +339,7 @@ def backtest_simple(
                     eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
                 if eth_exit_price is None:
                     eth_exit_price = hedge_info['entry']  # fallback
-                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy', shares=hedge_info['size'])
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']  # short profit if price down
                 # Apply funding on hedge (short hedge - short pays? Or receives funding)
                 hours_held = idx - start_idx + 1
@@ -372,7 +371,7 @@ def backtest_simple(
                 total_pnl=total_pnl_result,
             )
         if high is not None and high >= target_px:
-            exit_px = _slippage_commission_per_share(target_px, config, 'sell')
+            exit_px = _slippage_commission_per_share(target_px, config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             # Funding on the long leg (spec: hourly funding on every leg).
             hours_held_target = idx - start_idx + 1
@@ -386,7 +385,7 @@ def backtest_simple(
                     eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
                 if eth_exit_price is None:
                     eth_exit_price = hedge_info['entry']
-                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy', shares=hedge_info['size'])
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
@@ -410,7 +409,7 @@ def backtest_simple(
             short_exit_price_final = exit_px
             # Rebound short logic when buy hits +9% target fast
             if getattr(config, 'enable_rebound_short', True):
-                short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell')  # enter short
+                short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell', shares=shares)  # enter short
                 # Add hedge for rebound short leg (long hedge)
                 if getattr(config, 'enable_eth_hedge', True) and eth_candles:
                     try:
@@ -427,7 +426,7 @@ def backtest_simple(
                                 eth_entry_r = eth_candles[r_entry_idx].get('open') or eth_candles[r_entry_idx].get('close')
                             if eth_entry_r and float(eth_entry_r) > 0:
                                 r_hedge_shares = r_hedge_value / float(eth_entry_r)
-                                r_hedge_entry_px = _slippage_commission_per_share(float(eth_entry_r), config, 'buy')  # long hedge
+                                r_hedge_entry_px = _slippage_commission_per_share(float(eth_entry_r), config, 'buy', shares=r_hedge_shares)  # long hedge
                                 rebound_hedge_info = {'side': 'long', 'size': r_hedge_shares, 'entry': r_hedge_entry_px, 'exit': r_hedge_entry_px}
                     except Exception:
                         pass
@@ -446,7 +445,7 @@ def backtest_simple(
                     # Check liquidation for short
                     sliq = _check_liquidation(sc, side='short', entry_px=short_entry_px, notional=short_entry_px * short_shares if short_entry_px > 0 and short_shares > 0 else 0.0, config=config)
                     if sliq is not None:
-                        short_exit = _slippage_commission_per_share(float(sliq), config, 'buy')
+                        short_exit = _slippage_commission_per_share(float(sliq), config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         s_pen = getattr(config, 'liquidation_penalty_pct', 0.5) / 100.0 * (short_entry_px * short_shares)
                         short_pnl -= s_pen
@@ -461,7 +460,7 @@ def backtest_simple(
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
                             if eth_exit_r is None:
                                 eth_exit_r = rebound_hedge_info['entry']
-                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell', shares=rebound_hedge_info['size'])
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
@@ -477,7 +476,7 @@ def backtest_simple(
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
                     if shigh is not None and shigh >= short_stop:
-                        short_exit = _slippage_commission_per_share(short_stop, config, 'buy')
+                        short_exit = _slippage_commission_per_share(short_stop, config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
                         hours_held_short = sidx - short_start_idx + 1
@@ -491,7 +490,7 @@ def backtest_simple(
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
                             if eth_exit_r is None:
                                 eth_exit_r = rebound_hedge_info['entry']
-                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell', shares=rebound_hedge_info['size'])
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
@@ -507,7 +506,7 @@ def backtest_simple(
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
                     if slow is not None and slow <= short_target:
-                        short_exit = _slippage_commission_per_share(short_target, config, 'buy')
+                        short_exit = _slippage_commission_per_share(short_target, config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
                         hours_held_short = sidx - short_start_idx + 1
@@ -520,7 +519,7 @@ def backtest_simple(
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
                             if eth_exit_r is None:
                                 eth_exit_r = rebound_hedge_info['entry']
-                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell', shares=rebound_hedge_info['size'])
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
@@ -537,7 +536,7 @@ def backtest_simple(
                         break
                     if (sidx - short_start_idx + 1) >= short_bars_max:
                         sclose = sc.get('close', short_entry_px)
-                        short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
+                        short_exit = _slippage_commission_per_share(float(sclose), config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
                         # Consistent with long-leg: N bars max hold = N hours of funding.
@@ -551,7 +550,7 @@ def backtest_simple(
                                 eth_exit_r = eth_candles[sidx].get('close') or eth_candles[sidx].get('open')
                             if eth_exit_r is None:
                                 eth_exit_r = rebound_hedge_info['entry']
-                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                            r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell', shares=rebound_hedge_info['size'])
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
@@ -570,7 +569,7 @@ def backtest_simple(
                     # No break occurred - exit short at last available bar
                     last_sc = candles[-1]
                     sclose = last_sc.get('close', short_entry_px)
-                    short_exit = _slippage_commission_per_share(float(sclose), config, 'buy')
+                    short_exit = _slippage_commission_per_share(float(sclose), config, 'buy', shares=short_shares)
                     short_pnl = (short_entry_px - short_exit) * short_shares
                     # Funding on rebound short coin leg (spec: hourly funding on every leg).
                     hours_held_short = len(candles) - short_start_idx
@@ -584,7 +583,7 @@ def backtest_simple(
                             eth_exit_r = eth_candles[final_coin_idx].get('close') or eth_candles[final_coin_idx].get('open')
                         if eth_exit_r is None:
                             eth_exit_r = rebound_hedge_info['entry']
-                        r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell')
+                        r_hedge_exit_px = _slippage_commission_per_share(float(eth_exit_r), config, 'sell', shares=rebound_hedge_info['size'])
                         rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                         hours_held_r = len(candles) - short_start_idx
                         rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
@@ -630,7 +629,7 @@ def backtest_simple(
             )
         # Time exit: hard cap on bars held per trade.
         if config.time_exit_max_bars and (idx - start_idx + 1) >= config.time_exit_max_bars:
-            exit_px = _slippage_commission_per_share(float(c.get('close', entry)), config, 'sell')
+            exit_px = _slippage_commission_per_share(float(c.get('close', entry)), config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             # Funding on the long coin leg (spec: hourly funding on every leg).
             hours_held_time = idx - start_idx + 1
@@ -643,7 +642,7 @@ def backtest_simple(
                     eth_exit_price = eth_candles[idx].get('close') or eth_candles[idx].get('open')
                 if eth_exit_price is None:
                     eth_exit_price = hedge_info['entry']
-                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+                hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy', shares=hedge_info['size'])
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
@@ -677,7 +676,7 @@ def backtest_simple(
     exit_px = last.get('close', entry)
     if exit_px is None:
         exit_px = entry
-    exit_px = _slippage_commission_per_share(float(exit_px), config, 'sell')
+    exit_px = _slippage_commission_per_share(float(exit_px), config, 'sell', shares=shares)
     pnl = (exit_px - entry_px) * shares
     # Funding on the long leg (spec: hourly funding on every leg).
     hours_held_final = len(candles) - start_idx
@@ -691,7 +690,7 @@ def backtest_simple(
             eth_exit_price = eth_candles[final_coin_idx].get('close') or eth_candles[final_coin_idx].get('open')
         if eth_exit_price is None:
             eth_exit_price = hedge_info['entry']
-        hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy')
+        hedge_exit_px = _slippage_commission_per_share(float(eth_exit_price), config, 'buy', shares=hedge_info['size'])
         hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
         hours_held = len(candles) - start_idx
         hedge_notional = hedge_info['entry'] * hedge_info['size']
