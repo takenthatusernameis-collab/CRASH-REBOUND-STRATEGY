@@ -9,12 +9,13 @@ from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars
 
 def _complete_manifest():
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
+    synth = {"is_synthetic": False, "reason": "ok"}
     return {
         "generated_at_utc": "2026-11-06T00:00:00Z",
         "fabricated_data": False,
         "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
         "summary": {"all_complete": True, "ready_for_real_campaign": True, "complete_symbols": ["BTC"], "symbols_requested": 1},
-        "symbols": {"BTC": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}}},
+        "symbols": {"BTC": {"status": "ok", "synthetic_check": synth, "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}}},
     }
 
 

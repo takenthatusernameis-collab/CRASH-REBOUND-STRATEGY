@@ -9,14 +9,15 @@ from scripts.generate_candle_coverage_gap_report import build_gap_report
 
 def _complete_manifest():
     exp = expected_hourly_bars(TARGET_START, TARGET_END)
+    synth = {"is_synthetic": False, "reason": "ok"}
     return {
         "generated_at_utc": "2026-11-06T00:00:00Z",
         "fabricated_data": False,
         "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
         "summary": {"all_complete": True, "ready_for_real_campaign": True, "complete_symbols": ["BTC", "ETH"], "symbols_requested": 2},
         "symbols": {
-            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}},
-            "ETH": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}},
+            "BTC": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}, "synthetic_check": synth},
+            "ETH": {"status": "ok", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": exp, "gap_count": 0, "complete_for_target_window": True}, "synthetic_check": synth},
         },
     }
 

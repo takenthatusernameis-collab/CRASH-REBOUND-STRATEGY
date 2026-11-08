@@ -29,7 +29,7 @@ class TestGapReportProbeSummaryHardening(unittest.TestCase):
             "generated_at_utc": "2026-11-06T00:00:00Z", "fabricated_data": False,
             "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
             "summary": {"all_complete": False, "ready_for_real_campaign": False, "complete_symbols": [], "symbols_requested": 2},
-            "symbols": {"BTC": {"status": "incomplete", "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": 4082, "gap_count": 0, "complete_for_target_window": False}}},
+            "symbols": {"BTC": {"status": "incomplete", "synthetic_check": {"is_synthetic": False, "reason": "ok"}, "coverage": {"expected_hourly_bars": exp, "observed_in_window_bars": 4082, "gap_count": 0, "complete_for_target_window": False}}},
         }
         probe = {"symbols": {"BTC": {"count": 4078, "expected": 6792, "complete": False}, "SOL": {"count": 4078, "expected": 6792, "complete": False}}}
         report = build_gap_report(manifest=manifest, probe_evidence=probe, generated_at_utc="2026-11-06T13:15:00Z")

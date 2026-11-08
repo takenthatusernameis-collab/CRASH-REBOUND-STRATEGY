@@ -308,9 +308,13 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     # summary that contradicts symbol synthetic/coverage facts.
     summary = manifest.get("summary") or {}
     contradiction_errors: List[str] = []
-    # Compute all_complete from actual symbol facts (authoritative over summary).
-    # synthetic_check missing = unknown for legacy manifests (not positive evidence
-    # of synthetic); is_synthetic=true is a hard contradiction.
+    # Compute all_complete from actual symbol facts (authoritative over summary/labels).
+    # Campaign item 4 residual (2026-11-08, failing-tests-first): do NOT trust
+    # coverage.complete_for_target_window alone. A symbol is complete only when
+    # validated facts prove: status==ok, complete_for_target_window true for the
+    # spec target window, expected/observed bars match exp, gap_count==0, and
+    # synthetic_check is present and clean. Missing synthetic_check is unverified
+    # (not complete). is_synthetic=true is a hard contradiction/fail-closed.
     syms = manifest.get("symbols") or {}
     actual_complete = []
     actual_synthetic = []
@@ -319,10 +323,22 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             continue
         cov = info.get("coverage") or {}
         synth = info.get("synthetic_check")
-        if cov.get("complete_for_target_window") is True:
-            actual_complete.append(sym)
         if isinstance(synth, dict) and synth.get("is_synthetic") is True:
             actual_synthetic.append(sym)
+        if info.get("status") != "ok":
+            continue
+        if cov.get("complete_for_target_window") is not True:
+            continue
+        if cov.get("expected_hourly_bars") != exp:
+            continue
+        if cov.get("observed_in_window_bars") != exp:
+            continue
+        if (cov.get("gap_count") or 0) != 0:
+            continue
+        if not isinstance(synth, dict) or synth.get("is_synthetic"):
+            # Missing synthetic_check is unverified; synthetic is a hard block.
+            continue
+        actual_complete.append(sym)
     computed_all_complete = bool(syms) and len(actual_complete) == len(syms) and not actual_synthetic
 
     try:
