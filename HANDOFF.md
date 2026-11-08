@@ -1,10 +1,10 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T17:44:30Z
+**Updated (UTC):** 2026-11-08T17:57:24Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
-## BOTTLENECK CHECK (2026-11-08T17:44:30Z)
+## BOTTLENECK CHECK (2026-11-08T17:57:24Z)
 - **Status:** **No blockers found; bottlenecks removed/absent.** Verified: only root `HANDOFF.md` exists as durable handoff; no `.lock` files; working tree clean before this refresh; `main` tracks `origin/main`.
-- **Gate (re-verified 2026-11-08T17:44:30Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **`599 passed`** (599 collected, 0 skipped, 31.57s).
+- **Gate (re-verified 2026-11-08T17:57:24Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **`599 passed`** (599 collected, 0 skipped, 32.04s).
 - **CI:** `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
 - **Env note:** `pytest`/`pyarrow`/`numpy`/`pandas`/`requests` may not be pre-installed: `python3.12 -m pip install pytest pyarrow numpy pandas requests`.
 - **Known remote branches (context, not blockers):** `origin/fix/campaign-fixture-provenance-20261030`, `origin/fix/campaign-integrity-and-exposure-accounting-20261030` — do not merge/rebase unless explicitly requested and verified.
@@ -18,11 +18,11 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T17:44:30Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-08T17:57:24Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck check (2026-11-08T17:44:30Z): NO BLOCKERS. Only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/session variants); no `.lock` files; `main` tracks `origin/main`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`. Gate re-verified: `599 passed` (599 collected, 0 skipped) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. Env may lack deps: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. Intentional non-bottleneck: `scripts/fetch_hyperliquid_candles.py` fail-closed on incomplete coverage/provenance is correct; real 283d Hyperliquid data unavailable here — do not fabricate. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck check (2026-11-08T17:57:24Z): NO BLOCKERS. Only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/session variants); no `.lock` files; `main` tracks `origin/main`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`. Gate re-verified: `599 passed` (599 collected, 0 skipped) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. Env may lack deps: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. Intentional non-bottleneck: `scripts/fetch_hyperliquid_candles.py` fail-closed on incomplete coverage/provenance is correct; real 283d Hyperliquid data unavailable here — do not fabricate. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 You MUST ship >=1 MATERIAL item this session. Material = spec-fidelity defect fix + tests, OR a failing-tests-first regression lock for a real uncovered spec path, OR material gated-pipeline/API/provenance guardrail hardening with proof. NOT material: passive re-verification, handoff-only edits, speculative refactors, "blocked" without a concrete missing input, or claiming hourly-engine limitations as defects.
 
