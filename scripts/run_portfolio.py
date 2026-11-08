@@ -309,10 +309,13 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
 
     # Reconcile any exits realized at/after the final scanned bar (no future bars exist).
     _reconcile_realized_through(max_len - 1 if max_len > 0 else 0, max_len)
+    # Series is over: every admitted trade has an exit at or before the final bar, so
+    # release any remaining occupancy / reserved notional. A final-bar exit must not
+    # leak into final_open_positions / final_gross_exposure (bars_held/exit-index
+    # alignment for the full multi-leg occupancy lifecycle).
+    occupied_until.clear()
+    open_notionals.clear()
     _sync_master_overlay('')
-    risk_state.open_position_notionals = list(open_notionals.values())
-    risk_state.gross_exposure = float(sum(open_notionals.values()))
-    risk_state.open_positions = len(open_notionals)
     return {
         'total_pnl': total_pnl,
         'num_trades': len(all_trades),
