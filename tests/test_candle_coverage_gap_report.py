@@ -167,3 +167,44 @@ def test_gap_report_probe_evidence_full_key_generates_gap_summary():
     assert pgs["ETH"]["count"] == 4074
     assert report["ready_for_real_campaign"] is False
     assert report["blocker"]["item_6c_blocked"] is True
+
+
+def test_canonical_gap_report_fail_closed_on_verified_provenance():
+    """Regression lock (2026-11-08): the canonical gap report must never be
+    ready_for_real_campaign when derived from the canonical verified provenance
+    whose BTC/ETH series are synthetic placeholders (flat_series_all_bars_identical).
+    build_gap_report(manifest=canonical_verified) must fail-closed, and the on-disk
+    canonical report must match (not ready, not blocked-cleared, not sourced from a
+    /tmp or _temp/kilo-tmp probe archive)."""
+    import json
+    from pathlib import Path
+    from scripts.generate_candle_coverage_gap_report import build_gap_report, write_gap_report
+
+    manifest = json.loads(
+        Path("research_state/cache/hyperliquid_verified_283d_btceth/provenance.json").read_text()
+    )
+    report = build_gap_report(
+        manifest=manifest,
+        probe_evidence=None,
+        generated_at_utc="2026-11-08T22:10:00Z",
+        archive_scan={"searched_paths": [], "verified_archives_found": []},
+    )
+    assert report["ready_for_real_campaign"] is False
+    assert report["blocked"] is True
+    assert report["item_6c_blocked"] is True
+    assert report["real_market_data"] is True  # report field; readiness is the gate
+    assert ["BTC", "ETH"] == report.get("summary_contradiction_actual_synthetic_symbols")
+    assert "synthetic symbols present" in report["blocker"]["reason"]
+
+    # On-disk canonical artifact must mirror the fail-closed truth and must not be
+    # produced from a temp/unverified probe archive claiming readiness.
+    canonical = Path("research_state/candle_coverage_gap_report.json")
+    loaded = json.loads(canonical.read_text())
+    assert loaded["ready_for_real_campaign"] is False
+    assert loaded["blocked"] is True
+    assert loaded["item_6c_blocked"] is True
+    src = (loaded.get("probe_evidence") or {}).get("source") or {}
+    ia = src.get("input_archive") or ""
+    assert "_temp/kilo-tmp" not in ia and "/tmp/" not in ia, \
+        f"canonical report cites temp probe archive: {ia}"
+    assert loaded.get("archive_scan", {}).get("verified_archives_found") == []
