@@ -1,64 +1,73 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-08T03:10:50Z
-## SINGLE CANONICAL HANDOFF
-Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. Do **not** create TODO/NEXT/PROGRESS/session handoff variants. `__pycache__`/compiled artifacts are **not** evidence.
+# DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
+**Updated (UTC):** 2026-11-08T03:11:20Z
+**Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
-## BOTTLENECK CHECK (2026-11-08T03:10:50Z)
-- **No bottlenecks.** Baseline re-verified green at session start: **503 passed, 11 skipped** (`PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, 40.92s, 2026-11-08T02:37Z). Sole durable handoff is this file; no conflicting handoff/TODO files exist. Working tree clean before work except normal untracked ephemeral context. CI workflow `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` on Python 3.12 with `PYTHONPATH=.`.
-- **Release gate (final, this session):** **504 passed, 11 skipped** (`PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, 42.53s, 2026-11-08T03:10Z). Tracked `research_state/candle_coverage_gap_report.json` was transiently rewritten by tests during gate; restored to HEAD (no intended artifact change).
-- **Repo-name priority (mandatory):** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only. **Never claim** 20s slicing / explicit spread / L2 order-book impact.
+## BOTTLENECK CHECK
+- **Status:** No bottlenecks. Working tree clean (no tracked changes). No conflicting handoff/TODO files.
+- **CI:** `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
+- **Baseline (re-verified this session):** `504 passed, 11 skipped` (`PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, ~41s, 2026-11-08T03:11Z).
 
-## NON-NEGOTIABLE SPEC CONTRACTS (unchanged)
-Hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths and missing/incomplete bars as applicable; hourly liquidation at worst price with correct sequencing vs stop/target/time, correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
+## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
+**CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-## INITIAL TASK MESSAGE (TIMESTAMPED, SINGLE, NEXT AGENTIC SESSION) — MANDATORY HEAVY EXECUTION
-`CRASH-REBOUND-STRATEGY | 2026-11-08T03:10:50Z | REPO-NAME PRIORITY (MANDATORY): CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. HOURLY ENGINE ONLY — never claim 20s slicing / explicit spread / L2 order-book impact. LAST VERIFIED PYTEST BASELINE: 504 passed / 11 skipped (2026-11-08T03:10:50Z, PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, 42.53s). NO BOTTLENECKS BLOCKING. SHIPPED THIS SESSION (2026-11-08T03:10Z, campaign item 3 residual, failing-tests-first): scripts/fetch_hyperliquid_candles.py merge_verified_archives now emits normalized payload `sha256` (cache-integrity hash over normalized candle JSON, stable separators) alongside `archive_sha256` and `synthetic_check`, so standalone merged manifests carry cache-integrity metadata before/independent of main cache-write overwrite. Regression tests/test_merge_verified_archives_payload_sha256_20261108.py added (1). Targeted merge/summary/raw-ingress tests green (17 passed); full gate 504/11. PREV SHIPPED (2026-11-08T02:35Z): run_real_campaign.load_verified_cache require_synthetic_check + runtime re-detect; ingest_archive emits synthetic_check on raw ingress. ITEM 4 CLEARED (watch). ITEM 2 CLEARED (watch). SOLE DURABLE HANDOFF = ROOT HANDOFF.md ONLY. YOU MAY NOT SKIP HEAVY WORK, CLAIM BLOCKED WITHOUT A REAL MISSING INPUT, RE-VERIFY PASSIVELY AS YOUR ONLY OUTPUT, OR STOP WITHOUT >=1 MATERIAL SHIPPED ITEM. FAILING-TESTS-FIRST. EXECUTE IN ORDER: (1) Run PYTHONPATH=. python3 -m pytest tests/ -q --tb=no to confirm baseline remains green (expect 504+ passed, 11 skipped). (2) Ship >=1 material campaign item from HEAVY FOCUS CAMPAIGN steps 2-5. NEXT HEAVY FOCUS = campaign item 3 residuals — audit remaining real verified-data/provenance/raw-ingress consumers for (a) present+clean synthetic_check before treating manifest/cache as verified, (b) runtime synthetic re-detection on raw candle ingress, (c) verify_cache_sha256 when manifest sha exists, (d) validated-fact recomputation over optimistic labels. Priority surfaces: fetch_hyperliquid_candles main/API acquisition/cache emission and merge cache-write error paths (ensure no verified-looking entry written without verified payload/sha/synthetic evidence), generate_candle_coverage_gap_report probe/scan decisions vs archive raw-ingress synthetic_check metadata where applicable, provenance.complete_symbol_subset callers/loaders that may read raw cache without manifest guard, any script that writes provenance/cache outside fetch main. Real 283d Hyperliquid candles remain unavailable in this environment; verified placeholder remains fail-closed; universe expansion only with archived verified data + full provenance. (3) Run final gate (step 7). (4) Update ONLY root HANDOFF.md (step 8).`
+Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; rebound short coin; rebound long ETH hedge) on all exits including edge/missing-data/missing-ETH/fallback paths; hourly liquidation at worst price with correct sequencing vs stop/target/time and correct notional/timing/penalty; **stopped buy never opens rebound short**; 8x safety stop (`use_spec_safety_stop` ratio semantics); rebound short `-9%/48h/+40%`; ETH hedge every leg, vol-ratio over 336h capped 3x; `RSI(21)<20` next-hour open, deepest-first; `>= $5M` 24h volume in **all spec-compliant gating paths** (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` is non-spec fixture escape hatch only); equal-share cuts old+new across 120% gross cap (cuts only, never top-ups); one position/coin; strict no-look-ahead.
 
-## HEAVY FOCUS CAMPAIGN — EXECUTE IN ORDER (NON-OPTIONAL)
-Every session must complete steps 1 and 6, and ship at least one material item from steps 2-4. Re-running tests / updating handoff alone is **not** a shipped item.
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
+```text
+CRASH-REBOUND-STRATEGY | 2026-11-08T03:11:20Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
-1. **Gate (required, FIRST):** `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`.
-2. **Campaign item 3 residual — verified-data/provenance hardening (NEXT HEAVY):** audit/ship failing-tests-first hardening for real defects/gaps in raw-ingress → cache/manifest → verified-consumer paths. Ensure every trusted path fail-closes on missing/non-dict/declared-synthetic `synthetic_check`, runtime re-detects synthetic candles on raw ingress, verifies cache sha256 when available, and recomputes readiness from validated facts (never trust optimistic labels). Key surfaces: `fetch_hyperliquid_candles.py` acquisition/cache/provenance emission, `run_real_campaign.py`, `generate_candle_coverage_gap_report.py`, `derive_verified_universe.py`, `src/data/provenance.py` helpers/callers, archive/merge flows. Broaden universe only with archived verified data + full provenance. Canonical verified artifacts must remain fail-closed/trusted.
-3. **Campaign item 2 watch (cleared):** portfolio occupancy/multi-leg lifecycle/final-bar release/no-lookahead/cap/daily-loss covered by regressions. Failing-tests-first for any real regression only.
-4. **Campaign item 4 watch (cleared):** production consumers recompute from validated facts and never trust contradictory labels; missing `synthetic_check` unverified/fail-closed. Watch for regressions only.
-5. **Optional only after 2-4:** Refactor only when it reduces spec-fidelity risk and is covered by tests. No speculative architecture work.
-6. **Definition of material shipped item:** spec-fidelity hardening + tests, or verified-data/provenance hardening, or material gated-pipeline/API-guardrail hardening. Concrete failing-tests-first evidence required.
-7. **Final gate (required):** `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`.
-8. **Handoff (required):** Update **ONLY** this root `HANDOFF.md` with UTC timestamp, exact commands/results, files changed, shipped material item(s), remaining risks, and next heavy task message. No other handoff files.
+Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-## SHIPPED / DONE (CONDENSED)
-- **2026-11-08T00:29:47Z:** Item 4 residual watch — consumers recompute from validated facts; no label-trusting defect found. 486/11.
-- **2026-11-08T01:14:16Z:** Item 2 residual — final-bar exit releases occupancy/notional; regression added. 487/11.
-- **Commit 723144c (2026-11-08T01:26Z):** Item 3 partial — `provenance.verify_candles_not_synthetic` accepts present non-synthetic `synthetic_check` when `require_synthetic_check=True` and still re-inspects candles; fail-closed on missing/non-dict/declared-synthetic. 494/11.
-- **2026-11-08T02:21:02Z:** Item 3 residual — `derive_verified_universe.py` fail-closed on missing manifest `synthetic_check`; boundary audit aligned. 496/11.
-- **2026-11-08T02:35:37Z:** Item 3 residual — `run_real_campaign.load_verified_cache` fail-closed on missing/unverified manifest `synthetic_check` + runtime re-detect; `fetch_hyperliquid_candles.ingest_archive` emits `synthetic_check` on raw ingress; 7 regressions. 503/11.
-- **2026-11-08T03:10:50Z (this session, material):** Item 3 residual hardening with failing-tests-first evidence.
-  - `scripts/fetch_hyperliquid_candles.py` `merge_verified_archives`: now emits normalized payload `sha256` (`_sha256_bytes` of normalized candle JSON, stable separators) on each merged symbol entry, alongside existing `archive_sha256` and `synthetic_check`. Standalone merged manifests therefore carry cache-integrity metadata for `verify_cache_sha256`-style consumers; main merge/cache-write path may still recompute after serialization (unchanged). Failing test proved missing `sha256` before fix.
-  - Added regression: `tests/test_merge_verified_archives_payload_sha256_20261108.py` (1 test).
-  - Targeted (merge/summary/raw-ingress): `17 passed in 0.21s`. Full gate: **504 passed, 11 skipped in 42.53s**. `research_state/candle_coverage_gap_report.json` transient test rewrite restored to HEAD.
+Verified baseline: 504 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, 2026-11-08T03:11Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
+
+You MUST ship >=1 MATERIAL item this session. Passive re-verification, handoff-only edits, or claiming "blocked" without a concrete missing input is NOT allowed. Use failing-tests-first for every change.
+
+MANDATORY EXECUTION ORDER:
+1) Gate: PYTHONPATH=. python3 -m pytest tests/ -q --tb=no (expect 504+ passed, 11 skipped).
+2) Pick and ship >=1 material Campaign Item 3 residual (verified-data/provenance/raw-ingress hardening). Audit trusted real-data paths and fail-close on any gap:
+   - treat manifest/cache as verified only with present+clean `synthetic_check` (missing/non-dict/declared-synthetic => unverified);
+   - runtime synthetic re-detection on raw candle ingress (never trust manifest alone);
+   - `verify_cache_sha256` when manifest sha exists;
+   - recompute readiness/labels from validated facts (never trust optimistic labels).
+   Priority surfaces: scripts/fetch_hyperliquid_candles.py main/API acquisition + cache emission + merge cache-write/read/error paths (no verified-looking entry without verified payload/sha/synthetic evidence); scripts/generate_candle_coverage_gap_report.py probe/scan/archive decisions; scripts/run_real_campaign.py / scripts/derive_verified_universe.py consumers; src/data/provenance.py helpers + complete_symbol_subset callers; any raw cache readers outside manifest-guarded loaders. Broaden universe only with archived verified data + full provenance.
+3) If (2) yields no real defect after evidence-backed audit, ship another material item: spec-fidelity hardening+tests or gated-pipeline/API-guardrail hardening (failing-tests-first). Document the audit evidence.
+4) Final gate: PYTHONPATH=. python3 -m pytest tests/ -q --tb=no.
+5) Update ONLY root HANDOFF.md: UTC timestamp, exact commands/results, files changed, shipped material item(s) + evidence, remaining risks, next heavy task message. No other handoff files.
+
+Canonical fail-closed placeholder: research_state/cache/hyperliquid_verified_283d_btceth/provenance.json (synthetic, status=error, ready_for_real_campaign=false). Real 283d Hyperliquid candles unavailable in this environment; expand universe only with archived verified data + full provenance.
+```
+
+## HEAVY FOCUS CAMPAIGN (EXECUTE IN ORDER)
+1. **Gate first (required):** `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`.
+2. **Item 3 residual — NEXT HEAVY:** verified-data/provenance/raw-ingress hardening (failing-tests-first). Close remaining fail-open gaps where a trusted path could accept unverified data.
+3. **Item 2 watch (cleared):** portfolio occupancy/multi-leg lifecycle/final-bar release/no-lookahead/cap/daily-loss covered. Fix regressions only with failing tests.
+4. **Item 4 watch (cleared):** production consumers recompute from validated facts; missing `synthetic_check` unverified/fail-closed. Fix regressions only with failing tests.
+5. **Optional only after 2–4:** refactor only when it reduces spec-fidelity risk and is test-covered.
+6. **Definition of material shipped item:** spec-fidelity hardening+tests, or verified-data/provenance hardening, or material gated-pipeline/API-guardrail hardening — with concrete failing-tests-first evidence.
+7. **Final gate + handoff required.**
+
+## SHIPPED (CONDENSED)
+- **2026-11-08T03:10:50Z:** `merge_verified_archives` emits normalized payload `sha256` with `synthetic_check`/`archive_sha256` (failing-tests-first). `tests/test_merge_verified_archives_payload_sha256_20261108.py`. 504/11.
+- **2026-11-08T02:35:37Z:** `run_real_campaign.load_verified_cache` fail-closed on missing/unverified `synthetic_check` + runtime re-detect; `ingest_archive` emits `synthetic_check`. 503/11.
+- **2026-11-08T02:21:02Z:** `derive_verified_universe.py` fail-closed on missing manifest `synthetic_check`. 496/11.
+- **723144c / 2026-11-08T01:26Z:** `provenance.verify_candles_not_synthetic` present-clean `synthetic_check` accepted with `require_synthetic_check=True` (still re-inspects); fail-closed on missing/non-dict/declared-synthetic. 494/11.
+- **2026-11-08T01:14:16Z:** final-bar exit releases occupancy/notional. 487/11.
+- **2026-11-08T00:29:47Z:** Item 4 residual cleared (validated-fact authority). 486/11.
 
 ## REMAINING RISKS / NEXT HEAVY FOCUS
-- **Item 4 (watch, CLEARED):** validated-fact authority, fail-closed on contradictions/unverified missing checks. Watch for regressions.
-- **Item 2 (watch, CLEARED):** occupancy/final-bar release + regressions. Watch for regressions.
-- **Item 3 residual (open — NEXT HEAVY):** remaining real verified-data/provenance/raw-ingress guards. Audit acquisition/cache-write/read paths for any trusted use that bypasses (a) present+clean `synthetic_check` before treating manifest/cache as verified, (b) runtime synthetic re-detection on raw candle ingress, (c) `verify_cache_sha256` when manifest sha exists, (d) validated-fact recomputation over optimistic labels. Priority: `fetch_hyperliquid_candles.py` main/API acquisition/cache emission and merge cache-write error/re-read paths (no verified-looking entry without verified payload/sha/synthetic evidence); `generate_candle_coverage_gap_report.py` probe/scan/archive decisions; `provenance.complete_symbol_subset` callers and any raw cache readers outside manifest-guarded loaders; merge/multi-source paths. `research_state/cache/hyperliquid_verified_283d_btceth/provenance.json` is synthetic placeholder (`status=error`, `is_synthetic=true`, `ready_for_real_campaign=false`) — canonical fail-closed by design. Real 283d Hyperliquid candles remain unavailable in this environment; universe expansion only with archived verified data + full provenance.
+- **Item 3 residual (OPEN, NEXT HEAVY):** audit/fix remaining real verified-data/provenance/raw-ingress guards — present+clean `synthetic_check`, runtime re-detection on raw ingress, sha256 verification when available, validated-fact authority over labels. Key: `fetch_hyperliquid_candles.py` main/API acquisition/cache emission + merge cache-write/read/error paths; `generate_candle_coverage_gap_report.py`; `complete_symbol_subset` callers/raw cache readers outside manifest-guarded loaders; merge/multi-source flows.
+- **Item 4 (watch):** label-trust/validated-fact regressions.
+- **Item 2 (watch):** occupancy/lifecycle/no-lookahead/cap regressions.
+- **Environment constraint:** real 283d Hyperliquid candles unavailable here; expand universe only with archived verified data + full provenance. Canonical BTC/ETH placeholder remains fail-closed by design.
 
 ## CRITICAL CONTEXT
 - **Spec:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Test window 2025-12-20→2026-09-28 (283d), 6792 hourly bars/symbol.
 - **Core:** `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/{loader,provenance,streaming_ingest}.py`, `src/metrics/campaign_metrics.py`
 - **Runners:** `scripts/run_portfolio.py`, `scripts/run_real_campaign.py` (verified gate), `scripts/run_campaign.py` (fixture smoke), `scripts/derive_verified_universe.py`, `scripts/fetch_hyperliquid_candles.py`, `scripts/generate_candle_coverage_gap_report.py`
-- **Verified artifacts (canonical):** `research_state/cache/hyperliquid_verified_283d_btceth/` (placeholder/synthetic, fail-closed), `research_state/universe_verified.json`, `research_state/real_campaign_verified_btceth_283d*.json`, `research_state/candle_coverage_gap_report_verified_btceth_283d.json`
-
-## SUCCESS CRITERIA
-- [x] Bottlenecks checked/cleared (2026-11-08T03:10:50Z); no conflicting durable handoff files.
-- [x] Full pytest baseline green this session start: **503 passed, 11 skipped** (40.92s).
-- [x] **Material item shipped (2026-11-08T03:10Z):** `merge_verified_archives` emits normalized payload `sha256` + preserves `synthetic_check`/`archive_sha256`; failing-tests-first regression added.
-- [x] Full pytest final gate green: **504 passed, 11 skipped** (42.53s, 2026-11-08T03:10Z).
-- [x] 283d BTC/ETH verified/provenanced placeholder remains fail-closed (synthetic detected, not ready).
-- [x] Item 4 residual cleared (validated-fact authority, fail-closed). Watch.
-- [x] Item 2 residual cleared (occupancy/final-bar exit alignment). Watch.
-- [ ] **NEXT HEAVY:** campaign item 3 residuals — audit/failing-tests-first harden remaining real verified-data/provenance/raw-ingress guards (present+clean synthetic_check, runtime re-detection on raw ingress, sha256 when available, validated-fact authority over labels). Ship >=1 material item with concrete evidence; keep full gate green (504+ passed / 11 skipped). Update ONLY this `HANDOFF.md`.
+- **Canonical artifacts:** `research_state/cache/hyperliquid_verified_283d_btceth/` (placeholder fail-closed), `research_state/universe_verified.json`, `research_state/real_campaign_verified_btceth_283d*.json`, `research_state/candle_coverage_gap_report_verified_btceth_283d.json`
 
 ## RULES (NON-NEGOTIABLE)
-- **Heavy-work guardrail:** Each session ships >=1 material item: spec-fidelity hardening + tests, or verified-data/provenance hardening, or material gated-pipeline/API-guardrail hardening. Concrete evidence required.
-- **Spec is truth:** PDF/spec authoritative. Both legs non-negotiable. ETH hedge every leg. Funding/liquidation correct on every leg. $5M gating everywhere spec-compliant. Equal-share cuts across old+new. Stopped buy never opens rebound short.
-- **Gating boundaries:** `backtest_simple` is low-level executor (signal assumed), not volume-gated. Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
-- **Fail-closed:** Missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
+- **Heavy-work guardrail:** each session ships >=1 material item with concrete evidence.
+- **Spec is truth:** both legs, ETH hedge every leg, funding/liquidation correct on every leg/exit path, $5M gating in all spec-compliant paths, equal-share cuts across old+new, stopped buy never opens rebound short.
+- **Gating boundaries:** `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
+- **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
