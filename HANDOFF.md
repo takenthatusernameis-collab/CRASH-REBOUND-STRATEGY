@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T05:56:27Z
+**Updated (UTC):** 2026-11-08T06:00:26Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
@@ -13,7 +13,7 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T05:56:27Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
+CRASH-REBOUND-STRATEGY | 2026-11-08T06:00:26Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
 Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
@@ -47,7 +47,7 @@ MANDATORY EXECUTION ORDER:
 7. **Final gate + handoff required.**
 
 ## SHIPPED (CONDENSED)
-- **2026-11-08T05:56:27Z (this session):** Item 3 residual complete — raw-ingress/verified-evidence hardening.
+- **2026-11-08T06:00:26Z (this session):** Item 3 residual complete — raw-ingress/verified-evidence hardening.
   - `scripts/fetch_hyperliquid_candles._read_symbol_candles_from_file`: `require_verified=True` now rejects missing/non-dict `provenance_info` before any read (ProvenanceError); the raw JSON/other fallback can no longer bypass the verified-evidence contract (present+clean `synthetic_check`, runtime re-detection, sha256 when manifest provides it, fail-closed).
   - `scripts/generate_candle_coverage_gap_report._scan_archives`: scanned (untrusted) files never marked `verified=True` / `verified_complete_non_synthetic`; stay `verified=False` (verdict `runtime_probed_unverified` when clean/complete, `synthetic_or_incomplete_rejected` otherwise) and never enter `verified_archives_found` — scan never upgrades unverified files to trusted coverage truth.
   - New failing-tests-first evidence: `tests/test_gap_report_archive_scan_never_upgrades_unverified_20261108.py` (2 tests — complete probed file not upgraded to verified truth; flat probed file rejected without upgrading).
