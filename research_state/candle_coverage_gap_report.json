@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T18:00:06.549606+00:00",
+  "generated_at_utc": "2026-11-08T18:01:17.208600+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -24,8 +24,8 @@
       "last_timestamp": "2026-09-28T23:00:00+00:00",
       "first_timestamp_ms": 1766188800000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "44b0f7b326eafa3a191c43d4ba535d2e5c0b1f40445f59ac6b201ac53a5add33",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp8bd6l15w/cache_hl/candles/BTC.json",
+      "sha256": "6d9b6be1dfb9afa35ade827a1bb0eb011a7d79ade962bf15fa19b1bd3b39f07d",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpq0lzxqyx/cache_hl/candles/BTC.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 120000000000000.0,
@@ -48,8 +48,8 @@
       "last_timestamp": "2026-09-28T23:00:00+00:00",
       "first_timestamp_ms": 1766188800000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "6a225e5913041d5ac0aa79479e77b40f88c12678fe1b6402680d695a333760d4",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmp8bd6l15w/cache_hl/candles/ETH.json",
+      "sha256": "1eb7dc9c874a498c71229a4894c3cba06293cdf839b5fb77c9d9feb887de8847",
+      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpq0lzxqyx/cache_hl/candles/ETH.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 3000000000000.0,
@@ -64,7 +64,7 @@
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-08T18:00:06.549606+00:00",
+    "ts": "2026-11-08T18:01:17.208600+00:00",
     "window": {
       "start": "2025-12-20T00:00:00+00:00",
       "end": "2026-09-28T23:00:00+00:00",
@@ -89,13 +89,13 @@
     "source": {
       "kind": "archive",
       "hl_url": null,
-      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmp8bd6l15w/archive.parquet",
+      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpq0lzxqyx/archive.parquet",
       "input_archives": []
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/_temp/kilo-tmp/tmp8bd6l15w/archive.parquet"
+      "/home/runner/work/_temp/kilo-tmp/tmpq0lzxqyx/archive.parquet"
     ],
     "verified_archives_found": []
   },
