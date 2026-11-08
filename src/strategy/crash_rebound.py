@@ -273,8 +273,17 @@ def _sma(candles: List[Dict[str, Any]], period: int) -> Optional[float]:
     return sum(closes) / len(closes)
 
 
-def regime_ok(candles: List[Dict[str, Any]], config: StrategyConfig = DEFAULT_CONFIG) -> bool:
-    """Regime filter: avoid trading in downtrends / below minimum price."""
+def regime_ok(candles: List[Dict[str, Any]], config: StrategyConfig = DEFAULT_CONFIG,
+             skip_downtrend_filter: bool = False) -> bool:
+    """Regime filter: avoid trading in downtrends / below minimum price.
+
+    `skip_downtrend_filter` is honored when the caller has already established a
+    spec-defined downtrend signal (e.g. the RSI<20 crash trigger, which per
+    crash-rebound-strategy.pdf IS the "last day almost all selling" confirmation).
+    The fast-MA downtrend filter is an implementation extra that only adds value
+    to the price-drop trigger; it must not nullify the spec-primary RSI trigger.
+    `regime_min_price` is still enforced in all paths.
+    """
     if candles is None or len(candles) == 0:
         return False
     cur_close = _close(candles[-1])
@@ -283,7 +292,7 @@ def regime_ok(candles: List[Dict[str, Any]], config: StrategyConfig = DEFAULT_CO
     if hasattr(config, 'regime_min_price') and config.regime_min_price is not None:
         if cur_close < config.regime_min_price:
             return False
-    if getattr(config, 'avoid_downtrend', False):
+    if (not skip_downtrend_filter) and getattr(config, 'avoid_downtrend', False):
         ma_period = getattr(config, 'ma_fast_period', 20)
         ma = _sma(candles, ma_period)
         if ma is not None and cur_close < ma:
@@ -360,7 +369,19 @@ def generate_signal(
         min_body_ratio=config.rebound_min_body_ratio,
     ):
         return None
-    if not regime_ok(candles, config):
+    # Regime filter. The spec's PRIMARY crash trigger is "21-hour RSI closes below
+    # 20 (last day almost all selling)" — i.e. the RSI trigger IS the downtrend
+    # confirmation. The non-spec `avoid_downtrend` fast-MA filter (price must be
+    # above the fast MA) is only meaningful for the price-drop trigger, where a
+    # single -2% bar can occur inside an uptrend. Applying it after the RSI trigger
+    # would silently nullify every legitimate RSI crash signal (the trade fires
+    # during a downtrend by definition), including in the spec-compliant
+    # real-campaign path (run_real_campaign uses use_rsi_trigger=True with the
+    # default avoid_downtrend=True). When the crash was detected via the RSI
+    # trigger, skip the fast-MA downtrend filter. `regime_min_price` (a legitimate
+    # price floor) and the volume floor remain enforced in all paths.
+    _rsi_triggered = bool(getattr(config, 'use_rsi_trigger', False))
+    if not regime_ok(candles, config, skip_downtrend_filter=_rsi_triggered):
         return None
     cur = candles[-1]
     entry = _close(cur)
