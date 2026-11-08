@@ -50,8 +50,11 @@ class TestDeriveVerifiedUniverseReaderNoOptimisticVolumeLabel:
         assert vol["passes_5m_any_24h_window"] is True
 
     def test_output_never_claims_performance_evidence_from_manifest(self, tmp_path, monkeypatch):
-        # Manifest claims all_complete=true but carries NO volume_coverage: the
-        # reader must not derive volume/performance evidence from manifest status.
+        # Manifest claims all_complete=true but carries NO synthetic_check/volume evidence
+        # sufficient for verified selection: the reader must not derive
+        # volume/performance evidence from manifest status, and must fail-closed on
+        # missing synthetic_check (unverified provenance entry). Safe outcome:
+        # no selected symbols, real_market_data false (no optimistic exit path).
         cache_dir = tmp_path / "cache" / "hyperliquid"
         (cache_dir / "candles").mkdir(parents=True)
         candles = _candles(volume=3000.0, n=30)
@@ -66,7 +69,8 @@ class TestDeriveVerifiedUniverseReaderNoOptimisticVolumeLabel:
                 "BTC": {
                     "status": "ok",
                     "cache_path": str(cache_dir / "candles" / "BTC.json"),
-                    # no volume_coverage: reader must not treat status/complete as volume evidence
+                    # no synthetic_check / no volume_coverage: reader must not treat
+                    # status/complete as volume or verification evidence
                     "coverage": {
                         "complete_for_target_window": True,
                         "expected_hourly_bars": 2,
@@ -87,8 +91,16 @@ class TestDeriveVerifiedUniverseReaderNoOptimisticVolumeLabel:
             "--output", str(out),
             "--min-24h-volume-usd", "5000000",
         ])
-        with pytest.raises(SystemExit):
-            derive_main()
+        rc = derive_main()
+        assert rc == 0
+        data = json.loads(out.read_text())
+        assert data["real_market_data"] is False
+        assert data["performance_evidence"] is False
+        assert data["selected_symbols"] == []
+        assert data["selected_count"] == 0
+        rec = data["report"]["BTC"]
+        assert rec["selected"] is False
+        assert "synthetic_check" in (rec.get("excluded_reason") or "") or "unverified" in (rec.get("excluded_reason") or "")
 
 
 class TestPortfolioRunnerNoProvenanceConsumption:

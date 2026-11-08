@@ -183,7 +183,9 @@ def main():
             excluded_reason = f"manifest_status:{manifest_status}"
         elif not manifest_complete:
             excluded_reason = "manifest_incomplete_coverage"
-        elif isinstance(synth_manifest, dict) and synth_manifest.get("is_synthetic"):
+        elif not isinstance(info.get("synthetic_check"), dict):
+            excluded_reason = "manifest_synthetic_check_missing_unverified"
+        elif synth_manifest is not None and synth_manifest.get("is_synthetic"):
             excluded_reason = f"manifest_synthetic:{synth_manifest.get('reason') or 'unknown'}"
         elif runtime_synth.get("is_synthetic"):
             excluded_reason = f"runtime_synthetic:{runtime_synth.get('reason') or 'unknown'}"
