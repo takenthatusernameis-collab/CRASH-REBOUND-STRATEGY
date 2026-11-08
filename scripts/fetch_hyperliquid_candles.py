@@ -520,8 +520,21 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
             cov = analyze_coverage(candles, start, end)
             volcov = analyze_symbol_volume_coverage(candles, min_daily_volume_usd)
             synth = detect_synthetic_candles(candles)
+            # Item 3 residual (raw-ingress / cache-emission hardening): structural
+            # validation is part of provenance. A complete-coverage archive whose
+            # payload fails validate_candles (non-finite / invalid OHLC) must never
+            # be labeled ok/complete — the written cache would be unloadable
+            # downstream (manifest label outrunning the payload = fail-open).
+            try:
+                validate_candles(candles, check_gaps=False)
+            except Exception as ve:
+                entry_validation_error = f"structural validation failed: {ve}"
+            else:
+                entry_validation_error = None
             status = "ok" if cov.get("complete_for_target_window") else "incomplete"
             if synth.get("is_synthetic"):
+                status = "error"
+            if entry_validation_error is not None:
                 status = "error"
             payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
             entry = {
@@ -542,8 +555,12 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
                 "volume_coverage": volcov,
                 "synthetic_check": synth,
             }
+            if entry_validation_error is not None:
+                entry["validation_warning"] = entry_validation_error
             if synth.get("is_synthetic"):
                 entry["error"] = f"{synth.get('reason')}: {synth.get('distinct_signatures')}/{synth.get('bars_checked')} distinct signatures"
+            elif entry_validation_error is not None:
+                entry["error"] = entry_validation_error
             prev = seen.get(sym)
             if prev is None:
                 seen[sym] = entry
@@ -917,12 +934,23 @@ def main():
                 entry["status"] = "error"
                 entry["error"] = "Failed to re-read candles for cache write"
             else:
-                payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
-                entry["sha256"] = _sha256_bytes(payload)
-                out_path = candles_dir / f"{sym}.json"
-                entry["cache_path"] = str(out_path.relative_to(REPO_ROOT)) if str(out_path).startswith(str(REPO_ROOT)) else str(out_path)
-                if not args.dry_run:
-                    out_path.write_bytes(payload)
+                # Item 3 residual (raw-ingress / cache-emission hardening): the
+                # merge path must also fail-closed on structural validation. A
+                # complete-coverage archive with non-finite/invalid OHLC would
+                # otherwise be written to cache with status=ok and then fail to
+                # load downstream (manifest label outrunning the payload).
+                try:
+                    validate_candles(candles, check_gaps=False)
+                except Exception as ve:
+                    entry["status"] = "error"
+                    entry["error"] = f"structural validation failed: {ve}"
+                if entry.get("status") != "error":
+                    payload = json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+                    entry["sha256"] = _sha256_bytes(payload)
+                    out_path = candles_dir / f"{sym}.json"
+                    entry["cache_path"] = str(out_path.relative_to(REPO_ROOT)) if str(out_path).startswith(str(REPO_ROOT)) else str(out_path)
+                    if not args.dry_run:
+                        out_path.write_bytes(payload)
             manifest["symbols"][sym] = entry
             print(f"{sym}: {entry['status']} {entry.get('coverage',{}).get('observed_in_window_bars','?')}/{entry.get('coverage',{}).get('expected_hourly_bars','?')}")
     else:
@@ -953,6 +981,15 @@ def main():
                 if synth.get("is_synthetic"):
                     entry["status"] = "error"
                     entry["error"] = f"{synth.get('reason')}: {synth.get('distinct_signatures')}/{synth.get('bars_checked')} distinct signatures"
+                elif entry.get("validation_warning"):
+                    # Item 3 residual (raw-ingress / cache-emission hardening):
+                    # structural validation failed (non-finite / invalid OHLC / gap).
+                    # The written cache would be unloadable by downstream
+                    # load_hyperliquid_candles/load_verified_cache (they re-validate
+                    # and raise), so a trusted manifest label outrunning the payload is
+                    # a fail-open. Never emit status=ok/complete with a validation_warning.
+                    entry["status"] = "error"
+                    entry["error"] = f"structural validation failed: {entry['validation_warning']}"
                 else:
                     entry["status"] = "ok" if cov.get("complete_for_target_window") else "incomplete"
                 out_path = candles_dir / f"{sym}.json"
