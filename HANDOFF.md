@@ -1,10 +1,10 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T08:00:44Z
+**Updated (UTC):** 2026-11-08T08:02:12Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
 - **Status:** No bottlenecks. Only root `HANDOFF.md` exists (verified). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
-- **Baseline (this session):** gate `535 passed, 11 skipped` (27.75s) at 2026-11-08T08:00:44Z (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`).
+- **Baseline (this session):** gate `535 passed, 11 skipped` (27.30s) at 2026-11-08T08:02:12Z (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`).
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
@@ -13,11 +13,11 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T08:00:44Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
+CRASH-REBOUND-STRATEGY | 2026-11-08T08:02:12Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
 Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-Verified baseline: 535 passed, 11 skipped (cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, 27.75s, 2026-11-08T08:00:44Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
+Verified baseline: 535 passed, 11 skipped (cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, 27.30s, 2026-11-08T08:02:12Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
 
 You MUST ship >=1 MATERIAL item this session. Passive re-verification, handoff-only edits, or claiming "blocked" without a concrete missing input is NOT allowed. Use failing-tests-first for every change.
 
