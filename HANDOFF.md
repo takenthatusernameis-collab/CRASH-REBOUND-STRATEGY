@@ -1,10 +1,10 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-08T01:14:16Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-08T01:20:43Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. Do **not** create TODO/NEXT/PROGRESS/session handoff variants. `__pycache__`/compiled artifacts are **not** evidence.
 
-## BOTTLENECK CHECK (2026-11-08T01:14:16Z)
-- **No bottlenecks.** Re-verified green this session (`486 passed, 11 skipped` pre-change baseline; `487 passed, 11 skipped` post-change, 41.45s, `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, including new regression `tests/test_portfolio_final_bar_exit_releases_occupancy.py`). Sole durable handoff is this file; no conflicting handoff/TODO files exist. Working tree has uncommitted shipped item 2 fix + new test (see SHIPPED/DONE). CI workflow `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` on Python 3.12 with `PYTHONPATH=.`.
-- **Release gate (green this session):** before work **486 passed, 11 skipped** (no production code changes — handoff refresh + baseline re-verification). Final full gate: **487 passed, 11 skipped** (41.45s, 2026-11-08T01:14:16Z).
+## BOTTLENECK CHECK (2026-11-08T01:20:43Z)
+- **No bottlenecks.** Re-verified green this session (`487 passed, 11 skipped` pre-change baseline; `494 passed, 11 skipped` post-change, 41.26s, `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, including new regression `tests/test_verify_candles_not_synthetic_require_synthetic_check_20261108.py`). Sole durable handoff is this file; no conflicting handoff/TODO files exist. Working tree has uncommitted shipped item 3 fix + new test (see SHIPPED/DONE). CI workflow `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` on Python 3.12 with `PYTHONPATH=.`.
+- **Release gate (green this session):** before work **487 passed, 11 skipped** (no production code changes — baseline re-verification). Final full gate: **494 passed, 11 skipped** (41.26s, 2026-11-08T01:20:43Z).
 - **Repo-name priority (mandatory):** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only. **Never claim** 20s slicing / explicit spread / L2 order-book impact.
 
 ## NON-NEGOTIABLE SPEC CONTRACTS (unchanged)

@@ -345,21 +345,44 @@ def verify_candles_not_synthetic(
     *,
     require_synthetic_check: bool = False,
     raise_on_synthetic: bool = False,
+    synthetic_check: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     """Runtime re-detection of synthetic/flat candle series.
 
-    Never trusts a manifest's synthetic_check flag: recompute from the actual
-    candles. If `require_synthetic_check` is True, a manifest entry that omitted
-    synthetic_check entirely is treated as unverified (fail-closed) rather than
-    trusted. Raises ProvenanceError when the series is synthetic and
-    `raise_on_synthetic` is True.
+    Never trusts a manifest's synthetic_check flag blindly: the actual candles
+    are re-inspected. When `require_synthetic_check` is True the provenance entry
+    must carry an explicit synthetic_check dict:
+
+    * missing / non-dict -> unverified, fail-closed (raises ProvenanceError);
+    * dict with is_synthetic True -> synthetic evidence, fail-closed (raises
+      ProvenanceError when raise_on_synthetic is True, otherwise reported);
+    * dict with is_synthetic False/absent -> accepted as verified at the
+      provenance layer, then still re-checked against the actual candles.
+
+    Raises ProvenanceError when the series is synthetic (provenance-declared or
+    runtime-detected) and `raise_on_synthetic` is True.
     """
     if require_synthetic_check:
-        # Caller-supplied manifest entry must have an explicit synthetic_check dict.
-        # A missing field means the provenance was never computed -> not verified.
-        raise ProvenanceError(
-            "synthetic_check missing from provenance entry; cannot treat as verified real data"
-        )
+        if not isinstance(synthetic_check, dict):
+            # A missing field means the provenance was never computed -> not verified.
+            raise ProvenanceError(
+                "synthetic_check missing from provenance entry; cannot treat as verified real data"
+            )
+        if synthetic_check.get("is_synthetic"):
+            if raise_on_synthetic:
+                raise ProvenanceError(
+                    f"provenance-declared synthetic candle series detected "
+                    f"({synthetic_check.get('reason') or 'unknown'}); "
+                    "refusing to treat as real market evidence"
+                )
+            return {
+                "is_synthetic": True,
+                "reason": synthetic_check.get("reason") or "provenance_declared_synthetic",
+                "distinct_signatures": synthetic_check.get("distinct_signatures"),
+                "bars_checked": synthetic_check.get("bars_checked"),
+                "distinct_signature_ratio": synthetic_check.get("distinct_signature_ratio"),
+                "source": "provenance_manifest",
+            }
     res = detect_synthetic_candles(candles)
     if res["is_synthetic"] and raise_on_synthetic:
         raise ProvenanceError(
