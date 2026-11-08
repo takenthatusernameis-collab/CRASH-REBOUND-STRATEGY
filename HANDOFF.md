@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T03:13:19Z
+**Updated (UTC):** 2026-11-08T03:18:45Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
@@ -13,11 +13,11 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T03:13:19Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
+CRASH-REBOUND-STRATEGY | 2026-11-08T03:18:45Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
 Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-Verified baseline: 504 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, ~40.6s, 2026-11-08T03:13Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
+Verified baseline: 504 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, ~40.7s, 2026-11-08T03:18Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
 
 You MUST ship >=1 MATERIAL item this session. Passive re-verification, handoff-only edits, or claiming "blocked" without a concrete missing input is NOT allowed. Use failing-tests-first for every change.
 
