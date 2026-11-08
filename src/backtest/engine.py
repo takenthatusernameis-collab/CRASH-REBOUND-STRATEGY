@@ -421,7 +421,13 @@ def backtest_simple(
                         r_hedge_value = compute_eth_hedge_size(r_coin_hist, r_eth_hist, short_coin_value, config)
                         if r_hedge_value > 0:
                             eth_entry_r = None
-                            r_entry_idx = min(idx + 1, len(eth_candles) - 1) if (idx + 1) < len(eth_candles) else min(idx, len(eth_candles) - 1)
+                            # Spec no-look-ahead: hedge sizing above already uses
+                            # eth_candles[:idx+1] (bars 0..idx), so the rebound hedge
+                            # entry price must come from the SAME aligned bar idx.
+                            # Previously r_entry_idx = min(idx+1, ...) read the next bar
+                            # (look-ahead / misaligned vs the sizing window) and only
+                            # fell back to idx when idx+1 was out of range.
+                            r_entry_idx = min(idx, len(eth_candles) - 1)
                             if r_entry_idx >= 0:
                                 eth_entry_r = eth_candles[r_entry_idx].get('open') or eth_candles[r_entry_idx].get('close')
                             if eth_entry_r and float(eth_entry_r) > 0:
