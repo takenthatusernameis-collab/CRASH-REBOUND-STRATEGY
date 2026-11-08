@@ -291,12 +291,24 @@ def _read_symbol_candles_from_parquet(p: Path, symbol: str) -> Tuple[List[Dict[s
     return candles, meta
 
 
-def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
-    """Read per-symbol candles from JSON/NDJSON/JSONL/CSV/Parquet, including multi-symbol containers."""
+def _read_symbol_candles_from_file(p: Path, symbol: str,
+                                   *,
+                                   require_verified: bool = False,
+                                   provenance_info: Optional[Dict[str, Any]] = None) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Read per-symbol candles from JSON/NDJSON/JSONL/CSV/Parquet, including multi-symbol containers.
+
+    When ``require_verified`` is True, fail-closed on unverified real-data evidence:
+    provenance_info must carry a present dict ``synthetic_check`` (missing/non-dict
+    / declared-synthetic => ProvenanceError), sha256 is verified against file bytes
+    when provided, and the actual candle series is runtime re-inspected for
+    synthetic/flat patterns. Never trusts manifest labels alone.
+    """
+    from src.data.loader import _verify_loaded_candles
+
     suffix = p.suffix.lower()
     if suffix == ".parquet":
-        return _read_symbol_candles_from_parquet(p, symbol)
-    if suffix == ".csv":
+        candles, meta = _read_symbol_candles_from_parquet(p, symbol)
+    elif suffix == ".csv":
         import csv
         rows = []
         sym_rows = []
@@ -338,8 +350,7 @@ def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str,
             if nc:
                 candles.append(nc)
         meta = {"format": "csv", "multi_symbol_container": bool(sym_rows), "rows_total": len(rows)}
-        return candles, meta
-    if suffix in (".ndjson", ".jsonl"):
+    elif suffix in (".ndjson", ".jsonl"):
         rows_total = 0
         sym_rows = 0
         candles = []
@@ -370,41 +381,51 @@ def _read_symbol_candles_from_file(p: Path, symbol: str) -> Tuple[List[Dict[str,
         if rows_total > 0 and sym_rows == 0 and not candles:
             raise ValueError(f"NDJSON contains symbol-tagged rows but none for {symbol}: {p}")
         meta = {"format": "ndjson", "multi_symbol_container": sym_rows > 0, "rows_total": rows_total}
-        return candles, meta
-    # JSON / other: try loader first (handles dict-of-symbols and lists)
-    try:
-        raw = load_hyperliquid_candles(str(p), symbol=symbol)
-        candles = []
-        for c in raw:
-            nc = _normalize_loaded_candle(c)
-            if nc:
-                candles.append(nc)
-        meta = {"format": suffix.lstrip(".") or "json", "loaded_via": "data_loader"}
-        return candles, meta
-    except Exception as e:
-        # fallback: raw JSON parse for odd shapes
-        obj = json.loads(p.read_text())
-        seq = None
-        if isinstance(obj, dict):
-            for k in (symbol, symbol.upper(), symbol.lower()):
-                if k in obj and isinstance(obj[k], list):
-                    seq = obj[k]
-                    break
-            if seq is None and isinstance(obj.get("candles"), list):
-                seq = obj["candles"]
-            if seq is None and isinstance(obj.get("data"), list):
-                seq = obj["data"]
-        elif isinstance(obj, list):
-            seq = obj
-        if seq is None:
-            raise
-        candles = []
-        for c in seq:
-            nc = _normalize_loaded_candle(c if isinstance(c, dict) else {})
-            if nc:
-                candles.append(nc)
-        meta = {"format": suffix.lstrip(".") or "json", "loaded_via": "raw_parse_fallback", "loader_error": f"{type(e).__name__}: {e}"}
-        return candles, meta
+    else:
+        # JSON / other: try loader first (handles dict-of-symbols and lists)
+        try:
+            raw = load_hyperliquid_candles(str(p), symbol=symbol,
+                                           require_verified=require_verified,
+                                           provenance_info=provenance_info)
+            candles = []
+            for c in raw:
+                nc = _normalize_loaded_candle(c)
+                if nc:
+                    candles.append(nc)
+            meta = {"format": suffix.lstrip(".") or "json", "loaded_via": "data_loader"}
+            if require_verified and provenance_info is not None:
+                _verify_loaded_candles(candles, symbol=symbol, source_path=p, provenance_info=provenance_info)
+            return candles, meta
+        except Exception as e:
+            # fallback: raw JSON parse for odd shapes
+            obj = json.loads(p.read_text())
+            seq = None
+            if isinstance(obj, dict):
+                for k in (symbol, symbol.upper(), symbol.lower()):
+                    if k in obj and isinstance(obj[k], list):
+                        seq = obj[k]
+                        break
+                if seq is None and isinstance(obj.get("candles"), list):
+                    seq = obj["candles"]
+                if seq is None and isinstance(obj.get("data"), list):
+                    seq = obj["data"]
+            elif isinstance(obj, list):
+                seq = obj
+            if seq is None:
+                raise
+            candles = []
+            for c in seq:
+                nc = _normalize_loaded_candle(c if isinstance(c, dict) else {})
+                if nc:
+                    candles.append(nc)
+            meta = {"format": suffix.lstrip(".") or "json", "loaded_via": "raw_parse_fallback", "loader_error": f"{type(e).__name__}: {e}"}
+            if require_verified and provenance_info is not None:
+                _verify_loaded_candles(candles, symbol=symbol, source_path=p, provenance_info=provenance_info)
+            return candles, meta
+
+    if require_verified and provenance_info is not None:
+        _verify_loaded_candles(candles, symbol=symbol, source_path=p, provenance_info=provenance_info)
+    return candles, meta
 
 
 def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str, Any]:
