@@ -128,8 +128,9 @@ class TestLiquidationEntryNextBarCapCutPenalty(unittest.TestCase):
         self.assertEqual(long_leg['reason'], 'target')
         self.assertEqual(short_leg['reason'], 'liquidated')
         self.assertAlmostEqual(res.entry_price, 101.0, places=9)
-        self.assertAlmostEqual(long_leg['exit'], 107.91, places=9)
-        short_entry_expected = 107.91 * 0.99  # sell slip on long target-exit px
+        # entry_next_bar re-anchors target to executed entry: 109.0 * (101.0/100.0) = 110.09, sell slip => 108.9891
+        self.assertAlmostEqual(long_leg['exit'], 108.98910000000001, places=9)
+        short_entry_expected = 108.98910000000001 * 0.99  # sell slip on long target-exit px
         self.assertAlmostEqual(short_leg['entry'], short_entry_expected, places=9)
         exit_expected = 118.0 * 1.01  # buy slip on worst-high liq price
         self.assertAlmostEqual(short_leg['exit'], exit_expected, places=9)
