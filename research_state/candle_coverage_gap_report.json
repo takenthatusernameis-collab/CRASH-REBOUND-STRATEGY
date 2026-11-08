@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-08T14:24:09.333159+00:00",
+  "generated_at_utc": "2026-11-08T15:02:40.172892+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -14,102 +14,101 @@
   "blocked": true,
   "item_6c_blocked": true,
   "symbols": {
-    "AAA": {
-      "status": "ok",
-      "observed_in_window_bars": 4,
-      "expected_hourly_bars": 4,
+    "BTC": {
+      "status": "error",
+      "observed_in_window_bars": 6792,
+      "expected_hourly_bars": 6792,
       "complete_for_target_window": true,
       "gap_count": 0,
-      "first_timestamp": "2025-01-01T00:00:00+00:00",
-      "last_timestamp": "2025-01-01T03:00:00+00:00",
-      "first_timestamp_ms": 1735689600000,
-      "last_timestamp_ms": 1735700400000,
-      "sha256": "9c44db8d12c821c81cfe30d8ed5e6d359b7f04a65c8e62c16fe9b47e17bc3dd0",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpexjzczmv/cache_hl/candles/AAA.json",
+      "first_timestamp": "2025-12-20T00:00:00+00:00",
+      "last_timestamp": "2026-09-28T23:00:00+00:00",
+      "first_timestamp_ms": 1766188800000,
+      "last_timestamp_ms": 1790636400000,
+      "sha256": "46582282c26f890d84bb2c81eae843f9ba15def235cbf617da350ea2a1740a65",
+      "cache_path": "/tmp/kilo_cache_hl/candles/BTC.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 10000000.0,
-        "observed_mean_24h_usd_volume": 25927750.0,
-        "bars_checked": 4,
-        "bars_passing": 4,
+        "observed_min_24h_usd_volume": 120000000000000.0,
+        "observed_mean_24h_usd_volume": 2875123674911661.0,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
         "volume_filter_ok": true
       },
       "volume_coverage_present": true,
       "volume_floor_compliant": true,
       "volume_floor_reason": "ok"
     },
-    "LOW": {
-      "status": "ok",
-      "observed_in_window_bars": 4,
-      "expected_hourly_bars": 4,
+    "ETH": {
+      "status": "error",
+      "observed_in_window_bars": 6792,
+      "expected_hourly_bars": 6792,
       "complete_for_target_window": true,
       "gap_count": 0,
-      "first_timestamp": "2025-01-01T00:00:00+00:00",
-      "last_timestamp": "2025-01-01T03:00:00+00:00",
-      "first_timestamp_ms": 1735689600000,
-      "last_timestamp_ms": 1735700400000,
-      "sha256": "61be820dc94252aea66811d8f58b80dabcf0e31f8fb194b7f7dd6316485d63f4",
-      "cache_path": "/home/runner/work/_temp/kilo-tmp/tmpexjzczmv/cache_hl/candles/LOW.json",
+      "first_timestamp": "2025-12-20T00:00:00+00:00",
+      "last_timestamp": "2026-09-28T23:00:00+00:00",
+      "first_timestamp_ms": 1766188800000,
+      "last_timestamp_ms": 1790636400000,
+      "sha256": "50affff92b0554f3067cef373426e462dea5e080c94bec59ea69761bb8c9c865",
+      "cache_path": "/tmp/kilo_cache_hl/candles/ETH.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 1.0,
-        "observed_mean_24h_usd_volume": 2.592775,
-        "bars_checked": 4,
-        "bars_passing": 0,
-        "volume_filter_ok": false
+        "observed_min_24h_usd_volume": 3000000000000.0,
+        "observed_mean_24h_usd_volume": 71878091872791.52,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true
       },
       "volume_coverage_present": true,
-      "volume_floor_compliant": false,
-      "volume_floor_reason": "volume_filter_ok is not true"
+      "volume_floor_compliant": true,
+      "volume_floor_reason": "ok"
     }
   },
   "probe_evidence": {
-    "ts": "2026-11-08T14:24:09.333159+00:00",
+    "ts": "2026-11-08T15:02:40.172892+00:00",
     "window": {
-      "start": "2025-01-01T00:00:00+00:00",
-      "end": "2025-01-01T03:00:00+00:00",
-      "expected_hourly_bars": 4
+      "start": "2025-12-20T00:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 6792
     },
     "full": {
-      "AAA": {
-        "coin": "AAA",
-        "count": 4,
-        "first_t": 1735689600000,
-        "last_t": 1735700400000,
+      "BTC": {
+        "coin": "BTC",
+        "count": 6792,
+        "first_t": 1766188800000,
+        "last_t": 1790636400000,
         "complete": true
       },
-      "LOW": {
-        "coin": "LOW",
-        "count": 4,
-        "first_t": 1735689600000,
-        "last_t": 1735700400000,
+      "ETH": {
+        "coin": "ETH",
+        "count": 6792,
+        "first_t": 1766188800000,
+        "last_t": 1790636400000,
         "complete": true
       }
     },
     "source": {
       "kind": "archive",
       "hl_url": null,
-      "input_archive": "/home/runner/work/_temp/kilo-tmp/tmpexjzczmv/all.jsonl",
+      "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
       "input_archives": []
     }
   },
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/_temp/kilo-tmp/tmpexjzczmv/all.jsonl"
+      "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet"
     ],
     "verified_archives_found": []
   },
-  "target_window_consistent_with_spec": false,
+  "target_window_consistent_with_spec": true,
   "blocker": {
     "item_6c_blocked": true,
-    "reason": "Manifest/provenance volume evidence is not spec-compliant (>=$5e+06 required, fail-closed): LOW: volume_filter_ok is not true",
+    "reason": "Manifest summary contradicts validated symbol facts (fail-closed): synthetic symbols present: ['BTC', 'ETH']",
     "required_to_unblock": [
       "Verified archive or API coverage delivering 6792/6792 hourly bars per required symbol for 2025-12-20T00:00:00Z\u21922026-09-28T23:00:00Z",
       "Documented source/extraction, checksums, provenance.json all_complete=true ready_for_real_campaign=true",
       "Spec-relevant >=$5M 24h volume universe derived/reconciled from verified data"
     ],
-    "target_window_mismatch": true,
-    "volume_floor_compliant": false
+    "target_window_mismatch": false
   },
   "probe_summary": {
     "symbols_probed": 2,
@@ -119,32 +118,26 @@
     "expected_mismatch_symbols": 0
   },
   "probe_gap_summary": {
-    "AAA": {
-      "count": 4,
+    "BTC": {
+      "count": 6792,
       "expected": 6792,
-      "missing_bars": 6788,
+      "missing_bars": 0,
       "complete": true
     },
-    "LOW": {
-      "count": 4,
+    "ETH": {
+      "count": 6792,
       "expected": 6792,
-      "missing_bars": 6788,
+      "missing_bars": 0,
       "complete": true
     }
   },
-  "manifest_target_window": {
-    "start": "2025-01-01T00:00:00+00:00",
-    "end": "2025-01-01T03:00:00+00:00",
-    "expected_hourly_bars": 4
-  },
   "manifest_summary_contradiction": true,
-  "summary_contradiction_errors": [
-    "summary.all_complete=true contradicts symbol completeness: 0/2 complete"
+  "summary_contradiction_errors": [],
+  "summary_contradiction_actual_synthetic_symbols": [
+    "BTC",
+    "ETH"
   ],
-  "summary_contradiction_actual_synthetic_symbols": [],
-  "volume_floor_compliant": false,
-  "volume_floor_issues": {
-    "LOW": "volume_filter_ok is not true"
-  },
+  "volume_floor_compliant": true,
+  "volume_floor_issues": {},
   "volume_coverage_absent_symbols": []
 }
