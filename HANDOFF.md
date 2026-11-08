@@ -1,8 +1,8 @@
-# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-08T02:12:40Z
+# DURABLE HANDOFF | CRASH-REBOUND-STRATEGY | 2026-11-08T02:14:04Z
 ## SINGLE CANONICAL HANDOFF
 Only this root `HANDOFF.md` is durable. Do **not** create/read any other handoff file. Do **not** create TODO/NEXT/PROGRESS/session handoff variants. `__pycache__`/compiled artifacts are **not** evidence.
 
-## BOTTLENECK CHECK (2026-11-08T02:12:40Z)
+## BOTTLENECK CHECK (2026-11-08T02:14:04Z)
 - **No bottlenecks.** Re-verified green this session: **494 passed, 11 skipped** (`PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, 40.65s, 2026-11-08T02:12:40Z). Sole durable handoff is this file; no conflicting handoff/TODO files exist. Working tree clean except this handoff refresh (ephemeral `research_state/candle_coverage_gap_report.json` regeneration noise restored; not evidence). CI workflow `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` on Python 3.12 with `PYTHONPATH=.`.
 - **Release gate (green this session):** **494 passed, 11 skipped** (40.65s, 2026-11-08T02:12:40Z). No production/test changes this session beyond durable handoff refresh.
 - **Repo-name priority (mandatory):** `CRASH-REBOUND-STRATEGY` → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly engine only. **Never claim** 20s slicing / explicit spread / L2 order-book impact.
