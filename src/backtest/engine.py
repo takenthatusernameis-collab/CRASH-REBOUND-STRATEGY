@@ -187,6 +187,22 @@ def backtest_simple(
 
     stop_px = stop
     target_px = target
+    # Spec-fidelity re-anchor (2026-11-08): when entry_next_bar=True the fill price
+    # is the next bar's open, which may differ from the signal-bar close used to
+    # derive stop/target. The PDF defines thresholds relative to the executed
+    # entry (target = +9% of entry; safety stop = entry * (1 - 8 * range_ratio)),
+    # so stop/target must move with the fill price. Ratio semantics (spec safety
+    # stop, +9% target, and reward_risk = entry + risk * reward_risk) are preserved
+    # exactly by scaling both by entry_px/entry. The legacy absolute ATR-offset
+    # stop form (use_spec_safety_stop=False) shifts additively instead.
+    if config.entry_next_bar and entry > 0 and entry_px != entry:
+        _ratio = entry_px / entry
+        if getattr(config, 'use_spec_safety_stop', True):
+            stop_px = stop * _ratio
+        else:
+            stop_px = stop + (entry_px - entry)
+        target_px = target * _ratio
+        risk = entry_px - stop_px
 
     # Risk gate before entry: max positions and daily-loss halt.
     if risk_state is not None:
