@@ -1,10 +1,10 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-08T04:28:54Z
+**Updated (UTC):** 2026-11-08T04:33:46Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/session variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## BOTTLENECK CHECK
-- **Status:** No bottlenecks removed/needed. No conflicting handoff/TODO/NEXT/PROGRESS files. CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
-- **Baseline (verified this session):** `522 passed, 11 skipped` (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, ~41.2s, 2026-11-08T04:27Z).
+- **Status:** No bottlenecks removed/needed. No conflicting handoff/TODO/NEXT/PROGRESS files exist (scan confirmed: only root HANDOFF.md). CI: `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (Python 3.12, `PYTHONPATH=.`).
+- **Baseline (re-verified this session):** `522 passed, 11 skipped` (`cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`, ~41.1s, 2026-11-08T04:33Z).
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (MANDATORY)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing / explicit spread / L2 order-book impact.
@@ -13,21 +13,19 @@ Non-negotiable: hourly funding on **every leg** (long coin; short ETH hedge; reb
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (TIMESTAMPED, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-08T04:28:54Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
+CRASH-REBOUND-STRATEGY | 2026-11-08T04:33:46Z | INITIAL TASK (HEAVY, NON-OPTIONAL)
 
 Repo priority: CRASH-REBOUND-STRATEGY → fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly engine only. Never claim 20s slicing / explicit spread / L2 order-book impact.
 
-Verified baseline: 522 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, ~41.2s, 2026-11-08T04:27Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
+Verified baseline: 522 passed, 11 skipped (PYTHONPATH=. python3 -m pytest tests/ -q --tb=no, ~41.1s, 2026-11-08T04:33Z). No bottlenecks. Sole durable handoff: root HANDOFF.md only.
 
 You MUST ship >=1 MATERIAL item this session. Passive re-verification, handoff-only edits, or claiming "blocked" without a concrete missing input is NOT allowed. Use failing-tests-first for every change.
 
 MANDATORY EXECUTION ORDER:
 1) Gate: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (expect 522+ passed, 11 skipped).
-2) Item 3 residual (OPEN, NEXT HEAVY) — continue verified-data/provenance/raw-ingress fail-closed audit. 2026-11-08T04:27Z shipped guarded raw-ingress APIs + key consumer wiring (loader/streaming_ingest/run_real_campaign/derive_verified_universe); remaining surfaces must not accept unverified data (present+clean `synthetic_check`, runtime re-detection, sha256 when manifest provides it, validated-fact authority over labels):
-   a) `scripts/generate_candle_coverage_gap_report.py` loads via `fetch_hyperliquid_candles._read_symbol_candles_from_file` (uses loader raw path) for probe/scan decisions; audit that manifest-described/verified-evidence reads are fail-closed (sha/synthetic/runtime) and that gap-report never treats unverified cache as coverage truth. Add failing tests.
-   b) `scripts/fetch_hyperliquid_candles.py` archive/ingest/raw read helpers and any merge/read paths that still bypass guarded verification for manifest-backed cache decisions; confirm synthetic_check+sha+runtime re-detection are fail-closed everywhere a trusted label is emitted. Add failing tests.
-   c) Any `complete_symbol_subset` callers / raw cache readers outside manifest-guarded loaders (audit repo-wide `load_hyperliquid_candles(` / `stream_normalize(` / `load_multi_coin_data(` usages; require_verified/provenance_info or explicit non-evidence/fixture justification). Prefer narrow, behavior-preserving guards; keep fixtures/synthetic smoke paths working unless they claim real evidence.
-   d) `run_portfolio.py` uses `load_multi_coin_data` for fixture/dir loads (no manifest) — confirm no verified-evidence path depends on it without provenance; document/guard if a real-data mode appears.
+2) Item 3 residual (OPEN, NEXT HEAVY) — close the remaining raw-ingress fail-open gap: `scripts/fetch_hyperliquid_candles._read_symbol_candles_from_file` (line ~376) reads via `load_hyperliquid_candles(str(p), symbol=symbol)` WITHOUT `require_verified`/provenance_info, and `scripts/generate_candle_coverage_gap_report.py` (line ~191) calls it for probe/scan/archive decisions — so an unverified cache file can be treated as coverage truth. Guard the read: present+clean `synthetic_check`, runtime re-detection, sha256 when manifest provides it, validated-fact authority over labels; missing/non-dict/declared-synthetic/runtime-synthetic => ProvenanceError. Add failing tests proving unverified cache is rejected and verified cache passes.
+   b) Re-audit repo-wide raw `load_hyperliquid_candles(` / `stream_normalize(` / `load_multi_coin_data(` usages outside manifest-guarded loaders (src/data/loader.py internal dict path line ~297; test fixtures are fine). Require `require_verified`/provenance_info or explicit non-evidence/fixture justification. Prefer narrow, behavior-preserving guards; keep fixtures/synthetic smoke paths working unless they claim real evidence.
+   c) `run_portfolio.py` uses `load_multi_coin_data` for fixture/dir loads (no manifest) — confirm no verified-evidence path depends on it without provenance; document/guard if a real-data mode appears.
    Broaden universe only with archived verified data + full provenance. Canonical placeholder `research_state/cache/hyperliquid_verified_283d_btceth/provenance.json` (synthetic, status=error, ready_for_real_campaign=false) remains fail-closed by design.
 3) If (2) yields no real defect after an evidence-backed audit, ship another material item (spec-fidelity hardening+tests, or gated-pipeline/API-guardrail hardening) with failing-tests-first evidence. Document audit evidence.
 4) Final gate: `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`.
