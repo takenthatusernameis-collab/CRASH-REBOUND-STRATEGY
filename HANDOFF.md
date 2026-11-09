@@ -79,11 +79,11 @@
 
 ## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T08:26:14Z, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-09T08:26:14Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-09T08:40:19Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck removal CONFIRMED (2026-11-09T08:26:14Z): scanned repo for duplicate durable handoff/task/progress/status files and stale locks — only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. Gate last verified GREEN 2026-11-09T08:26:14Z — **688 passed, 1 skipped** in ~64s — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck removal CONFIRMED (2026-11-09T08:40:19Z): scanned repo for duplicate durable handoff/task/progress/status files and stale locks — only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. Gate last verified GREEN 2026-11-09T08:40:19Z — **688 passed, 1 skipped** in ~64s — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 CARRY-FORWARD EVIDENCE (locked — do not reopen without concrete failing defect):
 - Priority A (2g/2b): FULLY LOCKED.
