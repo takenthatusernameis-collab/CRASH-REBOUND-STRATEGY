@@ -1052,7 +1052,7 @@ def main():
     if not args.dry_run:
         manifest_path.write_text(json.dumps(manifest, indent=2) + "\n")
         # Canonical gap report (blocker/provenance fields preserved; never clobbered to a simplified form).
-        from scripts.generate_candle_coverage_gap_report import build_gap_report  # noqa: E402
+        from scripts.generate_candle_coverage_gap_report import build_gap_report, guard_canonical_write  # noqa: E402
         probe_full = {}
         for sym, info in manifest.get("symbols", {}).items():
             cov = info.get("coverage") or {}
@@ -1079,9 +1079,15 @@ def main():
             generated_at_utc=manifest.get("generated_at_utc"),
             archive_scan=archive_scan,
         )
-        (REPO_ROOT / "research_state" / "candle_coverage_gap_report.json").write_text(
-            json.dumps(canonical_report, indent=2) + "\n"
-        )
+        canonical_report = guard_canonical_write(canonical_report, manifest)
+        # Only a verified-clean provenance may publish to the canonical gap
+        # report path. Temp/unverified archive runs (ready=False after the
+        # guardrail above) must never clobber the durable canonical artifact
+        # with temp-sourced, non-verified content.
+        if canonical_report.get("ready_for_real_campaign"):
+            (REPO_ROOT / "research_state" / "candle_coverage_gap_report.json").write_text(
+                json.dumps(canonical_report, indent=2) + "\n"
+            )
         print(f"Wrote manifest: {manifest_path}")
     else:
         print("Dry run; manifest not written.")

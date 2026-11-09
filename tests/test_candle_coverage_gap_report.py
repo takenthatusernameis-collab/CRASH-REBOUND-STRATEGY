@@ -208,3 +208,56 @@ def test_canonical_gap_report_fail_closed_on_verified_provenance():
     assert "_temp/kilo-tmp" not in ia and "/tmp/" not in ia, \
         f"canonical report cites temp probe archive: {ia}"
     assert loaded.get("archive_scan", {}).get("verified_archives_found") == []
+
+
+def test_canonical_gap_report_write_guarded_from_temp_archive():
+    """Regression lock (2026-11-09): the CLI/main regeneration path must never
+    write the canonical gap report as ready_for_real_campaign when provenance is
+    sourced from a temp/unverified archive, even if coverage looks complete.
+    build_gap_report alone marks clean coverage ready (the drift vector);
+    guard_canonical_write must force it blocked. A verified-clean manifest
+    (non-temp source, clean synthetic_check) passes through unchanged."""
+    from scripts.generate_candle_coverage_gap_report import build_gap_report, guard_canonical_write
+
+    exp = expected_hourly_bars(TARGET_START, TARGET_END)
+
+    def _clean_symbol_block(sym):
+        return {
+            "status": "ok",
+            "synthetic_check": {"is_synthetic": False},
+            "coverage": {
+                "expected_hourly_bars": exp,
+                "observed_in_window_bars": exp,
+                "complete_for_target_window": True,
+                "gap_count": 0,
+            },
+        }
+
+    temp_manifest = {
+        "generated_at_utc": "2026-11-09T00:00:00Z",
+        "fabricated_data": False,
+        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": exp},
+        "source": {"kind": "archive", "input_archive": "/home/runner/work/_temp/kilo-tmp/tmp8tn6l77l/archive.parquet"},
+        "summary": {"all_complete": True, "ready_for_real_campaign": True,
+                    "complete_symbols": ["BTC", "ETH"], "symbols_requested": 2},
+        "symbols": {
+            "BTC": _clean_symbol_block("BTC"),
+            "ETH": _clean_symbol_block("ETH"),
+        },
+    }
+    report = build_gap_report(manifest=temp_manifest, probe_evidence=None, generated_at_utc="2026-11-09T00:01:00Z")
+    assert report["ready_for_real_campaign"] is True, "build_gap_report alone marks clean temp coverage ready"
+    guarded = guard_canonical_write(dict(report), temp_manifest)
+    assert guarded["ready_for_real_campaign"] is False
+    assert guarded["blocked"] is True
+    assert guarded["item_6c_blocked"] is True
+    assert "provenance not verified-clean" in guarded["blocker"]["reason"]
+
+    # Verified-clean manifest (non-temp source, clean synthetic_check) passes through.
+    clean_manifest = json.loads(json.dumps(temp_manifest))
+    clean_manifest["source"] = {"kind": "archive", "input_archive": "/mnt/data/verified/archive.parquet"}
+    clean_report = build_gap_report(manifest=clean_manifest, probe_evidence=None, generated_at_utc="2026-11-09T00:01:00Z")
+    assert clean_report["ready_for_real_campaign"] is True
+    guarded_clean = guard_canonical_write(dict(clean_report), clean_manifest)
+    assert guarded_clean["ready_for_real_campaign"] is True
+    assert guarded_clean["blocked"] is False

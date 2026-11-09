@@ -500,6 +500,48 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     return out
 
 
+def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, Any]]) -> Dict[str, Any]:
+    """Fail-closed guardrail for canonical gap-report writes.
+
+    Never let a temp/unverified-archive provenance clobber the canonical
+    report as ready_for_real_campaign. The canonical report may only be ready
+    from verified-clean provenance (no synthetic symbols, every symbol ok +
+    complete + clean synthetic_check). A manifest sourced from a temp archive
+    (_temp/kilo-tmp, /tmp) must never produce a ready=true canonical write.
+    Returns the (possibly blocked) report.
+    """
+    if not report.get("ready_for_real_campaign"):
+        return report
+    src = (report.get("probe_evidence") or {}).get("source") or {}
+    input_archive = str(src.get("input_archive") or "")
+    if not input_archive and isinstance(manifest, dict):
+        input_archive = str((manifest.get("source") or {}).get("input_archive") or "")
+    temp_sourced = ("_temp/kilo-tmp" in input_archive) or input_archive.startswith("/tmp/") or "/tmp/" in input_archive
+    synth_or_bad: List[str] = []
+    for sym, info in ((manifest or {}).get("symbols") or {}).items():
+        if not isinstance(info, dict):
+            continue
+        synth = info.get("synthetic_check")
+        if info.get("status") != "ok":
+            synth_or_bad.append(sym)
+        elif isinstance(synth, dict) and synth.get("is_synthetic") is True:
+            synth_or_bad.append(sym)
+        elif not isinstance(synth, dict):
+            synth_or_bad.append(f"{sym}(no_synthetic_check)")
+    if temp_sourced or synth_or_bad:
+        report["ready_for_real_campaign"] = False
+        report["all_complete"] = False
+        report["blocked"] = True
+        report["item_6c_blocked"] = True
+        report["blocker"]["item_6c_blocked"] = True
+        report["blocker"]["reason"] = (
+            "Canonical gap report write blocked: provenance not verified-clean "
+            f"(temp_sourced={temp_sourced}, symbols={synth_or_bad}); "
+            "regenerate from canonical verified provenance only."
+        )
+    return report
+
+
 def _probe_symbols(probe_evidence: Any) -> Dict[str, Any]:
     probe_syms: Dict[str, Any] = {}
     if isinstance(probe_evidence, dict):
@@ -536,6 +578,7 @@ def main():
         probe = json.loads(pj.read_text() if pj.exists() else args.probe_json)
     report = build_gap_report(manifest=manifest, probe_evidence=probe,
                               archive_scan={"searched_paths": scan_paths})
+    report = guard_canonical_write(report, manifest)
     write_gap_report(Path(args.output), report)
     print(json.dumps({"wrote": str(args.output), "ready_for_real_campaign": report["ready_for_real_campaign"], "blocked": report["blocker"]["item_6c_blocked"], "verified_archives_found": (report.get("archive_scan") or {}).get("verified_archives_found")}, indent=2))
     return 0
