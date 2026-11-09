@@ -12,11 +12,14 @@ from __future__ import annotations
 import datetime as dt
 import json
 import sys
+import tempfile
 from pathlib import Path
 
 import scripts.run_real_campaign as rrc
 from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars
 from scripts.fetch_hyperliquid_candles import _parse_iso, _dt_to_ms
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 EXP = expected_hourly_bars(TARGET_START, TARGET_END)
 
@@ -106,15 +109,22 @@ def test_full_evidence_rejects_sub_5m_min_daily_volume_usd(tmp_path, monkeypatch
 
 
 def test_full_evidence_accepts_explicit_5m_threshold(tmp_path, monkeypatch):
-    cache_dir = tmp_path / "cache" / "hyperliquid"
+    # Repo-local cache dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    d = tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
+    cache_dir = Path(d.name) / "cache" / "hyperliquid"
     _write_full_hourly_cache(cache_dir, "BTC", n=EXP)
     mp = _complete_verified_manifest(cache_dir, ["BTC"])
-    fake_repo = tmp_path / "repo"
+    fake_repo = Path(d.name) / "repo"
     (fake_repo / "research_state").mkdir(parents=True)
     monkeypatch.setattr(rrc, "REPO_ROOT", fake_repo)
-    monkeypatch.setattr(sys, "argv", [
-        "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
-        "--min-daily-volume-usd", "5000000",
-    ])
-    rc = rrc.main()
-    assert rc == 0
+    try:
+        monkeypatch.setattr(sys, "argv", [
+            "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
+            "--min-daily-volume-usd", "5000000",
+        ])
+        rc = rrc.main()
+        assert rc == 0
+    finally:
+        d.cleanup()

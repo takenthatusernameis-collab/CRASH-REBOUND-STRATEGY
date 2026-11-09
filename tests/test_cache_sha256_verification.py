@@ -104,7 +104,7 @@ def _run(cmd, cwd=None, env_extra=None):
 
 class TestCacheSha256Verification(unittest.TestCase):
     def _tmp(self):
-        td = tempfile.TemporaryDirectory()
+        td = tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
         self.addCleanup(td.cleanup)
         return Path(td.name)
 

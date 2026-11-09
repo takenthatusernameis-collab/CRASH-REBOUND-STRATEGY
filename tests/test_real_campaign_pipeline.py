@@ -4,10 +4,13 @@ import csv
 import json
 import os
 import sys
+import tempfile
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 import pytest
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 from src.data.provenance import (
     TARGET_START,
@@ -74,7 +77,11 @@ def _complete_manifest(tmp_path: Path, symbol: str = "BTC") -> Path:
 def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypatch):
     """Heavy safety test: incomplete manifest with >=1 complete symbol can run ONLY in explicit
     partial-not-evidence mode, producing artifacts that are never marked performance_evidence."""
-    cache_dir = tmp_path / "cache" / "hyperliquid"
+    # Repo-local cache dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    d = tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
+    cache_dir = Path(d.name) / "cache" / "hyperliquid"
     _write_full_hourly_cache(cache_dir, "BTC", n=EXP)
     # incomplete manifest view: BTC complete, ETH missing/incomplete
     m = {
@@ -112,7 +119,7 @@ def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypa
     mp = cache_dir / "provenance.json"
     cache_dir.mkdir(parents=True, exist_ok=True)
     mp.write_text(json.dumps(m, indent=2))
-    fake_repo = tmp_path / "repo"
+    fake_repo = Path(d.name) / "repo"
     (fake_repo / "research_state").mkdir(parents=True)
     monkeypatch.setattr(sys, "argv", [
         "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
@@ -121,16 +128,19 @@ def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypa
     ])
     import scripts.run_real_campaign as rrc
     monkeypatch.setattr(rrc, "REPO_ROOT", fake_repo)
-    rc = rrc.main()
-    assert rc == 0
-    data = json.loads((fake_repo / "research_state" / "campaign_results_partial_debug.json").read_text())
-    assert data["performance_evidence"] is False
-    assert data["partial_universe_not_evidence"] is True
-    assert data["research_status"] == "NOT_EVIDENCE_PARTIAL_UNIVERSE"
-    assert data["real_market_data"] is True  # data source is real, but run is not evidence
-    assert data["fabricated_data"] is False
-    assert data["data_provenance"]["symbols_loaded"] == ["BTC"]
-    assert "NOT performance evidence" in (data.get("evidence_warning") or "")
+    try:
+        rc = rrc.main()
+        assert rc == 0
+        data = json.loads((fake_repo / "research_state" / "campaign_results_partial_debug.json").read_text())
+        assert data["performance_evidence"] is False
+        assert data["partial_universe_not_evidence"] is True
+        assert data["research_status"] == "NOT_EVIDENCE_PARTIAL_UNIVERSE"
+        assert data["real_market_data"] is True  # data source is real, but run is not evidence
+        assert data["fabricated_data"] is False
+        assert data["data_provenance"]["symbols_loaded"] == ["BTC"]
+        assert "NOT performance evidence" in (data.get("evidence_warning") or "")
+    finally:
+        d.cleanup()
 
 
 def test_partial_not_evidence_refuses_without_complete_symbols(tmp_path, monkeypatch):
@@ -442,33 +452,40 @@ def test_run_real_campaign_gated_executes_with_complete_verified_manifest(tmp_pa
     Test uses deterministic generated OHLCV in tmp_path to exercise pipeline wiring (not repo evidence)."""
     import scripts.run_real_campaign as rrc
 
-    cache_dir = tmp_path / "cache" / "hyperliquid"
+    # Repo-local cache dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    d = tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
+    cache_dir = Path(d.name) / "cache" / "hyperliquid"
     for sym in ["BTC", "ETH"]:
         _write_full_hourly_cache(cache_dir, sym, n=EXP)
     mp = _complete_verified_manifest(cache_dir, ["BTC", "ETH"])
 
     # isolate outputs to tmp research_state by monkeypatching REPO_ROOT
-    fake_repo = tmp_path / "repo"
+    fake_repo = Path(d.name) / "repo"
     (fake_repo / "research_state").mkdir(parents=True)
     monkeypatch.setattr(rrc, "REPO_ROOT", fake_repo)
     monkeypatch.setattr(sys, "argv", [
         "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
         "--output-prefix", "campaign_results_real", "--min-symbols", "1",
     ])
-    rc = rrc.main()
-    assert rc == 0
-    out = fake_repo / "research_state" / "campaign_results_real.json"
-    met = fake_repo / "research_state" / "campaign_results_real_metrics.json"
-    csvp = fake_repo / "research_state" / "campaign_results_real_metrics.csv"
-    assert out.exists() and met.exists() and csvp.exists()
-    data = json.loads(out.read_text())
-    assert data["real_market_data"] is True
-    assert data["performance_evidence"] is True
-    assert data["fabricated_data"] is False
-    assert data["data_provenance"]["manifest_sha256"]
-    assert "BTC" in data["data_provenance"]["symbols_loaded"]
-    assert data["data_provenance"]["universe_filter_policy"]["min_daily_volume_usd"] == 5_000_000.0
-    assert "metrics" in data and "max_drawdown_series" in data["metrics"]
+    try:
+        rc = rrc.main()
+        assert rc == 0
+        out = fake_repo / "research_state" / "campaign_results_real.json"
+        met = fake_repo / "research_state" / "campaign_results_real_metrics.json"
+        csvp = fake_repo / "research_state" / "campaign_results_real_metrics.csv"
+        assert out.exists() and met.exists() and csvp.exists()
+        data = json.loads(out.read_text())
+        assert data["real_market_data"] is True
+        assert data["performance_evidence"] is True
+        assert data["fabricated_data"] is False
+        assert data["data_provenance"]["manifest_sha256"]
+        assert "BTC" in data["data_provenance"]["symbols_loaded"]
+        assert data["data_provenance"]["universe_filter_policy"]["min_daily_volume_usd"] == 5_000_000.0
+        assert "metrics" in data and "max_drawdown_series" in data["metrics"]
+    finally:
+        d.cleanup()
 
 
 def test_validate_provenance_rejects_missing_manifest_sha_fields_when_incomplete_symbol_status():

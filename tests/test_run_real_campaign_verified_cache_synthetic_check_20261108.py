@@ -2,12 +2,14 @@
 entry as verified when synthetic_check is missing/non-dict, even if status==ok
 and runtime candle re-detection would run. Missing synthetic_check means
 provenance was never computed (unverified). Item 3 residual hardening."""
-import json
+import json, tempfile
 from pathlib import Path
 
 import pytest
 
 from src.data.provenance import ProvenanceError
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 def _varied_candles(n=10):
@@ -35,55 +37,67 @@ def _manifest(sym="BTC", synthetic_check=...):
     return {"symbols": {sym: info}, "summary": {}}
 
 
-def test_load_verified_cache_rejects_missing_synthetic_check(tmp_path, monkeypatch):
+def _repo_cache():
+    # Repo-local dir: pytest tmp_path lives under the harness _temp/kilo-tmp scratch
+    # tree, which the hardened temp-path provenance guard rejects as a source_path.
+    d = tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
+    cache = Path(d.name) / "cache"
+    (cache / "candles").mkdir(parents=True)
+    return d, cache
+
+
+def test_load_verified_cache_rejects_missing_synthetic_check(monkeypatch):
     from scripts import run_real_campaign as rrc
 
-    cache = tmp_path / "cache"
-    (cache / "candles").mkdir(parents=True)
+    d, cache = _repo_cache()
     (cache / "candles" / "BTC.json").write_text(json.dumps(_varied_candles()))
-    # point REPO_ROOT-relative resolution to tmp
-    monkeypatch.setattr(rrc, "REPO_ROOT", tmp_path)
     manifest = _manifest(synthetic_check=...)
-    with pytest.raises(ProvenanceError) as ei:
-        rrc.load_verified_cache(cache, manifest)
-    msg = str(ei.value)
-    assert "synthetic_check" in msg
-    assert "BTC" in msg
+    try:
+        with pytest.raises(ProvenanceError) as ei:
+            rrc.load_verified_cache(cache, manifest)
+        msg = str(ei.value)
+        assert "synthetic_check" in msg
+        assert "BTC" in msg
+    finally:
+        d.cleanup()
 
 
-def test_load_verified_cache_rejects_non_dict_synthetic_check(tmp_path, monkeypatch):
+def test_load_verified_cache_rejects_non_dict_synthetic_check(monkeypatch):
     from scripts import run_real_campaign as rrc
 
-    cache = tmp_path / "cache"
-    (cache / "candles").mkdir(parents=True)
+    d, cache = _repo_cache()
     (cache / "candles" / "BTC.json").write_text(json.dumps(_varied_candles()))
-    monkeypatch.setattr(rrc, "REPO_ROOT", tmp_path)
     manifest = _manifest(synthetic_check="bad")
-    with pytest.raises(ProvenanceError) as ei:
-        rrc.load_verified_cache(cache, manifest)
-    assert "synthetic_check" in str(ei.value)
+    try:
+        with pytest.raises(ProvenanceError) as ei:
+            rrc.load_verified_cache(cache, manifest)
+        assert "synthetic_check" in str(ei.value)
+    finally:
+        d.cleanup()
 
 
-def test_load_verified_cache_rejects_declared_synthetic(tmp_path, monkeypatch):
+def test_load_verified_cache_rejects_declared_synthetic(monkeypatch):
     from scripts import run_real_campaign as rrc
 
-    cache = tmp_path / "cache"
-    (cache / "candles").mkdir(parents=True)
+    d, cache = _repo_cache()
     (cache / "candles" / "BTC.json").write_text(json.dumps(_varied_candles()))
-    monkeypatch.setattr(rrc, "REPO_ROOT", tmp_path)
     manifest = _manifest(synthetic_check={"is_synthetic": True, "reason": "flat"})
-    with pytest.raises(ProvenanceError):
-        rrc.load_verified_cache(cache, manifest)
+    try:
+        with pytest.raises(ProvenanceError):
+            rrc.load_verified_cache(cache, manifest)
+    finally:
+        d.cleanup()
 
 
-def test_load_verified_cache_accepts_present_clean_synthetic_check(tmp_path, monkeypatch):
+def test_load_verified_cache_accepts_present_clean_synthetic_check(monkeypatch):
     from scripts import run_real_campaign as rrc
 
-    cache = tmp_path / "cache"
-    (cache / "candles").mkdir(parents=True)
+    d, cache = _repo_cache()
     (cache / "candles" / "BTC.json").write_text(json.dumps(_varied_candles()))
-    monkeypatch.setattr(rrc, "REPO_ROOT", tmp_path)
     manifest = _manifest(synthetic_check={"is_synthetic": False, "reason": "varied_series_ok"})
-    out = rrc.load_verified_cache(cache, manifest)
-    assert "BTC" in out
-    assert len(out["BTC"]) == 10
+    try:
+        out = rrc.load_verified_cache(cache, manifest)
+        assert "BTC" in out
+        assert len(out["BTC"]) == 10
+    finally:
+        d.cleanup()

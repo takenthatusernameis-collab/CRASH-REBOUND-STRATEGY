@@ -10,11 +10,15 @@ from __future__ import annotations
 
 import json
 import sys
+import tempfile
 from datetime import timedelta
 from pathlib import Path
 
 from scripts.fetch_hyperliquid_candles import _parse_iso
 from src.data.provenance import TARGET_START, TARGET_END, expected_hourly_bars
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
 
 
 EXP = expected_hourly_bars(TARGET_START, TARGET_END)
@@ -41,8 +45,12 @@ def _write_full_hourly_cache(cache_dir: Path, symbol: str, n: int) -> None:
     (candles_dir / f"{symbol}.json").write_text(json.dumps(rows))
 
 
-def test_partial_mode_excludes_inconsistent_complete_claim(tmp_path, monkeypatch):
-    cache_dir = tmp_path / "cache" / "hyperliquid"
+def test_partial_mode_excludes_inconsistent_complete_claim(monkeypatch):
+    # Repo-local cache dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    d = tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
+    cache_dir = Path(d.name) / "cache" / "hyperliquid"
     _write_full_hourly_cache(cache_dir, "BTC", EXP)
     _write_full_hourly_cache(cache_dir, "ETH", EXP)  # cache exists, but manifest claim inconsistent
     m = {
@@ -83,7 +91,7 @@ def test_partial_mode_excludes_inconsistent_complete_claim(tmp_path, monkeypatch
     }
     mp = cache_dir / "provenance.json"
     mp.write_text(json.dumps(m, indent=2))
-    fake_repo = tmp_path / "repo"
+    fake_repo = Path(d.name) / "repo"
     (fake_repo / "research_state").mkdir(parents=True)
     monkeypatch.setattr(sys, "argv", [
         "run_real_campaign.py", "--cache-dir", str(cache_dir), "--manifest", str(mp),
@@ -93,11 +101,14 @@ def test_partial_mode_excludes_inconsistent_complete_claim(tmp_path, monkeypatch
     import scripts.run_real_campaign as rrc
 
     monkeypatch.setattr(rrc, "REPO_ROOT", fake_repo)
-    rc = rrc.main()
-    assert rc == 0
-    payload = json.loads((fake_repo / "research_state" / "campaign_results_partial_safe.json").read_text())
-    assert payload["performance_evidence"] is False
-    assert payload["partial_universe_not_evidence"] is True
-    assert payload["data_provenance"]["symbols_loaded"] == ["BTC"]
-    # subset evidence should not include inconsistently-claimed ETH
-    assert "ETH" not in (payload["data_provenance"].get("coverage_summary") or {})
+    try:
+        rc = rrc.main()
+        assert rc == 0
+        payload = json.loads((fake_repo / "research_state" / "campaign_results_partial_safe.json").read_text())
+        assert payload["performance_evidence"] is False
+        assert payload["partial_universe_not_evidence"] is True
+        assert payload["data_provenance"]["symbols_loaded"] == ["BTC"]
+        # subset evidence should not include inconsistently-claimed ETH
+        assert "ETH" not in (payload["data_provenance"].get("coverage_summary") or {})
+    finally:
+        d.cleanup()
