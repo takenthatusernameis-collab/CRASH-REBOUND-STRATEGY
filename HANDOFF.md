@@ -1,11 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T01:45:00Z
+**Updated (UTC):** 2026-11-09T01:38:46Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## BOTTLENECK CHECK (2026-11-09T01:45:00Z)
+## BOTTLENECK CHECK (2026-11-09T01:38:46Z)
 - **Status: NO ACTIVE PROCESS/LOCK BOTTLENECKS.** No stale `.lock` files outside `.git/`. No parallel durable handoff/todo/progress files (`scripts/controller_progress.py` and `tests/test_controller_progress_accounting.py` are code/tests, not durable handoff). CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`).
 - **Canonical data gate (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH data is **UNAVAILABLE/UNVERIFIED in this environment** (verified cache/archive are flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.** `guard_canonical_write()` blocks temp-source/probe optimism from clobbering the canonical report as ready; `fetch_hyperliquid_candles.py` publishes to the canonical path only when verified-clean ready.
-- **Session-open gate (verified 2026-11-09T01:45:00Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **626 passed** in 48.85s (0 skipped). Next session MUST re-run gate before coding.
+- **Session-open gate (verified 2026-11-09T01:38:46Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **626 passed** in 48.47s (0 skipped). Next session MUST re-run gate before coding.
 - **Env bootstrap (if deps missing):** `python3.12 -m pip install pytest pyarrow numpy pandas requests`.
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence. Consolidate duplicates into root `HANDOFF.md`.
 
@@ -14,6 +14,8 @@
   - `scripts/generate_candle_coverage_gap_report.py::guard_canonical_write`: now scans EVERY archive path across both `input_archive` and `input_archives` (from both `report.probe_evidence.source` and `manifest.source`), and blocks when any path is temp-sourced. Blocker reason now records `sources_scanned`.
   - New failing-tests-first lock: `tests/test_guard_canonical_write_input_archives_temp_bypass_20261109.py` (5 tests) — blocks on `_temp/kilo-tmp` in plural list, `/tmp/` prefix in plural list, and singular-clean-but-plural-temp drift vector; explicitly allows all-clean plural lists and no-source manifests.
   - Evidence (2026-11-09T01:45:00Z): new test first run → **3 failed, 2 passed** (0.67s). After fix: **5 passed** (0.67s). Verified on the exact merge-path manifest shape `fetch_hyperliquid_candles.py` emits. Full gate: **626 passed** in 48.85s (0 skipped).
+
+- **2026-11-09T01:38:46Z (THIS SESSION — handoff refresh / campaign setup):** Refreshed root `HANDOFF.md` with current bottleneck check (no locks, no duplicate durable handoff files) and re-verified gate **626 passed** in 48.47s (0 skipped). Rewrote INITIAL TASK MESSAGE below with the next heavy focus campaign. No source changes; this session's material output is the durable campaign contract itself.
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (DRIVES ALL WORK)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing, explicit spread modeling, or L2/order-book impact.
@@ -57,31 +59,31 @@ Non-negotiables (never regress): hourly funding on **every leg** (long coin; sho
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T01:30:23Z, MANDATORY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T01:38:46Z, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-09T01:30:23Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-09T01:38:46Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck check (2026-11-09T01:30:23Z): NO active process/lock bottlenecks. Only root `HANDOFF.md` durable. No stale locks. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `guard_canonical_write()` blocks temp-source/probe optimism and requires `synthetic_check.is_synthetic===false` for verified-clean readiness; `fetch_hyperliquid_candles.py` publishes canonical only when verified-clean ready.
-Verified gate THIS CHECK (2026-11-09T01:30:23Z): `621 passed` in 49.19s (0 skipped) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. If deps missing: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck check (2026-11-09T01:38:46Z): NO active process/lock bottlenecks. Only root `HANDOFF.md` durable. No stale locks outside `.git/`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `guard_canonical_write()` blocks temp-source/probe optimism and requires `synthetic_check.is_synthetic===false` for verified-clean readiness; `fetch_hyperliquid_candles.py` publishes canonical only when verified-clean ready.
+Verified gate THIS CHECK (2026-11-09T01:38:46Z): `626 passed` in 48.47s (0 skipped) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. If deps missing: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 CARRY-FORWARD EVIDENCE (locked — do not reopen without concrete failing defect):
 - Priority A (2g/2b): FULLY LOCKED (forced 120% equal-share cut old+new + cross-bar settlement/reentry; portfolio reservation/occupancy releases verified).
 - Priority B rebound-short terminals: B-rem1–B-rem8 LOCKED (liq/stop/target/48h time-exit under ETH hedge + commission_min + entry_next_bar where covered; missing-ETH-bar liq/stop/target/48h with funding+aligned fallback; same-bar liq>stop>target; 48th-bar boundaries). Evidence: `tests/test_rebound_short_liq_stop_on_48th_bar_boundary_20261108.py` et al.
 - 2a/e CLOSED. Commission_min fill accounting locked (`src/backtest/engine.py::_slippage_commission_per_share`, 2026-11-08). 8x safety stop re-anchor + ETH 336h/cap locked. Long liq sequencing locked.
-- D guardrail hardened (2026-11-09): canonical gap-report requires explicit `synthetic_check.is_synthetic===false`; temp-source/probe optimism cannot clobber ready=true. `tests/test_gap_report_synthetic_check_must_be_explicit_20261109.py`.
+- D guardrail hardened (2026-11-09): canonical gap-report requires explicit `synthetic_check.is_synthetic===false`; temp-source/probe optimism cannot clobber ready=true; `guard_canonical_write` now scans both `input_archive` and `input_archives` (plural) for temp provenance. `tests/test_guard_canonical_write_input_archives_temp_bypass_20261109.py`, `tests/test_gap_report_synthetic_check_must_be_explicit_20261109.py`.
 
 HEAVY-WORK GUARANTEE (future agents cannot avoid this): this session MUST ship >=1 MATERIAL item with concrete evidence. DO NOT end idle. DO NOT substitute passive re-verification, handoff-only edits, speculative refactors, or "blocked" without a concrete missing input. Material = spec-fidelity defect fix + failing-tests-first proof, OR a failing-tests-first regression lock for a real uncovered spec path with concrete expected values, OR material gated-pipeline/API/provenance guardrail hardening with proof.
 
 YOU MUST SHIP >=1 MATERIAL ITEM THIS SESSION. NO EXCEPTIONS.
 
 MANDATORY HEAVY CAMPAIGN (execute in order; do not stop at easy/passive tasks):
-1) Gate (mandatory first): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` (expect 621 passed). Do not proceed past a broken gate.
+1) Gate (mandatory first): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` (expect 626 passed). Do not proceed past a broken gate.
 2) Target highest-risk UNPROVEN path with failing-tests-first evidence (no audit-only conclusions). Priority A/B carry-forward above are locked — do not reopen without a concrete failing defect. Attack next (pick highest real uncovered risk):
    B-rem2 (only with concrete failing case): Portfolio `apply_cap_cuts`/occupancy interaction during rebound transition in multi-symbol context — `TradeResult.max_live_coin_notional` authoritative (hedges excluded); portfolio reconciliation uses it. Lock only if real reservation/occupancy/cuts-only violation with numbers.
    C — only with real gap after honest B-rem2 work: missing-candle-field stop comparison in spec-compliant flow; rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift in untouched path. Failing-tests-first only.
-   D-bypass hunt (material): probe `fetch_hyperliquid_candles.py`/`src/data/provenance.py`/verified-runner ingestion for any path where `synthetic_check` missing/ambiguous, temp-source, or contradictory summary can be treated as verified/ready; add failing-tests-first lock/fix.
+   D-bypass hunt (material): probe `fetch_hyperliquid_candles.py`/`src/data/provenance.py`/verified-runner ingestion for any path where `synthetic_check` missing/ambiguous, temp-source, or contradictory summary can be treated as verified/ready; especially residual surfaces `report.probe_evidence.source` vs `manifest.source` divergence and the `archive_scan`/`verified_archives_found` path in `build_gap_report` (already fail-closed — scanned files never become verified). Add failing-tests-first lock/fix for any real escape.
 3) Core files: `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `scripts/{run_portfolio,run_real_campaign,run_campaign,generate_candle_coverage_gap_report,fetch_hyperliquid_candles}.py`, `src/data/provenance.py`.
 4) If B-rem2/C/D-bypass yield no concrete gap after evidence-backed attempts, ship another MATERIAL guardrail with failing-tests-first proof — do not end session idle.
 5) Final gate: `PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. Report exact count.
