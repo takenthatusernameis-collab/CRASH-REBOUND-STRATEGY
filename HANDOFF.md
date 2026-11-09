@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T21:39:24Z
+**Updated (UTC):** 2026-11-09T21:41:53Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -13,11 +13,11 @@
 - **Additional reservation locks:** `test_portfolio_cross_bar_rebound_max_live_reservation_20261109.py`, `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py`, `test_portfolio_multiple_rebound_short_same_bar_cap_cut_commission_min_20261109.py`, `test_portfolio_multiple_cross_bar_rebound_max_live_20261109.py`.
 - **Prior locks preserved:** 2a/e closed, commission_min parity, 8x safety stop re-anchor + ETH 336h/cap, long liq sequencing, missing-ETH hedge funding, RSI not nullified by downtrend filter, rebound 48h inclusive semantics, stopped buy never opens rebound short.
 
-## BOTTLENECK CHECK (2026-11-09T21:39:24Z) — CLEARED
+## BOTTLENECK CHECK (2026-11-09T21:41:53Z) — CLEARED
 - **Single durable handoff:** ONLY root `HANDOFF.md`. Duplicate scan: `find . -not -path '*/.git/*' \( -iname '*handoff*' -o -iname '*todo*' -o -iname '*next_steps*' -o -iname '*progress*' -o -iname '*session_context*' \)` → only `HANDOFF.md` plus non-durable `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py*` (source/test, not durable handoff variants). No durable variants.
 - **Locks/processes:** `find . -not -path '*/.git/*' -name '*.lock'` → none.
 - **Temp artifacts:** no stale `research_state/.test_derive_vol_*` dirs; no durable temp handoffs/probe scripts.
-- **Session gate VERIFIED (2026-11-09T21:39:24Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **707 passed, 0 failed, 1 skipped** (60.37s). 1 skip environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
+- **Session gate VERIFIED (2026-11-09T21:41:53Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **707 passed, 0 failed, 1 skipped** (60.81s). 1 skip environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
 - **Canonical data gate (fail-closed):** real 283d Hyperliquid BTC/ETH data **UNAVAILABLE/UNVERIFIED** in this environment (verified cache/archive flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.**
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence.
 
@@ -42,13 +42,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T21:39:24Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T21:41:53Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-09T21:39:24Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-09T21:41:53Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS CLEARED / VERIFIED (2026-11-09T21:39:24Z): only root `HANDOFF.md` is durable. No stale `.lock` files outside `.git/`. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **707 passed, 0 failed, 1 skipped** (60.37s). 1 skip environmental: `pyarrow` not installed. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS CLEARED / VERIFIED (2026-11-09T21:41:53Z): only root `HANDOFF.md` is durable. No stale `.lock` files outside `.git/`. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **707 passed, 0 failed, 1 skipped** (60.81s). 1 skip environmental: `pyarrow` not installed. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 CARRY-FORWARD (LOCKED — do not reopen without concrete failing defect): Priority A/B; 2a/e; 2b engine 6 cross-leg cells; commission_min parity; completing-probe reservation cut propagation; 2026-11-09T17:10:55Z mixed-target batch-cut equal-share. Reservation/max_live locks: `test_portfolio_batch_cut_rebound_max_live_reservation_heterogeneous_commission_min_20261109.py`, `test_portfolio_rebound_max_live_inflation_4_candidates_mixed_terminals_later_bar_20261109.py` (2026-11-09T19:53:10Z), `test_portfolio_cross_bar_rebound_max_live_reservation_20261109.py`, `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py`, `test_portfolio_multiple_rebound_short_same_bar_cap_cut_commission_min_20261109.py`, `test_portfolio_multiple_cross_bar_rebound_max_live_20261109.py`, `test_portfolio_cap_cut_existing_preserved_when_rebound_probe_completes_20261109.py`, `test_portfolio_equal_share_mixed_rebound_outcomes_same_bar_20261109.py`. D guardrails hardened. Latent max_live>entry-notional at pressure points is a locked interpretation in existing tests — changing behavior requires a concrete failing defect that keeps ALL these anchors green.
 
