@@ -196,7 +196,7 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         # deepest crash first
         candidates.sort(key=lambda x: (x[0][0], x[0][1]))
 
-        # Same-bar admission reservation overlay (deepest crash first). Real-engine probe
+# Same-bar admission reservation overlay (deepest crash first). Real-engine probe
         # runs to completion for execution realism, but sibling admission/capacity uses only
         # reservation state — a probe's future exit/daily PnL must not distort same-bar
         # concurrent 120% cap / max_positions / equal-share-cut decisions. Master realized
@@ -208,17 +208,65 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         _bar_daily_hit = bool(getattr(risk_state, 'daily_loss_limit_hit', False))
         _bar_date = getattr(risk_state, 'date', '')
 
-        for sev, symbol, sig, candles in candidates:
+        # Pre-compute desired notionals for ALL same-bar candidates (using signal
+        # entry_price * size_shares as estimate; entry_next_bar may shift to next
+        # bar's open, but signal entry_price is the best available proxy at decision
+        # time).
+        cap_value = capital * getattr(config, 'gross_cap_pct', 120.0) / 100.0
+        candidate_desired_notionals = []
+        for _sev, _symbol, _sig, _candles in candidates:
+            _entry_px = _sig.entry_price
+            if getattr(config, 'entry_next_bar', True) and _sig.signal_index + 1 < len(_candles):
+                _next_open = _candles[_sig.signal_index + 1].get('open')
+                if _next_open is not None:
+                    _entry_px = float(_next_open)
+            _desired_notional = _entry_px * float(getattr(_sig, 'size_shares', 0.0) or 0.0)
+            candidate_desired_notionals.append(_desired_notional)
+
+        # If there are NO existing positions from previous bars, but MULTIPLE
+        # candidates on this bar whose total desired exceeds cap, pre-cut signals
+        # to equal share (spec: equal-share cuts across concurrent new admissions).
+        # We keep original desired notionals for pending-augmentation so engine's
+        # apply_cap_cuts still fires (mechanism preserved).
+        if _bar_open_positions == 0 and len(candidates) > 1:
+            total_desired = sum(candidate_desired_notionals)
+            if total_desired > cap_value:
+                equal_share_notional = cap_value / len(candidates)
+                # Pre-adjust signals' size_shares to achieve equal_share_notional
+                for idx, (_sev, _symbol, _sig, _candles) in enumerate(candidates):
+                    _entry_px = _sig.entry_price
+                    if getattr(config, 'entry_next_bar', True) and _sig.signal_index + 1 < len(_candles):
+                        _next_open = _candles[_sig.signal_index + 1].get('open')
+                        if _next_open is not None:
+                            _entry_px = float(_next_open)
+                    _new_shares = equal_share_notional / _entry_px if _entry_px > 0 else 0.0
+                    _orig_shares = float(getattr(_sig, 'size_shares', 0.0) or 0.0)
+                    if _new_shares < _orig_shares:
+                        _sig.size_shares = _new_shares
+
+        for idx, (sev, symbol, sig, candles) in enumerate(candidates):
             if symbol in occupied_until:
                 continue
             try:
                 max_pos = getattr(config, 'max_positions', None)
                 if max_pos is not None and _bar_open_positions >= max_pos:
                     continue
+                # Build probe_state. When there are NO existing positions but MULTIPLE
+                # candidates on this bar, augment with pending candidates' ORIGINAL
+                # desired notionals so the engine sees full concurrent exposure and
+                # applies equal-share cuts (mechanism preserved). When existing
+                # positions exist, use sequential logic (original behavior).
                 probe_state = copy.deepcopy(risk_state)
                 probe_state.open_positions = _bar_open_positions
-                probe_state.open_position_notionals = list(_bar_notionals)
-                probe_state.gross_exposure = _bar_gross
+                if _bar_open_positions == 0 and len(candidates) > 1:
+                    # Batch-cut case: include pending candidates' ORIGINAL desired notionals
+                    _pending_notionals = candidate_desired_notionals[idx + 1:] if idx + 1 < len(candidate_desired_notionals) else []
+                    _probe_notionals = list(_bar_notionals) + _pending_notionals
+                else:
+                    # Sequential case (existing positions): only current reservations
+                    _probe_notionals = list(_bar_notionals)
+                probe_state.open_position_notionals = _probe_notionals
+                probe_state.gross_exposure = float(sum(_probe_notionals))
                 probe_state.realized_pnl = _bar_realized
                 probe_state.daily_loss_limit_hit = _bar_daily_hit
                 probe_state.date = _bar_date
