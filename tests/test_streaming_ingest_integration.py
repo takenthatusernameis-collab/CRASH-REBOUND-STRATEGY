@@ -87,7 +87,8 @@ class TestStreamingIngestIntegration(unittest.TestCase):
         _write_large_parquet(container, [("BTC", 60000.0, 2.0e9), ("ETH", 3000.0, 1.0e9)], row_group_size=256)
         r = _run([str(SCRIPTS / "fetch_hyperliquid_candles.py"), "--source", "archive",
                   "--input-archive", str(container), "--symbols", "BTC,ETH", "--start", START, "--end", END,
-                  "--cache-dir", str(cache), "--min-daily-volume-usd", "5000000"])
+                  "--cache-dir", str(cache), "--min-daily-volume-usd", "5000000", "--allow-temp-archive-paths"])
+
         self.assertEqual(r.returncode, 0, f"streaming large ingest failed:\nstdout={r.stdout}\nstderr={r.stderr}")
         manifest = json.loads((cache / "provenance.json").read_text())
         self.assertTrue(manifest["summary"]["all_complete"])

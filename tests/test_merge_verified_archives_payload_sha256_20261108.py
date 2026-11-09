@@ -24,7 +24,7 @@ def test_merge_emits_payload_sha256_and_archive_sha256(tmp_path):
     p.write_text(json.dumps({"BTC": rows}))
     start = _parse_iso("2025-12-20T00:00:00Z")
     end = _parse_iso("2025-12-20T04:00:00Z")
-    merged = merge_verified_archives([p], ["BTC"], start, end, min_daily_volume_usd=0)
+    merged = merge_verified_archives([p], ["BTC"], start, end, min_daily_volume_usd=0, allow_temp_paths=True)
     e = merged["symbols"]["BTC"]
     assert isinstance(e.get("archive_sha256"), str) and len(e["archive_sha256"]) == 64
     # payload sha256 of normalized candle JSON (stable separators) for cache integrity
@@ -38,7 +38,7 @@ def test_merge_emits_payload_sha256_and_archive_sha256(tmp_path):
     # assert sha256 present and differs/equals archive sha as appropriate; main contract
     # is non-empty payload hash. Stricter: reload and compare.
     from scripts.fetch_hyperliquid_candles import ingest_archive
-    candles, _ = ingest_archive(p, "BTC")
+    candles, _ = ingest_archive(p, "BTC", allow_temp_paths=True)
     expected = hashlib.sha256(
         json.dumps(candles, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
     ).hexdigest()

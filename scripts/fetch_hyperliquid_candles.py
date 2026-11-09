@@ -48,6 +48,34 @@ if str(REPO_ROOT) not in sys.path:
 from src.data.loader import load_hyperliquid_candles, validate_candles  # noqa: E402
 
 HL_INFO_URL = "https://api.hyperliquid.xyz/info"
+_TEMP_ARCHIVE_MARKERS = ("_temp/kilo-tmp", "kilo-tmp", "/tmp/", "/var/tmp/")
+
+
+def _is_temp_archive_path(value: Any) -> bool:
+    try:
+        if value is None:
+            return False
+        if isinstance(value, (list, tuple, set)):
+            return any(_is_temp_archive_path(v) for v in value)
+        if isinstance(value, dict):
+            return any(_is_temp_archive_path(v) for v in value.values())
+        s = str(value)
+        if not s:
+            return False
+        return any(m in s for m in _TEMP_ARCHIVE_MARKERS) or s.startswith("/tmp")
+    except Exception:
+        return False
+
+
+def _reject_temp_archive_path(value: Any, *, context: str) -> None:
+    if _is_temp_archive_path(value):
+        raise ValueError(
+            f"temp/unverified archive path rejected in {context}: {value!r}. "
+            "Use verified canonical provenance/archive paths; temp scratch (_temp/kilo-tmp,/tmp) "
+            "is not admissible market evidence."
+        )
+
+
 TARGET_START = "2025-12-20T00:00:00Z"
 TARGET_END = "2026-09-28T23:00:00Z"
 
@@ -441,15 +469,23 @@ def _read_symbol_candles_from_file(p: Path, symbol: str,
     return candles, meta
 
 
-def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str, Any]:
+def discover_archive_sources(archive_path: Path, symbols: List[str], *, allow_temp_paths: bool = False) -> Dict[str, Any]:
     """Discover ingest sources for symbols in a directory or single file.
 
     Supports per-symbol files (`<SYMBOL>.json|csv`), and multi-symbol container
     files where a single JSON/CSV holds multiple symbols (loader/normalizer
     extracts the requested symbol).
+
+    Fail-closed: temp scratch paths are never admissible market-evidence
+    provenance unless ``allow_temp_paths=True`` for explicit non-provenance
+    fixture/maintenance use.
     """
     p = archive_path
+    if not allow_temp_paths:
+        _reject_temp_archive_path(str(p.resolve()), context="discover_archive_sources.archive_path")
     report = {"archive_path": str(p.resolve()), "is_dir": p.is_dir(), "symbols": {}, "container_files": []}
+
+
     if p.is_file():
         # single container may serve many symbols
         report["container_files"].append(str(p.resolve()))
@@ -484,10 +520,16 @@ def discover_archive_sources(archive_path: Path, symbols: List[str]) -> Dict[str
     return report
 
 
-def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+def ingest_archive(archive_path: Path, symbol: str, *, allow_temp_paths: bool = False) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
     # Accept: dir/<SYMBOL>.json|csv|ndjson|jsonl, file per symbol, or multi-coin container.
+    # Fail-closed: temp scratch provenance is not admissible market evidence unless
+    # allow_temp_paths=True for explicit non-provenance fixture/maintenance use.
     p = archive_path
+    if not allow_temp_paths:
+        _reject_temp_archive_path(str(p.resolve()), context="ingest_archive.archive_path")
     container_meta: Dict[str, Any] = {}
+
+
     if p.is_dir():
         candidates = [p / f"{symbol}.json", p / f"{symbol.upper()}.json", p / f"{symbol.lower()}.json",
                       p / f"{symbol}.csv", p / f"{symbol.upper()}.csv", p / f"{symbol}.ndjson", p / f"{symbol}.jsonl",
@@ -528,7 +570,7 @@ def ingest_archive(archive_path: Path, symbol: str) -> Tuple[List[Dict[str, Any]
 
 
 def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start: datetime, end: datetime,
-                            min_daily_volume_usd: float) -> Dict[str, Any]:
+                            min_daily_volume_usd: float, *, allow_temp_paths: bool = False) -> Dict[str, Any]:
     """Merge multiple verified archives into a single symbol-union manifest.
 
     Track-4 hardening (multi-source / multi-archive): several independently
@@ -537,20 +579,30 @@ def merge_verified_archives(archive_paths: List[Path], symbols: List[str], start
     provenance (archive path + sha256) for every symbol so downstream gates
     can verify each symbol against its own source. Never fabricates: a symbol
     is only "ok" if its coverage is complete for the target window.
+
+    Fail-closed: temp scratch provenance is not admissible market evidence
+    unless ``allow_temp_paths=True`` for explicit non-provenance fixture/
+    maintenance use.
     """
     if not archive_paths:
         raise ValueError("merge_verified_archives requires at least one archive path")
+    if not allow_temp_paths:
+        for ap in archive_paths:
+            _reject_temp_archive_path(str(Path(ap).resolve()), context="merge_verified_archives.archive_paths")
     seen: Dict[str, Dict[str, Any]] = {}
     conflicts: List[Dict[str, str]] = []
     for archive_path in archive_paths:
         ap = Path(archive_path)
         if not ap.exists():
             raise FileNotFoundError(f"archive not found: {ap}")
+
+
         for sym in symbols:
             try:
-                candles, meta = ingest_archive(ap, sym)
+                candles, meta = ingest_archive(ap, sym, allow_temp_paths=allow_temp_paths)
             except FileNotFoundError:
                 continue
+
             cov = analyze_coverage(candles, start, end)
             volcov = analyze_symbol_volume_coverage(candles, min_daily_volume_usd)
             synth = detect_synthetic_candles(candles)
@@ -864,7 +916,10 @@ def main():
     ap.add_argument("--dry-run", action="store_true")
     ap.add_argument("--timeout", type=int, default=30)
     ap.add_argument("--allow-partial", action="store_true", help="Write manifest even if incomplete (still marked incomplete; real run must refuse)")
+    ap.add_argument("--allow-temp-archive-paths", action="store_true",
+                    help="Explicit non-provenance fixture/maintenance escape hatch for temp archive paths; never produces verified real-campaign evidence.")
     ap.add_argument("--universe-file", default=None, help="Optional JSON file with symbol list")
+
     ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0,
                     help="Minimum 24h USD volume per symbol. Spec-compliant provenance/coverage analysis enforces a $5M floor for all thresholds (including 0).")
     args = ap.parse_args()
@@ -956,14 +1011,16 @@ def main():
     # Multi-archive / multi-source merge path (Track-4): union symbols across several
     # independently verified archives, each with its own sha256 provenance.
     if args.source == "archive" and args.input_archives:
-        merged = merge_verified_archives([Path(p) for p in args.input_archives], symbols, start, end, args.min_daily_volume_usd)
+        merged = merge_verified_archives([Path(p) for p in args.input_archives], symbols, start, end, args.min_daily_volume_usd,
+                                         allow_temp_paths=bool(args.allow_temp_archive_paths))
         manifest["merge_conflicts"] = merged.get("conflicts")
         for sym, entry in merged.get("symbols", {}).items():
             candles = None
             try:
-                candles, _meta = ingest_archive(Path(entry["archive_path"]), sym)
+                candles, _meta = ingest_archive(Path(entry["archive_path"]), sym, allow_temp_paths=bool(args.allow_temp_archive_paths))
             except Exception:
                 candles = None
+
             if candles is None:
                 entry["status"] = "error"
                 entry["error"] = "Failed to re-read candles for cache write"
@@ -994,7 +1051,8 @@ def main():
                 if args.source == "archive":
                     if not args.input_archive:
                         raise ValueError("--input-archive required for --source archive")
-                    candles, meta = ingest_archive(Path(args.input_archive), sym)
+                    candles, meta = ingest_archive(Path(args.input_archive), sym, allow_temp_paths=bool(args.allow_temp_archive_paths))
+
                 else:
                     candles, meta = fetch_hl_candles(sym, start_ms, end_ms, interval=args.interval, url=args.hl_url, timeout=args.timeout)
                 # Validate structure (best-effort; allow archive to carry timestamps)

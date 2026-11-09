@@ -42,7 +42,7 @@ def _write_flat(path, symbol="BTC", n=5):
 def test_ingest_archive_emits_synthetic_check_for_raw_file(tmp_path):
     p = tmp_path / "BTC.json"
     _write_varied(p)
-    candles, meta = ingest_archive(p, "BTC")
+    candles, meta = ingest_archive(p, "BTC", allow_temp_paths=True)
     assert candles
     assert isinstance(meta.get("synthetic_check"), dict)
     assert meta["synthetic_check"].get("is_synthetic") is False
@@ -51,7 +51,7 @@ def test_ingest_archive_emits_synthetic_check_for_raw_file(tmp_path):
 def test_ingest_archive_emits_synthetic_check_for_flat_raw_file(tmp_path):
     p = tmp_path / "BTC.json"
     _write_flat(p)
-    candles, meta = ingest_archive(p, "BTC")
+    candles, meta = ingest_archive(p, "BTC", allow_temp_paths=True)
     assert isinstance(meta.get("synthetic_check"), dict)
     assert meta["synthetic_check"].get("is_synthetic") is True
 
@@ -61,7 +61,7 @@ def test_merge_verified_archives_emits_synthetic_check_per_symbol(tmp_path):
     _write_varied(p)
     start = _parse_iso("2025-12-20T00:00:00Z")
     end = _parse_iso("2025-12-20T04:00:00Z")
-    merged = merge_verified_archives([p], ["BTC"], start, end, min_daily_volume_usd=0)
+    merged = merge_verified_archives([p], ["BTC"], start, end, min_daily_volume_usd=0, allow_temp_paths=True)
     btc = merged["symbols"]["BTC"]
     assert isinstance(btc.get("synthetic_check"), dict)
     assert btc["synthetic_check"].get("is_synthetic") is False

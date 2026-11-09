@@ -210,7 +210,7 @@ def test_ingest_archive_csv_normalizes_and_counts(tmp_path):
     archive = tmp_path / "archive"
     archive.mkdir()
     _write_csv_candles(archive / "BTC.csv", "2025-12-20T00:00:00Z", 200)
-    candles, meta = ingest_archive(archive, "BTC")
+    candles, meta = ingest_archive(archive, "BTC", allow_temp_paths=True)
     assert len(candles) == 200
     assert meta["source"] == "user_supplied_archive"
     assert "sha256" in meta and len(meta["sha256"]) == 64
@@ -238,14 +238,14 @@ def test_ingest_archive_json_normalizes(tmp_path):
             }
         )
     (archive / "ETH.json").write_text(json.dumps(candles))
-    out, meta = ingest_archive(archive, "ETH")
+    out, meta = ingest_archive(archive, "ETH", allow_temp_paths=True)
     assert len(out) == 50
     assert all(k in out[0] for k in ("open", "high", "low", "close", "volume", "timestamp"))
 
 
 def test_ingest_archive_missing_file_raises(tmp_path):
     with pytest.raises(FileNotFoundError):
-        ingest_archive(tmp_path / "nope", "BTC")
+        ingest_archive(tmp_path / "nope", "BTC", allow_temp_paths=True)
 
 
 def test_analyze_coverage_detects_gap_marks_incomplete(tmp_path):
@@ -520,7 +520,7 @@ def test_e2e_archive_to_manifest_universe_and_gate(tmp_path):
                 o = 50000.0
                 w.writerow([ts.strftime("%Y-%m-%dT%H:%M:%SZ"), o, o+10, o-10, o, 200.0])
     _write("BTC", 10)
-    candles, meta = ingest_archive(archive, "BTC")
+    candles, meta = ingest_archive(archive, "BTC", allow_temp_paths=True)
     cov = analyze_coverage(candles, _parse_iso(TARGET_START), _parse_iso(TARGET_END))
     assert cov["complete_for_target_window"] is False
     manifest = {

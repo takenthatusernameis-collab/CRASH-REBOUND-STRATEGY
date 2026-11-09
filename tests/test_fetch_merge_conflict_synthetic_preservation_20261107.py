@@ -68,7 +68,7 @@ class TestMergeConflictSyntheticPreservation(unittest.TestCase):
             b_rows = _flat_rows(n=40)
             b = self._write(td, "b.json", b_rows)
             start, end = _window_for(a_rows)
-            merged = merge_verified_archives([a, b], ["BTC"], start, end, 5_000_000.0)
+            merged = merge_verified_archives([a, b], ["BTC"], start, end, 5_000_000.0, allow_temp_paths=True)
             entry = merged["symbols"]["BTC"]
             # The conflict must be recorded...
             self.assertTrue(merged.get("conflicts"), "expected a coverage conflict to be recorded")
@@ -96,7 +96,7 @@ class TestMergeConflictSyntheticPreservation(unittest.TestCase):
             b_rows = _varied_rows(n=40)  # different count, varied (non-synthetic)
             b = self._write(td, "b.json", b_rows)
             start, end = _window_for(a_rows)
-            merged = merge_verified_archives([a, b], ["BTC"], start, end, 5_000_000.0)
+            merged = merge_verified_archives([a, b], ["BTC"], start, end, 5_000_000.0, allow_temp_paths=True)
             entry = merged["symbols"]["BTC"]
             self.assertTrue(merged.get("conflicts"), "expected a coverage conflict")
             self.assertNotEqual(

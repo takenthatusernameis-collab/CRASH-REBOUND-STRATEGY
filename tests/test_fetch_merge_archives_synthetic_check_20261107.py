@@ -36,7 +36,8 @@ class TestMergeVerifiedArchivesSyntheticCheck(unittest.TestCase):
             a.write_text(json.dumps(rows))
             start = _parse_iso("2025-12-20T00:00:00Z")
             end = _parse_iso((_parse_iso("2025-12-20T00:00:00Z") + timedelta(hours=len(rows) - 1)).strftime("%Y-%m-%dT%H:%M:%SZ"))
-            return merge_verified_archives([a], list(symbols), start, end, 5_000_000.0)
+            return merge_verified_archives([a], list(symbols), start, end, 5_000_000.0, allow_temp_paths=True)
+
 
     def test_varied_series_emits_synthetic_check_false(self):
         merged = self._run_merge(_make_rows(varied=True))
@@ -63,7 +64,7 @@ class TestMergeVerifiedArchivesSyntheticCheck(unittest.TestCase):
             a2 = td / "a2.json"; a2.write_text(json.dumps(rows))
             start = _parse_iso("2025-12-20T00:00:00Z")
             end = _parse_iso((_parse_iso("2025-12-20T00:00:00Z") + timedelta(hours=len(rows) - 1)).strftime("%Y-%m-%dT%H:%M:%SZ"))
-            merged = merge_verified_archives([a1, a2], ["BTC"], start, end, 5_000_000.0)
+            merged = merge_verified_archives([a1, a2], ["BTC"], start, end, 5_000_000.0, allow_temp_paths=True)
             entry = merged["symbols"]["BTC"]
             self.assertIn("synthetic_check", entry)
             self.assertFalse(entry["synthetic_check"].get("is_synthetic"))

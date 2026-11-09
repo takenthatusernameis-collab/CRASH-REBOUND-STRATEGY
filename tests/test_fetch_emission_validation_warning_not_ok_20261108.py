@@ -116,7 +116,7 @@ def test_merge_emission_not_ok_on_invalid_ohlc(tmp_path):
     p.write_text(_json.dumps({"BTC": rows}))
     start = _parse_iso("2025-12-20T00:00:00Z")
     end = _parse_iso("2025-12-20T09:00:00Z")
-    merged = merge_verified_archives([p], ["BTC"], start, end, min_daily_volume_usd=0)
+    merged = merge_verified_archives([p], ["BTC"], start, end, min_daily_volume_usd=0, allow_temp_paths=True)
     e = merged["symbols"]["BTC"]
     assert e.get("validation_warning"), "expected merge to record structural validation failure"
     assert e.get("status") != "ok", (

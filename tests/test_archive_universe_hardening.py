@@ -30,7 +30,7 @@ def _rows(n=48, start="2025-12-20T00:00:00Z", sym_price=100.0, vol=1_000_000.0):
 def test_ingest_multi_symbol_json_container(tmp_path):
     p = tmp_path / "multi.json"
     p.write_text(json.dumps({"BTC": _rows(sym_price=100), "ETH": _rows(sym_price=50)}))
-    candles, meta = ingest_archive(p, "BTC")
+    candles, meta = ingest_archive(p, "BTC", allow_temp_paths=True)
     assert len(candles) == 48
     assert meta["source"] == "user_supplied_archive"
     # format may vary by loader path; key outcome is correct symbol extraction + provenance fields
@@ -47,7 +47,7 @@ def test_ingest_multi_symbol_csv_with_symbol_column(tmp_path):
             w.writerow({"symbol": "BTC", **r})
         for r in _rows(sym_price=50):
             w.writerow({"symbol": "ETH", **r})
-    candles, meta = ingest_archive(p, "ETH")
+    candles, meta = ingest_archive(p, "ETH", allow_temp_paths=True)
     assert len(candles) == 48
     assert all(abs(c["close"] - 50.0) < 1e-9 for c in candles[:2])
     assert meta.get("multi_symbol_container") is True or meta.get("format") == "csv"

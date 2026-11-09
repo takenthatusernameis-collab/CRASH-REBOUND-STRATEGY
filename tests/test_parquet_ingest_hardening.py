@@ -91,7 +91,7 @@ class TestParquetIngestHardening(unittest.TestCase):
         from scripts.fetch_hyperliquid_candles import ingest_archive
         tmp = self._tmp()
         self._write_per_symbol_parquet(tmp, "ETH", 2000.0, 5000.0)
-        candles, meta = ingest_archive(tmp, "ETH")
+        candles, meta = ingest_archive(tmp, "ETH", allow_temp_paths=True)
         self.assertEqual(len(candles), EXPECTED_BARS)
         self.assertEqual(meta.get("source"), "user_supplied_archive")
         self.assertEqual(len(meta.get("sha256") or ""), 64)
@@ -108,7 +108,7 @@ class TestParquetIngestHardening(unittest.TestCase):
         pq.write_table(table, str(container))
         r = _run([str(SCRIPTS / "fetch_hyperliquid_candles.py"), "--source", "archive",
                   "--input-archive", str(container), "--symbols", "AAA,LOW", "--start", START,
-                  "--end", END, "--cache-dir", str(cache), "--min-daily-volume-usd", "5000000"])
+                  "--end", END, "--cache-dir", str(cache), "--min-daily-volume-usd", "5000000", "--allow-temp-archive-paths"])
         self.assertEqual(r.returncode, 0, f"parquet container ingest failed:\nstdout={r.stdout}\nstderr={r.stderr}")
         manifest = json.loads((cache / "provenance.json").read_text())
         self.assertTrue(manifest["summary"]["all_complete"])

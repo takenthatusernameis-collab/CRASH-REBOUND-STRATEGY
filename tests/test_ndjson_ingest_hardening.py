@@ -58,7 +58,7 @@ class TestNDJSONIngestHardening(unittest.TestCase):
     def test_ingest_archive_ndjson_directory_discovery(self):
         from scripts.fetch_hyperliquid_candles import ingest_archive
         tmp=self._tmp(); (tmp/"ETH.ndjson").write_text("\n".join(json.dumps(c) for c in _candles(2000.0,5000.0))+"\n")
-        candles, meta = ingest_archive(tmp, "ETH")
+        candles, meta = ingest_archive(tmp, "ETH", allow_temp_paths=True)
         self.assertEqual(len(candles), EXPECTED_BARS)
         self.assertEqual(meta.get("source"), "user_supplied_archive")
         self.assertEqual(len(meta.get("sha256") or ""), 64)
@@ -71,7 +71,8 @@ class TestNDJSONIngestHardening(unittest.TestCase):
         container.write_text("\n".join(json.dumps(r) for r in rows)+"\n")
         r=_run([str(SCRIPTS/"fetch_hyperliquid_candles.py"),"--source","archive","--input-archive",str(container),
                 "--symbols","AAA,LOW","--start",START,"--end",END,"--cache-dir",str(cache),
-                "--min-daily-volume-usd","5000000"])
+                "--min-daily-volume-usd","5000000","--allow-temp-archive-paths"])
+
         self.assertEqual(r.returncode, 0, f"ndjson container ingest failed:\nstdout={r.stdout}\nstderr={r.stderr}")
         manifest=json.loads((cache/"provenance.json").read_text())
         self.assertTrue(manifest["summary"]["all_complete"])
