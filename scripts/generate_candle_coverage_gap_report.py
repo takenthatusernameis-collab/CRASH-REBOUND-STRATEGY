@@ -370,6 +370,11 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
         synth = info.get("synthetic_check")
         if isinstance(synth, dict) and synth.get("is_synthetic") is True:
             actual_synthetic.append(sym)
+        # Unverified synthetic_check (missing, not a dict, or is_synthetic not
+        # explicitly False) is a hard block — never treat as proven clean.
+        synth_unverified = (not isinstance(synth, dict)) or (synth.get("is_synthetic") is not False)
+        if synth_unverified and isinstance(synth, dict) and synth.get("is_synthetic") is not True and sym not in actual_synthetic:
+            actual_synthetic.append(sym)
         if info.get("status") != "ok":
             continue
         if cov.get("complete_for_target_window") is not True:
@@ -380,8 +385,8 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
             continue
         if (cov.get("gap_count") or 0) != 0:
             continue
-        if not isinstance(synth, dict) or synth.get("is_synthetic"):
-            # Missing synthetic_check is unverified; synthetic is a hard block.
+        if synth_unverified:
+            # Missing/ambiguous synthetic_check is unverified; synthetic is a hard block.
             continue
         actual_complete.append(sym)
     computed_all_complete = bool(syms) and len(actual_complete) == len(syms) and not actual_synthetic
@@ -524,10 +529,12 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
         synth = info.get("synthetic_check")
         if info.get("status") != "ok":
             synth_or_bad.append(sym)
-        elif isinstance(synth, dict) and synth.get("is_synthetic") is True:
-            synth_or_bad.append(sym)
         elif not isinstance(synth, dict):
             synth_or_bad.append(f"{sym}(no_synthetic_check)")
+        elif synth.get("is_synthetic") is True:
+            synth_or_bad.append(sym)
+        elif synth.get("is_synthetic") is not False:
+            synth_or_bad.append(f"{sym}(synthetic_check_unverified)")
     if temp_sourced or synth_or_bad:
         report["ready_for_real_campaign"] = False
         report["all_complete"] = False
