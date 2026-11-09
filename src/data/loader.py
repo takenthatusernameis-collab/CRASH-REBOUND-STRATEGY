@@ -422,8 +422,16 @@ def _verify_loaded_candles(
     # archive/nested source/provenance/origin) are not verified market evidence.
     # A clean synthetic_check + matching sha256 must not launder temp scratch
     # paths into verified real-data evidence at the raw-ingress boundary.
-    from src.data.provenance import _temp_per_symbol_path_errors
+    from src.data.provenance import _temp_per_symbol_path_errors, _is_temp_provenance_path
     temp_errs = _temp_per_symbol_path_errors(sym, provenance_info)
+    # Fail-closed: the ACTUAL source file being read must also be temp-scanned.
+    # A provenance_info declaring a clean cache_path must not launder a temp
+    # scratch file into verified real-data evidence at the raw-ingress boundary.
+    if source_path is not None and _is_temp_provenance_path(str(source_path)):
+        temp_errs.append(
+            f"{sym}: actual source_path {source_path} is a temp/unverified scratch path; "
+            "not acceptable as verified real-data evidence"
+        )
     if temp_errs:
         where = f" ({source_path})" if source_path else ""
         raise ProvenanceError(
