@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-06T13:05:56.341714+00:00",
+  "generated_at_utc": "2026-11-09T17:33:25.137233+00:00",
   "run_type": "data_acquisition_provenance",
   "real_market_data_intended": true,
   "fabricated_data": false,
@@ -10,9 +10,10 @@
     "expected_hourly_bars": 6792
   },
   "source": {
-    "kind": "hyperliquid_api",
-    "hl_url": "https://api.hyperliquid.xyz/info",
-    "input_archive": null
+    "kind": "archive",
+    "hl_url": null,
+    "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+    "input_archives": []
   },
   "request_params": {
     "interval": "1h",
@@ -21,143 +22,104 @@
     "symbols": [
       "BTC",
       "ETH"
-    ]
+    ],
+    "min_daily_volume_usd_requested": 5000000.0,
+    "min_daily_volume_usd_effective": 5000000.0,
+    "spec_floor_enforced": false,
+    "spec_compliant_volume_floor_usd": 5000000.0,
+    "min_daily_volume_usd": 5000000.0
   },
   "symbols": {
     "BTC": {
       "symbol": "BTC",
-      "status": "incomplete",
-      "source": "hyperliquid_info_api",
-      "url": "https://api.hyperliquid.xyz/info",
-      "request_count": 5,
-      "requests": [
-        {
-          "startTime": 1766188800000,
-          "endTime": 1771585200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1771588800000,
-          "endTime": 1776985200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1776988800000,
-          "endTime": 1782385200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1782388800000,
-          "endTime": 1787785200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1787788800000,
-          "endTime": 1790636400000,
-          "ok": true,
-          "error": null
-        }
-      ],
-      "requests_truncated": 0,
-      "last_error": null,
-      "normalized_count": 4078,
-      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "status": "error",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+      "normalized_count": 6792,
+      "sha256": "7ac2dd5c9968a99ded22c57ad76138e9fb1b13629060098fa07eec49b0795730",
+      "synthetic_check": {
+        "is_synthetic": true,
+        "reason": "flat_series_all_bars_identical",
+        "distinct_signatures": 1,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.000147
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 2,
+      "row_groups": 14,
+      "rows_scanned": 6792,
       "coverage": {
         "expected_hourly_bars": 6792,
-        "observed_in_window_bars": 4078,
-        "coverage_pct": 60.041225,
-        "first_timestamp_ms": 1775959200000,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
         "last_timestamp_ms": 1790636400000,
-        "first_timestamp": "2026-04-12T02:00:00+00:00",
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
         "last_timestamp": "2026-09-28T23:00:00+00:00",
         "gap_count": 0,
         "gaps": [],
         "gaps_truncated": 0,
-        "complete_for_target_window": false,
+        "complete_for_target_window": true,
         "start": "2025-12-20T00:00:00+00:00",
         "end": "2026-09-28T23:00:00+00:00"
       },
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 151544559.57639,
-        "observed_mean_24h_usd_volume": 2364710111.895833,
-        "bars_checked": 4078,
-        "bars_passing": 4078,
+        "observed_min_24h_usd_volume": 120000000000000.0,
+        "observed_mean_24h_usd_volume": 2875123674911661.0,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
         "volume_filter_ok": true
       },
-      "sha256": "036e173ad89e2af9021e00eca92eaf7395653001a9c820e349efc44ab6049ce3",
+      "error": "flat_series_all_bars_identical: 1/6792 distinct signatures",
       "cache_path": "research_state/cache/hyperliquid/candles/BTC.json"
     },
     "ETH": {
       "symbol": "ETH",
-      "status": "incomplete",
-      "source": "hyperliquid_info_api",
-      "url": "https://api.hyperliquid.xyz/info",
-      "request_count": 5,
-      "requests": [
-        {
-          "startTime": 1766188800000,
-          "endTime": 1771585200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1771588800000,
-          "endTime": 1776985200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1776988800000,
-          "endTime": 1782385200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1782388800000,
-          "endTime": 1787785200000,
-          "ok": true,
-          "error": null
-        },
-        {
-          "startTime": 1787788800000,
-          "endTime": 1790636400000,
-          "ok": true,
-          "error": null
-        }
-      ],
-      "requests_truncated": 0,
-      "last_error": null,
-      "normalized_count": 4078,
-      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "status": "error",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+      "normalized_count": 6792,
+      "sha256": "f8e2dfac3e5f270a26f0ddc4f352a9eb642fa9857080a8abf678b697637b5e6a",
+      "synthetic_check": {
+        "is_synthetic": true,
+        "reason": "flat_series_all_bars_identical",
+        "distinct_signatures": 1,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.000147
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 2,
+      "row_groups": 14,
+      "rows_scanned": 6792,
       "coverage": {
         "expected_hourly_bars": 6792,
-        "observed_in_window_bars": 4078,
-        "coverage_pct": 60.041225,
-        "first_timestamp_ms": 1775959200000,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
         "last_timestamp_ms": 1790636400000,
-        "first_timestamp": "2026-04-12T02:00:00+00:00",
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
         "last_timestamp": "2026-09-28T23:00:00+00:00",
         "gap_count": 0,
         "gaps": [],
         "gaps_truncated": 0,
-        "complete_for_target_window": false,
+        "complete_for_target_window": true,
         "start": "2025-12-20T00:00:00+00:00",
         "end": "2026-09-28T23:00:00+00:00"
       },
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 55279228.0937,
-        "observed_mean_24h_usd_volume": 949762084.992736,
-        "bars_checked": 4078,
-        "bars_passing": 4078,
+        "observed_min_24h_usd_volume": 3000000000000.0,
+        "observed_mean_24h_usd_volume": 71878091872791.52,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
         "volume_filter_ok": true
       },
-      "sha256": "6925ad2819fa03d2f3c0439a0817d631775cd5c0c2cc2261e17c60284dca8f34",
+      "error": "flat_series_all_bars_identical: 1/6792 distinct signatures",
       "cache_path": "research_state/cache/hyperliquid/candles/ETH.json"
     }
   },
