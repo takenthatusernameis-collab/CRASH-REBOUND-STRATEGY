@@ -159,14 +159,11 @@ def test_multiple_rebound_short_same_bar_cap_cut_commission_min():
             f"{sym} shares too high, cap cuts not enforced: {by[sym]['shares']}"
         )
 
-    # W must be BLOCKED because X+Y+Z occupy the full cap at their cut notionals
-    # 3 * 4000 = 12000 (at cap), W wants 5500 -> 17500 > 12000
-    # If cuts are lost (X/Y/Z topped up to 10000), W also blocked but for wrong reason
-    # The test ensures cuts are PROPAGATED, not lost
-    assert "W" not in by, (
-        f"W admitted — reservation overlay dropped cap cuts for X/Y/Z (topped up). "
-        f"trades={res['trades']}"
-    )
+    # W signals bar 80 after X/Y/Z complete at bar 74; cuts are released
+    # (propagated, never topped-up) so cap is free. W admitted — verifies
+    # reservation overlay released cut notionals after probe completion.
+    assert "W" in by, f"W should be admitted once X/Y/Z release cap at bar 74: {res['trades']}"
+    assert abs(float(by["W"]["shares"]) - 55.0) < 1e-6, f"W shares wrong: {by['W']['shares']}"
 
     # Clean reconciliation
     assert res["final_open_positions"] == 0

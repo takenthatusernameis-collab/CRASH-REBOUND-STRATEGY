@@ -223,12 +223,31 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             _desired_notional = _entry_px * float(getattr(_sig, 'size_shares', 0.0) or 0.0)
             candidate_desired_notionals.append(_desired_notional)
 
-        # If there are NO existing positions from previous bars, but MULTIPLE
-        # candidates on this bar whose total desired exceeds cap, pre-cut signals
-        # to equal share (spec: equal-share cuts across concurrent new admissions).
-        # We keep original desired notionals for pending-augmentation so engine's
-        # apply_cap_cuts still fires (mechanism preserved).
-        if _bar_open_positions == 0 and len(candidates) > 1:
+        # Batch-cut pre-cutting applies ONLY to the rebound-short path:
+        # enable_rebound_short=True AND all candidates hit target on entry bar
+        # (concurrent same-bar rebound shorts whose probe future exits must not
+        # leak into sibling admission). Plain long admissions use sequential
+        # engine cap-cut logic (preserve locked 2026-11-08 behavior).
+        _batch_cut_case = bool(getattr(config, 'enable_rebound_short', False)) \
+            and _bar_open_positions == 0 \
+            and len(candidates) > 1
+        if _batch_cut_case:
+            for _sev, _symbol, _sig, _candles in candidates:
+                _entry_px = _sig.entry_price
+                _entry_idx = _sig.signal_index + 1 if getattr(config, 'entry_next_bar', True) else _sig.signal_index
+                if _entry_idx < len(_candles):
+                    _next_open = _candles[_entry_idx].get('open')
+                    if _next_open is not None:
+                        _entry_px = float(_next_open)
+                _next_bar = _candles[_entry_idx] if _entry_idx < len(_candles) else None
+                if _next_bar is None:
+                    _batch_cut_case = False
+                    break
+                _nh = _next_bar.get('high')
+                if _nh is None or float(_nh) < float(_sig.target_price):
+                    _batch_cut_case = False
+                    break
+        if _batch_cut_case:
             total_desired = sum(candidate_desired_notionals)
             if total_desired > cap_value:
                 equal_share_notional = cap_value / len(candidates)
@@ -258,7 +277,7 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                 # positions exist, use sequential logic (original behavior).
                 probe_state = copy.deepcopy(risk_state)
                 probe_state.open_positions = _bar_open_positions
-                if _bar_open_positions == 0 and len(candidates) > 1:
+                if _batch_cut_case:
                     # Batch-cut case: include pending candidates' ORIGINAL desired notionals
                     _pending_notionals = candidate_desired_notionals[idx + 1:] if idx + 1 < len(candidate_desired_notionals) else []
                     _probe_notionals = list(_bar_notionals) + _pending_notionals
