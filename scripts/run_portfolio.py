@@ -272,10 +272,10 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         # future admissions (spec: cuts only, never top-ups).
                         post_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
                         existing_syms = list(open_notionals.keys())
-                        if post_notionals and len(post_notionals) == len(existing_syms) + 1:
+                        if post_notionals and len(post_notionals) >= len(existing_syms) + 1:
                             for _sym, _not in zip(existing_syms, post_notionals[:len(existing_syms)]):
                                 open_notionals[_sym] = float(_not)
-                            open_notionals[symbol] = float(post_notionals[-1])
+                            open_notionals[symbol] = float(executed_notional)
                         else:
                             # Fallback: reserve this admission at its executed notional
                             # (capped); leave existing open positions unchanged.
