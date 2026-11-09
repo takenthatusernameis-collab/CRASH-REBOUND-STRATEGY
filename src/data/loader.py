@@ -418,6 +418,18 @@ def _verify_loaded_candles(
         raise ProvenanceError(
             f"{sym}: provenance_info missing/non-dict; cannot treat loaded candles as verified real-data evidence"
         )
+    # Fail-closed: temp/unverified per-symbol provenance paths (cache/source/
+    # archive/nested source/provenance/origin) are not verified market evidence.
+    # A clean synthetic_check + matching sha256 must not launder temp scratch
+    # paths into verified real-data evidence at the raw-ingress boundary.
+    from src.data.provenance import _temp_per_symbol_path_errors
+    temp_errs = _temp_per_symbol_path_errors(sym, provenance_info)
+    if temp_errs:
+        where = f" ({source_path})" if source_path else ""
+        raise ProvenanceError(
+            f"{sym}: loaded candle series rejected (temp/unverified per-symbol provenance path{where}): "
+            + "; ".join(temp_errs)
+        )
     if source_path is not None:
         expected_sha = provenance_info.get("sha256")
         if expected_sha is not None and str(expected_sha).strip():
