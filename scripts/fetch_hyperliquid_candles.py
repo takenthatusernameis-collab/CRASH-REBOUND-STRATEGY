@@ -955,6 +955,13 @@ def main():
         effective_min_daily_volume_usd = float(requested_min_daily_volume_usd)
     args.min_daily_volume_usd = effective_min_daily_volume_usd
     cache_dir = Path(args.cache_dir)
+    # Fail-closed emission guard (D residual): temp scratch cache/manifest paths
+    # (_temp/kilo-tmp, /tmp, /var/tmp, kilo-tmp) must never emit verified-looking
+    # provenance/cache metadata by default. Explicit --allow-temp-archive-paths is a
+    # non-provenance fixture/maintenance escape hatch only and must not publish
+    # ready_for_real_campaign canonical evidence from temp emission.
+    if _is_temp_archive_path(str(cache_dir)) and not bool(args.allow_temp_archive_paths):
+        _reject_temp_archive_path(str(cache_dir), context="--cache-dir/provenance emission")
     candles_dir = cache_dir / "candles"
     candles_dir.mkdir(parents=True, exist_ok=True)
 
@@ -1141,8 +1148,10 @@ def main():
         # Only a verified-clean provenance may publish to the canonical gap
         # report path. Temp/unverified archive runs (ready=False after the
         # guardrail above) must never clobber the durable canonical artifact
-        # with temp-sourced, non-verified content.
-        if canonical_report.get("ready_for_real_campaign"):
+        # with temp-sourced, non-verified content. Temp cache-dir emission via
+        # --allow-temp-archive-paths is a non-provenance escape hatch and must
+        # never publish canonical evidence regardless of computed readiness.
+        if canonical_report.get("ready_for_real_campaign") and not _is_temp_archive_path(str(cache_dir)):
             (REPO_ROOT / "research_state" / "candle_coverage_gap_report.json").write_text(
                 json.dumps(canonical_report, indent=2) + "\n"
             )

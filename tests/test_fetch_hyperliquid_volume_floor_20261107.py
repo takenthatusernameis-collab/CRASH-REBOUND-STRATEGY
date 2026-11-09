@@ -92,7 +92,7 @@ class TestFetchHyperliquidVolumeFloor(unittest.TestCase):
                  "--start", "2025-12-20T00:00:00Z", "--end", "2025-12-21T23:00:00Z",
                  "--cache-dir", str(cache_dir),
                  "--min-daily-volume-usd", "0",
-                 "--allow-partial"],
+                 "--allow-partial", "--allow-temp-archive-paths"],
                 capture_output=True, text=True, cwd=str(REPO_ROOT),
             )
             manifest = json.loads((cache_dir / "provenance.json").read_text())
