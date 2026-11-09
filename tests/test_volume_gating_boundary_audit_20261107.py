@@ -55,52 +55,59 @@ class TestDeriveVerifiedUniverseReaderNoOptimisticVolumeLabel:
         # volume/performance evidence from manifest status, and must fail-closed on
         # missing synthetic_check (unverified provenance entry). Safe outcome:
         # no selected symbols, real_market_data false (no optimistic exit path).
-        cache_dir = tmp_path / "cache" / "hyperliquid"
-        (cache_dir / "candles").mkdir(parents=True)
-        candles = _candles(volume=3000.0, n=30)
-        (cache_dir / "candles" / "BTC.json").write_text(json.dumps(candles))
-        manifest = {
-            "generated_at_utc": "2026-11-07T00:00:00Z",
-            "fabricated_data": False,
-            "real_market_data_intended": True,
-            "target_window": {"start": "2025-12-20T00:00:00Z", "end": "2026-09-28T23:00:00Z"},
-            "summary": {"all_complete": True, "ready_for_real_campaign": True},
-            "symbols": {
-                "BTC": {
-                    "status": "ok",
-                    "cache_path": str(cache_dir / "candles" / "BTC.json"),
-                    # no synthetic_check / no volume_coverage: reader must not treat
-                    # status/complete as volume or verification evidence
-                    "coverage": {
-                        "complete_for_target_window": True,
-                        "expected_hourly_bars": 2,
-                        "observed_in_window_bars": 2,
-                        "gap_count": 0,
-                    },
-                }
-            },
-        }
-        mp = tmp_path / "manifest.json"
-        mp.write_text(json.dumps(manifest))
-        out = tmp_path / "universe.json"
+        # Repo-local fixture dir: pytest tmp_path lives under the harness
+        # _temp/kilo-tmp scratch tree, which the hardened temp-path guard rejects
+        # as unverified provenance evidence. Verified cache shapes must live
+        # repo-LOCAL so the missing-synthetic_check fail-closed reason is the one
+        # under test, not a temp-path refusal.
+        import tempfile
+        with tempfile.TemporaryDirectory(dir=str(Path(__file__).resolve().parents[1])) as tmpd:
+            cache_dir = Path(tmpd) / "cache" / "hyperliquid"
+            (cache_dir / "candles").mkdir(parents=True)
+            candles = _candles(volume=3000.0, n=30)
+            (cache_dir / "candles" / "BTC.json").write_text(json.dumps(candles))
+            manifest = {
+                "generated_at_utc": "2026-11-07T00:00:00Z",
+                "fabricated_data": False,
+                "real_market_data_intended": True,
+                "target_window": {"start": "2025-12-20T00:00:00Z", "end": "2026-09-28T23:00:00Z"},
+                "summary": {"all_complete": True, "ready_for_real_campaign": True},
+                "symbols": {
+                    "BTC": {
+                        "status": "ok",
+                        "cache_path": str(cache_dir / "candles" / "BTC.json"),
+                        # no synthetic_check / no volume_coverage: reader must not treat
+                        # status/complete as volume or verification evidence
+                        "coverage": {
+                            "complete_for_target_window": True,
+                            "expected_hourly_bars": 2,
+                            "observed_in_window_bars": 2,
+                            "gap_count": 0,
+                        },
+                    }
+                },
+            }
+            mp = tmp_path / "manifest.json"
+            mp.write_text(json.dumps(manifest))
+            out = tmp_path / "universe.json"
 
-        monkeypatch.setattr(sys, "argv", [
-            "derive_verified_universe.py",
-            "--manifest", str(mp),
-            "--cache-dir", str(cache_dir),
-            "--output", str(out),
-            "--min-24h-volume-usd", "5000000",
-        ])
-        rc = derive_main()
-        assert rc == 0
-        data = json.loads(out.read_text())
-        assert data["real_market_data"] is False
-        assert data["performance_evidence"] is False
-        assert data["selected_symbols"] == []
-        assert data["selected_count"] == 0
-        rec = data["report"]["BTC"]
-        assert rec["selected"] is False
-        assert "synthetic_check" in (rec.get("excluded_reason") or "") or "unverified" in (rec.get("excluded_reason") or "")
+            monkeypatch.setattr(sys, "argv", [
+                "derive_verified_universe.py",
+                "--manifest", str(mp),
+                "--cache-dir", str(cache_dir),
+                "--output", str(out),
+                "--min-24h-volume-usd", "5000000",
+            ])
+            rc = derive_main()
+            assert rc == 0
+            data = json.loads(out.read_text())
+            assert data["real_market_data"] is False
+            assert data["performance_evidence"] is False
+            assert data["selected_symbols"] == []
+            assert data["selected_count"] == 0
+            rec = data["report"]["BTC"]
+            assert rec["selected"] is False
+            assert "synthetic_check" in (rec.get("excluded_reason") or "") or "unverified" in (rec.get("excluded_reason") or "")
 
 
 class TestPortfolioRunnerNoProvenanceConsumption:

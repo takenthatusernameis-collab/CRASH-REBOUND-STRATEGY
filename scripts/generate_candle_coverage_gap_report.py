@@ -551,20 +551,31 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
     for container in (probe, src, manifest if isinstance(manifest, dict) else {}, manifest_src):
         _collect_archive_paths(container, archive_paths, archive_keys)
     # Per-symbol provenance paths (cache/source/archive) — temp/unverified paths
-    # here cannot coexist with a canonical ready report.
+    # here cannot coexist with a canonical ready report. Scanned across BOTH
+    # manifest symbols AND probe_evidence symbols: a probe whose symbol entries
+    # carry temp cache_path/source_path/archive_path/nested source/provenance/
+    # origin metadata was previously accepted as ready (D-bypass).
     per_symbol_keys = ("cache_path", "cache_paths", "source_path", "source_paths",
                        "archive_path", "archive_paths", "file_path", "file_paths",
                        "input_archive", "input_archives")
     per_symbol_temp: List[str] = []
-    for sym, info in ((manifest or {}).get("symbols") or {}).items():
-        if not isinstance(info, dict):
+    symbol_containers: List[Any] = []
+    if isinstance(manifest, dict):
+        symbol_containers.append((manifest.get("symbols") or {}))
+    if isinstance(probe, dict):
+        symbol_containers.append((probe.get("symbols") or {}))
+    for syms in symbol_containers:
+        if not isinstance(syms, dict):
             continue
-        sym_paths: List[str] = []
-        _collect_archive_paths(info, sym_paths, per_symbol_keys)
-        for p in sym_paths:
-            if _is_temp_provenance_path(p):
-                per_symbol_temp.append(f"{sym}:{p}")
-                archive_paths.append(p)
+        for sym, info in syms.items():
+            if not isinstance(info, dict):
+                continue
+            sym_paths: List[str] = []
+            _collect_archive_paths(info, sym_paths, per_symbol_keys)
+            for p in sym_paths:
+                if _is_temp_provenance_path(p):
+                    per_symbol_temp.append(f"{sym}:{p}")
+                    archive_paths.append(p)
     temp_sourced = any(_is_temp_provenance_path(p) for p in archive_paths)
     synth_or_bad: List[str] = []
     for sym, info in ((manifest or {}).get("symbols") or {}).items():

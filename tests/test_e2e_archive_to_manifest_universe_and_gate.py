@@ -32,6 +32,20 @@ START_MS = 1735689600000
 END_MS = 1735700400000
 
 
+def _tmp_root():
+    """Repo-local scratch root.
+
+    The hardened temp-path guard rejects any declared per-symbol provenance path
+    (cache_path/source_path/archive_path/nested source/provenance/origin) under
+    the harness _temp/kilo-tmp or /tmp scratch trees. pytest's default tmp_path
+    and tempfile.TemporaryDirectory() both live there, so e2e fixtures that feed
+    archive paths into provenance entries must live repo-LOCAL to exercise the
+    real fail-closed logic rather than a spurious temp-path refusal.
+    """
+    import tempfile
+    return tempfile.TemporaryDirectory(dir=str(REPO_ROOT))
+
+
 def _make_candles(symbol: str, n: int, start_ms: int, close: float, base_vol: float):
     out = []
     for i in range(n):
@@ -77,7 +91,12 @@ def _run(cmd, cwd=None, env=None):
 
 class TestE2EArchiveManifestUniverseGate(unittest.TestCase):
     def _tmp(self):
-        td = tempfile.TemporaryDirectory()
+        # Repo-local scratch: the hardened temp-path guard rejects any declared
+        # per-symbol provenance path under the harness _temp/kilo-tmp or /tmp
+        # scratch trees, so pytest's default tmp_path / tempfile.TemporaryDirectory
+        # would trigger a spurious temp-path refusal instead of exercising the
+        # real fail-closed logic under test.
+        td = _tmp_root()
         self.addCleanup(td.cleanup)
         return Path(td.name)
 

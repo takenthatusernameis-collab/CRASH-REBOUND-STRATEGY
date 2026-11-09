@@ -101,14 +101,21 @@ def test_multi_coin_verified_rejects_temp_manifest_cache_path(tmp_path):
                              require_verified=True, manifest=manifest)
 
 
-def test_multi_coin_verified_accepts_clean_manifest(tmp_path):
+def test_multi_coin_verified_accepts_clean_manifest():
     from src.data.loader import load_multi_coin_data
-    p = tmp_path / "BTC.json"
-    sha = _write(p, _varied())
-    manifest = {"symbols": {"BTC": _clean_info(sha, cache_path=str(p))}}
-    out = load_multi_coin_data(str(tmp_path), symbols=["BTC"], min_daily_volume_usd=0,
-                               require_verified=True, manifest=manifest)
-    assert "BTC" in out and len(out["BTC"]) == 24
+    # Repo-local fixture dir: the hardened temp-path guard rejects any declared
+    # cache/source path under the harness _temp/kilo-tmp scratch tree (pytest
+    # tmp_path lives there), so a "clean" accepted manifest must point at a
+    # repo-local verified cache shape, matching test_hl_candles_verified_accepts_clean_non_temp_cache_path.
+    import tempfile
+    with tempfile.TemporaryDirectory(dir=str(Path(__file__).resolve().parents[1])) as d:
+        dpath = Path(d)
+        p = dpath / "BTC.json"
+        sha = _write(p, _varied())
+        manifest = {"symbols": {"BTC": _clean_info(sha, cache_path=str(p))}}
+        out = load_multi_coin_data(str(dpath), symbols=["BTC"], min_daily_volume_usd=0,
+                                   require_verified=True, manifest=manifest)
+        assert "BTC" in out and len(out["BTC"]) == 24
 
 
 # --- fetch_hyperliquid_candles verified boundary (same choke point) -----------

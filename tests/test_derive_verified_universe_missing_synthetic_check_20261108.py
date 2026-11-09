@@ -69,55 +69,62 @@ def _write_manifest(path: Path, *, include_synthetic_check: bool, start: str, en
 def test_missing_manifest_synthetic_check_excluded_fail_closed(tmp_path: Path):
     root = Path(__file__).resolve().parents[1]
     start, end, n = "2025-12-20T00:00:00Z", "2025-12-20T02:00:00Z", 3
-    cache_dir = tmp_path / "cache"
-    candles_dir = cache_dir / "candles"
-    candles_dir.mkdir(parents=True)
-    candle_path = candles_dir / "BTC.json"
-    candle_path.write_text(json.dumps(_varied_candles(start, n)) + "\n")
-    manifest_path = tmp_path / "provenance.json"
-    _write_manifest(manifest_path, include_synthetic_check=False, start=start, end=end, n=n,
-                    cache_path=str(candle_path.relative_to(root)) if False else str(candle_path))
-    out_path = tmp_path / "universe.json"
+    # Repo-local fixture dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path guard rejects as unverified
+    # provenance evidence. Verified cache shapes must live repo-LOCAL.
+    import tempfile
+    with tempfile.TemporaryDirectory(dir=str(root)) as tmpd:
+        cache_dir = Path(tmpd) / "cache"
+        candles_dir = cache_dir / "candles"
+        candles_dir.mkdir(parents=True)
+        candle_path = candles_dir / "BTC.json"
+        candle_path.write_text(json.dumps(_varied_candles(start, n)) + "\n")
+        manifest_path = Path(tmpd) / "provenance.json"
+        _write_manifest(manifest_path, include_synthetic_check=False, start=start, end=end, n=n,
+                        cache_path=str(candle_path))
+        out_path = Path(tmpd) / "universe.json"
 
-    proc = subprocess.run(
-        [sys.executable, str(root / "scripts" / "derive_verified_universe.py"),
-         "--manifest", str(manifest_path), "--cache-dir", str(cache_dir),
-         "--min-24h-volume-usd", "5000000", "--output", str(out_path)],
-        cwd=str(root), capture_output=True, text=True,
-    )
-    # Must not emit a selected verified symbol; missing synthetic_check is unverified.
-    assert proc.returncode == 0, proc.stdout + "\n" + proc.stderr
-    data = json.loads(out_path.read_text())
-    rec = data["report"]["BTC"]
-    assert rec.get("selected") is False
-    assert "synthetic_check" in (rec.get("excluded_reason") or "") or "unverified" in (rec.get("excluded_reason") or ""), rec
-    assert data.get("selected_symbols") == []
-    assert data.get("real_market_data") is False
-    assert "0 selected symbols" in proc.stdout or data.get("selected_count") == 0
+        proc = subprocess.run(
+            [sys.executable, str(root / "scripts" / "derive_verified_universe.py"),
+             "--manifest", str(manifest_path), "--cache-dir", str(cache_dir),
+             "--min-24h-volume-usd", "5000000", "--output", str(out_path)],
+            cwd=str(root), capture_output=True, text=True,
+        )
+        # Must not emit a selected verified symbol; missing synthetic_check is unverified.
+        assert proc.returncode == 0, proc.stdout + "\n" + proc.stderr
+        data = json.loads(out_path.read_text())
+        rec = data["report"]["BTC"]
+        assert rec.get("selected") is False
+        assert "synthetic_check" in (rec.get("excluded_reason") or "") or "unverified" in (rec.get("excluded_reason") or ""), rec
+        assert data.get("selected_symbols") == []
+        assert data.get("real_market_data") is False
+        assert "0 selected symbols" in proc.stdout or data.get("selected_count") == 0
 
 
 def test_present_clean_synthetic_check_allows_selection_with_full_evidence(tmp_path: Path):
     root = Path(__file__).resolve().parents[1]
     start, end, n = "2025-12-20T00:00:00Z", "2025-12-20T02:00:00Z", 3
-    cache_dir = tmp_path / "cache"
-    candles_dir = cache_dir / "candles"
-    candles_dir.mkdir(parents=True)
-    candle_path = candles_dir / "BTC.json"
-    candle_path.write_text(json.dumps(_varied_candles(start, n)) + "\n")
-    manifest_path = tmp_path / "provenance.json"
-    _write_manifest(manifest_path, include_synthetic_check=True, start=start, end=end, n=n,
-                    cache_path=str(candle_path))
-    out_path = tmp_path / "universe.json"
+    import tempfile
+    with tempfile.TemporaryDirectory(dir=str(root)) as tmpd:
+        cache_dir = Path(tmpd) / "cache"
+        candles_dir = cache_dir / "candles"
+        candles_dir.mkdir(parents=True)
+        candle_path = candles_dir / "BTC.json"
+        candle_path.write_text(json.dumps(_varied_candles(start, n)) + "\n")
+        manifest_path = Path(tmpd) / "provenance.json"
+        _write_manifest(manifest_path, include_synthetic_check=True, start=start, end=end, n=n,
+                        cache_path=str(candle_path))
+        out_path = Path(tmpd) / "universe.json"
 
-    proc = subprocess.run(
-        [sys.executable, str(root / "scripts" / "derive_verified_universe.py"),
-         "--manifest", str(manifest_path), "--cache-dir", str(cache_dir),
-         "--min-24h-volume-usd", "5000000", "--output", str(out_path)],
-        cwd=str(root), capture_output=True, text=True,
-    )
-    assert proc.returncode == 0, proc.stdout + "\n" + proc.stderr
-    data = json.loads(out_path.read_text())
-    rec = data["report"]["BTC"]
-    assert rec.get("selected") is True, rec
-    assert data.get("selected_symbols") == ["BTC"]
-    assert data.get("real_market_data") is True
+        proc = subprocess.run(
+            [sys.executable, str(root / "scripts" / "derive_verified_universe.py"),
+             "--manifest", str(manifest_path), "--cache-dir", str(cache_dir),
+             "--min-24h-volume-usd", "5000000", "--output", str(out_path)],
+            cwd=str(root), capture_output=True, text=True,
+        )
+        assert proc.returncode == 0, proc.stdout + "\n" + proc.stderr
+        data = json.loads(out_path.read_text())
+        rec = data["report"]["BTC"]
+        assert rec.get("selected") is True, rec
+        assert data.get("selected_symbols") == ["BTC"]
+        assert data.get("real_market_data") is True

@@ -44,7 +44,13 @@ def _run(argv, monkeypatch):
 def _manifest(tmp_path, candles, *, summary_all_complete, coverage_complete_flag=True,
               coverage_expected_bars=None, coverage_observed_bars=None, coverage_gap_count=0,
               symbol_status="ok", synthetic=False):
-    cache_dir = tmp_path / "cache"
+    # Repo-local fixture dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path guard rejects as unverified
+    # provenance evidence. Verified cache shapes must live repo-LOCAL. The caller
+    # must hold the returned TemporaryDirectory alive until the derivation finishes.
+    import tempfile
+    td = tempfile.TemporaryDirectory(dir=str(Path(__file__).resolve().parents[1]))
+    cache_dir = Path(td.name) / "cache"
     candles_dir = cache_dir / "candles"
     candles_dir.mkdir(parents=True)
     (candles_dir / "BTC.json").write_text(json.dumps(candles))
@@ -73,7 +79,7 @@ def _manifest(tmp_path, candles, *, summary_all_complete, coverage_complete_flag
     }
     mp = tmp_path / "manifest.json"
     mp.write_text(json.dumps(manifest))
-    return mp, cache_dir, tmp_path / "universe.json"
+    return mp, cache_dir, tmp_path / "universe.json", td
 
 
 class TestDeriveSummaryContradictionFailClosed:
@@ -82,7 +88,7 @@ class TestDeriveSummaryContradictionFailClosed:
         # coverage.expected_hourly_bars does not match the window -> facts do not prove
         # completeness. Current code trusts summary -> real_market_data=true (BUG).
         candles = _varied_candles()
-        mp, cache_dir, out = _manifest(
+        mp, cache_dir, out, _tmpd = _manifest(
             tmp_path, candles, summary_all_complete=True,
             coverage_complete_flag=True, coverage_expected_bars=999,
         )
@@ -96,7 +102,7 @@ class TestDeriveSummaryContradictionFailClosed:
     def test_summary_claims_complete_and_facts_prove_it_still_works(self, tmp_path, monkeypatch):
         # Truthful manifest: summary + coverage facts both complete -> real_market_data true.
         candles = _varied_candles()
-        mp, cache_dir, out = _manifest(
+        mp, cache_dir, out, _tmpd = _manifest(
             tmp_path, candles, summary_all_complete=True,
             coverage_complete_flag=True, coverage_expected_bars=len(candles),
         )
@@ -114,7 +120,7 @@ class TestDeriveSummaryContradictionFailClosed:
         # Optimistic contradictions (summary claims complete but facts do not prove it)
         # remain fail-closed (covered by test_summary_claims_complete_but_coverage_fields_do_not_prove_it).
         candles = _varied_candles()
-        mp, cache_dir, out = _manifest(
+        mp, cache_dir, out, _tmpd = _manifest(
             tmp_path, candles, summary_all_complete=False,
             coverage_complete_flag=True, coverage_expected_bars=len(candles),
         )
