@@ -596,6 +596,25 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
             if _is_temp_provenance_path(p):
                 scan_temp.append(p)
                 archive_paths.append(p)
+    # 2026-11-09 D residual (failing-tests-first): archive_scan.verified_archives_found
+    # is a list of archive path strings that downstream consumers (fetch main(),
+    # run_real_campaign provenance, gap-report readers) treat as TRUSTED
+    # verified-archive evidence. It was never temp-scanned: a precomputed scan
+    # whose verified_archives_found list carried a temp scratch path
+    # (/tmp/kilo-tmp/..., _temp/kilo-tmp/...) passed the guard clean and the
+    # canonical report was published ready_for_real_campaign=true citing a
+    # temp-sourced "verified archive". Same applies to searched_paths (the root
+    # directories the scan claims to have searched). Any temp marker blocks.
+    for key in ("verified_archives_found", "searched_paths"):
+        vals = scan.get(key) if isinstance(scan, dict) else None
+        if isinstance(vals, list):
+            for v in vals:
+                if isinstance(v, str) and v and _is_temp_provenance_path(v):
+                    scan_temp.append(v)
+                    archive_paths.append(v)
+        elif isinstance(vals, str) and vals and _is_temp_provenance_path(vals):
+            scan_temp.append(vals)
+            archive_paths.append(vals)
     temp_sourced = any(_is_temp_provenance_path(p) for p in archive_paths)
     synth_or_bad: List[str] = []
     for sym, info in ((manifest or {}).get("symbols") or {}).items():
