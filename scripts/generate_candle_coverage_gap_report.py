@@ -505,6 +505,26 @@ def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any 
     return out
 
 
+def _is_temp_provenance_path(p: str) -> bool:
+    return bool(p) and (("_temp/kilo-tmp" in p) or p.startswith("/tmp/") or ("/tmp/" in p))
+
+
+def _collect_archive_paths(container: Any, out: List[str], path_keys: tuple) -> None:
+    if not isinstance(container, dict):
+        return
+    for key in path_keys:
+        val = container.get(key)
+        if isinstance(val, str) and val:
+            out.append(val)
+        elif isinstance(val, list):
+            out.extend(str(v) for v in val if v)
+    # Nested source/provenance containers (shallow, fail-closed scan).
+    for nested_key in ("source", "provenance", "origin"):
+        nested = container.get(nested_key)
+        if isinstance(nested, dict):
+            _collect_archive_paths(nested, out, path_keys)
+
+
 def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, Any]]) -> Dict[str, Any]:
     """Fail-closed guardrail for canonical gap-report writes.
 
@@ -512,12 +532,13 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
     report as ready_for_real_campaign. The canonical report may only be ready
     from verified-clean provenance (no synthetic symbols, every symbol ok +
     complete + clean synthetic_check). A manifest sourced from a temp archive
-    (_temp/kilo-tmp, /tmp) must never produce a ready=true canonical write.
-    Returns the (possibly blocked) report.
+    (_temp/kilo-tmp, /tmp), or carrying temp per-symbol source/cache metadata,
+    must never produce a ready=true canonical write. Returns the (possibly
+    blocked) report.
     """
     if not report.get("ready_for_real_campaign"):
         return report
-    # D-bypass hunt (2026-11-09): scan every archive path across nested .source
+    # D-bypass hunt (2026-11-09): scan every archive/path across nested .source
     # AND top-level containers on probe_evidence, report.probe_evidence, and
     # manifest. The multi-archive merge path emits both input_archive (singular)
     # and input_archives (plural list); temp paths hidden outside .source or in
@@ -525,21 +546,26 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
     probe = report.get("probe_evidence") if isinstance(report.get("probe_evidence"), dict) else {}
     src = probe.get("source") if isinstance(probe.get("source"), dict) else {}
     manifest_src = (manifest.get("source") or {}) if isinstance(manifest, dict) else {}
+    archive_keys = ("input_archive", "input_archives", "archive_path", "archive_paths")
     archive_paths: List[str] = []
-    containers = [probe, src, manifest if isinstance(manifest, dict) else {}, manifest_src]
-    for container in containers:
-        if not isinstance(container, dict):
+    for container in (probe, src, manifest if isinstance(manifest, dict) else {}, manifest_src):
+        _collect_archive_paths(container, archive_paths, archive_keys)
+    # Per-symbol provenance paths (cache/source/archive) — temp/unverified paths
+    # here cannot coexist with a canonical ready report.
+    per_symbol_keys = ("cache_path", "cache_paths", "source_path", "source_paths",
+                       "archive_path", "archive_paths", "file_path", "file_paths",
+                       "input_archive", "input_archives")
+    per_symbol_temp: List[str] = []
+    for sym, info in ((manifest or {}).get("symbols") or {}).items():
+        if not isinstance(info, dict):
             continue
-        for key in ("input_archive", "input_archives"):
-            val = container.get(key)
-            if isinstance(val, str) and val:
-                archive_paths.append(val)
-            elif isinstance(val, list):
-                archive_paths.extend(str(v) for v in val if v)
-    temp_sourced = any(
-        ("_temp/kilo-tmp" in p) or p.startswith("/tmp/") or "/tmp/" in p
-        for p in archive_paths
-    )
+        sym_paths: List[str] = []
+        _collect_archive_paths(info, sym_paths, per_symbol_keys)
+        for p in sym_paths:
+            if _is_temp_provenance_path(p):
+                per_symbol_temp.append(f"{sym}:{p}")
+                archive_paths.append(p)
+    temp_sourced = any(_is_temp_provenance_path(p) for p in archive_paths)
     synth_or_bad: List[str] = []
     for sym, info in ((manifest or {}).get("symbols") or {}).items():
         if not isinstance(info, dict):
@@ -553,7 +579,7 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
             synth_or_bad.append(sym)
         elif synth.get("is_synthetic") is not False:
             synth_or_bad.append(f"{sym}(synthetic_check_unverified)")
-    if temp_sourced or synth_or_bad:
+    if temp_sourced or synth_or_bad or per_symbol_temp:
         report["ready_for_real_campaign"] = False
         report["all_complete"] = False
         report["blocked"] = True
@@ -561,7 +587,8 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
         report["blocker"]["item_6c_blocked"] = True
         report["blocker"]["reason"] = (
             "Canonical gap report write blocked: provenance not verified-clean "
-            f"(temp_sourced={temp_sourced}, sources_scanned={archive_paths}, symbols={synth_or_bad}); "
+            f"(temp_sourced={temp_sourced}, per_symbol_temp={per_symbol_temp}, "
+            f"sources_scanned={archive_paths}, symbols={synth_or_bad}); "
             "regenerate from canonical verified provenance only."
         )
     return report
