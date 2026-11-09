@@ -533,8 +533,8 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
     from verified-clean provenance (no synthetic symbols, every symbol ok +
     complete + clean synthetic_check). A manifest sourced from a temp archive
     (_temp/kilo-tmp, /tmp), or carrying temp per-symbol source/cache metadata,
-    must never produce a ready=true canonical write. Returns the (possibly
-    blocked) report.
+    or carrying temp candidate metadata in archive_scan, must never produce a
+    ready=true canonical write. Returns the (possibly blocked) report.
     """
     if not report.get("ready_for_real_campaign"):
         return report
@@ -576,6 +576,26 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
                 if _is_temp_provenance_path(p):
                     per_symbol_temp.append(f"{sym}:{p}")
                     archive_paths.append(p)
+    # 2026-11-09 D residual: archive_scan candidate metadata can carry temp
+    # path/source_path/archive_path strings that influence provenance decisions
+    # downstream. Scan candidate_archives entries (and nested source/provenance/
+    # origin/path-like keys) fail-closed.
+    scan = report.get("archive_scan") if isinstance(report.get("archive_scan"), dict) else {}
+    scan_temp: List[str] = []
+    for cand in (scan.get("candidate_archives") or []) if isinstance(scan, dict) else []:
+        if not isinstance(cand, dict):
+            continue
+        cand_paths: List[str] = []
+        _collect_archive_paths(cand, cand_paths, per_symbol_keys + ("path", "paths"))
+        # also scan common top-level path keys
+        for k in ("path", "source_path", "archive_path", "input_archive", "file_path"):
+            v = cand.get(k)
+            if isinstance(v, str) and v:
+                cand_paths.append(v)
+        for p in cand_paths:
+            if _is_temp_provenance_path(p):
+                scan_temp.append(p)
+                archive_paths.append(p)
     temp_sourced = any(_is_temp_provenance_path(p) for p in archive_paths)
     synth_or_bad: List[str] = []
     for sym, info in ((manifest or {}).get("symbols") or {}).items():
