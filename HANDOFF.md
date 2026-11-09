@@ -1,13 +1,19 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T01:30:23Z
+**Updated (UTC):** 2026-11-09T01:45:00Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## BOTTLENECK CHECK (2026-11-09T01:30:23Z)
+## BOTTLENECK CHECK (2026-11-09T01:45:00Z)
 - **Status: NO ACTIVE PROCESS/LOCK BOTTLENECKS.** No stale `.lock` files outside `.git/`. No parallel durable handoff/todo/progress files (`scripts/controller_progress.py` and `tests/test_controller_progress_accounting.py` are code/tests, not durable handoff). CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`).
 - **Canonical data gate (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH data is **UNAVAILABLE/UNVERIFIED in this environment** (verified cache/archive are flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.** `guard_canonical_write()` blocks temp-source/probe optimism from clobbering the canonical report as ready; `fetch_hyperliquid_candles.py` publishes to the canonical path only when verified-clean ready.
-- **Session-open gate (verified 2026-11-09T01:27:24Z, last shipped gate):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **621 passed** in 49.19s (0 skipped). Next session MUST re-run gate before coding.
+- **Session-open gate (verified 2026-11-09T01:45:00Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **626 passed** in 48.85s (0 skipped). Next session MUST re-run gate before coding.
 - **Env bootstrap (if deps missing):** `python3.12 -m pip install pytest pyarrow numpy pandas requests`.
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence. Consolidate duplicates into root `HANDOFF.md`.
+
+## SHIPPED THIS SESSION (2026-11-09T01:45:00Z) — MATERIAL D-BYPASS HUNT, FAILING-TESTS-FIRST
+- **D-bypass found + locked: `guard_canonical_write` rejected only `input_archive` (singular) for temp-source provenance.** The multi-archive merge path in `fetch_hyperliquid_candles.py` emits a manifest whose `source` carries BOTH `input_archive` (possibly clean) AND `input_archives` (plural list, the actual merged sources). A manifest whose singular key looked clean but whose plural list pointed at `/tmp/` or `_temp/kilo-tmp` passed through as `ready_for_real_campaign=true` — temp-source optimism bypass of the canonical write guard.
+  - `scripts/generate_candle_coverage_gap_report.py::guard_canonical_write`: now scans EVERY archive path across both `input_archive` and `input_archives` (from both `report.probe_evidence.source` and `manifest.source`), and blocks when any path is temp-sourced. Blocker reason now records `sources_scanned`.
+  - New failing-tests-first lock: `tests/test_guard_canonical_write_input_archives_temp_bypass_20261109.py` (5 tests) — blocks on `_temp/kilo-tmp` in plural list, `/tmp/` prefix in plural list, and singular-clean-but-plural-temp drift vector; explicitly allows all-clean plural lists and no-source manifests.
+  - Evidence (2026-11-09T01:45:00Z): new test first run → **3 failed, 2 passed** (0.67s). After fix: **5 passed** (0.67s). Verified on the exact merge-path manifest shape `fetch_hyperliquid_candles.py` emits. Full gate: **626 passed** in 48.85s (0 skipped).
 
 ## REPO-NAME PRIORITY / SPEC CONTRACT (DRIVES ALL WORK)
 **CRASH-REBOUND-STRATEGY** → fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. **Hourly engine only.** Never claim 20s slicing, explicit spread modeling, or L2/order-book impact.
@@ -21,6 +27,7 @@ Non-negotiables (never regress): hourly funding on **every leg** (long coin; sho
   - Evidence (2026-11-09T01:27:24Z): new test first run → **4 failed, 1 passed** (0.58s). After fix: **5 passed** (0.56s). Existing gap-report tests: **9 passed** (0.90s). Full gate: **621 passed** in 49.19s (0 skipped).
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
+- **2026-11-09T01:45:00Z (D-bypass hunt, THIS SESSION):** `guard_canonical_write` hardened to scan `input_archives` (plural) as well as `input_archive` (singular) for temp-source provenance. `tests/test_guard_canonical_write_input_archives_temp_bypass_20261109.py` (5).
 - **2026-11-09T00:46:57Z:** regenerated canonical gap reports fail-closed from synthetic verified provenance; `guard_canonical_write()` prevents temp-source/probe optimism clobbering canonical ready=true; `fetch_hyperliquid_candles.py` publishes canonical only when verified-clean ready. `tests/test_candle_coverage_gap_report.py::test_canonical_gap_report_write_guarded_from_temp_archive`.
 - **2026-11-08T23:42:38Z (B-rem8 lock):** rebound short liq/stop on exact 48th held bar win over 48h time-exit (`tests/test_rebound_short_liq_stop_on_48th_bar_boundary_20261108.py`, 2). No src fix.
 - **2026-11-08T22:10:00Z (B-rem7 lock):** rebound short -9% target on exact 48th held bar wins over 48h time-exit (`tests/test_rebound_short_target_wins_on_48th_bar_boundary_20261108.py`). No src fix.
@@ -36,7 +43,7 @@ Non-negotiables (never regress): hourly funding on **every leg** (long coin; sho
   - **B-rem2:** portfolio `apply_cap_cuts`/occupancy interaction during rebound transition in multi-symbol context — `TradeResult.max_live_coin_notional` authoritative (hedges excluded); portfolio reconciliation uses it. Lock only with concrete failing reservation/occupancy/cuts-only violation with numbers.
 - **2b engine (narrowed):** commission_min parity + core long/rebound-short terminals mostly locked; only untouched pressure/fallback combinations remain.
 - **2c/d/h (lower/monitored):** missing-candle-field stop comparison in spec-compliant flow; rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift — only if real gap found.
-- **D guardrail — materially hardened this session** (explicit `is_synthetic=False` required). Further D work only if a concrete bypass is found with failing-tests-first proof.
+- **D guardrail — further hardened this session** (plural `input_archives` scanned alongside singular `input_archive`). Further D work only if a concrete bypass is found with failing-tests-first proof. Candidate residual surfaces to probe next: `report.probe_evidence.source` vs `manifest.source` divergence (guard now scans both, but verify no other `source` key shape escapes), and the `archive_scan`/`verified_archives_found` path in `build_gap_report` (already fail-closed — scanned files never become verified).
 
 ## CRITICAL CONTEXT
 - **Spec truth:** `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Test window 2025-12-20→2026-09-28 (283d), 6792 hourly bars/symbol.
