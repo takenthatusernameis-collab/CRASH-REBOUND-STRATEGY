@@ -1,6 +1,10 @@
-"""Probe: long liquidation, cap-cut + commission_min + entry_next_bar + funding,
-NO usable ETH hedge (hedge size 0). Derive deterministic expected values."""
-from src.backtest.engine import backtest_simple, _slippage_commission_per_share, _apply_funding_pnl
+"""Probe: derive exact expected values for long liquidation with cap-cut +
+commission_min + entry_next_bar + funding, but NO usable ETH hedge (eth_candles=None
+=> hedge size 0). Concrete expected values for regression lock."""
+import sys
+sys.path.insert(0, '/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY')
+
+from src.backtest.engine import backtest_simple
 from src.strategy.config import StrategyConfig
 from src.strategy.crash_rebound import Signal
 
@@ -45,7 +49,6 @@ def _cfg(**ov):
         liquidation_penalty_pct=0.5,
         gross_cap_pct=120.0,
         hedge_vol_lookback_hours=336,
-        hedge_cap_multiplier=3.0,
         rebound_short_target_pct=9.0,
         rebound_short_stop_pct=40.0,
         rebound_short_time_exit_bars=48,
@@ -56,9 +59,9 @@ def _cfg(**ov):
 
 def _sig():
     return Signal(
-        symbol="T", side="long", reason="t", entry_price=100.0, stop_price=80.0,
-        target_price=109.0, risk_per_share=20.0, timestamp="t5", size_shares=1000.0,
-        signal_index=5,
+        symbol="T", side="long", reason="t",
+        entry_price=100.0, stop_price=80.0, target_price=109.0,
+        risk_per_share=20.0, timestamp="t5", size_shares=1000.0, signal_index=5,
     )
 
 
@@ -73,51 +76,43 @@ def _scenario():
         coin.append(_c(f"b{i}", co, ch, cl, cc))
         cp = cc
     coin[6] = _c("e6", 100.0, 100.5, 99.5, 100.0)
-    coin[8] = _c("e8", 100.0, 101.0, 93.0, 99.0)  # liquidation
+    coin[8] = _c("e8", 100.0, 101.0, 93.0, 99.0)  # long liquidation
     return coin
 
 
-def main():
-    coin = _scenario()
-    res = backtest_simple(coin, _sig(), config=_cfg(), risk_state=_CapCutRS(),
-                          capital=100000.0, eth_candles=None)
-    print("exit_reason:", res.exit_reason)
-    print("shares:", repr(res.shares))
-    print("entry_price:", repr(res.entry_price))
-    print("exit_price:", repr(res.exit_price))
-    print("bars_held:", res.bars_held)
-    print("hedge_side:", res.hedge_side, "hedge_size:", res.hedge_size)
-    print("pnl:", repr(res.pnl))
-    print("hedge_pnl:", res.hedge_pnl)
-    print("total_pnl:", repr(res.total_pnl))
-    print("max_live_coin_notional:", repr(res.max_live_coin_notional))
-    print("rebound_short_pnl:", res.rebound_short_pnl)
-    print("trades:", res.trades)
+coin = _scenario()
+res = backtest_simple(coin, _sig(), config=_cfg(), risk_state=_CapCutRS(),
+                      capital=100000.0, eth_candles=None)
 
-    # Manual replay
-    cfg = _cfg()
-    capv = 100000.0 * cfg.gross_cap_pct / 100.0  # 120000
-    all_notionals = [80000.0, 100000.0]
-    cuts = _CapCutRS().apply_cap_cuts(100000.0, cfg, all_notionals)
-    print("cuts:", cuts)
-    new_notional_cut = cuts[-1]  # 60000
-    entry_px = 100.0
-    shares = new_notional_cut / entry_px  # 600
-    entry_fill = _slippage_commission_per_share(entry_px, cfg, 'buy', shares=shares)
-    print("manual shares:", shares, "entry_fill:", entry_fill)
-    # entry_px in engine = entry_fill (commission_min applied)
-    liq_px = 93.0
-    exit_fill = _slippage_commission_per_share(liq_px, cfg, 'sell', shares=shares)
-    print("exit_fill:", exit_fill)
-    pnl = (exit_fill - entry_fill) * shares
-    penalty = cfg.liquidation_penalty_pct / 100.0 * (entry_fill * shares)
-    pnl -= penalty
-    hours = 3
-    long_funding = _apply_funding_pnl(entry_fill * shares, hours, cfg.funding_rate_pct_per_hour, side='long')
-    pnl -= long_funding
-    print("manual pnl:", repr(pnl))
-    print("manual max_live_coin_notional:", entry_fill * shares)
+print("exit_reason:", res.exit_reason)
+print("shares:", repr(res.shares))
+print("entry_price:", repr(res.entry_price))
+print("exit_price:", repr(res.exit_price))
+print("bars_held:", res.bars_held)
+print("hedge_side:", res.hedge_side)
+print("hedge_size:", repr(res.hedge_size))
+print("hedge_entry:", repr(res.hedge_entry))
+print("hedge_exit:", repr(res.hedge_exit))
+print("hedge_pnl:", repr(res.hedge_pnl))
+print("rebound_short_pnl:", repr(res.rebound_short_pnl))
+print("rebound_hedge_pnl:", repr(res.rebound_hedge_pnl))
+print("pnl:", repr(res.pnl))
+print("total_pnl:", repr(res.total_pnl))
+print("max_live_coin_notional:", repr(res.max_live_coin_notional))
+print("trades:", res.trades)
+print("num trades:", len(res.trades))
 
-
-if __name__ == "__main__":
-    main()
+# Funding reconciliation
+on = backtest_simple(coin, _sig(), config=_cfg(funding_rate_pct_per_hour=0.01),
+                     risk_state=_CapCutRS(), capital=100000.0, eth_candles=None)
+off = backtest_simple(coin, _sig(), config=_cfg(funding_rate_pct_per_hour=0.0),
+                      risk_state=_CapCutRS(), capital=100000.0, eth_candles=None)
+hours = on.bars_held
+rate = 0.01
+coin_cost = (on.entry_price * on.shares) * hours * (rate / 100.0)
+expected_net = -coin_cost
+actual_net = on.total_pnl - off.total_pnl
+print("funding expected_net:", repr(expected_net))
+print("funding actual_net:", repr(actual_net))
+print("off total_pnl:", repr(off.total_pnl))
+print("on total_pnl:", repr(on.total_pnl))
