@@ -1,8 +1,9 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T09:38:50Z
+**Updated (UTC):** 2026-11-09T09:43:41Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
+- **2026-11-09T09:43:41Z (gate re-verification + bottleneck removal):** gate **692 passed, 1 skipped** in 63.55s — no regressions, no new defects. Removed `research_state/.test_derive_vol_*` temp clutter (gitignored, not evidence); confirmed no stale `.lock` files outside `.git/` and no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. Bottleneck check clean.
 - **2026-11-09T09:38:50Z (gate re-verification):** gate **692 passed, 1 skipped** in 63.59s — no regressions, no new defects. Bottleneck check clean.
 - **2026-11-09T09:25:26Z (2b rebound short STOP/48h × ETH hedge × commission_min × cap-cut shares):** failing-tests-first regression lock for uncovered cap-cut reservation context (engine receives post-cut 600 shares; commission_min per-share adjustment materially differs from 1000-share locks). Concrete expected values for stop (+40%) and 48h time-exit: fills/funding/hedge pnl/reconciliation and `max_live_coin_notional` authoritative executed rebound-short notional. Gate **692 passed, 1 skipped**.
 - **2026-11-09T08:40:19Z (2b 2a(i) long liq + NO usable ETH hedge + cap-cut + commission_min):** no-hedge/funding-leakage lock; coin-only funding reconciliation; `research_state/.test_derive_vol_*` clutter removed + gitignored.
@@ -12,16 +13,16 @@
 - **Priority B — FULLY LOCKED (B-rem1–B-rem8 incl. B-rem2):** rebound-short terminals + same-bar multi-admission reservation propagation (`scripts/run_portfolio.py:275`).
 - Prior locks preserved: 2a/e closed, commission_min parity, 8x safety stop re-anchor + ETH 336h/cap, long liq sequencing, missing-ETH hedge funding, RSI not nullified by downtrend filter, rebound 48h inclusive semantics, stopped buy never opens rebound short.
 
-## BOTTLENECK CHECK (2026-11-09T09:38:50Z)
-- **Status: NO ACTIVE PROCESS/LOCK BOTTLENECKS.** Only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. `research_state/.test_derive_vol_*` temp dirs removed earlier (not evidence; gitignored).
-- **Session-open gate VERIFIED THIS SESSION (2026-11-09T09:38:50Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **692 passed, 1 skipped in 63.59s**.
+## BOTTLENECK CHECK (2026-11-09T09:43:41Z)
+- **Status: NO ACTIVE PROCESS/LOCK BOTTLENECKS.** Only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. `research_state/.test_derive_vol_*` temp dirs removed (not evidence; gitignored).
+- **Session-open gate VERIFIED THIS SESSION (2026-11-09T09:43:41Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **692 passed, 1 skipped in 63.55s**.
 - **Canonical data gate (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH data is **UNAVAILABLE/UNVERIFIED in this environment** (verified cache/archive are flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.**
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence.
 
-## SHIPPED THIS SESSION (2026-11-09T09:38:50Z) — GATE RE-VERIFICATION + HANDOFF REFRESH
-- **Action:** re-ran full test gate to confirm zero regressions and clean bottleneck state before issuing updated handoff.
-- **Result:** **692 passed, 1 skipped in 63.59s** (identical pass count, no new failures).
-- **Files changed:** `HANDOFF.md` (this file — timestamp refresh + task message update). No source/test changes.
+## SHIPPED THIS SESSION (2026-11-09T09:43:41Z) — GATE RE-VERIFICATION + HANDOFF REFRESH
+- **Action:** removed `research_state/.test_derive_vol_*` temp clutter; re-ran full test gate to confirm zero regressions and clean bottleneck state before issuing updated handoff.
+- **Result:** **692 passed, 1 skipped in 63.55s** (identical pass count, no new failures).
+- **Files changed:** `HANDOFF.md` (this file — timestamp refresh + bottleneck-removal evidence + task message update). No source/test changes.
 
 ## REMAINING RISKS / NEXT HEAVY FOCUS (EVIDENCE-BACKED)
 - **Data integrity (BLOCKED by environment, fail-closed):** real 283d Hyperliquid candles unavailable/unverified here; verified cache/archive are flat placeholders. Canonical gap reports/provenance/runner refuse. Never fabricate.
@@ -41,13 +42,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T09:38:50Z, MANDATORY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T09:43:41Z, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-09T09:38:50Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-09T09:43:41Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck removal CONFIRMED (2026-11-09T09:38:50Z): only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. `research_state/.test_derive_vol_*` temp dirs removed (gitignored). Gate last verified GREEN 2026-11-09T09:38:50Z — **692 passed, 1 skipped** in ~64s — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`. Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck removal CONFIRMED (2026-11-09T09:43:41Z): only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. `research_state/.test_derive_vol_*` temp dirs removed (gitignored). Gate last verified GREEN 2026-11-09T09:43:41Z — **692 passed, 1 skipped** in ~64s — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`. Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 CARRY-FORWARD EVIDENCE (locked — do not reopen without concrete failing defect):
 - Priority A (2g/2b portfolio cap-cut/reservation) and B (rebound-short terminals B-rem1–B-rem8): FULLY LOCKED.
