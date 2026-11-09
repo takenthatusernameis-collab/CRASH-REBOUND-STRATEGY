@@ -339,13 +339,18 @@ class TestE2EArchiveManifestUniverseGate(unittest.TestCase):
         """Sandboxed run_real_campaign --allow-partial-not-evidence marks performance_evidence=false.
 
         Pipeline correctness only (synthetic 4-bar subset window). NOT spec evidence, NOT a 283-day
-        campaign, NOT performance evidence. Uses tmp repo layout to avoid mutating real artifacts.
-        Overrides TARGET_START/END in the sandboxed wrapper for small-window pipeline validation;
-        production spec-window safety remains enforced in run_real_campaign.py.
+        campaign, NOT performance evidence. Uses repo-local non-temp dirs for verified fixture
+        artifacts (fail-closed provenance rejects temp/scratch per-symbol paths) and a tmp repo
+        layout for outputs to avoid mutating real artifacts. Overrides TARGET_START/END in the
+        sandboxed wrapper for small-window pipeline validation.
         """
         tmp_path = self._tmp()
-        archive = tmp_path / "archive"
-        cache = tmp_path / "cache_hl"
+        import uuid as _uuid
+        fixture_root = REPO_ROOT / "research_state" / f".test_e2e_partial_{_uuid.uuid4().hex}"
+        fixture_root.mkdir(parents=True, exist_ok=False)
+        self.addCleanup(lambda: __import__("shutil").rmtree(fixture_root, ignore_errors=True))
+        archive = fixture_root / "archive"
+        cache = fixture_root / "cache_hl"
         _write_archive(archive, {
             "AAA": _make_candles("AAA", EXPECTED_BARS, START_MS, close=100.0, base_vol=100_000.0),
             "ETH": _make_candles("ETH", EXPECTED_BARS, START_MS, close=2000.0, base_vol=5_000.0),
@@ -369,9 +374,9 @@ class TestE2EArchiveManifestUniverseGate(unittest.TestCase):
         pmanifest = cache / "partial_provenance.json"
         pmanifest.write_text(json.dumps(partial_manifest, indent=2))
 
-        fake_repo = tmp_path / "repo"
+        fake_repo = fixture_root / "repo"
         (fake_repo / "research_state").mkdir(parents=True)
-        wrapper = tmp_path / "run_partial.py"
+        wrapper = fixture_root / "run_partial.py"
         wrapper.write_text(
             "import sys; "
             "sys.path.insert(0, r'" + str(REPO_ROOT).replace("'", "\\'") + "'); "

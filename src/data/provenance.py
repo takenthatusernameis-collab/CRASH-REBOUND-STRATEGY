@@ -22,6 +22,71 @@ class ProvenanceError(ValueError):
     pass
 
 
+# Fail-closed temp/unverified path detection for per-symbol provenance evidence.
+# Temp scratch paths (session-local /tmp, kilo-tmp) are not verified market
+# evidence and must never let a consumer accept a symbol as complete/verified.
+_TEMP_PROVENANCE_MARKERS = ("_temp/kilo-tmp", "kilo-tmp", "/tmp/", "/var/tmp/")
+_PER_SYMBOL_PATH_KEYS = (
+    "cache_path", "cache_paths", "source_path", "source_paths",
+    "archive_path", "archive_paths", "file_path", "file_paths",
+    "input_archive", "input_archives",
+)
+_PER_SYMBOL_ARCHIVE_KEYS = ("input_archive", "input_archives", "archive_path", "archive_paths")
+_PER_SYMBOL_CONTAINERS = ("source", "provenance", "origin")
+
+
+def _is_temp_provenance_path(value: Any) -> bool:
+    if value is None or isinstance(value, bool):
+        return False
+    if isinstance(value, (list, tuple, set)):
+        return any(_is_temp_provenance_path(v) for v in value)
+    if isinstance(value, dict):
+        return any(_is_temp_provenance_path(v) for v in value.values())
+    s = str(value).replace("\\", "/")
+    return any(m in s for m in _TEMP_PROVENANCE_MARKERS)
+
+
+def _collect_per_symbol_evidence_paths(info: Any) -> List[str]:
+    """Collect per-symbol cache/source/archive path strings for temp-path checks."""
+    found: List[str] = []
+
+    def add(v: Any) -> None:
+        if v is None or isinstance(v, bool):
+            return
+        if isinstance(v, (list, tuple, set)):
+            for x in v:
+                add(x)
+            return
+        if isinstance(v, dict):
+            for k in _PER_SYMBOL_PATH_KEYS:
+                if k in v:
+                    add(v[k])
+            for c in _PER_SYMBOL_CONTAINERS:
+                if c in v and isinstance(v[c], dict):
+                    add(v[c])
+            return
+        found.append(str(v))
+
+    if not isinstance(info, dict):
+        return found
+    for key in _PER_SYMBOL_PATH_KEYS:
+        add(info.get(key))
+    for cname in _PER_SYMBOL_CONTAINERS:
+        c = info.get(cname)
+        if isinstance(c, dict):
+            for key in _PER_SYMBOL_ARCHIVE_KEYS + _PER_SYMBOL_PATH_KEYS:
+                add(c.get(key))
+    return found
+
+
+def _temp_per_symbol_path_errors(sym: str, info: Dict[str, Any]) -> List[str]:
+    paths = _collect_per_symbol_evidence_paths(info)
+    temp = [p for p in paths if _is_temp_provenance_path(p)]
+    if not temp:
+        return []
+    return [f"{sym}: temp/unverified per-symbol provenance path(s) not acceptable as verified evidence: {sorted(set(temp))}"]
+
+
 def _parse_iso(s: str) -> datetime:
     s = s.strip()
     if s.endswith("Z"):
@@ -136,6 +201,15 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
         if isinstance(synth, dict) and synth.get("is_synthetic"):
             synthetic_detected_actual.append(sym)
             errs.append(f"{sym}: synthetic/flat data series detected ({synth.get('reason')}); not real market evidence")
+            continue
+        # Fail-closed: temp per-symbol cache/source/archive paths are not verified
+        # evidence. Checked before accepting completeness so consumers cannot treat
+        # temp scratch data as real campaign evidence even when coverage facts pass.
+        temp_errs = _temp_per_symbol_path_errors(sym, info)
+        if temp_errs:
+            errs.extend(temp_errs)
+            if require_complete:
+                errs.append(f"{sym}: temp/unverified per-symbol provenance path blocks completeness")
             continue
         if info.get("status") == "ok" and cov.get("complete_for_target_window") is True:
             # verify coverage fields for any symbol claiming completeness
@@ -287,6 +361,7 @@ def _complete_symbol_subset_safe(manifest: Dict[str, Any], *, start: str = TARGE
             and cov.get("expected_hourly_bars") == exp
             and cov.get("observed_in_window_bars") == exp
             and (cov.get("gap_count") or 0) == 0
+            and not _temp_per_symbol_path_errors(k, v)
         ):
             complete[k] = v
     out = dict(manifest)

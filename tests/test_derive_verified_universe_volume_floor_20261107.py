@@ -114,7 +114,16 @@ class TestDeriveVerifiedUniverseProvenanceFloor:
     missing, so stale/mislabeled volume cannot slip into a "verified" universe."""
 
     def _manifest_with_volume(self, tmp_path, volume_coverage):
-        cache_dir = tmp_path / "cache"
+        # Fail-closed provenance rejects temp per-symbol paths as unverified evidence.
+        # Use repo-local fixture dir (no kilo-tmp//tmp markers) for verified test artifacts.
+        import uuid as _uuid, shutil as _shutil
+        from pathlib import Path as _Path
+        _repo = _Path(__file__).resolve().parents[1]
+        fixture_root = _repo / "research_state" / f".test_derive_vol_{_uuid.uuid4().hex}"
+        fixture_root.mkdir(parents=True, exist_ok=False)
+        if hasattr(self, "addCleanup"):
+            self.addCleanup(lambda: _shutil.rmtree(fixture_root, ignore_errors=True))
+        cache_dir = fixture_root
         candles_dir = cache_dir / "candles"
         candles_dir.mkdir(parents=True)
         (candles_dir / "BTC.json").write_text(json.dumps(_candles(100.0, 3000.0, n=30)))
@@ -137,9 +146,9 @@ class TestDeriveVerifiedUniverseProvenanceFloor:
                 }
             },
         }
-        manifest_path = tmp_path / "manifest.json"
+        manifest_path = fixture_root / "manifest.json"
         manifest_path.write_text(json.dumps(manifest))
-        return manifest_path, cache_dir, tmp_path / "universe.json"
+        return manifest_path, cache_dir, fixture_root / "universe.json"
 
     def _run_derive(self, monkeypatch, manifest_path, cache_dir, out_path, require_complete=True):
         import scripts.derive_verified_universe as dv
