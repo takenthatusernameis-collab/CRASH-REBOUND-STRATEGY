@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T10:25:00Z
+**Updated (UTC):** 2026-11-09T10:34:27Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -15,9 +15,9 @@
 - **Priority B — FULLY LOCKED (B-rem1–B-rem8 incl. B-rem2):** rebound-short terminals + same-bar multi-admission reservation propagation (`scripts/run_portfolio.py:275`).
 - Prior locks preserved: 2a/e closed, commission_min parity, 8x safety stop re-anchor + ETH 336h/cap, long liq sequencing, missing-ETH hedge funding, RSI not nullified by downtrend filter, rebound 48h inclusive semantics, stopped buy never opens rebound short.
 
-## BOTTLENECK CHECK (2026-11-09T10:25:00Z) — CLEARED
+## BOTTLENECK CHECK (2026-11-09T10:34:27Z) — CLEARED
 - **No active process/lock bottlenecks.** Only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants found.
-- **Session-open gate VERIFIED THIS SESSION (2026-11-09T10:25:00Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **687 passed, 12 skipped, 0 failed** in ~29s. The 12 skips are environmental (`pyarrow` not installed → parquet/streaming ingest tests skip) plus temp-path markers; **no failures**.
+- **Session-open gate VERIFIED THIS SESSION (2026-11-09T10:34:27Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **687 passed, 12 skipped, 0 failed** in ~29s. The 12 skips are environmental (`pyarrow` not installed → parquet/streaming ingest tests skip) plus temp-path markers; **no failures**.
 - **CI:** `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`.
 - **Canonical data gate (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH data is **UNAVAILABLE/UNVERIFIED in this environment** (verified cache/archive are flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.**
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence.
@@ -43,19 +43,19 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T10:25:00Z, MANDATORY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T10:34:27Z, MANDATORY)
 ```
-CRASH-REBOUND-STRATEGY | 2026-11-09T10:25:00Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-09T10:34:27Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck removal CONFIRMED (2026-11-09T10:25:00Z): only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. Gate last verified GREEN 2026-11-09T10:25:00Z — **687 passed, 12 skipped, 0 failed** — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. (12 skips are environmental: `pyarrow` not installed → parquet/streaming tests skip; 0 failures.) CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`. Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck removal CONFIRMED (2026-11-09T10:34:27Z): only root `HANDOFF.md` is durable; no stale `.lock` files outside `.git/`; no parallel TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants. Gate last verified GREEN 2026-11-09T10:34:27Z — **687 passed, 12 skipped, 0 failed** — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. (12 skips are environmental: `pyarrow` not installed → parquet/streaming tests skip; 0 failures.) CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q`. Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 SHIPPED THIS SESSION (2026-11-09T10:25:00Z, material): `tests/test_rebound_short_liquidation_aligned_eth_commission_min_cap_cut_shares_20261109.py` — failing-tests-first regression lock for rebound-short LIQUIDATION × ALIGNED ETH hedge exit × commission_min × cap-cut shares (600). Cross-leg boundary: long target → rebound short open under commission_min+cap-cut; hedge sized/aligned to rebound bar (idx 8 open), entry 2000.0101938, size 98.098635; ALIGNED exit at eth[10].close=2070 with sell commission_min (2069.9898062), 3h long funding; short entry 108.9984833/exit 116.0016667/pnl -4509.2857, `max_live_coin_notional` 65399.09, total_pnl 7677.8489. Engine matched spec (no defect). Gate: 687 passed, 12 skipped, 0 failed.
 
 CARRY-FORWARD EVIDENCE (locked — do not reopen without concrete failing defect):
 - Priority A (2g/2b portfolio cap-cut/reservation) and B (rebound-short terminals B-rem1–B-rem8): FULLY LOCKED.
-- 2a/e CLOSED. Commission_min parity locked: isolation; **rebound-short LIQUIDATION × ALIGNED-ETH-exit × commission_min × cap-cut shares (600) — LOCKED 2026-11-09T10:25:00Z**; rebound-short liq+ETH-hedge+cap-cut (2026-11-08); long liq × (ETH hedge / NO usable ETH hedge) × cap-cut × commission_min × entry_next_bar × funding; rebound-short STOP/48h × missing-ETH × commission_min × cap-cut shares (600); rebound-short TARGET × missing-ETH × commission_min × cap-cut shares (600); **rebound-short TARGET × ALIGNED-ETH hedge exit × commission_min × cap-cut shares (600) — LOCKED 2026-11-09T10:20:14Z**.
+- 2a/e CLOSED. Commission_min parity locked: isolation; rebound-short LIQUIDATION × ALIGNED-ETH-exit × commission_min × cap-cut shares (600) — LOCKED 2026-11-09T10:25:00Z; rebound-short liq+ETH-hedge+cap-cut (2026-11-08); long liq × (ETH hedge / NO usable ETH hedge) × cap-cut × commission_min × entry_next_bar × funding; rebound-short STOP/48h × missing-ETH × commission_min × cap-cut shares (600); rebound-short TARGET × missing-ETH × commission_min × cap-cut shares (600); rebound-short TARGET × ALIGNED-ETH hedge exit × commission_min × cap-cut shares (600) — LOCKED 2026-11-09T10:20:14Z.
 - D guardrails hardened: fetch CLI rejects temp `--cache-dir` by default and temp escape-hatch cannot publish ready canonical evidence; ingestion rejects temp archives by default; `guard_canonical_write` blocks probe/manifest/archive_scan/per-symbol temp paths and requires explicit `synthetic_check.is_synthetic===false`; provenance/loader fail-closed on temp/absent/partial verified paths; gap-report runtime probes never elevate to verified truth.
 
 HEAVY-WORK GUARANTEE (future agents cannot avoid this): this session MUST ship >=1 MATERIAL item with concrete evidence. DO NOT end idle. DO NOT substitute passive re-verification, handoff-only edits, speculative refactors, or "blocked" without a concrete missing input. Material = spec-fidelity defect fix + failing-tests-first proof, OR a failing-tests-first regression lock for a real uncovered spec path with concrete expected values, OR material gated-pipeline/API/provenance guardrail hardening with proof.
