@@ -1,11 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T03:29:54Z
+**Updated (UTC):** 2026-11-09T03:35:18Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## BOTTLENECK CHECK (2026-11-09T03:29:54Z)
+## BOTTLENECK CHECK (2026-11-09T03:35:18Z)
 - **Status: NO ACTIVE PROCESS/LOCK BOTTLENECKS.** No stale `.lock` files outside `.git/`. No parallel durable handoff/todo/progress files (`scripts/controller_progress.py` and `tests/test_controller_progress_accounting.py` are code/tests, not durable handoff). CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`).
 - **Canonical data gate (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH data is **UNAVAILABLE/UNVERIFIED in this environment** (verified cache/archive are flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.** `guard_canonical_write()` now blocks temp-source/probe/per-symbol provenance optimism from clobbering the canonical report as ready (scans `probe_evidence`, `probe_evidence.source`, `manifest` top-level, `manifest.source`, and per-symbol `cache_path`/`source_path`/`source_paths`/`archive_path(s)`/`input_archive(s)`/nested `source`/`provenance`/`origin` for `_temp/kilo-tmp`/`/tmp/`); requires explicit `synthetic_check.is_synthetic===false`; `fetch_hyperliquid_candles.py` publishes to the canonical path only when verified-clean ready.
-- **Session-open gate (verified 2026-11-09T03:29:54Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **639 passed** in 49.73s (0 skipped). Next session MUST re-run gate before coding.
+- **Session-open gate (verified 2026-11-09T03:35:18Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no` → **639 passed** in 49.73s (0 skipped). Next session MUST re-run gate before coding.
 - **Env bootstrap (if deps missing):** `python3.12 -m pip install pytest pyarrow numpy pandas requests`.
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence. Consolidate duplicates into root `HANDOFF.md`.
 
@@ -50,14 +50,14 @@ Non-negotiables (never regress): hourly funding on **every leg** (long coin; sho
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T03:29:54Z, MANDATORY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T03:35:18Z, MANDATORY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-09T03:29:54Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-09T03:35:18Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (must drive all work): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-Bottleneck check (2026-11-09T03:29:54Z): NO active process/lock bottlenecks. Only root `HANDOFF.md` durable. No stale locks outside `.git/`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `guard_canonical_write()` blocks temp-source/probe/per-symbol provenance optimism (scans probe/manifest archive keys + per-symbol cache/source/archive/nested provenance paths for `_temp/kilo-tmp`/`/tmp/`) and requires `synthetic_check.is_synthetic===false`.
-Verified gate THIS CHECK (2026-11-09T03:29:54Z): `639 passed` in 49.73s (0 skipped) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. If deps missing: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
+Bottleneck check (2026-11-09T03:35:18Z): NO active process/lock bottlenecks. Only root `HANDOFF.md` durable. No stale locks outside `.git/`. CI `.github/workflows/strategy-tests.yml` runs `python -m pytest tests/ -q` (3.12, `PYTHONPATH=.`). Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `guard_canonical_write()` blocks temp-source/probe/per-symbol provenance optimism (scans probe/manifest archive keys + per-symbol cache/source/archive/nested provenance paths for `_temp/kilo-tmp`/`/tmp/`) and requires `synthetic_check.is_synthetic===false`.
+Verified gate THIS CHECK (2026-11-09T03:35:18Z): `639 passed` in 49.73s (0 skipped) — `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3.12 -m pytest tests/ -q --tb=no`. If deps missing: `python3.12 -m pip install pytest pyarrow numpy pandas requests`. If you find any blocker (duplicate durable handoff/task file, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence before other work.
 
 CARRY-FORWARD EVIDENCE (locked — do not reopen without concrete failing defect):
 - Priority A (2g/2b): FULLY LOCKED (forced 120% equal-share cut old+new + cross-bar settlement/reentry; portfolio reservation/occupancy releases verified).
