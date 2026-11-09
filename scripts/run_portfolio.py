@@ -223,34 +223,22 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
             _desired_notional = _entry_px * float(getattr(_sig, 'size_shares', 0.0) or 0.0)
             candidate_desired_notionals.append(_desired_notional)
 
-        # Batch-cut pre-cutting applies ONLY to the rebound-short path:
-        # enable_rebound_short=True AND all candidates hit target on entry bar
-        # (concurrent same-bar rebound shorts whose probe future exits must not
-        # leak into sibling admission). Plain long admissions use sequential
-        # engine cap-cut logic (preserve locked 2026-11-08 behavior).
+        # Batch-cut pre-cutting for rebound-short concurrent same-bar admissions:
+        # enable_rebound_short=True, no existing positions, multiple candidates.
+        # Spec: equal-share cuts old+new across 120% gross cap (cuts only).
+        # Applies whenever total desired > cap — regardless of whether candidates
+        # hit target on the entry bar — to prevent sequential admission from giving
+        # earlier candidates preferential uncapped fills. Plain long admissions and
+        # cases with existing positions use sequential engine cap-cut logic
+        # (preserve locked 2026-11-08/2026-11-09 behavior).
         _batch_cut_case = bool(getattr(config, 'enable_rebound_short', False)) \
             and _bar_open_positions == 0 \
             and len(candidates) > 1
-        if _batch_cut_case:
-            for _sev, _symbol, _sig, _candles in candidates:
-                _entry_px = _sig.entry_price
-                _entry_idx = _sig.signal_index + 1 if getattr(config, 'entry_next_bar', True) else _sig.signal_index
-                if _entry_idx < len(_candles):
-                    _next_open = _candles[_entry_idx].get('open')
-                    if _next_open is not None:
-                        _entry_px = float(_next_open)
-                _next_bar = _candles[_entry_idx] if _entry_idx < len(_candles) else None
-                if _next_bar is None:
-                    _batch_cut_case = False
-                    break
-                _nh = _next_bar.get('high')
-                if _nh is None or float(_nh) < float(_sig.target_price):
-                    _batch_cut_case = False
-                    break
+        _batch_equal_share_notional = None
         if _batch_cut_case:
             total_desired = sum(candidate_desired_notionals)
             if total_desired > cap_value:
-                equal_share_notional = cap_value / len(candidates)
+                _batch_equal_share_notional = cap_value / len(candidates)
                 # Pre-adjust signals' size_shares to achieve equal_share_notional
                 for idx, (_sev, _symbol, _sig, _candles) in enumerate(candidates):
                     _entry_px = _sig.entry_price
@@ -258,10 +246,12 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         _next_open = _candles[_sig.signal_index + 1].get('open')
                         if _next_open is not None:
                             _entry_px = float(_next_open)
-                    _new_shares = equal_share_notional / _entry_px if _entry_px > 0 else 0.0
+                    _new_shares = _batch_equal_share_notional / _entry_px if _entry_px > 0 else 0.0
                     _orig_shares = float(getattr(_sig, 'size_shares', 0.0) or 0.0)
                     if _new_shares < _orig_shares:
                         _sig.size_shares = _new_shares
+                        # Keep candidate_desired_notionals consistent for pending-probe overlay.
+                        candidate_desired_notionals[idx] = _batch_equal_share_notional
 
         for idx, (sev, symbol, sig, candles) in enumerate(candidates):
             if symbol in occupied_until:

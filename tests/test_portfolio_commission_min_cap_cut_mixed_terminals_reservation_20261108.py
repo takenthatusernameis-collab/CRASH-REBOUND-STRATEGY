@@ -1,4 +1,9 @@
 """Material regression lock (2026-11-08T15:53:00Z, 2g/2b portfolio cross-path).
+Updated 2026-11-09T17:06Z: expected values corrected to spec-compliant equal-share
+cuts old+new for concurrent same-bar rebound_short admissions with no existing
+positions (cap 84000, 3 candidates, A desired 500*100=50000 > 28000 equal-share ->
+A cut to 280 shares; B 25000 < 28000 and C 15000 < 28000 unchanged at 500). Prior
+sequential admission gave A preferential uncapped fill — spec violation.
 
 Uncovered branch (evidence-backed): same-bar multi-symbol admissions under forced
 120% equal-share cap cuts with `commission_min`-adjusted fills and mixed terminals
@@ -7,8 +12,9 @@ notionals/reservations interact with pending realized exits across bars.
 
 Locks: admission/capacity under reservation overlay (probe future exits do not leak
 into sibling admission), commission_min fill-adjusted execution under cap pressure,
-deterministic mixed terminal paths, and final occupancy/gross/notional
-reconciliation after all exits. Synthetic fixtures only (non-evidence); hourly only.
+deterministic mixed terminal paths, spec-compliant equal-share distribution, and
+final occupancy/gross/notional reconciliation after all exits. Synthetic fixtures
+only (non-evidence); hourly only.
 """
 from __future__ import annotations
 
@@ -76,11 +82,11 @@ def test_commission_min_forced_cap_cut_mixed_terminals_reservation_reconciles():
     by = {t["symbol"]: t for t in res["trades"]}
     assert set(by) == {"A", "B", "C"}, f"all three must admit under reservation/cap-cut: {res['trades']}"
 
-    # Mixed terminals: A completes rebound short, B liquidates, C exits at series end
-    # under commission_min+cap-cut adjusted sizing (deterministic concrete values).
+    # Mixed terminals under spec-compliant equal-share cuts (cap 84000, 3 candidates):
+    # A desired 500*100=50000 > 28000 equal-share => 280 shares; B 25000 <= 28000, C 15000 <= 28000.
     assert by["A"]["exit_reason"] == "target_rebound_short"
-    assert by["A"]["shares"] == 500
-    assert abs(by["A"]["total_pnl"] - 9305.405000000006) < 1e-6
+    assert abs(by["A"]["shares"] - 280.0) < 1e-6
+    assert abs(by["A"]["total_pnl"] - 5167.2049999999945) < 1e-6
     assert by["A"]["entry_timestamp"] == "2026-01-01T06:00:00Z"
     assert by["A"]["exit_timestamp"] == "2026-01-01T09:00:00Z"
 
@@ -91,12 +97,12 @@ def test_commission_min_forced_cap_cut_mixed_terminals_reservation_reconciles():
     assert by["B"]["exit_timestamp"] == "2026-01-01T09:00:00Z"
 
     assert by["C"]["exit_reason"] == "time_exit"
-    assert abs(by["C"]["shares"] - 930.2325581395348) < 1e-6  # cap-cut+commission_min adjusted
-    assert abs(by["C"]["total_pnl"] - (-143.0232558139556)) < 1e-6
+    assert by["C"]["shares"] == 500
+    assert abs(by["C"]["total_pnl"] - (-100.00000000000142)) < 1e-6
     assert by["C"]["entry_timestamp"] == "2026-01-01T06:00:00Z"
     assert by["C"]["exit_timestamp"] == "2026-01-01T15:00:00Z"
 
-    assert abs(res["total_pnl"] - 6937.131744186048) < 1e-6
+    assert abs(res["total_pnl"] - 2841.9549999999917) < 1e-6
     assert res["num_trades"] == 3
     # Final reconciliation: mixed terminals (rebound/liquidation/time) release all
     # occupancy, reserved notionals, and gross exposure; pending realized exits settled.
@@ -106,4 +112,4 @@ def test_commission_min_forced_cap_cut_mixed_terminals_reservation_reconciles():
     assert getattr(rs, "open_positions", -1) == 0
     assert list(getattr(rs, "open_position_notionals", ["leak"])) == []
     assert abs(float(getattr(rs, "gross_exposure", -1.0))) < 1e-9
-    assert abs(float(getattr(rs, "realized_pnl", 0.0)) - 6937.131744186048) < 1e-6
+    assert abs(float(getattr(rs, "realized_pnl", 0.0)) - 2841.9549999999917) < 1e-6
