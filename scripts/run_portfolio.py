@@ -282,8 +282,13 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         elif post_notionals and len(post_notionals) == len(existing_syms):
                             # New admission completed in probe (no live notional remains for it),
                             # but engine may have applied cap cuts to existing positions — propagate.
+                            # Cuts only, never top-ups. For any existing reservation (including
+                            # same-bar symbols already admitted but still occupying capacity), take
+                            # min(current, engine post-cut) so cuts propagate without topping up and
+                            # without overstating a slot beyond what was already reserved.
                             for _sym, _not in zip(existing_syms, post_notionals):
-                                open_notionals[_sym] = float(_not)
+                                _cur = float(open_notionals.get(_sym, _not))
+                                open_notionals[_sym] = min(_cur, float(_not))
                             open_notionals[symbol] = min(executed_notional, cap_value)
                         else:
                             # Fallback: reserve this admission at its executed notional
