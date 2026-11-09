@@ -517,25 +517,25 @@ def guard_canonical_write(report: Dict[str, Any], manifest: Optional[Dict[str, A
     """
     if not report.get("ready_for_real_campaign"):
         return report
-    src = (report.get("probe_evidence") or {}).get("source") or {}
-    # D-bypass hunt (2026-11-09): the multi-archive merge path emits a manifest
-    # whose source carries BOTH input_archive (singular, possibly clean) and
-    # input_archives (plural list, the actual merged sources). Inspecting only
-    # the singular key let a temp-sourced plural list slip through as ready.
-    # Scan every archive path across both keys.
+    # D-bypass hunt (2026-11-09): scan every archive path across nested .source
+    # AND top-level containers on probe_evidence, report.probe_evidence, and
+    # manifest. The multi-archive merge path emits both input_archive (singular)
+    # and input_archives (plural list); temp paths hidden outside .source or in
+    # only one container must not bypass the guard.
+    probe = report.get("probe_evidence") if isinstance(report.get("probe_evidence"), dict) else {}
+    src = probe.get("source") if isinstance(probe.get("source"), dict) else {}
     manifest_src = (manifest.get("source") or {}) if isinstance(manifest, dict) else {}
     archive_paths: List[str] = []
-    for key in ("input_archive", "input_archives"):
-        val = src.get(key)
-        if isinstance(val, str) and val:
-            archive_paths.append(val)
-        elif isinstance(val, list):
-            archive_paths.extend(str(v) for v in val if v)
-        mv = manifest_src.get(key)
-        if isinstance(mv, str) and mv:
-            archive_paths.append(mv)
-        elif isinstance(mv, list):
-            archive_paths.extend(str(v) for v in mv if v)
+    containers = [probe, src, manifest if isinstance(manifest, dict) else {}, manifest_src]
+    for container in containers:
+        if not isinstance(container, dict):
+            continue
+        for key in ("input_archive", "input_archives"):
+            val = container.get(key)
+            if isinstance(val, str) and val:
+                archive_paths.append(val)
+            elif isinstance(val, list):
+                archive_paths.extend(str(v) for v in val if v)
     temp_sourced = any(
         ("_temp/kilo-tmp" in p) or p.startswith("/tmp/") or "/tmp/" in p
         for p in archive_paths
