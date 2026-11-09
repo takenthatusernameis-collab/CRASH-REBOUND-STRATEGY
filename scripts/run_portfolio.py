@@ -266,16 +266,25 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         # Mapping is positional: the engine appends the new position after
                         # the existing open positions in overlay order, so the first
                         # len(open_notionals) entries are the existing symbols and the
-                        # last entry is this admission. NEVER recompute an equal share
-                        # unconditionally — that tops up open positions to the cap even
-                        # when no cut fired, inflating reserved exposure and distorting
-                        # future admissions (spec: cuts only, never top-ups).
+                        # last entry is this admission (when still live). When the new
+                        # admission completes inside the probe (e.g. rebound-short terminal
+                        # resolves), post_notionals may contain only the existing positions'
+                        # (possibly cut) notionals — those cuts MUST still propagate
+                        # (equal-share cuts apply old+new; cuts never topped up). NEVER
+                        # recompute an equal share unconditionally — that tops up open
+                        # positions to the cap even when no cut fired.
                         post_notionals = list(getattr(probe_state, 'open_position_notionals', []) or [])
                         existing_syms = list(open_notionals.keys())
                         if post_notionals and len(post_notionals) >= len(existing_syms) + 1:
                             for _sym, _not in zip(existing_syms, post_notionals[:len(existing_syms)]):
                                 open_notionals[_sym] = float(_not)
                             open_notionals[symbol] = float(executed_notional)
+                        elif post_notionals and len(post_notionals) == len(existing_syms):
+                            # New admission completed in probe (no live notional remains for it),
+                            # but engine may have applied cap cuts to existing positions — propagate.
+                            for _sym, _not in zip(existing_syms, post_notionals):
+                                open_notionals[_sym] = float(_not)
+                            open_notionals[symbol] = min(executed_notional, cap_value)
                         else:
                             # Fallback: reserve this admission at its executed notional
                             # (capped); leave existing open positions unchanged.
