@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T04:27:12Z
+**Updated (UTC):** 2026-11-10T04:40:05Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -49,13 +49,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T04:27:12Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T04:40:05Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T04:27:12Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T04:40:05Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T04:27:12Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants; `git ls-files` confirms none). No stale `.lock` files outside `.git/`. Temp `research_state/.test_derive_vol_*` dirs are gitignored, not tracked, not bottlenecks. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.21s). Skips environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS VERIFIED CLEAN (2026-11-10T04:40:05Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants; `git ls-files` confirms none). No stale `.lock` files outside `.git/`. Temp `research_state/.test_derive_vol_*` dirs are gitignored, not tracked, not bottlenecks. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.28s). Skips environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 COMPLETED (CUMULATIVE, LOCKED):
   - #1 D residual consumer/provenance pairing — SHIPPED (2026-11-10T02:30:06Z): `test_verified_consumer_temp_manifest_cache_dir_pairing_20261110.py` (5 tests) all pass. Fail-closed provenance/consumer temp guards verified.
