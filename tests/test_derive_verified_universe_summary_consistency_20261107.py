@@ -77,9 +77,9 @@ def _manifest(tmp_path, candles, *, summary_all_complete, coverage_complete_flag
             }
         },
     }
-    mp = tmp_path / "manifest.json"
+    mp = Path(td.name) / "manifest.json"
     mp.write_text(json.dumps(manifest))
-    return mp, cache_dir, tmp_path / "universe.json", td
+    return mp, cache_dir, Path(td.name) / "universe.json", td
 
 
 class TestDeriveSummaryContradictionFailClosed:

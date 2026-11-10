@@ -143,21 +143,26 @@ def test_partial_not_evidence_never_sets_performance_evidence(tmp_path, monkeypa
         d.cleanup()
 
 
-def test_partial_not_evidence_refuses_without_complete_symbols(tmp_path, monkeypatch):
-    m = {
-        "fabricated_data": False,
-        "real_market_data_intended": True,
-        "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
-        "symbols": {
-            "BTC": {"status": "incomplete", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": 1, "gap_count": 0, "complete_for_target_window": False}},
-        },
-        "summary": {"all_complete": False},
-    }
-    mp = tmp_path / "p.json"
-    mp.write_text(json.dumps(m))
-    import scripts.run_real_campaign as rrc
-    monkeypatch.setattr(sys, "argv", ["run_real_campaign.py", "--manifest", str(mp), "--allow-partial-not-evidence", "--cache-dir", str(tmp_path)])
-    assert rrc.main() == 2
+def test_partial_not_evidence_refuses_without_complete_symbols(monkeypatch):
+    # Repo-local temp dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    with tempfile.TemporaryDirectory(dir=str(REPO_ROOT)) as d:
+        root = Path(d)
+        m = {
+            "fabricated_data": False,
+            "real_market_data_intended": True,
+            "target_window": {"start": TARGET_START, "end": TARGET_END, "expected_hourly_bars": EXP},
+            "symbols": {
+                "BTC": {"status": "incomplete", "coverage": {"expected_hourly_bars": EXP, "observed_in_window_bars": 1, "gap_count": 0, "complete_for_target_window": False}},
+            },
+            "summary": {"all_complete": False},
+        }
+        mp = root / "p.json"
+        mp.write_text(json.dumps(m))
+        import scripts.run_real_campaign as rrc
+        monkeypatch.setattr(sys, "argv", ["run_real_campaign.py", "--manifest", str(mp), "--allow-partial-not-evidence", "--cache-dir", str(root)])
+        assert rrc.main() == 2
 
 
 def test_complete_symbol_subset_filters_correctly():
@@ -199,11 +204,15 @@ def test_complete_symbol_subset_filters_correctly():
     assert list(sub["symbols"].keys()) == ["A"]
 
 
-def test_require_verified_provenance_accepts_complete(tmp_path):
-    p = _complete_manifest(tmp_path)
-    m = require_verified_provenance(p)
-    assert m["real_market_data_intended"] is True
-    assert m["symbols"]["BTC"]["coverage"]["complete_for_target_window"] is True
+def test_require_verified_provenance_accepts_complete():
+    # Repo-local temp dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    with tempfile.TemporaryDirectory(dir=str(REPO_ROOT)) as d:
+        p = _complete_manifest(Path(d))
+        m = require_verified_provenance(p)
+        assert m["real_market_data_intended"] is True
+        assert m["symbols"]["BTC"]["coverage"]["complete_for_target_window"] is True
 
 
 def test_ingest_archive_csv_normalizes_and_counts(tmp_path):

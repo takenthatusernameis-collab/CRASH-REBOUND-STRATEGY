@@ -87,9 +87,9 @@ class TestDeriveVerifiedUniverseReaderNoOptimisticVolumeLabel:
                     }
                 },
             }
-            mp = tmp_path / "manifest.json"
+            mp = Path(tmpd) / "manifest.json"
             mp.write_text(json.dumps(manifest))
-            out = tmp_path / "universe.json"
+            out = Path(tmpd) / "universe.json"
 
             monkeypatch.setattr(sys, "argv", [
                 "derive_verified_universe.py",

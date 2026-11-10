@@ -103,6 +103,24 @@ def _slippage_commission_per_share(price: float, config: StrategyConfig, side: s
     return price + slip + comm if side == "buy" else price - slip - comm
 
 
+def _close_or_fallback(candle: Dict[str, Any], fallback: float) -> float:
+    """Return the bar's close, falling back when the field is missing OR explicitly None.
+
+    Spec-fidelity: a candle whose close field is missing/None cannot be used as an
+    exit price. `dict.get(key, default)` only supplies the default when the key is
+    absent; an explicit None value passes through and later `float(None)` raises
+    TypeError mid-simulation. Normalize here so the engine fails closed to a safe
+    fallback (prior bar close / entry) instead of crashing on malformed input.
+    """
+    v = candle.get("close")
+    if v is None:
+        return float(fallback)
+    try:
+        return float(v)
+    except (TypeError, ValueError):
+        return float(fallback)
+
+
 def _apply_funding_pnl(notional: float, hours_held: float, funding_rate_pct_per_hour: float, side: str = 'long') -> float:
     """Funding cost/profit on a position.
     Convention: positive funding rate means longs pay shorts -> cost to long, benefit to short.
@@ -540,8 +558,8 @@ def backtest_simple(
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
-                    if (sidx - short_start_idx + 1) >= short_bars_max:
-                        sclose = sc.get('close', short_entry_px)
+if (sidx - short_start_idx + 1) >= short_bars_max:
+            sclose = _close_or_fallback(sc, short_entry_px)
                         short_exit = _slippage_commission_per_share(float(sclose), config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
@@ -574,7 +592,7 @@ def backtest_simple(
                 else:
                     # No break occurred - exit short at last available bar
                     last_sc = candles[-1]
-                    sclose = last_sc.get('close', short_entry_px)
+                    sclose = _close_or_fallback(last_sc, short_entry_px)
                     short_exit = _slippage_commission_per_share(float(sclose), config, 'buy', shares=short_shares)
                     short_pnl = (short_entry_px - short_exit) * short_shares
                     # Funding on rebound short coin leg (spec: hourly funding on every leg).
@@ -635,7 +653,7 @@ def backtest_simple(
             )
         # Time exit: hard cap on bars held per trade.
         if config.time_exit_max_bars and (idx - start_idx + 1) >= config.time_exit_max_bars:
-            exit_px = _slippage_commission_per_share(float(c.get('close', entry)), config, 'sell', shares=shares)
+            exit_px = _slippage_commission_per_share(_close_or_fallback(c, entry), config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             # Funding on the long coin leg (spec: hourly funding on every leg).
             hours_held_time = idx - start_idx + 1
@@ -679,10 +697,7 @@ def backtest_simple(
 
     # Time exit at last close.
     last = candles[-1]
-    exit_px = last.get('close', entry)
-    if exit_px is None:
-        exit_px = entry
-    exit_px = _slippage_commission_per_share(float(exit_px), config, 'sell', shares=shares)
+    exit_px = _slippage_commission_per_share(_close_or_fallback(last, entry), config, 'sell', shares=shares)
     pnl = (exit_px - entry_px) * shares
     # Funding on the long leg (spec: hourly funding on every leg).
     hours_held_final = len(candles) - start_idx

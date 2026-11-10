@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import tempfile
 from pathlib import Path
 
 import pytest
@@ -58,12 +59,15 @@ def test_provenance_rejects_gap():
     assert not ok
 
 
-def test_provenance_accepts_complete_verified_manifest(tmp_path):
-    m = _complete_manifest()
-    p = tmp_path / "provenance.json"
-    p.write_text(json.dumps(m))
-    out = require_verified_provenance(p)
-    assert out["real_market_data_intended"] is True
+def test_provenance_accepts_complete_verified_manifest():
+    # Repo-local temp dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+    # scratch tree, which the hardened temp-path provenance guard rejects as a
+    # source_path at the verified loader boundary.
+    with tempfile.TemporaryDirectory(dir=str(Path(__file__).resolve().parents[1])) as d:
+        p = Path(d) / "provenance.json"
+        p.write_text(json.dumps(_complete_manifest()))
+        out = require_verified_provenance(p)
+        assert out["real_market_data_intended"] is True
 
 
 def test_expected_hourly_bars_target_window():

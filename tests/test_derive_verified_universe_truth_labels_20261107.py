@@ -53,7 +53,13 @@ def _run(argv, monkeypatch):
 
 class TestDeriveRejectsSyntheticManifestSymbols:
     def _setup(self, tmp_path, *, symbol_status="error", synthetic=True, candles=None, summary_all_complete=False):
-        cache_dir = tmp_path / "cache"
+        # Repo-local fixture dir: pytest tmp_path lives under the harness _temp/kilo-tmp
+        # scratch tree, which the hardened temp-path guard rejects as unverified
+        # provenance evidence. Verified cache shapes must live repo-LOCAL. The caller
+        # must hold the returned TemporaryDirectory alive until the derivation finishes.
+        import tempfile
+        td = tempfile.TemporaryDirectory(dir=str(Path(__file__).resolve().parents[1]))
+        cache_dir = Path(td.name) / "cache"
         candles_dir = cache_dir / "candles"
         candles_dir.mkdir(parents=True)
         (candles_dir / "BTC.json").write_text(json.dumps(candles or _varied_candles()))
@@ -70,12 +76,12 @@ class TestDeriveRejectsSyntheticManifestSymbols:
                 }
             },
         }
-        mp = tmp_path / "manifest.json"
+        mp = Path(td.name) / "manifest.json"
         mp.write_text(json.dumps(manifest))
-        return mp, cache_dir, tmp_path / "universe.json"
+        return mp, cache_dir, Path(td.name) / "universe.json", td
 
     def test_non_require_complete_does_not_select_synthetic_manifest_symbol(self, tmp_path, monkeypatch):
-        mp, cache_dir, out = self._setup(tmp_path, symbol_status="error", synthetic=True)
+        mp, cache_dir, out, _tmpd = self._setup(tmp_path, symbol_status="error", synthetic=True)
         rc = _run(["derive_verified_universe.py", "--manifest", str(mp), "--cache-dir", str(cache_dir), "--output", str(out)], monkeypatch)
         assert out.exists() or rc == 0
         if out.exists():
@@ -84,7 +90,7 @@ class TestDeriveRejectsSyntheticManifestSymbols:
             assert d.get("real_market_data") is False
 
     def test_runtime_flat_candles_excluded_even_if_manifest_claims_ok(self, tmp_path, monkeypatch):
-        mp, cache_dir, out = self._setup(tmp_path, symbol_status="ok", synthetic=False, candles=_flat_candles(), summary_all_complete=False)
+        mp, cache_dir, out, _tmpd = self._setup(tmp_path, symbol_status="ok", synthetic=False, candles=_flat_candles(), summary_all_complete=False)
         # manifest lies (says non-synthetic) but runtime candles are flat
         rc = _run(["derive_verified_universe.py", "--manifest", str(mp), "--cache-dir", str(cache_dir), "--output", str(out)], monkeypatch)
         if out.exists():
@@ -93,14 +99,14 @@ class TestDeriveRejectsSyntheticManifestSymbols:
             assert d.get("real_market_data") is False
 
     def test_incomplete_coverage_not_selected(self, tmp_path, monkeypatch):
-        mp, cache_dir, out = self._setup(tmp_path, symbol_status="incomplete", synthetic=False)
+        mp, cache_dir, out, _tmpd = self._setup(tmp_path, symbol_status="incomplete", synthetic=False)
         _run(["derive_verified_universe.py", "--manifest", str(mp), "--cache-dir", str(cache_dir), "--output", str(out)], monkeypatch)
         if out.exists():
             d = json.loads(out.read_text())
             assert "BTC" not in (d.get("selected_symbols") or []), d
 
     def test_real_market_data_never_true_without_complete_verified_non_synthetic_source(self, tmp_path, monkeypatch):
-        mp, cache_dir, out = self._setup(tmp_path, symbol_status="ok", synthetic=False, candles=_varied_candles(), summary_all_complete=False)
+        mp, cache_dir, out, _tmpd = self._setup(tmp_path, symbol_status="ok", synthetic=False, candles=_varied_candles(), summary_all_complete=False)
         # even if symbol looks ok locally, summary_all_complete false means manifest not fully verified complete
         _run(["derive_verified_universe.py", "--manifest", str(mp), "--cache-dir", str(cache_dir), "--output", str(out)], monkeypatch)
         if out.exists():
