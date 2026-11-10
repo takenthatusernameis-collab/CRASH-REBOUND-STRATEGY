@@ -1,13 +1,13 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T10:49:41Z
+**Updated (UTC):** 2026-11-10T10:51:10Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `__pycache__`/compiled artifacts are not evidence.
 
-## SESSION AUDIT (2026-11-10T10:49:41Z) — GATE RE-VERIFIED, HEAVY CAMPAIGN ARMED
+## SESSION AUDIT (2026-11-10T10:51:10Z) — BOTTLENECKS CLEARED, HEAVY CAMPAIGN ARMED
 - **Repo identity/priorities (drives all work):** CRASH-REBOUND-STRATEGY — crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Never claim 20s slicing, spread/L2/order-book impact.
-- **Bottlenecks checked/cleared this session:** only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants found outside tracked implementation files `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py`). No stale `*.lock` outside `.git/`. Git working tree clean aside from this handoff refresh. `research_state/gap_analysis.md` is historical/partially stale — **verify against code+tests before acting; do not treat as current truth**.
+- **Bottlenecks checked/cleared:** only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants outside tracked implementation files `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py`). No stale `*.lock` outside `.git/`. No contradictory canonical artifacts; working tree clean aside from this handoff refresh. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical — **verify against code+tests before acting; never treat as current truth or performance evidence**.
 - **Contract/evidence spot-check:** `require_eth_hedge` fail-closed threaded in `src/backtest/engine.py`, `scripts/run_portfolio.py::run_portfolio_simulation(..., require_eth_hedge=False)` (propagates/re-raises `Spec-compliant ETH hedge required`), and `scripts/run_real_campaign.py` (`require_eth_hedge=bool(config.enable_eth_hedge)`).
-- **GATE (re-verified this session):** **711 passed, 0 failed, 12 skipped** at 2026-11-10T10:49:41Z via `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (skips: `pyarrow` not installed). CI `.github/workflows/strategy-tests.yml`.
-- **Canonical real-data gate (FAIL-CLOSED):** real 283d Hyperliquid BTC/ETH candles UNAVAILABLE/UNVERIFIED here; verified cache/archive placeholders (`candle_coverage_gap_report_verified_btceth_283d.json` blocked/synthetic; `universe_verified.json` empty/manifest_status:error). Real-campaign ingestion/runners must reject — **never fabricate numbers/artifacts or cite placeholders as spec evidence**. No blocker prevents code/test hardening now.
+- **GATE (last verified 2026-11-10T10:49:41Z, re-verify first action):** **711 passed, 0 failed, 12 skipped** via `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (skips: `pyarrow` not installed). CI `.github/workflows/strategy-tests.yml`. Fix immediately if broken.
+- **Canonical real-data gate (FAIL-CLOSED):** real 283d Hyperliquid BTC/ETH candles UNAVAILABLE/UNVERIFIED here; `candle_coverage_gap_report_verified_btceth_283d.json` blocked/synthetic, `universe_verified.json` empty/manifest_status:error. Real-campaign ingestion/runners must reject — **never fabricate numbers/artifacts or cite placeholders as spec evidence**. No blocker prevents code/test hardening now.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED, NOT STALE GAP CLAIMS)
 `research_state/gap_analysis.md` is historical/partially stale; verify against code+tests before acting.
@@ -48,13 +48,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T10:49:41Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T10:51:10Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T10:49:41Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T10:51:10Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T10:49:41Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants; tracked `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py` are implementation/test files, not handoffs). No stale `*.lock` outside `.git/`. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests, never treat as current truth. `require_eth_hedge` fail-closed confirmed threaded in `src/backtest/engine.py`, `scripts/run_portfolio.py` (propagate/re-raise), `scripts/run_real_campaign.py` (gated real path). Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate/cite placeholder results. If any blocker appears (duplicate handoff, stale lock, broken gate, contradictory canonical artifact), fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS CLEARED (2026-11-10T10:51:10Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants exist; `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py` are implementation/test, not handoffs). No stale `*.lock` outside `.git/`. No contradictory canonical artifacts. `research_state/gap_analysis.md` and `campaign_artifact_provenance_erratum.md` are historical — verify against code+tests, never treat as current truth or performance evidence. `require_eth_hedge` fail-closed confirmed threaded in `src/backtest/engine.py`, `scripts/run_portfolio.py` (propagate/re-raise), `scripts/run_real_campaign.py` (gated real path). Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate/cite placeholder results. If any blocker appears (duplicate handoff, stale lock, broken gate, contradictory canonical artifact), fix it FIRST with failing-tests-first evidence.
 
 GATE (BLOCKING FIRST ACTION): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → expect **711 passed, 0 failed, 12 skipped** (last verified 2026-11-10T10:49:41Z; skips: `pyarrow` only). Fix FIRST if broken.
 
