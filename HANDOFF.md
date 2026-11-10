@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T03:23:32Z
+**Updated (UTC):** 2026-11-10T03:31:16Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -49,13 +49,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T03:23:32Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T03:31:16Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T03:23:32Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T03:31:16Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T03:23:32Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants; `git ls-files` confirms none). No stale `.lock` files outside `.git/`. Temp `research_state/.test_derive_vol_*` dirs are gitignored, not tracked, not bottlenecks. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.21s). Skips environmental: `pyarrow` not installed. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS VERIFIED CLEAN (2026-11-10T03:31:16Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants; `git ls-files` confirms none). No stale `.lock` files outside `.git/`. Temp `research_state/.test_derive_vol_*` dirs are gitignored, not tracked, not bottlenecks. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.21s). Skips environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 COMPLETED THIS SESSION (2026-11-10T03:23:32Z):
   - BOTTLENECK VERIFIED CLEAN: no duplicate handoffs, no stale locks, temp dirs gitignored.
@@ -67,8 +67,8 @@ HEAVY-WORK GUARANTEE (ENFORCED): you MUST ship >=1 MATERIAL item with concrete e
 
 MANDATORY HEAVY CAMPAIGN (strict order):
 1) GATE (BLOCKING): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → 706 passed, 0 failed, 12 skipped. Fix FIRST if broken.
-2) #3 PRIORITY — NEXT MATERIAL GUARDRAIL (MATERIAL, failing-tests-first): rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift in untouched path. Write a FAILING regression test for an uncovered spec path with concrete expected values, then fix it. Key files: `src/backtest/engine.py`, `src/strategy/risk.py`, `src/strategy/crash_rebound.py`. (#1 and #2 are SHIPPED — do not reopen without concrete failing defect.)
-3) If #3 exhausted with concrete attempts, ship another MATERIAL guardrail with failing-tests-first proof. NO IDLE.
+2) #3 NEXT MATERIAL GUARDRAIL (MATERIAL, failing-tests-first): rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift in untouched path. Write a FAILING regression test for an uncovered spec path with concrete expected values, then fix it. Key files: `src/backtest/engine.py`, `src/strategy/risk.py`, `src/strategy/crash_rebound.py`. (#1 and #2 are SHIPPED — do not reopen without concrete failing defect.)
+3) If #3 exhausted with concrete attempts, ship another MATERIAL guardrail with failing-tests-first proof. Candidate HIGH-impact unfixed spec gaps from `research_state/gap_analysis.md`: (a) crash trigger alignment — RSI(21)<20 on coins >=$5M 24h vol vs current price-drop trigger (`src/strategy/crash_rebound.py`); (b) position sizing per order book — 1.25% of coin's 24h volume with equal-share cuts under 120% cap (`src/strategy/risk.py`, `scripts/run_portfolio.py`). NO IDLE.
 4) FINAL GATE: `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Report exact count.
 5) UPDATE ONLY root `HANDOFF.md`: timestamp, exact commands/results, files changed, shipped material item(s)+concrete evidence, remaining risks, new timestamped heavy initial task. No other handoff files.
 
