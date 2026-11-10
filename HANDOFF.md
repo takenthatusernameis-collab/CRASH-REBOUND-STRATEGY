@@ -1,11 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T07:47:10Z
+**Updated (UTC):** 2026-11-10T08:35:12Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## SESSION AUDIT (2026-11-10T07:47:10Z) — BOTTLENECKS CLEARED
+## SESSION AUDIT (2026-11-10T08:35:12Z) — BOTTLENECKS CLEARED
 - **Repo identity/priorities:** crash-rebound strategy execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Do not claim 20s slicing, spread/L2/order-book impact.
 - **Bottlenecks:** none found. Only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. `git status --porcelain --untracked-files=all` clean at audit.
-- **GATE VERIFIED (BLOCKING):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (29.33s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
+- **GATE VERIFIED (BLOCKING):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.75s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
 - **Canonical real-data gate (FAIL-CLOSED):** real 283d Hyperliquid BTC/ETH candles UNAVAILABLE/UNVERIFIED in this environment; verified cache/archive flat placeholders. Real-campaign ingestion/runners must reject — **never fabricate numbers/artifacts or cite placeholders as spec evidence**.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED, NOT STALE GAP CLAIMS)
@@ -49,13 +49,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T07:47:10Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T08:35:12Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T07:47:10Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T08:35:12Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T07:47:10Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. `git status --porcelain --untracked-files=all` clean at audit. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (29.33s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS VERIFIED CLEAN (2026-11-10T08:35:12Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. `git status --porcelain --untracked-files=all` clean at audit. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.75s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 COMPLETED (CUMULATIVE, LOCKED — do not reopen without concrete failing defect keeping ALL anchors green): Priority A/B, 2a/e, 2b engine 6 cross-leg cells, commission_min parity, completing-probe reservation cut propagation, 2026-11-09T17:10:55Z mixed-target batch-cut equal-share, all reservation/max_live/cap-cut locks in HANDOFF (incl. 4-candidate mixed-terminal max_live inflation lock). Latent interpretation: actual max_live can exceed entry-notional cap at pressure points while reservations record entry-notional cap — do NOT "fix" without concrete failing defect preserving all anchors. #1 `tests/test_verified_consumer_temp_manifest_cache_dir_pairing_20261110.py`; #2 `tests/test_engine_missing_candle_field_stop_comparison_20261110.py`; engine cap-cut no-top-up fix+test. D guardrails/temp-cache-provenance guards shipped.
 
@@ -70,7 +70,7 @@ MANDATORY HEAVY CAMPAIGN (strict order, execute all):
    b) **Uncovered ETH-hedge correctness cell:** choose a concrete uncovered combination (e.g. long liquidation/stop/target/time-exit or rebound-short liquidation/stop/time-exit with ETH hedge present, cap-cut + commission_min + hedge sizing using `eth_candles[:idx+1]`, same-bar aligned entry, funding on hedge leg) and either prove correct with failing-tests-first regression lock (concrete expected values traced from engine math) or fix a found defect.
    Keys: `src/backtest/engine.py`, `src/strategy/risk.py`/`crash_rebound.py` (`compute_eth_hedge_size`), `scripts/run_portfolio.py`, `scripts/run_real_campaign.py`.
 3) If (2) fully exhausted with concrete documented attempts, ship another MATERIAL guardrail from remaining HIGH-impact unfixed gaps (failing-tests-first): spec-compliant $5M 24h volume / 1.25% sizing enforcement (no bypass in gated paths), RSI-trigger deepest-first admission/ordering edge cases, or uncovered funding/liquidation correctness on any leg/exit — with concrete expected values. NO IDLE.
-4) FINAL GATE: `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Report exact count.
+4) FINAL GATE: `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Report exact count (expect 706 passed, 12 skipped).
 5) UPDATE ONLY root `HANDOFF.md`: timestamp, exact commands/results, files changed, shipped material item(s)+concrete evidence, remaining risks, new timestamped heavy initial task. No other handoff files.
 
 SPEC NON-NEGOTIABLES (never regress): hourly funding on every leg/exit (coin long/short, ETH hedge short/long); hourly liquidation worst price correct sequencing/notional/timing/penalty; stopped buy never opens rebound short; 8x safety stop `entry*(1-8*avg(hourly high-low/prev_close over 14h))`; rebound `-9%/48h/+40%` anchored to executed short entry (slippage/commission-aware); ETH hedge every leg (336h vol ratio, cap 3x), hedge sizing uses `eth_candles[:idx+1]`, entry aligned to same bar idx (no look-ahead); RSI(21)<20 next open deepest-first in spec path; `$5M` 24h volume in all spec-compliant gating paths (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` non-spec fixture only); equal-share cuts old+new across 120% gross cap (cuts only, never top-up); one position/coin; strict no-look-ahead. Fail-closed on missing provenance/verification for real paths.
