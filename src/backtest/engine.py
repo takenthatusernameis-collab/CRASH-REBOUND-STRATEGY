@@ -558,8 +558,8 @@ def backtest_simple(
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
-if (sidx - short_start_idx + 1) >= short_bars_max:
-            sclose = _close_or_fallback(sc, short_entry_px)
+                    if (sidx - short_start_idx + 1) >= short_bars_max:
+                        sclose = _close_or_fallback(sc, short_entry_px)
                         short_exit = _slippage_commission_per_share(float(sclose), config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
