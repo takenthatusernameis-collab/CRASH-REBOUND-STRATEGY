@@ -712,15 +712,19 @@ def backtest_simple(
                 funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
                 hedge_pnl_total -= funding_cost
                 hedge_info['exit'] = hedge_exit_px
+            total_pnl_result = pnl + hedge_pnl_total
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
             if risk_state is not None:
                 try:
                     _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
                 except Exception:
                     _not = 0.0
-                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
+                # Spec/portfolio attribution: risk_state realizes the full leg
+                # settlement (coin + hedge) on close, consistent with other exits.
+                risk_state.apply_trade(str(c.get('timestamp', '')), total_pnl_result, opened=False, closed=True, notional=_not)
+            trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'time_exit'})
             return TradeResult(
-                pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
+                pnl=pnl, r_multiple=r_mult, exit_reason='time_exit',
                 entry_price=entry_px, exit_price=exit_px, shares=shares,
                 bars_held=idx - start_idx + 1,
                 entry_timestamp=entry_timestamp,
@@ -731,7 +735,7 @@ def backtest_simple(
                 hedge_size=hedge_info['size'],
                 hedge_entry=hedge_info['entry'],
                 hedge_exit=hedge_info['exit'],
-                total_pnl=pnl + hedge_pnl_total,
+                total_pnl=total_pnl_result,
             )
 
     # Time exit at last close.
@@ -757,15 +761,19 @@ def backtest_simple(
         funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
         hedge_pnl_total -= funding_cost
         hedge_info['exit'] = hedge_exit_px
+    total_pnl_result = pnl + hedge_pnl_total
     r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
     if risk_state is not None:
         try:
             _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
         except Exception:
             _not = 0.0
-        risk_state.apply_trade(str(last.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
+        # Spec/portfolio attribution: risk_state realizes the full leg settlement
+        # (coin + hedge) on close, consistent with other exits.
+        risk_state.apply_trade(str(last.get('timestamp', '')), total_pnl_result, opened=False, closed=True, notional=_not)
+    trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'time_exit'})
     return TradeResult(
-        pnl=pnl + hedge_pnl_total, r_multiple=r_mult, exit_reason='time_exit',
+        pnl=pnl, r_multiple=r_mult, exit_reason='time_exit',
         entry_price=entry_px, exit_price=exit_px, shares=shares,
         bars_held=len(candles) - start_idx,
         entry_timestamp=entry_timestamp,
@@ -776,5 +784,5 @@ def backtest_simple(
         hedge_size=hedge_info['size'],
         hedge_entry=hedge_info['entry'],
         hedge_exit=hedge_info['exit'],
-        total_pnl=pnl + hedge_pnl_total,
+        total_pnl=total_pnl_result,
     )
