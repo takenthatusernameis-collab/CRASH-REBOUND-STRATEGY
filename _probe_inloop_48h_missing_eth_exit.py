@@ -1,5 +1,7 @@
-"""Trace in-loop 48h TIME_EXIT with NO aligned ETH bar at exit index (fallback path)."""
-from __future__ import annotations
+"""Probe: rebound-short in-loop 48h TIME_EXIT with NO aligned ETH bar at exit index
+(ETH series truncated: sidx >= len(eth_candles) -> fallback to hedge entry raw).
+Traces fills/PnL/max_live, risk_state settlement, funding-on/off delta.
+"""
 from src.backtest.engine import backtest_simple
 from src.strategy.config import StrategyConfig
 from src.strategy.crash_rebound import Signal
@@ -10,11 +12,11 @@ def _c(ts, o, h, l, c, v=10_000_000.0):
     return {"timestamp": ts, "open": o, "high": h, "low": l, "close": c, "volume": v}
 
 
-def _cfg(fr=0.01):
+def _cfg(rate=0.01):
     return StrategyConfig(
         enable_eth_hedge=True, enable_rebound_short=True, entry_next_bar=True,
         avoid_downtrend=False, slippage_pct=0.0, commission_per_share=0.0,
-        commission_min=1.0, funding_rate_pct_per_hour=fr,
+        commission_min=1.0, funding_rate_pct_per_hour=rate,
         min_daily_volume_usd=0.0, time_exit_max_bars=200,
         enable_liquidation_checks=False,
         liquidation_maint_margin_pct=5.0, liquidation_buffer_pct=1.0,
@@ -37,20 +39,19 @@ def _candles():
     coin[8] = _c("e8", 100.0, 110.0, 99.5, 109.0)
     for i in range(9, n):
         coin[i] = _c(f"s{i}", 108.0, 115.0, 100.0, 107.0)
-    # ETH: aligned at entry idx8, but SHORTER series so sidx(56) >= len(eth)
     eth = [_c(f"e{i}", 2000.0, 2020.0, 1980.0, 2000.0) for i in range(n)]
     eth[6] = _c("e6", 2000.0, 2010.0, 1990.0, 2000.0)
     eth[8] = _c("e8", 2000.0, 2030.0, 1995.0, 2025.0)
     for i in range(9, n):
         eth[i] = _c(f"eh{i}", 2030.0, 2050.0, 2020.0, 2040.0)
-    # Truncate ETH to 55 bars: in-loop 48h exit at sidx=55 is MISSING -> fallback to hedge entry
-    eth = eth[:55]
-    return coin, eth
+    # 48h break fires at sidx=55 (short_start_idx=8, 8+48-1=55). Truncate ETH to
+    # 55 bars (0..54) so sidx=55 >= len(eth) -> fallback to hedge entry raw.
+    eth_short = eth[:55]
+    return coin, eth_short
 
 
 def main():
     coin, eth = _candles()
-    print("len(coin)=", len(coin), "len(eth)=", len(eth))
     sig = _sig(600.0)
 
     rs_on = DailyRiskState()
@@ -58,31 +59,34 @@ def main():
     rs_off = DailyRiskState()
     res_off = backtest_simple(coin, sig, config=_cfg(0.0), risk_state=rs_off, capital=100000.0, eth_candles=eth)
 
+    print("=== ON (funding) ===")
     print("exit_reason:", res_on.exit_reason)
-    print("exit_timestamp:", res_on.exit_timestamp)
-    print("bars_held:", res_on.bars_held)
+    print("exit_timestamp:", res_on.exit_timestamp, "bars_held:", res_on.bars_held)
     print("trades:", [(t["side"], t["reason"], t["entry"], t["exit"], t["pnl"]) for t in res_on.trades])
+    print("long leg:", res_on.trades[0] if res_on.trades else None)
+    print("short leg:", res_on.trades[1] if len(res_on.trades) > 1 else None)
     print("rebound_hedge_side:", res_on.rebound_hedge_side)
-    print("rebound_hedge_size:", res_on.rebound_hedge_size)
-    print("rebound_hedge_entry:", res_on.rebound_hedge_entry)
-    print("rebound_hedge_exit:", res_on.rebound_hedge_exit)
-    print("rebound_hedge_pnl:", res_on.rebound_hedge_pnl)
-    print("hedge_pnl:", res_on.hedge_pnl)
-    print("max_live_coin_notional:", res_on.max_live_coin_notional)
-    print("total_pnl(on):", res_on.total_pnl)
-    print("total_pnl(off):", res_off.total_pnl)
-    print("total_pnl delta:", res_on.total_pnl - res_off.total_pnl)
-    print("--- risk_state ON ---")
-    print("realized_pnl:", rs_on.realized_pnl)
-    print("open_positions:", rs_on.open_positions)
-    print("gross_exposure:", rs_on.gross_exposure)
-    print("open_position_notionals:", rs_on.open_position_notionals)
-    print("--- risk_state OFF ---")
-    print("realized_pnl:", rs_off.realized_pnl)
-    print("open_positions:", rs_off.open_positions)
-    print("gross_exposure:", rs_off.gross_exposure)
-    print("open_position_notionals:", rs_off.open_position_notionals)
-    print("realized delta:", rs_on.realized_pnl - rs_off.realized_pnl)
+    print("rebound_hedge_size:", repr(res_on.rebound_hedge_size))
+    print("rebound_hedge_entry:", repr(res_on.rebound_hedge_entry))
+    print("rebound_hedge_exit:", repr(res_on.rebound_hedge_exit))
+    print("rebound_hedge_pnl:", repr(res_on.rebound_hedge_pnl))
+    print("hedge_pnl:", repr(res_on.hedge_pnl))
+    print("max_live_coin_notional:", repr(res_on.max_live_coin_notional))
+    print("pnl:", repr(res_on.pnl), "total_pnl:", repr(res_on.total_pnl))
+    print("rs_on.realized_pnl:", repr(rs_on.realized_pnl))
+    print("rs_on.open_positions:", rs_on.open_positions, "gross_exposure:", repr(rs_on.gross_exposure))
+    print("rs_on.open_position_notionals:", rs_on.open_position_notionals)
+
+    print("\n=== OFF (no funding) ===")
+    print("exit_reason:", res_off.exit_reason)
+    print("total_pnl:", repr(res_off.total_pnl))
+    print("short leg:", res_off.trades[1] if len(res_off.trades) > 1 else None)
+    print("rebound_hedge_exit:", repr(res_off.rebound_hedge_exit), "rebound_hedge_pnl:", repr(res_off.rebound_hedge_pnl))
+    print("rs_off.realized_pnl:", repr(rs_off.realized_pnl))
+
+    print("\n=== DELTAS ===")
+    print("total_pnl delta:", repr(res_on.total_pnl - res_off.total_pnl))
+    print("realized_pnl delta:", repr(rs_on.realized_pnl - rs_off.realized_pnl))
 
 
 if __name__ == "__main__":
