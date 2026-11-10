@@ -1,12 +1,12 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T10:40:18Z
+**Updated (UTC):** 2026-11-10T10:43:06Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## SESSION AUDIT (2026-11-10T10:40:18Z) — BOTTLENECKS CLEARED, HEAVY CAMPAIGN ARMED
+## SESSION AUDIT (2026-11-10T10:43:06Z) — GATE RE-VERIFIED, HEAVY CAMPAIGN ARMED
 - **Repo identity/priorities (drives all work):** CRASH-REBOUND-STRATEGY — crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Never claim 20s slicing, spread/L2/order-book impact.
-- **Bottlenecks checked/cleared this session:** only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT/handoff variants found outside tracked implementation files `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py`). No stale `*.lock` outside `.git/`. Git working tree clean aside from this handoff refresh (no competing/canonical-contradicting artifacts). `research_state/gap_analysis.md` is historical/partially stale (documents old RSI/hedge/sizing gaps) — **verify against code+tests before acting; do not treat as current truth**.
+- **Bottlenecks checked/cleared this session:** only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT/handoff variants found outside tracked implementation files `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py`). No stale `*.lock` outside `.git/`. Git working tree clean aside from this handoff refresh. `research_state/gap_analysis.md` is historical/partially stale — **verify against code+tests before acting; do not treat as current truth**.
 - **Contract/evidence spot-check:** `require_eth_hedge` fail-closed threaded in `src/backtest/engine.py`, `scripts/run_portfolio.py::run_portfolio_simulation(..., require_eth_hedge=False)` (propagates/re-raises `Spec-compliant ETH hedge required`), and `scripts/run_real_campaign.py` (`require_eth_hedge=bool(config.enable_eth_hedge)`).
-- **GATE (carried-forward, re-verify before material changes):** last verified **711 passed, 0 failed, 12 skipped** at 2026-11-10T10:36:44Z via `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (skips: `pyarrow` not installed). CI `.github/workflows/strategy-tests.yml`.
+- **GATE (re-verified this session):** **711 passed, 12 skipped** at 2026-11-10T10:43:06Z via `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` (skips: `pyarrow` not installed). CI `.github/workflows/strategy-tests.yml`.
 - **Canonical real-data gate (FAIL-CLOSED):** real 283d Hyperliquid BTC/ETH candles UNAVAILABLE/UNVERIFIED here; verified cache/archive placeholders (`candle_coverage_gap_report_verified_btceth_283d.json` blocked/synthetic; `universe_verified.json` empty/manifest_status:error). Real-campaign ingestion/runners must reject — **never fabricate numbers/artifacts or cite placeholders as spec evidence**. No blocker prevents code/test hardening now.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED, NOT STALE GAP CLAIMS)
@@ -17,7 +17,8 @@
 - **Do not reopen locked anchors without a concrete failing defect that keeps ALL anchors green:** Priority A/B, 2a/e, 2b engine 6 cross-leg cells, commission_min parity, completing-probe reservation cut propagation, 2026-11-09T17:10:55Z mixed-target batch-cut equal-share, all reservation/max_live/cap-cut locks. Known locked interpretation: actual `max_live_coin_notional` can exceed entry-notional cap at pressure points while reservations record entry-notional cap.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD — LOCKED)
-- **2026-11-10T10:40:18Z (AUDIT/NO-BOTTLENECK REFRESH):** Re-audited repo (files, git status, lock scan). Single durable root `HANDOFF.md` only; no stale `*.lock` outside `.git/`; no contradictory canonical handoff artifacts. Refreshed handoff with explicit mandatory heavy campaign; no code/test changes shipped this session (audit-only).
+- **2026-11-10T10:43:06Z (AUDIT/NO-BOTTLENECK REFRESH + GATE RE-VERIFY):** Re-audited repo (files, git status, lock scan). Single durable root `HANDOFF.md` only; no stale `*.lock` outside `.git/`; no contradictory canonical handoff artifacts. Gate re-verified: 711 passed, 12 skipped. Refreshed handoff with explicit mandatory heavy campaign; no code/test changes shipped this session (audit-only).
+- **2026-11-10T10:40:18Z (AUDIT/NO-BOTTLENECK REFRESH):** Re-audited repo (files, git status, lock scan). Single durable root `HANDOFF.md` only; no stale `*.lock` outside `.git/`; no contradictory canonical handoff artifacts.
 - **2026-11-10T10:36:44Z:** Handoff audit/bottleneck clear; gate 711/0/12 re-verified.
 - **2026-11-10T08:45:45Z (MATERIAL):** Spec-compliant ETH-hedge fail-closed in portfolio/real-gated path — `scripts/run_portfolio.py` + `scripts/run_real_campaign.py`, tests `tests/test_portfolio_spec_eth_hedge_fail_closed_20261110.py` (5), contract-preserving alignments in `tests/test_session_hardening_portfolio_20261106.py` and `tests/test_volume_gating_boundary_audit_20261107.py`.
 - **2026-11-10T03:23:32Z:** `tests/test_engine_missing_candle_field_stop_comparison_20261110.py` (3), fail-closed `_close_or_fallback` at long/rebound stop+target in `src/backtest/engine.py`.
@@ -47,15 +48,15 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T10:40:18Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T10:43:06Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T10:40:18Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T10:43:06Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T10:40:18Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants; tracked `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py` are implementation/test files, not handoffs). No stale `*.lock` outside `.git/`. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests, never treat as current truth. `require_eth_hedge` fail-closed confirmed threaded in `src/backtest/engine.py`, `scripts/run_portfolio.py` (propagate/re-raise), `scripts/run_real_campaign.py` (gated real path). Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate/cite placeholder results. If any blocker appears (duplicate handoff, stale lock, broken gate, contradictory canonical artifact), fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS VERIFIED CLEAN (2026-11-10T10:43:06Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants; tracked `scripts/controller_progress.py` + `tests/test_controller_progress_accounting.py` are implementation/test files, not handoffs). No stale `*.lock` outside `.git/`. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests, never treat as current truth. `require_eth_hedge` fail-closed confirmed threaded in `src/backtest/engine.py`, `scripts/run_portfolio.py` (propagate/re-raise), `scripts/run_real_campaign.py` (gated real path). Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate/cite placeholder results. If any blocker appears (duplicate handoff, stale lock, broken gate, contradictory canonical artifact), fix it FIRST with failing-tests-first evidence.
 
-GATE (BLOCKING FIRST ACTION): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → expect **711 passed, 0 failed, 12 skipped** (last verified 2026-11-10T10:36:44Z; skips: `pyarrow` only). Fix FIRST if broken.
+GATE (BLOCKING FIRST ACTION): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → expect **711 passed, 0 failed, 12 skipped** (last verified 2026-11-10T10:43:06Z; skips: `pyarrow` only). Fix FIRST if broken.
 
 LAST SHIPPED (2026-11-10T08:45:45Z, MATERIAL, do not reopen without concrete failing defect): spec-compliant ETH-hedge fail-closed in portfolio/real-gated path — `scripts/run_portfolio.py::run_portfolio_simulation(..., require_eth_hedge=False)` propagates to `backtest_simple` and re-raises `Spec-compliant ETH hedge required`; `scripts/run_real_campaign.py` passes `require_eth_hedge=bool(config.enable_eth_hedge)`. Tests: `tests/test_portfolio_spec_eth_hedge_fail_closed_20261110.py` (5).
 
