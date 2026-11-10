@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T05:52:49Z
+**Updated (UTC):** 2026-11-10T07:22:35Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -39,6 +39,10 @@
 - **BOTTLENECK AUDIT + GATE RE-VERIFIED (no blockers found):** repo identity/priorities reconfirmed (CRASH-REBOUND-STRATEGY; spec truth `crash-rebound-strategy.pdf` + `research_state/strategy_spec.md`). Only root `HANDOFF.md` is durable; no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT durable variants found (`scripts/controller_progress.py` and test filenames only). No stale `.lock` outside `.git/`. `git status --porcelain --untracked-files=all` clean. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.19s). Skips environmental only: `pyarrow` not installed. Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED (fail-closed) — never fabricated/cited.
 - **INITIAL TASK REFRESHED (SINGLE DURABLE HANDOFF):** next-session message timestamped/strengthened to mandate heavy #3 campaign (rebound 48h/funding/ETH-divergence/anchor-drift in untouched combos, failing-tests-first) with concrete probes and strict no-idle fallback to high-impact `research_state/gap_analysis.md` gaps. No parallel handoff files created.
 
+## SHIPPED THIS SESSION (2026-11-10T07:22:35Z)
+- **BOTTLENECK AUDIT + GATE RE-VERIFIED (no blockers found):** repo identity/priorities reconfirmed (CRASH-REBOUND-STRATEGY; spec truth `crash-rebound-strategy.pdf` + `research_state/strategy_spec.md`). Only root `HANDOFF.md` is durable; no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT durable variants found (`scripts/controller_progress.py` and test filenames only). No stale `.lock` outside `.git/`. `git status --porcelain --untracked-files=all` clean. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (30.58s). Skips environmental only: `pyarrow` not installed. Real 283d Hyperliquid BTC/ETH data remains UNAVAILABLE/UNVERIFIED (fail-closed) — never fabricated/cited.
+- **SINGLE DURABLE HANDOFF REFRESHED:** timestamp updated to 2026-11-10T07:22:35Z; initial task/message strengthened to mandate heavy #3 campaign (rebound 48h/funding/ETH-divergence/anchor-drift in untouched combos, failing-tests-first) with concrete probes and strict no-idle fallback to high-impact `research_state/gap_analysis.md` gaps. No parallel handoff files created.
+
 ## REMAINING RISKS / HEAVY FOCUS CAMPAIGN (EVIDENCE-BACKED)
 - **Data integrity (BLOCKED by environment, fail-closed):** real 283d Hyperliquid candles unavailable/unverified here. Never fabricate.
 - **LOCKED (do not reopen without concrete failing defect):** Priority A/B; 2a/e; 2b engine 6 cross-leg cells; commission_min parity; completing-probe reservation cut propagation; 2026-11-09T17:10:55Z mixed-target batch-cut equal-share; all reservation/max_live locks listed above. Latent max_live > entry-notional at pressure points is a known locked interpretation in existing tests — changing it requires a concrete failing defect that keeps ALL these anchors green.
@@ -61,13 +65,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T05:52:49Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T07:22:35Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T05:52:49Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T07:22:35Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T05:52:49Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. `git status` clean. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (34.19s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS VERIFIED CLEAN (2026-11-10T07:22:35Z): only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. `git status` clean. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **706 passed, 0 failed, 12 skipped** (30.58s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 COMPLETED (CUMULATIVE, LOCKED):
   - #1 D residual consumer/provenance pairing — SHIPPED (2026-11-10T02:30:06Z): `test_verified_consumer_temp_manifest_cache_dir_pairing_20261110.py` (5 tests).
