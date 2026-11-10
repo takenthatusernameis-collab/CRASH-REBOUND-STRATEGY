@@ -228,7 +228,7 @@ def backtest_simple(
                 all_notionals = list(getattr(risk_state, 'open_position_notionals', [])) + [notional]
                 cuts = risk_state.apply_cap_cuts(capital, config, all_notionals)
                 if cuts and len(cuts) == len(all_notionals):
-                    new_notional_cut = cuts[-1]
+                    new_notional_cut = min(cuts[-1], notional)
                     if new_notional_cut <= 0 or entry_px <= 0:
                         return TradeResult(
                             pnl=0.0, r_multiple=0.0, exit_reason='blocked',

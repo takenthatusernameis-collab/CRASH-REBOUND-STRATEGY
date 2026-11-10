@@ -99,10 +99,11 @@ def test_rebound_short_live_notional_triggers_cap_cut_future_admission():
     assert "Y" in by
     # Wrong reservation (10000): 10000+1500<=12000 => no cap cut, Y stays 15.
     # Correct reservation (10900): 10900+1500>12000 => equal-share/cap-cut path fires.
-    # The executed share count depends on engine cut semantics; the invariant is that
-    # the pre-fix uncut outcome (15.0 shares) must not survive under live short notional.
-    assert abs(float(by["Y"]["shares"]) - 15.0) > 1e-9, (
-        "future admission ignored live rebound-short notional (reserved long-entry instead): "
+    # Under cuts-only, never topped-up: Y is NOT bumped above its requested 1500
+    # notional even when equal-share would be 6000. The invariant is that Y must not
+    # be topped up above its request under live short notional reservation.
+    assert abs(float(by["Y"]["shares"]) - 15.0) < 1e-9, (
+        "Y topped up above requested 1500 notional — violates cuts-only, never topped-up spec: "
         f"Y.shares={by['Y']['shares']} trades={res['trades']}")
 
 

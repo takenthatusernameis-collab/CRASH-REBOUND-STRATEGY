@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T00:35:57Z
+**Updated (UTC):** 2026-11-10T01:12:47Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -13,22 +13,27 @@
 - **Additional reservation locks:** `test_portfolio_cross_bar_rebound_max_live_reservation_20261109.py`, `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py`, `test_portfolio_multiple_rebound_short_same_bar_cap_cut_commission_min_20261109.py`, `test_portfolio_multiple_cross_bar_rebound_max_live_20261109.py`.
 - **Prior locks preserved:** 2a/e closed, commission_min parity, 8x safety stop re-anchor + ETH 336h/cap, long liq sequencing, missing-ETH hedge funding, RSI not nullified by downtrend filter, rebound 48h inclusive semantics, stopped buy never opens rebound short.
 
-## BOTTLENECK CHECK (2026-11-10T00:35:57Z) — CLEARED
+## SHIPPED THIS SESSION (2026-11-10T01:12:47Z)
+- **ENGINE CAP-CUT TOP-UP FIX (MATERIAL):** `src/backtest/engine.py:231` changed `new_notional_cut = cuts[-1]` → `new_notional_cut = min(cuts[-1], notional)` where `notional` is the original requested notional. Enforces spec "cuts only, never topped up": a new position requesting less than equal_share is capped at its request, not bumped up to equal_share. New locked regression test `tests/test_engine_cap_cut_no_top_up_cross_bar_20261110.py` (1 test) confirms Z requesting 10 shares/1000 notional gets 10 shares, not 40 shares (top-up to equal_share 4000).
+- **Locked test assertions updated (3):** `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py` (2 tests) and `test_portfolio_rebound_short_live_notional_reservation_20261107.py` (1 test) previously asserted `shares != 15.0` relying on top-up behavior; changed to assert `shares == 15.0` (no top-up above requested notional). Core spec assertions (X/A exit reasons, final state reconciliation) unchanged.
+- **Temp artifacts cleared:** `research_state/.test_derive_vol_*` stale dirs removed (bottleneck cleared).
+
+## BOTTLENECK CHECK (2026-11-10T01:12:47Z) — CLEARED
 - **Single durable handoff:** ONLY root `HANDOFF.md`. Duplicate scan: `find . -not -path '*/.git/*' \( -iname '*handoff*' -o -iname '*todo*' -o -iname '*next_steps*' -o -iname '*progress*' -o -iname '*session_context*' \)` → only `HANDOFF.md` plus non-durable `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py*` (source/test, not durable handoff variants). No durable variants.
 - **Locks/processes:** `find . -not -path '*/.git/*' -name '*.lock'` → none.
-- **Temp artifacts:** no stale `research_state/.test_derive_vol_*` dirs; no durable temp handoffs/probe scripts.
-- **Session gate VERIFIED (2026-11-10T00:35:57Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **696 passed, 0 failed, 12 skipped** (34.30s). Skips environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
+- **Temp artifacts:** `research_state/.test_derive_vol_*` stale dirs removed. No durable temp handoffs/probe scripts.
+- **Session gate VERIFIED (2026-11-10T01:12:47Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **697 passed, 0 failed, 12 skipped** (34.68s). Skips environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
 - **Canonical data gate (fail-closed):** real 283d Hyperliquid BTC/ETH data **UNAVAILABLE/UNVERIFIED** in this environment (verified cache/archive flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.**
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence.
 
 ## REMAINING RISKS / HEAVY FOCUS CAMPAIGN (EVIDENCE-BACKED)
 - **Data integrity (BLOCKED by environment, fail-closed):** real 283d Hyperliquid candles unavailable/unverified here. Never fabricate.
 - **LOCKED (do not reopen without concrete failing defect):** Priority A/B; 2a/e; 2b engine 6 cross-leg cells; commission_min parity; completing-probe reservation cut propagation; 2026-11-09T17:10:55Z mixed-target batch-cut equal-share; all reservation/max_live locks listed above. Latent max_live > entry-notional at pressure points is a known locked interpretation in existing tests — changing it requires a concrete failing defect that keeps ALL these anchors green.
-- **NEW CONCRETE DEFECT (2026-11-10T00:35:57Z):** **ENGINE CAP-CUT TOP-UP VIOLATION** — `src/backtest/engine.py:223-239` applies equal-share cuts to ALL positions (existing + new) when `total_exposure > cap`, but **top-ups the new position** if its requested notional < equal_share. This violates the spec's "cuts only, never topped up" requirement. Failing test demonstrates: X (100 shares, rebound max_live 10900) enters bar 21; Y (cut to 60 shares, rebound max_live 6540) enters bar 26; reservations show X=6000 (cut), Y=6540 (max_live), total=12540 > 12000. Z enters bar 30 requesting only 10 shares (1000 notional). Engine computes equal_share = 12000/3 = 4000, top-ups Z to 4000 (40 shares) instead of capping at requested 1000. **This is a concrete spec violation with exact expected values.**
+- **ENGINE CAP-CUT TOP-UP FIX — COMPLETED (2026-11-10T01:12:47Z):** `src/backtest/engine.py:231` → `new_notional_cut = min(cuts[-1], notional)`. New locked regression test added. All 697 tests pass. No longer a risk.
 - **Attack in strict order (failing-tests-first, concrete evidence):**
-  1. **#1 STRICT MAX_LIVE CAP COHERENCE — ENGINE TOP-UP FIX (MATERIAL, highest risk):** Fix `src/backtest/engine.py:223-239` to apply "cuts only" to the new position: `new_notional_cut = min(cuts[-1], original_notional)`. Add the failing test above as a new locked regression test. Verify ALL existing 696 tests pass. The fix must not regress any locked anchor (batch-cut, cross-bar max_live, same-bar max_live, completing-probe reconciliation, equal-share mixed outcomes, heterogeneous commission_min).
-  2. **#2 D residual consumer/provenance pairing (MATERIAL guardrail) if #1 exhausted:** temp/non-canonical manifest pairing in `scripts/run_real_campaign.py`/consumers; `load_multi_coin_data(require_verified=True, manifest=...)` temp `cache_dir`/dir-backed temp paths/missing per-symbol provenance edges; gap-report metadata from untrusted scans consumed as evidence. Fail-closed with failing-tests-first proof.
-  3. **#3 Engine edge cases (ONLY if #1–#2 exhausted with concrete attempts):** missing-candle-field stop comparison in spec-compliant flow; rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift in untouched path. Failing-tests-first only.
+  1. **#1 D residual consumer/provenance pairing (MATERIAL guardrail):** temp/non-canonical manifest pairing in `scripts/run_real_campaign.py`/consumers; `load_multi_coin_data(require_verified=True, manifest=...)` temp `cache_dir`/dir-backed temp paths/missing per-symbol provenance edges; gap-report metadata from untrusted scans consumed as evidence. Fail-closed with failing-tests-first proof.
+  2. **#2 Engine edge cases (ONLY if #1 exhausted with concrete attempts):** missing-candle-field stop comparison in spec-compliant flow; rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift in untouched path. Failing-tests-first only.
+  3. **#3 If #1–#2 exhausted with concrete attempts:** ship another MATERIAL guardrail with failing-tests-first proof — do not end idle, do not pad with passive re-verification.
 - **No-idle rule:** if no concrete failing case after evidence-backed attempts, ship another MATERIAL guardrail with failing-tests-first proof — do not end idle, do not pad with passive re-verification.
 
 ## CRITICAL CONTEXT
@@ -43,42 +48,32 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T00:35:57Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T01:12:47Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T00:35:57Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T01:12:47Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS CLEARED / VERIFIED (2026-11-10T00:35:57Z): only root `HANDOFF.md` is durable. No stale `.lock` files outside `.git/`. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **696 passed, 0 failed, 12 skipped** (34.30s). Skips environmental: `pyarrow` not installed. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS CLEARED / VERIFIED (2026-11-10T01:12:47Z): only root `HANDOFF.md` is durable. No stale `.lock` files outside `.git/`. Temp `research_state/.test_derive_vol_*` dirs removed. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **697 passed, 0 failed, 12 skipped** (34.68s). Skips environmental: `pyarrow` not installed. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
-CARRY-FORWARD (LOCKED — do not reopen without concrete failing defect): Priority A/B; 2a/e; 2b engine 6 cross-leg cells; commission_min parity; completing-probe reservation cut propagation; 2026-11-09T17:10:55Z mixed-target batch-cut equal-share. Reservation/max_live locks: `test_portfolio_batch_cut_rebound_max_live_reservation_heterogeneous_commission_min_20261109.py`, `test_portfolio_rebound_max_live_inflation_4_candidates_mixed_terminals_later_bar_20261109.py` (2026-11-09T19:53:10Z), `test_portfolio_cross_bar_rebound_max_live_reservation_20261109.py`, `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py`, `test_portfolio_multiple_rebound_short_same_bar_cap_cut_commission_min_20261109.py`, `test_portfolio_multiple_cross_bar_rebound_max_live_20261109.py`, `test_portfolio_cap_cut_existing_preserved_when_rebound_probe_completes_20261109.py`, `test_portfolio_equal_share_mixed_rebound_outcomes_same_bar_20261109.py`. D guardrails hardened. Latent max_live>entry-notional at pressure points is a locked interpretation in existing tests — changing behavior requires a concrete failing defect that keeps ALL these anchors green.
+COMPLETED THIS SESSION (2026-11-10T01:12:47Z):
+  - ENGINE CAP-CUT TOP-UP FIX: `src/backtest/engine.py:231` `new_notional_cut = cuts[-1]` → `new_notional_cut = min(cuts[-1], notional)` (original requested notional). Enforces spec "cuts only, never topped up".
+  - New locked regression test: `tests/test_engine_cap_cut_no_top_up_cross_bar_20261110.py` — Z requesting 10 shares/1000 notional gets 10 shares, not 40 shares (top-up to equal_share 4000). Confirmed fails before fix, passes after.
+  - Updated 3 locked test assertions that previously relied on top-up behavior (`shares != 15.0` → `shares == 15.0`): `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py` (2 tests), `test_portfolio_rebound_short_live_notional_reservation_20261107.py` (1 test).
+  - Cleared `research_state/.test_derive_vol_*` temp artifact dirs.
+  - Gate: 697 passed, 0 failed, 12 skipped.
 
-NEW CONCRETE DEFECT — ENGINE CAP-CUT TOP-UP VIOLATION (2026-11-10T00:35:57Z):
-`src/backtest/engine.py:223-239` applies equal-share cuts to ALL positions when `total_exposure > cap`, but **top-ups the new position** if its requested notional < equal_share. Violates spec "cuts only, never topped up".
-Failing test case (run to confirm):
-```
-from unittest.mock import patch; import copy
-from scripts.run_portfolio import run_portfolio_simulation
-from src.strategy.config import StrategyConfig
-from src.strategy.crash_rebound import Signal
-# X: enters bar 21, 100 shares @100, hits target -> rebound short at 109 (max_live 10900)
-# Y: enters bar 26, cut to 60 shares (X reservation 10900 + Y 10000 > 12000), hits target -> rebound short max_live 6540
-# Z: enters bar 30, requests ONLY 10 shares @100 = 1000 notional
-# EXPECTED: Z gets 10 shares (capped at requested, no top-up)
-# ACTUAL: Z gets 40 shares (top-up to equal_share 4000)
-```
-Exact defect location: `src/backtest/engine.py:235` — `new_notional_cut = cuts[-1]` should be `new_notional_cut = min(cuts[-1], notional)` where `notional` is the original requested notional.
+CARRY-FORWARD (LOCKED — do not reopen without concrete failing defect): Priority A/B; 2a/e; 2b engine 6 cross-leg cells; commission_min parity; completing-probe reservation cut propagation; 2026-11-09T17:10:55Z mixed-target batch-cut equal-share. Reservation/max_live locks: `test_portfolio_batch_cut_rebound_max_live_reservation_heterogeneous_commission_min_20261109.py`, `test_portfolio_rebound_max_live_inflation_4_candidates_mixed_terminals_later_bar_20261109.py`, `test_portfolio_cross_bar_rebound_max_live_reservation_20261109.py`, `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py`, `test_portfolio_multiple_rebound_short_same_bar_cap_cut_commission_min_20261109.py`, `test_portfolio_multiple_cross_bar_rebound_max_live_20261109.py`, `test_portfolio_cap_cut_existing_preserved_when_rebound_probe_completes_20261109.py`, `test_portfolio_equal_share_mixed_rebound_outcomes_same_bar_20261109.py`. D guardrails hardened. Latent max_live>entry-notional at pressure points is a locked interpretation in existing tests — changing behavior requires a concrete failing defect that keeps ALL these anchors green.
 
 HEAVY-WORK GUARANTEE (ENFORCED): you MUST ship >=1 MATERIAL item with concrete evidence this session. Material = spec-fidelity defect fix + failing-tests-first proof, OR failing-tests-first regression lock for an uncovered spec path with concrete expected values, OR material gated-pipeline/provenance guardrail hardening with proof. DO NOT end idle. DO NOT substitute passive re-verification, handoff-only edits, speculative refactors, or "blocked" without concrete missing input.
 
 MANDATORY HEAVY CAMPAIGN (strict order):
-1) GATE (BLOCKING): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → 696 passed, 0 failed, 12 skipped. Fix FIRST if broken.
-2) #1 PRIORITY — ENGINE CAP-CUT TOP-UP FIX (MATERIAL, highest risk): Fix `src/backtest/engine.py:223-239` to enforce "cuts only" for the new position: `new_notional_cut = min(cuts[-1], notional)`. Add the failing test above as a new locked regression test in `tests/` (e.g., `test_engine_cap_cut_no_top_up_cross_bar_20261110.py`). Verify ALL 696 existing tests + new test pass. The fix must not regress any locked anchor.
-3) #2 — D residual consumer/provenance pairing (MATERIAL) if #1 exhausted with concrete evidence: temp/non-canonical manifest pairing in `scripts/run_real_campaign.py`/consumers; `load_multi_coin_data(require_verified=True, manifest=...)` temp `cache_dir`/dir-backed temp paths/missing per-symbol provenance edges; gap-report metadata from untrusted scans consumed as evidence. Fail-closed with failing-tests-first proof.
-4) #3 — Engine edge cases only if #1-#2 exhausted (failing-tests-first).
-5) If #1-#3 yield no concrete gap after evidence-backed attempts, ship another MATERIAL guardrail with failing-tests-first proof. NO IDLE.
-6) FINAL GATE: `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Report exact count.
-7) UPDATE ONLY root `HANDOFF.md`: timestamp, exact commands/results, files changed, shipped material item(s)+concrete evidence, remaining risks, new timestamped heavy initial task. No other handoff files.
+1) GATE (BLOCKING): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → 697 passed, 0 failed, 12 skipped. Fix FIRST if broken.
+2) #1 PRIORITY — D RESIDUAL CONSUMER/PROVENANCE PAIRING (MATERIAL): temp/non-canonical manifest pairing in `scripts/run_real_campaign.py`/consumers; `load_multi_coin_data(require_verified=True, manifest=...)` temp `cache_dir`/dir-backed temp paths/missing per-symbol provenance edges; gap-report metadata from untrusted scans consumed as evidence. Fail-closed with failing-tests-first proof. Start by reading `scripts/run_real_campaign.py` and `tests/test_run_real_campaign_*.py` to find unverified temp paths consumed as evidence.
+3) #2 — Engine edge cases only if #1 exhausted (failing-tests-first): missing-candle-field stop comparison in spec-compliant flow; rebound 48h/funding attribution under ETH divergence in untouched path; anchor drift in untouched path.
+4) #3 — If #1–#2 exhausted with concrete attempts, ship another MATERIAL guardrail with failing-tests-first proof. NO IDLE.
+5) FINAL GATE: `PYTHONPATH=. python3 -m pytest tests/ -q --tb=no`. Report exact count.
+6) UPDATE ONLY root `HANDOFF.md`: timestamp, exact commands/results, files changed, shipped material item(s)+concrete evidence, remaining risks, new timestamped heavy initial task. No other handoff files.
 
 SPEC NON-NEGOTIABLES (never regress): hourly funding on every leg/exit (coin long/short, ETH hedge short/long); hourly liquidation worst price correct sequencing/notional/timing/penalty; stopped buy never opens rebound short; 8x safety stop `entry*(1-8*avg(hourly high-low/prev_close over 14h))`; rebound `-9%/48h/+40%` anchored to executed short entry (slippage/commission-aware); ETH hedge every leg (336h vol ratio, cap 3x); RSI(21)<20 next open deepest-first; `$5M` 24h volume in all spec-compliant gating paths (`enforce_spec_volume_floor`; `min_daily_volume_usd=0` non-spec fixture only); equal-share cuts old+new across 120% gross cap (cuts only); one position/coin; strict no-look-ahead. Fail-closed on missing provenance/verification for real paths.
 ```

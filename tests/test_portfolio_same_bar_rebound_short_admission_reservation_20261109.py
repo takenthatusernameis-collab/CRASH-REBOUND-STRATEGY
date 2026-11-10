@@ -110,9 +110,9 @@ def test_same_bar_admission_sees_prior_probes_rebound_short_max_live_notional():
     assert by["A"]["exit_reason"] in ("target_rebound_short", "rebound_time_exit", "rebound_target", "rebound_stop"), (
         f"unexpected A exit: {by['A']}"
     )
-    assert abs(float(by["B"]["shares"]) - 15.0) > 1e-9, (
-        "B admitted uncut — portfolio reserved A at long-entry notional instead of "
-        f"A's rebound-short max_live_coin_notional. B.shares={by['B']['shares']} trades={res['trades']}"
+    assert abs(float(by["B"]["shares"]) - 15.0) < 1e-9, (
+        "B topped up above requested 1500 notional — violates cuts-only, never topped-up spec: "
+        f"B.shares={by['B']['shares']} trades={res['trades']}"
     )
 
 
@@ -203,9 +203,9 @@ def test_existing_position_cut_when_rebound_short_opens_same_bar():
     assert by["A"]["exit_reason"] in ("target_rebound_short", "rebound_time_exit", "rebound_target", "rebound_stop"), (
         f"unexpected A exit: {by['A']}"
     )
-    # B must be cut (not uncut 15) because overlay includes X's post-cut notional.
-    assert abs(float(by["B"]["shares"]) - 15.0) > 1e-9, (
-        f"B admitted uncut — existing X not propagated at post-cut notional. B.shares={by['B']['shares']}"
+    # B must NOT be topped up above requested 1500 notional under cap pressure — cuts only.
+    assert abs(float(by["B"]["shares"]) - 15.0) < 1e-9, (
+        f"B topped up above requested 1500 notional — violates cuts-only spec. B.shares={by['B']['shares']}"
     )
     # Clean reconciliation.
     assert res["final_open_positions"] == 0
