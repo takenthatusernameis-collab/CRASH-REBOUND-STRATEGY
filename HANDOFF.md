@@ -1,11 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-10T08:45:45Z
+**Updated (UTC):** 2026-11-10T09:26:14Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
-## SESSION AUDIT (2026-11-10T08:45:45Z) — BOTTLENECKS CLEARED + MATERIAL SHIP
-- **Repo identity/priorities:** crash-rebound strategy execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Do not claim 20s slicing, spread/L2/order-book impact.
-- **Bottlenecks:** none found. Only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. `git status --porcelain --untracked-files=all` reflects only this session's material changes (below) at handoff write.
-- **GATE VERIFIED (BLOCKING):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **711 passed, 0 failed, 12 skipped** (34.95s). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
+## SESSION AUDIT (2026-11-10T09:26:14Z) — BOTTLENECKS CLEARED, NO BLOCKERS, HEAVY CAMPAIGN PRIMED
+- **Repo identity/priorities:** CRASH-REBOUND-STRATEGY — crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Never claim 20s slicing, spread/L2/order-book impact.
+- **Bottlenecks checked/cleared:** only root `HANDOFF.md` is durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants found). No stale `.lock` files outside `.git/`. `scripts/run_portfolio.py` and `scripts/run_real_campaign.py` confirmed threaded with `require_eth_hedge` fail-closed contract. No duplicate/contradictory canonical handoff artifacts; `research_state/gap_analysis.md` remains historical/partially stale (verify against code+tests).
+- **GATE (last verified, carry-forward):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **711 passed, 0 failed, 12 skipped** (2026-11-10T08:45:45Z). Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Not re-run this audit session (no code changes); next agent MUST run gate first and fix if broken.
 - **Canonical real-data gate (FAIL-CLOSED):** real 283d Hyperliquid BTC/ETH candles UNAVAILABLE/UNVERIFIED in this environment; verified cache/archive flat placeholders (`candle_coverage_gap_report_verified_btceth_283d.json` blocked/synthetic; `universe_verified.json` empty/manifest_status:error). Real-campaign ingestion/runners must reject — **never fabricate numbers/artifacts or cite placeholders as spec evidence**.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED, NOT STALE GAP CLAIMS)
@@ -56,13 +56,13 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T08:45:45Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T09:26:14Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-10T08:45:45Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T09:26:14Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS VERIFIED CLEAN (2026-11-10T08:45:45Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **711 passed, 0 failed, 12 skipped**. Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS VERIFIED CLEAN (2026-11-10T09:26:14Z): only root `HANDOFF.md` durable (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). No stale `.lock` outside `.git/`. Last verified gate (2026-11-10T08:45:45Z, carry-forward): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **711 passed, 0 failed, 12 skipped**. Run gate FIRST this session. Skips environmental only: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. `research_state/gap_analysis.md` is historical/partially stale — verify against code+tests. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 LAST SHIPPED (2026-11-10T08:45:45Z, MATERIAL, do not reopen without concrete failing defect): spec-compliant ETH-hedge fail-closed threaded into portfolio/real-gated path — `scripts/run_portfolio.py::run_portfolio_simulation(..., require_eth_hedge=False)` propagates to `backtest_simple` and re-raises `Spec-compliant ETH hedge required`; `scripts/run_real_campaign.py` passes `require_eth_hedge=bool(config.enable_eth_hedge)`. Tests: `tests/test_portfolio_spec_eth_hedge_fail_closed_20261110.py` (5). Contract-preserving alignments: `tests/test_session_hardening_portfolio_20261106.py` (**kwargs), `tests/test_volume_gating_boundary_audit_20261107.py` (signature). Gate 711/12.
 
