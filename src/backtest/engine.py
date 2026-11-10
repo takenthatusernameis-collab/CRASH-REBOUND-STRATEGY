@@ -447,6 +447,7 @@ def backtest_simple(
             # settlement (coin + hedge) on close, consistent with liquidation/
             # stop/time-exit paths. Compute before the (separate) rebound short leg
             # opens so the long-leg close does not include the rebound leg PnL.
+            long_coin_net = pnl
             total_pnl = pnl + hedge_pnl_total
             if risk_state is not None:
                 try:
@@ -454,7 +455,7 @@ def backtest_simple(
                 except Exception:
                     _not = 0.0
                 risk_state.apply_trade(str(c.get('timestamp', '')), total_pnl, opened=False, closed=True, notional=_not)
-            trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'target'})
+            trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': long_coin_net, 'reason': 'target'})
             total_r_mult = r_mult
             total_bars = idx - start_idx + 1
             rebound_hedge_pnl = 0.0
@@ -672,8 +673,12 @@ def backtest_simple(
             else:
                 total_r_mult = r_mult
             _has_rebound_short = len(trades_log) > 1 and any(t.get('side') == 'short' for t in trades_log)
+            if _has_rebound_short:
+                _pnl_out = pnl + hedge_pnl_total
+            else:
+                _pnl_out = long_coin_net
             return TradeResult(
-                pnl=pnl + hedge_pnl_total,
+                pnl=_pnl_out,
                 r_multiple=total_r_mult if 'total_r_mult' in locals() else r_mult,
                 exit_reason='target_rebound_short' if _has_rebound_short else 'target',
                 entry_price=entry_px, exit_price=short_exit_price_final if _has_rebound_short else exit_px, shares=shares,
