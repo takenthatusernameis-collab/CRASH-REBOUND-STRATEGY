@@ -105,6 +105,11 @@ def expected_hourly_bars(start_iso: str = TARGET_START, end_iso: str = TARGET_EN
 
 def load_provenance(path: str | Path) -> Dict[str, Any]:
     p = Path(path)
+    if _is_temp_provenance_path(str(p)):
+        raise ProvenanceError(
+            f"Provenance manifest path is a temp/unverified scratch path ({p}); "
+            "not acceptable as verified real-data evidence"
+        )
     if not p.exists():
         raise ProvenanceError(f"Provenance manifest missing: {p}")
     try:

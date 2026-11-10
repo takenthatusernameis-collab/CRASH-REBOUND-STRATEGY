@@ -280,6 +280,18 @@ def load_multi_coin_data(data_source, symbols: List[str] = None,
             "load_multi_coin_data require_verified=True requires a file-backed directory/source; "
             "in-memory dict data cannot be treated as verified real-data evidence"
         )
+    if require_verified:
+        from src.data.provenance import ProvenanceError, _is_temp_provenance_path
+        if isinstance(data_source, (str, os.PathLike, Path)) and _is_temp_provenance_path(str(data_source)):
+            raise ProvenanceError(
+                f"load_multi_coin_data require_verified=True: data_source {data_source!s} is a "
+                "temp/unverified scratch path; not acceptable as verified real-data evidence"
+            )
+        if cache_dir is not None and _is_temp_provenance_path(str(cache_dir)):
+            raise ProvenanceError(
+                f"load_multi_coin_data require_verified=True: cache_dir {cache_dir!s} is a "
+                "temp/unverified scratch path; not acceptable as verified real-data evidence"
+            )
     manifest_symbols = (manifest.get("symbols") or {}) if isinstance(manifest, dict) else {}
 
 
