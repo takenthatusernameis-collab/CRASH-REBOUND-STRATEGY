@@ -49,7 +49,7 @@ class TestPortfolioStoppedBuyE2E(unittest.TestCase):
                 return s
             return None
 
-        def fake_backtest(candles, sig, config=None, capital=100000.0, risk_state=None, eth_candles=None):
+        def fake_backtest(candles, sig, config=None, capital=100000.0, risk_state=None, eth_candles=None, **kwargs):
             if risk_state is not None:
                 notional = (getattr(sig, "entry_price", 100.0) or 100.0) * (getattr(sig, "size_shares", 1.0) or 1.0)
                 try:

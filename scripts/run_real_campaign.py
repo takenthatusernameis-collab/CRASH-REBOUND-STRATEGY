@@ -387,7 +387,8 @@ def main():
         min_daily_volume_usd=max(spec_min_daily_volume_usd, float(args.min_daily_volume_usd)) if not partial_mode else float(args.min_daily_volume_usd),
     )
     results = run_portfolio_simulation(data, config=config, capital=args.capital,
-                                       eth_candles={"ETH": eth} if eth else None)
+                                       eth_candles={"ETH": eth} if eth else None,
+                                       require_eth_hedge=bool(getattr(config, 'enable_eth_hedge', True)))
     metrics = metrics_to_dict(compute_campaign_metrics(trades=results.get("trades", []), equity_curve=results.get("equity_curve")))
     out_dir = REPO_ROOT / "research_state"
     out_dir.mkdir(parents=True, exist_ok=True)

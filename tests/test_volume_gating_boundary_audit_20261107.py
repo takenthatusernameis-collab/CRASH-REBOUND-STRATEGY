@@ -117,7 +117,7 @@ class TestPortfolioRunnerNoProvenanceConsumption:
     def test_runner_accepts_no_manifest_or_provenance_fields(self):
         import inspect
         sig = inspect.signature(run_portfolio_simulation)
-        assert set(sig.parameters) <= {"candles_by_symbol", "config", "capital", "eth_candles"}, sig.parameters
+        assert set(sig.parameters) <= {"candles_by_symbol", "config", "capital", "eth_candles", "require_eth_hedge"}, sig.parameters
         fixtures = {"BTC": _candles(volume=3000.0, n=30), "ETH": _candles(volume=3000.0, n=30)}
         config = StrategyConfig(use_rsi_trigger=False, enable_rebound_short=True)
         res = run_portfolio_simulation(fixtures, config=config, capital=100000.0,

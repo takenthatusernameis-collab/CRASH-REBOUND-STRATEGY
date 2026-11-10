@@ -49,7 +49,8 @@ def _crash_severity(candles, sig, config, cache=None):
 def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                              config: StrategyConfig = None,
                              capital: float = 100000.0,
-                             eth_candles: Dict[str, List[Dict[str, Any]]] = None) -> Dict[str, Any]:
+                             eth_candles: Dict[str, List[Dict[str, Any]]] = None,
+                             require_eth_hedge: bool = False) -> Dict[str, Any]:
     """Run portfolio simulation across multiple coins with concurrent positions.
 
     Bar-by-bar scan over the full series (no look-ahead): at each decision bar, evaluate
@@ -57,6 +58,11 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     process deepest crash first (spec). Enforces one position per coin (no overlapping entries
     for a symbol while its prior trade is open). Gross cap / equal-share cuts and max positions
     are enforced by backtest/risk_state.
+
+    require_eth_hedge is a fail-closed contract for SPEC-COMPLIANT callers only:
+    when True and config.enable_eth_hedge is True, missing/insufficient ETH data
+    raises ValueError instead of silently running unhedged. Defaults False to
+    preserve low-level/fixture callers.
     """
     if config is None:
         config = StrategyConfig(use_rsi_trigger=False)
@@ -280,7 +286,8 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                 probe_state.daily_loss_limit_hit = _bar_daily_hit
                 probe_state.date = _bar_date
                 res = backtest_simple(candles, sig, config=config, capital=capital,
-                                      risk_state=probe_state, eth_candles=eth_data)
+                                      risk_state=probe_state, eth_candles=eth_data,
+                                      require_eth_hedge=require_eth_hedge)
                 if res.exit_reason not in ('blocked', 'no_signal'):
                     # total_pnl is authoritative (engine always sets it on TradeResult).
                     # If ever absent, compute the grand total from all legs rather
@@ -376,6 +383,11 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                     })
                 elif res.exit_reason == 'blocked':
                     pass
+            except ValueError as e:
+                # Fail-closed spec-compliant ETH hedge contract must not be swallowed.
+                if 'Spec-compliant ETH hedge required' in str(e):
+                    raise
+                continue
             except Exception:
                 continue
 
