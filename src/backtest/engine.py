@@ -341,7 +341,12 @@ def backtest_simple(
                 hedge_exit=hedge_info['exit'],
                 total_pnl=total_pnl_result,
             )
-        if low is not None and low <= stop_px:
+        # Spec-fidelity: the safety stop fires when the coin falls below the stop
+        # threshold. When the bar's low field is missing/None we cannot assume the
+        # price never reached the stop — fall back to the bar's close as the worst
+        # available price proxy (fail-closed), consistent with _close_or_fallback.
+        _stop_low = low if low is not None else _close_or_fallback(c, entry_px)
+        if _stop_low <= stop_px:
             exit_px = _slippage_commission_per_share(stop_px, config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             # Funding on the long leg (spec: hourly funding on every leg).
@@ -388,7 +393,11 @@ def backtest_simple(
                 hedge_exit=hedge_info['exit'],
                 total_pnl=total_pnl_result,
             )
-        if high is not None and high >= target_px:
+        # Spec-fidelity: +9% target. When the bar's high field is missing/None, fall
+        # back to the bar's close as the best available price proxy (fail-closed):
+        # if close is at/above target the target was reached.
+        _target_high = high if high is not None else _close_or_fallback(c, entry_px)
+        if _target_high >= target_px:
             exit_px = _slippage_commission_per_share(target_px, config, 'sell', shares=shares)
             pnl = (exit_px - entry_px) * shares
             # Funding on the long leg (spec: hourly funding on every leg).
@@ -499,7 +508,11 @@ def backtest_simple(
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
-                    if shigh is not None and shigh >= short_stop:
+                    # Spec-fidelity: rebound short stop fires when the coin rises above the stop
+                    # threshold. When the bar's high field is missing/None, fall back
+                    # to the bar's close as the best available price proxy (fail-closed).
+                    _stop_high = shigh if shigh is not None else _close_or_fallback(sc, short_entry_px)
+                    if _stop_high >= short_stop:
                         short_exit = _slippage_commission_per_share(short_stop, config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
@@ -529,7 +542,10 @@ def backtest_simple(
                         total_pnl += short_pnl + rebound_hedge_pnl
                         total_bars = max(total_bars, (sidx - start_idx + 1))
                         break
-                    if slow is not None and slow <= short_target:
+                    # Spec-fidelity: rebound short -9% target. When the bar's low field is
+                    # missing/None, fall back to the bar's close (fail-closed).
+                    _target_low = slow if slow is not None else _close_or_fallback(sc, short_entry_px)
+                    if _target_low <= short_target:
                         short_exit = _slippage_commission_per_share(short_target, config, 'buy', shares=short_shares)
                         short_pnl = (short_entry_px - short_exit) * short_shares
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
