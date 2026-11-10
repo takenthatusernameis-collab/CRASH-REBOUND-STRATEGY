@@ -481,11 +481,21 @@ def backtest_crash_rebound(
     config: StrategyConfig = DEFAULT_CONFIG,
     capital: float = 100000.0,
     risk_state: Optional[Any] = None,
+    eth_candles: Optional[List[Dict[str, Any]]] = None,
+    require_eth_hedge: bool = True,
 ):
     """Gated convenience wrapper: applies strategy gating via generate_signal, then
-    executes with low-level backtest_simple. Not a portfolio/multi-symbol runner."""
+    executes with low-level backtest_simple. Not a portfolio/multi-symbol runner.
+
+    This is a SPEC-COMPLIANT gated path: the PDF requires every trade to be hedged
+    with ETH. When ``config.enable_eth_hedge`` is True, the wrapper opts into the
+    engine's fail-closed ETH-hedge contract (``require_eth_hedge=True``): missing,
+    flat, or insufficient ETH data raises ValueError instead of silently running
+    unhedged. Low-level/fixture callers that intentionally omit hedges must call
+    backtest_simple directly (or pass require_eth_hedge=False)."""
     from src.backtest.engine import backtest_simple
     sig = generate_signal(candles, symbol=symbol, config=config, capital=capital)
     if sig is None:
         return backtest_simple(candles, None, config=config, capital=capital, risk_state=risk_state)
-    return backtest_simple(candles, sig, config=config, capital=capital, risk_state=risk_state)
+    return backtest_simple(candles, sig, config=config, capital=capital, risk_state=risk_state,
+                           eth_candles=eth_candles, require_eth_hedge=require_eth_hedge)

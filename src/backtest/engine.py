@@ -174,11 +174,19 @@ def backtest_simple(
     capital: float = 100000.0,
     risk_state: Optional[DailyRiskState] = None,
     eth_candles: Optional[List[Dict[str, Any]]] = None,
+    require_eth_hedge: bool = False,
 ) -> TradeResult:
     """Low-level execution engine (signal assumed). NOT volume-gated/spec-compliant
     universe gating. Callers must not treat this as a gated production entrypoint.
     Spec-compliant gating belongs in generate_signal/filter_universe and gated
-    wrappers/runners (e.g. portfolio/real-campaign paths) before execution."""
+    wrappers/runners (e.g. portfolio/real-campaign paths) before execution.
+
+    ``require_eth_hedge`` is a fail-closed contract for SPEC-COMPLIANT callers only.
+    When True and ``config.enable_eth_hedge`` is True, the engine refuses to run
+    unless a usable ETH hedge was actually established (hedge_side set, hedge_size>0).
+    Missing/flat/insufficient ETH data must surface as a hard error rather than
+    silently running unhedged. It does NOT affect low-level/fixture callers that
+    intentionally omit hedges (default False)."""
     if signal is None:
         return TradeResult(pnl=0.0, r_multiple=0.0, exit_reason='no_signal')
     entry = signal.entry_price
@@ -286,6 +294,21 @@ def backtest_simple(
                     hedge_info = {'side': 'short', 'size': hedge_shares, 'entry': hedge_entry_px, 'exit': hedge_entry_px}
         except Exception:
             pass  # Skip hedge on error
+    # Fail-closed ETH-hedge contract (spec: every trade hedged with ETH).
+    # When a SPEC-COMPLIANT caller opts into require_eth_hedge=True AND the config
+    # requests an ETH hedge, the engine MUST NOT silently run unhedged. Missing,
+    # flat, or insufficient ETH data must surface as a hard error instead of a
+    # phantom unhedged execution. Low-level/fixture callers that intentionally
+    # omit hedges are unaffected (require_eth_hedge defaults False).
+    if getattr(config, 'enable_eth_hedge', True) and require_eth_hedge:
+        if hedge_info.get('side') is None or hedge_info.get('size', 0.0) <= 0:
+            raise ValueError(
+                "Spec-compliant ETH hedge required (require_eth_hedge=True) but no usable "
+                "ETH hedge was established: eth_candles missing/flat/insufficient for "
+                f"{symbol if (symbol := getattr(signal, 'symbol', None)) else 'trade'} "
+                "(compute_eth_hedge_size returned 0 / hedge open failed). Provide verified "
+                "ETH candles aligned to the coin series or disable the hedge contract."
+            )
     # Look-ahead guard: only inspect candles at or after the entry point.
     for idx in range(start_idx, len(candles)):
         c = candles[idx]

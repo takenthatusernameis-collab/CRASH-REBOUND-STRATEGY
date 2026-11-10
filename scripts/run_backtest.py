@@ -16,7 +16,9 @@ def main():
     config = StrategyConfig(use_rsi_trigger=False)  # use fixture's drop pattern
     sig = generate_signal(candles, config=config)
     print("Signal:", sig is not None)
-    res = backtest_crash_rebound(candles, config=config)
+    # Low-level demo (NOT spec-compliant production gating): opt out of the fail-closed
+    # ETH-hedge contract so fixture series without aligned ETH candles can be inspected.
+    res = backtest_crash_rebound(candles, config=config, require_eth_hedge=False)
     print("=" * 60)
     print("DETAILED BACKTEST REPORT")
     print("=" * 60)
