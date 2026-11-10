@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-09T21:41:53Z
+**Updated (UTC):** 2026-11-10T00:10:45Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `__pycache__`/compiled artifacts are not evidence.
 
 ## SHIPPED (CONDENSED, CARRY-FORWARD)
@@ -17,7 +17,7 @@
 - **Single durable handoff:** ONLY root `HANDOFF.md`. Duplicate scan: `find . -not -path '*/.git/*' \( -iname '*handoff*' -o -iname '*todo*' -o -iname '*next_steps*' -o -iname '*progress*' -o -iname '*session_context*' \)` → only `HANDOFF.md` plus non-durable `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py*` (source/test, not durable handoff variants). No durable variants.
 - **Locks/processes:** `find . -not -path '*/.git/*' -name '*.lock'` → none.
 - **Temp artifacts:** no stale `research_state/.test_derive_vol_*` dirs; no durable temp handoffs/probe scripts.
-- **Session gate VERIFIED (2026-11-09T21:41:53Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **707 passed, 0 failed, 1 skipped** (60.81s). 1 skip environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
+- **Session gate VERIFIED (2026-11-10T00:10:45Z):** `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **696 passed, 0 failed, 12 skipped** (35.30s). Skips environmental: `pyarrow` not installed → parquet/streaming. CI `.github/workflows/strategy-tests.yml`.
 - **Canonical data gate (fail-closed):** real 283d Hyperliquid BTC/ETH data **UNAVAILABLE/UNVERIFIED** in this environment (verified cache/archive flat placeholders). Canonical gap reports/provenance/runners refuse. **Never fabricate numbers/artifacts. Never cite placeholder results as spec evidence.**
 - **Removal rule (mandatory):** if you find another durable handoff/task file, stale lock, failing gate, or contradictory canonical artifact, **remove/fix it FIRST** with failing-tests-first evidence.
 
@@ -42,20 +42,20 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-09T21:41:53Z, MANDATORY, HEAVY)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-10T00:10:45Z, MANDATORY, HEAVY)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-09T21:41:53Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-10T00:10:45Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
-BOTTLENECKS CLEARED / VERIFIED (2026-11-09T21:41:53Z): only root `HANDOFF.md` is durable. No stale `.lock` files outside `.git/`. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **707 passed, 0 failed, 1 skipped** (60.81s). 1 skip environmental: `pyarrow` not installed. CI `.github/workflows/strategy-tests.yml`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
+BOTTLENECKS CLEARED / VERIFIED (2026-11-10T00:10:45Z): only root `HANDOFF.md` is durable. No stale `.lock` files outside `.git/`. Gate VERIFIED: `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → **696 passed, 0 failed, 12 skipped** (35.30s). Skips environmental: `pyarrow` not installed. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED here (fail-closed) — NEVER fabricate/cite placeholder results. If you find any blocker (duplicate durable handoff, stale lock, broken gate, contradictory canonical artifact), remove/fix it FIRST with failing-tests-first evidence.
 
 CARRY-FORWARD (LOCKED — do not reopen without concrete failing defect): Priority A/B; 2a/e; 2b engine 6 cross-leg cells; commission_min parity; completing-probe reservation cut propagation; 2026-11-09T17:10:55Z mixed-target batch-cut equal-share. Reservation/max_live locks: `test_portfolio_batch_cut_rebound_max_live_reservation_heterogeneous_commission_min_20261109.py`, `test_portfolio_rebound_max_live_inflation_4_candidates_mixed_terminals_later_bar_20261109.py` (2026-11-09T19:53:10Z), `test_portfolio_cross_bar_rebound_max_live_reservation_20261109.py`, `test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py`, `test_portfolio_multiple_rebound_short_same_bar_cap_cut_commission_min_20261109.py`, `test_portfolio_multiple_cross_bar_rebound_max_live_20261109.py`, `test_portfolio_cap_cut_existing_preserved_when_rebound_probe_completes_20261109.py`, `test_portfolio_equal_share_mixed_rebound_outcomes_same_bar_20261109.py`. D guardrails hardened. Latent max_live>entry-notional at pressure points is a locked interpretation in existing tests — changing behavior requires a concrete failing defect that keeps ALL these anchors green.
 
 HEAVY-WORK GUARANTEE (ENFORCED): you MUST ship >=1 MATERIAL item with concrete evidence this session. Material = spec-fidelity defect fix + failing-tests-first proof, OR failing-tests-first regression lock for an uncovered spec path with concrete expected values, OR material gated-pipeline/provenance guardrail hardening with proof. DO NOT end idle. DO NOT substitute passive re-verification, handoff-only edits, speculative refactors, or "blocked" without concrete missing input.
 
 MANDATORY HEAVY CAMPAIGN (strict order):
-1) GATE (BLOCKING): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → 707 passed, 0 failed, 1 skipped. Fix FIRST if broken.
+1) GATE (BLOCKING): `cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY && PYTHONPATH=. python3 -m pytest tests/ -q --tb=no` → 696 passed, 0 failed, 12 skipped. Fix FIRST if broken.
 2) #1 PRIORITY — STRICT MAX_LIVE CAP COHERENCE (MATERIAL, highest risk): `scripts/run_portfolio.py` reserves/reconciles from `TradeResult.max_live_coin_notional` (engine: max coin leg notional across long-entry and rebound-short-entry at executed price, hedges excluded; see `src/backtest/engine.py:37,73-90`). Construct a **failing test first** for a concrete defect: >=4 candidates, mixed terminals, later-bar admission, rebound max_live inflation — show either (a) concurrent admission/reservation allows gross cap leak/top-up/cut violation relative to the spec's 120% coin-positions cap intent with a concrete expected value the implementation gets wrong, OR (b) reservation reconciliation misstates notionals causing incorrect cut/admission. Fix with failing-tests-first proof while keeping ALL locked anchors above green. If after concrete evidence the current entry-notional/max_live interpretation is spec-consistent, ship a **material regression lock** with exact invariant assertions and a clear comment distinguishing entry-notional vs max_live accounting (not passive re-verification).
 3) #2 — D residual consumer/provenance pairing (MATERIAL) if #1 exhausted: temp/non-canonical manifest pairing in `scripts/run_real_campaign.py`/consumers; `load_multi_coin_data(require_verified=True, manifest=...)` temp `cache_dir`/dir-backed temp paths/missing per-symbol provenance edges; gap-report metadata from untrusted scans consumed as evidence. Fail-closed with failing-tests-first proof.
 4) #3 — Engine edge cases only if #1-#2 exhausted (failing-tests-first).
