@@ -1,12 +1,12 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T05:55:45Z
+**Updated (UTC):** 2026-11-11T05:59:42Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, and session/timed test-name/`__pycache__`/`_probe_*` matches are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-11T05:55:31Z) — BOTTLENECKS CLEARED, GATE GREEN, NEXT CAMPAIGN SET
+## SESSION AUDIT (2026-11-11T05:59:42Z) — BOTTLENECKS CLEARED, GATE GREEN, NEXT CAMPAIGN SET
 - **Repo identity/priorities:** `CRASH-REBOUND-STRATEGY` — crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Never claim 20s slicing, spread/L2/order-book impact.
 - **Bottlenecks checked/cleared:** only root `HANDOFF.md` exists as durable handoff (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs outside implementation/tests; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, session/timed fixtures/`__pycache__`/`_probe_*` are implementation/tests/scratch, not handoffs). No `*.lock` outside `.git/`. No contradictory canonical handoff artifacts. Git working tree clean on `main...origin/main` aside from this handoff update. `research_state/.test_derive_vol_*` temp dirs (gitignored) — not blockers. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` remain historical/partially stale — verify against code+tests before acting. Real 283d Hyperliquid candles remain unavailable/unverified (fail-closed by design, environment blocker — never fabricate). No code/test blockers observed.
 - **Campaign status (evidence, inspection):** #1 COMPLETE (2026-11-11T04:50Z, volume floor + 1.25% sizing bypass fixed/locked). #2 COMPLETE (2026-11-11T05:29:28Z, rebound-short liquidation ETH bar entirely absent at exit index locked). #3 ACTIVE but materially progressed: RSI-trigger same-decision-bar deepest-first admission locked for 2-candidate/max_positions=1, entry_next_bar true/false (`tests/test_portfolio_rsi_trigger_deepest_first_admission_20261111.py`). #3 not exhausted — continue probing uncovered RSI-trigger admission/ordering edge cases (3+ candidates, cap/max_positions/batch-cut/equal-share, existing reservations across bars, heterogeneous notionals/commission_min, reachable ties, entry_next_bar open-notional reservation nuances, no-look-ahead/settlement reconciliation) with hand-traced expected values; if proven locked with evidence, proceed to #4.
-- **Gate evidence (re-verified this session):** `PYTHONPATH=. python3 -m pytest -q --tb=short` → **747 passed, 0 failed, 12 skipped (55.99s)** on 2026-11-11T05:55:45Z. Re-run as blocking first action next session; fix FIRST if broken/regressed. Do not treat this count as fresh green without re-run.
+- **Gate evidence (re-verified this session):** `PYTHONPATH=. python3 -m pytest -q --tb=short` → **747 passed, 0 failed, 12 skipped (54.15s)** on 2026-11-11T05:59:42Z. Re-run as blocking first action next session; fix FIRST if broken/regressed. Do not treat this count as fresh green without re-run.
 
 ## MATERIAL SHIPPED (LATEST CARRY-FORWARD, EVIDENCE-BACKED)
 - **2026-11-11T05:42:12Z:** #3 RSI-trigger deepest-first admission/ordering lock (failing-tests-first regression, portfolio/gated path) — `tests/test_portfolio_rsi_trigger_deepest_first_admission_20261111.py` (2 passed). Locks 2 symbols firing same decision bar with `max_positions=1`: traced RSI(21) ~4.467782 (DEEP) < ~17.328622 (MILD) < 20, both pass history-only crash+rebound confirmation; admits only `DEEP`. Covers `entry_next_bar=False` (decision-bar close/timestamp) and `entry_next_bar=True` (next-bar open/timestamp, no look-ahead), final exposure/positions reconciled to 0.
@@ -43,9 +43,9 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T05:55:45Z, MANDATORY, HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T05:59:42Z, MANDATORY, HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 ```
-CRASH-REBOUND-STRATEGY | 2026-11-11T05:55:45Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-11T05:59:42Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
