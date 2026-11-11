@@ -6,6 +6,12 @@ from typing import Optional
 # any non-zero value below this floor is treated as a spec bypass attempt.
 SPEC_MIN_DAILY_VOLUME_USD: float = 5_000_000.0
 
+# Spec requires position sizing to be 1.25% of the coin's 24h USD volume in
+# all spec-compliant signal paths. enable_volume_based_sizing=True is the
+# spec-compliant mode; the pct field is NOT a free parameter when sizing is
+# enabled — a mutated pct is a spec bypass attempt and is rejected.
+SPEC_POSITION_SIZE_PCT_OF_DAILY_VOLUME: float = 1.25
+
 
 def enforce_spec_volume_floor(min_daily_volume_usd: float) -> float:
     """Return the spec-compliant volume threshold for gating paths.
@@ -21,6 +27,32 @@ def enforce_spec_volume_floor(min_daily_volume_usd: float) -> float:
     if v <= 0:
         return 0.0
     return v if v >= SPEC_MIN_DAILY_VOLUME_USD else SPEC_MIN_DAILY_VOLUME_USD
+
+
+def enforce_spec_position_size_pct(position_size_pct_of_daily_volume: float) -> float:
+    """Return the spec-compliant 1.25% sizing pct.
+
+    When volume-based sizing is enabled (spec-compliant mode), the sizing pct
+    is NOT a free parameter: any value other than the spec 1.25% is a bypass
+    attempt and is rejected with ValueError so it cannot silently reach
+    generate_signal. Disabled sizing (0 / False) is the only non-spec escape
+    hatch, preserved explicitly for low-level/fixture callers.
+    """
+    try:
+        v = float(position_size_pct_of_daily_volume)
+    except (TypeError, ValueError):
+        raise ValueError(
+            "position_size_pct_of_daily_volume must be numeric; spec requires 1.25% "
+            "of 24h volume when volume-based sizing is enabled"
+        )
+    if v == 0.0:
+        return 0.0
+    if abs(v - SPEC_POSITION_SIZE_PCT_OF_DAILY_VOLUME) > 1e-9:
+        raise ValueError(
+            f"position_size_pct_of_daily_volume {v} is not the spec 1.25% of 24h "
+            f"volume; volume-based sizing is not a free parameter in spec-compliant paths"
+        )
+    return v
 
 
 @dataclass
@@ -137,6 +169,13 @@ class StrategyConfig:
         # via enforce_spec_volume_floor() for any non-zero threshold. Config allows
         # sub-$5M non-zero values for non-evidence test scenarios; callers must not
         # treat sub-$5M gating as spec-compliant.
+        # Volume-based sizing is the spec-compliant sizing mode (1.25% of 24h USD
+        # volume). When enabled, the pct is not a free parameter: a mutated pct is
+        # a spec bypass attempt and is rejected at config-construction time so it
+        # cannot silently reach generate_signal. Disabled sizing (0) is the only
+        # non-spec escape hatch, preserved for low-level/fixture callers.
+        if getattr(self, 'enable_volume_based_sizing', False):
+            enforce_spec_position_size_pct(self.position_size_pct_of_daily_volume)
 
 
 DEFAULT_CONFIG = StrategyConfig()

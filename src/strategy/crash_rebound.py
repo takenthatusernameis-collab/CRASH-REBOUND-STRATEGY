@@ -437,6 +437,16 @@ def generate_signal(
     # Volume-based sizing if enabled
     if getattr(config, 'enable_volume_based_sizing', False):
         try:
+            # Fail-closed: when volume-based sizing is enabled (spec-compliant
+            # mode), the sizing pct is not a free parameter. A mutated pct
+            # (anything other than the spec 1.25%) is a bypass attempt and is
+            # rejected here so it cannot silently reach the trade. This is a
+            # second line of defense on top of StrategyConfig.__post_init__,
+            # which catches config-construction bypasses (including
+            # object.__setattr__ mutations that skip __post_init__).
+            from src.strategy.config import enforce_spec_position_size_pct
+            enforce_spec_position_size_pct(
+                getattr(config, 'position_size_pct_of_daily_volume', 1.25))
             daily_vol_usd = _daily_volume_usd(candles, lookback=24)
             if daily_vol_usd is not None and daily_vol_usd > 0 and entry > 0:
                 vol_size = position_size_by_volume(
@@ -446,6 +456,8 @@ def generate_signal(
                 )
                 if vol_size and vol_size > 0:
                     size = vol_size
+        except ValueError:
+            raise
         except Exception:
             pass  # fall back to risk-based sizing
     return Signal(
