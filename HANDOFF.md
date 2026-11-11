@@ -1,20 +1,20 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T20:26:36Z
-**HEAD:** `9b5d6c5 chore(kilo): checkpoint agent session`
-**Single canonical durable handoff:** ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and `_probe_*` artifacts are implementation/tests/scratch, not handoffs.
+**Updated (UTC):** 2026-11-11T20:48:06Z
+**HEAD:** `40e5811 chore(kilo): checkpoint agent session`
+**Single canonical durable handoff:** ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and `_probe_*`/`_trace_*` artifacts are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-11T20:26:36Z) — BOTTLENECKS CLEARED, HEAVY NEXT CAMPAIGN ACTIVE
+## SESSION AUDIT (2026-11-11T20:48:06Z) — BOTTLENECKS CLEARED, HEAVY NEXT CAMPAIGN CONFIRMED
 - **Repo identity/priorities (drives all work):** `CRASH-REBOUND-STRATEGY` → crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly bar-by-bar backtest). Never claim 20s slicing, spread/L2/order-book impact.
-- **Durable handoff audit (verified):** **only root `HANDOFF.md` is a durable handoff**. No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs exist. Matches in `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and root `_probe_*`/`_trace_*` are implementation/tests/scratch — not duplicate handoffs. None to remove.
+- **Durable handoff audit (verified):** **only root `HANDOFF.md` is a durable handoff**. No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs found. Matches in `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and root `_probe_*`/`_trace_*` are implementation/tests/scratch — not duplicate handoffs. None removed.
 - **Lock/blocker audit (verified):** no stale `*.lock` files outside `.git/` found. No process/session bottlenecks removed.
 - **Working tree:** clean (`git status` empty). No uncommitted blocker state.
 - **Scratch/non-blockers (leave unless relevant):** root `_probe_*`/`_trace_*` scripts, `__pycache__`, `research_state/.test_derive_vol_*` are scratch/test artifacts, not handoffs/blockers.
 - **Historical/partially stale docs — verify against code+tests before acting:** `research_state/gap_analysis.md` (2026-10-30; claims contradicted by current tree/tests) and `research_state/campaign_artifact_provenance_erratum.md` (historical). Do not trust stale claims.
-- **Environment status:** `pytest 9.2.0` installed. **Real 283d Hyperliquid BTC/ETH candles unavailable/unverified (fail-closed) — NEVER fabricate.** If any blocker appears (duplicate handoff, stale lock, broken gate, contradictory artifact), REMOVE/FIX it first with failing-tests-first evidence before other work.
-- **Campaign status:** **#1 COMPLETE. #2 COMPLETE. #3 COMPLETE. #4 COMPLETE (all known missing-ETH/funding/liquidation/final-exit combos locked per recorded evidence).** No uncovered #4 combo re-opened without concrete failing evidence. Work MUST move to NEXT CAMPAIGN (cross-leg reconciliation/settlement guardrails, failing-tests-first). No new material engine/test feature shipped this audit session; bottlenecks cleared, gate re-verified, and durable handoff refreshed with sharpened next-cell evidence.
+- **Environment status:** `pytest 9.2.0` installed. **Real 283d Hyperliquid BTC/ETH candles unavailable/unverified (fail-closed) — NEVER fabricate.**
+- **Campaign status:** **#1 COMPLETE. #2 COMPLETE. #3 COMPLETE. #4 COMPLETE (all known missing-ETH/funding/liquidation/final-exit combos locked per recorded evidence).** No uncovered #4 combo re-opened without concrete failing evidence. Work MUST move to NEXT CAMPAIGN (cross-leg reconciliation/settlement guardrails, failing-tests-first). No new engine/test feature shipped in this audit-only session; bottlenecks cleared and durable handoff refreshed with timestamped heavy initial task.
 
-## LAST RECORDED GATE (VERIFIED THIS SESSION)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **767 passed, 12 skipped in 27.20s** (verified 2026-11-11T20:26:36Z). Gate green; **MUST be re-run first in next session**. If broken/regressed, fix before anything else.
+## LAST RECORDED GATE (NOT RE-RUN THIS SESSION)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **767 passed, 12 skipped in 27.20s** (last verified 2026-11-11T20:26:36Z by prior session). **MUST be re-run first in next session**. If broken/regressed, fix before anything else. Do not treat prior count as fresh.
 
 ## MATERIAL SHIPPED (CARRY-FORWARD EVIDENCE)
 - **2026-11-11T13:17:59Z (#4 completed):** `tests/test_rebound_short_stop_target_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py` — rebound-short STOP/TARGET with missing ETH at exit idx, cap_cut/commission_min/entry_next_bar, per-leg funding reconciliation vs funding-off, fallback hedge-exit parity, rebound-leg settlement/risk_state release, `max_live_coin_notional` traced.
@@ -51,17 +51,17 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T20:26:36Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T20:48:06Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-11T20:26:36Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-11T20:48:06Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
 CAMPAIGN STATUS: #1 COMPLETE. #2 COMPLETE. #3 COMPLETE. #4 COMPLETE (all known missing-ETH/funding/liquidation/final-exit combos locked per recorded evidence). Do NOT re-litigate #1-#4 without concrete failing evidence. NEXT CAMPAIGN is ACTIVE and MANDATORY.
 
-BOTTLENECKS (audit 2026-11-11T20:26:36Z, HEAD 9b5d6c5): CLEARED. Only root `HANDOFF.md` is durable (no duplicate TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoffs; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, `_probe_*`/`_trace_*` are implementation/tests/scratch). No stale `*.lock` outside `.git/`. Working tree clean. pytest 9.2.0 installed. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical/partially stale — verify against code+tests before use. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate. If you encounter any blocker (duplicate handoff, stale lock, broken gate, contradictory artifact), REMOVE/FIX it FIRST with failing-tests-first evidence before other work.
+BOTTLENECKS (audit 2026-11-11T20:48:06Z, HEAD 40e5811): CLEARED. Only root `HANDOFF.md` is durable (no duplicate TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoffs; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, `_probe_*`/`_trace_*` are implementation/tests/scratch). No stale `*.lock` outside `.git/`. Working tree clean. pytest 9.2.0 installed. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical/partially stale — verify against code+tests before use. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate. If you encounter any blocker (duplicate handoff, stale lock, broken gate, contradictory artifact), REMOVE/FIX it FIRST with failing-tests-first evidence before other work.
 
-BLOCKING GATE (MUST RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`. Verified this session (2026-11-11T20:26:36Z) → **767 passed, 12 skipped in 27.20s**. Re-run now; if broken/regressed, fix before anything else. Do not treat prior counts as fresh.
+BLOCKING GATE (MUST RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`. Last verified 2026-11-11T20:26:36Z (prior session) → **767 passed, 12 skipped in 27.20s**. NOT re-run in this audit session — re-run now; if broken/regressed, fix before anything else. Do not treat prior counts as fresh.
 
 LOCKED (keep ALL anchors green): all existing engine/runner/regression anchors including #4 locks: `tests/test_rebound_short_48h_time_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_missing_eth_bar_fallback_raw_risk_settlement_20261111.py`, `tests/test_rebound_short_funding_all_paths.py`, `tests/test_rebound_short_liquidation_eth_absent_at_exit_index_cap_cut_commission_min_entry_next_bar_funding_20261111.py`, `tests/test_rebound_short_final_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_missing_final_eth_20261110.py`, `tests/test_rebound_short_stop_target_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py`, `tests/test_long_time_exit_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py`, and all #3/#2/#1 locks. Known interpretation: `max_live_coin_notional` may exceed entry-notional cap at pressure/rebound points while reservations record entry-notional cap — do NOT "fix" without concrete failing defect preserving all anchors.
 
