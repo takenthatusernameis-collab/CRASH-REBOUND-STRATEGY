@@ -1,9 +1,9 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T17:51:00Z
-**HEAD:** `8f6c3ab`
+**Updated (UTC):** 2026-11-11T18:24:47Z
+**HEAD:** `4a7ddf4`
 **Single canonical durable handoff:** ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and `_probe_*` artifacts are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-11T17:51:00Z) — BOTTLENECKS CLEARED, HEAVY NEXT CAMPAIGN ACTIVE
+## SESSION AUDIT (2026-11-11T18:24:47Z) — BOTTLENECKS CLEARED, HEAVY NEXT CAMPAIGN ACTIVE
 - **Repo identity/priorities (drives all work):** `CRASH-REBOUND-STRATEGY` → crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly bar-by-bar backtest). Never claim 20s slicing, spread/L2/order-book impact.
 - **Durable handoff audit (verified):** **only root `HANDOFF.md` present** (no other `*handoff*`/TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT files found at repo root scope). No duplicate/stale handoff docs.
 - **Lock/blocker audit (verified):** no stale `*.lock` files outside `.git/`. Working tree clean at audit time (8f6c3ab).
@@ -12,8 +12,8 @@
 - **Environment status:** `pytest 9.2.0` installed. **Real 283d Hyperliquid BTC/ETH candles unavailable/unverified (fail-closed) — NEVER fabricate.** If any new blocker appears (duplicate handoff, stale lock, broken gate, contradictory artifact), REMOVE/FIX it first with failing-tests-first evidence before other work.
 - **Campaign status:** **#1 COMPLETE. #2 COMPLETE. #3 COMPLETE. #4 COMPLETE (all known missing-ETH/funding/liquidation/final-exit combos locked per recorded evidence).** No uncovered #4 combo re-opened without concrete failing evidence. Work MUST move to NEXT CAMPAIGN (cross-leg reconciliation/settlement guardrails, failing-tests-first).
 
-## LAST RECORDED GATE (RE-RUN THIS SESSION 2026-11-11T17:51:00Z)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **767 passed, 12 skipped in 29.19s** (re-recorded 2026-11-11T17:51:00Z; prior 2026-11-11T17:38:27Z → 767 passed, 12 skipped in 29.06s; prior 2026-11-11T17:31:36Z → 767 passed, 12 skipped in 28.73s; prior 2026-11-11T17:23:41Z → 767 passed, 12 skipped in 29.26s; prior 2026-11-11T16:54:09Z → 767 passed, 12 skipped in 30.36s). Gate is green; treat as baseline. **MUST be re-run first in next session**. If broken/regressed, fix before anything else.
+## LAST RECORDED GATE (RE-RUN THIS SESSION 2026-11-11T18:24:47Z)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **767 passed, 12 skipped in 29.64s** (re-recorded 2026-11-11T18:24:47Z; prior 2026-11-11T17:51:00Z → 767 passed, 12 skipped in 29.19s; prior 2026-11-11T17:38:27Z → 767 passed, 12 skipped in 29.06s; prior 2026-11-11T17:31:36Z → 767 passed, 12 skipped in 28.73s; prior 2026-11-11T17:23:41Z → 767 passed, 12 skipped in 29.26s). Gate is green; treat as baseline. **MUST be re-run first in next session**. If broken/regressed, fix before anything else.
 
 ## MATERIAL SHIPPED (CARRY-FORWARD EVIDENCE)
 - **2026-11-11T13:17:59Z (#4 completed):** `tests/test_rebound_short_stop_target_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py` (2 passed) — rebound-short STOP/TARGET with missing ETH at exit idx, cap_cut/commission_min/entry_next_bar, per-leg funding reconciliation vs funding-off, fallback hedge-exit parity, rebound-leg settlement/risk_state release, `max_live_coin_notional` traced.
@@ -50,9 +50,9 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T17:51:00Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T18:24:47Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-11T17:51:00Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-11T18:24:47Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
