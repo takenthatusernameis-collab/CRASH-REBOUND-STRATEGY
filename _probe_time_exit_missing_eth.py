@@ -1,57 +1,15 @@
-"""Probe: long TIME_EXIT with ETH hedge missing ETH bar at exit index + cap_cut + commission_min + entry_next_bar + funding."""
-from src.backtest.engine import backtest_simple, _apply_funding_pnl
+"""Probe (2026-11-11): long TIME_EXIT with ETH hedge present at entry but ETH bar
+missing at exit index -> engine fallback to hedge_info['entry'] for hedge
+exit-price accounting, under cap_cut + commission_min + entry_next_bar + funding.
+Print exact engine outputs so the regression lock can hardcode traced values.
+"""
+from src.backtest.engine import backtest_simple
 from src.strategy.config import StrategyConfig
-from src.strategy.crash_rebound import Signal, compute_eth_hedge_size
-from src.strategy.risk import DailyRiskState
+from src.strategy.crash_rebound import Signal
 
 
-def _c(ts, o, h, l, cl, v=10_000_000.0):
-    return {"timestamp": ts, "open": o, "high": h, "low": l, "close": cl, "volume": v}
-
-
-def _scenario():
-    n = 40
-    coin = []
-    eth = []
-    cp = 100.0
-    ep = 2000.0
-    for i in range(n):
-        cm = 1.015 if i % 2 == 0 else 0.985
-        em = 1.008 if i % 2 == 0 else 0.992
-        co, cc = cp, cp * cm
-        ch, cl = max(co, cc) * 1.002, min(co, cc) * 0.998
-        eo, ec = ep, ep * em
-        eh, el = max(eo, ec) * 1.001, min(eo, ec) * 0.999
-        coin.append(_c(f"b{i}", co, ch, cl, cc))
-        eth.append(_c(f"h{i}", eo, eh, el, ec))
-        cp = cc
-        ep = ec
-    coin[6] = _c("e6", 100.0, 100.5, 99.5, 100.0)
-    eth[6] = _c("h6", 2000.0, 2010.0, 1990.0, 2000.0)
-    coin[7] = _c("e7", 100.0, 101.0, 99.0, 100.2)
-    eth[7] = _c("h7", 2010.0, 2020.0, 2000.0, 2015.0)
-    coin[8] = _c("e8", 100.0, 101.0, 99.0, 100.5)   # time-exit close
-    # ETH bar at exit idx 8 MISSING (truncated to 8 bars: 0..7)
-    eth_trunc = eth[:8]
-    return coin, eth_trunc
-
-
-def _cfg(rate=0.01, comm_min=1.0):
-    return StrategyConfig(
-        enable_eth_hedge=True, enable_rebound_short=False, entry_next_bar=True,
-        avoid_downtrend=False, slippage_pct=0.0, commission_per_share=0.0,
-        commission_min=comm_min, funding_rate_pct_per_hour=rate,
-        min_daily_volume_usd=0.0, time_exit_max_bars=3,
-        enable_liquidation_checks=True, liquidation_maint_margin_pct=5.0,
-        liquidation_buffer_pct=1.0, liquidation_penalty_pct=0.5,
-        gross_cap_pct=120.0, hedge_vol_lookback_hours=336,
-    )
-
-
-def _sig(shares=1000.0):
-    return Signal(symbol="T", side="long", reason="t", entry_price=100.0,
-                  stop_price=80.0, target_price=200.0, risk_per_share=20.0,
-                  timestamp="t5", size_shares=shares, signal_index=5)
+def _c(ts, o, h, l, c, v=10_000_000.0):
+    return {"timestamp": ts, "open": o, "high": h, "low": l, "close": c, "volume": v}
 
 
 class _CapCutRS:
@@ -72,42 +30,80 @@ class _CapCutRS:
         pass
 
 
-class _RecRS(_CapCutRS):
-    def __init__(self):
-        super().__init__()
-        self.events = []
+def _cfg(**ov):
+    d = dict(
+        enable_eth_hedge=True,
+        enable_rebound_short=False,
+        entry_next_bar=True,
+        avoid_downtrend=False,
+        slippage_pct=0.0,
+        commission_per_share=0.0,
+        commission_min=1.0,
+        funding_rate_pct_per_hour=0.01,
+        min_daily_volume_usd=0.0,
+        time_exit_max_bars=3,
+        enable_liquidation_checks=True,
+        liquidation_maint_margin_pct=5.0,
+        liquidation_buffer_pct=1.0,
+        liquidation_penalty_pct=0.5,
+        gross_cap_pct=120.0,
+        hedge_vol_lookback_hours=336,
+    )
+    d.update(ov)
+    return StrategyConfig(**d)
 
-    def apply_trade(self, *a, **k):
-        self.events.append((a, k))
+
+def _sig():
+    return Signal(
+        symbol="T", side="long", reason="t",
+        entry_price=100.0, stop_price=80.0, target_price=200.0,
+        risk_per_share=20.0, timestamp="t5", size_shares=1000.0, signal_index=5,
+    )
 
 
-coin, eth = _scenario()
-print("len(eth) =", len(eth), "exit idx 8 OOR -> raw fallback")
-rs = DailyRiskState()
-res = backtest_simple(coin, _sig(), config=_cfg(), risk_state=rs, capital=100000.0, eth_candles=eth)
-print("exit_reason:", res.exit_reason)
-print("bars_held:", res.bars_held)
-print("shares:", repr(res.shares))
-print("entry_price:", repr(res.entry_price))
-print("exit_price:", repr(res.exit_price))
-print("hedge_side:", res.hedge_side)
-print("hedge_size:", repr(res.hedge_size))
-print("hedge_entry:", repr(res.hedge_entry))
-print("hedge_exit:", repr(res.hedge_exit))
-print("pnl:", repr(res.pnl))
-print("hedge_pnl:", repr(res.hedge_pnl))
-print("total_pnl:", repr(res.total_pnl))
-print("max_live_coin_notional:", repr(res.max_live_coin_notional))
-print("trades:", res.trades)
-print("rs realized_pnl:", repr(rs.realized_pnl))
-print("rs open_positions:", rs.open_positions)
-print("rs gross_exposure:", rs.gross_exposure)
-print("rs open_position_notionals:", rs.open_position_notionals)
-print()
-# funding delta
-rs2 = DailyRiskState()
-res_off = backtest_simple(coin, _sig(), config=_cfg(rate=0.0), risk_state=rs2, capital=100000.0, eth_candles=eth)
-print("off total_pnl:", repr(res_off.total_pnl))
-print("delta:", repr(res.total_pnl - res_off.total_pnl))
-print("off realized:", repr(rs2.realized_pnl))
-print("on realized:", repr(rs.realized_pnl))
+def _scenario(eth_exit_mode):
+    n = 40
+    coin, eth = [], []
+    cp, ep = 100.0, 2000.0
+    for i in range(n):
+        cm = 1.015 if i % 2 == 0 else 0.985
+        em = 1.008 if i % 2 == 0 else 0.992
+        co, cc = cp, cp * cm
+        ch, cl = max(co, cc) * 1.002, min(co, cc) * 0.998
+        eo, ec = ep, ep * em
+        eh, el = max(eo, ec) * 1.001, min(eo, ec) * 0.999
+        coin.append(_c(f"b{i}", co, ch, cl, cc))
+        eth.append(_c(f"h{i}", eo, eh, el, ec))
+        cp, ep = cc, ec
+    coin[6] = _c("e6", 100.0, 100.5, 99.5, 100.0)
+    eth[6] = _c("h6", 2000.0, 2010.0, 1990.0, 2000.0)
+    coin[7] = _c("e7", 100.0, 101.0, 99.0, 100.2)
+    eth[7] = _c("h7", 2010.0, 2020.0, 2000.0, 2015.0)
+    coin[8] = _c("e8", 100.0, 101.0, 99.0, 100.5)
+    if eth_exit_mode == "missing_fields":
+        eth[8] = {"timestamp": "h8"}  # present but no close/open
+    elif eth_exit_mode == "truncated":
+        eth = eth[:8]  # idx 8 out of range
+    else:
+        eth[8] = _c("h8", 2030.0, 2040.0, 2020.0, 2035.0)
+    return coin, eth
+
+
+for mode in ["present", "missing_fields", "truncated"]:
+    coin, eth = _scenario(mode)
+    on = backtest_simple(coin, _sig(), config=_cfg(funding_rate_pct_per_hour=0.01),
+                         risk_state=_CapCutRS(), capital=100000.0, eth_candles=eth)
+    off = backtest_simple(coin, _sig(), config=_cfg(funding_rate_pct_per_hour=0.0),
+                          risk_state=_CapCutRS(), capital=100000.0, eth_candles=eth)
+    print(f"=== mode={mode} ===")
+    print(f"  exit_reason={on.exit_reason} bars_held={on.bars_held}")
+    print(f"  shares={on.shares!r}")
+    print(f"  entry_price={on.entry_price!r} exit_price={on.exit_price!r}")
+    print(f"  hedge_side={on.hedge_side} hedge_size={on.hedge_size!r}")
+    print(f"  hedge_entry={on.hedge_entry!r} hedge_exit={on.hedge_exit!r}")
+    print(f"  pnl={on.pnl!r} hedge_pnl={on.hedge_pnl!r} total_pnl={on.total_pnl!r}")
+    print(f"  max_live_coin_notional={on.max_live_coin_notional!r}")
+    print(f"  trades={on.trades}")
+    delta = on.total_pnl - off.total_pnl
+    print(f"  funding delta={delta!r}  off.total_pnl={off.total_pnl!r}")
+    print()
