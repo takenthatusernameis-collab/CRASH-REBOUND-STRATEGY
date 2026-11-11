@@ -1,12 +1,12 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T09:40:18Z
+**Updated (UTC):** 2026-11-11T09:42:03Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, and session/timed test-name/`__pycache__`/`_probe_*` matches are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-11T09:40:18Z) — BOTTLENECKS CLEARED, GATE GREEN, #3 LOCKED, #4 ACTIVE
+## SESSION AUDIT (2026-11-11T09:42:03Z) — BOTTLENECKS CLEARED, GATE GREEN, #3 LOCKED, #4 ACTIVE
 - **Repo identity/priorities:** `CRASH-REBOUND-STRATEGY` — crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Never claim 20s slicing, spread/L2/order-book impact.
-- **Bottlenecks checked/cleared (2026-11-11T09:40:18Z):** only root `HANDOFF.md` exists as durable handoff (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs outside implementation/tests; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, session/timed fixtures/`__pycache__`/`_probe_*` are implementation/tests/scratch, not handoffs). No `*.lock` outside `.git/`. No contradictory canonical handoff artifacts. No stale process blockers observed. `research_state/.test_derive_vol_*` temp dirs (gitignored) — not blockers. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` remain historical/partially stale — verify against code+tests before acting. Real 283d Hyperliquid candles remain unavailable/unverified (fail-closed by design, environment blocker — never fabricate). No code/test blockers observed.
+- **Bottlenecks checked/cleared (2026-11-11T09:42:03Z):** only root `HANDOFF.md` exists as durable handoff (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs outside implementation/tests; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, session/timed fixtures/`__pycache__`/`_probe_*` are implementation/tests/scratch, not handoffs). No `*.lock` outside `.git/`. No contradictory canonical handoff artifacts. No stale process blockers observed. `research_state/.test_derive_vol_*` temp dirs (gitignored) — not blockers. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` remain historical/partially stale — verify against code+tests before acting. Real 283d Hyperliquid candles remain unavailable/unverified (fail-closed by design, environment blocker — never fabricate). No code/test blockers observed. Working tree clean, no uncommitted changes.
 - **Campaign status (evidence):** #1 COMPLETE (2026-11-11T04:50Z). #2 COMPLETE (2026-11-11T05:29:28Z). #3 COMPLETE (2026-11-11T09:16:00Z) — all six uncovered RSI-trigger admission/ordering edge cases locked with failing-tests-first regression locks. #4 ACTIVE.
-- **Gate evidence (re-verified this session):** blocking gate `PYTHONPATH=. python3 -m pytest -q --tb=short` → **763 passed, 12 skipped in 28.94s** (2026-11-11T09:40:18Z). Re-run as blocking first action next session; fix FIRST if broken/regressed.
+- **Gate evidence (re-verified this session):** blocking gate `PYTHONPATH=. python3 -m pytest -q --tb=short` → **763 passed, 12 skipped in 28.42s** (2026-11-11T09:42:03Z). Re-run as blocking first action next session; fix FIRST if broken/regressed.
 
 ## MATERIAL SHIPPED (LATEST CARRY-FORWARD, EVIDENCE-BACKED)
 - **2026-11-11T09:16:00Z (#3 COMPLETE — all six edge cases locked):** Shipped 6 new test files (14 tests total) covering every uncovered #3 edge case with deterministic hand-traced fixtures:
@@ -45,9 +45,9 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T09:40:18Z, MANDATORY, HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T09:42:03Z, MANDATORY, HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 ```
-CRASH-REBOUND-STRATEGY | 2026-11-11T09:40:18Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-11T09:42:03Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
