@@ -237,11 +237,21 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
         # earlier candidates preferential uncapped fills. Plain long admissions and
         # cases with existing positions use sequential engine cap-cut logic
         # (preserve locked 2026-11-08/2026-11-09 behavior).
+        #
+        # max_positions truncates the candidate pool BEFORE equal-share sizing:
+        # only the deepest-RSI subset (up to max_positions) is admitted, and the
+        # equal share is computed over THAT subset (cap / admitted_count), not over
+        # all candidates. Without this, max_positions=2 with 4 candidates gave each
+        # admitted position cap/4 instead of cap/2 (under-filled, below-cap gross).
         _batch_cut_case = bool(getattr(config, 'enable_rebound_short', False)) \
             and _bar_open_positions == 0 \
             and len(candidates) > 1
         _batch_equal_share_notional = None
         if _batch_cut_case:
+            _max_pos = getattr(config, 'max_positions', None)
+            if _max_pos is not None and len(candidates) > _max_pos:
+                candidates = candidates[:_max_pos]
+                candidate_desired_notionals = candidate_desired_notionals[:_max_pos]
             total_desired = sum(candidate_desired_notionals)
             if total_desired > cap_value:
                 _batch_equal_share_notional = cap_value / len(candidates)
