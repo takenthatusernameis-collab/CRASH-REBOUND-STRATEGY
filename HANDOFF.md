@@ -1,9 +1,9 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T21:04:30Z
+**Updated (UTC):** 2026-11-11T21:20:31Z
 **HEAD:** `e91139b chore(kilo): checkpoint agent session` (working tree clean at audit except this HANDOFF refresh)
 **Single canonical durable handoff:** ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and `_probe_*`/`_trace_*` artifacts are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-11T21:04:30Z) — BOTTLENECKS CLEARED, GATE GREEN, NEXT CAMPAIGN DIRECTED
+## SESSION AUDIT (2026-11-11T21:20:31Z) — BOTTLENECKS CLEARED, GATE GREEN, NEXT CAMPAIGN DIRECTED
 - **Durable handoff audit:** only root `HANDOFF.md` is a durable handoff (verified). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs found. `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, root `_probe_*`/`_trace_*` are implementation/tests/scratch. No duplicates removed.
 - **Lock/blocker audit:** no stale `*.lock` files outside `.git/`. Working tree clean at audit except this HANDOFF refresh. No process/session bottlenecks.
 - **Scratch/non-blockers (leave unless relevant):** root `_probe_*`/`_trace_*`, `__pycache__`, `research_state/.test_derive_vol_*`.
@@ -13,7 +13,7 @@
 - **Campaign status:** #1–#4 COMPLETE and prior 48th-liq cap_cut cell locked. NEXT CAMPAIGN ACTIVE.
 
 ## LAST VERIFIED GATE (THIS SESSION)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **770 passed, 12 skipped in 27.71s** (2026-11-11T21:04:30Z). Re-run first in next session; do not treat this count as fresh if tree changes.
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **770 passed, 12 skipped in 27.42s** (2026-11-11T21:20:31Z). Re-run first in next session; do not treat this count as fresh if tree changes.
 
 ## MATERIAL SHIPPED / LOCKED EVIDENCE (CARRY-FORWARD)
 - **2026-11-11 (48th-liq boundary/cap_cut/commission_min/entry_next_bar, locked):** `tests/test_rebound_short_liquidation_48th_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py` — 48th held bar liquidation precedence over 48h time-exit, cap_cut-implied 600 shares, commission_min, entry_next_bar, aligned ETH and ETH entirely absent at exit index, per-leg fills/PnL/funding, hedge sizing/entry/exit/fallback, liquidation worst-price+penalty, `total_pnl`, `max_live_coin_notional`, `risk_state` settlement/release, funding on/off deltas.
@@ -52,9 +52,9 @@
 - Fail-closed: missing provenance/verification for real path → reject. Never fabricate.
 - Single handoff: only root `HANDOFF.md`.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T21:04:30Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T21:20:31Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-11T21:04:30Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-11T21:20:31Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
