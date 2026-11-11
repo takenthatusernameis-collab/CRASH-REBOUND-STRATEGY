@@ -1,12 +1,11 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T02:54:56Z
+**Updated (UTC):** 2026-11-11T03:02:57Z
 **Single canonical handoff:** ONLY this root `HANDOFF.md` is durable. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, and session/timed test-name/`__pycache__` matches are implementation/tests, not handoffs.
 
-## SESSION AUDIT (2026-11-11T02:54:56Z) — BOTTLENECKS CLEARED, MATERIAL LOCK SHIPPED, GATE GREEN
+## SESSION AUDIT (2026-11-11T03:02:57Z) — BOTTLENECKS CLEARED, GATE GREEN, #1 PRIMARY TARGET STILL UNCOVERED
 - **Repo identity/priorities:** `CRASH-REBOUND-STRATEGY` — crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly backtest). Never claim 20s slicing, spread/L2/order-book impact.
 - **Bottlenecks checked/cleared:** only root `HANDOFF.md` exists as durable handoff (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs outside implementation/tests: `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`; session/timed fixtures/`__pycache__`/`_probe_*` scratch are implementation/tests). No `*.lock` outside `.git/`. No contradictory canonical handoff artifacts. `research_state/.test_derive_vol_*` temp dirs exist (153) but are gitignored via `research_state/.test_derive_vol_*/` — not a handoff/progress blocker. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` remain historical/partially stale — verify against code+tests before acting. Real 283d Hyperliquid candles remain unavailable/unverified (fail-closed by design, environment blocker — never fabricate).
-- **Gate evidence:** baseline this session `PYTHONPATH=. python3 -m pytest -q --tb=no` → **727 passed, 0 failed, 12 skipped (56.10s)**. New test first run: `PYTHONPATH=. python3 -m pytest tests/test_long_liquidation_precedes_stop_and_target_same_bar_cap_cut_commission_min_entry_next_bar_eth_hedge_20261111.py -q --tb=short` → **2 passed**. Final gate: `PYTHONPATH=. python3 -m pytest -q --tb=no` → **729 passed, 0 failed, 12 skipped (54.63s)**.
-- **Canonical real-data gate (FAIL-CLOSED, environment blocker):** real 283d Hyperliquid BTC/ETH candles UNAVAILABLE/UNVERIFIED; `research_state/candle_coverage_gap_report_verified_btceth_283d.json` blocked/synthetic, `research_state/universe_verified.json` empty/`manifest_status:error`. Never fabricate numbers/artifacts or cite placeholders as spec evidence.
+- **Gate evidence:** `PYTHONPATH=. python3 -m pytest -q --tb=no` → **729 passed, 0 failed, 12 skipped (55.24s)** at 2026-11-11T03:02:57Z (baseline 2026-11-11T02:54:56Z also **729 passed, 0 failed, 12 skipped**). Re-run as blocking first action; fix FIRST if broken/regressed.
 
 ## MATERIAL SHIPPED THIS SESSION (2026-11-11T02:54:56Z)
 - **Long liquidation precedence/settlement lock when liquidation, stop, and target are all touchable on same bar (uncovered #1):** `tests/test_long_liquidation_precedes_stop_and_target_same_bar_cap_cut_commission_min_entry_next_bar_eth_hedge_20261111.py` (2 tests, regression lock, no production change required — behavior correct vs spec).
@@ -51,15 +50,15 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`. No parallel handoff/todo/progress files.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T02:54:56Z, MANDATORY, HEAVY, NON-OPTIONAL)
-```text
-CRASH-REBOUND-STRATEGY | 2026-11-11T02:54:56Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T03:02:57Z, MANDATORY, HEAVY, NON-OPTIONAL)
+```
+CRASH-REBOUND-STRATEGY | 2026-11-11T03:02:57Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly backtest engine only. NEVER claim 20s slicing, explicit spread modeling, or L2/order-book impact.
 
 BOTTLENECKS CLEARED/CHECKED: only root `HANDOFF.md` is durable. No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs outside implementation/tests (`scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`; session/timed fixtures/`__pycache__`/`_probe_*` are implementation/tests). No stale `*.lock` outside `.git/`. `research_state/.test_derive_vol_*` dirs are gitignored temp test artifacts. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical — verify against code+tests, never treat as current truth/performance evidence. `require_eth_hedge` fail-closed threaded in engine/`run_portfolio.py`/`run_real_campaign.py`. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed: `candle_coverage_gap_report_verified_btceth_283d.json` blocked/synthetic, `universe_verified.json` empty/error) — NEVER fabricate. If any blocker appears (duplicate handoff, stale lock, broken gate, contradictory canonical artifact), fix it FIRST with failing-tests-first evidence.
 
-GATE (VERIFIED 2026-11-11T02:54:56Z): `PYTHONPATH=. python3 -m pytest -q --tb=no` → **729 passed, 0 failed, 12 skipped (54.63s)**. Re-run as blocking first action; fix FIRST if broken/regressed.
+GATE (VERIFIED 2026-11-11T03:02:57Z): `PYTHONPATH=. python3 -m pytest -q --tb=no` → **729 passed, 0 failed, 12 skipped**. Re-run as blocking first action; fix FIRST if broken/regressed.
 
 LAST SHIPPED MATERIAL (2026-11-11T02:54:56Z): long liquidation precedence/settlement lock when liquidation, stop, and target are all touchable on same bar under cap-cut+commission_min+entry_next_bar+aligned ETH hedge+nonzero funding — `tests/test_long_liquidation_precedes_stop_and_target_same_bar_cap_cut_commission_min_entry_next_bar_eth_hedge_20261111.py` (2). Traced: liq wins (exit liquidated, bars 3, no rebound short), entry 100.001/shares 599.9940000599994/max_live 60000, liq exit 92.99833331666666, coin pnl -4519.557994420063, hedge 56.29769666891872@1999.9822372839535→2070.0177627160465 pnl -3909.060448822962, total -8428.618443243024, funding-on/off delta -18.0+33.77831800135123, close settlement e8 coin-leg pnl with executed notional.
 
