@@ -1,9 +1,10 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-11T20:48:06Z
+**Updated (UTC):** 2026-11-11T20:50:28Z
 **HEAD:** `40e5811 chore(kilo): checkpoint agent session`
 **Single canonical durable handoff:** ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and `_probe_*`/`_trace_*` artifacts are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-11T20:48:06Z) — BOTTLENECKS CLEARED, HEAVY NEXT CAMPAIGN CONFIRMED
+## SESSION AUDIT (2026-11-11T20:50:28Z) — BOTTLENECKS CLEARED, HEAVY NEXT CAMPAIGN CONFIRMED
+- **Re-audit this session:** durable handoff remains only root `HANDOFF.md` (verified: no other handoff-named docs outside implementation/tests/scratch). No stale `*.lock` outside `.git/`. Working tree clean. No bottlenecks to remove; significant progress unblocked for next session via campaign below. No engine/test feature shipped (audit/handoff refresh only).
 - **Repo identity/priorities (drives all work):** `CRASH-REBOUND-STRATEGY` → crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md` (hourly bar-by-bar backtest). Never claim 20s slicing, spread/L2/order-book impact.
 - **Durable handoff audit (verified):** **only root `HANDOFF.md` is a durable handoff**. No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff docs found. Matches in `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, and root `_probe_*`/`_trace_*` are implementation/tests/scratch — not duplicate handoffs. None removed.
 - **Lock/blocker audit (verified):** no stale `*.lock` files outside `.git/` found. No process/session bottlenecks removed.
@@ -51,15 +52,15 @@
 - **Fail-closed:** missing provenance/verification for real path → reject. Never fabricate numbers/artifacts.
 - **Single handoff:** only root `HANDOFF.md`.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T20:48:06Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-11T20:50:28Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-11T20:48:06Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-11T20:50:28Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
 CAMPAIGN STATUS: #1 COMPLETE. #2 COMPLETE. #3 COMPLETE. #4 COMPLETE (all known missing-ETH/funding/liquidation/final-exit combos locked per recorded evidence). Do NOT re-litigate #1-#4 without concrete failing evidence. NEXT CAMPAIGN is ACTIVE and MANDATORY.
 
-BOTTLENECKS (audit 2026-11-11T20:48:06Z, HEAD 40e5811): CLEARED. Only root `HANDOFF.md` is durable (no duplicate TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoffs; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, `_probe_*`/`_trace_*` are implementation/tests/scratch). No stale `*.lock` outside `.git/`. Working tree clean. pytest 9.2.0 installed. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical/partially stale — verify against code+tests before use. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate. If you encounter any blocker (duplicate handoff, stale lock, broken gate, contradictory artifact), REMOVE/FIX it FIRST with failing-tests-first evidence before other work.
+BOTTLENECKS (audit 2026-11-11T20:50:28Z, HEAD 40e5811): CLEARED. Only root `HANDOFF.md` is durable (no duplicate TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoffs; `scripts/controller_progress.py`, `tests/test_controller_progress_accounting.py`, timed/session-named tests, `__pycache__`, `_probe_*`/`_trace_*` are implementation/tests/scratch). No stale `*.lock` outside `.git/`. Working tree clean. pytest 9.2.0 installed. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical/partially stale — verify against code+tests before use. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate. If you encounter any blocker (duplicate handoff, stale lock, broken gate, contradictory artifact), REMOVE/FIX it FIRST with failing-tests-first evidence before other work.
 
 BLOCKING GATE (MUST RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`. Last verified 2026-11-11T20:26:36Z (prior session) → **767 passed, 12 skipped in 27.20s**. NOT re-run in this audit session — re-run now; if broken/regressed, fix before anything else. Do not treat prior counts as fresh.
 
