@@ -250,6 +250,81 @@ def _compute_leg_breakdown(trades: List[Dict[str, Any]], total_pnl: float) -> Li
     return out
 
 
+def _equity_series_for_fees(trades: List[Dict[str, Any]],
+                            equity_curve: Optional[List[Any]] = None,
+                            initial_capital: float = 100000.0):
+    """Build gross equity series for vault-fee accrual.
+
+    Prefer an explicit equity_curve when provided (ordered points with equity/value).
+    Otherwise derive from cumulative trade PnL starting at initial_capital.
+    """
+    if equity_curve and isinstance(equity_curve, list):
+        vals = []
+        for pt in equity_curve:
+            if not isinstance(pt, dict):
+                continue
+            vals.append(_finite(pt.get("equity", pt.get("value", initial_capital)), default=initial_capital))
+        if vals:
+            return vals
+    eq = _finite(initial_capital, default=0.0)
+    series = [eq]
+    for t in trades:
+        eq = _finite(eq + _trade_pnl(t))
+        series.append(eq)
+    return series
+
+
+def _attach_vault_fee_metrics(m: Dict[str, Any], trades: List[Dict[str, Any]],
+                              equity_curve=None, **kwargs):
+    """Optionally compute and attach vault fee reconciliation metrics.
+
+    Enabled when apply_vault_fees=True or when explicit fee config/inputs are
+    provided (initial_capital with fee intent). Default behavior (no flags)
+    leaves existing metrics shape unchanged.
+    """
+    apply_fees = bool(kwargs.get("apply_vault_fees", False))
+    initial_capital = kwargs.get("initial_capital", None)
+    if not apply_fees and initial_capital is None and "aum_rate_annual" not in kwargs and "profit_share_rate" not in kwargs:
+        return m
+    cap = _finite(initial_capital, default=100000.0)
+    hours_per_step = kwargs.get("fee_hours_per_step", 1.0)
+    aum_rate = kwargs.get("aum_rate_annual", None)
+    ps_rate = kwargs.get("profit_share_rate", None)
+
+    series = _equity_series_for_fees(trades, equity_curve=equity_curve, initial_capital=cap)
+    # Lazy import to keep core metrics usable even if fee module missing in isolation.
+    from src.metrics.vault_fees import accrue_vault_fees, DEFAULT_AUM_FEE_ANNUAL, DEFAULT_PROFIT_SHARE
+    fee_kwargs = {
+        "hours_per_step": hours_per_step,
+        "initial_hwm": kwargs.get("fee_initial_hwm", None),
+        "include_steps": bool(kwargs.get("include_fee_steps", False)),
+    }
+    if aum_rate is not None:
+        fee_kwargs["aum_rate_annual"] = _finite(aum_rate, DEFAULT_AUM_FEE_ANNUAL)
+    if ps_rate is not None:
+        fee_kwargs["profit_share_rate"] = _finite(ps_rate, DEFAULT_PROFIT_SHARE)
+    summary = accrue_vault_fees(series, **fee_kwargs)
+
+    gross_total = _finite(summary.final_equity_gross - _finite(series[0], cap))
+    net_total = gross_total - _finite(summary.total_fees)
+    fee_block = {
+        "aum_fee_total": _finite(summary.aum_fee_total),
+        "profit_share_total": _finite(summary.profit_share_total),
+        "vault_fee_total": _finite(summary.total_fees),
+        "gross_total_pnl": gross_total,
+        "net_total_pnl": net_total,
+        "gross_final_equity": _finite(summary.final_equity_gross),
+        "net_final_equity": _finite(summary.final_equity_net),
+        "vault_hwm_final": _finite(summary.final_hwm),
+        "fee_hours_per_step": hours_per_step,
+        "fee_time_base_hours_per_year": 8760.0,
+    }
+    if fee_kwargs.get("include_steps"):
+        fee_block["vault_fee_steps"] = [s.as_dict() for s in summary.steps]
+    m.update(fee_block)
+    return m
+
+
 def compute_campaign_metrics(result=None, trades=None, equity_curve=None, **kwargs):
     """Compute campaign metrics from a portfolio result dict, trade list, or kwargs.
 
@@ -258,11 +333,21 @@ def compute_campaign_metrics(result=None, trades=None, equity_curve=None, **kwar
     - result={'trades': [...], ...}
     - equity_curve=[...] (if provided without trades, returns empty-trade-safe metrics
       with drawdown computed from equity curve when possible)
+
+    Vault fee reconciliation (spec: 2%/yr AUM + 10% profit above HWM): opt-in via
+    apply_vault_fees=True (or by passing fee-related kwargs with initial_capital).
+    When enabled, attaches gross/net PnL & equity and fee components without
+    altering existing trade-based aggregates (no double counting).
     """
     if trades is None and isinstance(result, dict):
         trades = result.get("trades")
         if equity_curve is None:
             equity_curve = result.get("equity_curve")
+        # allow result to carry fee context
+        for k in ("initial_capital", "capital", "apply_vault_fees", "fee_hours_per_step",
+                  "aum_rate_annual", "profit_share_rate", "fee_initial_hwm", "include_fee_steps"):
+            if k in result and k not in kwargs:
+                kwargs[k] = result[k]
     if trades is None and "trades" in kwargs:
         trades = kwargs.get("trades")
 
@@ -293,6 +378,7 @@ def compute_campaign_metrics(result=None, trades=None, equity_curve=None, **kwar
             m["max_drawdown_series"] = series
             # Calmar remains 0 without return context
 
+    _attach_vault_fee_metrics(m, trades, equity_curve=equity_curve, **kwargs)
     m["timestamp"] = datetime.now().isoformat()
     return m
 
