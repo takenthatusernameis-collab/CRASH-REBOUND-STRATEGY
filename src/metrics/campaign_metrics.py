@@ -408,13 +408,17 @@ def _attach_equity_performance(m: Dict[str, Any], trades: List[Dict[str, Any]],
         years = span_seconds / (365.0 * 24.0 * 3600.0)
         if years > 0:
             total_ret = final_eq / start_f - 1.0
-            annualized = (final_eq / start_f) ** (1.0 / years) - 1.0
             m["equity_total_return_pct"] = _finite(total_ret * 100.0)
-            m["equity_annualized_return_pct"] = _finite(annualized * 100.0)
-            m["equity_horizon_years"] = _finite(years)
-            m["equity_annualized_calmar_ratio"] = _finite(
-                annualized / abs(max_dd_pct) if max_dd_pct < 0 else 0.0
-            )
+            try:
+                annualized = math.pow(final_eq / start_f, 1.0 / years) - 1.0
+            except OverflowError:
+                annualized = None
+            if annualized is not None and math.isfinite(annualized):
+                m["equity_annualized_return_pct"] = _finite(annualized * 100.0)
+                m["equity_horizon_years"] = _finite(years)
+                m["equity_annualized_calmar_ratio"] = _finite(
+                    annualized / abs(max_dd_pct) if max_dd_pct < 0 else 0.0
+                )
     return m
 
 

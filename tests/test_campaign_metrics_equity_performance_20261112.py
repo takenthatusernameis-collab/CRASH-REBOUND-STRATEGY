@@ -77,8 +77,8 @@ def test_equity_sharpe_sortino_traced_from_explicit_curve():
     # population std = sqrt(0.0266667/3) = 0.0942809; sharpe = 0.353553.
     assert math.isclose(m["equity_sharpe_ratio"], 1.0 / (2.0 * math.sqrt(2.0)), rel_tol=1e-9), \
         m["equity_sharpe_ratio"]
-    # downside = [-0.10]; downside std = 0.10; sortino = 0.0333333/0.10.
-    assert math.isclose(m["equity_sortino_ratio"], 1.0 / 30.0, rel_tol=1e-9), \
+    # downside = [-0.10]; downside std = 0.10; sortino = 0.0333333/0.10 = 1/3.
+    assert math.isclose(m["equity_sortino_ratio"], 1.0 / 3.0, rel_tol=1e-9), \
         m["equity_sortino_ratio"]
     # peak 110 -> 99 = -10% max drawdown.
     assert math.isclose(m["equity_max_drawdown_pct"], -10.0, rel_tol=1e-12), \
