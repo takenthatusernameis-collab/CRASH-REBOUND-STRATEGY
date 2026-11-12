@@ -3,7 +3,7 @@ from typing import List, Dict, Any, Optional
 
 from src.strategy.config import StrategyConfig, DEFAULT_CONFIG
 from src.strategy.risk import DailyRiskState
-from src.strategy.crash_rebound import compute_eth_hedge_size
+from src.strategy.crash_rebound import compute_eth_hedge_size, confirm_rebound
 
 
 @dataclass
@@ -462,8 +462,23 @@ def backtest_simple(
             rebound_hedge_info = {'side': None, 'size': 0.0, 'entry': 0.0, 'exit': 0.0}
             short_exit_ts = str(c.get('timestamp', ''))
             short_exit_price_final = exit_px
-            # Rebound short logic when buy hits +9% target fast
-            if getattr(config, 'enable_rebound_short', True):
+            # Spec gate: "Only coins that already bounced hard are worth shorting"
+            # (crash-rebound-strategy.pdf). When rebound_short_require_bounce_confirm
+            # is set, the rebound short may only open when the target bar itself is
+            # a confirming rebound bar (close > open, close in the upper half of its
+            # range), evaluated over candles[:idx + 1] — history available at the
+            # target bar only, no look-ahead. Default False preserves the legacy
+            # behavior (short on any +9% fill) and every existing anchor.
+            _rebound_confirmed = (
+                not getattr(config, 'rebound_short_require_bounce_confirm', False)
+                or confirm_rebound(
+                    candles[:idx + 1],
+                    lookback=getattr(config, 'rebound_lookback', 3),
+                    min_body_ratio=getattr(config, 'rebound_min_body_ratio', 0.5),
+                )
+            )
+            # Rebound short logic when buy hits +9% target
+            if getattr(config, 'enable_rebound_short', True) and _rebound_confirmed:
                 short_entry_px = _slippage_commission_per_share(exit_px, config, 'sell', shares=shares)  # enter short
                 # Add hedge for rebound short leg (long hedge)
                 if getattr(config, 'enable_eth_hedge', True) and eth_candles:
