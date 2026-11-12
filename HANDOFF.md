@@ -1,29 +1,29 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T13:46:46Z
-**HEAD at audit:** `5b8e7c5 chore(kilo): checkpoint agent session` (working tree contains this handoff update; no commit was requested).
+**Updated (UTC):** 2026-11-12T13:54:32Z
+**HEAD at audit:** `63d6804 chore(kilo): checkpoint agent session` (working tree includes this handoff refresh; no commit requested).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T13:46:46Z) — BOTTLENECKS CLEARED, GATE GREEN
-- **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here; not a handoff). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
+## SESSION AUDIT (2026-11-12T13:54:32Z) — BOTTLENECKS CLEARED, HEAVY CAMPAIGN ARMED
+- **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory artifacts.
-- **Handoff staleness reconciled:** refreshed from prior `5b8e7c5`/`12:51:50Z` state to current HEAD `5b8e7c5` with re-verified evidence.
-- **Test-residue bottleneck CLEARED AT ROOT CAUSE (carry-forward):** 24 stale `research_state/.test_derive_vol_*` dirs / 28 files were present despite prior cleanup claims. Root cause: `TestDeriveVerifiedUniverseProvenanceFloor._manifest_with_volume` only registered cleanup on `unittest.TestCase` via `hasattr(self, "addCleanup")`, but these are pytest-style classes, so the fixture dirs leaked on every run. Converted helper to `@contextmanager` with `try/finally shutil.rmtree`; targeted test = 6 passed, full suite = 798 passed / 12 skipped, and post-gate residue count is now **0 dirs / 0 files**.
-- **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders: `provenance.json` reports `status:"error"`, `synthetic_check.is_synthetic:true`, `reason:"flat_series_all_bars_identical"` (1 distinct signature/6792 bars), absurd volume (~1e15 USD). Fabricating/promoting violates fail-closed rules. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs; engine/spec/fee-accounting work is unblocked.
+- **Test-residue hygiene (verified):** `find research_state -maxdepth 1 -type d -name '.test_derive_vol_*' | wc -l` → **0**. Prior leak was fixed at root cause (context-manager cleanup in `tests/test_derive_verified_universe_volume_floor_20261107.py`); keep it clean.
+- **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders: `provenance.json` reports `status:"error"`, `synthetic_check.is_synthetic:true`, `reason:"flat_series_all_bars_identical"` (1 distinct/6792), absurd volume (~1e15 USD). Fabricating/promoting violates fail-closed rules. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs; engine/spec/fee-accounting work is unblocked.
 
-## LAST VERIFIED GATE (HEAD `5b8e7c5`, AFTER BOTTLENECK CLEANUP)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **798 passed, 12 skipped in 42.68s** (2026-11-12T13:46:46Z). **MANDATORY FIRST ACTION next session:** re-run at current HEAD and report exact count. Fix before any other work if broken/regressed.
-- Targeted cleanup regression: `PYTHONPATH=. python3 -m pytest -q --tb=short tests/test_derive_verified_universe_volume_floor_20261107.py` → **6 passed**; `find research_state -maxdepth 1 -type d -name '.test_derive_vol_*' | wc -l` → **0**.
+## LAST VERIFIED GATE (HEAD `63d6804`, 2026-11-12T13:54:32Z)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **798 passed, 12 skipped in 42.54s**.
+- **MANDATORY FIRST ACTION next session:** re-run at current HEAD and report exact count. Fix before any other work if broken/regressed.
 
 ## PRIMARY PROVABLE GAP — VAULT FEE STRUCTURE (UNIMPLEMENTED / UNTESTED)
 Spec truth (`research_state/strategy_spec.md:62`): *"Management/fees as described: 2% a year on assets and 10% of remaining profit (typical vault fee structure mentioned)."*
 - **Proof of absence (re-run before starting):** `grep -rniE 'management_fee|mgmt_fee|performance_fee|profit_fee|high.water|vault_fee' src scripts tests --include='*.py'` → **0 matches**. `find tests -maxdepth 1 -iname '*fee*' -o -iname '*vault*'` → none. No module in `src/metrics/` or `src/strategy/` applies 2%/yr AUM charge or 10% profit share. This is a bounded, hand-tracable accounting gap requiring NEW code + deterministic traced tests (not re-verification).
 
 ## NEXT FOCUS CAMPAIGN (FINITE, ORDERED, HEAVY — SHIP ≥1 MATERIAL ITEM/SESSION)
-Work top-down. For each cell: **prove gap** (cite search), **hand-trace expected values from spec math**, write dated failing test, make it green. Continue until exhausted with file evidence. Do NOT stop after one cell if more uncovered cells remain.
-1. **VAULT AUM FEE (2%/yr) — implement + lock.** Add pure, testable accrual (e.g. `src/metrics/vault_fees.py`): per-bar fee = `equity * 0.02 * (hours_elapsed / 8760)` using campaign bar spacing (hourly). Deterministic fixtures; exact accrual over known horizons (1h, 24h, 8760h); never charge non-positive equity.
-2. **PROFIT SHARE (10% above HWM) — implement + lock.** 10% of equity increase over prior peak (high-water mark); no charge when equity ≤ HWM; HWM updates only on new peaks; document and lock spec-faithful ordering with AUM fee via traced values.
-3. **FEE × METRICS RECONCILIATION — lock.** Ensure `campaign_metrics` gross/net account for fees without double counting; `total_pnl`/attribution/leg_breakdown reconcile net-of-fee; CSV/JSON surfaces expose fee components with concrete expected values.
-4. **FEE EDGE CASES — lock.** Empty/zero-equity campaign, single-bar, loss-only path (HWM never exceeded → zero profit share), exact HWM-equality boundary, sub-hourly/irregular spacing guard, non-finite guard.
+Repo name priority: **CRASH-REBOUND-STRATEGY** → implement/harden crash→rebound execution fidelity to spec with auditable accounting. Execute top-down. For each cell: **prove gap** (cite search), **hand-trace expected values from spec math**, write dated failing test, make it green. Continue until exhausted with file evidence. Do NOT stop after one cell if more uncovered cells remain.
+
+1. **VAULT AUM FEE (2%/yr) — implement + lock.** Add pure, testable accrual (e.g. `src/metrics/vault_fees.py`): per-step fee = `equity * 0.02 * (hours_elapsed / 8760)` (hourly bars default). Deterministic fixtures with exact accrual over known horizons (1h, 24h, 8760h); never charge non-positive equity; document time base assumptions.
+2. **PROFIT SHARE (10% above HWM) — implement + lock.** 10% of equity increase over prior peak (high-water mark). No charge when equity ≤ HWM; HWM updates only on new peaks. Hand-trace and lock spec-faithful ordering/interaction with AUM fee via concrete expected values.
+3. **FEE × METRICS RECONCILIATION — lock.** Ensure campaign/portfolio metrics account for fees without double counting: `total_pnl`/equity/attribution/leg_breakdown and CSV/JSON surfaces expose gross vs net and fee components with traced expectations. Integrate at a clear boundary (metrics/post-processing or runner output) without breaking existing anchored semantics.
+4. **FEE EDGE CASES — lock.** Empty/zero-equity campaign, single-bar, loss-only path (HWM never exceeded → zero profit share), exact HWM-equality boundary, multi-step peak/reset sequence, non-finite guard.
 5. **ONLY IF 1–4 EXHAUSTED WITH EVIDENCE:** return to engine/portfolio reconciliation cells that remain provably uncovered (prove by file search first; 2026-11-12 portfolio both-hedged loop-exit and all `cap_cut+commission_min+entry_next_bar` terminal families are already locked — do not re-litigate). Otherwise ship gated-pipeline/provenance fail-closed hardening with concrete expected values. Still failing-tests-first.
 
 **No-idle rule:** passive re-verification or handoff-only edit without a material test/fix is NOT work. If a probed cell is already locked, cite file evidence and move to next.
@@ -33,11 +33,11 @@ Work top-down. For each cell: **prove gap** (cite search), **hand-trace expected
 - **Runners/gating:** `scripts/run_portfolio.py` (per-bar gating/reservation/cap-cut), `run_real_campaign.py` (fail-closed provenance/verified gates), engine fail-closed when `require_eth_hedge=True` and no usable hedge.
 - **Engine sequencing (`src/backtest/engine.py`):** liquidation > stop > target > time-exit; `hours_held_short = sidx - short_start_idx + 1`; time-exit at `>= short_bars_max` (default 48). Hedge exit fallback when aligned ETH bar missing at exit index: use `hedge_info['entry']` and re-apply exit slippage/commission.
 - **NOT IMPLEMENTED (campaign above):** vault management fee (2%/yr AUM) and profit share (10% above HWM) — confirmed 0 references.
-- **Session hygiene (fixed 2026-11-12T12:51:01Z):** `tests/test_derive_verified_universe_volume_floor_20261107.py` now cleans repo-local `.test_derive_vol_*` fixtures via context-manager `finally`; no residue remains after full gate.
+- **Session hygiene:** `.test_derive_vol_*` cleanup fixed at root cause; no residue after gate.
 
 ## MATERIAL LOCKED EVIDENCE (CARRY-FORWARD — DO NOT RE-LITIGATE)
 - **2026-11-12 both-hedges family** (`cap_cut+commission_min+entry_next_bar`): FINAL EXIT (aligned + missing-ETH-at-final-bar rebound fallback), STOP, TARGET, TIME_EXIT, LIQUIDATION — `tests/test_both_hedges_*_20261112.py`.
-- **2026-11-12 portfolio runner both-hedged rebound loop-else final exit** — `tests/test_portfolio_both_hedges_rebound_loop_exit_cap_cut_max_live_20261112.py` (per-leg PnL/funding, max_live reservation 6540 vs 6000 entry, equal-share cut 6000 each, risk_state settlement 1166.4, final-state release).
+- **2026-11-12 portfolio runner both-hedged rebound loop-else final exit** — `tests/test_portfolio_both_hedges_rebound_loop_exit_cap_cut_max_live_20261112.py`.
 - **Stopped-buy-never-opens-rebound (portfolio E2E, real engine)** — `tests/test_portfolio_stopped_buy_real_engine_e2e.py`.
 - **2026-11-11:** 48th-bar liq/stop/target precedence & boundaries; RSI-trigger batch/sequential cuts; heterogeneous commission_min; deterministic tie-break; no top-up; settlement reconciliation; no-look-ahead (#3); 1.25% sizing bypass fixed/locked.
 - **Locked semantics:** `max_live_coin_notional` may exceed entry-notional cap at pressure/rebound while reservations record entry-notional cap (do NOT "fix" without a concrete failing defect). Overall `exit_reason` may stay `target_rebound_short` while short-leg trade reason differs (assert per-leg). Loop-else final exit applies `short_pnl` only to risk_state; portfolio runner reconciles `total_pnl` (all legs) into master risk_state.
@@ -53,20 +53,20 @@ Work top-down. For each cell: **prove gap** (cite search), **hand-trace expected
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T13:46:46Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T13:54:32Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T13:46:46Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T13:54:32Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
 NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): User gave no feature/direction. The single highest-value, PROVABLY-UNCOVERED spec surface is VAULT FEE STRUCTURE (spec: 2%/yr on assets + 10% of remaining profit). ZERO implementation/tests (prove: `grep -rniE 'management_fee|mgmt_fee|performance_fee|profit_fee|high.water|vault_fee' src scripts tests --include='*.py'` → 0; `find tests -maxdepth 1 -iname '*fee*' -o -iname '*vault*'` → none). Execute cells 1→4 in order in HANDOFF.md NEXT FOCUS CAMPAIGN: (1) 2%/yr AUM accrual, (2) 10% profit share above HWM, (3) fee×metrics reconciliation, (4) fee edge cases. Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit.
 
-BOTTLENECKS (audit 2026-11-12T13:46:46Z, HEAD 5b8e7c5): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. The .test_derive_vol_* leak is fixed at root cause (context-manager cleanup); post-gate residue is 0 dirs / 0 files. Do not re-create residue; if it appears, fix cleanup before continuing.
+BOTTLENECKS (audit 2026-11-12T13:54:32Z, HEAD 63d6804): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. Do not re-create residue; if it appears, fix cleanup before continuing.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ~1e15 USD volume). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs — fee work unblocked.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T13:46:46Z, HEAD 5b8e7c5): 798 passed, 12 skipped in 42.68s.
+  - Last verified (2026-11-12T13:54:32Z, HEAD 63d6804): 798 passed, 12 skipped in 42.54s.
   - Re-run NOW at current HEAD; report exact count. If broken/regressed, fix before ANYTHING else.
 
 GAP PROOF (MANDATORY FIRST STEP): run the grep/find above and cite concrete absence. If a fee surface somehow exists, document and move to next uncovered campaign cell. Then proceed to cell 1.
@@ -83,7 +83,7 @@ COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: #1–#4 comple
 EXECUTION (NON-NEGOTIABLE):
   1) GAP PROOF: grep/find; cite file absence for fees.
   2) TRACE FIRST (red): deterministic hand-traced fixtures from spec math (AUM fee = equity * 0.02 * hours/8760; profit share = 10% * max(0, equity - HWM)); assert exact expected values, ordering, and metric reconciliation.
-  3) SHIP: dated failing-tests-first tests tests/test_*202611*.py (red→green). Add pure fee module under src/metrics/. Fix existing code ONLY where a concrete defect is proven; preserve all anchors.
+  3) SHIP: dated failing-tests-first tests tests/test_*202611*.py (red→green). Add pure fee module under src/metrics/ (or spec-justified location) and wire only where reconciliation is proven necessary. Fix existing code ONLY where a concrete defect is proven; preserve all anchors.
   4) VERIFY: targeted test(s) + full gate `PYTHONPATH=. python3 -m pytest -q --tb=short` (exact count). Keep all anchors green.
   5) CONTINUE down cells 1→4 until exhausted with evidence; then ship other MATERIAL guardrails (only with prior file-search proof of a real gap).
 
@@ -98,4 +98,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T13:46:46Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T13:54:32Z)**
