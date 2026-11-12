@@ -1,17 +1,17 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T12:51:50Z
+**Updated (UTC):** 2026-11-12T13:46:46Z
 **HEAD at audit:** `5b8e7c5 chore(kilo): checkpoint agent session` (working tree contains this handoff update; no commit was requested).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T12:51:50Z) — BOTTLENECKS CLEARED, GATE GREEN
+## SESSION AUDIT (2026-11-12T13:46:46Z) — BOTTLENECKS CLEARED, GATE GREEN
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here; not a handoff). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory artifacts.
-- **Handoff staleness reconciled:** refreshed from prior `5b8e7c5`/`12:51:01Z` state to current HEAD `5b8e7c5` with re-verified evidence.
+- **Handoff staleness reconciled:** refreshed from prior `5b8e7c5`/`12:51:50Z` state to current HEAD `5b8e7c5` with re-verified evidence.
 - **Test-residue bottleneck CLEARED AT ROOT CAUSE (carry-forward):** 24 stale `research_state/.test_derive_vol_*` dirs / 28 files were present despite prior cleanup claims. Root cause: `TestDeriveVerifiedUniverseProvenanceFloor._manifest_with_volume` only registered cleanup on `unittest.TestCase` via `hasattr(self, "addCleanup")`, but these are pytest-style classes, so the fixture dirs leaked on every run. Converted helper to `@contextmanager` with `try/finally shutil.rmtree`; targeted test = 6 passed, full suite = 798 passed / 12 skipped, and post-gate residue count is now **0 dirs / 0 files**.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders: `provenance.json` reports `status:"error"`, `synthetic_check.is_synthetic:true`, `reason:"flat_series_all_bars_identical"` (1 distinct signature/6792 bars), absurd volume (~1e15 USD). Fabricating/promoting violates fail-closed rules. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs; engine/spec/fee-accounting work is unblocked.
 
 ## LAST VERIFIED GATE (HEAD `5b8e7c5`, AFTER BOTTLENECK CLEANUP)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **798 passed, 12 skipped in 42.68s** (2026-11-12T12:51:50Z). **MANDATORY FIRST ACTION next session:** re-run at current HEAD and report exact count. Fix before any other work if broken/regressed.
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **798 passed, 12 skipped in 42.68s** (2026-11-12T13:46:46Z). **MANDATORY FIRST ACTION next session:** re-run at current HEAD and report exact count. Fix before any other work if broken/regressed.
 - Targeted cleanup regression: `PYTHONPATH=. python3 -m pytest -q --tb=short tests/test_derive_verified_universe_volume_floor_20261107.py` → **6 passed**; `find research_state -maxdepth 1 -type d -name '.test_derive_vol_*' | wc -l` → **0**.
 
 ## PRIMARY PROVABLE GAP — VAULT FEE STRUCTURE (UNIMPLEMENTED / UNTESTED)
@@ -53,20 +53,20 @@ Work top-down. For each cell: **prove gap** (cite search), **hand-trace expected
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T12:51:50Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T13:46:46Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T12:51:50Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T13:46:46Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
 NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): User gave no feature/direction. The single highest-value, PROVABLY-UNCOVERED spec surface is VAULT FEE STRUCTURE (spec: 2%/yr on assets + 10% of remaining profit). ZERO implementation/tests (prove: `grep -rniE 'management_fee|mgmt_fee|performance_fee|profit_fee|high.water|vault_fee' src scripts tests --include='*.py'` → 0; `find tests -maxdepth 1 -iname '*fee*' -o -iname '*vault*'` → none). Execute cells 1→4 in order in HANDOFF.md NEXT FOCUS CAMPAIGN: (1) 2%/yr AUM accrual, (2) 10% profit share above HWM, (3) fee×metrics reconciliation, (4) fee edge cases. Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit.
 
-BOTTLENECKS (audit 2026-11-12T12:51:50Z, HEAD 5b8e7c5): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. The .test_derive_vol_* leak is fixed at root cause (context-manager cleanup); post-gate residue is 0 dirs / 0 files. Do not re-create residue; if it appears, fix cleanup before continuing.
+BOTTLENECKS (audit 2026-11-12T13:46:46Z, HEAD 5b8e7c5): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. The .test_derive_vol_* leak is fixed at root cause (context-manager cleanup); post-gate residue is 0 dirs / 0 files. Do not re-create residue; if it appears, fix cleanup before continuing.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ~1e15 USD volume). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs — fee work unblocked.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T12:51:50Z, HEAD 5b8e7c5): 798 passed, 12 skipped in 42.68s.
+  - Last verified (2026-11-12T13:46:46Z, HEAD 5b8e7c5): 798 passed, 12 skipped in 42.68s.
   - Re-run NOW at current HEAD; report exact count. If broken/regressed, fix before ANYTHING else.
 
 GAP PROOF (MANDATORY FIRST STEP): run the grep/find above and cite concrete absence. If a fee surface somehow exists, document and move to next uncovered campaign cell. Then proceed to cell 1.
@@ -98,4 +98,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T12:51:50Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T13:46:46Z)**
