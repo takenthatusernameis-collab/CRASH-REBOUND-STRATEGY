@@ -1,5 +1,5 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T07:20:15Z
+**Updated (UTC):** 2026-11-12T07:21:38Z
 **HEAD at audit:** `dd6785c chore(kilo): checkpoint agent session` (working tree modified: `HANDOFF.md` only, refreshed this session). Single canonical durable handoff: ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, and root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py` are implementation/tests/scratch, not handoffs.
 
 ## SESSION AUDIT (2026-11-12T07:20:15Z) — BOTTLENECKS CLEARED, GATE VERIFIED, NEXT CAMPAIGN SHARPENED
