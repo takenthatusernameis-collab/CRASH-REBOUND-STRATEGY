@@ -1,6 +1,6 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T14:10:00Z
-**HEAD at audit:** `a4d8964 chore(kilo): checkpoint agent session` (working tree modified by this session: `scripts/run_campaign.py`, `scripts/run_real_campaign.py`, `tests/test_vault_fees_export_wiring_20261112.py` [new]; vault-fee core `src/metrics/vault_fees.py`, `src/metrics/campaign_metrics.py` and `tests/test_vault_fees_20261112.py`/`tests/test_vault_fees_metrics_integration_20261112.py` committed at a4d8964; no commit requested).
+**Updated (UTC):** 2026-11-12T14:17:28Z
+**HEAD at audit:** `a0fddf7 chore(kilo): checkpoint agent session` (working tree clean; vault-fee core `src/metrics/vault_fees.py`, `src/metrics/campaign_metrics.py`, cell-1 fee export wiring `scripts/run_campaign.py`/`scripts/run_real_campaign.py`, and dated tests `tests/test_vault_fees_20261112.py`/`tests/test_vault_fees_metrics_integration_20261112.py`/`tests/test_vault_fees_export_wiring_20261112.py` all committed; no commit requested).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
 ## SESSION AUDIT (2026-11-12T14:05:00Z) — VAULT FEE CAMPAIGN CELLS 1–4 SHIPPED
@@ -10,8 +10,8 @@
 - **GAP PROOF (executed this session):** `grep -rniE 'management_fee|mgmt_fee|performance_fee|profit_fee|high.water|vault_fee' src scripts tests --include='*.py'` → **0** before implementation; `find tests -maxdepth 1 -iname '*fee*' -o -iname '*vault*'` → **0**. Spec mandates 2%/yr AUM + 10% of remaining profit above HWM — previously absent.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`provenance.json`: `status:"error"`, `synthetic_check.is_synthetic:true`, `flat_series_all_bars_identical`, 1 distinct/6792). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs.
 
-## LAST VERIFIED GATE (2026-11-12T14:10:00Z, working tree)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **823 passed, 12 skipped in 42.96s** (baseline 816 passed + 7 new vault-fee-export tests, zero regressions).
+## LAST VERIFIED GATE (2026-11-12T14:17:28Z, HEAD a0fddf7, working tree clean)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **823 passed, 12 skipped in 42.26s** (baseline + vault-fee tests, zero regressions).
 - New targeted: `tests/test_vault_fees_export_wiring_20261112.py` (7 passed), plus existing vault fee tests green.
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
@@ -61,9 +61,9 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T14:10:00Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T14:17:28Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T14:10:00Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T14:17:28Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
@@ -77,12 +77,12 @@ NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue 
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T14:10:00Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. Working tree modified (uncommitted): scripts/run_campaign.py, scripts/run_real_campaign.py, tests/test_vault_fees_export_wiring_20261112.py [new]. HEAD a4d8964. No commit requested.
+BOTTLENECKS (audit 2026-11-12T14:17:28Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. Working tree clean at HEAD a0fddf7. No commit requested.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ~1e15 USD volume). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T14:10:00Z, HEAD a4d8964 + session edits): 823 passed, 12 skipped in 42.96s.
+  - Last verified (2026-11-12T14:17:28Z, HEAD a0fddf7): 823 passed, 12 skipped in 42.26s.
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
 
 GAP PROOF (MANDATORY): before each change, prove the specific uncovered integration/guardrail (grep/read consumer paths) and cite evidence. Do not "improve" anchored behavior without a concrete failing defect.
@@ -115,4 +115,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T14:10:00Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T14:17:28Z)**
