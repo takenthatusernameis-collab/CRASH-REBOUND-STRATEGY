@@ -104,6 +104,17 @@ class StrategyConfig:
     rebound_short_time_exit_bars: int = 48  # max bars for rebound short
     rebound_short_stop_pct: float = 40.0   # wide stop per spec (close if up 40%)
 
+    # Spec bounce-confirmation gate for the rebound short (crash-rebound-strategy.pdf:
+    # "Only coins that already bounced hard are worth shorting"). The engine's
+    # rebound-short entry decision currently opens a short on ANY +9% long-target
+    # fill with no bounce confirmation. This opt-in flag (default False — preserves
+    # all existing anchors and tests) gates the short entry behind confirm_rebound()
+    # using ONLY history available at the target bar (no look-ahead): when True, a
+    # rebound short may only open when the target bar itself is a confirming
+    # rebound bar (close > open, close in the upper half of its range). When False,
+    # behavior is unchanged (legacy: short opens on any +9% fill).
+    rebound_short_require_bounce_confirm: bool = False
+
     # Position sizing / caps (PDF)
     position_size_pct_of_daily_volume: float = 1.25  # 1.25% of coin's 24h volume
     enable_volume_based_sizing: bool = True  # if True, use volume-based sizing
