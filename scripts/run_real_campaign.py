@@ -290,6 +290,10 @@ def build_parser():
     ap.add_argument("--fee-hours-per-step", type=float, default=None,
                     help="Explicit fee accrual hours per step (default 1.0 when --apply-vault-fees). "
                          "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
+    ap.add_argument("--fee-hours-from-timestamps", action="store_true", default=False,
+                    help="Derive fee accrual hours from equity-curve timestamps (true elapsed hours "
+                         "between points) instead of a flat hours-per-step. Use for exit-event equity "
+                         "curves with multi-hour gaps so AUM fees are not under-charged. Default off.")
     ap.add_argument(
         "--allow-partial-not-evidence",
         action="store_true",
@@ -421,7 +425,8 @@ def main(argv=None):
                                        eth_candles={"ETH": eth} if eth else None,
                                        require_eth_hedge=bool(getattr(config, 'enable_eth_hedge', True)))
     metrics = metrics_to_dict(compute_campaign_metrics(trades=results.get("trades", []), equity_curve=results.get("equity_curve"),
-                                                       initial_capital=args.capital, apply_vault_fees=args.apply_vault_fees, fee_hours_per_step=1.0))
+                                                       initial_capital=args.capital, apply_vault_fees=args.apply_vault_fees,
+                                                       fee_use_timestamp_hours=args.fee_hours_from_timestamps, **fee_kwargs))
     out_dir = REPO_ROOT / "research_state"
     out_dir.mkdir(parents=True, exist_ok=True)
     output_prefix = _normalize_output_prefix(args.output_prefix)

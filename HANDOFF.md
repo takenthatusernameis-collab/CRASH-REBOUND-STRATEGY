@@ -1,52 +1,48 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T14:52:22Z
-**HEAD at audit:** `a2f7b9d chore(kilo): checkpoint agent session` (working tree clean; vault-fee core `src/metrics/vault_fees.py`, `src/metrics/campaign_metrics.py`, cell-1 fee export wiring `scripts/run_campaign.py`/`scripts/run_real_campaign.py`, cell-2 fee config surface CLI flags `--aum-rate-annual`/`--profit-share-rate`/`--fee-hours-per-step` + fail-closed validation `validate_fee_config`/`fee_config_from_args`/`VaultFeeConfigError` in `src/metrics/vault_fees.py` all implemented in commits a0fddf7→a2f7b9d; **tests for explicit fee knobs and fail-closed validation are MISSING**; dated tests `tests/test_vault_fees_20261112.py`/`tests/test_vault_fees_metrics_integration_20261112.py`/`tests/test_vault_fees_export_wiring_20261112.py` committed; no commit requested).
+**Updated (UTC):** 2026-11-12T15:00:07Z
+**HEAD at audit:** `a5bac9b chore(kilo): checkpoint agent session` (working tree had uncommitted source+tests; this session shipped cell-2 config-surface tests and cell-3 elapsed-hours fee reconciliation as uncommitted changes on top of a5bac9b — see SHIPPED below; **no commit requested**).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T14:52:22Z) — CELL 2 IMPLEMENTED, TESTS MISSING, GATE GREEN
+## SESSION AUDIT (2026-11-12T15:00:07Z) — CELL 2 TESTS + CELL 3 ELAPSED-HOURS FIX SHIPPED, GATE GREEN
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
-- **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory artifacts.
-- **Test-residue hygiene (verified):** `find research_state -maxdepth 1 -type d -name '.test_derive_vol_*' | wc -l` → **0**.
-- **GAP PROOF (executed this session):** `grep -rniE 'aum.rate.annual|profit.share.rate|fee.hours.per.step|VaultFeeConfigError|fee_config_from_args|validate_fee_config' tests --include='*.py'` → **0 matches for CLI flag tests / fail-closed validation tests**. Cell 2 implementation committed at HEAD `a2f7b9d` (diff vs `a0fddf7`: `scripts/run_campaign.py` +28, `scripts/run_real_campaign.py` +18, `src/metrics/vault_fees.py` +71 CLI flags + fail-closed validation), but **no tests cover explicit fee knobs or fail-closed rejection of negative/NaN/non-finite values**.
+- **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory artifacts. `.test_derive_vol_*` residue is 0.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`provenance.json`: `status:"error"`, `synthetic_check.is_synthetic:true`, `flat_series_all_bars_identical`, 1 distinct/6792). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs.
 
-## LAST VERIFIED GATE (2026-11-12T14:52:22Z, HEAD a2f7b9d, working tree clean)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **823 passed, 12 skipped in 42.60s** (baseline + vault-fee tests, zero regressions).
+## LAST VERIFIED GATE (2026-11-12T15:00:07Z, working tree = source+tests uncommitted on a5bac9b)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **870 passed, 12 skipped in 42.65s** (baseline 823 → 870; +47 new tests, zero regressions).
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
-## MATERIAL SHIPPED THIS SESSION (TRACED)
-- **Cell 1 (FEE EXPORT WIRING — DONE previous session):** opt-in `--apply-vault-fees`/`--capital` in `run_campaign.py`/`run_real_campaign.py` shipped with traced tests (`tests/test_vault_fees_export_wiring_20261112.py`, 7 passed), default outputs unchanged.
-- **Cell 2 (FEE CONFIG SURFACE — IMPLEMENTATION COMPLETE, TESTS MISSING):**
-  - CLI flags `--aum-rate-annual`, `--profit-share-rate`, `--fee-hours-per-step` present in both `run_campaign.py` and `run_real_campaign.py` (lines 112-120, 284-292).
-  - Fail-closed validation in `src/metrics/vault_fees.py`: `validate_fee_config` (rejects negative/NaN/non-finite/non-numeric with `VaultFeeConfigError`), `fee_config_from_args` (validates any explicitly provided knob, rejects whole set on single invalid, leaves unspecified as absent for module defaults).
-  - **GAP (proven by file search):** no tests for explicit CLI fee knobs; no tests for `VaultFeeConfigError` fail-closed rejection of invalid values; no tests that `fee_config_from_args` rejects partial invalid sets.
-- **Vault fee core (NEW, locked):** `src/metrics/vault_fees.py` pure 2%/yr AUM + 10% profit-above-HWM; `src/metrics/campaign_metrics.py` opt-in reconciliation; traced tests locked (`tests/test_vault_fees_20261112.py`, `tests/test_vault_fees_metrics_integration_20261112.py`).
+## MATERIAL SHIPPED THIS SESSION (TRACED, UNCOMMITTED on a5bac9b)
+- **Cell 2 (FEE CONFIG SURFACE TESTS — DONE):** `tests/test_vault_fees_config_surface_20261112.py` (38 tests). Locks CLI flags `--aum-rate-annual`/`--profit-share-rate`/`--fee-hours-per-step` parse (default None) in both runners; `fee_config_from_args` absent→{} / partial→only-provided / explicit-zero-kept; `validate_fee_config` rejects negative/NaN/inf/non-numeric with `VaultFeeConfigError`; partial invalid set rejects whole; runner `main()` returns 2 before I/O on invalid knob; traced accrual value locks (0.02/0.10/1.0). Mutation-verified non-vacuous (removing negative guard → 8 fails).
+- **Cell 3 (FEE × EQUITY-CURVE ELAPSED-HOURS — IMPLEMENTED + TESTED):** proved a real AUM under-charge defect: `run_portfolio_simulation` emits `equity_curve` as ONE point per trade exit (irregular multi-hour/day gaps); `_equity_series_for_fees` fed those to `accrue_vault_fees` with FLAT `hours_per_step=1.0`, so a 48h gap was charged 1h (traced **18.09x undercharge**). Fix (opt-in, default unchanged): new `elapsed_hours_from_timestamps()` in `src/metrics/vault_fees.py` (first step=default_hours, step i = Δhours between timestamps, fail-safe on missing/invalid/out-of-order, negative→0); `_attach_vault_fee_metrics` honors `fee_use_timestamp_hours=True`; CLI `--fee-hours-from-timestamps` (default off) in both runners. Tests: `tests/test_vault_fees_elapsed_hours_20261112.py` (9 tests).
+- **Cell 3b (REAL-RUNNER KNOB DROPPED — FIXED):** `run_real_campaign.py` hardcoded `fee_hours_per_step=1.0` and **dropped `fee_kwargs`**, so `--aum-rate-annual`/`--profit-share-rate`/`--fee-hours-per-step` were validated but never applied in the real runner. Now passes `**fee_kwargs` + `fee_use_timestamp_hours`. Locked by `test_real_runner_applies_explicit_fee_knobs_to_metrics`.
+- **Vault fee core (NEW, locked):** `src/metrics/vault_fees.py` pure 2%/yr AUM + 10% profit-above-HWM; opt-in reconciliation in `compute_campaign_metrics` with gross/net/fee components. Default metric outputs unchanged.
 
 ## PRIMARY PROVABLE GAP — NEXT CAMPAIGN
-Cell 2 implementation is complete but **tests are missing** for the explicit fee knobs and fail-closed validation. Cell 3 (equity-curve reconciliation hardening) is next after Cell 2 tests land.
+Cell 2 tests + Cell 3 elapsed-hours fix are shipped. Cell 3 equity-curve path is now correct for opt-in timestamp accrual. Next: Cell 4 — probe other provably uncovered spec-accounting gaps via file-search proof, or gated-pipeline/provenance fail-closed hardening with concrete expected values. Tests-first.
 
 ## NEXT FOCUS CAMPAIGN (FINITE, ORDERED, HEAVY — SHIP ≥1 MATERIAL ITEM/SESSION)
 Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to spec with auditable accounting. Execute top-down. For each cell: **prove gap** (cite search/consumer), **trace expected values**, write dated failing test, make it green.
 
-1. **CELL 2 — FEE CONFIG SURFACE TESTS (THIS SESSION):** Add deterministic tests for explicit fee knobs (`--aum-rate-annual`, `--profit-share-rate`, `--fee-hours-per-step`) in both runners and fail-closed validation (`VaultFeeConfigError` on negative/NaN/non-finite/non-numeric). Prove current absence by file search first (`grep -rniE 'aum.rate.annual|profit.share.rate|fee.hours.per.step|VaultFeeConfigError' tests --include='*.py'` → 0). Write dated test `tests/test_vault_fees_config_surface_20261112.py` covering: CLI flag parsing with explicit values; `fee_config_from_args` passes validated dict; `validate_fee_config` rejects invalid (negative, NaN, inf, non-numeric) with `VaultFeeConfigError`; partial invalid set rejected whole; unspecified knobs left absent for module defaults. Trace exact expected values (defaults: 0.02, 0.10, 1.0).
-2. **CELL 3 — FEE × PORTFOLIO EQUITY-CURVE RECONCILIATION HARDENING:** prove whether `run_portfolio_simulation` equity curve timestamps/granularity are the correct fee-accrual series for hourly AUM (hourly bars) and lock with a traced integration test (no look-ahead, correct step count/hours). Cite code path (`src/backtest/engine.py`, `scripts/run_portfolio.py` equity_curve construction). Do not guess.
-3. **CELL 4 — ONLY IF 2–3 EXHAUSTED WITH EVIDENCE:** probe other provably uncovered spec-accounting gaps via file-search proof; otherwise ship gated-pipeline/provenance fail-closed hardening with concrete expected values. Tests-first.
+1. **CELL 4 — OTHER PROVABLY UNCOVERED SPEC-ACCOUNTING GAPS:** probe via file-search proof (`grep` consumers/tests) for spec-accounting areas still lacking tests. Candidates to PROVE first (do not assume): (a) funding accrual on every leg/exit path incl. hedge legs at 48h boundary — is there a test asserting hedge-leg funding at the time-exit bar? (b) 8x spec safety stop interaction with rebound short on the SAME bar; (c) equal-share cap cuts across 120% gross cap when a NEW entry would top-up (must be cuts-only); (d) liquidation penalty sequencing vs funding on the same bar. Cite file evidence for each; only write tests for gaps proven absent. Otherwise ship gated-pipeline/provenance fail-closed hardening with concrete expected values.
+2. **CELL 5 — ONLY IF 4 EXHAUSTED WITH EVIDENCE:** continue probing uncovered spec-accounting/guardrail gaps via file-search proof; otherwise hardening with traced values. Tests-first.
 
 **No-idle rule:** passive re-verification or handoff-only edit without a material test/fix is NOT work. If a probed cell is already covered, cite file evidence and move to next.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED)
 - **Core/spec-compliant:** RSI(21)<20 crash trigger, $5M 24h volume enforcement, 1.25% 24h-volume sizing, ETH hedge vol-ratio (336h) capped 3x with no-look-ahead, rebound short after +9% target (stop +40%, target -9%, 48h), 8x spec safety stop, 120% gross-cap equal-share cuts, portfolio bar-by-bar deepest-first admission, hourly funding + liquidation at worst price.
-- **Vault fees (NEW):** pure 2%/yr AUM accrual + 10% profit-above-HWM accounting in `src/metrics/vault_fees.py`; opt-in reconciliation in `compute_campaign_metrics` with gross/net/fee components; traced tests locked. Default metric outputs unchanged.
-- **Fee config surface (IMPLEMENTED, TESTS MISSING):** CLI flags `--aum-rate-annual`, `--profit-share-rate`, `--fee-hours-per-step` in both runners; fail-closed validation via `validate_fee_config`/`fee_config_from_args` in `src/metrics/vault_fees.py`.
+- **Vault fees (NEW):** pure 2%/yr AUM accrual + 10% profit-above-HWM in `src/metrics/vault_fees.py`; opt-in reconciliation in `compute_campaign_metrics`; traced tests locked. Default outputs unchanged.
+- **Fee config surface (DONE):** CLI flags + fail-closed `validate_fee_config`/`fee_config_from_args`/`VaultFeeConfigError`; traced tests `tests/test_vault_fees_config_surface_20261112.py`.
+- **Fee × equity-curve elapsed hours (DONE, opt-in):** `elapsed_hours_from_timestamps` + `fee_use_timestamp_hours` + `--fee-hours-from-timestamps`; real runner now applies explicit knobs.
 - **Runners/gating:** `scripts/run_portfolio.py`, `run_real_campaign.py` (fail-closed provenance/verified gates), engine fail-closed when `require_eth_hedge=True` and no usable hedge.
-- **Engine sequencing (`src/backtest/engine.py`):** liquidation > stop > target > time-exit; `hours_held_short = sidx - short_start_idx + 1`; time-exit at `>= short_bars_max` (default 48). Hedge exit fallback when aligned ETH bar missing: use `hedge_info['entry']` and re-apply exit slippage/commission.
 
 ## MATERIAL LOCKED EVIDENCE (CARRY-FORWARD — DO NOT RE-LITIGATE)
+- **2026-11-12 vault fees accounting/reconciliation** — `tests/test_vault_fees_20261112.py`, `tests/test_vault_fees_metrics_integration_20261112.py`, `src/metrics/vault_fees.py`.
+- **2026-11-12 vault fee export wiring (cell 1)** — `scripts/run_campaign.py` (`--apply-vault-fees`/`--capital`), `scripts/run_real_campaign.py`, `tests/test_vault_fees_export_wiring_20261112.py`.
+- **2026-11-12 vault fee config surface (cell 2 tests)** — `tests/test_vault_fees_config_surface_20261112.py` (38 tests).
+- **2026-11-12 vault fee elapsed-hours (cell 3)** — `src/metrics/vault_fees.py::elapsed_hours_from_timestamps`, `src/metrics/campaign_metrics.py::_attach_vault_fee_metrics` (`fee_use_timestamp_hours`), `tests/test_vault_fees_elapsed_hours_20261112.py`.
 - **2026-11-12 both-hedges family** (`cap_cut+commission_min+entry_next_bar`): FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION — `tests/test_both_hedges_*_20261112.py`.
 - **2026-11-12 portfolio runner both-hedged rebound loop-else final exit** — `tests/test_portfolio_both_hedges_rebound_loop_exit_cap_cut_max_live_20261112.py`.
-- **2026-11-12 vault fees accounting/reconciliation** — `tests/test_vault_fees_20261112.py`, `tests/test_vault_fees_metrics_integration_20261112.py`, `src/metrics/vault_fees.py`.
-- **2026-11-12 vault fee export wiring (cell 1)** — `scripts/run_campaign.py` (`--apply-vault-fees`/`--capital`, `build_parser()`), `scripts/run_real_campaign.py` (`--apply-vault-fees`), `tests/test_vault_fees_export_wiring_20261112.py` (7 passed); default outputs unchanged.
-- **2026-11-12 vault fee config surface (cell 2 impl)** — `scripts/run_campaign.py`/`run_real_campaign.py` CLI flags + `src/metrics/vault_fees.py` validation; **tests MISSING**.
 - **Stopped-buy-never-opens-rebound (portfolio E2E, real engine)** — `tests/test_portfolio_stopped_buy_real_engine_e2e.py`.
 - **Locked semantics:** `max_live_coin_notional` may exceed entry-notional cap at pressure/rebound while reservations record entry-notional cap. Overall `exit_reason` may stay `target_rebound_short` while short-leg trade reason differs (assert per-leg). Loop-else final exit applies `short_pnl` only to risk_state; portfolio runner reconciles `total_pnl` into master risk_state.
 
@@ -61,33 +57,29 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T14:52:22Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T15:00:07Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T14:52:22Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T15:00:07Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
-NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Cell 1 (fee export wiring: opt-in --apply-vault-fees/--capital in run_campaign.py/run_real_campaign.py, default outputs unchanged) is SHIPPED and locked. Cell 2 implementation (CLI flags --aum-rate-annual, --profit-share-rate, --fee-hours-per-step + fail-closed validation validate_fee_config/fee_config_from_args/VaultFeeConfigError in src/metrics/vault_fees.py) is COMMITTED at HEAD a2f7b9d but TESTS ARE MISSING. Execute cell 2 tests now:
+NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Shipped this prior session (UNCOMMITTED on a5bac9b): cell-2 config-surface tests (tests/test_vault_fees_config_surface_20261112.py, 38) and cell-3 elapsed-hours fee reconciliation (src/metrics/vault_fees.py::elapsed_hours_from_timestamps, campaign_metrics.py fee_use_timestamp_hours, --fee-hours-from-timestamps in both runners, tests/test_vault_fees_elapsed_hours_20261112.py, 9; plus real-runner knob-drop fix). Full gate last verified 870 passed, 12 skipped. Execute CELL 4 now:
 
-  CELL 2 — FEE CONFIG SURFACE TESTS: add deterministic tests for explicit fee knobs (--aum-rate-annual, --profit-share-rate, --fee-hours-per-step) in both runners and fail-closed validation (VaultFeeConfigError on negative/NaN/non-finite/non-numeric). Prove current absence by file search first (grep -rniE 'aum.rate.annual|profit.share.rate|fee.hours.per.step|VaultFeeConfigError|fee_config_from_args|validate_fee_config' tests --include='*.py' → 0). Write dated test tests/test_vault_fees_config_surface_20261112.py covering:
-    - CLI flag parsing with explicit values in run_campaign.py and run_real_campaign.py
-    - fee_config_from_args passes validated dict with explicit knobs; unspecified knobs left absent for module defaults
-    - validate_fee_config rejects invalid (negative, NaN, inf, non-numeric) with VaultFeeConfigError
-    - partial invalid set rejected whole (no partial substitution)
-    - trace exact expected values (defaults: 0.02, 0.10, 1.0)
-
-  CELL 3 — FEE × PORTFOLIO EQUITY-CURVE RECONCILIATION HARDENING: prove whether run_portfolio_simulation equity_curve timestamps/granularity are the correct fee-accrual series for hourly AUM (hourly bars) and lock with a traced integration test (no look-ahead, correct step count/hours). Cite code path (src/backtest/engine.py, scripts/run_portfolio.py equity_curve construction). Do not guess.
-
-  CELL 4 — ONLY IF 2–3 EXHAUSTED WITH EVIDENCE: probe other provably uncovered spec-accounting gaps via file-search proof; otherwise ship gated-pipeline/provenance fail-closed hardening with concrete expected values. Tests-first.
+  CELL 4 — OTHER PROVABLY UNCOVERED SPEC-ACCOUNTING GAPS: For EACH candidate below, FIRST prove presence/absence via file search (cite grep -rn of tests/ and consumers/), then trace exact expected values, write a dated failing test, make green:
+    (a) Hedge-leg FUNDING accrual at the time-exit bar (48h boundary) — grep for a test asserting hedge funding on the exit bar; if absent, add traced test.
+    (b) 8x spec safety stop interaction with rebound short on the SAME bar (sequencing: which wins) — cite engine.py sequencing test; if absent add.
+    (c) Equal-share cap cuts across 120% gross cap for a NEW entry that would TOP-UP (must be cuts-only, never top-up) — cite test; if absent add.
+    (d) Liquidation penalty vs funding on the same bar ordering — cite test; if absent add.
+  If a candidate is already covered, cite the file evidence and move on; do NOT re-litigate anchored behavior. If all are covered, ship gated-pipeline/provenance fail-closed hardening with concrete expected values (tests-first).
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T14:52:22Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. Working tree clean at HEAD a2f7b9d. No commit requested. No blocked or inefficient sessions remain; all gaps are explicit campaign cells with proof-of-absence requirements.
+BOTTLENECKS (audit 2026-11-12T15:00:07Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. All gaps are explicit campaign cells with proof-of-absence requirements.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ~1e15 USD volume). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T14:52:22Z, HEAD a2f7b9d): 823 passed, 12 skipped in 42.60s.
+  - Last verified (2026-11-12T15:00:07Z, working tree source+tests uncommitted on a5bac9b): 870 passed, 12 skipped in 42.65s.
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
 
 GAP PROOF (MANDATORY): before each change, prove the specific uncovered integration/guardrail (grep/read consumer paths) and cite evidence. Do not "improve" anchored behavior without a concrete failing defect.
@@ -98,9 +90,9 @@ LOCKED SEMANTICS (assert per traced engine behavior — zero regression):
   - Sequencing: liquidation > stop > target > time-exit. hours_held_short = sidx - short_start_idx + 1; time-exit at >= short_bars_max (default 48).
   - Hedge exit fallback when aligned ETH bar unavailable: engine uses hedge entry and re-applies exit slippage/commission. Hedge sizing from eth_candles[:idx+1], vol-ratio cap 3x, no look-ahead.
   - Loop-else final exit: engine applies short_pnl only to risk_state; portfolio runner reconciles total_pnl (all legs) into master risk_state.
-  - Vault fees (new, locked): AUM = equity * 0.02 * hours/8760 per step; profit share = 10% * max(0, equity_after_aum - HWM), HWM on post-fee net peaks; opt-in metrics reconciliation must not alter default trade aggregates.
+  - Vault fees (locked): AUM = equity * rate * hours/8760 per step; profit share = 10% * max(0, equity_after_aum - HWM), HWM on post-fee net peaks; opt-in metrics reconciliation must not alter default trade aggregates. Fee hours: flat fee_hours_per_step (default 1.0) unless fee_use_timestamp_hours=True (elapsed hours between equity-curve timestamps).
 
-COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: cell 1 fee export wiring shipped; vault fee core + opt-in metrics reconciliation (20261112 tests); both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION under cap_cut+commission_min+entry_next_bar; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E; .test_derive_vol_* fixture cleanup fixed; cell 2 fee config surface IMPLEMENTATION complete (tests missing).
+COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: cell 1 fee export wiring; vault fee core + opt-in metrics reconciliation; cell 2 fee config surface (38 tests); cell 3 fee elapsed-hours reconciliation + real-runner knob-drop fix; both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION under cap_cut+commission_min+entry_next_bar; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E; .test_derive_vol_* fixture cleanup.
 
 EXECUTION (NON-NEGOTIABLE):
   1) GAP PROOF: cite concrete absence/need.
@@ -120,4 +112,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T14:52:22Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T15:00:07Z)**

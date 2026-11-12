@@ -293,9 +293,19 @@ def _attach_vault_fee_metrics(m: Dict[str, Any], trades: List[Dict[str, Any]],
 
     series = _equity_series_for_fees(trades, equity_curve=equity_curve, initial_capital=cap)
     # Lazy import to keep core metrics usable even if fee module missing in isolation.
-    from src.metrics.vault_fees import accrue_vault_fees, DEFAULT_AUM_FEE_ANNUAL, DEFAULT_PROFIT_SHARE
+    from src.metrics.vault_fees import accrue_vault_fees, DEFAULT_AUM_FEE_ANNUAL, DEFAULT_PROFIT_SHARE, elapsed_hours_from_timestamps
+    # Opt-in elapsed-hours accrual: when fee_use_timestamp_hours=True and an
+    # equity_curve with usable timestamps is provided, charge the TRUE elapsed
+    # hours between points (correct for exit-event curves with multi-hour gaps)
+    # instead of a flat hours_per_step. Default behavior (False) is unchanged.
+    fee_hours = hours_per_step
+    if kwargs.get("fee_use_timestamp_hours") and equity_curve and isinstance(equity_curve, list):
+        ts = [pt.get("timestamp") for pt in equity_curve if isinstance(pt, dict)]
+        derived = elapsed_hours_from_timestamps(ts, default_hours=_finite(hours_per_step))
+        if len(derived) == len(series) and len(derived) > 0:
+            fee_hours = derived
     fee_kwargs = {
-        "hours_per_step": hours_per_step,
+        "hours_per_step": fee_hours,
         "initial_hwm": kwargs.get("fee_initial_hwm", None),
         "include_steps": bool(kwargs.get("include_fee_steps", False)),
     }
@@ -345,7 +355,8 @@ def compute_campaign_metrics(result=None, trades=None, equity_curve=None, **kwar
             equity_curve = result.get("equity_curve")
         # allow result to carry fee context
         for k in ("initial_capital", "capital", "apply_vault_fees", "fee_hours_per_step",
-                  "aum_rate_annual", "profit_share_rate", "fee_initial_hwm", "include_fee_steps"):
+                  "aum_rate_annual", "profit_share_rate", "fee_initial_hwm", "include_fee_steps",
+                  "fee_use_timestamp_hours"):
             if k in result and k not in kwargs:
                 kwargs[k] = result[k]
     if trades is None and "trades" in kwargs:

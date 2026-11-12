@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import math
 from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any, Dict, Iterable, List, Optional, Sequence
 
 HOURS_PER_YEAR = 8760.0
@@ -198,6 +199,64 @@ def accrue_vault_fees(equity_series: Sequence[float],
         final_hwm=hwm,
         steps=steps,
     )
+
+
+def elapsed_hours_from_timestamps(timestamps: Sequence[Any],
+                                  default_hours: float = 1.0) -> List[float]:
+    """Derive per-step elapsed hours from ISO-8601 equity-curve timestamps.
+
+    Fee accrual is hourly; an equity curve whose points are emitted only at trade
+    exits (irregular gaps of hours/days) must be charged the TRUE elapsed hours
+    between consecutive points, not a flat one-hour step (which under-charges AUM
+    fees by the actual gap).
+
+    Contract (fail-safe, no look-ahead beyond provided timestamps):
+    - step 0 uses ``default_hours`` (the declared fee step, e.g. 1.0).
+    - step i (i>=1) = hours between ``timestamps[i-1]`` and ``timestamps[i]``.
+    - Unparseable/missing timestamp for step i -> ``default_hours``.
+    - Negative delta (out-of-order/bad data) is clamped to 0.0 (never a negative
+      fee time); zero hours charges no AUM fee for that step.
+
+    Returns a list of length ``len(timestamps)`` of finite non-negative floats.
+    """
+    ts = list(timestamps or [])
+    n = len(ts)
+    if n == 0:
+        return []
+    dh = _finite(default_hours)
+    if dh < 0.0:
+        dh = 0.0
+    hours: List[float] = [dh]
+    prev = _parse_iso(ts[0])
+    for i in range(1, n):
+        cur = _parse_iso(ts[i])
+        if prev is None or cur is None:
+            hours.append(dh)
+        else:
+            delta = (cur - prev).total_seconds() / 3600.0
+            hours.append(delta if delta > 0.0 else 0.0)
+        prev = cur
+    return hours
+
+
+def _parse_iso(value: Any) -> Optional[Any]:
+    """Parse an ISO-8601 timestamp to datetime; return None on missing/invalid."""
+    if value is None:
+        return None
+    s = str(value).strip()
+    if not s:
+        return None
+    try:
+        return datetime.fromisoformat(s.replace("Z", "+00:00"))
+    except Exception:
+        pass
+    for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S",
+                "%Y-%m-%d"):
+        try:
+            return datetime.strptime(s, fmt)
+        except Exception:
+            continue
+    return None
 
 
 # Alias for compatibility with "high-water mark" terminology in codebases
