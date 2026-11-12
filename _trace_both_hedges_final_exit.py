@@ -1,71 +1,66 @@
-"""Trace both-hedges final-exit fixture to hand-derive expected values."""
+"""Instrument: trace long-leg hedge close path."""
 import math
-from src.backtest.engine import backtest_simple, _apply_funding_pnl
+from src.backtest import engine
 from src.strategy.config import StrategyConfig
 from src.strategy.crash_rebound import Signal, compute_eth_hedge_size
-from src.strategy.risk import DailyRiskState
-
-
-def _c(ts, o, h, l, cl, v=10_000_000.0):
-    return {"timestamp": ts, "open": o, "high": h, "low": l, "close": cl, "volume": v}
-
 
 RATE = 0.01
 SLIP = 0.001
 COMM_MIN = 0.5
 SHARES = 10.0
 
-COIN = []
-for i in range(7):
-    cl = 100.0 * (1.0 + (0.03 if i % 2 else -0.03))
-    COIN.append(_c(f"2025-01-01T{i:02d}:00:00", cl * 0.99, cl * 1.02, cl * 0.98, cl))
-COIN.append(_c("2025-01-01T07:00:00", 100.0, 110.0, 99.0, 109.0))
-for i in range(8, 12):
-    COIN.append(_c(f"2025-01-01T{i:02d}:00:00", 108.0, 112.0, 105.0, 108.0))
 
+def _c(ts, o, h, l, cl, v=10_000_000.0):
+    return {"timestamp": ts, "open": o, "high": h, "low": l, "close": cl, "volume": v}
+
+
+COIN = [
+    _c("2025-01-01T00:00:00", 100.0, 102.0, 98.0, 100.0),
+    _c("2025-01-01T01:00:00", 100.0, 101.0, 96.0, 97.0),
+    _c("2025-01-01T02:00:00", 97.0, 98.0, 93.0, 94.0),
+    _c("2025-01-01T03:00:00", 94.0, 95.0, 90.0, 91.0),
+    _c("2025-01-01T04:00:00", 91.0, 92.0, 87.0, 88.0),
+    _c("2025-01-01T05:00:00", 100.0, 104.0, 96.0, 100.0),
+    _c("2025-01-01T06:00:00", 100.0, 103.0, 97.0, 100.0),
+    _c("2025-01-01T07:00:00", 100.0, 110.0, 99.0, 109.0),
+    _c("2025-01-01T08:00:00", 108.0, 109.5, 106.5, 108.0),
+    _c("2025-01-01T09:00:00", 108.0, 109.5, 106.5, 108.0),
+    _c("2025-01-01T10:00:00", 108.0, 109.5, 106.5, 108.0),
+    _c("2025-01-01T11:00:00", 108.0, 109.5, 106.5, 108.0),
+]
 ETH = []
 for i in range(12):
-    px = 2000.0 + (i % 2) * 100.0
-    ETH.append(_c(f"2025-01-01T{i:02d}:00:00", px, px + 20.0, px - 20.0, px + 50.0 * (i % 3 - 1)))
+    px = 2000.0 + (i % 2) * 80.0
+    ETH.append(_c(f"2025-01-01T{i:02d}:00:00", px, px + 30.0, px - 30.0, px + 40.0 * (i % 3 - 1)))
 for i in range(8, 12):
-    ETH[i] = _c(f"2025-01-01T{i:02d}:00:00", 2100.0, 2120.0, 2080.0, 2110.0)
+    ETH[i] = _c(f"2025-01-01T{i:02d}:00:00", 2080.0, 2120.0, 2040.0, 2100.0)
 
+print("len ETH:", len(ETH))
+print("ETH[7]:", ETH[7])
+print("ETH[5]:", ETH[5])
 
-def _cfg(rate=RATE):
-    return StrategyConfig(
-        enable_eth_hedge=True, enable_rebound_short=True, entry_next_bar=True,
-        avoid_downtrend=False, slippage_pct=SLIP, commission_per_share=0.0,
-        commission_min=COMM_MIN, funding_rate_pct_per_hour=rate,
-        min_daily_volume_usd=0.0, time_exit_max_bars=50,
-        rebound_short_time_exit_bars=100, enable_liquidation_checks=False,
-    )
+cfg = StrategyConfig(
+    enable_eth_hedge=True, enable_rebound_short=True, entry_next_bar=True,
+    avoid_downtrend=False, slippage_pct=SLIP, commission_per_share=0.0,
+    commission_min=COMM_MIN, funding_rate_pct_per_hour=RATE,
+    min_daily_volume_usd=0.0, time_exit_max_bars=1000,
+    rebound_short_time_exit_bars=1000, enable_liquidation_checks=False,
+)
 
+# Monkeypatch _slippage_commission to log
+orig = engine._slippage_commission_per_share
+def logged(price, config, side, shares=0.0):
+    r = orig(price, config, side, shares)
+    print(f"  slip_comm: price={price} side={side} shares={shares} -> {r}")
+    return r
+engine._slippage_commission_per_share = logged
 
-def _sig():
-    return Signal(symbol="T", side="long", reason="t", entry_price=100.0,
-                  stop_price=50.0, target_price=109.0, risk_per_share=1.0,
-                  timestamp="2025-01-01T05:00:00", size_shares=SHARES, signal_index=5)
+sig = Signal(symbol="T", side="long", reason="t", entry_price=100.0, stop_price=50.0,
+             target_price=109.0, risk_per_share=1.0, timestamp="2025-01-01T04:00:00",
+             size_shares=SHARES, signal_index=4)
 
-
-cfg = _cfg(RATE)
-res = backtest_simple(COIN, _sig(), config=cfg, eth_candles=ETH)
-for attr in ["exit_reason","entry_price","exit_price","shares","bars_held","entry_timestamp",
-             "exit_timestamp","pnl","hedge_pnl","hedge_side","hedge_size","hedge_entry",
-             "hedge_exit","rebound_short_pnl","rebound_hedge_pnl","rebound_hedge_side",
-             "rebound_hedge_size","rebound_hedge_entry","rebound_hedge_exit","total_pnl",
-             "max_live_coin_notional"]:
-    print(f"{attr} = {repr(getattr(res, attr))}")
-print("trades:")
-for t in res.trades:
-    print("  ", t)
-
-rs_on = DailyRiskState()
-on = backtest_simple(COIN, _sig(), config=cfg, eth_candles=ETH, risk_state=rs_on)
-off = backtest_simple(COIN, _sig(), config=_cfg(0.0), eth_candles=ETH)
-print("---risk_state---")
-print("open_positions:", rs_on.open_positions, "gross_exposure:", rs_on.gross_exposure)
-print("open_position_notionals:", rs_on.open_position_notionals)
-print("realized_pnl:", repr(rs_on.realized_pnl))
-print("delta:", repr(on.total_pnl - off.total_pnl))
-print("on.rebound_hedge_size:", repr(on.rebound_hedge_size))
-print("on.hedge_size:", repr(on.hedge_size))
+res = engine.backtest_simple(COIN, sig, config=cfg, eth_candles=ETH)
+print("RESULT hedge_exit:", res.hedge_exit, "rebound_hedge_exit:", res.rebound_hedge_exit)
+print("RESULT hedge_pnl:", res.hedge_pnl, "rebound_hedge_pnl:", res.rebound_hedge_pnl)
+print("RESULT total_pnl:", res.total_pnl)
+print("RESULT trades:", res.trades)
