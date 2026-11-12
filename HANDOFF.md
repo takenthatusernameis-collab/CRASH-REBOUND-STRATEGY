@@ -1,39 +1,35 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T20:20:51Z
-**HEAD at audit:** `00140d8 chore(kilo): checkpoint agent session` (working tree clean; prior session's CELL 7 fixes committed; gate GREEN at this HEAD).
+**Updated (UTC):** 2026-11-12T20:29:48Z
+**HEAD at audit:** `d0e0b9e chore(kilo): checkpoint agent session` (working tree clean at audit start; only root `HANDOFF.md` modified this session to record CELL 7 closeout).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/`/`tmpxps3dfx2/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T20:20:51Z) — GATE GREEN (885 passed, 12 skipped) CELL 7 REGRESSION FIXED
+## SESSION AUDIT (2026-11-12T20:29:48Z) — GATE GREEN (885 passed, 12 skipped) CELL 7 CLOSEOUT COMPLETE
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Bottlenecks CLEARED — nothing idle-blocked; no multi-session contention.
-- **Bottleneck removed prior session:** `research_state/gap_analysis.md` (2026-10-30) claimed ETH hedge / funding / liquidation / RSI trigger were MISSING. It is stale and contradicts the current implementation; it is now banner-marked **SUPERSEDED** at the top so future agents do not re-implement finished work. Authoritative spec = `research_state/strategy_spec.md`.
+- **Bottleneck removed prior session:** `research_state/gap_analysis.md` (2026-10-30) claimed ETH hedge / funding / liquidation / RSI trigger were MISSING. It is stale and contradicts the current implementation; it is banner-marked **SUPERSEDED** so future agents do not re-implement finished work. Authoritative spec = `research_state/strategy_spec.md`.
 - **Stale remote branches (audit, NOT blockers):** `origin/fix/campaign-fixture-provenance-20261030` (6 commits) and `origin/fix/campaign-integrity-and-exposure-accounting-20261030` (11 commits) are ~1040 commits behind `main`, not mergeable/rebased cleanly, and are superseded by `main`. Do NOT merge/rebase them or treat their old diffs as current gaps; they are history, not pending work.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`provenance.json`: per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, flat series, `ready_for_real_campaign:false`). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
-- **Test-env note (verified):** system `python3` had NO pytest; installed `pytest numpy pandas requests` per `.github/workflows/strategy-tests.yml` (`python -m pip install --break-system-packages`). Gate command below is canonical.
+- **Test-env note (verified):** install deps if missing — `python -m pip install --break-system-packages pytest numpy pandas requests` (per `.github/workflows/strategy-tests.yml`).
 
-## LAST VERIFIED GATE (2026-11-12T20:20:51Z, HEAD 00140d8, working tree clean)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **885 passed, 12 skipped in 35.06s** (baseline 883 → 885; +6 CELL 7 equity tests green).
-- **GATE REGRESSION FIXED PRIOR SESSION:** CELL 7 equity-performance reporting was committed in intermediate checkpoints (fb89b2d→0e825c1→00140d8) but left the gate RED: (1) `test_equity_sharpe_sortino_traced_from_explicit_curve` asserted sortino `1/30` vs traced `1/3` (test arithmetic bug; implementation matches the per-trade convention `mean/down_std` at `src/metrics/campaign_metrics.py:118-121`); (2) `_attach_equity_performance` annualization `(final_eq / start_f) ** (1.0 / years)` raised `OverflowError` on sub-day horizons (e.g. 1h span → exponent 8760) — guarded with `math.pow` + `OverflowError` skip so total return is still emitted but non-finite annualized values never are. Fixes committed in `src/metrics/campaign_metrics.py` and `tests/test_campaign_metrics_equity_performance_20261112.py`.
+## LAST VERIFIED GATE (2026-11-12T20:29:48Z, HEAD d0e0b9e)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **885 passed, 12 skipped in 34.75s** (re-verified start of session) and **885 passed, 12 skipped in 34.77s** (post CELL 7 mutation-verify restore). No regression.
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
-## SHIPPED THIS SESSION — CELL 6 (REPORTING FIDELITY, additive, mutation-verified)
-- **File:** `src/metrics/campaign_metrics.py` (+27 lines) and `tests/test_campaign_metrics_annual_positive_months_20261112.py` (3 tests).
-- **Gap proof (file-search verified):** `compute_metrics_from_trades` emitted `monthly_breakdown`/`weekly_breakdown` (currency PnL) but had NO per-year bucket and NO positive/negative/flat month counts. `research_state/strategy_spec.md` Performance cites **"Per year +115.2%"** and **"6 of 10 months gain"**, so machine-checkable per-year PnL and months-gain counts are required. `grep -rn "annual_breakdown\|positive_months\|negative_months" tests/ src/` returned nothing before this change.
-- **Added (purely additive — existing aggregates untouched):** `annual_breakdown` (YYYY→PnL), `annual_trade_counts` (YYYY→count), `positive_months`, `negative_months`, `flat_months`, `total_months`. New `_year_key()` helper.
-- **Traced values:** trades +100 (2025-12-31), −40 (2026-01-15), +10 (2026-01-20), +25 (2026-02-10), 0 (2026-03-05) → `annual_breakdown={"2025":100.0,"2026":-5.0}`, `annual_trade_counts={"2025":1,"2026":4}`, monthly `{2025-12:100, 2026-01:-30, 2026-02:25, 2026-03:0}`, `positive_months=2, negative_months=1, flat_months=1, total_months=4`. Invariants asserted: annual sums = total PnL (95.0); month counts partition; annual trade counts sum = trade count.
-- **Mutation-verified non-vacuous:** setting `annual[_year_key(ts)] += 0.0` failed 2 of 3 tests (restored clean; `git diff` shows only the feature).
-
-## CELL 7 STATUS (SHIPPED, MUTATION VERIFY PENDING — CLOSEOUT IS THE NEXT SESSION'S FIRST ITEM)
-- CELL 7 — equity-based reporting continuation is implemented and green: `annual_return_pct` (per-year return % on starting equity), `equity_sharpe_ratio`/`equity_sortino_ratio` (population std, non-annualized, per-trade convention), `equity_max_drawdown_pct`, `equity_total_return_pct`, plus `equity_annualized_return_pct`/`equity_horizon_years`/`equity_annualized_calmar_ratio` only when an explicit curve horizon is derivable (never guessed; skipped if annualization overflows). All additive — anchored per-trade `sharpe_ratio`/`sortino_ratio`/`calmar_ratio` untouched; zero regressions (gate 885/12).
-- Tests: `tests/test_campaign_metrics_equity_performance_20261112.py` (6 tests, all green).
-- **Still open:** mutation-verify the 6 CELL 7 tests are non-vacuous (per CELL 6 precedent: perturb each new field/assertion, confirm the dated test breaks, restore clean). Mark CELL 7 exhausted-with-evidence, then continue top-down to CELL 8.
+## SHIPPED THIS SESSION — CELL 7 CLOSEOUT (MUTATION-VERIFIED, EXHAUSTED WITH EVIDENCE)
+- **Scope:** mutation-verified `tests/test_campaign_metrics_equity_performance_20261112.py` (6 tests) as non-vacuous against `src/metrics/campaign_metrics.py`; no implementation behavior changed (`git restore` clean after each mutation, `git diff` empty before final HANDOFF-only edit).
+- **Mutations (all caught, implementation restored):**
+  - `annual_return_pct` broken to constant `0.0` → **2 failed, 4 passed** (`test_annual_return_pct_traced_and_additive`, `test_capital_kwarg_alias_enables_annual_return_pct`).
+  - `equity_sortino_ratio` changed from downside-std to total-std (`mean_r/std`) → **1 failed, 5 passed** (`test_equity_sharpe_sortino_traced_from_explicit_curve`, observed sortino `0.353553...` vs traced `1/3`).
+  - `equity_annualized_return_pct` mutated to omit `-1` (`pow(...)` instead of `pow(...)-1`) → **1 failed, 5 passed** (`test_annualized_return_and_calmar_when_horizon_derivable`, observed annualized `121.0%` vs traced `21.0%`, breaking annualized/Calmar assertions).
+- **Overflow-guard note:** annualization overflow guard (`try: math.pow(...)/except OverflowError -> annualized=None`) remains in implementation but no existing dated test exercises the overflow branch; it was not mutated as a passing-evidence claim. Guard is defensive and additive-only (emits no finite annualized fields on overflow).
+- **CELL 7 status:** EXHAUSTED WITH EVIDENCE (implementation + 6 traced tests + mutation verification above). Continue to CELL 9 (CELL 8 already exhausted).
 
 ## CELL 8 STATUS (EXHAUSTED WITH EVIDENCE — DO NOT RE-LITIGATE)
 - All three candidates proven covered by implementation + existing tests:
   - **(a) exactly $5,000,000 24h rolling volume is INCLUSIVE (`>=`):** `passes_universe_filter` at `src/strategy/crash_rebound.py:324` uses `daily_vol_usd < min_daily_volume_usd` (so `>=` passes); `enforce_spec_volume_floor` at `src/strategy/config.py:16-29` returns `v if v >= SPEC_MIN_DAILY_VOLUME_USD else SPEC_MIN_DAILY_VOLUME_USD`. Covered by `tests/test_volume_gating_boundary_audit_20261107.py`, `tests/test_volume_gating_integrity_20261107.py`, `tests/test_volume_gating_remaining_surfaces_20261107.py`, `tests/test_derive_verified_universe_volume_floor_20261107.py`, `tests/test_fetch_hyperliquid_volume_floor_20261107.py`, `tests/test_real_campaign_volume_threshold_20261107.py`.
   - **(b) missing/non-finite volume field is fail-closed EXCLUDED, never treated as pass:** `passes_universe_filter` line 324 `if daily_vol_usd is None or daily_vol_usd < min_daily_volume_usd: return False`; `_daily_volume_usd` at `src/strategy/crash_rebound.py:141` returns `None` when no usable bars (skips invalid volume bars). Covered by `tests/test_loader_verified_*_20261109.py`, `tests/test_volume_gating_*_20261107.py`.
   - **(c) one-position-per-coin: an open buy must not admit a second same-coin position (buy→rebound-short path):** covered by `tests/test_portfolio_bar_scan.py:30` (`test_portfolio_one_position_per_coin_no_overlap`) and `tests/test_engine_cap_cut_no_top_up_cross_bar_20261110.py`.
-- CELL 8 exhausted-with-evidence; continue top-down to CELL 9 only if 7–8 exhausted.
+- CELL 8 exhausted-with-evidence; continue top-down to CELL 9.
 
 ## CELL 5 — EXHAUSTED WITH EVIDENCE (all 3 candidates already covered; DO NOT RE-LITIGATE)
 - **(a) Hedge-leg funding on loop-else FINAL EXIT:** covered by `tests/test_rebound_short_funding_all_paths.py` (parametrized `final_exit` asserts coin+hedge funding delta), `tests/test_rebound_final_exit_hedge_funding_missing_eth.py`, `tests/test_hedge_funding_fallback_on_missing_eth_exit.py`.
@@ -41,6 +37,8 @@
 - **(c) Equal-share cap cuts with same-bar rebound-short admission + mid-flight long:** covered by `tests/test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py` and `tests/test_portfolio_cap_cut_existing_preserved_when_rebound_probe_completes_20261109.py`.
 
 ## PRIOR SHIPPED (TRACED, committed on fb89b2d or earlier — DO NOT RE-LITIGATE)
+- CELL 6 annual/positive-month reporting `src/metrics/campaign_metrics.py`, `tests/test_campaign_metrics_annual_positive_months_20261112.py` (3, mutation-verified).
+- CELL 7 equity reporting continuation `src/metrics/campaign_metrics.py`, `tests/test_campaign_metrics_equity_performance_20261112.py` (6, mutation-verified this session).
 - Cell 4d long-liq vs funding same-bar ordering `tests/test_long_liquidation_funding_same_bar_ordering_20261112.py` (3, mutation-verified).
 - Cell 4b spec safety-stop × rebound-short same-bar sequencing `tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py` (3).
 - Cell 2 fee config surface `tests/test_vault_fees_config_surface_20261112.py` (38).
@@ -50,19 +48,21 @@
 ## NEXT FOCUS CAMPAIGN (FINITE, ORDERED, HEAVY — SHIP ≥1 MATERIAL ITEM/SESSION)
 Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to spec with auditable accounting. Execute top-down. For each cell: **prove gap** (cite `grep -rn` of tests/ and consumers), **trace expected values**, write dated failing test, make it green, mutation-verify non-vacuous, run full gate. If a candidate is already covered, cite the file and move on.
 
-1. **CELL 7 — REPORTING FIDELITY CLOSEOUT (MANDATORY FIRST ITEM):** mutation-verify `tests/test_campaign_metrics_equity_performance_20261112.py` (6 tests) non-vacuous — for each traced field/assertion, perturb the implementation (e.g. flip equity sortino to sample std, remove the annualization OverflowError guard, change annual_return_pct base) and confirm the dated failing test breaks; restore clean; `git diff` shows only the feature. Then cite evidence: CELL 7 exhausted-with-evidence.
-2. **CELL 8 — UNIVERSE/VOLUME GATING SPEC EDGES (EXHAUSTED WITH EVIDENCE — cited above; no new work unless concrete failing evidence appears).**
-3. **CELL 9 — ONLY IF 7–8 EXHAUSTED WITH EVIDENCE:** gated-pipeline/provenance fail-closed hardening with concrete expected values (manifest summary contradiction `ready_for_real_campaign=true` + synthetic; verified-cache temp-path rejection) — many are covered by `test_provenance_summary_consistency_hardening_20261107.py` / `test_loader_verified_rejects_temp_*`; prove absence before adding.
+1. **CELL 7 — EXHAUSTED WITH EVIDENCE (mutation-verified this session).**
+2. **CELL 8 — EXHAUSTED WITH EVIDENCE (cited above).**
+3. **CELL 9 — GATED-PIPELINE / PROVENANCE FAIL-CLOSED HARDENING (NEXT):** prove concrete gap in real-campaign/verified-cache/provenance gates with traced fail-closed expectations (examples to probe: manifest summary contradiction `ready_for_real_campaign=true` + synthetic/non-ready/failed symbol; verified-cache temp-path or wrong-root rejection; missing/ambiguous provenance fields on real path). Many surfaces are covered by `tests/test_provenance_summary_consistency_hardening_20261107.py`, `tests/test_loader_verified_rejects_temp_*`, `tests/test_real_campaign_*` — **prove absence (`grep -rn` tests/ + consumers) before adding**. If exhausted, cite evidence and move to next materially real spec-fidelity/provenance cell.
+4. **CELL 10 — ONLY IF 9 EXHAUSTED WITH EVIDENCE:** next proven reporting/gating spec edge with concrete traced values (no speculative refactors).
 
 **No-idle rule:** passive re-verification or handoff-only edit without a material test/fix is NOT work. If a probed cell is already covered, cite file evidence and move to next.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED)
 - **Core/spec-compliant:** RSI(21)<20 crash trigger, $5M 24h volume enforcement, 1.25% 24h-volume sizing, ETH hedge vol-ratio (336h) capped 3x with no-look-ahead, rebound short after +9% target (stop +40%, target -9%, 48h), 8x spec safety stop, 120% gross-cap equal-share cuts, portfolio bar-by-bar deepest-first admission, hourly funding + liquidation at worst price (long uses low, short uses high).
-- **Reporting:** Sharpe/Sortino/Calmar/win-rate/profit-factor/monthly/weekly breakdown/per-leg attribution/exposure; **NEW** per-year + months-gain counts (CELL 6); equity `equity_*` Sharpe/Sortino/Calmar/annual-return (CELL 7, mutation-verify pending).
+- **Reporting:** Sharpe/Sortino/Calmar/win-rate/profit-factor/monthly/weekly breakdown/per-leg attribution/exposure; per-year + months-gain counts (CELL 6); equity `equity_*` Sharpe/Sortino/Calmar/annual-return (CELL 7, mutation-verified).
 - **Vault fees:** pure 2%/yr AUM (capped to equity) + 10% profit-above-HWM in `src/metrics/vault_fees.py`; opt-in reconciliation in `compute_campaign_metrics`. Default outputs unchanged.
 - **Runners/gating:** `scripts/run_portfolio.py`, `run_real_campaign.py` (fail-closed provenance/verified gates), engine fail-closed when `require_eth_hedge=True` and no usable hedge.
 
 ## MATERIAL LOCKED EVIDENCE (CARRY-FORWARD — DO NOT RE-LITIGATE)
+- **2026-11-12 CELL 7 equity reporting mutation-verified** — `src/metrics/campaign_metrics.py`, `tests/test_campaign_metrics_equity_performance_20261112.py` (6): annual_return_pct/alias mutation broke 2 tests; sortino downside-std mutation broke 1; annualized-return `-1` omission broke 1 (121.0% vs 21.0%).
 - **2026-11-12 CELL 6 annual/positive-month reporting** — `src/metrics/campaign_metrics.py`, `tests/test_campaign_metrics_annual_positive_months_20261112.py` (3, mutation-verified).
 - **2026-11-12 liquidation funding same-bar ordering (cell 4d)** — `tests/test_long_liquidation_funding_same_bar_ordering_20261112.py` (3).
 - **2026-11-12 spec safety stop × rebound-short same-bar sequencing (cell 4b)** — `tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py` (3).
@@ -83,28 +83,27 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T20:20:51Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T20:29:48Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T20:20:51Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T20:29:48Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
 GATE (RUN FIRST, NON-NEGOTIABLE): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T20:20:51Z, HEAD 00140d8, working tree clean): **885 passed, 12 skipped in 35.06s**, GREEN.
+  - Last verified (2026-11-12T20:29:48Z, HEAD d0e0b9e): **885 passed, 12 skipped in ~35s**, GREEN (re-verified pre/post CELL 7 mutation-verify restore).
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
   - Test env: install deps first if missing — `python -m pip install --break-system-packages pytest numpy pandas requests` (per .github/workflows/strategy-tests.yml).
 
-NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Prior sessions exhausted CELL 5 (all 3 candidates covered) and shipped CELL 6 (annual/positive-month reporting, mutation-verified). CELL 7 (equity reporting continuation) is implemented and GREEN but NOT yet mutation-verified — close it first:
+NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). CELL 5/6/7/8 are EXHAUSTED WITH EVIDENCE (CELL 7 mutation-verified this session: annual_return_pct mutation broke 2 tests, equity sortino downside-std mutation broke 1, annualized-return `-1` omission broke 1). Do NOT re-litigate them.
 
-  CELL 7 CLOSEOUT (MANDATORY FIRST ITEM): mutation-verify `tests/test_campaign_metrics_equity_performance_20261112.py` (6 tests) non-vacuous — for each traced field/assertion, perturb the implementation (e.g. flip equity sortino to sample std, remove the annualization OverflowError guard, change annual_return_pct base) and confirm the dated failing test breaks; restore clean; `git diff` shows only the feature. Then cite evidence: CELL 7 exhausted-with-evidence.
+  CELL 9 — GATED-PIPELINE / PROVENANCE FAIL-CLOSED HARDENING (NEXT, MANDATORY): prove concrete gap in real-campaign/verified-cache/provenance gates with traced fail-closed expectations. Probe candidates with `grep -rn` across tests/ + consumers (`scripts/run_real_campaign.py`, `src/data/{loader,provenance,streaming_ingest}.py`, runners/guards): manifest/provenance summary contradiction (e.g. `ready_for_real_campaign=true` but synthetic/non-ready/failed symbol or inconsistent per-symbol status), verified-cache temp-path or wrong-root acceptance, missing/ambiguous required provenance fields on real path, or any gate that can pass when it must reject. Many surfaces covered by `tests/test_provenance_summary_consistency_hardening_20261107.py`, `tests/test_loader_verified_rejects_temp_*`, `tests/test_real_campaign_*` — **prove absence before adding**. If a candidate is already covered, cite file evidence and move to next materially real spec-fidelity/provenance cell.
+  CELL 10 — ONLY IF 9 EXHAUSTED WITH EVIDENCE: next proven reporting/gating spec edge with concrete traced values (no speculative refactors).
 
-  CELL 8 — UNIVERSE/VOLUME GATING SPEC EDGES (EXHAUSTED WITH EVIDENCE — already covered): do NOT add unless concrete failing evidence appears. Covered: (a) inclusive `>=` $5M floor in `passes_universe_filter` (`src/strategy/crash_rebound.py:324`) + `enforce_spec_volume_floor` (`src/strategy/config.py:16-29`); (b) missing/non-finite volume fail-closed excluded (`crash_rebound.py:324`, `_daily_volume_usd` line 141); (c) one-position-per-coin (`test_portfolio_bar_scan.py:30`, `test_engine_cap_cut_no_top_up_cross_bar_20261110.py`). Cite and move on.
-
-  CELL 9 — ONLY IF 7–8 EXHAUSTED WITH EVIDENCE: gated-pipeline/provenance fail-closed hardening (manifest summary contradiction `ready_for_real_campaign=true` + synthetic; verified-cache temp-path rejection) — many covered by `test_provenance_summary_consistency_hardening_20261107.py` / `test_loader_verified_rejects_temp_*`; prove absence (`grep -rn` tests/ + consumers) before adding.
+For each candidate: (1) GAP PROOF — cite concrete absence/need (`grep -rn` tests/ + consumer paths). (2) TRACE FIRST — deterministic hand-traced fixtures with exact expected fail-closed/values. (3) SHIP — dated failing-tests-first (red→green), preserve all anchors, mutation-verify non-vacuous. (4) VERIFY — targeted + full gate `PYTHONPATH=. python3 -m pytest -q --tb=short` (exact count). (5) CONTINUE down campaign until exhausted with evidence.
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T20:20:51Z): CLEARED. Single durable handoff = root HANDOFF.md only. No `*.lock` outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Gate regression FIXED prior session — nothing idle-blocked; no multi-session contention. Stale `research_state/gap_analysis.md` marked SUPERSEDED. Stale remote branches origin/fix/campaign-* are ~1040 commits behind main and NOT blockers — do not merge/rebase. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
+BOTTLENECKS (audit 2026-11-12T20:29:48Z): CLEARED. Single durable handoff = root HANDOFF.md only. No `*.lock` outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Gate GREEN (885/12); nothing idle-blocked; no multi-session contention. Stale `research_state/gap_analysis.md` marked SUPERSEDED. Stale remote branches origin/fix/campaign-* are ~1040 commits behind main and NOT blockers — do not merge/rebase. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under `research_state/cache/hyperliquid_verified_283d_btceth/` are PLACEHOLDER (provenance per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, flat series, `ready_for_real_campaign:false`). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
 
@@ -119,7 +118,7 @@ LOCKED SEMANTICS (assert per traced engine behavior — zero regression):
   - Reporting (CELL 6+7 lock): `annual_breakdown`/`annual_trade_counts`/`positive_months`/`negative_months`/`flat_months`/`total_months` and equity `equity_*` fields are ADDITIVE; existing `win_rate`/`monthly`/`weekly`/exposure aggregates and anchored per-trade `sharpe_ratio`/`sortino_ratio`/`calmar_ratio` must be unchanged.
   - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners. Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: cell 1 fee export wiring; vault fee core + opt-in reconciliation; cell 2 fee config surface (38); cell 3 fee elapsed-hours; cell 4b spec safety-stop × rebound-short same-bar sequencing (3); cell 4d liquidation-vs-funding same-bar ordering (3); CELL 5 (a)(b)(c) all covered (files in HANDOFF); CELL 6 annual/positive-month reporting (3, mutation-verified); CELL 7 equity reporting continuation (6 tests green, mutation verify PENDING — closeout is mandatory first item); CELL 8 volume-gating spec edges (exhausted with evidence, cited above); both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E; fee HWM dip/recover no-double-charge and AUM-capped-to-equity; one-position-per-coin (multiple portfolio tests); `.test_derive_vol_*` fixture cleanup.
+COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: cell 1 fee export wiring; vault fee core + opt-in reconciliation; cell 2 fee config surface (38); cell 3 fee elapsed-hours; cell 4b spec safety-stop × rebound-short same-bar sequencing (3); cell 4d liquidation-vs-funding same-bar ordering (3); CELL 5 (a)(b)(c) all covered (files in HANDOFF); CELL 6 annual/positive-month reporting (3, mutation-verified); CELL 7 equity reporting continuation (6 tests, mutation-verified 2026-11-12: annual_return_pct/alias, sortino downside-std, annualized -1); CELL 8 volume-gating spec edges (exhausted with evidence); both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E; fee HWM dip/recover no-double-charge and AUM-capped-to-equity; one-position-per-coin (multiple portfolio tests); `.test_derive_vol_*` fixture cleanup.
 
 EXECUTION (NON-NEGOTIABLE):
   1) GAP PROOF: cite concrete absence/need (grep/read consumer paths).
@@ -139,4 +138,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T20:20:51Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T20:29:48Z)**
