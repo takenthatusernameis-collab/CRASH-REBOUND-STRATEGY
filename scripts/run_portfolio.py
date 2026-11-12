@@ -395,6 +395,13 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         'total_pnl': trade_pnl,
                         'entry_price': entry_px,
                         'hedge_pnl': getattr(res, 'hedge_pnl', 0.0),
+                        # max_live_coin_notional is the engine's authoritative max live
+                        # coin-position notional across the long-entry and rebound-short-entry
+                        # legs (hedges excluded). When the bounce gate suppresses the rebound
+                        # short this equals the long-entry notional; otherwise it is the
+                        # rebound-inflated short-entry notional. Exposed here so the portfolio
+                        # layer can assert the reservation basis instead of inferring it.
+                        'max_live_coin_notional': executed_notional,
                         'shares': res.shares,
                         'entry_timestamp': getattr(res, 'entry_timestamp', ''),
                         'exit_timestamp': getattr(res, 'exit_timestamp', ''),
