@@ -1,19 +1,19 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T07:21:38Z
+**Updated (UTC):** 2026-11-12T07:56:33Z
 **HEAD at audit:** `dd6785c chore(kilo): checkpoint agent session` (working tree modified: `HANDOFF.md` only, refreshed this session). Single canonical durable handoff: ONLY this root `HANDOFF.md`. Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, and root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py` are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-12T07:20:15Z) — BOTTLENECKS CLEARED, GATE VERIFIED, NEXT CAMPAIGN SHARPENED
+## SESSION AUDIT (2026-11-12T07:56:33Z) — BOTTLENECKS CLEARED, GATE RE-VERIFIED, NEXT CAMPAIGN REAFFIRMED
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is a durable handoff (`README.md` references it but is not a handoff). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files found.
 - **Lock/blocker audit (verified):** no stale `*.lock` files outside `.git/`. No process/session bottlenecks found. No contradictory handoff artifacts.
 - **Data blocker (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH candles unavailable/unverified (`research_state/campaign_results.json` is fixture/smoke-only per `research_state/campaign_artifact_provenance_erratum.md`). **NEVER fabricate.**
-- **Gap proof (2026-11-12T07:20:15Z, filesystem verified):** both-hedges terminal cells COVERED — final-exit (`tests/test_both_hedges_final_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`), STOP (`tests/test_both_hedges_rebound_short_stop_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`), TARGET (`tests/test_both_hedges_rebound_short_target_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`), TIME_EXIT (`tests/test_both_hedges_rebound_short_time_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`). **No `tests/*both*hedge*liquidation*` exists → PRIMARY uncovered cell: BOTH-hedges + rebound-short LIQUIDATION under `cap_cut + commission_min + entry_next_bar`.**
+- **Gap proof (2026-11-12T07:56:33Z, filesystem verified):** both-hedges terminal cells COVERED — final-exit (`tests/test_both_hedges_final_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`), STOP (`tests/test_both_hedges_rebound_short_stop_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`), TARGET (`tests/test_both_hedges_rebound_short_target_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`), TIME_EXIT (`tests/test_both_hedges_rebound_short_time_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`). **No `tests/*both*hedge*liquidation*` exists → PRIMARY uncovered cell: BOTH-hedges + rebound-short LIQUIDATION under `cap_cut + commission_min + entry_next_bar`.**
 - **Historical/stale (verify against code+tests):** `research_state/gap_analysis.md` (2026-10-30, trigger/sizing notes outdated vs shipped code/tests) and `research_state/campaign_artifact_provenance_erratum.md`. Scratch: root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, `__pycache__`, `.pytest_cache`. Do not ship scratch.
 
 ## LAST VERIFIED GATE
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **789 passed, 12 skipped in 54.95s** (2026-11-12T07:20:15Z, HEAD `dd6785c`, `HANDOFF.md` dirty only). **MUST re-run first in next session**; do not treat this count as fresh if tree/HEAD changes.
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **789 passed, 12 skipped in 54.44s** (2026-11-12T07:56:33Z, HEAD `dd6785c`, `HANDOFF.md` dirty only). **MUST re-run first in next session**; do not treat this count as fresh if tree/HEAD changes.
 
-## MATERIAL SHIPPED THIS SESSION (2026-11-12T07:20:15Z)
-- **No engine/tests shipped.** Bottleneck/lock/handoff audit, full-gate verification (789 passed, 12 skipped), both-hedges liquidation gap re-proof (`find tests -name '*both*hedge*liquidation*'` → none), and root `HANDOFF.md` refreshed with a timestamped, traced, heavy, non-optional next-session campaign focused on uncovered BOTH-hedges rebound-short LIQUIDATION. No stale locks or session blockers found/removed. No alternative handoff files created.
+## MATERIAL SHIPPED THIS SESSION (2026-11-12T07:56:33Z)
+- **No engine/tests shipped.** Bottleneck/lock/handoff audit, full-gate re-verification (789 passed, 12 skipped), both-hedges liquidation gap re-proof (`find tests -name '*both*hedge*liquidation*'` → none), and root `HANDOFF.md` refreshed with a fresh timestamped, traced, heavy, non-optional next-session campaign focused on uncovered BOTH-hedges rebound-short LIQUIDATION. No stale locks or session blockers found/removed. No alternative handoff files created.
 
 ## MATERIAL SHIPPED / LOCKED EVIDENCE (CARRY-FORWARD)
 - **2026-11-12 (both-hedges terminals, cap_cut+commission_min+entry_next_bar):** final-exit `tests/test_both_hedges_final_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; STOP `tests/test_both_hedges_rebound_short_stop_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; TARGET `tests/test_both_hedges_rebound_short_target_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; TIME_EXIT `tests/test_both_hedges_rebound_short_time_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`.
@@ -46,19 +46,19 @@
 - Fail-closed: missing provenance/verification for real path → reject. Never fabricate.
 - Single handoff: only root `HANDOFF.md`.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T07:20:15Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T07:56:33Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T07:20:15Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T07:56:33Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact.
 
 CAMPAIGN STATUS: #1–#4 COMPLETE. BOTH-hedges cells COVERED (verified 2026-11-12): final-exit, STOP, TARGET, TIME_EXIT under `cap_cut + commission_min + entry_next_bar` (see HANDOFF locked evidence). 48th-bar liq/stop/target and boundaries locked. Do NOT re-litigate covered cells without concrete failing evidence.
 
-BOTTLENECKS (audit 2026-11-12T07:20:15Z, HEAD dd6785c): CLEARED. Only root `HANDOFF.md` durable. No stale `*.lock` outside `.git/`. No contradictory handoff files. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` historical — verify against code+tests. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate. If any blocker appears, REMOVE/FIX it FIRST with failing-tests-first evidence.
+BOTTLENECKS (audit 2026-11-12T07:56:33Z, HEAD dd6785c): CLEARED. Only root `HANDOFF.md` durable. No stale `*.lock` outside `.git/`. No contradictory handoff files. `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` historical — verify against code+tests. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate. If any blocker appears, REMOVE/FIX it FIRST with failing-tests-first evidence.
 
-GAP PROOF (2026-11-12T07:20:15Z): `find tests -name '*both*hedge*liquidation*'` → none. Primary target UNCOVERED.
+GAP PROOF (2026-11-12T07:56:33Z): `find tests -name '*both*hedge*liquidation*'` → none. Primary target UNCOVERED.
 
-BLOCKING GATE (MUST RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`. Last verified 2026-11-12T07:20:15Z → 789 passed, 12 skipped in 54.95s (HEAD dd6785c, HANDOFF.md dirty only). Re-run NOW; if broken/regressed, fix before ANYTHING else. Report exact count.
+BLOCKING GATE (MUST RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`. Last verified 2026-11-12T07:56:33Z → 789 passed, 12 skipped in 54.44s (HEAD dd6785c, HANDOFF.md dirty only). Re-run NOW; if broken/regressed, fix before ANYTHING else. Report exact count.
 
 LOCKED (ZERO REGRESSION): all existing anchors including 48th-bar liq/stop/target/boundaries, both-hedges final-exit/stop/target/time-exit, and all #1–#4 locks. `max_live_coin_notional` may exceed entry-notional cap at pressure/rebound points while reservations record entry-notional cap — do NOT "fix" without concrete failing defect preserving anchors. Engine `exit_reason` can be `target_rebound_short` while short-leg trade reason is `time_exit` (traced) — assert per traced semantics.
 
@@ -82,4 +82,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation worst
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T07:16:48Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T07:56:33Z)**
