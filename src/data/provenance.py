@@ -138,10 +138,11 @@ def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: floa
                                      errs: List[str]) -> None:
     """Fail-closed spec volume evidence check for provenance consumers.
 
-    Legacy-compatible: manifests lacking requested/effective intent fields are
-    accepted when volume_filter_ok is true, min_daily_volume_usd >= floor, and
-    observed_min_24h_usd_volume (when present and numeric) >= floor. Manifests
-    carrying intent fields must not declare sub-spec requested/effective values.
+    Legacy-compatible by required-floor gate only: manifests lacking requested/
+    effective intent fields are still subject to volume_filter_ok, min_daily_volume_usd
+    (or effective) >= floor, and concrete observed_min_24h_usd_volume >= floor when a
+    caller requires a spec floor. Manifests carrying intent fields must not declare
+    sub-spec requested/effective values.
     """
     volcov = info.get("volume_coverage")
     if not isinstance(volcov, dict):
@@ -159,10 +160,18 @@ def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: floa
         errs.append(f"{sym}: effective min_daily_volume_usd {eff_or_legacy:g} < required spec floor {floor:g}")
     if req is not None and req < floor:
         errs.append(f"{sym}: requested min_daily_volume_usd {req:g} < required spec floor {floor:g}")
-    # Manifest-level intent audit (optional; checked at symbol level context by callers
-    # too, but provenance may see request_params via manifest root in future; no-op here).
-    observed = _as_volume_number(volcov.get("observed_min_24h_usd_volume"))
-    if observed is not None and observed < floor:
+    # Fail-closed: when a spec floor is required, volume_filter_ok/intent fields are
+    # not sufficient evidence on their own. Observed minimum 24h USD volume must be
+    # present, numeric, and >= floor (never trust stale/lying flags without evidence).
+    observed_raw = volcov.get("observed_min_24h_usd_volume")
+    observed = _as_volume_number(observed_raw)
+    if observed is None:
+        if observed_raw is None or observed_raw == "" or "observed_min_24h_usd_volume" not in volcov:
+            errs.append(f"{sym}: volume_coverage missing observed_min_24h_usd_volume; cannot prove >= ${floor:g} 24h volume evidence")
+        else:
+            errs.append(f"{sym}: observed_min_24h_usd_volume not numeric: {observed_raw!r}")
+        return
+    if observed < floor:
         errs.append(f"{sym}: observed_min_24h_usd_volume {observed:g} < required spec floor {floor:g}")
 
 
