@@ -202,3 +202,74 @@ def accrue_vault_fees(equity_series: Sequence[float],
 
 # Alias for compatibility with "high-water mark" terminology in codebases
 compute_high_water_mark_fee = compute_profit_share
+
+
+class VaultFeeConfigError(ValueError):
+    """Raised when vault fee configuration knobs are invalid (fail-closed).
+
+    Callers (CLI runners, config constructors) must NOT silently substitute
+    defaults or clamp invalid values; they must reject and surface the error.
+    """
+
+
+def validate_fee_config(aum_rate_annual: Any,
+                        profit_share_rate: Any,
+                        fee_hours_per_step: Any) -> tuple[float, float, float]:
+    """Validate explicit fee config knobs; raise VaultFeeConfigError on invalid.
+
+    Fail-closed contract: negative, NaN, non-finite, or non-numeric values are
+    REJECTED (no silent substitution, no clamping to a default). Zero is permitted
+    as an explicit degenerate disable (no fee of that type).
+
+    Returns the validated (aum_rate_annual, profit_share_rate, fee_hours_per_step)
+    as floats so callers can rely on typed values.
+    """
+    def _check(name: str, value: Any) -> float:
+        try:
+            v = float(value)
+        except (TypeError, ValueError):
+            raise VaultFeeConfigError(
+                f"{name} must be numeric, got {value!r}"
+            ) from None
+        if not math.isfinite(v):
+            raise VaultFeeConfigError(
+                f"{name} must be a finite number, got {value!r}"
+            )
+        if v < 0.0:
+            raise VaultFeeConfigError(
+                f"{name} must be >= 0, got {v:g}"
+            )
+        return v
+
+    a = _check("aum_rate_annual", aum_rate_annual)
+    p = _check("profit_share_rate", profit_share_rate)
+    h = _check("fee_hours_per_step", fee_hours_per_step)
+    return a, p, h
+
+
+def fee_config_from_args(args: Any) -> dict[str, Any]:
+    """Extract validated fee config knobs from an argparse Namespace.
+
+    Unspecified knobs (None) are left ABSENT from the returned dict so callers
+    apply the module defaults (DEFAULT_AUM_FEE_ANNUAL / DEFAULT_PROFIT_SHARE / 1.0)
+    unchanged. Any explicitly-provided knob is validated via validate_fee_config;
+    a single invalid knob rejects the whole set (no partial substitution).
+
+    Typical argparse attribute names: aum_rate_annual, profit_share_rate,
+    fee_hours_per_step (from --aum-rate-annual, --profit-share-rate,
+    --fee-hours-per-step).
+    """
+    kwargs: dict[str, Any] = {}
+    for attr, key in (("aum_rate_annual", "aum_rate_annual"),
+                      ("profit_share_rate", "profit_share_rate"),
+                      ("fee_hours_per_step", "fee_hours_per_step")):
+        v = getattr(args, attr, None)
+        if v is not None:
+            kwargs[key] = v
+    if kwargs:
+        validate_fee_config(
+            kwargs.get("aum_rate_annual", DEFAULT_AUM_FEE_ANNUAL),
+            kwargs.get("profit_share_rate", DEFAULT_PROFIT_SHARE),
+            kwargs.get("fee_hours_per_step", 1.0),
+        )
+    return kwargs

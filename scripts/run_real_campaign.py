@@ -281,6 +281,15 @@ def build_parser():
         "--apply-vault-fees", action="store_true", default=False,
         help="Opt in: attach vault fee reconciliation (2%%/yr AUM + 10%% profit above HWM) "
         "to campaign metrics/CSV/JSON outputs. Default off preserves anchored result shape.")
+    ap.add_argument("--aum-rate-annual", type=float, default=None,
+                    help="Explicit AUM fee rate (default 0.02 = 2%%/yr when --apply-vault-fees). "
+                         "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
+    ap.add_argument("--profit-share-rate", type=float, default=None,
+                    help="Explicit profit-share rate (default 0.10 = 10%% when --apply-vault-fees). "
+                         "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
+    ap.add_argument("--fee-hours-per-step", type=float, default=None,
+                    help="Explicit fee accrual hours per step (default 1.0 when --apply-vault-fees). "
+                         "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
     ap.add_argument(
         "--allow-partial-not-evidence",
         action="store_true",
@@ -297,6 +306,15 @@ def build_parser():
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    # Fail-closed fee-config validation: explicit knobs must be valid or the
+    # run is rejected before any I/O. Unspecified knobs (None) are absent so
+    # the module defaults apply (2%/yr, 10%, 1h).
+    from src.metrics.vault_fees import fee_config_from_args, VaultFeeConfigError
+    try:
+        fee_kwargs = fee_config_from_args(args)
+    except VaultFeeConfigError as e:
+        print(f"BLOCKER: invalid vault fee config: {e}", file=sys.stderr)
+        return 2
     cache_dir = Path(args.cache_dir)
     manifest_path = Path(args.manifest) if args.manifest else cache_dir / "provenance.json"
     partial_mode = bool(args.allow_partial_not_evidence)

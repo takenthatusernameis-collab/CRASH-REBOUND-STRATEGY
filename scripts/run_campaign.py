@@ -3,6 +3,7 @@
 import argparse
 import json
 import os
+import sys
 from datetime import datetime
 
 from src.data.loader import make_fixture_crash_rebound_multi
@@ -96,6 +97,11 @@ def build_parser():
     Default outputs are unchanged (anchored result shape). Vault fee
     reconciliation is opt-in via --apply-vault-fees so existing artifacts
     and consumers are not silently altered.
+
+    Explicit fee knobs (--aum-rate-annual, --profit-share-rate,
+    --fee-hours-per-step) are validated fail-closed via
+    src.metrics.vault_fees.validate_fee_config: negative/NaN/non-finite
+    values are rejected with VaultFeeConfigError (no silent substitution).
     """
     ap = argparse.ArgumentParser(description="Fixture smoke-test campaign runner for CRASH-REBOUND-STRATEGY.")
     ap.add_argument("--apply-vault-fees", action="store_true", default=False,
@@ -103,11 +109,29 @@ def build_parser():
                     "to campaign metrics/CSV/JSON outputs. Default off preserves anchored result shape.")
     ap.add_argument("--capital", type=float, default=100000.0,
                     help="Starting capital used for fee accrual (default 100000.0).")
+    ap.add_argument("--aum-rate-annual", type=float, default=None,
+                    help="Explicit AUM fee rate (default 0.02 = 2%%/yr when --apply-vault-fees). "
+                         "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
+    ap.add_argument("--profit-share-rate", type=float, default=None,
+                    help="Explicit profit-share rate (default 0.10 = 10%% when --apply-vault-fees). "
+                         "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
+    ap.add_argument("--fee-hours-per-step", type=float, default=None,
+                    help="Explicit fee accrual hours per step (default 1.0 when --apply-vault-fees). "
+                         "Must be >= 0; negative/NaN/non-finite rejected fail-closed.")
     return ap
 
 
 def main(argv=None):
     args = build_parser().parse_args(argv)
+    # Fail-closed fee-config validation: explicit knobs must be valid or the
+    # run is rejected before any I/O. Unspecified knobs (None) are absent so
+    # the module defaults apply (2%/yr, 10%, 1h).
+    from src.metrics.vault_fees import fee_config_from_args, VaultFeeConfigError
+    try:
+        fee_kwargs = fee_config_from_args(args)
+    except VaultFeeConfigError as e:
+        print(f"BLOCKER: invalid vault fee config: {e}", file=sys.stderr)
+        return 2
     print("=" * 70)
     print("FIXTURE SMOKE TEST ONLY - CRASH-REBOUND STRATEGY")
     print("=" * 70)
@@ -158,8 +182,10 @@ def main(argv=None):
 
     # Compute full metrics suite from the trade list (robust to no-trade runs).
     # Vault fee reconciliation is opt-in; default off keeps anchored metric shape.
+    # Explicit fee knobs (validated above) pass through to compute_campaign_metrics
+    # so the AUM rate / profit-share rate / hours-per-step are honored.
     metrics = compute_campaign_metrics(trades=results["trades"], initial_capital=args.capital,
-                                       apply_vault_fees=args.apply_vault_fees, fee_hours_per_step=1.0)
+                                       apply_vault_fees=args.apply_vault_fees, **fee_kwargs)
     metrics = metrics_to_dict(metrics)
 
     export_data = build_campaign_export(results, config, fixtures, datetime.now().isoformat(),
