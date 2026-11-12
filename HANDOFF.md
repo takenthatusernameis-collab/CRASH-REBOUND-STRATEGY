@@ -1,8 +1,8 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T08:55:11Z
+**Updated (UTC):** 2026-11-12T08:57:22Z
 **HEAD at audit:** `1b33857 chore(kilo): checkpoint agent session` (working tree clean at audit; `git status --short` empty). **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, and root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py` are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-12T08:55:11Z) — BOTTLENECKS CLEARED, GATE GREEN, PRIMARY GAP CONFIRMED
+## SESSION AUDIT (2026-11-12T08:57:22Z) — BOTTLENECKS CLEARED, GATE GREEN, PRIMARY GAP CONFIRMED
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` references it, not a handoff). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files found.
 - **Lock/blocker audit (verified):** working tree clean at audit start; `git status --short` empty. No stale `*.lock` files outside `.git/`. No contradictory handoff artifacts, no process/session bottlenecks. **Bottlenecks CLEARED — nothing idle-ready.**
 - **Data blocker (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH candles unavailable/unverified (`research_state/campaign_results.json` fixture/smoke-only per `research_state/campaign_artifact_provenance_erratum.md`; `research_state/universe_verified.json` excludes BTC/ETH as synthetic/manifest_error). **NEVER fabricate.** This blocks only real-data campaign runs, not engine/spec reconciliation work.
@@ -11,7 +11,7 @@
 - **Historical/stale (verify against code+tests, not authoritative):** `research_state/gap_analysis.md` (2026-10-30) and `research_state/campaign_artifact_provenance_erratum.md`. Scratch: root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, `__pycache__`, `.pytest_cache`. Do not ship scratch.
 
 ## LAST VERIFIED GATE (REFRESHED AT CURRENT HEAD `1b33857`)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **789 passed, 12 skipped in 54.95s** (2026-11-12T08:55:11Z, HEAD `1b33857`, working tree clean). **MANDATORY FIRST ACTION next session: re-run at current HEAD and report exact count. Do not trust this count if tree/HEAD changes. Fix before any other work if broken.**
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **789 passed, 12 skipped in 54.48s** (2026-11-12T08:57:22Z, HEAD `1b33857`, working tree clean). **MANDATORY FIRST ACTION next session: re-run at current HEAD and report exact count. Do not trust this count if tree/HEAD changes. Fix before any other work if broken.**
 
 ## MATERIAL SHIPPED THIS SESSION (2026-11-12T08:55:11Z)
 - **No engine/tests shipped.** Durable-handoff refresh only: re-audited single root `HANDOFF.md` (no alternates), clean tree at HEAD `1b33857`, no stale locks outside `.git/`, data/provenance blocker still fail-closed, primary uncovered cell re-confirmed (`find tests -name '*both*hedge*liquidation*'` → none). Gate refreshed at current HEAD: 789 passed, 12 skipped in 54.95s (green). Rewrote mandatory initial task into a heavier, explicit execution contract (gate-first, gap-proof, trace-first red→green, concrete assertions, escalation path, final reporting/handoff update). Gate count is now fresh at HEAD `1b33857`.
