@@ -146,6 +146,23 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
     else:
         warmup = max(2, getattr(config, 'crash_lookback', 5))
 
+    # The leading equity point is the portfolio's starting equity at the first
+    # scanned (decision) bar. Its timestamp MUST be a real bar timestamp: the
+    # elapsed-hours fee path (fee_use_timestamp_hours) derives per-step hours
+    # from consecutive equity-curve timestamps, and a leading "" timestamp made
+    # step 0 fall back to default_hours and collapsed the whole curve to flat
+    # 1h/step (AUM under-charge on multi-hour exit gaps). Use the first scanned
+    # bar's timestamp across symbols (the simulation start), fail-safe to "".
+    _first_bar_ts = ""
+    for _s in filtered_symbols:
+        _cd = candles_by_symbol.get(_s)
+        if _cd and len(_cd) > warmup:
+            _t = str(_cd[warmup].get("timestamp", "") or "")
+            if _t:
+                _first_bar_ts = _t
+                break
+    equity_curve = [{"timestamp": _first_bar_ts, "equity": capital, "pnl": 0.0}]
+
     for i in range(warmup, max_len):
         # Reconcile exits realized at or before this decision bar (no look-ahead), then
         # sync master exposure from the reservation overlay.
