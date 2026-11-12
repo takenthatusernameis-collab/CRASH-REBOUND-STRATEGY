@@ -1,19 +1,19 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T20:12:28Z
-**HEAD at audit:** `0e825c1 chore(kilo): checkpoint agent session` (working tree modified: uncommitted CELL 7 fixes in `src/metrics/campaign_metrics.py` + `tests/test_campaign_metrics_equity_performance_20261112.py` — gate was RED at this HEAD, fixed this session; **no commit requested**).
+**Updated (UTC):** 2026-11-12T20:17:08Z
+**HEAD at audit:** `0e825c1 chore(kilo): checkpoint agent session` (working tree modified: uncommitted CELL 7 fixes in `src/metrics/campaign_metrics.py` + `tests/test_campaign_metrics_equity_performance_20261112.py` — gate was RED at this HEAD, fixed prior session; **no commit requested**).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T20:12:28Z) — GATE GREEN (885 passed, 12 skipped) AFTER FIXING CELL 7 REGRESSION
+## SESSION AUDIT (2026-11-12T20:17:08Z) — GATE GREEN (885 passed, 12 skipped) CELL 7 REGRESSION FIXED
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Bottlenecks CLEARED — nothing idle-blocked; no multi-session contention.
-- **Bottleneck removed this session:** `research_state/gap_analysis.md` (2026-10-30) claimed ETH hedge / funding / liquidation / RSI trigger were MISSING. It is stale and contradicts the current implementation; it is now banner-marked **SUPERSEDED** at the top so future agents do not re-implement finished work. Authoritative spec = `research_state/strategy_spec.md`.
+- **Bottleneck removed prior session:** `research_state/gap_analysis.md` (2026-10-30) claimed ETH hedge / funding / liquidation / RSI trigger were MISSING. It is stale and contradicts the current implementation; it is now banner-marked **SUPERSEDED** at the top so future agents do not re-implement finished work. Authoritative spec = `research_state/strategy_spec.md`.
 - **Stale remote branches (audit, NOT blockers):** `origin/fix/campaign-fixture-provenance-20261030` (6 commits) and `origin/fix/campaign-integrity-and-exposure-accounting-20261030` (11 commits) are ~1040 commits behind `main`, not mergeable/rebased cleanly, and are superseded by `main`. Do NOT merge/rebase them or treat their old diffs as current gaps; they are history, not pending work.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`provenance.json`: per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, flat series, `ready_for_real_campaign:false`). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
 - **Test-env note (verified):** system `python3` had NO pytest; installed `pytest numpy pandas requests` per `.github/workflows/strategy-tests.yml` (`python -m pip install --break-system-packages`). Gate command below is canonical.
 
-## LAST VERIFIED GATE (2026-11-12T20:12:28Z, HEAD 0e825c1 + uncommitted CELL 7 fixes)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **885 passed, 12 skipped in 34.96s** (baseline 883 → 885; +6 CELL 7 equity tests green after fixes).
-- **GATE REGRESSION FIXED THIS SESSION:** CELL 7 equity-performance reporting was committed in intermediate checkpoints (fb89b2d→0e825c1) but left the gate RED: (1) `test_equity_sharpe_sortino_traced_from_explicit_curve` asserted sortino `1/30` vs traced `1/3` (test arithmetic bug; implementation matches the per-trade convention `mean/down_std` at `src/metrics/campaign_metrics.py:118-121`); (2) `_attach_equity_performance` annualization `(final_eq / start_f) ** (1.0 / years)` raised `OverflowError` on sub-day horizons (e.g. 1h span → exponent 8760) — guarded with `math.pow` + `OverflowError` skip so total return is still emitted but non-finite annualized values never are. Fixes are uncommitted in `src/metrics/campaign_metrics.py` and `tests/test_campaign_metrics_equity_performance_20261112.py`.
+## LAST VERIFIED GATE (2026-11-12T20:17:08Z, HEAD 0e825c1 + uncommitted CELL 7 fixes)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **885 passed, 12 skipped in 34.63s** (baseline 883 → 885; +6 CELL 7 equity tests green after fixes).
+- **GATE REGRESSION FIXED PRIOR SESSION:** CELL 7 equity-performance reporting was committed in intermediate checkpoints (fb89b2d→0e825c1) but left the gate RED: (1) `test_equity_sharpe_sortino_traced_from_explicit_curve` asserted sortino `1/30` vs traced `1/3` (test arithmetic bug; implementation matches the per-trade convention `mean/down_std` at `src/metrics/campaign_metrics.py:118-121`); (2) `_attach_equity_performance` annualization `(final_eq / start_f) ** (1.0 / years)` raised `OverflowError` on sub-day horizons (e.g. 1h span → exponent 8760) — guarded with `math.pow` + `OverflowError` skip so total return is still emitted but non-finite annualized values never are. Fixes are uncommitted in `src/metrics/campaign_metrics.py` and `tests/test_campaign_metrics_equity_performance_20261112.py`.
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
 ## SHIPPED THIS SESSION — CELL 6 (REPORTING FIDELITY, additive, mutation-verified)
@@ -80,14 +80,14 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T20:12:28Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T20:17:08Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T20:12:28Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T20:17:08Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
 GATE (RUN FIRST, NON-NEGOTIABLE): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T20:12:28Z, HEAD 0e825c1 + uncommitted CELL 7 fixes): **885 passed, 12 skipped in 34.96s**, GREEN after fixing a committed-but-broken CELL 7 (sortino trace `1/30→1/3`; annualization OverflowError on sub-day horizons).
+  - Last verified (2026-11-12T20:17:08Z, HEAD 0e825c1 + uncommitted CELL 7 fixes): **885 passed, 12 skipped in 34.63s**, GREEN after fixing a committed-but-broken CELL 7 (sortino trace `1/30→1/3`; annualization OverflowError on sub-day horizons).
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
   - Test env: install deps first if missing — `python -m pip install --break-system-packages pytest numpy pandas requests` (per .github/workflows/strategy-tests.yml).
 
@@ -105,7 +105,7 @@ NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue 
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T20:12:28Z): CLEARED. Single durable handoff = root HANDOFF.md only. No `*.lock` outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Gate regression (committed CELL 7) FIXED this session — nothing idle-blocked; no multi-session contention. Stale `research_state/gap_analysis.md` marked SUPERSEDED. Stale remote branches origin/fix/campaign-* are ~1040 commits behind main and NOT blockers — do not merge/rebase. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
+BOTTLENECKS (audit 2026-11-12T20:17:08Z): CLEARED. Single durable handoff = root HANDOFF.md only. No `*.lock` outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Gate regression (committed CELL 7) FIXED prior session — nothing idle-blocked; no multi-session contention. Stale `research_state/gap_analysis.md` marked SUPERSEDED. Stale remote branches origin/fix/campaign-* are ~1040 commits behind main and NOT blockers — do not merge/rebase. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under `research_state/cache/hyperliquid_verified_283d_btceth/` are PLACEHOLDER (provenance per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, flat series, `ready_for_real_campaign:false`). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
 
@@ -140,4 +140,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T20:12:28Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T20:17:08Z)**
