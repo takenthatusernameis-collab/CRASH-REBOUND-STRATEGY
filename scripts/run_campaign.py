@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Full campaign validation runner for the test window."""
+import argparse
 import json
 import os
 from datetime import datetime
@@ -89,7 +90,24 @@ def build_campaign_export(results, config, fixtures, timestamp, metrics=None):
     return export
 
 
-def main():
+def build_parser():
+    """CLI parser for the fixture campaign runner.
+
+    Default outputs are unchanged (anchored result shape). Vault fee
+    reconciliation is opt-in via --apply-vault-fees so existing artifacts
+    and consumers are not silently altered.
+    """
+    ap = argparse.ArgumentParser(description="Fixture smoke-test campaign runner for CRASH-REBOUND-STRATEGY.")
+    ap.add_argument("--apply-vault-fees", action="store_true", default=False,
+                    help="Opt in: attach vault fee reconciliation (2%%/yr AUM + 10%% profit above HWM) "
+                    "to campaign metrics/CSV/JSON outputs. Default off preserves anchored result shape.")
+    ap.add_argument("--capital", type=float, default=100000.0,
+                    help="Starting capital used for fee accrual (default 100000.0).")
+    return ap
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
     print("=" * 70)
     print("FIXTURE SMOKE TEST ONLY - CRASH-REBOUND STRATEGY")
     print("=" * 70)
@@ -117,6 +135,7 @@ def main():
     )
 
     results = run_portfolio_simulation(fixtures, config=config,
+                                      capital=args.capital,
                                       eth_candles={'ETH': eth_candles})
 
     print("=" * 70)
@@ -137,8 +156,10 @@ def main():
     output_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'research_state')
     os.makedirs(output_dir, exist_ok=True)
 
-    # Compute full metrics suite from the trade list (robust to no-trade runs)
-    metrics = compute_campaign_metrics(trades=results["trades"])
+    # Compute full metrics suite from the trade list (robust to no-trade runs).
+    # Vault fee reconciliation is opt-in; default off keeps anchored metric shape.
+    metrics = compute_campaign_metrics(trades=results["trades"], initial_capital=args.capital,
+                                       apply_vault_fees=args.apply_vault_fees, fee_hours_per_step=1.0)
     metrics = metrics_to_dict(metrics)
 
     export_data = build_campaign_export(results, config, fixtures, datetime.now().isoformat(),

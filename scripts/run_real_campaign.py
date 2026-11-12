@@ -263,8 +263,13 @@ def _complete_symbol_subset(manifest: dict, *, start: str = TARGET_START, end: s
     return complete_symbol_subset(manifest, start=start, end=end)
 
 
-def main():
-    ap = argparse.ArgumentParser()
+def build_parser():
+    """CLI parser for the real (verified-data-only) campaign runner.
+
+    Vault fee reconciliation is opt-in via --apply-vault-fees; default off
+    preserves the anchored result schema unless explicitly enabled.
+    """
+    ap = argparse.ArgumentParser(description="Run a REAL 283-day crash-rebound campaign only against verified market data.")
     ap.add_argument("--cache-dir", default=str(REPO_ROOT / "research_state" / "cache" / "hyperliquid"))
     ap.add_argument("--manifest", default=None)
     ap.add_argument("--capital", type=float, default=100000.0)
@@ -272,6 +277,10 @@ def main():
     ap.add_argument("--min-symbols", type=int, default=1)
     ap.add_argument("--universe-file", default=None, help="Optional JSON file with verified symbol universe (list or {symbols:[...]}).")
     ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0, help="Minimum 24h USD volume per symbol (>= $5M spec filter)")
+    ap.add_argument(
+        "--apply-vault-fees", action="store_true", default=False,
+        help="Opt in: attach vault fee reconciliation (2%%/yr AUM + 10%% profit above HWM) "
+        "to campaign metrics/CSV/JSON outputs. Default off preserves anchored result shape.")
     ap.add_argument(
         "--allow-partial-not-evidence",
         action="store_true",
@@ -283,7 +292,11 @@ def main():
     )
     ap.add_argument("--window-start", default=None, help="PARTIAL-NOT-EVIDENCE ONLY: override target window start for synthetic pipeline tests; ignored for real evidence runs.")
     ap.add_argument("--window-end", default=None, help="PARTIAL-NOT-EVIDENCE ONLY: override target window end for synthetic pipeline tests; ignored for real evidence runs.")
-    args = ap.parse_args()
+    return ap
+
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
     cache_dir = Path(args.cache_dir)
     manifest_path = Path(args.manifest) if args.manifest else cache_dir / "provenance.json"
     partial_mode = bool(args.allow_partial_not_evidence)
@@ -389,7 +402,8 @@ def main():
     results = run_portfolio_simulation(data, config=config, capital=args.capital,
                                        eth_candles={"ETH": eth} if eth else None,
                                        require_eth_hedge=bool(getattr(config, 'enable_eth_hedge', True)))
-    metrics = metrics_to_dict(compute_campaign_metrics(trades=results.get("trades", []), equity_curve=results.get("equity_curve")))
+    metrics = metrics_to_dict(compute_campaign_metrics(trades=results.get("trades", []), equity_curve=results.get("equity_curve"),
+                                                       initial_capital=args.capital, apply_vault_fees=args.apply_vault_fees, fee_hours_per_step=1.0))
     out_dir = REPO_ROOT / "research_state"
     out_dir.mkdir(parents=True, exist_ok=True)
     output_prefix = _normalize_output_prefix(args.output_prefix)
