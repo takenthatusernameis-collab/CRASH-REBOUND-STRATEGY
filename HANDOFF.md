@@ -1,15 +1,15 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T16:50:29Z
-**HEAD at audit:** `a79c94c chore(kilo): checkpoint agent session` (working tree clean on a79c94c; cell-2 + cell-3 material committed on a5bac9b; a79c94c added only scratch `_trace_cell4{a,b,c}.py` + `scripts/run_portfolio.py` edits — NOT handoff material; **no commit requested**).
+**Updated (UTC):** 2026-11-12T16:53:08Z
+**HEAD at audit:** `90d324e chore(kilo): checkpoint agent session` (working tree clean on 90d324e; material cell-2 + cell-3 committed on a5bac9b; a79c94c/90d324e are checkpoint-only commits — NOT handoff material; **no commit requested**).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T16:50:29Z) — GATE RE-VERIFIED GREEN (870 passed, 12 skipped)
+## SESSION AUDIT (2026-11-12T16:53:08Z) — GATE RE-VERIFIED GREEN (870 passed, 12 skipped)
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory artifacts. `.test_derive_vol_*` residue is 0.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`research_state/cache/hyperliquid_verified_283d_btceth/provenance.json`: per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, `flat_series_all_bars_identical`, 1 distinct/6792; `ready_for_real_campaign:false`). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs.
 
-## LAST VERIFIED GATE (2026-11-12T16:50:29Z, working tree clean on a79c94c)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **870 passed, 12 skipped in 43.28s** (baseline 823 → 870; +47 new tests, zero regressions).
+## LAST VERIFIED GATE (2026-11-12T16:53:08Z, working tree clean on 90d324e)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **870 passed, 12 skipped in 43.05s** (baseline 823 → 870; +47 new tests, zero regressions).
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
 ## MATERIAL SHIPPED THIS SESSION (TRACED, committed on a5bac9b)
@@ -57,13 +57,13 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T16:50:29Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T16:53:08Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T16:50:29Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T16:53:08Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
-NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Shipped prior sessions (committed): cell-2 config-surface tests (tests/test_vault_fees_config_surface_20261112.py, 38) and cell-3 elapsed-hours fee reconciliation (src/metrics/vault_fees.py::elapsed_hours_from_timestamps, campaign_metrics.py fee_use_timestamp_hours, --fee-hours-from-timestamps in both runners, tests/test_vault_fees_elapsed_hours_20261112.py, 9; plus real-runner knob-drop fix). Full gate last verified 870 passed, 12 skipped in 43.28s (working tree clean on a79c94c). Execute CELL 4 now:
+NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Shipped prior sessions (committed): cell-2 config-surface tests (tests/test_vault_fees_config_surface_20261112.py, 38) and cell-3 elapsed-hours fee reconciliation (src/metrics/vault_fees.py::elapsed_hours_from_timestamps, campaign_metrics.py fee_use_timestamp_hours, --fee-hours-from-timestamps in both runners, tests/test_vault_fees_elapsed_hours_20261112.py, 9; plus real-runner knob-drop fix). Full gate last verified 870 passed, 12 skipped in 43.05s (working tree clean on 90d324e). Execute CELL 4 now:
 
   CELL 4 — OTHER PROVABLY UNCOVERED SPEC-ACCOUNTING GAPS: For EACH candidate below, FIRST prove presence/absence via file search (cite grep -rn of tests/ and consumers/), then trace exact expected values, write a dated failing test, make green:
     (a) Hedge-leg FUNDING accrual at the time-exit bar (48h boundary) — COVERED, do not re-test: tests/test_rebound_short_48h_time_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_risk_settlement_20261110.py asserts funding delta on every leg with real DailyRiskState under cap-cut shares + ETH exit. Cite it and move on.
@@ -74,12 +74,12 @@ NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue 
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T16:50:29Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. All gaps are explicit campaign cells with proof-of-absence requirements. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
+BOTTLENECKS (audit 2026-11-12T16:53:08Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. All gaps are explicit campaign cells with proof-of-absence requirements. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
 
-DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance per-symbol status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ready_for_real_campaign=false). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
+DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance per-symbol status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ready_for_campaign=false). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T16:50:29Z, working tree clean on a79c94c): 870 passed, 12 skipped in 43.28s.
+  - Last verified (2026-11-12T16:53:08Z, working tree clean on 90d324e): 870 passed, 12 skipped in 43.05s.
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
 
 GAP PROOF (MANDATORY): before each change, prove the specific uncovered integration/guardrail (grep/read consumer paths) and cite evidence. Do not "improve" anchored behavior without a concrete failing defect.
@@ -112,4 +112,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T16:50:29Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T16:53:08Z)**
