@@ -1,18 +1,18 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T11:54:01Z
-**HEAD at audit start:** `0e48c03 chore(kilo): checkpoint agent session` (working tree clean; gate re-verified this session). **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, and root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py` are implementation/tests/scratch, not handoffs.
+**Updated (UTC):** 2026-11-12T11:58:11Z
+**HEAD at audit start:** `fd89889 chore(kilo): checkpoint agent session` (working tree clean; gate re-verified this session). **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, and root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py` are implementation/tests/scratch, not handoffs.
 
-## SESSION AUDIT (2026-11-12T11:54:01Z) — BOTTLENECKS CLEARED, GATE GREEN
-- **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` references it, not a handoff). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files found.
-- **Lock/blocker audit (verified):** no stale `*.lock` files outside `.git/`. No contradictory handoff artifacts, no process/session bottlenecks. **HANDOFF.md staleness vs HEAD cleared:** previous audit referenced `87eda38`; HEAD is now `0e48c03`, working tree clean. **Bottlenecks CLEARED — nothing idle-ready.**
+## SESSION AUDIT (2026-11-12T11:58:11Z) — BOTTLENECKS CLEARED, GATE GREEN
+- **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` references it, not a handoff). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files found (`grep -rlE '(todo|next|progress|status|session)' --include='*.md'` → only HANDOFF/README outside .git).
+- **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory handoff artifacts, no process/session bottlenecks. **HANDOFF.md staleness vs HEAD cleared:** previous audit referenced `0e48c03`; HEAD is now `fd89889`, working tree clean (`git status --short` empty). **Bottlenecks CLEARED — nothing idle-ready.**
 - **Data blocker (fail-closed, unchanged):** real 283d Hyperliquid BTC/ETH candles unavailable/unverified (`research_state/campaign_results.json` fixture/smoke-only per `research_state/campaign_artifact_provenance_erratum.md`; `research_state/universe_verified.json` excludes BTC/ETH as synthetic/manifest_error). **NEVER fabricate.** This blocks only real-data campaign runs, not engine/spec reconciliation work.
 - **Scratch/state noise (non-blocking):** `research_state/.test_derive_vol_*` temp dirs present (test residue) — ignore. Root scratch/probe scripts untracked/existing as before — do not treat as durable artifacts or ship as product code.
 
-## LAST VERIFIED GATE (REFRESHED AT HEAD `0e48c03` + WORKING TREE)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **798 passed, 12 skipped in 42.69s** (2026-11-12T11:54:01Z at HEAD `0e48c03`; last at `87eda38` was 798 passed, 12 skipped in 42.42s). **MANDATORY FIRST ACTION next session: re-run at current HEAD and report exact count. Do not trust this count if tree/HEAD changes. Fix before any other work if broken.**
+## LAST VERIFIED GATE (REFRESHED AT HEAD `fd89889` + WORKING TREE)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **798 passed, 12 skipped in 42.35s** (2026-11-12T11:58:11Z at HEAD `fd89889`; previous at `0e48c03` was 798 passed, 12 skipped in 42.69s). **MANDATORY FIRST ACTION next session: re-run at current HEAD and report exact count. Do not trust this count if tree/HEAD changes. Fix before any other work if broken.**
 
-## MATERIAL SHIPPED THIS SESSION (2026-11-12T11:54:01Z)
-- **Handoff reconciliation (material, no engine change required):** refreshed root `HANDOFF.md` to HEAD `0e48c03`, re-verified gate (798 passed, 12 skipped), cleared HANDOFF-staleness bottleneck, confirmed single durable handoff + no contradictory artifacts/locks.
+## MATERIAL SHIPPED THIS SESSION (2026-11-12T11:58:11Z)
+- **Handoff reconciliation (material, no engine change required):** refreshed root `HANDOFF.md` to HEAD `fd89889`, re-verified gate (798 passed, 12 skipped), cleared HANDOFF-staleness bottleneck, confirmed single durable handoff + no contradictory artifacts/locks. No idle-ready blockers remain.
 
 ## MATERIAL SHIPPED / LOCKED EVIDENCE (CARRY-FORWARD)
 - **2026-11-12 (both-hedges, cap_cut+commission_min+entry_next_bar):** final-exit aligned `tests/test_both_hedges_final_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; **final-exit missing-ETH-at-final-bar rebound fallback `tests/test_both_hedges_final_exit_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_20261112.py`**; STOP `tests/test_both_hedges_rebound_short_stop_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; TARGET `tests/test_both_hedges_rebound_short_target_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; TIME_EXIT `tests/test_both_hedges_rebound_short_time_exit_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`; LIQUIDATION `tests/test_both_hedges_rebound_short_liquidation_eth_hedge_cap_cut_commission_min_entry_next_bar_20261112.py`.
@@ -46,20 +46,22 @@
 - Fail-closed: missing provenance/verification for real path → reject. Never fabricate.
 - Single handoff: only root `HANDOFF.md`.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T11:54:01Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T11:58:11Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T11:54:01Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T11:58:11Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (MUST DRIVE ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to `crash-rebound-strategy.pdf` / `research_state/strategy_spec.md`. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Repo name = the mission: crash trigger (RSI(21)<20) → rebound short (+9% target, stop +40%, target -9%, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
-BOTTLENECKS (audit 2026-11-12T11:54:01Z, HEAD `0e48c03` + clean working tree): CLEARED. Single durable handoff is root `HANDOFF.md` only. No stale `*.lock` outside `.git/`. No contradictory handoff files. HANDOFF.md staleness vs HEAD reconciled (`87eda38` → `0e48c03`). `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical — verify against code+tests. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate (blocks real-data runs only, not engine/spec reconciliation). `research_state/.test_derive_vol_*` temp dirs are test residue/noise — ignore. If any blocker appears, REMOVE/FIX it FIRST with failing-tests-first evidence.
+NO EXPLICIT DIRECTION GIVEN → YOU OWN THE CAMPAIGN: The user gave no new feature/direction this session, so you MUST build the next focus campaign yourself and make it impossible for future agents to avoid heavy work. That means: pick the highest-value uncovered cross-leg reconciliation / settlement / gated-pipeline cell (proven by file search + engine path), write a deterministic hand-traced failing test first, ship it red→green, and then keep going down the uncovered list — do not stop after one, and do not end with passive re-verification or a handoff-only edit. If the cell you pick is already covered, document the file evidence and move to the next uncovered cell; repeat until ≥1 MATERIAL item ships this session.
+
+BOTTLENECKS (audit 2026-11-12T11:58:11Z, HEAD `fd89889` + clean working tree): CLEARED. Single durable handoff is root `HANDOFF.md` only. No stale `*.lock` outside `.git/`. No contradictory handoff files (only HANDOFF/README outside .git mention handoff/status terms). HANDOFF.md staleness vs HEAD reconciled (`0e48c03` → `fd89889`). `research_state/gap_analysis.md` and `research_state/campaign_artifact_provenance_erratum.md` are historical — verify against code+tests. Real 283d Hyperliquid BTC/ETH data UNAVAILABLE/UNVERIFIED (fail-closed) — NEVER fabricate (blocks real-data runs only, not engine/spec reconciliation). `research_state/.test_derive_vol_*` temp dirs are test residue/noise — ignore. If any blocker appears, REMOVE/FIX it FIRST with failing-tests-first evidence.
 
 COVERED (DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE): #1–#4 complete; both-hedges FINAL EXIT (aligned + missing-ETH-at-final-bar rebound fallback), STOP, TARGET, TIME_EXIT, LIQUIDATION under `cap_cut + commission_min + entry_next_bar` (including aligned/missing-rebound-ETH/missing-both-ETH variants); portfolio runner both-hedged rebound loop-else final exit under batch cap-cut with traced per-leg PnL/funding, max_live_coin_notional reservation basis (6540 rebound-inflated vs 6000 entry notional), equal-share entry-notional cut (6000 each = cap/2), risk_state settlement parity (1166.4), final-state release — `tests/test_portfolio_both_hedges_rebound_loop_exit_cap_cut_max_live_20261112.py`; stopped-buy-never-opens-rebound portfolio E2E — `tests/test_portfolio_stopped_buy_real_engine_e2e.py`.
 
 GAP PROOF (MANDATORY FIRST STEP): run `find tests -maxdepth 1 -name '*both_hedges*' -o -name '*cap_cut*commission_min*entry_next_bar*' | sort` and targeted searches; cite concrete file absence/presence and distinct engine/runner path evidence to identify the NEXT uncovered material cell. Do not assume; prove. Cells now locked are off-limits without failing evidence.
 
 BLOCKING GATE (MUST RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`.
-  - Last verified (2026-11-12T11:54:01Z at HEAD `0e48c03`): **798 passed, 12 skipped in 42.69s**.
+  - Last verified (2026-11-12T11:58:11Z at HEAD `fd89889`): **798 passed, 12 skipped in 42.35s**.
   - Re-run NOW at current HEAD; report exact count. If broken/regressed, fix before ANYTHING else.
 
 LOCKED SEMANTICS (ZERO REGRESSION / ASSERT PER TRACED ENGINE BEHAVIOR):
@@ -89,4 +91,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation worst
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T11:54:01Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T11:58:11Z)**
