@@ -301,6 +301,123 @@ def _equity_series_for_fees(trades: List[Dict[str, Any]],
     return series
 
 
+def _equity_performance_points(trades: List[Dict[str, Any]],
+                                equity_curve: Optional[List[Any]],
+                                initial_capital: Any):
+    """Ordered (timestamp, equity) points for equity-path performance.
+
+    An explicit equity_curve wins (ordered dict points with `equity`/`value`).
+    Otherwise derive a cumulative-PnL curve from trades starting at
+    `initial_capital`. Returns ([], None) when no starting equity is known, so
+    callers can stay additive and emit nothing rather than invent a baseline.
+    """
+    if equity_curve and isinstance(equity_curve, list):
+        pts = []
+        for pt in equity_curve:
+            if not isinstance(pt, dict):
+                continue
+            if "equity" not in pt and "value" not in pt:
+                continue
+            pts.append((pt.get("timestamp"), _finite(pt.get("equity", pt.get("value")))))
+        if pts:
+            return pts, pts[0][1]
+    cap = None if initial_capital is None else _finite(initial_capital)
+    if cap is None:
+        return [], None
+    eq = cap
+    pts = [(None, eq)]
+    for t in trades:
+        eq = _finite(eq + _trade_pnl(t))
+        ts = _trade_ts(t, "exit_timestamp", "entry_timestamp", "timestamp")
+        pts.append((ts, eq))
+    return pts, cap
+
+
+def _attach_equity_performance(m: Dict[str, Any], trades: List[Dict[str, Any]],
+                               equity_curve=None, **kwargs):
+    """Attach equity-curve-based return/risk metrics (purely additive).
+
+    The PDF reports Sharpe/Calmar on the equity path and "Per year +115.2%".
+    The anchored per-trade `sharpe_ratio`/`sortino_ratio`/`calmar_ratio` are left
+    untouched; this adds separate `equity_*` fields plus per-year return %.
+    Convention: per-period simple returns, population std, NON-annualized
+    (matches the existing per-trade convention) unless an explicit curve
+    horizon is derivable from timestamps, in which case annualized fields are
+    added too.
+    """
+    initial_capital = kwargs.get("initial_capital", kwargs.get("capital", None))
+    pts, start_cap = _equity_performance_points(trades, equity_curve, initial_capital)
+    if not pts:
+        return m
+
+    eqs = [p[1] for p in pts]
+    final_eq = eqs[-1]
+
+    rets: List[float] = []
+    for i in range(1, len(eqs)):
+        prev = eqs[i - 1]
+        if math.isfinite(prev) and prev != 0.0:
+            rets.append((eqs[i] - prev) / prev)
+    mean_r = (sum(rets) / len(rets)) if rets else 0.0
+    var = (sum((r - mean_r) ** 2 for r in rets) / len(rets)) if rets else 0.0
+    std = math.sqrt(var) if var > 0 else 0.0
+    eq_sharpe = (mean_r / std) if std > 0 else 0.0
+
+    downside = [r for r in rets if r < 0]
+    down_var = (sum(r ** 2 for r in downside) / len(downside)) if downside else 0.0
+    down_std = math.sqrt(down_var) if down_var > 0 else 0.0
+    eq_sortino = (mean_r / down_std) if down_std > 0 else 0.0
+
+    peak = None
+    max_dd_pct = 0.0
+    for eq in eqs:
+        if peak is None or eq > peak:
+            peak = eq
+        if peak is not None and math.isfinite(peak) and peak != 0.0:
+            dd = (eq - peak) / peak
+            if dd < max_dd_pct:
+                max_dd_pct = dd
+
+    m["equity_start"] = _finite(start_cap if start_cap is not None else eqs[0])
+    m["equity_final"] = _finite(final_eq)
+    m["equity_points"] = len(eqs)
+    m["equity_period_returns"] = [_finite(r) for r in rets]
+    m["equity_sharpe_ratio"] = _finite(eq_sharpe)
+    m["equity_sortino_ratio"] = _finite(eq_sortino)
+    m["equity_max_drawdown_pct"] = _finite(max_dd_pct * 100.0)
+
+    # (a) Per-year return % when starting equity is known. Starting equity for
+    # each year is the prior year-end equity, seeded from initial capital.
+    annual = m.get("annual_breakdown") or {}
+    if annual and start_cap is not None:
+        base = _finite(start_cap)
+        annual_return_pct: Dict[str, float] = {}
+        for year in sorted(annual.keys()):
+            pnl = _finite(annual[year])
+            annual_return_pct[year] = _finite((pnl / base * 100.0) if base != 0 else 0.0)
+            base = _finite(base + pnl)
+        m["annual_return_pct"] = annual_return_pct
+
+    # (c) Annualized return + Calmar only when a horizon is derivable from
+    # explicit curve timestamps (never guess a horizon).
+    stamps = [p[0] for p in pts if isinstance(p[0], str) and p[0].strip()]
+    parsed = [d for d in (_parse_dt(s) for s in stamps) if d is not None]
+    start_f = _finite(start_cap if start_cap is not None else eqs[0])
+    if len(parsed) >= 2 and start_f > 0 and final_eq > 0:
+        span_seconds = (max(parsed) - min(parsed)).total_seconds()
+        years = span_seconds / (365.0 * 24.0 * 3600.0)
+        if years > 0:
+            total_ret = final_eq / start_f - 1.0
+            annualized = (final_eq / start_f) ** (1.0 / years) - 1.0
+            m["equity_total_return_pct"] = _finite(total_ret * 100.0)
+            m["equity_annualized_return_pct"] = _finite(annualized * 100.0)
+            m["equity_horizon_years"] = _finite(years)
+            m["equity_annualized_calmar_ratio"] = _finite(
+                annualized / abs(max_dd_pct) if max_dd_pct < 0 else 0.0
+            )
+    return m
+
+
 def _attach_vault_fee_metrics(m: Dict[str, Any], trades: List[Dict[str, Any]],
                               equity_curve=None, **kwargs):
     """Optionally compute and attach vault fee reconciliation metrics.
@@ -416,6 +533,7 @@ def compute_campaign_metrics(result=None, trades=None, equity_curve=None, **kwar
             m["max_drawdown_series"] = series
             # Calmar remains 0 without return context
 
+    _attach_equity_performance(m, trades, equity_curve=equity_curve, **kwargs)
     _attach_vault_fee_metrics(m, trades, equity_curve=equity_curve, **kwargs)
     m["timestamp"] = datetime.now().isoformat()
     return m
