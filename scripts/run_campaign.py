@@ -188,7 +188,16 @@ def main(argv=None):
     # Vault fee reconciliation is opt-in; default off keeps anchored metric shape.
     # Explicit fee knobs (validated above) pass through to compute_campaign_metrics
     # so the AUM rate / profit-share rate / hours-per-step are honored.
-    metrics = compute_campaign_metrics(trades=results["trades"], initial_capital=args.capital,
+    #
+    # The portfolio simulation's equity_curve (one point per trade EXIT, with
+    # exit timestamps) is passed through so --fee-hours-from-timestamps derives
+    # the TRUE elapsed hours between exit points instead of a flat 1h step
+    # (symmetric with run_real_campaign.py; without this the flag was silently
+    # inert in this runner). When the flag is off, flat fee_hours_per_step applies
+    # and the default result shape is unchanged.
+    metrics = compute_campaign_metrics(trades=results["trades"],
+                                       equity_curve=results.get("equity_curve"),
+                                       initial_capital=args.capital,
                                        apply_vault_fees=args.apply_vault_fees,
                                        fee_use_timestamp_hours=args.fee_hours_from_timestamps,
                                        **fee_kwargs)
