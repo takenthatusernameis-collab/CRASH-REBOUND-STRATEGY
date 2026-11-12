@@ -1,5 +1,13 @@
 # Gap Analysis | CRASH-REBOUND-STRATEGY | 2026-10-30T01:43:44Z
 
+> **SUPERSEDED (2026-11-12).** This snapshot predates the implemented spec
+> (RSI(21)<20 trigger, $5M volume gating, 1.25% sizing, equal-share cuts, ETH
+> hedge every leg, hourly funding/liquidation, rebound short, vault fees). Its
+> "MISSING/NOT IMPLEMENTED" rows below are HISTORICAL ONLY — do NOT re-implement
+> them. The authoritative spec is `research_state/strategy_spec.md` and current
+> implementation status is in root `HANDOFF.md`. Retained only for provenance of
+> the original gap analysis; any future work must re-verify against current code.
+
 ## Comparison: PDF Spec vs Current Implementation
 
 ### Core Logic

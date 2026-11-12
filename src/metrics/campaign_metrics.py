@@ -86,6 +86,16 @@ def _month_key(ts: Optional[str]) -> str:
     return f"{dt.year}-{dt.month:02d}"
 
 
+def _year_key(ts: Optional[str]) -> str:
+    """Calendar-year bucket (YYYY) for per-year performance attribution."""
+    dt = _parse_dt(ts)
+    if dt is not None:
+        return f"{dt.year:04d}"
+    if isinstance(ts, str) and len(ts) >= 4 and ts[:4].isdigit():
+        return ts[:4]
+    return "unknown"
+
+
 def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
     trades = list(trades or [])
     pnls = [_trade_pnl(t) for t in trades]
@@ -132,10 +142,21 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
 
     monthly: Dict[str, float] = defaultdict(float)
     weekly: Dict[str, float] = defaultdict(float)
+    annual: Dict[str, float] = defaultdict(float)
+    annual_trades: Dict[str, int] = defaultdict(int)
     for t in trades:
         ts = _trade_ts(t, "exit_timestamp", "entry_timestamp", "timestamp")
         monthly[_month_key(ts)] += _trade_pnl(t)
         weekly[_week_key(ts)] += _trade_pnl(t)
+        annual[_year_key(ts)] += _trade_pnl(t)
+        annual_trades[_year_key(ts)] += 1
+
+    # PDF performance context cites per-year return and "6 of 10 months gain"
+    # (research_state/strategy_spec.md). Emit machine-checkable per-year PnL and
+    # positive/negative/flat month counts derived from the same monthly buckets.
+    positive_months = sum(1 for v in monthly.values() if v > 0)
+    negative_months = sum(1 for v in monthly.values() if v < 0)
+    flat_months = sum(1 for v in monthly.values() if v == 0)
 
     # Trade-level attribution by symbol/leg
     by_symbol: Dict[str, Dict[str, Any]] = {}
@@ -184,6 +205,12 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
         "profit_factor": profit_factor,
         "monthly_breakdown": dict(monthly),
         "weekly_breakdown": dict(weekly),
+        "annual_breakdown": dict(annual),
+        "annual_trade_counts": dict(annual_trades),
+        "positive_months": positive_months,
+        "negative_months": negative_months,
+        "flat_months": flat_months,
+        "total_months": len(monthly),
         "trade_attribution": attribution,
         "trade_attribution_by_leg": attribution_by_leg,
         "leg_breakdown": leg_breakdown,

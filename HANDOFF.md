@@ -1,53 +1,70 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T19:16:39Z
-**HEAD at audit:** `4914d84 chore: capture completed workflow run diagnostics` (working tree: 2 new untracked dated test files added this session — CELL 4b + 4d; **no commit requested**).
+**Updated (UTC):** 2026-11-12T19:23:01Z
+**HEAD at audit:** `fb89b2d chore(kilo): checkpoint agent session` (working tree at audit: `src/metrics/campaign_metrics.py` modified + `tests/test_campaign_metrics_annual_positive_months_20261112.py` new — this session's CELL 6 item; **no commit requested**).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T19:16:39Z) — GATE RE-VERIFIED GREEN (876 passed, 12 skipped)
+## SESSION AUDIT (2026-11-12T19:23:01Z) — GATE RE-VERIFIED GREEN (879 passed, 12 skipped)
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory handoff artifacts. `.test_derive_vol_*` residue is 0. Bottlenecks CLEARED — nothing idle-blocked; no multi-session contention.
-- **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`research_state/cache/hyperliquid_verified_283d_btceth/provenance.json`: per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, `flat_series_all_bars_identical`, 1 distinct/6792; `ready_for_real_campaign:false`). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
-- **Test-env note (verified):** system `python3` had NO pytest; installed `pytest numpy pandas requests` per `.github/workflows/strategy-tests.yml` (`python -m pip install --break-system-packages`). Gate command below is the canonical one.
+- **Bottleneck removed this session:** `research_state/gap_analysis.md` (2026-10-30) claimed ETH hedge / funding / liquidation / RSI trigger were MISSING. It is stale and contradicts the current implementation; it is now banner-marked **SUPERSEDED** at the top so future agents do not re-implement finished work. Authoritative spec = `research_state/strategy_spec.md`.
+- **Stale remote branches (audit, NOT blockers):** `origin/fix/campaign-fixture-provenance-20261030` (6 commits) and `origin/fix/campaign-integrity-and-exposure-accounting-20261030` (11 commits) are ~1040 commits behind `main`, not mergeable/rebased cleanly, and are superseded by `main`. Do NOT merge/rebase them or treat their old diffs as current gaps; they are history, not pending work.
+- **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`provenance.json`: per-symbol `status:"error"`, `synthetic_check.is_synthetic:true`, flat series, `ready_for_real_campaign:false`). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
+- **Test-env note (verified):** system `python3` had NO pytest; installed `pytest numpy pandas requests` per `.github/workflows/strategy-tests.yml` (`python -m pip install --break-system-packages`). Gate command below is canonical.
 
-## LAST VERIFIED GATE (2026-11-12T19:16:39Z, working tree = HEAD + 2 new test files)
-- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **876 passed, 12 skipped in 35.03s** (baseline 870 → 876; +6 new tests, zero regressions).
+## LAST VERIFIED GATE (2026-11-12T19:23:01Z, HEAD fb89b2d + CELL 6 changes)
+- `PYTHONPATH=. python3 -m pytest -q --tb=short` → **879 passed, 12 skipped in 34.69s** (baseline 876 → 879; +3 new CELL 6 tests, zero regressions).
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
-## MATERIAL SHIPPED THIS SESSION (CELL 4, TRACED, mutation-verified — NOT yet committed)
-- **Cell 4d (LONG LIQUIDATION vs FUNDING same-bar ordering — DONE):** `tests/test_long_liquidation_funding_same_bar_ordering_20261112.py` (3 tests). Gap proof (file-search verified): the long-liq branch in `src/backtest/engine.py` computes `hours_held_liq = idx - start_idx + 1` and subtracts `_apply_funding_pnl(entry_px*shares, hours_held_liq, rate, 'long')` in the SAME branch as the penalty; existing liq tests assert the penalty but NOT the funding delta / per-hour boundary. Locked traced values: entry=100, liq threshold 94.0 (maint 5%+buffer 1%), rate 0.01%/h, penalty 0.5%: liq at ENTRY bar → hours=1 → funding 0.01 → pnl -10.51; liq one bar later → hours=2 → funding 0.02 → pnl -10.52; cross-case delta = exactly one hour (0.01). **Mutation-verified non-vacuous:** setting `hours_held_liq=0` fails all 3 (restore clean, `git diff src/` empty).
-- **Cell 4b (8x SPEC SAFETY STOP × rebound-short same-bar sequencing — DONE):** `tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py` (3 tests). Gap proof (file-search verified): same-bar sequencing locks exist for a PLAIN stop (`test_long_same_bar_stop_target_sequencing_20261108.py`) and for the SHORT leg (`test_rebound_short_attribution_and_risk_state_20261107.py`), but none drives the SPEC 8x safety stop (`use_spec_safety_stop=True`, stop=entry*(1-8*range_ratio)) through a same-bar stop+target collision. Locked invariant: the spec safety stop sits structurally below the 6% liq threshold, so a same-bar stop+target collision resolves to LIQUIDATION (worst price) and a liquidated/stopped buy NEVER opens a rebound short; if a stop is above liq (wide-range case) the STOP beats target on the same bar, still no rebound short; control case (target only) still opens the rebound short. Traced: stop 86.0 (<94) + low 85 + high 110 → liquidated @85.0, bars 2, no short; stop 96.0 (>94) + low 95 + high 110 → stopped @96.0, hours 2, funding 0.02, pnl -4.02, no short; stop 96.0 + low 98 + high 110 → target_rebound_short (control).
+## SHIPPED THIS SESSION — CELL 6 (REPORTING FIDELITY, additive, mutation-verified)
+- **File:** `src/metrics/campaign_metrics.py` (+27 lines) and `tests/test_campaign_metrics_annual_positive_months_20261112.py` (3 tests).
+- **Gap proof (file-search verified):** `compute_metrics_from_trades` emitted `monthly_breakdown`/`weekly_breakdown` (currency PnL) but had NO per-year bucket and NO positive/negative/flat month counts. `research_state/strategy_spec.md` Performance cites **"Per year +115.2%"** and **"6 of 10 months gain"**, so machine-checkable per-year PnL and months-gain counts are required. `grep -rn "annual_breakdown\|positive_months\|negative_months" tests/ src/` returned nothing before this change.
+- **Added (purely additive — existing aggregates untouched):** `annual_breakdown` (YYYY→PnL), `annual_trade_counts` (YYYY→count), `positive_months`, `negative_months`, `flat_months`, `total_months`. New `_year_key()` helper.
+- **Traced values:** trades +100 (2025-12-31), −40 (2026-01-15), +10 (2026-01-20), +25 (2026-02-10), 0 (2026-03-05) → `annual_breakdown={"2025":100.0,"2026":-5.0}`, `annual_trade_counts={"2025":1,"2026":4}`, monthly `{2025-12:100, 2026-01:-30, 2026-02:25, 2026-03:0}`, `positive_months=2, negative_months=1, flat_months=1, total_months=4`. Invariants asserted: annual sums = total PnL (95.0); month counts partition; annual trade counts sum = trade count.
+- **Mutation-verified non-vacuous:** setting `annual[_year_key(ts)] += 0.0` failed 2 of 3 tests (restored clean; `git diff` shows only the feature).
 
-## PRIOR SHIPPED (TRACED, committed on a5bac9b or earlier — DO NOT RE-LITIGATE)
-- Cell 2 fee config surface (38 tests) `tests/test_vault_fees_config_surface_20261112.py`.
-- Cell 3 fee elapsed-hours `src/metrics/vault_fees.py::elapsed_hours_from_timestamps` + `campaign_metrics.py` `fee_use_timestamp_hours` + `--fee-hours-from-timestamps` (both runners) + real-runner knob-drop fix; `tests/test_vault_fees_elapsed_hours_20261112.py` (9 tests).
+## CELL 5 — EXHAUSTED WITH EVIDENCE (all 3 candidates already covered; DO NOT RE-LITIGATE)
+- **(a) Hedge-leg funding on loop-else FINAL EXIT:** covered by `tests/test_rebound_short_funding_all_paths.py` (parametrized `final_exit` asserts coin+hedge funding delta), `tests/test_rebound_final_exit_hedge_funding_missing_eth.py`, `tests/test_hedge_funding_fallback_on_missing_eth_exit.py`.
+- **(b) Rebound-short LIQUIDATION at the 48h boundary:** covered by `tests/test_rebound_short_liquidation_48th_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py` (exact 48th held bar: full 48h funding + liquidation penalty + cap_cut + missing-ETH fallback).
+- **(c) Equal-share cap cuts with same-bar rebound-short admission + mid-flight long:** covered by `tests/test_portfolio_same_bar_rebound_short_admission_reservation_20261109.py` and `tests/test_portfolio_cap_cut_existing_preserved_when_rebound_probe_completes_20261109.py`.
+
+## PRIOR SHIPPED (TRACED, committed on fb89b2d or earlier — DO NOT RE-LITIGATE)
+- Cell 4d long-liq vs funding same-bar ordering `tests/test_long_liquidation_funding_same_bar_ordering_20261112.py` (3, mutation-verified).
+- Cell 4b spec safety-stop × rebound-short same-bar sequencing `tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py` (3).
+- Cell 2 fee config surface `tests/test_vault_fees_config_surface_20261112.py` (38).
+- Cell 3 fee elapsed-hours `src/metrics/vault_fees.py::elapsed_hours_from_timestamps` + `tests/test_vault_fees_elapsed_hours_20261112.py` (9).
 - Vault fee core `src/metrics/vault_fees.py` + opt-in reconciliation; cell 1 fee export wiring; both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION family; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E.
 
 ## NEXT FOCUS CAMPAIGN (FINITE, ORDERED, HEAVY — SHIP ≥1 MATERIAL ITEM/SESSION)
-Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to spec with auditable accounting. Execute top-down. For each cell: **prove gap** (cite search/consumer), **trace expected values**, write dated failing test, make it green, mutation-verify non-vacuous, run full gate.
+Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to spec with auditable accounting. Execute top-down. For each cell: **prove gap** (cite `grep -rn` of tests/ and consumers), **trace expected values**, write dated failing test, make it green, mutation-verify non-vacuous, run full gate. If a candidate is already covered, cite the file and move on.
 
-1. **CELL 5 — CONTINUE PROBING UNCOVERED SPEC-ACCOUNTING/GUARDRAIL GAPS (file-search proof required):** candidates NOT yet proven (do not assume; cite `grep -rn` of tests/ and consumers): (a) hourly FUNDING on the ETH hedge leg when the hedge exits via the loop-else FINAL EXIT (not stop/target/time/liq) — is there a test asserting hedge-leg funding on the loop-else final-exit path at the last bar? (b) liquidation at the 48h rebound-short boundary: does funding accrue for the full 48h AND the liquidation penalty on the same boundary bar (interaction of `hours_held_short` cap with liq)? (c) equal-share cap cuts when a rebound-short admission coexists with an existing long that is mid-flight on the SAME bar (reservation overlay vs actual cap cut precedence). For each: prove presence/absence, trace exact values, dated failing test, green. If a candidate is already covered, cite the file and move on.
-2. **CELL 6 — ONLY IF 5 EXHAUSTED WITH EVIDENCE:** gated-pipeline / provenance fail-closed hardening with concrete expected values (e.g. missing/insufficient ETH hedge rejection messages, provenance status=error rejection on the real path), tests-first with traced values.
+1. **CELL 7 — REPORTING FIDELITY CONTINUATION (equity-based; verified OPEN):** `compute_metrics_from_trades`/`compute_campaign_metrics` have NO equity-curve-based Sharpe/Sortino and NO annual return % (`grep -rn "equity_sharpe\|annual_return\|annualized\|return_pct" src/ tests/` → empty). Spec PDF reports Sharpe/Calmar on the equity path and "Per year +115.2%". Add **additive** fields (never change anchored per-trade `sharpe_ratio`/`sortino_ratio`/`calmar_ratio`):
+   (a) `annual_return_pct` / per-year return % when a starting equity is known (`initial_capital`/`capital` kwarg or first `equity_curve` point) — trace e.g. 2025 PnL 100 on 1000 start = 10%.
+   (b) `equity_sharpe_ratio` / `equity_sortino_ratio` computed from `equity_curve` per-period returns (annualization optional, document convention).
+   (c) Optional annualized Calmar when horizon is derivable from the equity curve.
+   Trace exact values, dated failing test, green, mutation-verify.
+2. **CELL 8 — UNIVERSE/VOLUME GATING SPEC EDGES:** candidates (prove presence/absence first): (a) exactly $5,000,000 24h rolling volume is INCLUSIVE (`>=`); (b) missing/non-finite volume field is fail-closed EXCLUDED, never treated as pass; (c) one-position-per-coin: an open buy must not admit a second same-coin position (buy→rebound-short path) — cite existing `test_portfolio_bar_scan.py`/`test_engine_cap_cut_no_top_up_cross_bar_20261110.py` first. If already covered, cite and move on.
+3. **CELL 9 — ONLY IF 7–8 EXHAUSTED WITH EVIDENCE:** gated-pipeline/provenance fail-closed hardening with concrete expected values (manifest summary contradiction `ready_for_real_campaign=true` + synthetic; verified-cache temp-path rejection) — many are covered by `test_provenance_summary_consistency_hardening_20261107.py` / `test_loader_verified_rejects_temp_*`; prove absence before adding.
 
 **No-idle rule:** passive re-verification or handoff-only edit without a material test/fix is NOT work. If a probed cell is already covered, cite file evidence and move to next.
 
 ## IMPLEMENTATION STATUS (EVIDENCE-BACKED)
-- **Core/spec-compliant:** RSI(21)<20 crash trigger, $5M 24h volume enforcement, 1.25% 24h-volume sizing, ETH hedge vol-ratio (336h) capped 3x with no-look-ahead, rebound short after +9% target (stop +40%, target -9%, 48h), 8x spec safety stop, 120% gross-cap equal-share cuts, portfolio bar-by-bar deepest-first admission, hourly funding + liquidation at worst price.
-- **Vault fees:** pure 2%/yr AUM + 10% profit-above-HWM in `src/metrics/vault_fees.py`; opt-in reconciliation in `compute_campaign_metrics`. Default outputs unchanged.
+- **Core/spec-compliant:** RSI(21)<20 crash trigger, $5M 24h volume enforcement, 1.25% 24h-volume sizing, ETH hedge vol-ratio (336h) capped 3x with no-look-ahead, rebound short after +9% target (stop +40%, target -9%, 48h), 8x spec safety stop, 120% gross-cap equal-share cuts, portfolio bar-by-bar deepest-first admission, hourly funding + liquidation at worst price (long uses low, short uses high).
+- **Reporting:** Sharpe/Sortino/Calmar/win-rate/profit-factor/monthly/weekly breakdown/per-leg attribution/exposure; **NEW** per-year + months-gain counts (CELL 6).
+- **Vault fees:** pure 2%/yr AUM (capped to equity) + 10% profit-above-HWM in `src/metrics/vault_fees.py`; opt-in reconciliation in `compute_campaign_metrics`. Default outputs unchanged.
 - **Runners/gating:** `scripts/run_portfolio.py`, `run_real_campaign.py` (fail-closed provenance/verified gates), engine fail-closed when `require_eth_hedge=True` and no usable hedge.
 
 ## MATERIAL LOCKED EVIDENCE (CARRY-FORWARD — DO NOT RE-LITIGATE)
-- **2026-11-12 liquidation funding same-bar ordering (cell 4d)** — `tests/test_long_liquidation_funding_same_bar_ordering_20261112.py` (3 tests; mutation-verified).
-- **2026-11-12 spec safety stop × rebound-short same-bar sequencing (cell 4b)** — `tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py` (3 tests).
-- **2026-11-12 vault fees accounting/reconciliation** — `tests/test_vault_fees_20261112.py`, `tests/test_vault_fees_metrics_integration_20261112.py`, `src/metrics/vault_fees.py`.
-- **2026-11-12 vault fee config surface (cell 2)** — `tests/test_vault_fees_config_surface_20261112.py` (38 tests).
-- **2026-11-12 vault fee elapsed-hours (cell 3)** — `src/metrics/vault_fees.py::elapsed_hours_from_timestamps`, `campaign_metrics.py::_attach_vault_fee_metrics` (`fee_use_timestamp_hours`), `tests/test_vault_fees_elapsed_hours_20261112.py`.
-- **2026-11-12 both-hedges family** (`cap_cut+commission_min+entry_next_bar`): FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION — `tests/test_both_hedges_*_20261112.py`.
+- **2026-11-12 CELL 6 annual/positive-month reporting** — `src/metrics/campaign_metrics.py`, `tests/test_campaign_metrics_annual_positive_months_20261112.py` (3, mutation-verified).
+- **2026-11-12 liquidation funding same-bar ordering (cell 4d)** — `tests/test_long_liquidation_funding_same_bar_ordering_20261112.py` (3).
+- **2026-11-12 spec safety stop × rebound-short same-bar sequencing (cell 4b)** — `tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py` (3).
+- **2026-11-12 vault fees accounting/reconciliation/config/elapsed-hours** — `tests/test_vault_fees_*_20261112.py`, `src/metrics/vault_fees.py`.
+- **2026-11-12 both-hedges family** — `tests/test_both_hedges_*_20261112.py`.
 - **2026-11-12 portfolio runner both-hedged rebound loop-else final exit** — `tests/test_portfolio_both_hedges_rebound_loop_exit_cap_cut_max_live_20261112.py`.
-- **Stopped-buy-never-opens-rebound (portfolio E2E, real engine)** — `tests/test_portfolio_stopped_buy_real_engine_e2e.py`.
+- **Stopped-buy-never-opens-rebound (portfolio E2E)** — `tests/test_portfolio_stopped_buy_real_engine_e2e.py`.
 - **Locked semantics:** `max_live_coin_notional` may exceed entry-notional cap at pressure/rebound while reservations record entry-notional cap. Overall `exit_reason` may stay `target_rebound_short` while short-leg trade reason differs (assert per-leg). Loop-else final exit applies `short_pnl` only to risk_state; portfolio runner reconciles `total_pnl` into master risk_state.
 
 ## CRITICAL CONTEXT
-- Spec truth: `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Test window 2025-12-20→2026-09-28 (283d), 6792 hourly bars/symbol.
+- Spec truth: `crash-rebound-strategy.pdf` → `research_state/strategy_spec.md`. Test window 2025-12-20→2026-09-28 (283d), 6792 hourly bars/symbol. `research_state/gap_analysis.md` is SUPERSEDED (historical only).
 - Core: `src/strategy/{config,crash_rebound,risk}.py`, `src/backtest/engine.py`, `src/data/{loader,provenance,streaming_ingest}.py`, `src/metrics/{campaign_metrics,vault_fees}.py`.
 - Runners/guards: `scripts/run_portfolio.py`, `run_real_campaign.py`, `run_campaign.py`, `derive_verified_universe.py`, `fetch_hyperliquid_candles.py`, `generate_candle_coverage_gap_report.py`.
 
@@ -57,28 +74,30 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T19:16:39Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T19:23:01Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T19:16:39Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T19:23:01Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
-NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Shipped this session (NOT yet committed): cell 4d liquidation-vs-funding same-bar ordering (tests/test_long_liquidation_funding_same_bar_ordering_20261112.py, 3, mutation-verified) and cell 4b spec-safety-stop × rebound-short same-bar sequencing (tests/test_engine_spec_safety_stop_same_bar_rebound_short_sequencing_20261112.py, 3). Full gate last verified 876 passed, 12 skipped in 35.03s (HEAD 4914d84 + 2 new test files). Execute CELL 5 now:
+NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Prior sessions exhausted CELL 5 (all 3 candidates covered, evidence in HANDOFF) and shipped CELL 6 annual/positive-month reporting (src/metrics/campaign_metrics.py + tests/test_campaign_metrics_annual_positive_months_20261112.py, 3 tests, mutation-verified). Full gate last verified 879 passed, 12 skipped in 34.69s (HEAD fb89b2d + CELL 6 changes). Execute CELL 7 now:
 
-  CELL 5 — CONTINUE PROBING UNCOVERED SPEC-ACCOUNTING/GUARDRAIL GAPS: For EACH candidate below, FIRST prove presence/absence via file search (cite grep -rn of tests/ and consumers/), then trace exact expected values, write a dated failing test, make green, mutation-verify:
-    (a) ETH hedge-leg FUNDING on the loop-else FINAL EXIT path (not stop/target/time/liq) — does a test assert hedge funding at the last-bar final exit? grep engine.py loop-else final-exit hedge funding + tests/test_both_hedges_final_exit_*.py; if no funding assertion on that path, add a dated failing test with traced values.
-    (b) Rebound-short LIQUIDATION at the 48h boundary — interaction of the 48h `hours_held_short` cap with the liquidation penalty on the same boundary bar. grep engine.py short-loop liq branch + `rebound_short_time_exit_bars`; if unproven, add a dated failing test (liq on the 48th bar: full 48h funding + penalty) with traced values.
-    (c) Equal-share cap cuts when a rebound-short admission coexists with an existing mid-flight long on the SAME bar (reservation overlay vs actual cap cut precedence). grep portfolio runner reservation/apply_cap_cuts paths + tests/test_portfolio_*reservation*.py; if unproven, add a dated failing test with traced values.
-  If a candidate is already covered, cite the file evidence and move on; do NOT re-litigate anchored behavior. If all are covered, ship gated-pipeline/provenance fail-closed hardening with concrete expected values (tests-first).
+  CELL 7 — REPORTING FIDELITY CONTINUATION (equity-based; VERIFIED OPEN): grep -rn "equity_sharpe|annual_return|annualized|return_pct" src/ tests/ returns EMPTY. compute_metrics_from_trades has only per-trade Sharpe/Sortino and currency monthly/annual PnL (no return %, no equity-curve risk metrics). Spec PDF reports Sharpe/Calmar on the equity path and "Per year +115.2%". Add ADDITIVE fields (NEVER change anchored per-trade sharpe_ratio/sortino_ratio/calmar_ratio — zero regression):
+    (a) annual_return_pct / per-year return % when starting equity is known (initial_capital/capital kwarg or first equity_curve point). Trace: 2025 PnL 100 on start 1000 → 10%.
+    (b) equity_sharpe_ratio / equity_sortino_ratio from equity_curve per-period returns (document annualization convention; default non-annualized per-period if horizon unknown).
+    (c) optional annualized Calmar when horizon derivable.
+  For EACH: prove absence (cite grep), trace exact expected values, dated failing test, green, mutation-verify non-vacuous, run full gate.
+
+  If CELL 7 is already covered after your proof, cite file evidence and proceed to CELL 8 (universe/volume gating edges: $5M inclusive; missing volume fail-closed; one-position-per-coin buy→rebound-short) with the same prove→trace→test→green→mutate loop. Only then CELL 9 (provenance/pipeline fail-closed hardening, prove absence first — many covered).
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T19:16:39Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. All gaps are explicit campaign cells with proof-of-absence requirements. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
+BOTTLENECKS (audit 2026-11-12T19:23:01Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. Stale `research_state/gap_analysis.md` marked SUPERSEDED. Stale remote branches origin/fix/campaign-* are ~1040 commits behind main and NOT blockers — do not merge/rebase. Nothing is idle-blocked; the only hard blocker is real data, which is NOT a bottleneck to fix.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance per-symbol status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ready_for_campaign=false). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs. All spec-unit and engine tests run on fixtures and remain fully executable.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T19:16:39Z, HEAD 4914d84 + 2 new test files): 876 passed, 12 skipped in 35.03s.
+  - Last verified (2026-11-12T19:23:01Z, HEAD fb89b2d + CELL 6 changes): 879 passed, 12 skipped in 34.69s.
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
   - Test env: install deps first if missing — `python -m pip install --break-system-packages pytest numpy pandas requests` (per .github/workflows/strategy-tests.yml).
 
@@ -91,9 +110,10 @@ LOCKED SEMANTICS (assert per traced engine behavior — zero regression):
   - Long-leg liq funding: hours_held_liq = idx - start_idx + 1, subtracted in the SAME branch as the penalty (cell 4d lock). Spec 8x safety stop sits below the 6% liq threshold → same-bar stop+target collision resolves to liquidation and never opens a rebound short (cell 4b lock).
   - Hedge exit fallback when aligned ETH bar unavailable: engine uses hedge entry and re-applies exit slippage/commission. Hedge sizing from eth_candles[:idx+1], vol-ratio cap 3x, no look-ahead.
   - Loop-else final exit: engine applies short_pnl only to risk_state; portfolio runner reconciles total_pnl (all legs) into master risk_state.
-  - Vault fees (locked): AUM = equity * rate * hours/8760 per step; profit share = 10% * max(0, equity_after_aum - HWM), HWM on post-fee net peaks; opt-in metrics reconciliation must not alter default trade aggregates. Fee hours: flat fee_hours_per_step (default 1.0) unless fee_use_timestamp_hours=True (elapsed hours between equity-curve timestamps).
+  - Vault fees (locked): AUM = equity * rate * hours/8760 per step (capped to equity); profit share = 10% * max(0, equity_after_aum - HWM), HWM on post-fee net peaks; opt-in metrics reconciliation must not alter default trade aggregates.
+  - Reporting (CELL 6 lock): annual_breakdown/annual_trade_counts/positive_months/negative_months/flat_months/total_months are ADDITIVE; existing win_rate/monthly/weekly/exposure aggregates must be unchanged.
 
-COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: cell 1 fee export wiring; vault fee core + opt-in metrics reconciliation; cell 2 fee config surface (38 tests); cell 3 fee elapsed-hours reconciliation + real-runner knob-drop fix; cell 4b spec safety-stop × rebound-short same-bar sequencing (3 tests); cell 4d liquidation-vs-funding same-bar ordering (3 tests); both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION under cap_cut+commission_min+entry_next_bar; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E; (a) time-exit hedge funding; (c) no-top-up cap cuts; .test_derive_vol_* fixture cleanup.
+COVERED — DO NOT RE-LITIGATE WITHOUT CONCRETE FAILING EVIDENCE: cell 1 fee export wiring; vault fee core + opt-in reconciliation; cell 2 fee config surface (38); cell 3 fee elapsed-hours; cell 4b spec safety-stop × rebound-short same-bar sequencing (3); cell 4d liquidation-vs-funding same-bar ordering (3); CELL 5 (a)(b)(c) all covered (files in HANDOFF); CELL 6 annual/positive-month reporting (3); both-hedges FINAL EXIT/STOP/TARGET/TIME_EXIT/LIQUIDATION; portfolio both-hedged rebound loop-else final exit; stopped-buy-never-opens-rebound E2E; fee HWM dip/recover no-double-charge and AUM-capped-to-equity (`tests/test_vault_fees_20261112.py`); one-position-per-coin (multiple portfolio tests); .test_derive_vol_* fixture cleanup.
 
 EXECUTION (NON-NEGOTIABLE):
   1) GAP PROOF: cite concrete absence/need.
@@ -113,4 +133,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T19:16:39Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T19:23:01Z)**
