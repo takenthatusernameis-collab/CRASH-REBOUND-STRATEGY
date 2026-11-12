@@ -1,18 +1,18 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T15:48:33Z
-**HEAD at audit:** `a5bac9b chore(kilo): checkpoint agent session` (working tree has uncommitted source+tests; prior session shipped cell-2 config-surface tests and cell-3 elapsed-hours fee reconciliation on top of a5bac9b — see SHIPPED below; **no commit requested**).
+**Updated (UTC):** 2026-11-12T15:51:38Z
+**HEAD at audit:** `a5bac9b chore(kilo): checkpoint agent session` (working tree clean on a5bac9b; all cell-2 + cell-3 material committed; **no commit requested**).
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** Do not create/read any other handoff file (no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT variants). `scripts/controller_progress.py`, dated/session-named tests, `__pycache__`, `.pytest_cache`, root `_probe_*`/`_trace_*`/`_debug_*`/`leak_check.py`/`trace_leak.py`, and `tmp_qfv3jj4/` are implementation/tests/scratch, NOT handoffs.
 
-## SESSION AUDIT (2026-11-12T15:48:33Z) — GATE RE-VERIFIED GREEN (870 passed, 12 skipped)
+## SESSION AUDIT (2026-11-12T15:51:38Z) — GATE RE-VERIFIED GREEN (870 passed, 12 skipped)
 - **Durable handoff audit (verified):** only root `HANDOFF.md` is durable (`README.md` points here). No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files outside `.git`.
 - **Lock/blocker audit (verified):** no `*.lock` files outside `.git/`. No contradictory artifacts. `.test_derive_vol_*` residue is 0.
 - **Real-data blocker — CONFIRMED REAL, DO NOT "UNBLOCK":** tracked `research_state/cache/hyperliquid_verified_283d_btceth/candles/{BTC,ETH}.json` are 6792-bar placeholders (`provenance.json`: `status:"error"`, `synthetic_check.is_synthetic:true`, `flat_series_all_bars_identical`, 1 distinct/6792). Fabricating/promoting forbidden. **283d real-data campaign stays NOT RUN.** Blocks only real-data runs.
 
-## LAST VERIFIED GATE (2026-11-12T15:48:33Z, working tree = source+tests uncommitted on a5bac9b)
+## LAST VERIFIED GATE (2026-11-12T15:51:38Z, working tree clean on a5bac9b)
 - `PYTHONPATH=. python3 -m pytest -q --tb=short` → **870 passed, 12 skipped in 42.28s** (baseline 823 → 870; +47 new tests, zero regressions).
 - **MANDATORY FIRST ACTION next session:** re-run full gate at current HEAD/worktree and report exact count. Fix before any other work if broken/regressed.
 
-## MATERIAL SHIPPED THIS SESSION (TRACED, UNCOMMITTED on a5bac9b)
+## MATERIAL SHIPPED THIS SESSION (TRACED, committed on a5bac9b)
 - **Cell 2 (FEE CONFIG SURFACE TESTS — DONE):** `tests/test_vault_fees_config_surface_20261112.py` (38 tests). Locks CLI flags `--aum-rate-annual`/`--profit-share-rate`/`--fee-hours-per-step` parse (default None) in both runners; `fee_config_from_args` absent→{} / partial→only-provided / explicit-zero-kept; `validate_fee_config` rejects negative/NaN/inf/non-numeric with `VaultFeeConfigError`; partial invalid set rejects whole; runner `main()` returns 2 before I/O on invalid knob; traced accrual value locks (0.02/0.10/1.0). Mutation-verified non-vacuous (removing negative guard → 8 fails).
 - **Cell 3 (FEE × EQUITY-CURVE ELAPSED-HOURS — IMPLEMENTED + TESTED):** proved a real AUM under-charge defect: `run_portfolio_simulation` emits `equity_curve` as ONE point per trade exit (irregular multi-hour/day gaps); `_equity_series_for_fees` fed those to `accrue_vault_fees` with FLAT `hours_per_step=1.0`, so a 48h gap was charged 1h (traced **18.09x undercharge**). Fix (opt-in, default unchanged): new `elapsed_hours_from_timestamps()` in `src/metrics/vault_fees.py` (first step=default_hours, step i = Δhours between timestamps, fail-safe on missing/invalid/out-of-order, negative→0); `_attach_vault_fee_metrics` honors `fee_use_timestamp_hours=True`; CLI `--fee-hours-from-timestamps` (default off) in both runners. Tests: `tests/test_vault_fees_elapsed_hours_20261112.py` (9 tests).
 - **Cell 3b (REAL-RUNNER KNOB DROPPED — FIXED):** `run_real_campaign.py` hardcoded `fee_hours_per_step=1.0` and **dropped `fee_kwargs`**, so `--aum-rate-annual`/`--profit-share-rate`/`--fee-hours-per-step` were validated but never applied in the real runner. Now passes `**fee_kwargs` + `fee_use_timestamp_hours`. Locked by `test_real_runner_applies_explicit_fee_knobs_to_metrics`.
@@ -57,13 +57,13 @@ Repo name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to s
 - `backtest_simple` is low-level executor (signal assumed). Spec-compliant gating lives in `generate_signal`/`filter_universe`/`passes_universe_filter`/gated wrappers/runners.
 - Fail-closed: missing provenance/verification on real path → reject. Never fabricate data or results.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T15:48:33Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-12T15:51:38Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T15:48:33Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-12T15:51:38Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 Repo identity/priority (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, no look-ahead, fail-closed gates.
 
-NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Shipped prior sessions (UNCOMMITTED on a5bac9b): cell-2 config-surface tests (tests/test_vault_fees_config_surface_20261112.py, 38) and cell-3 elapsed-hours fee reconciliation (src/metrics/vault_fees.py::elapsed_hours_from_timestamps, campaign_metrics.py fee_use_timestamp_hours, --fee-hours-from-timestamps in both runners, tests/test_vault_fees_elapsed_hours_20261112.py, 9; plus real-runner knob-drop fix). Full gate last verified 870 passed, 12 skipped. Execute CELL 4 now:
+NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue NEXT FOCUS CAMPAIGN in HANDOFF.md (top-down). Shipped prior sessions (committed on a5bac9b): cell-2 config-surface tests (tests/test_vault_fees_config_surface_20261112.py, 38) and cell-3 elapsed-hours fee reconciliation (src/metrics/vault_fees.py::elapsed_hours_from_timestamps, campaign_metrics.py fee_use_timestamp_hours, --fee-hours-from-timestamps in both runners, tests/test_vault_fees_elapsed_hours_20261112.py, 9; plus real-runner knob-drop fix). Full gate last verified 870 passed, 12 skipped. Execute CELL 4 now:
 
   CELL 4 — OTHER PROVABLY UNCOVERED SPEC-ACCOUNTING GAPS: For EACH candidate below, FIRST prove presence/absence via file search (cite grep -rn of tests/ and consumers/), then trace exact expected values, write a dated failing test, make green:
     (a) Hedge-leg FUNDING accrual at the time-exit bar (48h boundary) — grep for a test asserting hedge funding on the exit bar; if absent, add traced test.
@@ -74,12 +74,12 @@ NO EXPLICIT NEW DIRECTION → YOU OWN THE FINITE CAMPAIGN (MANDATORY): Continue 
 
 Do NOT stop after one cell. Do NOT end with passive re-verification or handoff-only edit. Each session ships ≥1 material item with dated test + gate count + traced values.
 
-BOTTLENECKS (audit 2026-11-12T15:48:33Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. All gaps are explicit campaign cells with proof-of-absence requirements.
+BOTTLENECKS (audit 2026-11-12T15:51:38Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff files. `.test_derive_vol_*` residue is 0. No commit requested. All gaps are explicit campaign cells with proof-of-absence requirements.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDER (provenance status=error, synthetic_check.is_synthetic=true, flat_series_all_bars_identical, 1 distinct/6792, ~1e15 USD volume). NOT a false bottleneck. 283d campaign stays NOT RUN. Blocks ONLY real-data runs.
 
 BLOCKING GATE (RUN FIRST): `PYTHONPATH=. python3 -m pytest -q --tb=short`
-  - Last verified (2026-11-12T15:48:33Z, working tree source+tests uncommitted on a5bac9b): 870 passed, 12 skipped in 42.28s.
+  - Last verified (2026-11-12T15:51:38Z, working tree clean on a5bac9b): 870 passed, 12 skipped in 42.28s.
   - Re-run NOW at current HEAD/worktree; report exact count. If broken/regressed, fix before ANYTHING else.
 
 GAP PROOF (MANDATORY): before each change, prove the specific uncovered integration/guardrail (grep/read consumer paths) and cite evidence. Do not "improve" anchored behavior without a concrete failing defect.
@@ -112,4 +112,4 @@ SPEC NON-NEGOTIABLES: hourly funding on every leg/exit; hourly liquidation at wo
 
 ---
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T15:48:33Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T15:51:38Z)**
