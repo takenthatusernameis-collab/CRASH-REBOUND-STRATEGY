@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T20:18:35Z
-**Supersedes:** 2026-11-13T20:11:33Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-13T20:32:51Z
+**Supersedes:** 2026-11-13T20:18:35Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `e9583ee` (working tree carries session edits). **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T20:18:35Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T20:32:51Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** resolve whether the canonical OKX crash-rebound edge is distinguishable from noise with **decision-grade, gate-preserving evidence** and convert that into an investable decision framework (or a justified stop). Prior post-Phase-L campaign artifacts now exist (cheap placebo/bootstrap/risk/walkforward) but the signal remains **`underpowered` / not decision-grade** — do not declare validated.
 >
@@ -19,7 +19,9 @@
 > ls research_state/.sensitivity_sweep.lock 2>&1 || echo "no lock"
 > ```
 >
-> **VERIFIED BASELINE (2026-11-13T20:18:35Z):** gate **8/8**; `/tmp/crs-venv` present; no sweeps/locks. Canonical artifact sha256 `57973b0c…2f9b8` unchanged. New artifacts present: `placebo_okx_full.*`, `walkforward_okx_full.*`, `risk_budget_real_okx_full.*` (hashes in §5).
+> **VERIFIED BASELINE (2026-11-13T20:32:51Z):** gate **8/8**; `/tmp/crs-venv` present; no sweeps/locks; clean tree; no running processes. Canonical artifact sha256 `57973b0c…2f9b8` unchanged. New artifacts present: `placebo_okx_full.*`, `walkforward_okx_full.*`, `risk_budget_real_okx_full.*` (hashes in §5).
+>
+> **BOTTLENECK STATUS (2026-11-13T20:32:51Z): NONE.** No processes running, no `.sensitivity_sweep.lock`, working tree clean. All cheap post-L artifacts are on disk. The only remaining blocker is the **heavy right-sized full-portfolio placebo (B=60–120, sharded ~9–18 h)** plus the **decision memo** — these are the next focus campaign, not optional.
 >
 > **DECISION-CRITICAL FACTS (DO NOT SOFTEN):**
 > - Canonical real OKX (283d, 54 symbols, 6792 bars, $5M vol gate, non-synthetic): **8 trades (4W/4L, 5 symbols), +9.1597% / +22.5995% ann. over 0.4301y, worst DD −2.0275%, total PnL 9159.69**. Cross-venue OKX, **NOT** Hyperliquid performance evidence.
@@ -41,7 +43,7 @@
 
 ---
 
-## 0. Verified state (2026-11-13T20:18:35Z)
+## 0. Verified state (2026-11-13T20:32:51Z)
 
 | Check | Result | Evidence |
 |---|---|---|
