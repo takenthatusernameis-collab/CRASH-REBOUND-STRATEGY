@@ -142,8 +142,8 @@ def test_long_liquidation_risk_state_exposure_notional_reconciled():
     assert rs.open_positions == 0
     assert math.isclose(rs.gross_exposure, 0.0, abs_tol=1e-9)
     assert rs.open_position_notionals == []
-    # realized pnl updated by long-leg pnl (engine applies pnl arg)
-    assert rs.realized_pnl == res.pnl
+    # realized pnl updated by long-leg pnl + hedge credit (total_pnl, coin + hedge).
+    assert rs.realized_pnl == res.total_pnl
 
 
 def test_long_liquidation_hedge_notional_and_hours_deterministic():

@@ -347,7 +347,7 @@ def backtest_simple(
                     _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
                 except Exception:
                     _not = 0.0
-                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl + hedge_pnl_total, opened=False, closed=True, notional=_not)
             trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'liquidated'})
             total_pnl_result = pnl + hedge_pnl_total
             return TradeResult(
@@ -399,7 +399,7 @@ def backtest_simple(
                     _not = entry_px * shares if ('entry_px' in locals() and entry_px > 0 and shares > 0) else 0.0
                 except Exception:
                     _not = 0.0
-                risk_state.apply_trade(str(c.get('timestamp', '')), pnl, opened=False, closed=True, notional=_not)
+                risk_state.apply_trade(str(c.get('timestamp', '')), pnl + hedge_pnl_total, opened=False, closed=True, notional=_not)
             trades_log.append({'side': 'long', 'entry': entry_px, 'exit': exit_px, 'pnl': pnl, 'reason': 'stopped'})
             total_pnl_result = pnl + hedge_pnl_total
             return TradeResult(
