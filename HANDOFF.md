@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T19:33:07Z
-**Supersedes:** 2026-11-13T19:12:00Z (and all earlier).
+**Handoff updated (UTC):** 2026-11-13T19:35:00Z
+**Supersedes:** 2026-11-13T19:33:07Z (and all earlier).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `dd12ee8` (working tree carries the new Phase K/L code + artifacts listed in §0). **Single durable handoff:** this file only. Do not create a second handoff/status file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T19:33:07Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T19:35:00Z)
 >
 > **Inferred priority (from repo name `CRASH-REBOUND-STRATEGY`):** the decision-grade crash-rebound validation on real OKX evidence is now **8/8 complete**. The prior bottlenecks (missing Phase L script, poisoned J2 run, dead-after-completion J2 aggregate) are **cleared**. The next work is **decision follow-through**, not another sweep.
 >
@@ -14,7 +14,7 @@
 > 2. Run: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` — it must print **8/8 checks passed — DONE**.
 > 3. Run the Phase L verifier (no writes): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_campaign.py --check` — expect `OK: 8 trades, verdict=underpowered`.
 >
-> **Verified state at this handoff (2026-11-13T19:33:07Z):** gate is **8/8** (J2=17 runs, K=9 runs, L=`underpowered`, G+/J1/J3/handoff pass). Full fast suite **966 passed, 1 skipped, 1 deselected**; the reproducibility-contract rerun passed and left the canonical artifact **byte-identical** (sha256 `57973b0c…2f9b8`).
+> **Verified state at this handoff (2026-11-13T19:35:00Z):** gate is **8/8** (J2=17 runs, K=9 runs, L=`underpowered`, G+/J1/J3/handoff pass). Full fast suite **966 passed, 1 skipped, 1 deselected**; the reproducibility-contract rerun passed and left the canonical artifact **byte-identical** (sha256 `57973b0c…2f9b8`). No sweeps running; `/tmp/crs-venv` present; next-campaign artifacts (`placebo_okx_full`, `risk_budget_real_okx_full`) **NOT yet present** — that is the remaining work.
 >
 > **The decision-critical finding (do not skip, do not soften):** Phase L's verdict is **`underpowered`** — the 8-trade bootstrap 95% CI for total PnL is **[-$930.66, +$19,152.38]** (crosses zero), sign-flip one-sided **p=0.09375** (2/256 masks ≥ observed), and the result is **concentrated** (5 traded symbols, top trade/symbol shares near half the PnL). Phase K then shows **RSI<25 + max-positions 8** lifts return to +23.44% **but drives worst drawdown to −18.3%** and trades 33 times — the "improvement" is a **risk-budget trade, not free alpha**, and it sits on the same small-sample base. **Conclusion: the strategy is NOT decision-grade validated; it is a plausible, concentration-heavy signal that is statistically underpowered at n=8.**
 >
@@ -31,7 +31,7 @@
 
 ---
 
-## 0. Verified state (2026-11-13T19:12:00Z)
+## 0. Verified state (2026-11-13T19:35:00Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -46,6 +46,14 @@
 | Phase G+ | **Done (artifacts present).** | `real_okx_full_spec_comparison.{md,summary.json}` |
 | Phase J1 | **Done (artifacts present).** | `crash_event_census_real_okx_full.{json,md}` |
 | Phase J3 | Runbook present & gate-shaped; Hyperliquid-native campaign **NOT_RUN** (data unavailable). | `DATA_REQUEST_283D_HYPERLIQUID.md` |
+| **Next campaign (§5)** | **NOT STARTED.** `placebo_okx_full`, `risk_budget_real_okx_full`, walk-forward artifact all absent. | `ls research_state/` |
+
+**Pre-flight facts confirmed at 2026-11-13T19:35:00Z (no surprises):**
+- `git status --short` clean except the `HANDOFF.md` edit just made; HEAD `dd12ee8`, branch `main`.
+- `ps aux | grep run_sensitivity|run_robustness|run_real_campaign|pytest` → no sweeps running; `research_state/.sensitivity_sweep.lock` absent.
+- `/tmp/crs-venv/bin/python` present and importable.
+- `scripts/session_gate.py` → **8/8 checks passed — DONE** (re-run live).
+- `scripts/run_robustness_campaign.py --check` → `OK: 8 trades, verdict=underpowered` (re-run live).
 
 ### Session recovery / bottleneck playbook (use instead of guessing)
 
@@ -100,9 +108,9 @@
 - Phase H repro (distinct prefix, delete after): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_real_campaign.py --manifest research_state/cache/okx_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/okx_1h_full_20251220_20260928 --universe-file research_state/universe_okx_full_verified.json --output-prefix reproducibility_check_real_okx_full --apply-vault-fees`
 - Canonical gap report (fail-closed by design): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/generate_candle_coverage_gap_report.py`
 
-## 5. Next focus campaign (heavy, executable) — power & out-of-sample
+## 5. Next focus campaign (heavy, executable) — power & out-of-sample (NOT STARTED as of 2026-11-13T19:35:00Z)
 
-The gate is 8/8 but the result is `underpowered`. The next campaign must attack **sample size and dependence**, not re-run what exists:
+The gate is 8/8 but the result is `underpowered`. The next campaign must attack **sample size and dependence**, not re-run what exists. **No placebo / walk-forward / risk-budget artifact exists yet** — that is the sole remaining bottleneck and the only path to a decision-grade conclusion.
 
 1. **Structured placebo + null distribution.** Implement a placebo that respects the J1 funnel (random entries passing the same volume/regime gates, same holding/exit rules), run it over the same cache, and report the real result's percentile against the placebo total-PnL distribution. This is the only rigorous way to move `underpowered` → `signal`/`noise`. Deliverable: `research_state/placebo_okx_full.{json,md}` + an extended `robustness_real_okx_full` null-distribution field.
 2. **Symbol-block bootstrap.** Resample whole symbols (not trades) to test whether the +9.16% survives symbol-level dependence; report the block-bootstrap CI alongside the trade-level CI.
