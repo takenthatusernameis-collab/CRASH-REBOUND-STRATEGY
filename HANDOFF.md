@@ -1,13 +1,13 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T08:07:08Z
-**Supersedes:** 2026-11-13T07:56:11Z (and the earlier 07:42:00Z handoff).
+**Handoff updated (UTC):** 2026-11-13T08:13:18Z
+**Supersedes:** 2026-11-13T08:07:08Z (and the earlier 07:56:11Z / 07:42:00Z handoffs).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `c148d3d`, tree clean at session start. This session adds only `requirements-test.txt`, `scripts/bootstrap_env.sh`, and this file. Do **not** `git reset`/`checkout` anything away. Nothing needs to be committed before starting Phase G+.
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T08:07:08Z.**
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T08:13:18Z.**
 >
 > **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk. Setup is done. The environment bootstrap is now one command. **Do not stop after setup, after the test suite, or after a summary — the session is incomplete until the Phase J artifacts exist and this file is re-dated.**
 >
@@ -43,6 +43,7 @@
 |---|---|---|
 | Full suite (fresh venv, **pyarrow installed**) | **936 passed, 1 skipped in 376.89 s** | `PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs` |
 | Skips explained | exactly 1: `tmp_path resolves to temp scratch marker in this environment` (`tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). **No pyarrow skips** in this run (pyarrow was installed). | `-rs` output |
+| Venv path canonicalization | `/tmp/venv_h` is the working venv on this runner. `scripts/bootstrap_env.sh` defaults to `/tmp/crs-venv`; both are valid — use whichever exists, or re-run bootstrap once. Not a blocker. | `ls /tmp/venv_h/bin/python` confirmed |
 | Prior skip-count claims corrected | the prior handoff's "11 × pyarrow not installed + 1 × tmp_path" and "952 passed if pyarrow is installed" were **not reproducible**; the fresh pyarrow run is 936/1. Use 936/1 as the baseline. | this table |
 | Artifacts intact | all four hashes below match the prior handoff exactly. | `sha256sum` |
 | Phase G+ artifacts | **still absent** — `research_state/real_okx_full_spec_comparison{,_summary.json}` do not exist. This is the primary work. | `ls research_state/` |
@@ -50,7 +51,8 @@
 
 **Commands used this session:**
 ```bash
-bash scripts/bootstrap_env.sh                      # -> /tmp/crs-venv
+# /tmp/venv_h already has deps; bootstrap is one command if needed:
+bash scripts/bootstrap_env.sh                      # -> /tmp/crs-venv (or existing /tmp/venv_h)
 PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs
 ```
 
