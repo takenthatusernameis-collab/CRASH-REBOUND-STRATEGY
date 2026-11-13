@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Parallel one-factor-at-a-time sensitivity sweep for the real OKX campaign (Phase J2).
+"""Parallel resumable parameter sweeps for the real OKX campaign.
+
+Two grids:
+- ``--grid ofat`` (default): Phase J2 one-factor-at-a-time around the spec baseline.
+- ``--grid interaction``: Phase K two-factor combinations of the knobs J2 flags as
+  material. Single-factor sweeps cannot see interactions, so this is the next heavy
+  campaign. It reuses the J2 baseline per-run file when present.
 
 Why this exists: a single canonical campaign run over the verified 54-symbol OKX
 cache takes ~10 minutes of pure bar-by-bar simulation. A 16-run sweep is therefore a
@@ -14,13 +20,18 @@ Contract:
 - Canonical artifacts are NEVER written or overwritten. Each run writes
   research_state/sweep_runs/<tag>.json; the aggregate is
   research_state/sensitivity_sweep_real_okx_full.json + .md.
+- Resumable: a per-run file whose tag and knob values match the job is reused, so a
+  session killed mid-sweep continues from the remaining runs instead of restarting
+  the whole ~70 minute job. A lock prevents two sweeps from racing.
 - Never fabricates data. Spec-locked knobs (position size pct) are reported as
   rejected with the exact error instead of being silently mutated.
 """
 from __future__ import annotations
 
 import argparse
+import atexit
 import json
+import math
 import multiprocessing as mp
 import os
 import sys
@@ -64,6 +75,29 @@ GRID: List[Tuple[str, Dict[str, Any], str]] = [
     ("no_rebound_short", {"enable_rebound_short": False}, "Rebound short disabled (spec enabled)"),
     ("max_positions_3", {"max_positions": 3}, "Max concurrent positions 3 (spec 5)"),
     ("max_positions_8", {"max_positions": 8}, "Max concurrent positions 8 (spec 5)"),
+]
+
+# Interaction grid (Phase K): two-factor combinations around the knobs that the
+# one-factor sweep (Phase J2) flags as material. Single-factor sweeps cannot see
+# interactions, so this is the next heavy campaign. Baseline is reused from the
+# same runs-dir when present (resume contract), so only the combinations run.
+INTERACTION_GRID: List[Tuple[str, Dict[str, Any], str]] = [
+    ("rsi18_maxpos3", {"rsi_threshold": 18.0, "max_positions": 3},
+     "RSI<18 with max 3 concurrent positions"),
+    ("rsi18_maxpos8", {"rsi_threshold": 18.0, "max_positions": 8},
+     "RSI<18 with max 8 concurrent positions"),
+    ("rsi25_maxpos3", {"rsi_threshold": 25.0, "max_positions": 3},
+     "RSI<25 with max 3 concurrent positions"),
+    ("rsi25_maxpos8", {"rsi_threshold": 25.0, "max_positions": 8},
+     "RSI<25 with max 8 concurrent positions"),
+    ("rsi25_target6", {"rsi_threshold": 25.0, "target_pct": 6.0},
+     "RSI<25 with +6% buy target"),
+    ("rsi25_target12", {"rsi_threshold": 25.0, "target_pct": 12.0},
+     "RSI<25 with +12% buy target"),
+    ("rsi15_maxpos3", {"rsi_threshold": 15.0, "max_positions": 3},
+     "RSI<15 with max 3 concurrent positions"),
+    ("rsi15_maxpos8", {"rsi_threshold": 15.0, "max_positions": 8},
+     "RSI<15 with max 8 concurrent positions"),
 ]
 
 # Knobs the spec pins, so they cannot be swept as free parameters. Recorded as
@@ -232,6 +266,27 @@ def _worker_run(job: Dict[str, Any]) -> Dict[str, Any]:
     return _run_one(job)
 
 
+def _fmt(value: Any, digits: int = 4) -> str:
+    """Format a possibly-missing metric without crashing the aggregate render."""
+    if value is None:
+        return "n/a"
+    try:
+        return f"{float(value):.{digits}f}"
+    except (TypeError, ValueError):
+        return "n/a"
+
+
+def _delta(current: Any, base: Any) -> Optional[float]:
+    """Return current-base, or None when either side is not a finite number."""
+    if current is None or base is None:
+        return None
+    try:
+        out = float(current) - float(base)
+    except (TypeError, ValueError):
+        return None
+    return out if math.isfinite(out) else None
+
+
 def render_markdown(report: Dict[str, Any]) -> str:
     runs = report["runs"]
     base = runs[0]
@@ -246,13 +301,15 @@ def render_markdown(report: Dict[str, Any]) -> str:
                  "No canonical artifact was overwritten; per-run outputs live in `research_state/sweep_runs/`.")
     lines.append("")
     lines.append(f"**Runs executed:** {len(runs)} (baseline + {len(runs) - 1} variants)  ")
+    if report.get("resumed_runs"):
+        lines.append(f"**Resumed from disk:** {report['resumed_runs']} run(s) reused  ")
     lines.append(f"**Wall clock:** {report['wall_clock_seconds']}s across {report['workers']} workers "
                  f"(sequential-equivalent {report['sequential_equivalent_seconds']}s)  ")
     lines.append(f"**Inputs:** manifest `{report['inputs']['manifest']}`  ")
     lines.append(f"Universe `{report['inputs']['universe']}` ({report['inputs']['universe_size']} symbols)  ")
     lines.append(f"Canonical campaign for reference: `{CANONICAL_CAMPAIGN}` "
-                 f"(`results.num_trades={report['canonical']['num_trades']}`, "
-                 f"`results.total_pnl={report['canonical']['total_pnl']}`)")
+                 f"(`results.num_trades={report['canonical'].get('num_trades')}`, "
+                 f"`results.total_pnl={report['canonical'].get('total_pnl')}`)")
     lines.append("")
     lines.append("## Baseline vs variants")
     lines.append("")
@@ -267,9 +324,9 @@ def render_markdown(report: Dict[str, Any]) -> str:
         buy = by_leg.get("buy", {}).get("pnl")
         short = by_leg.get("short", {}).get("pnl")
         lines.append(
-            f"| `{r['tag']}` | {r['label']} | {m['trade_count']} | {m['total_return_pct']:.4f} | "
-            f"{m['annualized_return_pct']:.4f} | {m['max_drawdown_pct']:.4f} | {m['win_rate']:.4f} | "
-            f"{m['profit_factor']:.4f} | "
+            f"| `{r['tag']}` | {r['label']} | {m['trade_count']} | {_fmt(m['total_return_pct'])} | "
+            f"{_fmt(m['annualized_return_pct'])} | {_fmt(m['max_drawdown_pct'])} | {_fmt(m['win_rate'])} | "
+            f"{_fmt(m['profit_factor'])} | "
             f"{'n/a' if buy is None else f'{buy:,.2f}'} | "
             f"{'n/a' if short is None else f'{short:,.2f}'} | {r['runtime_seconds']} |"
         )
@@ -283,13 +340,15 @@ def render_markdown(report: Dict[str, Any]) -> str:
         if not m:
             lines.append(f"| `{r['tag']}` | rejected ({r.get('error_type')}) | - | - | - | n/a |")
             continue
-        d_ret = m["total_return_pct"] - base["metrics"]["total_return_pct"]
-        d_ann = m["annualized_return_pct"] - base["metrics"]["annualized_return_pct"]
-        d_dd = m["max_drawdown_pct"] - base["metrics"]["max_drawdown_pct"]
-        d_tr = m["trade_count"] - base["metrics"]["trade_count"]
-        moves = "yes" if abs(d_ret) >= 0.5 or d_tr != 0 else "no (immaterial)"
+        d_ret = _delta(m["total_return_pct"], base["metrics"]["total_return_pct"])
+        d_ann = _delta(m["annualized_return_pct"], base["metrics"]["annualized_return_pct"])
+        d_dd = _delta(m["max_drawdown_pct"], base["metrics"]["max_drawdown_pct"])
+        d_tr = (m["trade_count"] or 0) - (base["metrics"]["trade_count"] or 0)
+        moves = "yes" if (d_tr != 0 or (d_ret is not None and abs(d_ret) >= 0.5)) else "no (immaterial)"
         lines.append(
-            f"| `{r['tag']}` | {d_ret:+.4f} | {d_ann:+.4f} | {d_dd:+.4f} | {d_tr:+d} | {moves} |"
+            f"| `{r['tag']}` | {_fmt(d_ret, 4) if d_ret is not None else 'n/a'} | "
+            f"{_fmt(d_ann, 4) if d_ann is not None else 'n/a'} | "
+            f"{_fmt(d_dd, 4) if d_dd is not None else 'n/a'} | {d_tr:+d} | {moves} |"
         )
     lines.append("")
     if report.get("rejected_runs"):
@@ -301,7 +360,7 @@ def render_markdown(report: Dict[str, Any]) -> str:
         lines.append("| Knob | Value | Error |")
         lines.append("|---|---|---|")
         for r in report["rejected_runs"]:
-            lines.append(f"| `{r['tag']}` | `{json.dumps(r['params'])}` | {r.get('error')} |")
+            lines.append(f"| `{r['tag']}` | `{json.dumps(r.get('params', {}))}` | {r.get('error')} |")
         lines.append("")
     lines.append("## Which knobs move results, which do not")
     lines.append("")
@@ -315,33 +374,161 @@ def render_markdown(report: Dict[str, Any]) -> str:
     return "\n".join(lines)
 
 
-def build_conclusions(runs: List[Dict[str, Any]]) -> Tuple[str, Dict[str, Any]]:
-    """Rank knobs by |Δ total return| and |Δ trades| against the baseline."""
+def _reusable_record(path: Path, job: Dict[str, Any]) -> Optional[Dict[str, Any]]:
+    """Return a previously completed per-run record iff it matches this job exactly.
+
+    Resume is only safe when the record's tag and knob values are identical to the
+    job we are about to run; otherwise the old record is ignored and the run is
+    re-executed. This is what lets a session that is killed mid-sweep continue from
+    the per-run files instead of paying the full ~70 minute cost again.
+    """
+    if not path.exists():
+        return None
+    try:
+        rec = json.loads(path.read_text())
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(rec, dict):
+        return None
+    if rec.get("tag") != job["tag"]:
+        return None
+    if rec.get("params") != dict(job["config_kwargs"]):
+        return None
+    if rec.get("status") == "ok":
+        return rec if isinstance(rec.get("metrics"), dict) else None
+    if rec.get("status") == "rejected":
+        return rec
+    return None
+
+
+def _acquire_run_lock(path: Path) -> Optional[int]:
+    """Take an exclusive sweep lock, or return None if a live sweep already holds it.
+
+    Two concurrent sweeps would overwrite each other's per-run files and aggregate.
+    A lock whose owning PID is gone is treated as stale and replaced.
+    """
+    for _ in range(2):
+        try:
+            fd = os.open(str(path), os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o600)
+        except FileExistsError:
+            pid: Optional[int] = None
+            try:
+                pid = int(path.read_text().strip())
+            except (OSError, ValueError):
+                pid = None
+            if pid is not None:
+                try:
+                    os.kill(pid, 0)
+                except ProcessLookupError:
+                    try:
+                        path.unlink()
+                    except OSError:
+                        pass
+                    continue
+                except PermissionError:
+                    print(f"BLOCKER: sweep already running (pid {pid})", file=sys.stderr)
+                    return None
+                print(f"BLOCKER: sweep already running (pid {pid}); use --runs-dir to isolate", file=sys.stderr)
+                return None
+            try:
+                path.unlink()
+            except OSError:
+                pass
+            continue
+        os.write(fd, f"{os.getpid()}\n".encode())
+        return fd
+    return None
+
+
+def build_jobs(grid_name: str, only: Optional[List[str]],
+               capital: float = 100000.0) -> List[Dict[str, Any]]:
+    """Build the baseline-first job list for the requested grid.
+
+    Baseline uses pure spec defaults and is always first so deltas read against it.
+    Resume reuses a matching baseline per-run file, so the interaction grid does not
+    pay for the baseline twice.
+    """
+    grid = INTERACTION_GRID if grid_name == "interaction" else GRID
+    selected = [g for g in grid if not only or g[0] in set(only)]
+    if not selected:
+        raise SystemExit("BLOCKER: --only matched no grid entries")
+    jobs: List[Dict[str, Any]] = [{
+        "tag": "baseline_spec",
+        "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
+        "config_kwargs": {},
+        "min_daily_volume_usd": 5_000_000.0,
+        "capital": float(capital),
+    }]
+    for tag, kwargs, label in selected:
+        jobs.append({
+            "tag": tag,
+            "label": label,
+            "config_kwargs": dict(kwargs),
+            "min_daily_volume_usd": 5_000_000.0,
+            "capital": float(capital),
+        })
+    return jobs
+
+
+def build_conclusions(runs: List[Dict[str, Any]], capital: float = 100000.0) -> Tuple[str, Dict[str, Any]]:
+    """Rank knobs by return/trade/PnL deltas against the baseline.
+
+    A run whose equity-curve horizon is not derivable has a null total_return_pct;
+    it is still ranked by trade-count and total-PnL deltas so it cannot silently
+    disappear from the analysis (and cannot crash the aggregate).
+    """
     base = runs[0]["metrics"]
+    base_return = base.get("total_return_pct")
+    base_dd = base.get("max_drawdown_pct")
+    base_trades = base.get("trade_count") or 0
     ranked = []
     for r in runs[1:]:
         m = r.get("metrics")
         if not m:
             continue
+        d_ret = _delta(m.get("total_return_pct"), base_return)
+        d_ann = _delta(m.get("annualized_return_pct"), base.get("annualized_return_pct"))
+        d_dd = _delta(m.get("max_drawdown_pct"), base_dd)
+        d_trades = (m.get("trade_count") or 0) - base_trades
+        d_pnl = _delta(m.get("total_pnl"), base.get("total_pnl"))
+        abs_ret = abs(d_ret) if d_ret is not None else None
         ranked.append({
             "tag": r["tag"],
             "label": r["label"],
-            "delta_total_return_pp": round(m["total_return_pct"] - base["total_return_pct"], 6),
-            "delta_trades": m["trade_count"] - base["trade_count"],
-            "delta_max_dd_pp": round(m["max_drawdown_pct"] - base["max_drawdown_pct"], 6),
-            "abs_delta_return_pp": round(abs(m["total_return_pct"] - base["total_return_pct"]), 6),
+            "delta_total_return_pp": None if d_ret is None else round(d_ret, 6),
+            "delta_annualized_pp": None if d_ann is None else round(d_ann, 6),
+            "delta_trades": d_trades,
+            "delta_max_dd_pp": None if d_dd is None else round(d_dd, 6),
+            "delta_total_pnl": None if d_pnl is None else round(d_pnl, 6),
+            "abs_delta_return_pp": None if abs_ret is None else round(abs_ret, 6),
         })
-    ranked.sort(key=lambda x: (-x["abs_delta_return_pp"], -abs(x["delta_trades"])))
-    material = [r for r in ranked if r["abs_delta_return_pp"] >= 0.5 or r["delta_trades"] != 0]
-    immaterial = [r for r in ranked if r not in material]
+    pnl_floor = 0.01 * float(capital or 0.0)
+    for r in ranked:
+        r["_material"] = (
+            r["delta_trades"] != 0
+            or (r["abs_delta_return_pp"] is not None and r["abs_delta_return_pp"] >= 0.5)
+            or (r["abs_delta_return_pp"] is None and r["delta_total_pnl"] is not None
+                and abs(r["delta_total_pnl"]) >= pnl_floor)
+        )
+    ranked.sort(key=lambda x: (
+        -(x["abs_delta_return_pp"] if x["abs_delta_return_pp"] is not None
+          else (abs(x["delta_total_pnl"]) / float(capital or 1.0) * 100.0
+                if x["delta_total_pnl"] is not None else 0.0)),
+        -abs(x["delta_trades"]),
+    ))
+    material = [r for r in ranked if r["_material"]]
+    immaterial = [r for r in ranked if not r["_material"]]
     lines: List[str] = []
-    lines.append("**Material knobs** (|Δ total return| ≥ 0.5pp or any trade-count change), ranked:")
+    lines.append("**Material knobs** (|Δ total return| ≥ 0.5pp, any trade-count change, or "
+                 "|Δ total PnL| ≥ 1% of capital when return is not derivable), ranked:")
     lines.append("")
     if material:
         for r in material:
+            ret = "n/a" if r["delta_total_return_pp"] is None else f"{r['delta_total_return_pp']:+.4f}pp"
             lines.append(
-                f"- `{r['tag']}` ({r['label']}): Δ return {r['delta_total_return_pp']:+.4f}pp, "
-                f"Δ trades {r['delta_trades']:+d}, Δ worst DD {r['delta_max_dd_pp']:+.4f}pp"
+                f"- `{r['tag']}` ({r['label']}): Δ return {ret}, "
+                f"Δ trades {r['delta_trades']:+d}, Δ PnL "
+                f"{'n/a' if r['delta_total_pnl'] is None else format(r['delta_total_pnl'], '+.2f')}"
             )
     else:
         lines.append("- none")
@@ -350,15 +537,18 @@ def build_conclusions(runs: List[Dict[str, Any]]) -> Tuple[str, Dict[str, Any]]:
     lines.append("")
     if immaterial:
         for r in immaterial:
-            lines.append(f"- `{r['tag']}` ({r['label']}): Δ return {r['delta_total_return_pp']:+.4f}pp, Δ trades {r['delta_trades']:+d}")
+            ret = "n/a" if r["delta_total_return_pp"] is None else f"{r['delta_total_return_pp']:+.4f}pp"
+            lines.append(f"- `{r['tag']}` ({r['label']}): Δ return {ret}, Δ trades {r['delta_trades']:+d}")
     else:
         lines.append("- none")
     lines.append("")
+    for r in ranked:
+        r.pop("_material", None)
     summary = {
         "baseline": {
             "tag": runs[0]["tag"],
-            "total_return_pct": base["total_return_pct"],
-            "trade_count": base["trade_count"],
+            "total_return_pct": base_return,
+            "trade_count": base_trades,
         },
         "material_knobs": material,
         "immaterial_knobs": immaterial,
@@ -376,7 +566,13 @@ def main(argv=None) -> int:
     ap.add_argument("--workers", type=int, default=max(1, min(4, os.cpu_count() or 1)))
     ap.add_argument("--runs-dir", default="research_state/sweep_runs")
     ap.add_argument("--output-prefix", default="sensitivity_sweep_real_okx_full")
+    ap.add_argument("--grid", choices=("ofat", "interaction"), default="ofat",
+                    help="ofat = one-factor Phase J2 grid; interaction = Phase K two-factor grid.")
     ap.add_argument("--only", nargs="*", default=None, help="Optional subset of grid tags to execute.")
+    ap.add_argument("--no-resume", action="store_true",
+                    help="Re-execute every run even if a matching per-run file already exists.")
+    ap.add_argument("--allow-partial", action="store_true",
+                    help="Write the aggregate even when the executed set is incomplete.")
     ap.add_argument("--smoke", action="store_true",
                     help="Fast plumbing check: 1 baseline run, write to a temp prefix, no aggregate.")
     args = ap.parse_args(argv)
@@ -396,17 +592,11 @@ def main(argv=None) -> int:
         print(f"BLOCKER: unsafe output prefix {args.output_prefix!r}", file=sys.stderr)
         return 2
 
-    grid = [g for g in GRID if not args.only or g[0] in set(args.only)]
-    if not grid:
-        print("BLOCKER: --only matched no grid entries", file=sys.stderr)
-        return 2
-
     if args.smoke:
-        job = {
-            "tag": grid[0][0], "label": grid[0][2], "config_kwargs": dict(grid[0][1]),
-            "data": None, "capital": args.capital,
-            "min_daily_volume_usd": 5_000_000.0,
-        }
+        jobs = build_jobs(args.grid, args.only, capital=args.capital)
+        job = dict(jobs[0])
+        job["data"] = None
+        job["min_daily_volume_usd"] = 5_000_000.0
         _, data, _, _ = _load_inputs(manifest_path, cache_dir, universe_file, args.capital)
         job["data"] = data
         rec = _run_one(job)
@@ -420,40 +610,67 @@ def main(argv=None) -> int:
         "capital": args.capital,
     }
 
-    # Baseline first, then the grid. Baseline uses pure spec defaults.
-    jobs: List[Dict[str, Any]] = [{
-        "tag": "baseline_spec",
-        "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
-        "config_kwargs": {},
-        "min_daily_volume_usd": 5_000_000.0,
-        "capital": args.capital,
-    }]
-    for tag, kwargs, label in grid:
-        jobs.append({
-            "tag": tag, "label": label, "config_kwargs": dict(kwargs),
-            "min_daily_volume_usd": 5_000_000.0,
-            "capital": args.capital,
-        })
+    try:
+        jobs = build_jobs(args.grid, args.only, capital=args.capital)
+    except SystemExit as exc:
+        print(exc, file=sys.stderr)
+        return 2
 
     runs_dir = REPO_ROOT / args.runs_dir
     runs_dir.mkdir(parents=True, exist_ok=True)
 
-    print(f"[sweep] {len(jobs)} runs, workers={args.workers}", flush=True)
-    wall_start = time.time()
+    lock_path = REPO_ROOT / "research_state" / ".sensitivity_sweep.lock"
+    lock_fd = _acquire_run_lock(lock_path)
+    if lock_fd is None:
+        return 3
+
+    def _release_lock() -> None:
+        try:
+            os.close(lock_fd)
+        except OSError:
+            pass
+        try:
+            lock_path.unlink()
+        except OSError:
+            pass
+
+    atexit.register(_release_lock)
+
     records: List[Optional[Dict[str, Any]]] = [None] * len(jobs)
+    todo: List[int] = list(range(len(jobs)))
+    resumed = 0
+    if not args.no_resume:
+        todo = []
+        for idx, job in enumerate(jobs):
+            rec = _reusable_record(runs_dir / f"{job['tag']}.json", job)
+            if rec is not None:
+                records[idx] = rec
+                resumed += 1
+            else:
+                todo.append(idx)
+        if resumed:
+            print(f"[sweep] resume: {resumed}/{len(jobs)} runs reused from {runs_dir}", flush=True)
+
+    print(f"[sweep] {len(jobs)} runs, {len(todo)} to execute, workers={args.workers}", flush=True)
+    wall_start = time.time()
 
     ctx = mp.get_context("fork")
-    with ctx.Pool(processes=args.workers, initializer=_worker_init, initargs=(payload,)) as pool:
-        for idx, rec in enumerate(pool.imap_unordered(_worker_run, jobs)):
-            records[idx] = rec
-            m = rec.get("metrics") or {}
-            print(
-                f"[sweep] {rec['tag']}: status={rec['status']} "
-                f"trades={m.get('trade_count')} ret={m.get('total_return_pct')} "
-                f"dd={m.get('max_drawdown_pct')} {rec['runtime_seconds']}s",
-                flush=True,
-            )
-            (runs_dir / f"{rec['tag']}.json").write_text(json.dumps(rec, indent=2) + "\n")
+    if todo:
+        todo_jobs = [jobs[i] for i in todo]
+        with ctx.Pool(processes=args.workers, initializer=_worker_init, initargs=(payload,)) as pool:
+            for sub_idx, rec in enumerate(pool.imap_unordered(_worker_run, todo_jobs)):
+                idx = todo[sub_idx]
+                records[idx] = rec
+                m = rec.get("metrics") or {}
+                print(
+                    f"[sweep] {rec['tag']}: status={rec['status']} "
+                    f"trades={m.get('trade_count')} ret={m.get('total_return_pct')} "
+                    f"dd={m.get('max_drawdown_pct')} {rec['runtime_seconds']}s",
+                    flush=True,
+                )
+                (runs_dir / f"{rec['tag']}.json").write_text(json.dumps(rec, indent=2) + "\n")
+    else:
+        print("[sweep] all runs already present; rebuilding aggregate", flush=True)
 
     wall = round(time.time() - wall_start, 2)
     runs = [r for r in records if r is not None]
@@ -463,6 +680,17 @@ def main(argv=None) -> int:
     executed = [r for r in runs if r.get("status") == "ok"]
     if not executed:
         print("BLOCKER: every run failed; see per-run files", file=sys.stderr)
+        return 1
+    if executed[0].get("tag") != "baseline_spec":
+        print("BLOCKER: baseline is missing or failed; cannot build deltas", file=sys.stderr)
+        return 1
+    if len(executed) < len(jobs) and not args.allow_partial:
+        missing = sorted({j["tag"] for j in jobs} - {r.get("tag") for r in executed})
+        print(
+            f"BLOCKER: {len(executed)}/{len(jobs)} runs succeeded; missing {missing}. "
+            "Re-run to resume; pass --allow-partial only if an incomplete aggregate is intended.",
+            file=sys.stderr,
+        )
         return 1
 
     # Spec-locked probe: attempt them so the rejection is observed, not assumed.
@@ -482,7 +710,7 @@ def main(argv=None) -> int:
     except Exception:
         traceback.print_exc()
 
-    conclusions_md, conclusions = build_conclusions(executed)
+    conclusions_md, conclusions = build_conclusions(executed, capital=args.capital)
 
     canonical = {}
     canon_path = REPO_ROOT / CANONICAL_CAMPAIGN
@@ -498,7 +726,8 @@ def main(argv=None) -> int:
     report = {
         "schema_version": 1,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
-        "run_type": "parameter_sensitivity_sweep",
+        "grid": args.grid,
+        "run_type": "parameter_interaction_sweep" if args.grid == "interaction" else "parameter_sensitivity_sweep",
         "provenance_caveat": PROVENANCE_CAVEAT,
         "inputs": {
             "manifest": str(manifest_path.relative_to(REPO_ROOT)) if str(manifest_path).startswith(str(REPO_ROOT)) else str(manifest_path),
@@ -509,6 +738,7 @@ def main(argv=None) -> int:
             "capital": args.capital,
         },
         "workers": args.workers,
+        "resumed_runs": resumed,
         "wall_clock_seconds": wall,
         "sequential_equivalent_seconds": sequential,
         "speedup": round(sequential / wall, 2) if wall > 0 else None,

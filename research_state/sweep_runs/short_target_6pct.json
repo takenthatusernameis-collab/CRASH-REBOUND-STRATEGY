@@ -1,0 +1,53 @@
+{
+  "tag": "short_target_6pct",
+  "label": "Rebound-short target -6% (spec -9%)",
+  "params": {
+    "rebound_short_target_pct": 6.0
+  },
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": null,
+    "annualized_return_pct": null,
+    "horizon_years": null,
+    "max_drawdown_pct": -2.0274965243788596,
+    "sharpe": 0.6426937146280114,
+    "sortino": 1.5474662784531614,
+    "calmar": 5.3705801407052665,
+    "win_rate": 0.5,
+    "profit_factor": 6.191850121321922,
+    "trade_count": 8,
+    "total_pnl": 11233.134113304168,
+    "net_total_pnl": 9984.353962856814,
+    "equity_final": 111233.13411330417,
+    "positive_months": 4,
+    "negative_months": 3,
+    "total_months": 7,
+    "by_leg": {
+      "buy": {
+        "trades": 7,
+        "pnl": 6171.467781400775,
+        "wins": 3
+      },
+      "short": {
+        "trades": 1,
+        "pnl": 5061.666331903392,
+        "wins": 1
+      }
+    },
+    "exit_reasons": {
+      "liquidated": 1,
+      "time_exit": 6,
+      "target_rebound_short": 1
+    },
+    "traded_symbols": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "max_live_coin_notional_max": 120000.0,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 975.17
+}

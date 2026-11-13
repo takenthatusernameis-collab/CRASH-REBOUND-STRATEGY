@@ -17,3 +17,4 @@ venv/
 research_state/cache/hyperliquid/candles/
 research_state/cache/hyperliquid/*.ndjson
 research_state/.test_derive_vol_*/
+research_state/.sensitivity_sweep.lock

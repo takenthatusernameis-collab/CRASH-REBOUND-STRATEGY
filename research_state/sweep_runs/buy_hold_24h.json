@@ -1,0 +1,52 @@
+{
+  "tag": "buy_hold_24h",
+  "label": "Buy max hold 24h (spec 50h)",
+  "params": {
+    "time_exit_max_bars": 24
+  },
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": 8.924271997568,
+    "annualized_return_pct": 4.948445689447745,
+    "horizon_years": 1.7698630136986302,
+    "max_drawdown_pct": -0.24570200289956243,
+    "sharpe": 1.0047083426169157,
+    "sortino": 6.395422196978916,
+    "calmar": 36.179050065287825,
+    "win_rate": 0.75,
+    "profit_factor": 36.90178871696091,
+    "trade_count": 8,
+    "total_pnl": 8924.271997567987,
+    "net_total_pnl": 7958.596932190743,
+    "equity_final": 108924.271997568,
+    "positive_months": 6,
+    "negative_months": 1,
+    "total_months": 7,
+    "by_leg": {
+      "buy": {
+        "trades": 7,
+        "pnl": 5936.047844085803,
+        "wins": 5
+      },
+      "short": {
+        "trades": 1,
+        "pnl": 2988.2241534821824,
+        "wins": 1
+      }
+    },
+    "exit_reasons": {
+      "time_exit": 7,
+      "target_rebound_short": 1
+    },
+    "traded_symbols": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "max_live_coin_notional_max": 120000.0,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 977.66
+}

@@ -96,26 +96,61 @@ def check_census() -> Tuple[bool, str]:
     return True, f"{rec.get('events_total')} events, {rec.get('trades_matched_to_events')} trades matched"
 
 
-def check_sensitivity() -> Tuple[bool, str]:
-    path = STATE / "sensitivity_sweep_real_okx_full.json"
-    md = STATE / "sensitivity_sweep_real_okx_full.md"
+def _check_sweep_artifacts(prefix: str, min_runs: int) -> Tuple[bool, str]:
+    path = STATE / f"{prefix}.json"
+    md = STATE / f"{prefix}.md"
     if not path.exists() or not md.exists():
         return False, "json and/or md missing"
     try:
         data = _read_json(path)
     except json.JSONDecodeError as exc:
         return False, f"invalid JSON: {exc}"
+    if PROVENANCE_CAVEAT.lower() not in _read_text(md).lower():
+        return False, "markdown missing provenance caveat"
+    if PROVENANCE_CAVEAT.lower() not in str(data.get("provenance_caveat", "")).lower():
+        return False, "json missing provenance caveat"
     runs = data.get("runs")
-    if not isinstance(runs, list) or len(runs) < 16:
-        return False, "need baseline + >= 15 sweep runs"
+    if not isinstance(runs, list) or len(runs) < min_runs:
+        got = len(runs) if isinstance(runs, list) else "non-list"
+        return False, f"need baseline + {min_runs - 1} sweep runs (got {got})"
+    if runs[0].get("tag") != "baseline_spec":
+        return False, "first run must be baseline_spec"
+    tags = [r.get("tag") for r in runs]
+    if len(tags) != len(set(tags)):
+        return False, "duplicate run tags"
+    runs_dir = STATE / "sweep_runs"
     for run in runs:
+        tag = run.get("tag")
         if "params" not in run or "metrics" not in run:
-            return False, "a run is missing params/metrics"
+            return False, f"{tag}: missing params/metrics"
         metrics = run["metrics"]
+        if not isinstance(metrics, dict):
+            return False, f"{tag}: metrics must be an object"
         for key in ("total_return_pct", "trade_count"):
             if key not in metrics:
-                return False, f"a run is missing metrics.{key}"
-    return True, f"{len(runs)} runs"
+                return False, f"{tag}: missing metrics.{key}"
+        try:
+            runtime = float(run.get("runtime_seconds") or 0.0)
+        except (TypeError, ValueError):
+            runtime = 0.0
+        if runtime <= 0:
+            return False, f"{tag}: non-positive runtime (artifact not executed)"
+        if not (runs_dir / f"{tag}.json").exists():
+            return False, f"{tag}: per-run evidence file missing"
+    conclusions = data.get("conclusions")
+    if not isinstance(conclusions, dict) or not isinstance(conclusions.get("ranked"), list):
+        return False, "missing conclusions.ranked"
+    if not data.get("rejected_runs"):
+        return False, "missing spec-locked rejection evidence"
+    return True, f"{len(runs)} runs, {len(conclusions['ranked'])} ranked knobs"
+
+
+def check_sensitivity() -> Tuple[bool, str]:
+    return _check_sweep_artifacts("sensitivity_sweep_real_okx_full", 17)
+
+
+def check_interaction() -> Tuple[bool, str]:
+    return _check_sweep_artifacts("interaction_sweep_real_okx_full", 9)
 
 
 def check_runbook() -> Tuple[bool, str]:
@@ -148,6 +183,7 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_g_spec_comparison_json", check_spec_comparison_json),
     ("phase_j1_crash_event_census", check_census),
     ("phase_j2_sensitivity_sweep", check_sensitivity),
+    ("phase_k_interaction_sweep", check_interaction),
     ("phase_j3_acquisition_runbook", check_runbook),
     ("durable_handoff", check_handoff),
 ]
