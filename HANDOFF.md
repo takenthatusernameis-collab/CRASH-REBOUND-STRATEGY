@@ -1,56 +1,53 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T10:20:21Z (this session; repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
-**Supersedes:** all earlier handoffs (2026-11-13T10:18:22Z and prior).
+**Handoff updated (UTC):** 2026-11-13T10:25:13Z (this session; repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
+**Supersedes:** all earlier handoffs (2026-11-13T10:20:21Z and prior).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `23ab482` (`origin/main`), working tree clean at session start. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before starting Phase G+.
+**Branch:** `main` @ `a36fa09` (`origin/main`) at verification time; working tree clean. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before starting Phase G+.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T10:20:21Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T10:25:13Z)
 >
-> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and state verified 2026-11-13T10:20:21Z.**
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and state verified 2026-11-13T10:25:13Z.**
 >
-> **Mission:** complete decision-grade, evidence-backed analysis of the real OKX 283-day campaign already on disk and execute the remaining heavy forward-looking campaign. **Phase J1 (crash-event census) is done and on disk; Phase G+, H, I, J2, J3, J4 are NOT done. The session is incomplete until their artifacts exist and this handoff is re-dated with evidence.** Do not stop after bootstrap, after tests, or after a narrative summary.
+> **Mission (heavy, mandatory):** complete decision-grade, evidence-backed analysis of the real OKX 283-day crash-rebound campaign already on disk and execute the remaining forward-looking campaign work. **Phase J1 (crash-event census) is done; Phase G+, H, J2, J3, I/J4 are NOT done. The session is incomplete until their artifacts exist and this handoff is re-dated with evidence.** Do not stop after bootstrap, after tests, or after a narrative summary.
 >
-> **Priority order (repo-aligned):**
-> 1. **Phase G+ (PRIMARY, do not skip):** write `research_state/real_okx_full_spec_comparison.md` **and** `research_state/real_okx_full_spec_comparison_summary.json` — decision-grade spec-vs-actual report (metric table + evidence-backed divergence explanations for EVERY row, with exact artifact values and code-path citations). No summary-only output.
-> 2. **Phase H:** reproducibility & hardening — full suite green, encode reproducibility-contract as an automated test (re-run from on-disk manifest/cache/universe reproduces `results.trades` and `results.total_pnl` modulo top-level `timestamp`), confirm no gate bypass. Persisted-rebound-fields regression already exists; do not rewrite it.
-> 3. **Phase J2 (MANDATORY, heavy):** parameter sensitivity sweep on-disk OKX run (`research_state/sensitivity_sweep_real_okx_full.json` + `.md`), ≥15 one-factor-at-a-time runs + baseline, each with params/metrics/runtime; never overwrite canonical campaign artifacts (use distinct output prefixes; delete only your own rerun files).
-> 4. **Phase J3 (MANDATORY):** executable real Hyperliquid-native acquisition/verification runbook (extend `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`) — every step has command, pass/fail check, artifact; if unavailable mark `NOT_RUN` (never fabricate, never relabel OKX as Hyperliquid).
-> 5. **Phase I/J4:** update this `HANDOFF.md` with exact commands, observed test counts, artifact paths + sha256, conclusions, J2/J3 results, and the next highest-value bottleneck; re-date header.
+> **Execute in order (no shortcuts):**
+> 1. **Phase G+ (PRIMARY):** produce `research_state/real_okx_full_spec_comparison.md` **and** `research_state/real_okx_full_spec_comparison_summary.json` — decision-grade spec-vs-actual analysis (full metric table + evidence-backed divergence explanation for EVERY row, exact artifact values and code-path citations). Consume J1 census as primary trade-frequency evidence. No summary-only output.
+> 2. **Phase H:** full suite green; add automated reproducibility-contract test proving re-run from committed on-disk manifest/cache/universe reproduces `results.trades` and `results.total_pnl` modulo top-level `timestamp`; confirm `volume_filter_ok` (all-bars) and per-trade point-in-time trailing-24h ≥$5M gates intact. Record observed test counts. Persisted-rebound-fields regression already exists — do not rewrite.
+> 3. **Phase J2 (MANDATORY, heavy):** parameter sensitivity sweep on-disk OKX run → `research_state/sensitivity_sweep_real_okx_full.json` + `.md`, ≥15 one-factor-at-a-time runs + baseline, each with params/metrics/runtime; never overwrite canonical artifacts (distinct `--output-prefix` stems; delete only your own rerun files).
+> 4. **Phase J3 (MANDATORY):** upgrade `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` into an executable real Hyperliquid-native acquisition/verification runbook — every step has command, pass/fail check, artifact; if unavailable mark `NOT_RUN` (never fabricate, never relabel OKX as Hyperliquid).
+> 5. **Phase I/J4:** update this `HANDOFF.md` with exact commands, observed test counts, artifact paths + sha256, conclusions, J2/J3 outcomes, and the next highest-value bottleneck; re-date header.
 >
-> **Start now (no blockers):**
-> 1. `bash scripts/bootstrap_env.sh` (or use pre-existing `/tmp/venv_h` with pytest 9.2.0 + numpy/pandas/requests/pyarrow).
-> 2. Run Phase G+ from artifacts in §2/§3 (J1 census already complete — consume it, do not redo).
-> 3. Run Phase H (reproducibility-contract test + green suite).
-> 4. Run Phase J2 sweep + Phase J3 runbook.
-> 5. Update this handoff (Phase I/J4).
+> **Start now (bottlenecks cleared):**
+> 1. `bash scripts/bootstrap_env.sh` (or use `/tmp/venv_h`, pytest 9.2.0 + numpy/pandas/requests/pyarrow ready).
+> 2. Run G+ from artifacts in §2/§3.
+> 3. Run H, then J2, then J3, then I/J4.
 >
-> **Bottleneck status (verified 2026-11-13T10:20:21Z — none active):**
-> - Environment deps: **unblocked** (`requirements-test.txt`, `scripts/bootstrap_env.sh`, `/tmp/venv_h` ready with pytest 9.2.0 + numpy/pandas/requests/pyarrow; `/tmp/crs-venv` not present).
-> - Canonical data/campaign artifacts: **intact, hashes verified** (§2). No re-acquisition needed.
-> - Phase J1 crash-event census: **complete** (`crash_event_census_real_okx_full.{json,md}` on disk, hashes in §3). Do not redo.
-> - Phase G+/J2/J3 outputs: **absent** — primary remaining work.
-> - Working tree clean, no stranded non-session processes observed. No gate-bypass or attribution bugs outstanding (all prior bottlenecks resolved, §1).
+> **Bottleneck status (verified 2026-11-13T10:25:13Z — none blocking):**
+> - Deps/env: **unblocked** (`requirements-test.txt`, `scripts/bootstrap_env.sh`, `/tmp/venv_h` ready).
+> - Canonical data/campaign artifacts: **intact, hashes re-verified** (§2). No re-acquisition/re-run needed.
+> - Phase J1 census: **complete** (`crash_event_census_real_okx_full.{json,md}`, hashes §3). Do not redo.
+> - Working tree: **clean**; no stranded campaign/backtest/sweep processes observed. No open gate-bypass/attribution defects.
+> - **Remaining work is missing outputs only:** G+ (`real_okx_full_spec_comparison.*` absent), J2 (`sensitivity_sweep_real_okx_full.*` absent), J3 runbook not yet executable, reproducibility-contract test not yet added.
 >
-> **Do not redo:** OKX 1H archive acquisition, 54-symbol universe derivation, full canonical campaign run, or J1 census. Start from artifacts.
-> **Do not claim Hyperliquid parity from OKX data.** OKX is cross-venue; label all conclusions accordingly.
+> **Do not redo:** OKX archive acquisition, 54-symbol universe derivation, canonical campaign run, or J1 census. **Do not claim Hyperliquid parity from OKX data.** All conclusions must state: "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence."
 
 ---
 
-## 0. Verified state this session (2026-11-13T10:20:21Z)
+## 0. Verified state this session (2026-11-13T10:25:13Z)
 
 | Check | Result | Evidence |
 |---|---|---|
-| Git | `main...origin/main` @ `23ab482`, clean. | `git status -sb`, `git log -1` |
-| Key artifacts intact | Canonical hashes unchanged vs recorded values (cache provenance, universe, campaign, metrics, J1 census). Archive `provenance.json` path absent but cache provenance present and matching. | `sha256sum` below |
-| Phase G+ outputs | **Absent** (`real_okx_full_spec_comparison.md/.json` not found). | `ls research_state/real_okx_full_spec_comparison*` |
+| Git | `main...origin/main` @ `a36fa09`, clean. | `git status -sb`, `git log -1` |
+| Key artifacts intact | Canonical hashes **re-verified unchanged** (cache provenance, universe, campaign, metrics, census). | `sha256sum` this session → §2/§3 |
+| Phase G+ outputs | **Absent** (`real_okx_full_spec_comparison.md/.json` not found). | `ls` |
 | Phase J1 census | **Present, complete.** | `crash_event_census_real_okx_full.json` `46ba…9bec`, `.md` `cbcd…e5b9` |
-| Phase J2/J3 outputs | **Absent** (no `sensitivity_sweep*`; J3 runbook not yet upgraded to executable step-by-step format). | `ls`, `DATA_REQUEST_283D_HYPERLIQUID.md` |
-| Environment | `/tmp/venv_h` has pytest 9.2.0 + numpy/pandas/requests/pyarrow; `/tmp/crs-venv` absent but `scripts/bootstrap_env.sh` available. | `python -m pytest --version` (verified this session) |
-| Baseline tests (prior verified this branch context) | `936 passed, 1 skipped` (single documented skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). Full suite not re-run this session (~6 min); **record observed counts in Phase H.** | prior session/HANDOFF record |
-| Working tree | Clean at verification time. No blockers. No stranded campaign/backtest/sweep processes (only this session's agent processes observed). | `git status -sb`, `ps aux` |
+| Phase J2/J3 outputs | **Absent** (no `sensitivity_sweep*`; J3 runbook not yet executable step-by-step). | `ls`, `DATA_REQUEST_283D_HYPERLIQUID.md` |
+| Environment | `/tmp/venv_h` ready (pytest 9.2.0 + numpy/pandas/requests/pyarrow); `scripts/bootstrap_env.sh` + `requirements-test.txt` present. | `python -m pytest --version` |
+| Baseline tests (prior verified) | `936 passed, 1 skipped` (skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). Full suite not re-run this session (~6 min); **record observed counts in Phase H.** | prior record |
+| Working tree / processes | Clean at verification time. No stranded campaign/backtest/sweep processes observed. **No blocking bottlenecks.** | `git status -sb`, `ps aux` |
 
-**Actions this session:** inspected repo/state, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`/census/metrics, verified canonical artifact hashes unchanged (§2/§3), confirmed `/tmp/venv_h` env readiness (pytest 9.2.0), confirmed no stranded work processes/bottlenecks; **refreshed this durable handoff only** (no code/tests/data modified, no acquisitions/runs executed, no test suite re-run).
+**Actions this session:** inspected repo/state, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`/census/metrics, re-verified canonical artifact hashes, confirmed `/tmp/venv_h` readiness and absence of G+/J2 outputs/blockers; **refreshed this durable handoff only** (no code/tests/data modified, no acquisitions/runs executed, no test suite re-run).
 
 ---
 
