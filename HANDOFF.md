@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T09:13:29Z (this session; verified — repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
-**Supersedes:** all earlier handoffs (2026-11-13T08:33:49Z and prior).
+**Handoff updated (UTC):** 2026-11-13T09:14:55Z (this session; verified — repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
+**Supersedes:** all earlier handoffs (2026-11-13T09:13:29Z, 2026-11-13T08:33:49Z and prior).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `23ab482`, working tree clean. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before Phase G+.
 
