@@ -1,13 +1,13 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T10:15:03Z (this session; repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
-**Supersedes:** all earlier handoffs (2026-11-13T09:30:40Z and prior).
+**Handoff updated (UTC):** 2026-11-13T10:18:22Z (this session; repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
+**Supersedes:** all earlier handoffs (2026-11-13T10:15:03Z and prior).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `23ab482` (`origin/main`), working tree clean at session start. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before starting Phase G+.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T10:15:03Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T10:18:22Z)
 >
-> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and state verified 2026-11-13T10:15:03Z.**
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and state verified 2026-11-13T10:18:22Z.**
 >
 > **Mission:** complete decision-grade, evidence-backed analysis of the real OKX 283-day campaign already on disk and execute the remaining heavy forward-looking campaign. **Phase J1 (crash-event census) is done and on disk; Phase G+, H, I, J2, J3, J4 are NOT done. The session is incomplete until their artifacts exist and this handoff is re-dated with evidence.** Do not stop after bootstrap, after tests, or after a narrative summary.
 >
@@ -25,7 +25,7 @@
 > 4. Run Phase J2 sweep + Phase J3 runbook.
 > 5. Update this handoff (Phase I/J4).
 >
-> **Bottleneck status (verified 2026-11-13T10:15:03Z — none active):**
+> **Bottleneck status (verified 2026-11-13T10:18:22Z — none active):**
 > - Environment deps: **unblocked** (`requirements-test.txt`, `scripts/bootstrap_env.sh`, `/tmp/venv_h` ready).
 > - Canonical data/campaign artifacts: **intact, hashes verified** (§2). No re-acquisition needed.
 > - Phase J1 crash-event census: **complete** (`crash_event_census_real_okx_full.{json,md}` on disk, hashes in §3). Do not redo.
@@ -46,11 +46,11 @@
 | Phase G+ outputs | **Absent** (`real_okx_full_spec_comparison.md/.json` not found). | `ls research_state/real_okx_full_spec_comparison*` |
 | Phase J1 census | **Present, complete.** | `crash_event_census_real_okx_full.json` `46ba…9bec`, `.md` `cbcd…e5b9` |
 | Phase J2/J3 outputs | **Absent** (no `sensitivity_sweep*`, no Hyperliquid runbook rewrite beyond existing request doc). | `ls` |
-| Environment | `/tmp/venv_h` has pytest 9.2.0 + numpy/pandas/requests/pyarrow. `bootstrap_env.sh`/`requirements-test.txt` present. | `python -m pytest --version` |
-| Baseline tests (prior verified this branch context) | `936 passed, 1 skipped` (single documented skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). Record what you observe when re-run. | prior session/HANDOFF record; not re-run in this handoff-only session to avoid burning ~6 min |
-| Working tree | Clean at verification time. No blockers. | `git status -sb` |
+| Environment | `/tmp/venv_h` has pytest 9.2.0 + numpy/pandas/requests/pyarrow. `bootstrap_env.sh`/`requirements-test.txt` present; `pytest --version` confirmed this session. | `python -m pytest --version` (verified 2026-11-13T10:18:22Z) |
+| Baseline tests (prior verified this branch context) | `936 passed, 1 skipped` (single documented skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). Full suite not re-run this session (~6 min); **record observed counts in Phase H.** | prior session/HANDOFF record |
+| Working tree | Clean at verification time. No blockers. No stranded campaign/backtest/sweep processes. | `git status -sb`, `ps aux` |
 
-**Actions this session:** inspected repo/state, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`/census/metrics, verified hashes + absence/presence of phase outputs, confirmed env readiness; **updated this durable handoff only** (no code/tests/data modified, no acquisitions/runs executed).
+**Actions this session:** inspected repo/state, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`/census/metrics, verified all canonical artifact hashes unchanged (§2/§3), confirmed `/tmp/venv_h` env readiness (pytest 9.2.0), confirmed no stranded processes/bottlenecks; **refreshed this durable handoff only** (no code/tests/data modified, no acquisitions/runs executed, no test suite re-run).
 
 ---
 
