@@ -1,13 +1,13 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T06:34:01Z
-**Supersedes:** 2026-11-13T06:09:27Z (Phase E/F done; this session removed the two red-suite bottlenecks and the leg-attribution inconsistency, and regenerated the real-run artifacts).
+**Handoff updated (UTC):** 2026-11-13T06:35:37Z
+**Supersedes:** 2026-11-13T06:34:01Z (no new work; this session only re-verified state and refreshed the timestamp/commit reference).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `2a0f7fb` (working tree contains the uncommitted fixes below; no commit was made).
+**Branch:** `main` @ `8a658bb` (working tree clean; all Phase E/F bottleneck fixes committed; nothing pending).
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> *(Inferred from repo `CRASH-REBOUND-STRATEGY` and the current verified state, 2026-11-13T06:34:01Z.)*
+> *(Inferred from repo `CRASH-REBOUND-STRATEGY` and the current verified state, 2026-11-13T06:35:37Z.)*
 >
 > **Objective:** Produce the **decision-grade, evidence-backed spec-vs-actual performance analysis** for the real OKX full-universe run, and close the reproducibility/hardening gaps — WITHOUT re-acquiring data, re-running the engine for its own sake, or claiming Hyperliquid parity.
 >
@@ -97,7 +97,7 @@ Write BOTH `research_state/real_okx_full_spec_comparison.md` and `research_state
 
 ### 3.3 Phase H — reproducibility & hardening
 
-- Confirm `PYTHONPATH=. python3 -m pytest -q` is green and record counts (baseline: `933 passed, 1 skipped`).
+- Confirm `PYTHONPATH=. python3 -m pytest -q` is green and record counts (baseline: `933 passed, 1 skipped`, re-verified green 2026-11-13T06:35:37Z).
 - Re-derive universe and re-run campaign from on-disk manifest/cache/universe; confirm `trades` (symbols, entry/exit timestamps, total_pnl) and `total_pnl` are identical across runs. The top-level `timestamp` field is volatile — exclude it from comparison.
 - Add a regression test asserting persisted campaign trades include `rebound_short_pnl`/`rebound_hedge_pnl` (locks the runner fix so future artifacts stay splittable).
 - Re-confirm no gate bypass: `volume_filter_ok` (all-bars) and per-trade point-in-time trailing-24h ≥$5M remain enforced; no synthetic/fabricated path.
