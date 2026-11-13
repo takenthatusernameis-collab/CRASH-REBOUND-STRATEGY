@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T17:32:16Z
-**Supersedes:** 2026-11-13T17:18:00Z (and all earlier).
+**Handoff updated (UTC):** 2026-11-13T17:33:00Z
+**Supersedes:** 2026-11-13T17:32:16Z (and all earlier).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `2ce4ca5` (`chore(kilo): checkpoint agent session`). Working tree has the uncommitted session changes listed in §0. **Single durable handoff:** this file only. Do not create a second handoff/status file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T17:32:16Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T17:33:00Z)
 >
 > **Inferred priority (from repo name `CRASH-REBOUND-STRATEGY`):** finish the decision-grade crash-rebound validation on real exchange evidence — complete the running 17-run one-factor sweep (Phase J2), run the 9-run two-factor interaction campaign (Phase K), then execute the robustness campaign (Phase L) that answers whether 8 trades / +9.16% is signal or noise. **This is heavy compute, not a summary task; do not skip or shortcut it.**
 >
@@ -13,7 +13,7 @@
 > 1. If `/tmp/crs-venv/bin/python` is missing, run `bash scripts/bootstrap_env.sh`.
 > 2. Then run: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py`
 >
-> **Verified state at this handoff (2026-11-13T17:32:16Z):** gate is **5/8** — Phase G+, J1, J3, and durable-handoff pass; **Phase J2, K, and L artifacts are not yet on disk**. The Phase J2 sweep is **running now** as a resumable background job: **14/17** per-run files complete at 17:32:16Z (9/17 at 17:29Z), 3 remain, PID **8069** (4 workers, elapsed 33m), background id `bgp_1d5da08f60017FUEbJplvtGwXS`, ETA ≈ **17:46–17:50Z**. **Do not start a second sweep while it runs** — the runner takes an exclusive lock and refuses (rc=3). If PID 8069 is gone, run the resume command in §5; it reuses completed runs and executes only the missing ones. Remaining at this timestamp: `eth_hedge_cap_2x`, `max_positions_3`, `max_positions_8`; verify with `ls research_state/sweep_runs/*.json | wc -l` before acting.
+> **Verified state at this handoff (2026-11-13T17:33:00Z):** gate is **5/8** — Phase G+, J1, J3, and durable-handoff pass; **Phase J2, K, and L artifacts are not yet on disk**. The Phase J2 sweep is **running now** as a resumable background job: **14/17** per-run files complete at 17:33:00Z, 3 remain, PID **8069** (4 workers, elapsed ~34m), background id `bgp_1d5da08f60017FUEbJplvtGwXS`, ETA ≈ **17:46–17:50Z**. **Do not start a second sweep while it runs** — the runner takes an exclusive lock and refuses (rc=3). If PID 8069 is gone, run the resume command in §5; it reuses completed runs and executes only the missing ones. Remaining at this timestamp: `eth_hedge_cap_2x`, `max_positions_3`, `max_positions_8`; verify with `ls research_state/sweep_runs/*.json | wc -l` before acting.
 >
 > **Mandatory remaining work — execute in order, do not stop early:**
 > 1. **Finish Phase J2:** confirm the running sweep or resume it; wait for **17/17** per-run files; verify `research_state/sensitivity_sweep_real_okx_full.{json,md}` contains 17 executed runs, baseline first, per-run evidence, ranked conclusions, spec-locked rejections, and the provenance caveat. Record wall-clock/speedup and which knobs move results.
@@ -29,7 +29,7 @@
 
 ---
 
-## 0. Verified state (2026-11-13T17:32:16Z)
+## 0. Verified state (2026-11-13T17:33:00Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -37,7 +37,7 @@
 | Durable handoff | Single file: `./HANDOFF.md` (this file). | repo root |
 | Environment | `/tmp/crs-venv` present with pytest/numpy/pandas/requests/pyarrow. Recreate via `bash scripts/bootstrap_env.sh` if absent. | `test -x`, imports |
 | Done-gate | **5/8** — J2, K, and L missing. | `scripts/session_gate.py` |
-| Phase J2 sweep | **Running**: 14/17 per-run files at 17:32:16Z; PID 8069 alive (4 workers, elapsed 33m); background id `bgp_1d5da08f60017FUEbJplvtGwXS`. Resume/lock/null-safe fixes committed at `2ce4ca5`. | `ls research_state/sweep_runs`, `ps -p 8069` |
+| Phase J2 sweep | **Running**: 14/17 per-run files at 17:33:00Z; PID 8069 alive (4 workers, elapsed ~34m); background id `bgp_1d5da08f60017FUEbJplvtGwXS`. Resume/lock/null-safe fixes committed at `2ce4ca5`. | `ls research_state/sweep_runs`, `ps -p 8069` |
 | Phase H | Fast suite **946 passed, 1 skipped, 1 deselected in 668.24s** (reproducibility test excluded, recorded earlier this campaign). Full suite + repro test not yet run. | background pytest log |
 | Phase G+ | **Done (artifacts present).** | `research_state/real_okx_full_spec_comparison.{md,summary.json}` |
 | Phase J1 | **Done (artifacts present).** | `research_state/crash_event_census_real_okx_full.{json,md}` |
