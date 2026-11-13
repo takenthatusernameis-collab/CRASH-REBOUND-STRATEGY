@@ -1,20 +1,20 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-12T23:25:03Z
-**HEAD audited:** `0e120959797298481cab3c7d289028fb44af0c65` (`0e12095`). Base worktree clean at HEAD `0e12095`; this handoff update is the only intended modification.
-**Gate at this HEAD:** `PYTHONPATH=. python3 -m pytest -q --tb=short` → **905 passed, 12 skipped in 35.05s**, GREEN.
-**Checkpoint note:** `bdce39b..0e12095` changed only `HANDOFF.md`; production code and tests are unchanged. CELL 14 defect remains UNFIXED/UNSTARTED at this HEAD.
+**Updated (UTC):** 2026-11-13T00:17:13Z
+**HEAD audited:** `23607f70a6434be55f1b22a3615b12a9c6ad63d9` (`23607f7`). Base worktree clean at HEAD `23607f7`; this handoff update is the only intended modification.
+**Gate at this HEAD:** `PYTHONPATH=. python3 -m pytest -q --tb=short` → **905 passed, 12 skipped in 34.82s**, GREEN.
+**Checkpoint note:** `0e12095..23607f7` changed only `HANDOFF.md`; production code and tests are unchanged. CELL 14 defect re-probed at this HEAD and remains UNFIXED/UNSTARTED.
 
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** `README.md` points here. Do not create or trust any other TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff file.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (2026-11-12T23:25:03Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (2026-11-13T00:17:13Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-12T23:25:03Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-13T00:17:13Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 REPO IDENTITY / PRIORITY (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, strict no look-ahead, fail-closed gates.
 
 STEP 0 — GATE (NON-NEGOTIABLE, RUN FIRST):
   PYTHONPATH=. python3 -m pytest -q --tb=short
-  Last verified 2026-11-12T23:25:03Z at HEAD 0e12095, base worktree clean: 905 passed, 12 skipped in 35.05s, GREEN.
+  Last verified 2026-11-13T00:17:13Z at HEAD 23607f7, base worktree clean: 905 passed, 12 skipped in 34.82s, GREEN.
   Re-run at your HEAD/worktree and report the exact count. If broken or regressed, fix before ANYTHING else.
   Fresh env deps: python -m pip install --break-system-packages pytest numpy pandas requests (Python 3.12).
 
@@ -24,10 +24,11 @@ STEP 1 — CELL 14 IS A CONFIRMED DEFECT. FIX IT FIRST. NOT OPTIONAL, NOT HARDEN
     - Stop: risk_state.apply_trade(..., pnl, ...) at src/backtest/engine.py:402. Hedge is computed at :381-395 and total at :404.
     - Correct paths: target :457 (total_pnl), time-exit :748 (total_pnl_result), rebound branches :547/:581/:613/:644 (short_pnl + rebound_hedge_pnl), loop-else final :677 (LOCKED, do not touch).
   INVARIANT VIOLATED: on any fully-closed long trade, risk_state.realized_pnl must equal res.total_pnl (coin + hedge).
-  PROOF RE-RUN AT HEAD 0e12095, 2026-11-12T23:25:03Z (fixtures from tests/test_long_leg_liquidation_hedge_completeness.py, funding_rate_pct_per_hour=0.01, entry 100, shares 1.0, signal_idx 5):
+  PROOF RE-RUN AT HEAD 23607f7, 2026-11-13T00:17:13Z (fixtures from tests/test_long_leg_liquidation_hedge_completeness.py, funding_rate_pct_per_hour=0.01, entry 100, shares 1.0, signal_idx 5):
     liq_bar=8  exit=liquidated coin=-7.5400 hedge=+1.9066 total_pnl=-5.6334 realized_pnl=-7.5400 match=False
     stop       exit=stopped    coin=-5.0400 hedge=+1.9066 total_pnl=-3.1334 realized_pnl=-5.0400 match=False
-    funding=0 control: liq realized=-7.5000 vs total=-5.7134; still match=False.
+    stop(f=0)  exit=stopped    coin=-5.0000 hedge=+1.7866 total_pnl=-3.2134 realized_pnl=-5.0000 match=False.
+    (stop fixture: stop_px=95, liquidation checks disabled, bar[8] low=93.0. liq funding=0 control from prior audit still holds.)
   ENSHRINING TEST TO CORRECT: tests/test_long_leg_liquidation_hedge_completeness.py:146 asserts rs.realized_pnl == res.pnl. Change it to rs.realized_pnl == res.total_pnl. This is a CORRECTION, not a regression.
   ORDERED FIX:
     1) src/backtest/engine.py:350 → risk_state.apply_trade(..., pnl + hedge_pnl_total, ...)
@@ -53,12 +54,12 @@ METHOD FOR EVERY ITEM (NON-NEGOTIABLE):
   4) VERIFY — targeted test + full gate with exact count.
   5) CONTINUE down the campaign until exhausted with evidence.
 
-BOTTLENECKS (audit 2026-11-12T23:25:03Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff artifacts. Working tree clean at HEAD bdce39b. Gate GREEN (905/12). No multi-session contention; nothing idle-blocked. The only active code blocker is CELL 14, and it is fully actionable with the repro above.
+BOTTLENECKS (audit 2026-11-13T00:17:13Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff artifacts. Working tree clean at HEAD 23607f7. Gate GREEN (905/12). No multi-session contention; nothing idle-blocked. The only active code blocker is CELL 14, and it is fully actionable with the repro above.
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: the tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDERS (provenance per-symbol status:"error", synthetic_check.is_synthetic:true, reason flat_series_all_bars_identical, 1/6792 distinct signatures, summary.ready_for_real_campaign:false). The coverage report's observed_min_24h_usd_volume is placeholder-derived and is NOT real evidence — never cite it as a campaign result. Fabricating or promoting is forbidden. The 283d real-data campaign stays NOT RUN. This blocks ONLY real-data runs; all spec-unit and engine tests run on fixtures and remain fully executable.
 ```
 
-## BOTTLENECK AUDIT (2026-11-12T23:25:03Z)
+## BOTTLENECK AUDIT (2026-11-13T00:17:13Z)
 - **Single durable handoff:** only root `HANDOFF.md`; `README.md` points here. No TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff files exist outside `.git/`.
 - **Locks/contention:** no `*.lock` outside `.git/`; no uncommitted production/test changes; no multi-session contention. The only intended worktree change is this `HANDOFF.md` update. Only ignored `__pycache__`/`.pytest_cache` residue exists. CELL 14 is the only open defect and it is fully actionable (repro above).
 - **Stale artifact neutralized:** `research_state/gap_analysis.md` is banner-marked SUPERSEDED. Authoritative spec is `research_state/strategy_spec.md`. Do not re-litigate its old MISSING rows.
@@ -106,4 +107,4 @@ Repo-name priority: **CRASH-REBOUND-STRATEGY** → crash→rebound fidelity to `
 - Fail-closed: missing provenance/verification on the real path → reject. Never fabricate data or results.
 - Do not commit unless the user explicitly asks.
 
-**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-12T23:25:03Z)**
+**END OF HANDOFF — THIS IS THE ONLY DURABLE CONTEXT. NEXT SESSION MUST EXECUTE THE INITIAL TASK ABOVE OR FAIL. (2026-11-13T00:17:13Z)**
