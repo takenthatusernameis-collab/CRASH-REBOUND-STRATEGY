@@ -15,10 +15,10 @@ Real OKX exchange data exists on disk for this repo and produced cross-venue res
 
 ## HYPERLIQUID NATIVE ACQUISITION RUNBOOK
 
-This runbook is executable step-by-step. Every step states command, pass/fail check, and artifact. Execute from repo root with the project venv (e.g. `PYTHONPATH=. /tmp/venv_h/bin/python ...`) and `PYTHONPATH=.` set. Do not fabricate data, do not synthesize candles, and do not relabel OKX artifacts as Hyperliquid.
+This runbook is executable step-by-step. Every step states command, pass/fail check, and artifact. Execute from repo root with the project venv (e.g. `PYTHONPATH=. /tmp/crs-venv/bin/python ...` after `bash scripts/bootstrap_env.sh`) and `PYTHONPATH=.` set. Do not fabricate data, do not synthesize candles, and do not relabel OKX artifacts as Hyperliquid.
 
 ### Prerequisites
-- **Command:** `test -x /tmp/venv_h/bin/python && PYTHONPATH=. /tmp/venv_h/bin/python -c "import pytest,numpy,pandas,requests,pyarrow; print('env_ok')"` (or run `bash scripts/bootstrap_env.sh` first)
+- **Command:** `test -x /tmp/crs-venv/bin/python && PYTHONPATH=. /tmp/crs-venv/bin/python -c "import pytest,numpy,pandas,requests,pyarrow; print('env_ok')"` (or run `bash scripts/bootstrap_env.sh` first)
 - **Pass/fail:** exit 0 and prints `env_ok`.
 - **Artifact:** terminal evidence; `/tmp/venv_h` environment.
 
@@ -29,14 +29,14 @@ This runbook is executable step-by-step. Every step states command, pass/fail ch
 
 ### Step 2 — Ingest archive and generate verified provenance manifest
 - **Command (example):**
-  `PYTHONPATH=. /tmp/venv_h/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive research_state/archives/hyperliquid_1h_full_20251220_20260928 --symbols BTC ETH --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928`
+  `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive research_state/archives/hyperliquid_1h_full_20251220_20260928 --symbols BTC ETH --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928`
   (Adjust `--symbols`/`--universe-file` to the verified Hyperliquid universe; use `--allow-partial` only for non-evidence debugging — never for spec evidence.)
 - **Pass/fail:** exit 0; command completes without synthetic/unverified/temp-path rejection.
 - **Artifact:** `research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json` and per-symbol cached candles under the cache dir.
 
 ### Step 3 — Verify provenance completeness and non-synthetic integrity (hard gate)
 - **Command:**
-  `PYTHONPATH=. /tmp/venv_h/bin/python - <<'PY'
+  `PYTHONPATH=. /tmp/crs-venv/bin/python - <<'PY'
 import json,sys
 p='research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json'
 m=json.load(open(p))
@@ -52,19 +52,19 @@ PY`
 
 ### Step 4 — Derive/confirm verified Hyperliquid universe (>= $5M 24h volume, point-in-time spec-consistent)
 - **Command (example):**
-  `PYTHONPATH=. /tmp/venv_h/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --output research_state/universe_hyperliquid_full_verified.json`
+  `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --output research_state/universe_hyperliquid_full_verified.json`
 - **Pass/fail:** exit 0; universe file lists only symbols with verified complete coverage and spec-compliant volume evidence; `min_24h_volume_usd >= 5000000` reflected.
 - **Artifact:** `research_state/universe_hyperliquid_full_verified.json`.
 
 ### Step 5 — Execute gated Hyperliquid-native real campaign
 - **Command:**
-  `PYTHONPATH=. /tmp/venv_h/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees`
+  `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees`
 - **Pass/fail:** exit 0 and output states `REAL run complete: ...`; script refuses incomplete/unverified/synthetic inputs (non-zero) so a passing run implies gates satisfied.
 - **Artifact:** `research_state/campaign_results_real_hyperliquid_full.json` and `_metrics.json`/`.csv` with `real_market_data=true`, `performance_evidence=true`, `fabricated_data=false`, and provenance reference. Use a distinct prefix; never overwrite OKX canonical artifacts.
 
 ### Step 6 — Post-run verification, metrics, and evidence reporting
 - **Command(s):**
-  - `PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs`
+  - `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q -rs`
   - `sha256sum research_state/campaign_results_real_hyperliquid_full*.json research_state/universe_hyperliquid_full_verified.json`
   - Record coverage, universe, trade/metric outputs (Sharpe/Sortino/max DD with timestamps/Calmar/win rate/profit factor/monthly-weekly/attribution/exposure as produced), and compare vs Hyperliquid spec with provenance.
 - **Pass/fail:** tests green (recorded counts), artifacts present and hash-recorded, conclusions cite Hyperliquid-native provenance; if Step 1–5 could not be satisfied, report remains `NOT_RUN` with blocker evidence (no fabricated results).
