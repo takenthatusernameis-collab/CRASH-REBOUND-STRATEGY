@@ -1,0 +1,706 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T19:06:48.063304+00:00",
+  "grid": "interaction",
+  "run_type": "parameter_interaction_sweep",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "inputs": {
+    "manifest": "research_state/cache/okx_1h_full_20251220_20260928/provenance.json",
+    "cache_dir": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/cache/okx_1h_full_20251220_20260928",
+    "universe": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/universe_okx_full_verified.json",
+    "universe_size": 54,
+    "canonical_campaign": "research_state/campaign_results_real_okx_full.json",
+    "capital": 100000.0
+  },
+  "workers": 4,
+  "resumed_runs": 1,
+  "wall_clock_seconds": 1623.1,
+  "sequential_equivalent_seconds": 7403.35,
+  "speedup": 4.56,
+  "canonical": {
+    "num_trades": 8,
+    "total_pnl": 9159.691934882958,
+    "metrics_total_return_pct": 9.159691934882952,
+    "sha256_note": "canonical artifact is read-only input to this sweep"
+  },
+  "runs": [
+    {
+      "tag": "baseline_spec",
+      "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
+      "params": {},
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 9.159691934882952,
+        "annualized_return_pct": 22.599525626916606,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6257881282591806,
+        "sortino": 1.2618307809094134,
+        "calmar": 4.379263979604601,
+        "win_rate": 0.5,
+        "profit_factor": 5.23352442904336,
+        "trade_count": 8,
+        "total_pnl": 9159.691934882958,
+        "net_total_pnl": 8141.289620068439,
+        "equity_final": 109159.69193488295,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 981.03
+    },
+    {
+      "tag": "rsi18_maxpos8",
+      "label": "RSI<18 with max 8 concurrent positions",
+      "params": {
+        "rsi_threshold": 18.0,
+        "max_positions": 8
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -0.06793894002337877,
+        "sharpe": 0.976216896275199,
+        "sortino": 41.046656801870796,
+        "calmar": 82.09331360374192,
+        "win_rate": 0.5,
+        "profit_factor": 83.09331360374159,
+        "trade_count": 2,
+        "total_pnl": 5911.026195224909,
+        "net_total_pnl": 5259.407789696006,
+        "equity_final": 105911.02619522491,
+        "positive_months": 1,
+        "negative_months": 1,
+        "total_months": 2,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 5983.029942372417,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 1,
+            "pnl": -72.00374714750825,
+            "wins": 0
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 1
+        },
+        "traded_symbols": [
+          "BCH"
+        ],
+        "max_live_coin_notional_max": 130667.23320000006,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 799.43
+    },
+    {
+      "tag": "rsi25_maxpos3",
+      "label": "RSI<25 with max 3 concurrent positions",
+      "params": {
+        "rsi_threshold": 25.0,
+        "max_positions": 3
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 19.361967874642573,
+        "annualized_return_pct": 50.90413525278568,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -16.617687525687003,
+        "sharpe": 0.13475797048798782,
+        "sortino": 0.19778281496938818,
+        "calmar": 0.8139296550451369,
+        "win_rate": 0.52,
+        "profit_factor": 1.6400024942225147,
+        "trade_count": 25,
+        "total_pnl": 19361.96787464257,
+        "net_total_pnl": 14583.714996345414,
+        "equity_final": 119361.96787464258,
+        "positive_months": 12,
+        "negative_months": 8,
+        "total_months": 20,
+        "by_leg": {
+          "short": {
+            "trades": 2,
+            "pnl": 26812.0096365684,
+            "wins": 2
+          },
+          "buy": {
+            "trades": 23,
+            "pnl": -7450.0417619258515,
+            "wins": 11
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 2,
+          "time_exit": 16,
+          "liquidated": 7
+        },
+        "traded_symbols": [
+          "AAVE",
+          "AVAX",
+          "BCH",
+          "ETC",
+          "ETH",
+          "LINK",
+          "LTC",
+          "SOL",
+          "ZEC"
+        ],
+        "max_live_coin_notional_max": 130667.23320000003,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 800.38
+    },
+    {
+      "tag": "rsi25_maxpos8",
+      "label": "RSI<25 with max 8 concurrent positions",
+      "params": {
+        "rsi_threshold": 25.0,
+        "max_positions": 8
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 23.438742424202765,
+        "annualized_return_pct": 11.416027538654049,
+        "horizon_years": 1.9479452054794522,
+        "max_drawdown_pct": -18.339283066110266,
+        "sharpe": 0.1387778989664591,
+        "sortino": 0.19472328121134982,
+        "calmar": 0.8455000789464564,
+        "win_rate": 0.5454545454545454,
+        "profit_factor": 1.678797715546665,
+        "trade_count": 33,
+        "total_pnl": 23438.74242420277,
+        "net_total_pnl": 17796.006426493055,
+        "equity_final": 123438.74242420276,
+        "positive_months": 14,
+        "negative_months": 11,
+        "total_months": 25,
+        "by_leg": {
+          "short": {
+            "trades": 3,
+            "pnl": 31414.4243587241,
+            "wins": 3
+          },
+          "buy": {
+            "trades": 30,
+            "pnl": -7975.681934521363,
+            "wins": 15
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 3,
+          "time_exit": 21,
+          "liquidated": 9
+        },
+        "traded_symbols": [
+          "AAVE",
+          "AVAX",
+          "BCH",
+          "ETC",
+          "ETH",
+          "LINK",
+          "LTC",
+          "SOL",
+          "ZEC"
+        ],
+        "max_live_coin_notional_max": 130667.23320000003,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 801.77
+    },
+    {
+      "tag": "rsi18_maxpos3",
+      "label": "RSI<18 with max 3 concurrent positions",
+      "params": {
+        "rsi_threshold": 18.0,
+        "max_positions": 3
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -0.06793894002337877,
+        "sharpe": 0.976216896275199,
+        "sortino": 41.046656801870796,
+        "calmar": 82.09331360374192,
+        "win_rate": 0.5,
+        "profit_factor": 83.09331360374159,
+        "trade_count": 2,
+        "total_pnl": 5911.026195224909,
+        "net_total_pnl": 5259.407789696006,
+        "equity_final": 105911.02619522491,
+        "positive_months": 1,
+        "negative_months": 1,
+        "total_months": 2,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 5983.029942372417,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 1,
+            "pnl": -72.00374714750825,
+            "wins": 0
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 1
+        },
+        "traded_symbols": [
+          "BCH"
+        ],
+        "max_live_coin_notional_max": 130667.23320000006,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 813.75
+    },
+    {
+      "tag": "rsi25_target12",
+      "label": "RSI<25 with +12% buy target",
+      "params": {
+        "rsi_threshold": 25.0,
+        "target_pct": 12.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 18.193233824297184,
+        "annualized_return_pct": 8.959788403621992,
+        "horizon_years": 1.9479452054794522,
+        "max_drawdown_pct": -18.99856331301794,
+        "sharpe": 0.1204143118515934,
+        "sortino": 0.16625938090858353,
+        "calmar": 0.6562801176077946,
+        "win_rate": 0.5,
+        "profit_factor": 1.5268851602544662,
+        "trade_count": 30,
+        "total_pnl": 18193.233824297167,
+        "net_total_pnl": 13092.942190775102,
+        "equity_final": 118193.23382429717,
+        "positive_months": 11,
+        "negative_months": 11,
+        "total_months": 22,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 21062.223042262194,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 29,
+            "pnl": -2868.989217965048,
+            "wins": 14
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 20,
+          "liquidated": 9
+        },
+        "traded_symbols": [
+          "AAVE",
+          "AVAX",
+          "BCH",
+          "ETC",
+          "ETH",
+          "LINK",
+          "LTC",
+          "SOL",
+          "ZEC"
+        ],
+        "max_live_coin_notional_max": 134263.63410000002,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 799.42
+    },
+    {
+      "tag": "rsi25_target6",
+      "label": "RSI<25 with +6% buy target",
+      "params": {
+        "rsi_threshold": 25.0,
+        "target_pct": 6.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": -1.2092237175841292,
+        "annualized_return_pct": -0.622606356355504,
+        "horizon_years": 1.9479452054794522,
+        "max_drawdown_pct": -20.902343024326246,
+        "sharpe": -0.012622803101802178,
+        "sortino": -0.010248059849054574,
+        "calmar": -0.04631897147465717,
+        "win_rate": 0.5666666666666667,
+        "profit_factor": 0.9647882141885609,
+        "trade_count": 30,
+        "total_pnl": -1209.2237175841342,
+        "net_total_pnl": -3973.25738491081,
+        "equity_final": 98790.77628241587,
+        "positive_months": 13,
+        "negative_months": 10,
+        "total_months": 23,
+        "by_leg": {
+          "short": {
+            "trades": 7,
+            "pnl": 7378.415500890328,
+            "wins": 5
+          },
+          "buy": {
+            "trades": 23,
+            "pnl": -8587.63921847446,
+            "wins": 12
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 7,
+          "time_exit": 14,
+          "liquidated": 9
+        },
+        "traded_symbols": [
+          "AAVE",
+          "AVAX",
+          "BCH",
+          "ETC",
+          "ETH",
+          "LINK",
+          "LTC",
+          "SOL",
+          "ZEC"
+        ],
+        "max_live_coin_notional_max": 127070.83230000004,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 800.6
+    },
+    {
+      "tag": "rsi15_maxpos3",
+      "label": "RSI<15 with max 3 concurrent positions",
+      "params": {
+        "rsi_threshold": 15.0,
+        "max_positions": 3
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -0.06793894002337877,
+        "sharpe": 0.976216896275199,
+        "sortino": 41.046656801870796,
+        "calmar": 82.09331360374192,
+        "win_rate": 0.5,
+        "profit_factor": 83.09331360374159,
+        "trade_count": 2,
+        "total_pnl": 5911.026195224909,
+        "net_total_pnl": 5259.407789696006,
+        "equity_final": 105911.02619522491,
+        "positive_months": 1,
+        "negative_months": 1,
+        "total_months": 2,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 5983.029942372417,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 1,
+            "pnl": -72.00374714750825,
+            "wins": 0
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 1
+        },
+        "traded_symbols": [
+          "BCH"
+        ],
+        "max_live_coin_notional_max": 130667.23320000006,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 800.82
+    },
+    {
+      "tag": "rsi15_maxpos8",
+      "label": "RSI<15 with max 8 concurrent positions",
+      "params": {
+        "rsi_threshold": 15.0,
+        "max_positions": 8
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -0.06793894002337877,
+        "sharpe": 0.976216896275199,
+        "sortino": 41.046656801870796,
+        "calmar": 82.09331360374192,
+        "win_rate": 0.5,
+        "profit_factor": 83.09331360374159,
+        "trade_count": 2,
+        "total_pnl": 5911.026195224909,
+        "net_total_pnl": 5259.407789696006,
+        "equity_final": 105911.02619522491,
+        "positive_months": 1,
+        "negative_months": 1,
+        "total_months": 2,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 5983.029942372417,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 1,
+            "pnl": -72.00374714750825,
+            "wins": 0
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 1
+        },
+        "traded_symbols": [
+          "BCH"
+        ],
+        "max_live_coin_notional_max": 130667.23320000006,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 806.15
+    }
+  ],
+  "rejected_runs": [
+    {
+      "tag": "position_size_0p5pct",
+      "label": "Position size 0.5% of 24h volume (spec 1.25%)",
+      "params": {
+        "position_size_pct_of_daily_volume": 0.5
+      },
+      "status": "rejected",
+      "error": "ValueError: position_size_pct_of_daily_volume 0.5 is not the spec 1.25% of 24h volume; volume-based sizing is not a free parameter in spec-compliant paths"
+    },
+    {
+      "tag": "position_size_2p0pct",
+      "label": "Position size 2.0% of 24h volume (spec 1.25%)",
+      "params": {
+        "position_size_pct_of_daily_volume": 2.0
+      },
+      "status": "rejected",
+      "error": "ValueError: position_size_pct_of_daily_volume 2.0 is not the spec 1.25% of 24h volume; volume-based sizing is not a free parameter in spec-compliant paths"
+    }
+  ],
+  "conclusions": {
+    "baseline": {
+      "tag": "baseline_spec",
+      "total_return_pct": 9.159691934882952,
+      "trade_count": 8
+    },
+    "material_knobs": [
+      {
+        "tag": "rsi25_maxpos8",
+        "label": "RSI<25 with max 8 concurrent positions",
+        "delta_total_return_pp": 14.27905,
+        "delta_annualized_pp": -11.183498,
+        "delta_trades": 25,
+        "delta_max_dd_pp": -16.311787,
+        "delta_total_pnl": 14279.050489,
+        "abs_delta_return_pp": 14.27905
+      },
+      {
+        "tag": "rsi25_target6",
+        "label": "RSI<25 with +6% buy target",
+        "delta_total_return_pp": -10.368916,
+        "delta_annualized_pp": -23.222132,
+        "delta_trades": 22,
+        "delta_max_dd_pp": -18.874846,
+        "delta_total_pnl": -10368.915652,
+        "abs_delta_return_pp": 10.368916
+      },
+      {
+        "tag": "rsi25_maxpos3",
+        "label": "RSI<25 with max 3 concurrent positions",
+        "delta_total_return_pp": 10.202276,
+        "delta_annualized_pp": 28.30461,
+        "delta_trades": 17,
+        "delta_max_dd_pp": -14.590191,
+        "delta_total_pnl": 10202.27594,
+        "abs_delta_return_pp": 10.202276
+      },
+      {
+        "tag": "rsi25_target12",
+        "label": "RSI<25 with +12% buy target",
+        "delta_total_return_pp": 9.033542,
+        "delta_annualized_pp": -13.639737,
+        "delta_trades": 22,
+        "delta_max_dd_pp": -16.971067,
+        "delta_total_pnl": 9033.541889,
+        "abs_delta_return_pp": 9.033542
+      },
+      {
+        "tag": "rsi18_maxpos8",
+        "label": "RSI<18 with max 8 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi18_maxpos3",
+        "label": "RSI<18 with max 3 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi15_maxpos3",
+        "label": "RSI<15 with max 3 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi15_maxpos8",
+        "label": "RSI<15 with max 8 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      }
+    ],
+    "immaterial_knobs": [],
+    "ranked": [
+      {
+        "tag": "rsi25_maxpos8",
+        "label": "RSI<25 with max 8 concurrent positions",
+        "delta_total_return_pp": 14.27905,
+        "delta_annualized_pp": -11.183498,
+        "delta_trades": 25,
+        "delta_max_dd_pp": -16.311787,
+        "delta_total_pnl": 14279.050489,
+        "abs_delta_return_pp": 14.27905
+      },
+      {
+        "tag": "rsi25_target6",
+        "label": "RSI<25 with +6% buy target",
+        "delta_total_return_pp": -10.368916,
+        "delta_annualized_pp": -23.222132,
+        "delta_trades": 22,
+        "delta_max_dd_pp": -18.874846,
+        "delta_total_pnl": -10368.915652,
+        "abs_delta_return_pp": 10.368916
+      },
+      {
+        "tag": "rsi25_maxpos3",
+        "label": "RSI<25 with max 3 concurrent positions",
+        "delta_total_return_pp": 10.202276,
+        "delta_annualized_pp": 28.30461,
+        "delta_trades": 17,
+        "delta_max_dd_pp": -14.590191,
+        "delta_total_pnl": 10202.27594,
+        "abs_delta_return_pp": 10.202276
+      },
+      {
+        "tag": "rsi25_target12",
+        "label": "RSI<25 with +12% buy target",
+        "delta_total_return_pp": 9.033542,
+        "delta_annualized_pp": -13.639737,
+        "delta_trades": 22,
+        "delta_max_dd_pp": -16.971067,
+        "delta_total_pnl": 9033.541889,
+        "abs_delta_return_pp": 9.033542
+      },
+      {
+        "tag": "rsi18_maxpos8",
+        "label": "RSI<18 with max 8 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi18_maxpos3",
+        "label": "RSI<18 with max 3 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi15_maxpos3",
+        "label": "RSI<15 with max 3 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi15_maxpos8",
+        "label": "RSI<15 with max 8 concurrent positions",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      }
+    ]
+  },
+  "caveats": [
+    "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+    "Single-factor variation only: no interaction effects are measured; a knob that is immaterial alone may matter conditional on another.",
+    "Horizon is the realized-trade horizon, not the full 283-day window (no trades in the final ~4 months).",
+    "Per-run full result JSON is retained under research_state/sweep_runs/ for audit."
+  ],
+  "conclusions_md": "**Material knobs** (|\u0394 total return| \u2265 0.5pp, any trade-count change, or |\u0394 total PnL| \u2265 1% of capital when return is not derivable), ranked:\n\n- `rsi25_maxpos8` (RSI<25 with max 8 concurrent positions): \u0394 return +14.2790pp, \u0394 trades +25, \u0394 PnL +14279.05\n- `rsi25_target6` (RSI<25 with +6% buy target): \u0394 return -10.3689pp, \u0394 trades +22, \u0394 PnL -10368.92\n- `rsi25_maxpos3` (RSI<25 with max 3 concurrent positions): \u0394 return +10.2023pp, \u0394 trades +17, \u0394 PnL +10202.28\n- `rsi25_target12` (RSI<25 with +12% buy target): \u0394 return +9.0335pp, \u0394 trades +22, \u0394 PnL +9033.54\n- `rsi18_maxpos8` (RSI<18 with max 8 concurrent positions): \u0394 return n/a, \u0394 trades -6, \u0394 PnL -3248.67\n- `rsi18_maxpos3` (RSI<18 with max 3 concurrent positions): \u0394 return n/a, \u0394 trades -6, \u0394 PnL -3248.67\n- `rsi15_maxpos3` (RSI<15 with max 3 concurrent positions): \u0394 return n/a, \u0394 trades -6, \u0394 PnL -3248.67\n- `rsi15_maxpos8` (RSI<15 with max 8 concurrent positions): \u0394 return n/a, \u0394 trades -6, \u0394 PnL -3248.67\n\n**Immaterial knobs** (|\u0394 total return| < 0.5pp and identical trade count):\n\n- none\n"
+}

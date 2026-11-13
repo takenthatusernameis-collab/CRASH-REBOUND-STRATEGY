@@ -1,0 +1,1269 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T18:39:22.817004+00:00",
+  "grid": "ofat",
+  "run_type": "parameter_sensitivity_sweep",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "inputs": {
+    "manifest": "research_state/cache/okx_1h_full_20251220_20260928/provenance.json",
+    "cache_dir": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/cache/okx_1h_full_20251220_20260928",
+    "universe": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/universe_okx_full_verified.json",
+    "universe_size": 54,
+    "canonical_campaign": "research_state/campaign_results_real_okx_full.json",
+    "capital": 100000.0
+  },
+  "workers": 4,
+  "resumed_runs": 16,
+  "wall_clock_seconds": 541.37,
+  "sequential_equivalent_seconds": 15124.92,
+  "speedup": 27.94,
+  "canonical": {
+    "num_trades": 8,
+    "total_pnl": 9159.691934882958,
+    "metrics_total_return_pct": 9.159691934882952,
+    "sha256_note": "canonical artifact is read-only input to this sweep"
+  },
+  "runs": [
+    {
+      "tag": "baseline_spec",
+      "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
+      "params": {},
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 9.159691934882952,
+        "annualized_return_pct": 22.599525626916606,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6257881282591806,
+        "sortino": 1.2618307809094134,
+        "calmar": 4.379263979604601,
+        "win_rate": 0.5,
+        "profit_factor": 5.23352442904336,
+        "trade_count": 8,
+        "total_pnl": 9159.691934882958,
+        "net_total_pnl": 8141.289620068439,
+        "equity_final": 109159.69193488295,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 981.03
+    },
+    {
+      "tag": "rsi_threshold_15",
+      "label": "RSI(21) crash trigger < 15 (spec 20)",
+      "params": {
+        "rsi_threshold": 15.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -0.06793894002337877,
+        "sharpe": 0.976216896275199,
+        "sortino": 41.046656801870796,
+        "calmar": 82.09331360374192,
+        "win_rate": 0.5,
+        "profit_factor": 83.09331360374159,
+        "trade_count": 2,
+        "total_pnl": 5911.026195224909,
+        "net_total_pnl": 5259.407789696006,
+        "equity_final": 105911.02619522491,
+        "positive_months": 1,
+        "negative_months": 1,
+        "total_months": 2,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 5983.029942372417,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 1,
+            "pnl": -72.00374714750825,
+            "wins": 0
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 1
+        },
+        "traded_symbols": [
+          "BCH"
+        ],
+        "max_live_coin_notional_max": 130667.23320000006,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 981.33
+    },
+    {
+      "tag": "rsi_threshold_18",
+      "label": "RSI(21) crash trigger < 18 (spec 20)",
+      "params": {
+        "rsi_threshold": 18.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -0.06793894002337877,
+        "sharpe": 0.976216896275199,
+        "sortino": 41.046656801870796,
+        "calmar": 82.09331360374192,
+        "win_rate": 0.5,
+        "profit_factor": 83.09331360374159,
+        "trade_count": 2,
+        "total_pnl": 5911.026195224909,
+        "net_total_pnl": 5259.407789696006,
+        "equity_final": 105911.02619522491,
+        "positive_months": 1,
+        "negative_months": 1,
+        "total_months": 2,
+        "by_leg": {
+          "short": {
+            "trades": 1,
+            "pnl": 5983.029942372417,
+            "wins": 1
+          },
+          "buy": {
+            "trades": 1,
+            "pnl": -72.00374714750825,
+            "wins": 0
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 1,
+          "time_exit": 1
+        },
+        "traded_symbols": [
+          "BCH"
+        ],
+        "max_live_coin_notional_max": 130667.23320000006,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 1000.48
+    },
+    {
+      "tag": "rsi_threshold_25",
+      "label": "RSI(21) crash trigger < 25 (spec 20)",
+      "params": {
+        "rsi_threshold": 25.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 17.128398941776645,
+        "annualized_return_pct": 8.454738349734626,
+        "horizon_years": 1.9479452054794522,
+        "max_drawdown_pct": -19.13822718620274,
+        "sharpe": 0.10734902512202628,
+        "sortino": 0.15652835727378078,
+        "calmar": 0.6178685867781206,
+        "win_rate": 0.5,
+        "profit_factor": 1.496047008931852,
+        "trade_count": 30,
+        "total_pnl": 17128.398941776642,
+        "net_total_pnl": 12146.347610770361,
+        "equity_final": 117128.39894177664,
+        "positive_months": 12,
+        "negative_months": 11,
+        "total_months": 23,
+        "by_leg": {
+          "short": {
+            "trades": 2,
+            "pnl": 26812.0096365684,
+            "wins": 2
+          },
+          "buy": {
+            "trades": 28,
+            "pnl": -9683.61069479179,
+            "wins": 13
+          }
+        },
+        "exit_reasons": {
+          "target_rebound_short": 2,
+          "time_exit": 19,
+          "liquidated": 9
+        },
+        "traded_symbols": [
+          "AAVE",
+          "AVAX",
+          "BCH",
+          "ETC",
+          "ETH",
+          "LINK",
+          "LTC",
+          "SOL",
+          "ZEC"
+        ],
+        "max_live_coin_notional_max": 130667.23320000003,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 1040.85
+    },
+    {
+      "tag": "buy_target_6pct",
+      "label": "Buy target +6% (spec +9%)",
+      "params": {
+        "target_pct": 6.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 10.751428703815957,
+        "annualized_return_pct": 148.20885532000693,
+        "horizon_years": 0.11232876712328767,
+        "max_drawdown_pct": -1.9373286531649048,
+        "sharpe": 0.7452521404121496,
+        "sortino": 1.1126865203820686,
+        "calmar": 5.151049940099703,
+        "win_rate": 0.625,
+        "profit_factor": 5.713744226623565,
+        "trade_count": 8,
+        "total_pnl": 10751.428703815971,
+        "net_total_pnl": 9555.916002823837,
+        "equity_final": 110751.42870381597,
+        "positive_months": 5,
+        "negative_months": 3,
+        "total_months": 8,
+        "by_leg": {
+          "buy": {
+            "trades": 5,
+            "pnl": 8141.439330697238,
+            "wins": 3
+          },
+          "short": {
+            "trades": 3,
+            "pnl": 2609.989373118732,
+            "wins": 2
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 4,
+          "target_rebound_short": 3
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 970.03
+    },
+    {
+      "tag": "buy_target_12pct",
+      "label": "Buy target +12% (spec +9%)",
+      "params": {
+        "target_pct": 12.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6265499322694893,
+        "sortino": 1.7889517754701596,
+        "calmar": 6.208670916967106,
+        "win_rate": 0.5,
+        "profit_factor": 7.002049687181563,
+        "trade_count": 8,
+        "total_pnl": 12986.089258227512,
+        "net_total_pnl": 11542.540227098663,
+        "equity_final": 112986.08925822751,
+        "positive_months": 3,
+        "negative_months": 3,
+        "total_months": 6,
+        "by_leg": {
+          "buy": {
+            "trades": 8,
+            "pnl": 12986.089258227512,
+            "wins": 4
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 7
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 928.9
+    },
+    {
+      "tag": "buy_hold_24h",
+      "label": "Buy max hold 24h (spec 50h)",
+      "params": {
+        "time_exit_max_bars": 24
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 8.924271997568,
+        "annualized_return_pct": 4.948445689447745,
+        "horizon_years": 1.7698630136986302,
+        "max_drawdown_pct": -0.24570200289956243,
+        "sharpe": 1.0047083426169157,
+        "sortino": 6.395422196978916,
+        "calmar": 36.179050065287825,
+        "win_rate": 0.75,
+        "profit_factor": 36.90178871696091,
+        "trade_count": 8,
+        "total_pnl": 8924.271997567987,
+        "net_total_pnl": 7958.596932190743,
+        "equity_final": 108924.271997568,
+        "positive_months": 6,
+        "negative_months": 1,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 5936.047844085803,
+            "wins": 5
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "time_exit": 7,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 977.66
+    },
+    {
+      "tag": "buy_hold_72h",
+      "label": "Buy max hold 72h (spec 50h)",
+      "params": {
+        "time_exit_max_bars": 72
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -3.957908624904676,
+        "sharpe": 0.5212425537568258,
+        "sortino": 0.75755169736687,
+        "calmar": 2.630112777168844,
+        "win_rate": 0.625,
+        "profit_factor": 3.630112777168844,
+        "trade_count": 8,
+        "total_pnl": 10738.899020495915,
+        "net_total_pnl": 9563.65845299283,
+        "equity_final": 110738.89902049591,
+        "positive_months": 5,
+        "negative_months": 2,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 7750.674867013732,
+            "wins": 4
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 986.68
+    },
+    {
+      "tag": "short_target_6pct",
+      "label": "Rebound-short target -6% (spec -9%)",
+      "params": {
+        "rebound_short_target_pct": 6.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6426937146280114,
+        "sortino": 1.5474662784531614,
+        "calmar": 5.3705801407052665,
+        "win_rate": 0.5,
+        "profit_factor": 6.191850121321922,
+        "trade_count": 8,
+        "total_pnl": 11233.134113304168,
+        "net_total_pnl": 9984.353962856814,
+        "equity_final": 111233.13411330417,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 5061.666331903392,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 975.17
+    },
+    {
+      "tag": "short_target_12pct",
+      "label": "Rebound-short target -12% (spec -9%)",
+      "params": {
+        "rebound_short_target_pct": 12.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 9.159691934882952,
+        "annualized_return_pct": 22.599525626916606,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6257881282591806,
+        "sortino": 1.2618307809094134,
+        "calmar": 4.379263979604601,
+        "win_rate": 0.5,
+        "profit_factor": 5.23352442904336,
+        "trade_count": 8,
+        "total_pnl": 9159.691934882958,
+        "net_total_pnl": 8141.289620068439,
+        "equity_final": 109159.69193488295,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 852.11
+    },
+    {
+      "tag": "short_hold_24h",
+      "label": "Rebound-short max hold 24h (spec 48h)",
+      "params": {
+        "rebound_short_time_exit_bars": 24
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6222282885834276,
+        "sortino": 1.2434386104306867,
+        "calmar": 4.315432782186683,
+        "win_rate": 0.5,
+        "profit_factor": 5.171817499554207,
+        "trade_count": 8,
+        "total_pnl": 9026.182261361148,
+        "net_total_pnl": 8022.614056676203,
+        "equity_final": 109026.18226136114,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2854.714479960374,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 851.72
+    },
+    {
+      "tag": "short_hold_72h",
+      "label": "Rebound-short max hold 72h (spec 48h)",
+      "params": {
+        "rebound_short_time_exit_bars": 72
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6098135764666263,
+        "sortino": 1.1906204466499273,
+        "calmar": 4.1321239854657525,
+        "win_rate": 0.5,
+        "profit_factor": 4.994609121025112,
+        "trade_count": 8,
+        "total_pnl": 8642.772602857436,
+        "net_total_pnl": 7681.8046154373305,
+        "equity_final": 108642.77260285744,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2471.3048214566625,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 848.2
+    },
+    {
+      "tag": "eth_hedge_cap_1x",
+      "label": "ETH hedge cap 1x position (spec 3x)",
+      "params": {
+        "hedge_cap_multiplier": 1.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 6.806209709676692,
+        "annualized_return_pct": 16.541959679414163,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -1.4492185324447266,
+        "sharpe": 0.5555259101002691,
+        "sortino": 1.025008709174585,
+        "calmar": 4.6762608431301915,
+        "win_rate": 0.625,
+        "profit_factor": 5.215270698476577,
+        "trade_count": 8,
+        "total_pnl": 6806.209709676681,
+        "net_total_pnl": 6049.395937388079,
+        "equity_final": 106806.20970967668,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 3817.9855561944983,
+            "wins": 4
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 855.96
+    },
+    {
+      "tag": "eth_hedge_cap_2x",
+      "label": "ETH hedge cap 2x position (spec 3x)",
+      "params": {
+        "hedge_cap_multiplier": 2.0
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 9.159691934882952,
+        "annualized_return_pct": 22.599525626916606,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6257881282591806,
+        "sortino": 1.2618307809094134,
+        "calmar": 4.379263979604601,
+        "win_rate": 0.5,
+        "profit_factor": 5.23352442904336,
+        "trade_count": 8,
+        "total_pnl": 9159.691934882958,
+        "net_total_pnl": 8141.289620068439,
+        "equity_final": 109159.69193488295,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 771.04
+    },
+    {
+      "tag": "no_rebound_short",
+      "label": "Rebound short disabled (spec enabled)",
+      "params": {
+        "enable_rebound_short": false
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": null,
+        "annualized_return_pct": null,
+        "horizon_years": null,
+        "max_drawdown_pct": -2.1869949335612238,
+        "sharpe": 0.5854276376515046,
+        "sortino": 2.076354173589815,
+        "calmar": 6.76378775529933,
+        "win_rate": 0.5,
+        "profit_factor": 7.554601105738973,
+        "trade_count": 8,
+        "total_pnl": 15260.099738092675,
+        "net_total_pnl": 13563.888703573279,
+        "equity_final": 115260.09973809267,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 8,
+            "pnl": 15260.099738092675,
+            "wins": 4
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 538.13
+    },
+    {
+      "tag": "max_positions_3",
+      "label": "Max concurrent positions 3 (spec 5)",
+      "params": {
+        "max_positions": 3
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 9.159691934882952,
+        "annualized_return_pct": 22.599525626916606,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6257881282591806,
+        "sortino": 1.2618307809094134,
+        "calmar": 4.379263979604601,
+        "win_rate": 0.5,
+        "profit_factor": 5.23352442904336,
+        "trade_count": 8,
+        "total_pnl": 9159.691934882958,
+        "net_total_pnl": 8141.289620068439,
+        "equity_final": 109159.69193488295,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 790.47
+    },
+    {
+      "tag": "max_positions_8",
+      "label": "Max concurrent positions 8 (spec 5)",
+      "params": {
+        "max_positions": 8
+      },
+      "status": "ok",
+      "metrics": {
+        "total_return_pct": 9.159691934882952,
+        "annualized_return_pct": 22.599525626916606,
+        "horizon_years": 0.4301369863013699,
+        "max_drawdown_pct": -2.0274965243788596,
+        "sharpe": 0.6257881282591806,
+        "sortino": 1.2618307809094134,
+        "calmar": 4.379263979604601,
+        "win_rate": 0.5,
+        "profit_factor": 5.23352442904336,
+        "trade_count": 8,
+        "total_pnl": 9159.691934882958,
+        "net_total_pnl": 8141.289620068439,
+        "equity_final": 109159.69193488295,
+        "positive_months": 4,
+        "negative_months": 3,
+        "total_months": 7,
+        "by_leg": {
+          "buy": {
+            "trades": 7,
+            "pnl": 6171.467781400775,
+            "wins": 3
+          },
+          "short": {
+            "trades": 1,
+            "pnl": 2988.2241534821824,
+            "wins": 1
+          }
+        },
+        "exit_reasons": {
+          "liquidated": 1,
+          "time_exit": 6,
+          "target_rebound_short": 1
+        },
+        "traded_symbols": [
+          "AVAX",
+          "BCH",
+          "ETH",
+          "LINK",
+          "SOL"
+        ],
+        "max_live_coin_notional_max": 120000.0,
+        "gross_cap_usd": 120000.0
+      },
+      "runtime_seconds": 775.16
+    }
+  ],
+  "rejected_runs": [
+    {
+      "tag": "position_size_0p5pct",
+      "label": "Position size 0.5% of 24h volume (spec 1.25%)",
+      "params": {
+        "position_size_pct_of_daily_volume": 0.5
+      },
+      "status": "rejected",
+      "error": "ValueError: position_size_pct_of_daily_volume 0.5 is not the spec 1.25% of 24h volume; volume-based sizing is not a free parameter in spec-compliant paths"
+    },
+    {
+      "tag": "position_size_2p0pct",
+      "label": "Position size 2.0% of 24h volume (spec 1.25%)",
+      "params": {
+        "position_size_pct_of_daily_volume": 2.0
+      },
+      "status": "rejected",
+      "error": "ValueError: position_size_pct_of_daily_volume 2.0 is not the spec 1.25% of 24h volume; volume-based sizing is not a free parameter in spec-compliant paths"
+    }
+  ],
+  "conclusions": {
+    "baseline": {
+      "tag": "baseline_spec",
+      "total_return_pct": 9.159691934882952,
+      "trade_count": 8
+    },
+    "material_knobs": [
+      {
+        "tag": "rsi_threshold_25",
+        "label": "RSI(21) crash trigger < 25 (spec 20)",
+        "delta_total_return_pp": 7.968707,
+        "delta_annualized_pp": -14.144787,
+        "delta_trades": 22,
+        "delta_max_dd_pp": -17.110731,
+        "delta_total_pnl": 7968.707007,
+        "abs_delta_return_pp": 7.968707
+      },
+      {
+        "tag": "no_rebound_short",
+        "label": "Rebound short disabled (spec enabled)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": -0.159498,
+        "delta_total_pnl": 6100.407803,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "buy_target_12pct",
+        "label": "Buy target +12% (spec +9%)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 3826.397323,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi_threshold_15",
+        "label": "RSI(21) crash trigger < 15 (spec 20)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi_threshold_18",
+        "label": "RSI(21) crash trigger < 18 (spec 20)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "eth_hedge_cap_1x",
+        "label": "ETH hedge cap 1x position (spec 3x)",
+        "delta_total_return_pp": -2.353482,
+        "delta_annualized_pp": -6.057566,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.578278,
+        "delta_total_pnl": -2353.482225,
+        "abs_delta_return_pp": 2.353482
+      },
+      {
+        "tag": "short_target_6pct",
+        "label": "Rebound-short target -6% (spec -9%)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 2073.442178,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "buy_target_6pct",
+        "label": "Buy target +6% (spec +9%)",
+        "delta_total_return_pp": 1.591737,
+        "delta_annualized_pp": 125.60933,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.090168,
+        "delta_total_pnl": 1591.736769,
+        "abs_delta_return_pp": 1.591737
+      },
+      {
+        "tag": "buy_hold_72h",
+        "label": "Buy max hold 72h (spec 50h)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": -1.930412,
+        "delta_total_pnl": 1579.207086,
+        "abs_delta_return_pp": null
+      }
+    ],
+    "immaterial_knobs": [
+      {
+        "tag": "short_hold_72h",
+        "label": "Rebound-short max hold 72h (spec 48h)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": -516.919332,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "buy_hold_24h",
+        "label": "Buy max hold 24h (spec 50h)",
+        "delta_total_return_pp": -0.23542,
+        "delta_annualized_pp": -17.65108,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 1.781795,
+        "delta_total_pnl": -235.419937,
+        "abs_delta_return_pp": 0.23542
+      },
+      {
+        "tag": "short_hold_24h",
+        "label": "Rebound-short max hold 24h (spec 48h)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": -133.509674,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "short_target_12pct",
+        "label": "Rebound-short target -12% (spec -9%)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      },
+      {
+        "tag": "eth_hedge_cap_2x",
+        "label": "ETH hedge cap 2x position (spec 3x)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      },
+      {
+        "tag": "max_positions_3",
+        "label": "Max concurrent positions 3 (spec 5)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      },
+      {
+        "tag": "max_positions_8",
+        "label": "Max concurrent positions 8 (spec 5)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      }
+    ],
+    "ranked": [
+      {
+        "tag": "rsi_threshold_25",
+        "label": "RSI(21) crash trigger < 25 (spec 20)",
+        "delta_total_return_pp": 7.968707,
+        "delta_annualized_pp": -14.144787,
+        "delta_trades": 22,
+        "delta_max_dd_pp": -17.110731,
+        "delta_total_pnl": 7968.707007,
+        "abs_delta_return_pp": 7.968707
+      },
+      {
+        "tag": "no_rebound_short",
+        "label": "Rebound short disabled (spec enabled)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": -0.159498,
+        "delta_total_pnl": 6100.407803,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "buy_target_12pct",
+        "label": "Buy target +12% (spec +9%)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 3826.397323,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi_threshold_15",
+        "label": "RSI(21) crash trigger < 15 (spec 20)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "rsi_threshold_18",
+        "label": "RSI(21) crash trigger < 18 (spec 20)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": -6,
+        "delta_max_dd_pp": 1.959558,
+        "delta_total_pnl": -3248.66574,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "eth_hedge_cap_1x",
+        "label": "ETH hedge cap 1x position (spec 3x)",
+        "delta_total_return_pp": -2.353482,
+        "delta_annualized_pp": -6.057566,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.578278,
+        "delta_total_pnl": -2353.482225,
+        "abs_delta_return_pp": 2.353482
+      },
+      {
+        "tag": "short_target_6pct",
+        "label": "Rebound-short target -6% (spec -9%)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 2073.442178,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "buy_target_6pct",
+        "label": "Buy target +6% (spec +9%)",
+        "delta_total_return_pp": 1.591737,
+        "delta_annualized_pp": 125.60933,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.090168,
+        "delta_total_pnl": 1591.736769,
+        "abs_delta_return_pp": 1.591737
+      },
+      {
+        "tag": "buy_hold_72h",
+        "label": "Buy max hold 72h (spec 50h)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": -1.930412,
+        "delta_total_pnl": 1579.207086,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "short_hold_72h",
+        "label": "Rebound-short max hold 72h (spec 48h)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": -516.919332,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "buy_hold_24h",
+        "label": "Buy max hold 24h (spec 50h)",
+        "delta_total_return_pp": -0.23542,
+        "delta_annualized_pp": -17.65108,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 1.781795,
+        "delta_total_pnl": -235.419937,
+        "abs_delta_return_pp": 0.23542
+      },
+      {
+        "tag": "short_hold_24h",
+        "label": "Rebound-short max hold 24h (spec 48h)",
+        "delta_total_return_pp": null,
+        "delta_annualized_pp": null,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": -133.509674,
+        "abs_delta_return_pp": null
+      },
+      {
+        "tag": "short_target_12pct",
+        "label": "Rebound-short target -12% (spec -9%)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      },
+      {
+        "tag": "eth_hedge_cap_2x",
+        "label": "ETH hedge cap 2x position (spec 3x)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      },
+      {
+        "tag": "max_positions_3",
+        "label": "Max concurrent positions 3 (spec 5)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      },
+      {
+        "tag": "max_positions_8",
+        "label": "Max concurrent positions 8 (spec 5)",
+        "delta_total_return_pp": 0.0,
+        "delta_annualized_pp": 0.0,
+        "delta_trades": 0,
+        "delta_max_dd_pp": 0.0,
+        "delta_total_pnl": 0.0,
+        "abs_delta_return_pp": 0.0
+      }
+    ]
+  },
+  "caveats": [
+    "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+    "Single-factor variation only: no interaction effects are measured; a knob that is immaterial alone may matter conditional on another.",
+    "Horizon is the realized-trade horizon, not the full 283-day window (no trades in the final ~4 months).",
+    "Per-run full result JSON is retained under research_state/sweep_runs/ for audit."
+  ],
+  "conclusions_md": "**Material knobs** (|\u0394 total return| \u2265 0.5pp, any trade-count change, or |\u0394 total PnL| \u2265 1% of capital when return is not derivable), ranked:\n\n- `rsi_threshold_25` (RSI(21) crash trigger < 25 (spec 20)): \u0394 return +7.9687pp, \u0394 trades +22, \u0394 PnL +7968.71\n- `no_rebound_short` (Rebound short disabled (spec enabled)): \u0394 return n/a, \u0394 trades +0, \u0394 PnL +6100.41\n- `buy_target_12pct` (Buy target +12% (spec +9%)): \u0394 return n/a, \u0394 trades +0, \u0394 PnL +3826.40\n- `rsi_threshold_15` (RSI(21) crash trigger < 15 (spec 20)): \u0394 return n/a, \u0394 trades -6, \u0394 PnL -3248.67\n- `rsi_threshold_18` (RSI(21) crash trigger < 18 (spec 20)): \u0394 return n/a, \u0394 trades -6, \u0394 PnL -3248.67\n- `eth_hedge_cap_1x` (ETH hedge cap 1x position (spec 3x)): \u0394 return -2.3535pp, \u0394 trades +0, \u0394 PnL -2353.48\n- `short_target_6pct` (Rebound-short target -6% (spec -9%)): \u0394 return n/a, \u0394 trades +0, \u0394 PnL +2073.44\n- `buy_target_6pct` (Buy target +6% (spec +9%)): \u0394 return +1.5917pp, \u0394 trades +0, \u0394 PnL +1591.74\n- `buy_hold_72h` (Buy max hold 72h (spec 50h)): \u0394 return n/a, \u0394 trades +0, \u0394 PnL +1579.21\n\n**Immaterial knobs** (|\u0394 total return| < 0.5pp and identical trade count):\n\n- `short_hold_72h` (Rebound-short max hold 72h (spec 48h)): \u0394 return n/a, \u0394 trades +0\n- `buy_hold_24h` (Buy max hold 24h (spec 50h)): \u0394 return -0.2354pp, \u0394 trades +0\n- `short_hold_24h` (Rebound-short max hold 24h (spec 48h)): \u0394 return n/a, \u0394 trades +0\n- `short_target_12pct` (Rebound-short target -12% (spec -9%)): \u0394 return +0.0000pp, \u0394 trades +0\n- `eth_hedge_cap_2x` (ETH hedge cap 2x position (spec 3x)): \u0394 return +0.0000pp, \u0394 trades +0\n- `max_positions_3` (Max concurrent positions 3 (spec 5)): \u0394 return +0.0000pp, \u0394 trades +0\n- `max_positions_8` (Max concurrent positions 8 (spec 5)): \u0394 return +0.0000pp, \u0394 trades +0\n"
+}

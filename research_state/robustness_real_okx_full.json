@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T18:31:30.039652+00:00",
+  "run_type": "robustness_signal_vs_noise",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "inputs": {
+    "canonical_campaign": "research_state/campaign_results_real_okx_full.json",
+    "census": "research_state/crash_event_census_real_okx_full.json",
+    "capital": 100000.0,
+    "trades": 8,
+    "trade_symbols": [
+      {
+        "symbol": "SOL",
+        "trades": 3,
+        "pnl": 4667.108476,
+        "pnl_share": 0.509527
+      },
+      {
+        "symbol": "AVAX",
+        "trades": 1,
+        "pnl": 3499.373791,
+        "pnl_share": 0.382041
+      },
+      {
+        "symbol": "BCH",
+        "trades": 2,
+        "pnl": 2916.220406,
+        "pnl_share": 0.318375
+      },
+      {
+        "symbol": "ETH",
+        "trades": 1,
+        "pnl": -121.633793,
+        "pnl_share": -0.013279
+      },
+      {
+        "symbol": "LINK",
+        "trades": 1,
+        "pnl": -1801.376946,
+        "pnl_share": -0.196663
+      }
+    ]
+  },
+  "bootstrap": {
+    "resamples": 10000,
+    "seed": 20261113,
+    "method": "with-replacement over realized trade total_pnl",
+    "observed_total_pnl": 9159.691935,
+    "ci_low_pnl": -930.659901,
+    "ci_high_pnl": 19152.378811,
+    "ci_low_total_return_pct": -0.93066,
+    "ci_high_total_return_pct": 19.152379,
+    "prob_total_pnl_positive": 0.9633,
+    "ci_low_win_rate": 0.125,
+    "ci_high_win_rate": 0.875,
+    "ci_low_profit_factor": 0.801944,
+    "ci_high_profit_factor": 114.553625,
+    "observed_win_rate": 0.5,
+    "observed_profit_factor": 5.233524,
+    "small_sample_limitation": "Bootstrap over 8 realized trades cannot manufacture information that is not in the sample; the interval is wide and reflects resampling noise, not a guarantee of future performance."
+  },
+  "sign_flip": {
+    "combinations": 256,
+    "observed_total_pnl": 9159.691935,
+    "p_value": 0.09375,
+    "p_value_definition": "fraction of 2^n sign-flip totals >= observed total (one-sided)",
+    "p_value_two_sided": 0.1875,
+    "sign_flipped_total_min": -13486.910114,
+    "sign_flipped_total_max": 13486.910114
+  },
+  "concentration": {
+    "symbols": [
+      {
+        "symbol": "SOL",
+        "trades": 3,
+        "pnl": 4667.108476,
+        "pnl_share": 0.509527
+      },
+      {
+        "symbol": "AVAX",
+        "trades": 1,
+        "pnl": 3499.373791,
+        "pnl_share": 0.382041
+      },
+      {
+        "symbol": "BCH",
+        "trades": 2,
+        "pnl": 2916.220406,
+        "pnl_share": 0.318375
+      },
+      {
+        "symbol": "ETH",
+        "trades": 1,
+        "pnl": -121.633793,
+        "pnl_share": -0.013279
+      },
+      {
+        "symbol": "LINK",
+        "trades": 1,
+        "pnl": -1801.376946,
+        "pnl_share": -0.196663
+      }
+    ],
+    "total_pnl": 9159.691935,
+    "top_symbol_pnl_share": 0.509527,
+    "top_trade_pnl_share": 0.382041,
+    "herfindahl_hhi": 0.545788,
+    "effective_symbol_count": 1.832212,
+    "leave_one_symbol_out": [
+      {
+        "excluded_symbol": "SOL",
+        "total_pnl_without_symbol": 4492.583459
+      },
+      {
+        "excluded_symbol": "ETH",
+        "total_pnl_without_symbol": 9281.325728
+      },
+      {
+        "excluded_symbol": "LINK",
+        "total_pnl_without_symbol": 10961.06888
+      },
+      {
+        "excluded_symbol": "BCH",
+        "total_pnl_without_symbol": 6243.471529
+      },
+      {
+        "excluded_symbol": "AVAX",
+        "total_pnl_without_symbol": 5660.318144
+      }
+    ],
+    "leave_one_trade_out": [
+      {
+        "excluded_trade_index": 0,
+        "excluded_symbol": "SOL",
+        "total_pnl_without_trade": 5997.722624
+      },
+      {
+        "excluded_trade_index": 1,
+        "excluded_symbol": "ETH",
+        "total_pnl_without_trade": 9281.325728
+      },
+      {
+        "excluded_trade_index": 2,
+        "excluded_symbol": "SOL",
+        "total_pnl_without_trade": 9328.286539
+      },
+      {
+        "excluded_trade_index": 3,
+        "excluded_symbol": "LINK",
+        "total_pnl_without_trade": 10961.06888
+      },
+      {
+        "excluded_trade_index": 4,
+        "excluded_symbol": "BCH",
+        "total_pnl_without_trade": 6171.467781
+      },
+      {
+        "excluded_trade_index": 5,
+        "excluded_symbol": "AVAX",
+        "total_pnl_without_trade": 5660.318144
+      },
+      {
+        "excluded_trade_index": 6,
+        "excluded_symbol": "SOL",
+        "total_pnl_without_trade": 7485.958166
+      },
+      {
+        "excluded_trade_index": 7,
+        "excluded_symbol": "BCH",
+        "total_pnl_without_trade": 9231.695682
+      }
+    ]
+  },
+  "time_split": {
+    "first_half_pnl": 1070.363968,
+    "second_half_pnl": 8089.327966,
+    "first_half_trades": 4,
+    "second_half_trades": 4,
+    "first_half_symbols": [
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "second_half_symbols": [
+      "AVAX",
+      "BCH",
+      "SOL"
+    ],
+    "monthly": {
+      "2026-01": {
+        "trades": 4,
+        "pnl": 1070.363968
+      },
+      "2026-02": {
+        "trades": 3,
+        "pnl": 8161.331714
+      },
+      "2026-05": {
+        "trades": 1,
+        "pnl": -72.003747
+      }
+    },
+    "first_exit_utc": "2026-01-20T22:00:00+00:00",
+    "last_exit_utc": "2026-05-20T10:00:00+00:00",
+    "realized_span_days": 119.5,
+    "realized_span_years": 0.327173,
+    "total_pnl": 9159.691935,
+    "annualization_note": "Annualization uses the realized trade span, not the full 283-day window; there is a multi-month no-trade tail after the last exit."
+  },
+  "placebo_absence": {
+    "design": "Compare the J1 crash-event census funnel (crashes -> volume_gate_pass -> bounce_confirmed -> regime_min_price_ok -> signal_gate_pass -> trades) to the realized trade set; every signal-gate event that did not become a trade is an absence the strategy must explain.",
+    "census_available": true,
+    "realized_trades": 8,
+    "funnel": {
+      "events_total": 342,
+      "volume_gate_pass": 187,
+      "bounce_confirmed": 39,
+      "regime_min_price_ok": 89,
+      "signal_gate_pass": 11,
+      "trades_in_campaign": 8,
+      "trades_matched_to_events": 8,
+      "unmatched_campaign_trades": [],
+      "unexplained_signal_gate_events": 0,
+      "blocking_reasons_sum": 342
+    },
+    "signal_gate_events": 11,
+    "signal_gate_events_not_traded": 3,
+    "absence_blocking_reason_counts": {
+      "one_position_per_coin": 3
+    },
+    "blocking_reason_counts": {
+      "trade_opened": 8,
+      "volume_gate": 155,
+      "bounce_not_confirmed": 159,
+      "regime_min_price": 17,
+      "one_position_per_coin": 3
+    },
+    "limitation": "The census is the absence ledger: signal-gate events that did not become trades are recorded with their blocking reason; no unseen data is fabricated."
+  },
+  "conclusion": {
+    "verdict": "underpowered",
+    "rationale": "P(total PnL > 0) is 0.9633 but the bootstrap 95% CI still crosses zero [-930.66, 19,152.38]; the sample is too small to separate signal from luck at decision grade.",
+    "caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence."
+  },
+  "caveats": [
+    "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+    "8 realized trades is a small sample; the bootstrap quantifies resampling uncertainty, not out-of-sample performance.",
+    "Realized-horizon annualization only; a multi-month no-trade tail follows the last exit, so do not annualize the full 283-day window.",
+    "This is an evidence-chain and signal-vs-noise check, not proof of future profitability."
+  ]
+}

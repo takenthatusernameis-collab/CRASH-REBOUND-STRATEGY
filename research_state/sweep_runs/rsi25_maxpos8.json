@@ -1,0 +1,58 @@
+{
+  "tag": "rsi25_maxpos8",
+  "label": "RSI<25 with max 8 concurrent positions",
+  "params": {
+    "rsi_threshold": 25.0,
+    "max_positions": 8
+  },
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": 23.438742424202765,
+    "annualized_return_pct": 11.416027538654049,
+    "horizon_years": 1.9479452054794522,
+    "max_drawdown_pct": -18.339283066110266,
+    "sharpe": 0.1387778989664591,
+    "sortino": 0.19472328121134982,
+    "calmar": 0.8455000789464564,
+    "win_rate": 0.5454545454545454,
+    "profit_factor": 1.678797715546665,
+    "trade_count": 33,
+    "total_pnl": 23438.74242420277,
+    "net_total_pnl": 17796.006426493055,
+    "equity_final": 123438.74242420276,
+    "positive_months": 14,
+    "negative_months": 11,
+    "total_months": 25,
+    "by_leg": {
+      "short": {
+        "trades": 3,
+        "pnl": 31414.4243587241,
+        "wins": 3
+      },
+      "buy": {
+        "trades": 30,
+        "pnl": -7975.681934521363,
+        "wins": 15
+      }
+    },
+    "exit_reasons": {
+      "target_rebound_short": 3,
+      "time_exit": 21,
+      "liquidated": 9
+    },
+    "traded_symbols": [
+      "AAVE",
+      "AVAX",
+      "BCH",
+      "ETC",
+      "ETH",
+      "LINK",
+      "LTC",
+      "SOL",
+      "ZEC"
+    ],
+    "max_live_coin_notional_max": 130667.23320000003,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 801.77
+}

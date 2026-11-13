@@ -1,0 +1,49 @@
+{
+  "tag": "rsi18_maxpos3",
+  "label": "RSI<18 with max 3 concurrent positions",
+  "params": {
+    "rsi_threshold": 18.0,
+    "max_positions": 3
+  },
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": null,
+    "annualized_return_pct": null,
+    "horizon_years": null,
+    "max_drawdown_pct": -0.06793894002337877,
+    "sharpe": 0.976216896275199,
+    "sortino": 41.046656801870796,
+    "calmar": 82.09331360374192,
+    "win_rate": 0.5,
+    "profit_factor": 83.09331360374159,
+    "trade_count": 2,
+    "total_pnl": 5911.026195224909,
+    "net_total_pnl": 5259.407789696006,
+    "equity_final": 105911.02619522491,
+    "positive_months": 1,
+    "negative_months": 1,
+    "total_months": 2,
+    "by_leg": {
+      "short": {
+        "trades": 1,
+        "pnl": 5983.029942372417,
+        "wins": 1
+      },
+      "buy": {
+        "trades": 1,
+        "pnl": -72.00374714750825,
+        "wins": 0
+      }
+    },
+    "exit_reasons": {
+      "target_rebound_short": 1,
+      "time_exit": 1
+    },
+    "traded_symbols": [
+      "BCH"
+    ],
+    "max_live_coin_notional_max": 130667.23320000006,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 813.75
+}

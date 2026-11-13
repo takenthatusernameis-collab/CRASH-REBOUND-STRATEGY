@@ -4,9 +4,45 @@
   "params": {
     "enable_rebound_short": false
   },
-  "status": "rejected",
-  "error_type": "TypeError",
-  "error": "src.strategy.config.StrategyConfig() got multiple values for keyword argument 'enable_rebound_short'",
-  "metrics": null,
-  "runtime_seconds": 0.0
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": null,
+    "annualized_return_pct": null,
+    "horizon_years": null,
+    "max_drawdown_pct": -2.1869949335612238,
+    "sharpe": 0.5854276376515046,
+    "sortino": 2.076354173589815,
+    "calmar": 6.76378775529933,
+    "win_rate": 0.5,
+    "profit_factor": 7.554601105738973,
+    "trade_count": 8,
+    "total_pnl": 15260.099738092675,
+    "net_total_pnl": 13563.888703573279,
+    "equity_final": 115260.09973809267,
+    "positive_months": 4,
+    "negative_months": 3,
+    "total_months": 7,
+    "by_leg": {
+      "buy": {
+        "trades": 8,
+        "pnl": 15260.099738092675,
+        "wins": 4
+      }
+    },
+    "exit_reasons": {
+      "liquidated": 1,
+      "time_exit": 6,
+      "target": 1
+    },
+    "traded_symbols": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "max_live_coin_notional_max": 120000.0,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 538.13
 }
