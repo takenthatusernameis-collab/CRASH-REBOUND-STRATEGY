@@ -1,30 +1,33 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T07:56:11Z
-**Supersedes:** 2026-11-13T07:42:00Z. Tree was clean at `b323ce0`; no uncommitted changes at handoff time. Nothing to commit before starting Phase G+. Do not `git reset`/`checkout` anything away.
+**Handoff updated (UTC):** 2026-11-13T08:07:08Z
+**Supersedes:** 2026-11-13T07:56:11Z (and the earlier 07:42:00Z handoff).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `b323ce0` (verified via `git status --porcelain`: clean tree; nothing uncommitted at handoff time).
+**Branch:** `main` @ `c148d3d`, tree clean at session start. This session adds only `requirements-test.txt`, `scripts/bootstrap_env.sh`, and this file. Do **not** `git reset`/`checkout` anything away. Nothing needs to be committed before starting Phase G+.
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> *(Inferred from repo `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtest — and the state verified on 2026-11-13T07:42:00Z.)*
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T08:07:08Z.**
+>
+> **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk. Setup is done. The environment bootstrap is now one command. **Do not stop after setup, after the test suite, or after a summary — the session is incomplete until the Phase J artifacts exist and this file is re-dated.**
 >
 > **Priority order (repo-aligned: crash-rebound strategy first, everything else second):**
 >
-> **Phase G+ — Spec-vs-actual analysis artifact (PRIMARY, do not skip).** Write `research_state/real_okx_full_spec_comparison.md` AND `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must be a decision-grade report: a metric-by-metric table (spec vs actual) plus evidence-backed divergence explanations for EVERY row. A summary paragraph is not acceptable.
+> 1. **Phase G+ — Spec-vs-actual analysis artifact (PRIMARY, do not skip).** Write `research_state/real_okx_full_spec_comparison.md` **and** `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must be a decision-grade report: a metric-by-metric table (spec vs actual) plus evidence-backed divergence explanations for EVERY row, with exact artifact values and code-path citations. A summary paragraph is not acceptable.
+> 2. **Phase H — Reproducibility & hardening.** Re-run the suite to green, codify the reproducibility contract as an automated test, and confirm no gate bypass. (The persisted-rebound-fields regression test already exists; do not rewrite it.)
+> 3. **Phase I — Update this HANDOFF** with exact commands, observed test counts, artifact paths + sha256, conclusions, and the next highest-value heavy work.
+> 4. **Phase J — Next focus campaign (NEW, heavy).** Crash-event census across all 54 symbols + a parameter-sensitivity sweep + a real Hyperliquid-native acquisition runbook. This is the "future agents cannot avoid heavy work" phase: see §6 for mandatory outputs.
 >
-> **Phase H — Reproducibility & hardening.** Re-run the full suite to green, re-derive the universe and re-run the campaign from on-disk provenance/cache/universe, prove `results.trades` and `results.total_pnl` are byte-stable across runs (exclude the volatile top-level `timestamp`), and add a regression test that serialized campaign trades carry `rebound_short_pnl`/`rebound_hedge_pnl`. **Already verified manually this session — see §0; Phase H is now mostly a matter of codifying the checks as tests.**
->
-> **Phase I — Update this HANDOFF** with exact commands, test counts, artifact paths + sha256, conclusions, and the next highest-value heavy work (sensitivity/reruns; a REAL Hyperliquid-native acquisition plan per `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` if true spec parity is required — never fabricate data).
+> **Mandatory heavy campaign (execute in order; do not stop after step 1):**
+> 0. **Bootstrap:** `bash scripts/bootstrap_env.sh` (~1 min; runner image has no pytest/numpy/pandas/requests/pyarrow).
+> 1. **Phase G+** (primary, evidence-first spec-vs-actual).
+> 2. **Phase H** (reproducibility & hardening).
+> 3. **Phase I** (update this handoff).
+> 4. **Phase J** (census + sensitivity + acquisition runbook).
 >
 > **Do not redo:** the real OKX 1H archive acquisition, the 54-symbol universe derivation, or the full campaign run. All are on disk and verified below (§2). Start from the artifacts.
 >
 > **Do not claim Hyperliquid parity from OKX data.** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
->
-> **Mandatory heavy campaign (execute Phase G+ → H → I in order; do not stop after step 1):**
-> 1. **Phase G+** (primary, evidence-first spec-vs-actual).
-> 2. **Phase H** (reproducibility & hardening).
-> 3. **Phase I** (update this handoff).
 >
 > **Definition of done for Phase G+ (all must be true):**
 > - Spec-vs-actual table includes: total return, annualized return, worst drawdown, positive-month count, trade count, buys/shorts and their win rates, rebound-short profit contribution, and symbol-universe size.
@@ -34,23 +37,22 @@
 
 ---
 
-## 0. What this session (2026-11-13T07:42Z) verified — no bottlenecks remain
-
-The prior handoff claimed a RED suite was fixed and the tree clean. Re-verification from a fresh checkout at `8e38824` confirms the fixes hold, corrects one stale number, and adds the missing regression test.
+## 0. What the 2026-11-13T08:07Z session verified — no code bottlenecks remain
 
 | Check | Result this session | Evidence |
 |---|---|---|
-| Full suite (fresh venv: `pytest numpy pandas requests`) | **936 passed, 1 skipped**, ~385 s **after** adding the new Phase H regression test (`tests/test_campaign_trade_persistence_rebound_fields_20261113.py`, 3 tests); 933 passed before it. | `PYTHONPATH=. python -m pytest -q` |
-| All skips explained | 11 × `pyarrow not installed` (5 files) + 1 × `tmp_path resolves to temp scratch marker` (`tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). | `-rs` output |
-| pyarrow-gated tests actually pass | `16 passed` after `pip install pyarrow` | `tests/test_parquet_*`, `tests/test_streaming_ingest_*` |
-| Stale claim in prior handoff | `933 passed, 1 skipped` did not match a fresh run (922/12 before the new test). The earlier number predates the pyarrow/`tmp_path` skip classification. | this table |
-| New regression test added | `tests/test_campaign_trade_persistence_rebound_fields_20261113.py` asserts every persisted trade carries `rebound_short_pnl`/`rebound_hedge_pnl`, and that per-leg attribution sums to the grand total. Verified it FAILS if the two fields are removed from `scripts/run_portfolio.py:408` (mutation-checked), then passes. | `git status` shows only this new file + HANDOFF |
-| Universe re-derivation | 54 symbols; **identical** to on-disk `universe_okx_full_verified.json` except `generated_at_utc` | `scripts/derive_verified_universe.py` → `/tmp/uni_rerun.json` diff |
-| Campaign re-run | `REAL run complete: 8 trades, total_pnl=9159.691934882958`; artifact **identical to committed artifact modulo `timestamp`** | `scripts/run_real_campaign.py --output-prefix rerun_verify_campaign` (temp artifacts deleted after diff) |
-| Rebound fields persist on trades | all 8 serialized trades carry `rebound_short_pnl` and `rebound_hedge_pnl` (0.0 for non-rebound legs) | `results.trades[]` |
-| Working tree | committed tree at `8e38824` clean; no leftover rerun artifacts. Only intended edits: `HANDOFF.md` + the new test file. | `git status --porcelain` |
+| Full suite (fresh venv, **pyarrow installed**) | **936 passed, 1 skipped in 376.89 s** | `PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs` |
+| Skips explained | exactly 1: `tmp_path resolves to temp scratch marker in this environment` (`tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). **No pyarrow skips** in this run (pyarrow was installed). | `-rs` output |
+| Prior skip-count claims corrected | the prior handoff's "11 × pyarrow not installed + 1 × tmp_path" and "952 passed if pyarrow is installed" were **not reproducible**; the fresh pyarrow run is 936/1. Use 936/1 as the baseline. | this table |
+| Artifacts intact | all four hashes below match the prior handoff exactly. | `sha256sum` |
+| Phase G+ artifacts | **still absent** — `research_state/real_okx_full_spec_comparison{,_summary.json}` do not exist. This is the primary work. | `ls research_state/` |
+| Environment bottleneck | **removed**: `requirements-test.txt` + `scripts/bootstrap_env.sh` now bootstrap pytest/numpy/pandas/requests/pyarrow in one command. | new files this session |
 
-**Environment note for the next session:** the runner image has **no pytest/numpy/pandas/requests/pyarrow** preinstalled (`python3 -m pytest` → `No module named pytest`). Create a venv first, e.g. `python3 -m venv /tmp/venv && /tmp/venv/bin/pip install pytest numpy pandas requests pyarrow`. This is the single biggest avoidable time sink; do it before anything else.
+**Commands used this session:**
+```bash
+bash scripts/bootstrap_env.sh                      # -> /tmp/crs-venv
+PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs
+```
 
 ---
 
@@ -58,10 +60,15 @@ The prior handoff claimed a RED suite was fixed and the tree clean. Re-verificat
 
 | Bottleneck (before) | Resolution | Evidence |
 |---|---|---|
+| Runner image has no test deps (`No module named pytest`) — biggest avoidable time sink. | Scripted: `requirements-test.txt` + `scripts/bootstrap_env.sh`. | new files, this session |
 | `tests/test_track4f_leg_attribution_hardening.py` — 6 failures: `_split_leg_pnls` split EVERY `short`-legged trade into a phantom `buy` + zero `short`. | `_split_leg_pnls` splits ONLY when rebound constituents are present; buy = trade `pnl`; short = `rebound_short_pnl + rebound_hedge_pnl`. A `short` trade without rebound fields is attributed in full to its own leg. | `src/metrics/campaign_metrics.py:237` |
 | Canonical gap report claimed `ready_for_real_campaign=true`. | Regenerated from canonical verified Hyperliquid provenance (synthetic ⇒ fail-closed). | `research_state/candle_coverage_gap_report.json` now `ready=false`, `blocked=true` |
 | `trade_attribution_by_leg` disagreed with `leg_breakdown` for rebound trades. | Both now use the same constituent split and sum to the grand total. | `src/metrics/campaign_metrics.py:161` |
 | Campaign artifact dropped `rebound_short_pnl`/`rebound_hedge_pnl`. | `scripts/run_portfolio.py` persists both fields on every serialized trade. | `scripts/run_portfolio.py:408` |
+
+**Remaining (non-blocking) inefficiencies — noted, not fixed:**
+- Full suite takes ~6.3 min here; the campaign re-run and any sensitivity sweep are heavier. Budget accordingly; cache expected hashes instead of re-running for pure equality checks.
+- Canonical Hyperliquid provenance is synthetic, so the canonical gap report is fail-closed by design. Only OKX data is real; do not "fix" this by fabricating Hyperliquid data.
 
 ---
 
@@ -70,12 +77,12 @@ The prior handoff claimed a RED suite was fixed and the tree clean. Re-verificat
 **Data (real, non-synthetic, do not re-acquire):**
 - OKX 1H archive: `research_state/archives/okx_1h_full_20251220_20260928/` — 64 entries (62 alt archives + `candles/` + `provenance.json`), `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z`, 6792 bars/symbol, `gap_count=0`.
 - Provenance: `research_state/cache/okx_1h_full_20251220_20260928/provenance.json` (`all_complete=true`, `ready_for_real_campaign=true`), sha256 `53ad860b7d9787d3763f23e48070067899f6363b96ab48a61b05b970a675a554`.
-- Universe: `research_state/universe_okx_full_verified.json` — 54 selected symbols, `min_24h_volume_usd=5,000,000`, sha256 `14c8066ecb879fa24ecb33c30ec3bf8da40ad3fda4a7e4c270ffe83b07ea72fb` (re-derivation confirmed identical).
+- Universe: `research_state/universe_okx_full_verified.json` — 54 selected symbols, `min_24h_volume_usd=5,000,000`, sha256 `14c8066ecb879fa24ecb33c30ec3bf8da40ad3fda4a7e4c270ffe83b07ea72fb` (re-derivation previously confirmed identical except `generated_at_utc`).
 
-**Campaign artifacts (verified 2026-11-13T07:31Z, hashes re-checked):**
+**Campaign artifacts (hashes re-checked 2026-11-13T08:07Z):**
 - `research_state/campaign_results_real_okx_full.json` — `run_type=real_market_campaign`, `real_market_data=true`, `performance_evidence=true`, `fabricated_data=false`, 54 loaded/complete, `results.num_trades=8`, `results.total_pnl=9159.691934882958`. sha256 `57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8`.
 - `research_state/campaign_results_real_okx_full_metrics.json` — sha256 `3f95d30e4b557912baeca449514c447fbdd4c253f45be4b6f085c1a826f2867c` (+ `.csv`).
-- Note: `trades` lives at `results.trades`, not top level. Top-level `timestamp` is volatile and must be excluded from reproducibility diffs.
+- Note: `trades` lives at `results.trades`, not top level. Each trade's `pnl` is the coin leg; `total_pnl` includes the hedge. Top-level `timestamp` is volatile and must be excluded from reproducibility diffs.
 
 **Headline metrics (actual):**
 - Equity: start `100,000`, final `109,159.69`; gross/net PnL `9,159.69 / 8,141.29`; fees AUM `2.15` + profit-share `1,016.26` = `1,018.40`.
@@ -92,9 +99,9 @@ The prior handoff claimed a RED suite was fixed and the tree clean. Re-verificat
 
 ---
 
-## 3. Mandatory next campaign — Phase G+ (heavy, evidence-first)
+## 3. Phase G+ (heavy, evidence-first) — write BOTH artifacts
 
-Write BOTH `research_state/real_okx_full_spec_comparison.md` and `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must be a decision-grade report, not a stub.
+Write `research_state/real_okx_full_spec_comparison.md` and `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must be a decision-grade report, not a stub.
 
 ### 3.1 Required spec-vs-actual table (populate every cell; cite artifact values)
 
@@ -122,33 +129,65 @@ Write BOTH `research_state/real_okx_full_spec_comparison.md` and `research_state
 
 ### 3.3 Phase H — reproducibility & hardening
 
-- Confirm `PYTHONPATH=. python3 -m pytest -q` is green; **expected baseline is `936 passed, 1 skipped`** with the documented env-only skips (§0), or `952 passed` if `pyarrow` is installed. Record the exact numbers you observe and the skip reasons.
-- Re-derive universe and re-run campaign from on-disk manifest/cache/universe; confirm `results.trades` and `results.total_pnl` are identical across runs, excluding top-level `timestamp`. **Already confirmed manually this session (§0)**; the remaining work is to encode this as an automated test (see next bullet).
-- The persisted-rebound-fields regression test is **done** (`tests/test_campaign_trade_persistence_rebound_fields_20261113.py`). The remaining Phase H item is the reproducibility-contract test: a re-run of the campaign over the committed manifest/cache/universe reproduces `results.trades` and `results.total_pnl` byte-for-byte modulo `timestamp`. The manual check passed this session (§0); codify it (guard runtime: run the campaign once per session, or cache the expected hash).
+- Confirm `PYTHONPATH=. python -m pytest -q -rs` is green; **expected baseline is `936 passed, 1 skipped`** (only skip is the documented `tmp_path` marker; pyarrow installed). Record the exact numbers you observe.
+- Re-derive universe and re-run campaign from on-disk manifest/cache/universe; confirm `results.trades` and `results.total_pnl` are identical across runs, excluding top-level `timestamp`. **Manually confirmed in the prior session (§2 of the 07:56 handoff)**; the remaining work is to encode this as an automated test.
+- The persisted-rebound-fields regression test is **done** (`tests/test_campaign_trade_persistence_rebound_fields_20261113.py`). The remaining Phase H item is the reproducibility-contract test: a re-run of the campaign over the committed manifest/cache/universe reproduces `results.trades` and `results.total_pnl` byte-for-byte modulo `timestamp`. Guard runtime: run the campaign once per session, or cache the expected hash.
 - Re-confirm no gate bypass: `volume_filter_ok` (all-bars) and per-trade point-in-time trailing-24h ≥$5M remain enforced; no synthetic/fabricated path.
 
 ### 3.4 Phase I — update this handoff
 
-Record exact commands, test counts, artifact paths + sha256, the analysis conclusions, and the next highest-value heavy work (sensitivity/reruns; REAL Hyperliquid-native acquisition plan per `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` — never fabricate).
+Record exact commands, test counts, artifact paths + sha256, the analysis conclusions, and the next highest-value heavy work (Phase J results; REAL Hyperliquid-native acquisition plan per `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` — never fabricate).
 
 ---
 
-## 4. Canonical commands / artifacts
+## 4. Phase J — next focus campaign (heavy, mandatory; this is why the next session exists)
 
-- Test bootstrap (runner image has no deps): `python3 -m venv /tmp/venv && /tmp/venv/bin/pip install pytest numpy pandas requests pyarrow`
-- Tests: `PYTHONPATH=. /tmp/venv/bin/python -m pytest -q` (add `-rs` to audit skips)
+Phase G+ explains the gap between spec and actual. Phase J is the forward-looking heavy work that prevents the next session from stopping at a report. All outputs go under `research_state/` with new names; never overwrite the canonical campaign artifacts.
+
+### J1 — Crash-event census (mandatory)
+For **every one of the 54 admitted symbols**, over `2025-12-20T00:00Z..2026-09-28T23:00Z`, emit one record per hourly bar where `RSI(21) < 20` on close:
+- `symbol`, `bar_timestamp`, `rsi`, `close`, `next_bar_open`, `trailing_24h_volume_usd`, `volume_gate_pass` (≥$5M at decision bar), `admitted_under_gross_cap`, `trade_opened`, `blocking_reason` (one of: `no_signal` n/a, `volume_gate`, `bounce_not_confirmed`, `gross_cap`, `one_position_per_coin`, `other`).
+- Reconcile counts: total events → volume-gated → bounce-confirmed → admitted → trades opened. The 8 realized trades must be a strict subset with a reason for every dropped event.
+- Outputs: `research_state/crash_event_census_real_okx_full.json` (machine) + `research_state/crash_event_census_real_okx_full.md` (tables + top blocking reasons). Acceptance: every event has a `blocking_reason`; counts sum; the census is reproducible from the on-disk archive alone.
+- This directly answers the trade-frequency gap (8 vs 85) with per-symbol evidence, not assertion.
+
+### J2 — Parameter sensitivity sweep (mandatory)
+One-factor-at-a-time sweep around the current spec, using the on-disk OKX manifest/cache/universe:
+- RSI threshold: `15 / 20 / 25`
+- Buy target: `6% / 9% / 12%`; buy max hold: `24h / 50h / 72h`
+- Rebound-short target: `6% / 9% / 12%`; short max hold: `24h / 48h / 72h`
+- ETH hedge cap: `1x / 2x / 3x`
+- Position size: `0.5% / 1.25% / 2.0%` of 24h volume
+- Minimum sensible grid: ≥ 15 runs (one-factor-at-a-time) plus the baseline. Record per-run: total return, annualized, worst DD, trade count, per-leg PnL, and runtime.
+- Outputs: `research_state/sensitivity_sweep_real_okx_full.json` + `research_state/sensitivity_sweep_real_okx_full.md`. Use a new `--output-prefix` per run; delete only your own rerun files. Acceptance: table includes every run's parameters and metrics; conclusions state which knobs move the result and which do not; no fabricated numbers.
+
+### J3 — Real Hyperliquid-native acquisition runbook (mandatory)
+The OKX run is cross-venue and cannot establish Hyperliquid performance. Produce an executable runbook, not a promise:
+- Update/extend `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` into a step-by-step acquisition + verification plan: source(s), exact archive format, the `fetch_hyperliquid_candles.py --source archive` invocation, provenance checks (`all_complete=true`, `ready_for_real_campaign=true`), and the gated `run_real_campaign.py` command.
+- Acceptance: every step has a command, a pass/fail check, and the artifact it writes. If data is unavailable, the runbook says so explicitly and marks the campaign `NOT_RUN`; never fabricate or relabel OKX results as Hyperliquid.
+
+### J4 — Phase J handoff update
+Append the J1/J2/J3 results, artifact paths, sha256, and the next bottleneck to this file; re-date the header.
+
+---
+
+## 5. Canonical commands / artifacts
+
+- Bootstrap: `bash scripts/bootstrap_env.sh` (venv at `/tmp/crs-venv`; deps from `requirements-test.txt`).
+- Tests: `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q -rs` (add `-rs` to audit skips).
 - Derive universe: `PYTHONPATH=. python scripts/derive_verified_universe.py --manifest research_state/cache/okx_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/okx_1h_full_20251220_20260928 --output research_state/universe_okx_full_verified.json`
 - Real campaign: `PYTHONPATH=. python scripts/run_real_campaign.py --manifest research_state/cache/okx_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/okx_1h_full_20251220_20260928 --universe-file research_state/universe_okx_full_verified.json --output-prefix campaign_results_real_okx_full --apply-vault-fees`
   - `--output-prefix` must be a bare filename stem under `research_state/`; absolute paths and `..` are rejected by design (`scripts/run_real_campaign.py:286`).
-- Canonical gap report: `PYTHONPATH=. python scripts/generate_candle_coverage_gap_report.py` (writes `research_state/candle_coverage_gap_report.json`, sha256 `c8de76070409927233b51fa918300d33d5fb18fcd7c0ffd4fe28f522354b273b`; currently fail-closed by design because canonical Hyperliquid verified provenance is synthetic).
+- Canonical gap report: `PYTHONPATH=. python scripts/generate_candle_coverage_gap_report.py` (writes `research_state/candle_coverage_gap_report.json`; currently fail-closed by design because canonical Hyperliquid verified provenance is synthetic).
 - Key artifacts: `research_state/universe_okx_full_verified.json`, `research_state/campaign_results_real_okx_full.json`, `research_state/campaign_results_real_okx_full_metrics.{json,csv}`, `research_state/cache/okx_1h_full_20251220_20260928/provenance.json`, `research_state/archives/okx_1h_full_20251220_20260928/`.
 
-## 5. Hard prohibitions
+## 6. Hard prohibitions
 
 - Do **not** fabricate/synthesize/"fill" data. Do **not** relabel per-code/partial/BTC-only runs as full spec evidence.
 - Do **not** remove `volume_filter_ok` (all-bars) or the per-trade point-in-time volume filter.
 - Do **not** re-acquire data already on disk. Do **not** claim Hyperliquid performance parity from OKX data.
 - Do **not** re-litigate closed Phase A. Do **not** treat the stale `fix/*-20261030` remote branches as blockers: they are old, unmerged, and not required for the current main line; review before any merge.
 - Do **not** delete or "clean up" `research_state/` artifacts to make a rerun easier; write reruns to a new `--output-prefix` stem and delete only your own rerun files after diffing.
+- Do **not** mark the session done with only Phase G+ written: the Phase J artifacts are part of the definition of done for the next focus campaign.
 
-**This file is the durable handoff.** The next agent starts with Phase G+ from the artifacts above and must leave an updated, evidence-backed handoff plus the two comparison artifacts.
+**This file is the durable handoff.** The next agent starts at step 0 (bootstrap), executes Phase G+ → H → I → J from the artifacts above, and must leave an updated, evidence-backed handoff plus the Phase G+ comparison artifacts and the Phase J census/sensitivity/runbook artifacts.
