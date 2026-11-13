@@ -1,25 +1,25 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T08:14:22Z (verified; prior content 2026-11-13T08:13:18Z)
-**Supersedes:** 2026-11-13T08:13:18Z, 2026-11-13T08:07:08Z (and earlier 07:56:11Z / 07:42:00Z handoffs).
+**Handoff updated (UTC):** 2026-11-13T08:20:00Z (this session; verified)
+**Supersedes:** all earlier handoffs (2026-11-13T08:14:22Z and prior).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `c148d3d`, working tree clean (no uncommitted changes). Session artifacts present: `requirements-test.txt`, `scripts/bootstrap_env.sh`, this handoff. Do **not** `git reset`/`checkout` anything away. Nothing needs to be committed before starting Phase G+.
+**Branch:** `main` @ `23ab482`, working tree clean. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before Phase G+.
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T08:14:22Z.**
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T08:20:00Z.**
 >
-> **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk. Setup/bootstrap is ready. **Do not stop after setup, after the test suite, or after a summary — the session is incomplete until Phase G+, H, I, and J artifacts exist and this file is re-dated.**
+> **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk. Setup and the test baseline are verified. **Do not stop after setup, after the test suite, or after a summary — the session is incomplete until Phase G+, H, I, and J artifacts exist and this file is re-dated.**
 >
 > **Priority order (repo-aligned: crash-rebound strategy first, everything else second):**
 >
 > 1. **Phase G+ — Spec-vs-actual analysis artifact (PRIMARY, do not skip).** Write `research_state/real_okx_full_spec_comparison.md` **and** `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must be a decision-grade report: a metric-by-metric table (spec vs actual) plus evidence-backed divergence explanations for EVERY row, with exact artifact values and code-path citations. A summary paragraph is not acceptable.
-> 2. **Phase H — Reproducibility & hardening.** Re-run the suite to green, codify the reproducibility contract as an automated test, and confirm no gate bypass. (The persisted-rebound-fields regression test already exists; do not rewrite it.)
+> 2. **Phase H — Reproducibility & hardening.** Re-run the suite to green, codify the reproducibility contract as an automated test, confirm no gate bypass. (The persisted-rebound-fields regression test already exists; do not rewrite it.)
 > 3. **Phase I — Update this HANDOFF** with exact commands, observed test counts, artifact paths + sha256, conclusions, and the next highest-value heavy work.
 > 4. **Phase J — Next focus campaign (MANDATORY, heavy).** Crash-event census across all 54 symbols + a parameter-sensitivity sweep + a real Hyperliquid-native acquisition runbook. This is the "future agents cannot avoid heavy work" phase: see §4 for mandatory outputs.
 >
 > **Mandatory heavy campaign (execute in order; do not stop after step 1):**
-> 0. **Bootstrap:** `bash scripts/bootstrap_env.sh` (~1 min; runner image has no pytest/numpy/pandas/requests/pyarrow). Use the reported venv (default `/tmp/crs-venv`; `/tmp/venv_h` may also exist on this runner).
+> 0. **Bootstrap:** `bash scripts/bootstrap_env.sh` (~1 min; runner image has no pytest/numpy/pandas/requests/pyarrow). Use the reported venv (default `/tmp/crs-venv`; the pre-existing `/tmp/venv_h` also works on this runner).
 > 1. **Phase G+** (primary, evidence-first spec-vs-actual).
 > 2. **Phase H** (reproducibility & hardening).
 > 3. **Phase I** (update this handoff).
@@ -37,19 +37,20 @@
 
 ---
 
-## 0. Verified state this session (2026-11-13T08:14:22Z) — no blockers/bottlenecks found
+## 0. Verified state this session (2026-11-13T08:20:00Z) — no blockers/bottlenecks found
 
 | Check | Result | Evidence |
 |---|---|---|
 | Artifacts intact | 4 key hashes match prior handoff exactly. | `campaign_results_real_okx_full.json` `5797…f9b8`; `campaign_results_real_okx_full_metrics.json` `3f95…867c`; `cache/okx_1h_full_20251220_20260928/provenance.json` `53ad…5554`; `universe_okx_full_verified.json` `14c8…72fb`. |
 | Phase G+ outputs | **Absent** — `research_state/real_okx_full_spec_comparison.md` and `_summary.json` do not exist. Primary work. | `ls` |
 | Phase J outputs | **Absent** — no crash-event census, sensitivity sweep, or acquisition runbook artifacts yet. Mandatory heavy campaign. | `research_state/` listing |
-| Environment bootstrap | **Unblocked**: `requirements-test.txt` + `scripts/bootstrap_env.sh` present (runner image lacks pytest/numpy/pandas/requests/pyarrow). | files present |
-| Working tree | Clean on `main` @ `c148d3d`. No stranded processes/sessions observed. | `git status -sb` |
+| Environment bootstrap | **Unblocked**: `requirements-test.txt` + `scripts/bootstrap_env.sh` present. The pre-existing `/tmp/venv_h` already has pytest 9.2.0 + numpy/pandas/requests/pyarrow; `bootstrap_env.sh` builds a fresh `/tmp/crs-venv`. | `venv_h` deps import OK; pytest 9.2.0 |
+| Baseline test suite | **Green, verified this session: `936 passed, 1 skipped in 381.68s`** (`PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs`; the single skip is the documented `tmp_path` marker in `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). | full run output |
+| Working tree | Clean on `main` @ `23ab482`. No stranded processes/sessions observed. | `git status -sb` |
 
-**Baseline to expect:** prior verified run `936 passed, 1 skipped in 376.89s` (`pytest -q -rs`, pyarrow installed; only skip = documented `tmp_path` marker in `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`). Earlier "952 passed / 11 pyarrow skips" claims were not reproducible — treat 936/1 as baseline and record what you observe.
+**Baseline to expect:** `936 passed, 1 skipped` (re-verified this session, 381.68s). Record what you observe; do not assume older "952 passed" claims.
 
-**Commands this session:** `ls`/`find`, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`, inspected `requirements-test.txt`+`scripts/bootstrap_env.sh`, `sha256sum` of 4 artifacts, checked absence of `real_okx_full_spec_comparison*`, `git status -sb`, `date -u`. No code/tests/data modified or re-acquired.
+**Commands this session:** `ls`/`find`, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`, inspected `requirements-test.txt`+`scripts/bootstrap_env.sh`, `sha256sum` of 4 artifacts, confirmed Phase G+/J output absence, ran the full suite, `git status -sb`, `date -u`. No code/tests/data modified or re-acquired.
 
 **Start now:** `bash scripts/bootstrap_env.sh` → Phase G+ → H → I → J. Do not stop after setup/tests/summary.
 
@@ -59,7 +60,7 @@
 
 | Bottleneck (before) | Resolution | Evidence |
 |---|---|---|
-| Runner image has no test deps (`No module named pytest`) — biggest avoidable time sink. | Scripted: `requirements-test.txt` + `scripts/bootstrap_env.sh`. | new files, this session |
+| Runner image has no test deps (`No module named pytest`) — biggest avoidable time sink. | Scripted: `requirements-test.txt` + `scripts/bootstrap_env.sh`. | files present |
 | `tests/test_track4f_leg_attribution_hardening.py` — 6 failures: `_split_leg_pnls` split EVERY `short`-legged trade into a phantom `buy` + zero `short`. | `_split_leg_pnls` splits ONLY when rebound constituents are present; buy = trade `pnl`; short = `rebound_short_pnl + rebound_hedge_pnl`. A `short` trade without rebound fields is attributed in full to its own leg. | `src/metrics/campaign_metrics.py:237` |
 | Canonical gap report claimed `ready_for_real_campaign=true`. | Regenerated from canonical verified Hyperliquid provenance (synthetic ⇒ fail-closed). | `research_state/candle_coverage_gap_report.json` now `ready=false`, `blocked=true` |
 | `trade_attribution_by_leg` disagreed with `leg_breakdown` for rebound trades. | Both now use the same constituent split and sum to the grand total. | `src/metrics/campaign_metrics.py:161` |
@@ -78,7 +79,7 @@
 - Provenance: `research_state/cache/okx_1h_full_20251220_20260928/provenance.json` (`all_complete=true`, `ready_for_real_campaign=true`), sha256 `53ad860b7d9787d3763f23e48070067899f6363b96ab48a61b05b970a675a554`.
 - Universe: `research_state/universe_okx_full_verified.json` — 54 selected symbols, `min_24h_volume_usd=5,000,000`, sha256 `14c8066ecb879fa24ecb33c30ec3bf8da40ad3fda4a7e4c270ffe83b07ea72fb` (re-derivation previously confirmed identical except `generated_at_utc`).
 
-**Campaign artifacts (hashes re-checked 2026-11-13T08:07Z):**
+**Campaign artifacts (hashes re-checked 2026-11-13T08:07Z, re-confirmed this session):**
 - `research_state/campaign_results_real_okx_full.json` — `run_type=real_market_campaign`, `real_market_data=true`, `performance_evidence=true`, `fabricated_data=false`, 54 loaded/complete, `results.num_trades=8`, `results.total_pnl=9159.691934882958`. sha256 `57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8`.
 - `research_state/campaign_results_real_okx_full_metrics.json` — sha256 `3f95d30e4b557912baeca449514c447fbdd4c253f45be4b6f085c1a826f2867c` (+ `.csv`).
 - Note: `trades` lives at `results.trades`, not top level. Each trade's `pnl` is the coin leg; `total_pnl` includes the hedge. Top-level `timestamp` is volatile and must be excluded from reproducibility diffs.
@@ -128,8 +129,8 @@ Write `research_state/real_okx_full_spec_comparison.md` and `research_state/real
 
 ### 3.3 Phase H — reproducibility & hardening
 
-- Confirm `PYTHONPATH=. python -m pytest -q -rs` is green; **expected baseline is `936 passed, 1 skipped`** (only skip is the documented `tmp_path` marker; pyarrow installed). Record the exact numbers you observe.
-- Re-derive universe and re-run campaign from on-disk manifest/cache/universe; confirm `results.trades` and `results.total_pnl` are identical across runs, excluding top-level `timestamp`. **Manually confirmed in the prior session (§2 of the 07:56 handoff)**; the remaining work is to encode this as an automated test.
+- Confirm `PYTHONPATH=. python -m pytest -q -rs` is green; **baseline re-verified this session is `936 passed, 1 skipped`** (only skip is the documented `tmp_path` marker; pyarrow installed). Record the exact numbers you observe.
+- Re-derive universe and re-run campaign from on-disk manifest/cache/universe; confirm `results.trades` and `results.total_pnl` are identical across runs, excluding top-level `timestamp`. **Manually confirmed in a prior session**; the remaining work is to encode this as an automated test.
 - The persisted-rebound-fields regression test is **done** (`tests/test_campaign_trade_persistence_rebound_fields_20261113.py`). The remaining Phase H item is the reproducibility-contract test: a re-run of the campaign over the committed manifest/cache/universe reproduces `results.trades` and `results.total_pnl` byte-for-byte modulo `timestamp`. Guard runtime: run the campaign once per session, or cache the expected hash.
 - Re-confirm no gate bypass: `volume_filter_ok` (all-bars) and per-trade point-in-time trailing-24h ≥$5M remain enforced; no synthetic/fabricated path.
 
@@ -172,8 +173,8 @@ Append the J1/J2/J3 results, artifact paths, sha256, and the next bottleneck to 
 
 ## 5. Canonical commands / artifacts
 
-- Bootstrap: `bash scripts/bootstrap_env.sh` (venv at `/tmp/crs-venv`; deps from `requirements-test.txt`).
-- Tests: `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q -rs` (add `-rs` to audit skips).
+- Bootstrap: `bash scripts/bootstrap_env.sh` (venv at `/tmp/crs-venv`; deps from `requirements-test.txt`). A pre-existing `/tmp/venv_h` also has all deps (pytest 9.2.0, numpy, pandas, requests, pyarrow) and can be used directly.
+- Tests: `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q -rs` (or `/tmp/venv_h/bin/python`); baseline `936 passed, 1 skipped`.
 - Derive universe: `PYTHONPATH=. python scripts/derive_verified_universe.py --manifest research_state/cache/okx_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/okx_1h_full_20251220_20260928 --output research_state/universe_okx_full_verified.json`
 - Real campaign: `PYTHONPATH=. python scripts/run_real_campaign.py --manifest research_state/cache/okx_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/okx_1h_full_20251220_20260928 --universe-file research_state/universe_okx_full_verified.json --output-prefix campaign_results_real_okx_full --apply-vault-fees`
   - `--output-prefix` must be a bare filename stem under `research_state/`; absolute paths and `..` are rejected by design (`scripts/run_real_campaign.py:286`).
