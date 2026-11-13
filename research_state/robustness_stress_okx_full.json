@@ -1,0 +1,1746 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T21:12:30.898987+00:00",
+  "seed": 20261113,
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "method": "Exact full-portfolio robustness stress: leave-one-symbol-out and leave-one-trade-out re-run the real portfolio engine with all other signals intact; concentration-adjusted inference; bootstrap + analytic power projection; expanding-window refit walk-forward.",
+  "canonical": {
+    "trades": 8,
+    "total_pnl": 9159.691934882958,
+    "sha256": "57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8",
+    "full_replay": {
+      "num_trades": 8,
+      "total_pnl": 9159.691934882958
+    },
+    "admitted_replay": {
+      "num_trades": 8,
+      "total_pnl": 9159.691934882958
+    }
+  },
+  "memo_meta": {
+    "census_events": 342,
+    "rows": 342,
+    "memo_signals": 11,
+    "signal_gate_events": 11,
+    "memo_matches_signal_gate": true,
+    "symbols_with_signals": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "ts_index_symbols": 54
+  },
+  "leave_one_symbol_out": {
+    "method": "mask every signal of the excluded symbol, re-run the exact portfolio engine",
+    "runs": [
+      {
+        "excluded_symbol": "AVAX",
+        "excluded_signal_keys": [
+          "AVAX:1026"
+        ],
+        "excluded_admitted_keys": [
+          "AVAX:1026"
+        ],
+        "total_pnl": 9493.493317,
+        "num_trades": 7,
+        "delta_vs_canonical": 333.801382,
+        "canonical_trades_remaining": 0,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 5983.029942372417,
+            "max_live_coin_notional": 130667.23320000006,
+            "leg": "short"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 2512.1031535270577,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_symbol": "BCH",
+        "excluded_signal_keys": [
+          "BCH:1026",
+          "BCH:1029",
+          "BCH:3584"
+        ],
+        "excluded_admitted_keys": [
+          "BCH:1026",
+          "BCH:3584"
+        ],
+        "total_pnl": 10583.219704,
+        "num_trades": 6,
+        "delta_vs_canonical": 1423.527769,
+        "canonical_trades_remaining": 0,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 7000.75258225739,
+            "max_live_coin_notional": 120000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 2512.1031535270577,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_symbol": "ETH",
+        "excluded_signal_keys": [
+          "ETH:763"
+        ],
+        "excluded_admitted_keys": [
+          "ETH:763"
+        ],
+        "total_pnl": 9281.325728,
+        "num_trades": 7,
+        "delta_vs_canonical": 121.633793,
+        "canonical_trades_remaining": 0,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_symbol": "LINK",
+        "excluded_signal_keys": [
+          "LINK:884"
+        ],
+        "excluded_admitted_keys": [
+          "LINK:884"
+        ],
+        "total_pnl": 10796.52718,
+        "num_trades": 7,
+        "delta_vs_canonical": 1636.835246,
+        "canonical_trades_remaining": 0,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -333.1363036907369,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_symbol": "SOL",
+        "excluded_signal_keys": [
+          "SOL:722",
+          "SOL:723",
+          "SOL:727",
+          "SOL:884",
+          "SOL:1028"
+        ],
+        "excluded_admitted_keys": [
+          "SOL:722",
+          "SOL:884",
+          "SOL:1028"
+        ],
+        "total_pnl": 3495.105212,
+        "num_trades": 5,
+        "delta_vs_canonical": -5664.586723,
+        "canonical_trades_remaining": 0,
+        "trades": [
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -240.2625859157315,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -2680.226399818461,
+            "max_live_coin_notional": 89305.2069571487,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      }
+    ],
+    "all_positive": true,
+    "min_total_pnl": 3495.105212,
+    "max_total_pnl": 10796.52718
+  },
+  "leave_one_trade_out": {
+    "method": "mask one admitted trade's signal, re-run the exact portfolio engine",
+    "runs": [
+      {
+        "excluded_key": "AVAX:1026",
+        "excluded_symbol": "AVAX",
+        "total_pnl": 9493.493317,
+        "num_trades": 7,
+        "delta_vs_canonical": 333.801382,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 5983.029942372417,
+            "max_live_coin_notional": 130667.23320000006,
+            "leg": "short"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 2512.1031535270577,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "BCH:1026",
+        "excluded_symbol": "BCH",
+        "total_pnl": 13154.725874,
+        "num_trades": 8,
+        "delta_vs_canonical": 3995.033939,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 7000.75258225739,
+            "max_live_coin_notional": 120000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 2512.1031535270577,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769896800000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2643.5099172454347,
+            "max_live_coin_notional": 43554.4114,
+            "leg": "short"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "BCH:3584",
+        "excluded_symbol": "BCH",
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "delta_vs_canonical": 72.003747,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "ETH:763",
+        "excluded_symbol": "ETH",
+        "total_pnl": 9281.325728,
+        "num_trades": 7,
+        "delta_vs_canonical": 121.633793,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "LINK:884",
+        "excluded_symbol": "LINK",
+        "total_pnl": 10796.52718,
+        "num_trades": 7,
+        "delta_vs_canonical": 1636.835246,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -333.1363036907369,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "SOL:722",
+        "excluded_symbol": "SOL",
+        "total_pnl": 9404.139725,
+        "num_trades": 8,
+        "delta_vs_canonical": 244.44779,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768795200000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3406.417101065321,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "SOL:884",
+        "excluded_symbol": "SOL",
+        "total_pnl": 8449.437084,
+        "num_trades": 7,
+        "delta_vs_canonical": -710.254851,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -2680.226399818461,
+            "max_live_coin_notional": 89305.2069571487,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769893200000",
+            "exit_timestamp": "1770069600000",
+            "exit_reason": "time_exit",
+            "total_pnl": 1673.7337690180457,
+            "max_live_coin_notional": 40000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      },
+      {
+        "excluded_key": "SOL:1028",
+        "excluded_symbol": "SOL",
+        "total_pnl": 7485.958166,
+        "num_trades": 7,
+        "delta_vs_canonical": -1673.733769,
+        "trades": [
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1768791600000",
+            "exit_timestamp": "1768946400000",
+            "exit_reason": "liquidated",
+            "total_pnl": 3161.969310655877,
+            "max_live_coin_notional": 120000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "ETH",
+            "entry_timestamp": "1768939200000",
+            "exit_timestamp": "1769115600000",
+            "exit_reason": "time_exit",
+            "total_pnl": -121.63379295786945,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "SOL",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -168.59460375904018,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "LINK",
+            "entry_timestamp": "1769374800000",
+            "exit_timestamp": "1769551200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -1801.376945537424,
+            "max_live_coin_notional": 60000.0,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770112800000",
+            "exit_reason": "target_rebound_short",
+            "total_pnl": 2988.2241534821824,
+            "max_live_coin_notional": 65332.61685000001,
+            "leg": "short"
+          },
+          {
+            "symbol": "AVAX",
+            "entry_timestamp": "1769886000000",
+            "exit_timestamp": "1770062400000",
+            "exit_reason": "time_exit",
+            "total_pnl": 3499.3737911286935,
+            "max_live_coin_notional": 60000.00000000001,
+            "leg": "buy"
+          },
+          {
+            "symbol": "BCH",
+            "entry_timestamp": "1779094800000",
+            "exit_timestamp": "1779271200000",
+            "exit_reason": "time_exit",
+            "total_pnl": -72.00374714750825,
+            "max_live_coin_notional": 89247.86499847357,
+            "leg": "buy"
+          }
+        ]
+      }
+    ],
+    "all_positive": true,
+    "min_total_pnl": 7485.958166,
+    "max_total_pnl": 13154.725874
+  },
+  "concentration": {
+    "total_pnl": 9159.691935,
+    "gross_abs_pnl": 13486.910114,
+    "symbols": [
+      {
+        "symbol": "SOL",
+        "trades": 3,
+        "pnl": 4667.108476,
+        "raw_pnl_share_of_total": 0.509527,
+        "abs_pnl_share_of_gross": 0.346047
+      },
+      {
+        "symbol": "AVAX",
+        "trades": 1,
+        "pnl": 3499.373791,
+        "raw_pnl_share_of_total": 0.382041,
+        "abs_pnl_share_of_gross": 0.259464
+      },
+      {
+        "symbol": "BCH",
+        "trades": 2,
+        "pnl": 2916.220406,
+        "raw_pnl_share_of_total": 0.318375,
+        "abs_pnl_share_of_gross": 0.216226
+      },
+      {
+        "symbol": "LINK",
+        "trades": 1,
+        "pnl": -1801.376946,
+        "raw_pnl_share_of_total": -0.196663,
+        "abs_pnl_share_of_gross": 0.133565
+      },
+      {
+        "symbol": "ETH",
+        "trades": 1,
+        "pnl": -121.633793,
+        "raw_pnl_share_of_total": -0.013279,
+        "abs_pnl_share_of_gross": 0.009019
+      }
+    ],
+    "top_symbol": "SOL",
+    "top_symbol_raw_share": 0.509527,
+    "top_symbol_abs_share": 0.346047,
+    "top_trade": {
+      "symbol": "AVAX",
+      "entry_timestamp": "1769886000000",
+      "pnl": 3499.373791,
+      "abs_share_of_gross": 0.259464,
+      "memo_key": null
+    },
+    "herfindahl_hhi_abs": 0.251745,
+    "effective_symbol_count_abs": 3.972272,
+    "simple_pnl_without_top_symbol": 4492.583459,
+    "simple_pnl_without_top_trade": 5660.318144
+  },
+  "power": {
+    "trade_level": {
+      "observed_n": 8,
+      "observed_mean": 1144.961492,
+      "observed_stdev": 1955.95804,
+      "standard_error": 691.535597,
+      "resamples_per_n": 20000,
+      "seed": 20261113,
+      "rows": [
+        {
+          "n": 8,
+          "bootstrap_mean": 1140.861084,
+          "ci_low": -124.460501,
+          "ci_high": 2396.436417,
+          "ci_excludes_zero": false,
+          "analytic_power_ci_excludes_zero": 0.380442
+        },
+        {
+          "n": 10,
+          "bootstrap_mean": 1142.602546,
+          "ci_low": 30.414325,
+          "ci_high": 2254.923133,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.456643
+        },
+        {
+          "n": 12,
+          "bootstrap_mean": 1136.655402,
+          "ci_low": 127.711218,
+          "ci_high": 2156.694546,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.527022
+        },
+        {
+          "n": 16,
+          "bootstrap_mean": 1145.965119,
+          "ci_low": 241.385069,
+          "ci_high": 2032.591327,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.648578
+        },
+        {
+          "n": 20,
+          "bootstrap_mean": 1144.009366,
+          "ci_low": 344.18523,
+          "ci_high": 1945.656011,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.744686
+        },
+        {
+          "n": 25,
+          "bootstrap_mean": 1146.972118,
+          "ci_low": 435.172076,
+          "ci_high": 1856.005343,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.833192
+        },
+        {
+          "n": 30,
+          "bootstrap_mean": 1143.34098,
+          "ci_low": 485.653621,
+          "ci_high": 1798.253476,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.893656
+        },
+        {
+          "n": 40,
+          "bootstrap_mean": 1142.286855,
+          "ci_low": 578.87334,
+          "ci_high": 1706.534346,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.959264
+        },
+        {
+          "n": 50,
+          "bootstrap_mean": 1141.021185,
+          "ci_low": 635.217893,
+          "ci_high": 1641.597926,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.985342
+        },
+        {
+          "n": 75,
+          "bootstrap_mean": 1148.735635,
+          "ci_low": 735.333507,
+          "ci_high": 1559.295611,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.999063
+        },
+        {
+          "n": 100,
+          "bootstrap_mean": 1144.640119,
+          "ci_low": 779.398787,
+          "ci_high": 1504.448727,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.999951
+        },
+        {
+          "n": 150,
+          "bootstrap_mean": 1146.094752,
+          "ci_low": 851.268943,
+          "ci_high": 1443.577336,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 1.0
+        },
+        {
+          "n": 200,
+          "bootstrap_mean": 1144.604967,
+          "ci_low": 893.737926,
+          "ci_high": 1398.320975,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 1.0
+        },
+        {
+          "n": 300,
+          "bootstrap_mean": 1143.61889,
+          "ci_low": 937.332739,
+          "ci_high": 1349.707669,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 1.0
+        },
+        {
+          "n": 500,
+          "bootstrap_mean": 1144.012676,
+          "ci_low": 983.24113,
+          "ci_high": 1305.30109,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 1.0
+        }
+      ],
+      "first_bootstrap_ci_excludes_zero_at_n": 10,
+      "analytic_n_for_80pct_power": 22.91,
+      "analytic_n_for_95pct_power": 37.92,
+      "max_n_tested": 500
+    },
+    "symbol_level": {
+      "observed_n": 5,
+      "observed_mean": 1831.938387,
+      "observed_stdev": 2693.121902,
+      "standard_error": 1204.400729,
+      "resamples_per_n": 20000,
+      "seed": 20261113,
+      "rows": [
+        {
+          "n": 5,
+          "bootstrap_mean": 1837.148087,
+          "ci_low": -405.278168,
+          "ci_high": 3849.836988,
+          "ci_excludes_zero": false,
+          "analytic_power_ci_excludes_zero": 0.330344
+        },
+        {
+          "n": 6,
+          "bootstrap_mean": 1830.53169,
+          "ci_low": -163.381658,
+          "ci_high": 3694.234224,
+          "ci_excludes_zero": false,
+          "analytic_power_ci_excludes_zero": 0.38446
+        },
+        {
+          "n": 8,
+          "bootstrap_mean": 1832.787678,
+          "ci_low": 89.713362,
+          "ci_high": 3426.658107,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.485632
+        },
+        {
+          "n": 10,
+          "bootstrap_mean": 1824.560466,
+          "ci_low": 292.914013,
+          "ci_high": 3254.332084,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.575765
+        },
+        {
+          "n": 12,
+          "bootstrap_mean": 1841.026686,
+          "ci_low": 440.119606,
+          "ci_high": 3145.257819,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.654088
+        },
+        {
+          "n": 15,
+          "bootstrap_mean": 1835.230316,
+          "ci_low": 577.118195,
+          "ci_high": 3021.506163,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.750008
+        },
+        {
+          "n": 20,
+          "bootstrap_mean": 1827.948247,
+          "ci_low": 758.64078,
+          "ci_high": 2844.444933,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.86039
+        },
+        {
+          "n": 25,
+          "bootstrap_mean": 1833.448788,
+          "ci_low": 867.016242,
+          "ci_high": 2757.766199,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.925228
+        },
+        {
+          "n": 30,
+          "bootstrap_mean": 1835.25171,
+          "ci_low": 965.54688,
+          "ci_high": 2675.003546,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.961282
+        },
+        {
+          "n": 40,
+          "bootstrap_mean": 1833.770292,
+          "ci_low": 1078.782765,
+          "ci_high": 2582.113223,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.990413
+        },
+        {
+          "n": 50,
+          "bootstrap_mean": 1834.435136,
+          "ci_low": 1157.922107,
+          "ci_high": 2490.214809,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.997814
+        },
+        {
+          "n": 60,
+          "bootstrap_mean": 1834.296519,
+          "ci_low": 1215.860569,
+          "ci_high": 2436.873402,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.999532
+        },
+        {
+          "n": 80,
+          "bootstrap_mean": 1833.158156,
+          "ci_low": 1306.441893,
+          "ci_high": 2358.032515,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.999981
+        },
+        {
+          "n": 100,
+          "bootstrap_mean": 1833.719254,
+          "ci_low": 1353.536958,
+          "ci_high": 2292.601973,
+          "ci_excludes_zero": true,
+          "analytic_power_ci_excludes_zero": 0.999999
+        }
+      ],
+      "first_bootstrap_ci_excludes_zero_at_n": 8,
+      "analytic_n_for_80pct_power": 16.96,
+      "analytic_n_for_95pct_power": 28.09,
+      "max_n_tested": 100
+    }
+  },
+  "walkforward": {
+    "method": "expanding-window prefixes from bar 0 (warmup preserved); canonical config and a 27-point execution-knob refit grid selected in-sample per prefix, then evaluated on the next block out-of-sample. Blocks with no new trades are skipped, not scored as zero.",
+    "prefix_fractions": [
+      0.05,
+      0.1,
+      0.15,
+      0.2,
+      0.25,
+      0.3,
+      0.35,
+      0.4,
+      0.45,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.9,
+      1.0
+    ],
+    "canonical_prefixes": [
+      {
+        "fraction": 0.05,
+        "bars": 340,
+        "total_pnl": 0.0,
+        "num_trades": 0,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.1,
+        "bars": 679,
+        "total_pnl": 0.0,
+        "num_trades": 0,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.15,
+        "bars": 1019,
+        "total_pnl": 1070.363968,
+        "num_trades": 4,
+        "incremental_block_pnl": 1070.363968,
+        "incremental_block_trades": 4,
+        "evaluable_block": true
+      },
+      {
+        "fraction": 0.2,
+        "bars": 1358,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 8161.331714,
+        "incremental_block_trades": 3,
+        "evaluable_block": true
+      },
+      {
+        "fraction": 0.25,
+        "bars": 1698,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.3,
+        "bars": 2038,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.35,
+        "bars": 2377,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.4,
+        "bars": 2717,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.45,
+        "bars": 3056,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.5,
+        "bars": 3396,
+        "total_pnl": 9231.695682,
+        "num_trades": 7,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.6,
+        "bars": 4075,
+        "total_pnl": 9159.691935,
+        "num_trades": 8,
+        "incremental_block_pnl": -72.003747,
+        "incremental_block_trades": 1,
+        "evaluable_block": true
+      },
+      {
+        "fraction": 0.7,
+        "bars": 4754,
+        "total_pnl": 9159.691935,
+        "num_trades": 8,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.8,
+        "bars": 5434,
+        "total_pnl": 9159.691935,
+        "num_trades": 8,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 0.9,
+        "bars": 6113,
+        "total_pnl": 9159.691935,
+        "num_trades": 8,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      },
+      {
+        "fraction": 1.0,
+        "bars": 6792,
+        "total_pnl": 9159.691935,
+        "num_trades": 8,
+        "incremental_block_pnl": 0.0,
+        "incremental_block_trades": 0,
+        "evaluable_block": false
+      }
+    ],
+    "refit": [
+      {
+        "prefix_fraction": 0.1,
+        "prefix_bars": 679,
+        "in_sample_block_trades": 0,
+        "best_overrides": {
+          "max_positions": 3,
+          "time_exit_max_bars": 24,
+          "rebound_short_target_pct": 6
+        },
+        "in_sample_pnl": 0.0,
+        "in_sample_trades": 0,
+        "out_of_sample_block_pnl": 653.149636,
+        "out_of_sample_block_trades": 4,
+        "canonical_out_of_sample_block_pnl": 1070.363968,
+        "grid_best_pnl": 0.0,
+        "grid_worst_pnl": 0.0,
+        "grid_median_pnl": 0.0
+      },
+      {
+        "prefix_fraction": 0.15,
+        "prefix_bars": 1019,
+        "in_sample_block_trades": 4,
+        "best_overrides": {
+          "max_positions": 3,
+          "time_exit_max_bars": 50,
+          "rebound_short_target_pct": 6
+        },
+        "in_sample_pnl": 1070.363968,
+        "in_sample_trades": 4,
+        "out_of_sample_block_pnl": 10234.773892,
+        "out_of_sample_block_trades": 3,
+        "canonical_out_of_sample_block_pnl": 8161.331714,
+        "grid_best_pnl": 1070.363968,
+        "grid_worst_pnl": 252.454285,
+        "grid_median_pnl": 653.149636
+      },
+      {
+        "prefix_fraction": 0.5,
+        "prefix_bars": 3396,
+        "in_sample_block_trades": 0,
+        "best_overrides": {
+          "max_positions": 3,
+          "time_exit_max_bars": 50,
+          "rebound_short_target_pct": 6
+        },
+        "in_sample_pnl": 11305.13786,
+        "in_sample_trades": 7,
+        "out_of_sample_block_pnl": -72.003747,
+        "out_of_sample_block_trades": 1,
+        "canonical_out_of_sample_block_pnl": -72.003747,
+        "grid_best_pnl": 11305.13786,
+        "grid_worst_pnl": 6521.122375,
+        "grid_median_pnl": 8797.649843
+      }
+    ],
+    "skipped": [
+      {
+        "prefix_fraction": 0.05,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.2,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.25,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.3,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.35,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.4,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.45,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.6,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.7,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.8,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      },
+      {
+        "prefix_fraction": 0.9,
+        "reason": "next block has no new trades; out-of-sample not evaluable"
+      }
+    ],
+    "evaluable_blocks": 3,
+    "non_evaluable_blocks": 11,
+    "refit_out_of_sample_total_pnl": 10815.919781,
+    "refit_out_of_sample_positive_blocks": 2,
+    "refit_out_of_sample_negative_blocks": 1,
+    "canonical_incremental_total_pnl": 9159.691935,
+    "refit_grid": [
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 3,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 5,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 24,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 50,
+        "rebound_short_target_pct": 12
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 6
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 9
+      },
+      {
+        "max_positions": 8,
+        "time_exit_max_bars": 96,
+        "rebound_short_target_pct": 12
+      }
+    ],
+    "refit_scope": "execution/portfolio knobs only; signal generation fixed at spec config"
+  },
+  "verdict": "underpowered",
+  "wall_seconds": 18.156,
+  "limitations": [
+    "8 trades across 5 symbols is a very small sample; LOO/LOTO re-runs cannot create information the sample does not contain.",
+    "The bootstrap/power projection assumes future trades and symbols are drawn from the observed distribution; it is a sample-size calculation, not evidence of edge.",
+    "The refit walk-forward varies execution/portfolio knobs only; signal generation is fixed at the canonical spec config (RSI<20, 9% target, 8x safety stop).",
+    "Expanding-window prefixes start at bar 0 and preserve RSI warmup; trades that open in a block but do not exit by the block end are not counted.",
+    "Cross-venue OKX cache; NOT Hyperliquid performance evidence."
+  ]
+}
