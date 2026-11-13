@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-13T05:31:58.176730+00:00",
+  "timestamp": "2026-11-13T06:29:49.842422+00:00",
   "run_type": "real_market_campaign",
   "research_status": "REAL_MARKET_RUN",
   "real_market_data": true,
@@ -1065,6 +1065,8 @@
         "r_multiple": -0.8973294644763284,
         "bars_held": 44,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 47.781761646852445
       },
@@ -1082,6 +1084,8 @@
         "r_multiple": -0.26773977923416475,
         "bars_held": 50,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 20.02362788089946
       },
@@ -1099,6 +1103,8 @@
         "r_multiple": 0.8450776630509432,
         "bars_held": 50,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 22.695031339183846
       },
@@ -1116,6 +1122,8 @@
         "r_multiple": 0.5665676789695688,
         "bars_held": 50,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 23.22124865738396
       },
@@ -1133,6 +1141,8 @@
         "r_multiple": 0.16443696716207098,
         "bars_held": 64,
         "leg": "short",
+        "rebound_short_pnl": 1067.729426268781,
+        "rebound_hedge_pnl": -2704.5912510984035,
         "hedge_side": "short",
         "hedge_size": 21.446852709648507
       },
@@ -1150,6 +1160,8 @@
         "r_multiple": 0.14376954563431193,
         "bars_held": 50,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 28.529079977191124
       },
@@ -1167,6 +1179,8 @@
         "r_multiple": 0.11128172137026157,
         "bars_held": 50,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 17.79260482804984
       },
@@ -1184,6 +1198,8 @@
         "r_multiple": -0.0019939443501682708,
         "bars_held": 50,
         "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
         "hedge_side": "short",
         "hedge_size": 54.81205584923875
       }
@@ -1366,12 +1382,12 @@
     "trade_attribution_by_leg": [
       {
         "leg": "buy",
-        "pnl": 6171.467781400775,
-        "trades": 7
+        "pnl": 10796.55375971258,
+        "trades": 8
       },
       {
         "leg": "short",
-        "pnl": 2988.2241534821824,
+        "pnl": -1636.8618248296225,
         "trades": 1
       }
     ],
@@ -1382,25 +1398,25 @@
         "wins": 4,
         "losses": 4,
         "win_rate": 0.5,
-        "gross_profit": 9616.357576327806,
+        "gross_profit": 12960.162849114422,
         "gross_loss": 2163.609089401842,
-        "profit_factor": 4.444591041622206,
-        "total_pnl": 7452.748486925964,
+        "profit_factor": 5.990066741999788,
+        "total_pnl": 10796.553759712579,
         "avg_r_multiple": 0.07137620299491773,
-        "pnl_share_pct": 81.36461946436845
+        "pnl_share_pct": 117.87027158190706
       },
       {
         "leg": "short",
         "trades": 1,
         "wins": 0,
-        "losses": 0,
+        "losses": 1,
         "win_rate": 0.0,
         "gross_profit": 0,
-        "gross_loss": 0,
+        "gross_loss": 1636.8618248296225,
         "profit_factor": 0.0,
-        "total_pnl": 0.0,
+        "total_pnl": -1636.8618248296225,
         "avg_r_multiple": 0.16443696716207098,
-        "pnl_share_pct": 0.0
+        "pnl_share_pct": -17.87027158190707
       }
     ],
     "exposure_metrics": {
@@ -1448,6 +1464,6 @@
     "vault_hwm_final": 109146.3026344122,
     "fee_hours_per_step": 1.0,
     "fee_time_base_hours_per_year": 8760.0,
-    "timestamp": "2026-11-13T05:31:58.176600"
+    "timestamp": "2026-11-13T06:29:49.842275"
   }
 }

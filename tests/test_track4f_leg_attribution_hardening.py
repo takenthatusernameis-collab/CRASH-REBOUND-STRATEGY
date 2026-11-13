@@ -130,6 +130,61 @@ def test_leg_breakdown_in_campaign_metrics_dict():
     assert len(m["leg_breakdown"]) == 2
 
 
+def test_leg_breakdown_splits_rebound_short_constituents():
+    # Engine records the buy-leg total in `pnl` (long coin + long hedge) and the
+    # rebound short's coin/hedge PnL in rebound_* fields. A short-legged trade
+    # that actually fired the rebound short must split into buy/short constituents
+    # WITHOUT double-counting the buy hedge (which `pnl` already includes).
+    t = {
+        "symbol": "BTC", "leg": "short",
+        "pnl": 100.0,               # buy-leg total (long coin + long hedge)
+        "hedge_pnl": 20.0,          # buy hedge + rebound hedge (informational)
+        "rebound_short_pnl": 30.0,  # rebound short coin leg
+        "rebound_hedge_pnl": -5.0,  # rebound hedge leg
+        "total_pnl": 125.0,         # authoritative grand total
+        "r_multiple": 0.5,
+    }
+    m = compute_metrics_from_trades([t])
+    by_leg = {l["leg"]: l for l in m["leg_breakdown"]}
+    assert set(by_leg) == {"buy", "short"}
+    assert math.isclose(by_leg["buy"]["total_pnl"], 100.0)
+    assert math.isclose(by_leg["short"]["total_pnl"], 25.0)
+    assert math.isclose(sum(l["pnl_share_pct"] for l in m["leg_breakdown"]), 100.0,
+                        rel_tol=0, abs_tol=1e-9)
+
+
+def test_leg_breakdown_short_without_rebound_fields_not_split():
+    # Legacy/partial serialization: leg='short' but no rebound_* fields (e.g. the
+    # real OKX campaign artifact). Must be attributed in full to the short leg,
+    # never split into a phantom buy + zero short constituent.
+    t = {"symbol": "BCH", "leg": "short", "pnl": 4625.0, "hedge_pnl": -3343.0,
+         "total_pnl": 2988.0, "r_multiple": 0.16}
+    m = compute_metrics_from_trades([t])
+    by_leg = {l["leg"]: l for l in m["leg_breakdown"]}
+    assert set(by_leg) == {"short"}
+    assert math.isclose(by_leg["short"]["total_pnl"], 2988.0)
+
+
+def test_trade_attribution_by_leg_matches_leg_breakdown_split():
+    # The by-leg summary and the per-leg breakdown must use the same split so a
+    # rebound-short trade is never double-reported (full total on 'short' in one
+    # structure and a buy/short split in the other).
+    t = {
+        "symbol": "BTC", "leg": "short",
+        "pnl": 100.0, "hedge_pnl": 20.0,
+        "rebound_short_pnl": 30.0, "rebound_hedge_pnl": -5.0,
+        "total_pnl": 125.0, "r_multiple": 0.5,
+    }
+    m = compute_metrics_from_trades([t])
+    by_leg = {l["leg"]: l for l in m["trade_attribution_by_leg"]}
+    lb = {l["leg"]: l for l in m["leg_breakdown"]}
+    assert set(by_leg) == {"buy", "short"} == set(lb)
+    for leg in ("buy", "short"):
+        assert math.isclose(by_leg[leg]["pnl"], lb[leg]["total_pnl"])
+    assert math.isclose(sum(l["pnl"] for l in m["trade_attribution_by_leg"]),
+                        m["exposure_metrics"]["total_pnl"])
+
+
 def test_leg_breakdown_csv_rows_flatten_per_leg():
     from src.metrics.campaign_metrics import metrics_to_csv_rows
     trades = [_t("long", 10.0, r=1.0), _t("long", -4.0, r=-0.4), _t("short", 5.0, r=2.5)]

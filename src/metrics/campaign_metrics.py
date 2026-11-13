@@ -163,7 +163,6 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
     by_leg: Dict[str, Dict[str, Any]] = {}
     for t in trades:
         sym = t.get("symbol", "unknown")
-        leg = t.get("side", t.get("leg", "unknown"))
         pnl = _trade_pnl(t)
         coin_pnl = _finite(t.get("pnl", pnl))
         hedge_pnl = _finite(t.get("hedge_pnl", 0.0))
@@ -172,9 +171,15 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
         s["coin_pnl"] += coin_pnl
         s["hedge_pnl"] += hedge_pnl
         s["trades"] += 1
-        lg = by_leg.setdefault(str(leg), {"leg": str(leg), "pnl": 0.0, "trades": 0})
-        lg["pnl"] += pnl
-        lg["trades"] += 1
+        # Attribute by constituent leg using the SAME split as leg_breakdown, so a
+        # rebound-short trade's buy and short constituents are reported separately
+        # and this summary never disagrees with leg_breakdown (previously it
+        # assigned a rebound trade's full buy+short total to the 'short' primary
+        # leg, contradicting the per-leg decomposition).
+        for leg, leg_pnl in _split_leg_pnls(t):
+            lg = by_leg.setdefault(str(leg), {"leg": str(leg), "pnl": 0.0, "trades": 0})
+            lg["pnl"] += leg_pnl
+            lg["trades"] += 1
     attribution = list(by_symbol.values())
     attribution_by_leg = list(by_leg.values())
 
@@ -237,19 +242,24 @@ def _leg_key(t: Dict[str, Any]) -> str:
 def _split_leg_pnls(t: Dict[str, Any]) -> List[Tuple[str, float]]:
     """Split a trade's PnL into constituent legs for per-leg attribution.
 
-    A trade whose primary leg is 'short' (rebound short fired after the buy hit
-    target) contributes a buy-leg PnL (long coin + long hedge) and a short-leg
-    PnL (short coin + short hedge). The engine records the long leg's coin/hedge
-    PnL in `pnl`/`hedge_pnl` and the rebound short's coin/hedge PnL in
-    `rebound_short_pnl`/`rebound_hedge_pnl`. Trades with no rebound short are
-    buy-leg only. Splitting here keeps the spec's per-leg win-rate / profit-factor
-    / PnL-share breakdown machine-checkable rather than a single aggregate bucket.
+    Only a trade that actually executed a rebound short carries rebound-leg PnL.
+    The engine records the buy (long coin + long hedge) settlement in the trade's
+    `pnl` field and keeps the rebound short's coin/hedge PnL in
+    `rebound_short_pnl`/`rebound_hedge_pnl`. When those rebound constituents are
+    present, split into a buy constituent (`pnl`) and a short constituent
+    (`rebound_short_pnl + rebound_hedge_pnl`).
+
+    A trade whose leg is 'short' but has NO rebound constituents (e.g. a legacy or
+    partial serialization that omitted the rebound fields, or a plain short-side
+    trade) must NOT be split into a zero short leg; it is attributed in full to its
+    own leg using the authoritative grand total. This keeps per-leg PnL shares
+    summing to 100% and never fabricates a phantom buy/short constituent.
     """
     leg = _leg_key(t)
-    if leg == "short":
-        buy_pnl = _finite(t.get("pnl", 0.0)) + _finite(t.get("hedge_pnl", 0.0))
-        short_pnl = _finite(t.get("rebound_short_pnl", 0.0)) + _finite(t.get("rebound_hedge_pnl", 0.0))
-        return [("buy", buy_pnl), ("short", short_pnl)]
+    reb_short = _finite(t.get("rebound_short_pnl", 0.0))
+    reb_hedge = _finite(t.get("rebound_hedge_pnl", 0.0))
+    if leg == "short" and (reb_short != 0.0 or reb_hedge != 0.0):
+        return [("buy", _finite(t.get("pnl", 0.0))), ("short", reb_short + reb_hedge)]
     return [(leg, _trade_pnl(t))]
 
 

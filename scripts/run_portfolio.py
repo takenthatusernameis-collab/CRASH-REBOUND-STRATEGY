@@ -408,6 +408,16 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         'r_multiple': getattr(res, 'r_multiple', 0.0),
                         'bars_held': getattr(res, 'bars_held', 0),
                         'leg': getattr(res, 'leg', 'short' if 'rebound_short' in str(getattr(res, 'exit_reason', '')) else 'buy'),
+                        # Persist rebound-leg constituents so downstream per-leg
+                        # attribution can split a rebound-short trade into its buy
+                        # (long coin + long hedge) and short (short coin + rebound
+                        # hedge) constituents. Without these fields the trade is
+                        # attributed in full to its primary leg (never a phantom
+                        # zero short leg). `hedge_pnl` above already folds in the
+                        # rebound hedge, so these are additive detail, not a second
+                        # source of truth for the grand total.
+                        'rebound_short_pnl': getattr(res, 'rebound_short_pnl', 0.0),
+                        'rebound_hedge_pnl': getattr(res, 'rebound_hedge_pnl', 0.0),
                         'hedge_side': getattr(res, 'hedge_side', None),
                         'hedge_size': getattr(res, 'hedge_size', 0.0),
                     })

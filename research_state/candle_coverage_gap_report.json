@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-11-13T05:16:00.951795+00:00",
+  "generated_at_utc": "2026-11-13T06:17:19.614607+00:00",
   "report_type": "candle_coverage_gap_report",
   "item": "6c_real_283d_hyperliquid_campaign",
   "target_window": {
@@ -9,13 +9,13 @@
   },
   "real_market_data": true,
   "fabricated_data": false,
-  "ready_for_real_campaign": true,
-  "all_complete": true,
-  "blocked": false,
-  "item_6c_blocked": false,
+  "ready_for_real_campaign": false,
+  "all_complete": false,
+  "blocked": true,
+  "item_6c_blocked": true,
   "symbols": {
-    "ETH": {
-      "status": "ok",
+    "BTC": {
+      "status": "error",
       "observed_in_window_bars": 6792,
       "expected_hourly_bars": 6792,
       "complete_for_target_window": true,
@@ -24,79 +24,1617 @@
       "last_timestamp": "2026-09-28T23:00:00+00:00",
       "first_timestamp_ms": 1766188800000,
       "last_timestamp_ms": 1790636400000,
-      "sha256": "9c442d4918f12885cbbb0b1007ba930ac6374291df6775a4f4eb9c68897459a0",
-      "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ETH.json",
+      "sha256": "7ac2dd5c9968a99ded22c57ad76138e9fb1b13629060098fa07eec49b0795730",
+      "cache_path": "research_state/cache/hyperliquid/candles/BTC.json",
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
-        "observed_min_24h_usd_volume": 7494757.389196,
-        "observed_max_24h_usd_volume": 2111615790.723695,
-        "observed_mean_24h_usd_volume": 320808148.068602,
+        "observed_min_24h_usd_volume": 120000000000000.0,
+        "observed_mean_24h_usd_volume": 2875123674911661.0,
         "bars_checked": 6792,
         "bars_passing": 6792,
-        "volume_filter_ok": true,
-        "universe_membership_ok": true
+        "volume_filter_ok": true
+      },
+      "volume_coverage_present": true,
+      "volume_floor_compliant": true,
+      "volume_floor_reason": "ok"
+    },
+    "ETH": {
+      "status": "error",
+      "observed_in_window_bars": 6792,
+      "expected_hourly_bars": 6792,
+      "complete_for_target_window": true,
+      "gap_count": 0,
+      "first_timestamp": "2025-12-20T00:00:00+00:00",
+      "last_timestamp": "2026-09-28T23:00:00+00:00",
+      "first_timestamp_ms": 1766188800000,
+      "last_timestamp_ms": 1790636400000,
+      "sha256": "f8e2dfac3e5f270a26f0ddc4f352a9eb642fa9857080a8abf678b697637b5e6a",
+      "cache_path": "research_state/cache/hyperliquid/candles/ETH.json",
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 3000000000000.0,
+        "observed_mean_24h_usd_volume": 71878091872791.52,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true
       },
       "volume_coverage_present": true,
       "volume_floor_compliant": true,
       "volume_floor_reason": "ok"
     }
   },
-  "probe_evidence": {
-    "ts": "2026-11-13T05:16:00.951795+00:00",
-    "window": {
-      "start": "2025-12-20T00:00:00+00:00",
-      "end": "2026-09-28T23:00:00+00:00",
-      "expected_hourly_bars": 6792
-    },
-    "full": {
-      "ETH": {
-        "coin": "ETH",
-        "count": 6792,
-        "first_t": 1766188800000,
-        "last_t": 1790636400000,
-        "complete": true
-      }
-    },
-    "source": {
-      "kind": "archive",
-      "hl_url": null,
-      "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928",
-      "input_archives": []
-    }
-  },
+  "probe_evidence": null,
   "archive_scan": {
     "searched_paths": [
-      "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928"
+      "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives"
+    ],
+    "candidate_archives": [
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.README.json",
+        "sha256": "fb0e002f3ecb3b8516bb73b46ed3543770c3fc9fb9739f9fed3b3a9be7c48fb2",
+        "symbols": {},
+        "all_complete": false,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "synthetic_or_incomplete_rejected"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+        "sha256": "e0e783f64f0ee18aabc8b490da56d2750396b21b3d99d55d63baf000f757c28c",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": false,
+            "synthetic": true
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": false,
+            "synthetic": true
+          }
+        },
+        "all_complete": false,
+        "synthetic_detected": true,
+        "verified": false,
+        "verdict": "synthetic_or_incomplete_rejected"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/AAVE.json",
+        "sha256": "e0d66a721801b5c49466913c78794f41337dbfd02f65766703ca2d4c836d32a3",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ADA.json",
+        "sha256": "6aa2c432adf055aab87d5c9d07572f30c780b068a99a7b885b06c90077f2ed8a",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ALGO.json",
+        "sha256": "72deb89a01eef209aa32bbe0b284b78422f05725051769239175e37fa58d3953",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/APT.json",
+        "sha256": "6c584144de6169f1cd53c969dfcb97f54747578e42eabac6a98fc27210c68dac",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ARB.json",
+        "sha256": "0ef9fff74848f7d5a68f7fc39ade94c2be9c39aca58b05c0cee9e1bf5e469ddc",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ATOM.json",
+        "sha256": "5265526c1ec969848df7b9ddd6291c434106d7e97fe569c646b7af5e96670a5d",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/AVAX.json",
+        "sha256": "a1a1ef7c4e4c6c019ea5c20ce2f1a9d82b3c2e92553e6d23cf9bfbefd4eda2d4",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/AXS.json",
+        "sha256": "e5aea9614eeb719021c2663d2103d8d14180a846e4c746561e5d63309c40a5d0",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/BAT.json",
+        "sha256": "ad3f933a2dae152f3d9c4ea241ab68e4286b75e490bd4ca87d689d000f6b548f",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/BCH.json",
+        "sha256": "99397dc53803c14c0d152fbbdbb88d3c8de060c54015ee6ee54c90d4ab9b04a7",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/BONK.json",
+        "sha256": "0d65940dacf781a9f0b78f93c2f93d38d1b7f6bf0c86cd38c4bf8f9bc885f209",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/CHZ.json",
+        "sha256": "d9e73b01a01f54fc4f59fd737aa13f099524bb4272b2d541ede1f64ba703b552",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/COMP.json",
+        "sha256": "bdba47e84c56b51fa9e8681313d8367188d0a45cada6099634167d56259868da",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/CRV.json",
+        "sha256": "7f852868a782d5ac9847932438fc4065edcba24cfedd4d7f0b0fe343d9300a90",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/DASH.json",
+        "sha256": "50c140ad70422d6d5ae1c0b059cc13a6bd6d994261594dc5f3b37591a39b54ca",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/DOGE.json",
+        "sha256": "855db9d43a1f47ca939bf4609c434b728f152fc009bbe6aa83776bce181539ea",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/DOT.json",
+        "sha256": "cbf0e744d80ad3317e50a86858b93da287ab8520e326c9654f06f694cecc9aef",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ENJ.json",
+        "sha256": "84320531555cd5b11ac139ad7e65650547c5e87d86bf33e6db69f2c6bbefaf0a",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ETC.json",
+        "sha256": "87d64a126b9a66df36a75ebd0c9cab9220dcbb3aa66489a220238a325d0668e8",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ETH.json",
+        "sha256": "6294a707a7629f2fee9ca8bdaa612ce0a01deafe4ec3b9ae0401ea23f7c446a6",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/FET.json",
+        "sha256": "439a8549c34571b0a8bec946b472dc4b1f2ab210534ac90706cc75b37cf391c4",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/FIL.json",
+        "sha256": "461c5f0588238c025d323e871aa28f70cf9172423b39b7bd3f2b91110c73c83e",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/FLOKI.json",
+        "sha256": "c96c2f363bfe6aaf0a98b08c89c6723c8e31aabab70631f205691aaca5fd6659",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/FLOW.json",
+        "sha256": "5acd00241e16c91492b0a072982e6d00f25519919d5d0a8fc51ebe8aba02c3cd",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/GALA.json",
+        "sha256": "52fbb516801995f5fe4ff825473a74785a506ffed276e0bab4da975d4750617d",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/GRT.json",
+        "sha256": "b357d41c713c744c5b22a8332dcc5acf1e213ea486ec024b9f5b45f85d333d42",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/HBAR.json",
+        "sha256": "5fdd423bce05874adb4db2ef7a387b77d569e682ff77d7ced60d9c30ee75b3d6",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ICP.json",
+        "sha256": "c2354511eb376ff833882345b8d6919c8975c30a256783c91ff87c4bb0569185",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/IMX.json",
+        "sha256": "70baee77adfa0d75edda0879a61e6bd67b269aa95790838e9a6e36f984f62082",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/INJ.json",
+        "sha256": "a8ec7c6f30c7cfabd4b287c0d31ec732ab522ed0ebc4b0d365d1608b4e5935cc",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/JTO.json",
+        "sha256": "cdf53a72eda367740b42ece4add25a956134558218ba39f4cd5a86bb364f25b1",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/JUP.json",
+        "sha256": "4eee4b4fe202215ade23461064d411088141b57145a0c14aa0a8da9678ad026b",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/KSM.json",
+        "sha256": "ac369e7a75c023b46cfda99ef324c54e7307a55746649b48d0ae19a053a1b04e",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/LDO.json",
+        "sha256": "b186878c13aa7e72ff54731163b67f3e4e058fc8e432ad8a3483ae46d6477521",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/LINK.json",
+        "sha256": "b56d193a96aa6b8467eafc3f6159d1e00088b4bd7f2733c66e8ed3fc4f4f109f",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/LTC.json",
+        "sha256": "ee8842d8b26208ec3256f4b8027e7b3cbeddcf5dc409fe1238ce48f50514ada8",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/MANA.json",
+        "sha256": "71bf511d153f346a11017b1c72d3ba52afed3374523df093f4d3ddae7d5e4416",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/MINA.json",
+        "sha256": "1bd6abd5471a1674b80b7d59139705c8aa7b748badd8bedc9571ba8832fd3d86",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/NEAR.json",
+        "sha256": "500505fe4a232f9800a95657fc3559b45c381fff8ea98514b8de7e3bc4232a3b",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/OP.json",
+        "sha256": "753b440be79bf38b9f9f78634bf2987b5ea26225c090a8928819b5ab937269a9",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ORDI.json",
+        "sha256": "dda5d4244032afd5bb27e0f31cf8de8d4caf7f8a645647e50773d371d1df2189",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/PEPE.json",
+        "sha256": "339f5162e66a07cccca11826d74a9eca2ea1771f4b2f66c2c019c51f4c15bc37",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/PYTH.json",
+        "sha256": "e0813aec91d85da52ddfc708a35bf2c7e9634e2886e9b6d29572b363860714ce",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/RENDER.json",
+        "sha256": "85bdfb930c51244d00cb8bd933aa4a1012c03ccd00ee27fd1b90c5bc1f84a914",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SAND.json",
+        "sha256": "4fea1d899d1b620729722e60072629ca6b954b2b0c8e4f172278a0be55405f29",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SATS.json",
+        "sha256": "9b2da00d4f775ea88c8d60db55cc5c6066284beb0e024db37f2398592c5727e6",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SEI.json",
+        "sha256": "993c37f920b68276254d35137deff7ee21672dfe50b4f03bbf8f92e70bf41a72",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SHIB.json",
+        "sha256": "7e565dd19487c3406c9d904055387e92e54d3898c9d01d5093636fd320460e92",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SNX.json",
+        "sha256": "baf52a2bd96571ec6691a951bbf0a5e598342e61c39211caffd6c4dd7b87d7e8",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SOL.json",
+        "sha256": "4acc054eae470dd99f1b9b7dd259e45423120fc04a1d552835249b8dfb62a308",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SOURCE.json",
+        "sha256": "04e373631e13dff0bf3c8b997d6503fa601d63b1405f5968f2b1c6f653ee1f18",
+        "symbols": {},
+        "all_complete": false,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "synthetic_or_incomplete_rejected"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/STX.json",
+        "sha256": "e3208b79b3f3587daf9bdf3ec70298fcbab2decd7075ec3e133dafaf926de5d7",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SUI.json",
+        "sha256": "3c7bc56bd7926469d1a9fac8ccb036e392410e2d6f41c32633bf53ca5284b2d2",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/SUSHI.json",
+        "sha256": "9d7209cf088807fd917c3da740c0d6afc89603dcd943ddb83bbd46c25d225363",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/THETA.json",
+        "sha256": "9cc845dbbc9eb7c17918e18d04274c317c117262bc9c468aeb073e37952518bf",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/TIA.json",
+        "sha256": "0781cd9de9b4bc42a66aa83ab1122015cf414cb3b586bbce0753a6149212397f",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/TRX.json",
+        "sha256": "e33e6bdecbb4995422553ed11cc75252cf205e08eb9172a7f36104791b4bb4f3",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/UNI.json",
+        "sha256": "a5e55c834d974f7f8840440f0a0a8ccf1bd8766b7f06e855022caae113d6241e",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/WIF.json",
+        "sha256": "7b3b0458f65568350966775021cab3fcfe243b8fa5068d4a7506749e80960a13",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/WLD.json",
+        "sha256": "199d124b29cf57f5d15ba1278cee3754ad53c31ff2d9648c9bc886e0304b189b",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/XLM.json",
+        "sha256": "d399ed8b2ca5205051465be17ef8cc6709cdf53967e162c9b7c3076de4e315c2",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/XRP.json",
+        "sha256": "d917bb00abfb6cfea6c3b7bce666a1b2f6fba5d4638ac357f9b8a53bd85469f8",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/XTZ.json",
+        "sha256": "55a88550aca839e21efc839487cd57b83b8e175606f017a119e1f5f1d282145a",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_full_20251220_20260928/ZEC.json",
+        "sha256": "cb7282d107bd594c260504c31d4501131f91317cb59c655c61d837ebf7c7dd82",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/BTC.json",
+        "sha256": "c8c050e3d2a77c8377c5685ca1bb736145f748779b6352d4a8bed289eb93afc7",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/DOGE.json",
+        "sha256": "855db9d43a1f47ca939bf4609c434b728f152fc009bbe6aa83776bce181539ea",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/ETH.json",
+        "sha256": "6294a707a7629f2fee9ca8bdaa612ce0a01deafe4ec3b9ae0401ea23f7c446a6",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/SOL.json",
+        "sha256": "4acc054eae470dd99f1b9b7dd259e45423120fc04a1d552835249b8dfb62a308",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/SOURCE.json",
+        "sha256": "75b61857b831e6111502ab14680778ed99f4c3035907f9b0d8171234f4abdb7e",
+        "symbols": {},
+        "all_complete": false,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "synthetic_or_incomplete_rejected"
+      },
+      {
+        "path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/XRP.json",
+        "sha256": "d917bb00abfb6cfea6c3b7bce666a1b2f6fba5d4638ac357f9b8a53bd85469f8",
+        "symbols": {
+          "BTC": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          },
+          "ETH": {
+            "bars_in_window": 6792,
+            "expected": 6792,
+            "complete": true,
+            "synthetic": false
+          }
+        },
+        "all_complete": true,
+        "synthetic_detected": false,
+        "verified": false,
+        "verdict": "runtime_probed_unverified"
+      }
     ],
     "verified_archives_found": []
   },
   "target_window_consistent_with_spec": true,
   "blocker": {
-    "item_6c_blocked": false,
-    "reason": "Manifest indicates complete verified coverage with spec-compliant volume floor evidence; run gated real campaign.",
+    "item_6c_blocked": true,
+    "reason": "Manifest summary contradicts validated symbol facts (fail-closed): synthetic symbols present: ['BTC', 'ETH']",
     "required_to_unblock": [
       "Verified archive or API coverage delivering 6792/6792 hourly bars per required symbol for 2025-12-20T00:00:00Z\u21922026-09-28T23:00:00Z",
       "Documented source/extraction, checksums, provenance.json all_complete=true ready_for_real_campaign=true",
       "Spec-relevant >=$5M 24h volume universe derived/reconciled from verified data"
     ],
-    "target_window_mismatch": false,
-    "volume_floor_compliant": true
+    "target_window_mismatch": false
   },
-  "probe_summary": {
-    "symbols_probed": 1,
-    "all_complete": true,
-    "any_complete": true,
-    "target_expected_bars": 6792,
-    "expected_mismatch_symbols": 0
-  },
-  "probe_gap_summary": {
-    "ETH": {
-      "count": 6792,
-      "expected": 6792,
-      "missing_bars": 0,
-      "complete": true
-    }
-  },
+  "probe_gap_summary": null,
+  "manifest_summary_contradiction": true,
+  "summary_contradiction_errors": [],
+  "summary_contradiction_actual_synthetic_symbols": [
+    "BTC",
+    "ETH"
+  ],
   "volume_floor_compliant": true,
   "volume_floor_issues": {},
   "volume_coverage_absent_symbols": []
