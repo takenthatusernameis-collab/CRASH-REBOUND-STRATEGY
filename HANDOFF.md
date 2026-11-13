@@ -1,13 +1,13 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T06:41:35Z
-**Supersedes:** 2026-11-13T06:40:16Z (this session re-verified state: suite green 933 passed/1 skipped, working tree clean, all Phase E/F bottleneck fixes committed; nothing pending; refreshed timestamp/commit reference).
+**Handoff updated (UTC):** 2026-11-13T06:48:24Z
+**Supersedes:** 2026-11-13T06:41:35Z (this session re-verified state: suite green 933 passed/1 skipped, working tree clean, all Phase E/F bottleneck fixes committed; nothing pending; refreshed timestamp/commit reference).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `e1cffc0` (working tree clean; all Phase E/F bottleneck fixes committed; nothing pending).
+**Branch:** `main` @ `5db74ee` (working tree clean; all Phase E/F bottleneck fixes committed; nothing pending).
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> *(Inferred from repo `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtest — and the current verified state, 2026-11-13T06:40:16Z.)*
+> *(Inferred from repo `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtest — and the current verified state, 2026-11-13T06:48:24Z.)*
 >
 > **Priority order (repo-aligned: crash-rebound strategy first, everything else second):**
 >
