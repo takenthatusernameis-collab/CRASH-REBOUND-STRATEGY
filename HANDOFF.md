@@ -1,43 +1,76 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T19:38:37Z
-**Supersedes:** 2026-11-13T19:35:00Z (and all earlier).
+**Handoff updated (UTC):** 2026-11-13T19:40:37Z
+**Supersedes:** 2026-11-13T19:38:37Z (and all earlier).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `dd12ee8` (working tree may carry uncommitted changes from this session). **Single durable handoff:** this file only. Do not create a second handoff/status file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T19:38:37Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T19:40:37Z)
 >
 > **Inferred priority (from repo name `CRASH-REBOUND-STRATEGY`):** deliver a **decision-grade, statistically defensible validation** of the crash-rebound strategy on real evidence. The 8/8 evidence-chain gate is complete, but **Phase L verdict is `underpowered` (n=8 trades, bootstrap 95% CI crosses zero, sign-flip p=0.09375, concentrated)**. The strategy is **NOT validated**. The next session must do **heavy compute that moves power/out-of-sample confidence**, not another point sweep, not prose, not re-runs of completed phases.
 >
-> **Start-of-session bootstrap + done-gate (run first, record exact output):**
-> 1. If `/tmp/crs-venv/bin/python` is missing, run `bash scripts/bootstrap_env.sh`.
-> 2. Run: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` — must print **8/8 checks passed — DONE**.
-> 3. Verify L (no writes): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_campaign.py --check` — expect `OK: 8 trades, verdict=underpowered`.
-> 4. Confirm no concurrent work: `ps aux | grep -E 'run_sensitivity|run_robustness|run_real_campaign|pytest' | grep -v grep || true` and `ls research_state/.sensitivity_sweep.lock 2>&1 || echo "no lock"`.
+> **START-OF-SESSION BOOTSTRAP + DONE-GATE (RUN FIRST, RECORD EXACT OUTPUT):**
+> ```bash
+> # 0. Prerequisites (run once if venv missing)
+> test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh
 >
-> **Verified baseline (as of 2026-11-13T19:38:37Z):** gate **8/8** (J2=17, K=9, L=`underpowered`, G+/J1/J3/handoff). Fast suite **966 passed, 1 skipped, 1 deselected**; repro contract green; canonical campaign artifact byte-identical (sha256 `57973b0c…2f9b8`). No sweeps running; `/tmp/crs-venv` present. **Missing next-campaign deliverables:** `research_state/placebo_okx_full.*`, `research_state/risk_budget_real_okx_full.*`, and any walk-forward artifact — **this is the blocking gap.**
+> # 1. Done-gate — must print "8/8 checks passed — DONE"
+> PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
 >
-> **Decision-critical facts (do not soften):**
+> # 2. Verify Phase L status (no writes)
+> PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_campaign.py --check
+> # EXPECT: OK: 8 trades, verdict=underpowered
+>
+> # 3. Confirm no concurrent sweeps/locks
+> ps aux | grep -E 'run_sensitivity|run_robustness|run_real_campaign|pytest' | grep -v grep || true
+> ls research_state/.sensitivity_sweep.lock 2>&1 || echo "no lock"
+> ```
+>
+> **VERIFIED BASELINE (as of 2026-11-13T19:40:37Z):** gate **8/8** (J2=17 runs, K=9 runs, L=`underpowered`, G+/J1/J3/handoff). Fast suite **966 passed, 1 skipped, 1 deselected**; repro contract green; canonical campaign artifact byte-identical (sha256 `57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8`). No sweeps running; `/tmp/crs-venv` present. **MISSING NEXT-CAMPAIGN DELIVERABLES (blocking gap):** `research_state/placebo_okx_full.*`, `research_state/walkforward_okx_full.*`, `research_state/risk_budget_real_okx_full.*` — **NONE EXIST.**
+>
+> **DECISION-CRITICAL FACTS (DO NOT SOFTEN):**
 > - Canonical real OKX (283d, 54 symbols, 6792 bars/symbol, 5M vol gate, non-synthetic): **8 trades (4W/4L, 5 symbols), +9.1597% total / +22.5995% annualized over 0.4301y, worst DD −2.0275%, PnL +9159.69**. sha256 `57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8`.
-> - Phase L (`underpowered`): bootstrap 95% CI total PnL **[-$930.66, +$19,152.38]** (crosses 0), sign-flip one-sided **p=0.09375** (2/256), concentration high (top symbol/trade share ~0.51/0.38, 5 traded symbols). Small-sample result — not decision-grade.
+> - Phase L (`underpowered`): bootstrap 95% CI total PnL **[-$930.66, +$19,152.38]** (crosses 0), sign-flip one-sided **p=0.09375** (2/256), concentration high (top symbol/trade share ~0.51/0.38, 5 traded symbols). Small-sample result — **not decision-grade**.
 > - Phase K: `rsi25_maxpos8` => **+23.44% but −18.34% worst DD, 33 trades** (risk-budget trade, not free alpha); `rsi25_target6` is the only loss. Interaction is material/asymmetric on the same small-sample base.
-> - Hyperliquid-native campaign **NOT_RUN**. `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` is a **flat synthetic placeholder** (BTC 60000 / ETH 3000, 1 distinct close each) — **never use as evidence**. All conclusions are **real OKX cross-venue, NOT Hyperliquid performance evidence**.
+> - Hyperliquid-native campaign **NOT_RUN**. `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` is a **flat synthetic placeholder** (BTC 60000 / ETH 3000, 1 distinct close each) — **NEVER USE AS EVIDENCE**. All conclusions are **real OKX cross-venue, NOT Hyperliquid performance evidence**.
 >
-> **MANDATORY NEXT FOCUS CAMPAIGN (execute in order; heavy compute; do not stop early):**
-> 1. **Structured placebo / null distribution (primary).** Build a placebo that respects the J1 funnel (342→187→39→89→11→8): random entries subject to the same volume/regime gates and same holding/exit rules, run over the same on-disk cache/manifest/universe (no network, no canonical overwrite). Generate a **null distribution of total PnL** (and return/DD) and report the real 8-trade result's percentile/p-value against it. This is the only rigorous path from `underpowered` → `signal`/`noise`.
->    - Deliverables: `research_state/placebo_okx_full.json`, `research_state/placebo_okx_full.md` (method, N simulations, seed, gates preserved, null stats, real-vs-null percentile, interpretation). Extend/emit robustness evidence as needed but **do not overwrite** `robustness_real_okx_full.*` unless adding a clearly versioned companion; prefer a new artifact that the gate/handoff can cite.
-> 2. **Symbol-block bootstrap.** Resample **whole symbols** (not trades) to capture symbol-level dependence; report block-bootstrap CI for total PnL/return alongside the trade-level CI and state whether sign/conclusion survives.
->    - Deliverable: include in placebo/robustness companion artifact with explicit method and seed.
-> 3. **Walk-forward / out-of-sample on same cache.** Expanding-window (e.g. first-half train/second-half test, or rolling) on 2025-12-20..2026-09-28 cache; report realized OOS performance, active horizon, and effect of 131-day no-trade tail. Directly test luck vs persistence.
->    - Deliverable: `research_state/walkforward_okx_full.json` and `research_state/walkforward_okx_full.md`.
-> 4. **Risk-budget the K "winner".** If `rsi25_maxpos8` is discussed, produce a **drawdown-constrained/daily-loss-governed** variant and the **return vs worst-DD frontier** so +23% is never quoted without −18% DD.
->    - Deliverable: `research_state/risk_budget_real_okx_full.json` and `research_state/risk_budget_real_okx_full.md`.
-> 5. **Hyperliquid parity remains `NOT_RUN`.** Keep `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` accurate; do not claim parity from OKX and do not use the flat placeholder parquet.
-> 6. **Integrate & report.** Refresh this handoff with commands run, counts, new artifact paths + sha256, placebo/walk-forward/risk conclusions, and re-run `scripts/session_gate.py` (must remain **8/8**). Add gate checks for any new artifact you claim complete.
+> **MANDATORY NEXT FOCUS CAMPAIGN (EXECUTE IN ORDER; HEAVY COMPUTE; DO NOT STOP EARLY):**
 >
-> **Acceptance criteria for this campaign:** placebo null distribution computed on real cache with preserved gates (no fabrication), symbol-block bootstrap reported, walk-forward OOS reported, risk/DD frontier reported, all caveats intact, handoff updated with hashes/commands, gate still 8/8.
+> ### 1. STRUCTURED PLACEBO / NULL DISTRIBUTION (PRIMARY — DO THIS FIRST)
+> Build a placebo that respects the J1 funnel (342→187→39→89→11→8): random entries subject to the same volume/regime gates and same holding/exit rules, run over the same on-disk cache/manifest/universe (no network, no canonical overwrite). Generate a **null distribution of total PnL** (and return/DD) and report the real 8-trade result's percentile/p-value against it. This is the **only rigorous path** from `underpowered` → `signal`/`noise`.
+> - **Deliverables:** `research_state/placebo_okx_full.json`, `research_state/placebo_okx_full.md` (method, N simulations, seed, gates preserved, null stats, real-vs-null percentile, interpretation). Extend/emit robustness evidence as needed but **DO NOT OVERWRITE** `robustness_real_okx_full.*` unless adding a clearly versioned companion; prefer a new artifact that the gate/handoff can cite.
+> - **Minimum N:** 10,000 simulations (same as Phase L bootstrap). Seed must be recorded and reproducible.
 >
-> **Anti-avoidance rules:** Do not stop after reading/planning/summary. Do not re-run J2/K/L or re-acquire OKX data without cause (complete, byte-stable). Do not present the strategy as validated. Do not fabricate nulls or p-values. Do not claim Hyperliquid parity from OKX or use the flat placeholder. Do not relax the $5M volume gate. Do not overwrite canonical artifacts. Do not create a second handoff file. The next session must execute **heavy compute** and produce the missing artifacts.
+> ### 2. SYMBOL-BLOCK BOOTSTRAP
+> Resample **whole symbols** (not trades) to capture symbol-level dependence; report block-bootstrap CI for total PnL/return alongside the trade-level CI and state whether sign/conclusion survives.
+> - **Deliverable:** include in placebo/robustness companion artifact with explicit method and seed.
+>
+> ### 3. WALK-FORWARD / OUT-OF-SAMPLE ON SAME CACHE
+> Expanding-window (e.g. first-half train/second-half test, or rolling) on 2025-12-20..2026-09-28 cache; report realized OOS performance, active horizon, and effect of 131-day no-trade tail. Directly test luck vs persistence.
+> - **Deliverable:** `research_state/walkforward_okx_full.json` and `research_state/walkforward_okx_full.md`.
+>
+> ### 4. RISK-BUDGET THE K "WINNER"
+> If `rsi25_maxpos8` is discussed, produce a **drawdown-constrained/daily-loss-governed** variant and the **return vs worst-DD frontier** so +23% is never quoted without −18% DD.
+> - **Deliverable:** `research_state/risk_budget_real_okx_full.json` and `research_state/risk_budget_real_okx_full.md`.
+>
+> ### 5. HYPERLIQUID PARITY REMAINS `NOT_RUN`
+> Keep `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` accurate; do not claim parity from OKX and do not use the flat placeholder parquet.
+>
+> ### 6. INTEGRATE & REPORT
+> Refresh this handoff with commands run, counts, new artifact paths + sha256, placebo/walk-forward/risk conclusions, and re-run `scripts/session_gate.py` (must remain **8/8**). Add gate checks for any new artifact you claim complete.
+>
+> **ACCEPTANCE CRITERIA FOR THIS CAMPAIGN:** placebo null distribution computed on real cache with preserved gates (no fabrication), symbol-block bootstrap reported, walk-forward OOS reported, risk/DD frontier reported, all caveats intact, handoff updated with hashes/commands, gate still 8/8.
+>
+> **ANTI-AVOIDANCE RULES (VIOLATION = FAILURE):**
+> - ❌ Do NOT stop after reading/planning/summary. **Must produce artifacts.**
+> - ❌ Do NOT re-run J2/K/L or re-acquire OKX data without cause (complete, byte-stable).
+> - ❌ Do NOT present the strategy as validated. Phase L = `underpowered`.
+> - ❌ Do NOT fabricate nulls or p-values.
+> - ❌ Do NOT claim Hyperliquid parity from OKX or use the flat placeholder.
+> - ❌ Do NOT relax the $5M volume gate.
+> - ❌ Do NOT overwrite canonical artifacts.
+> - ❌ Do NOT create a second handoff/status file.
+> - ✅ The next session **MUST EXECUTE HEAVY COMPUTE** and produce the missing artifacts.
 
 ---
 
