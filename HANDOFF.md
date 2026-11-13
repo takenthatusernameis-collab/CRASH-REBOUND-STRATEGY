@@ -1,20 +1,20 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T02:03:13Z
-**Supersedes:** 2026-11-13T01:19:02Z edition (content preserved and tightened; this is the only durable handoff).
+**Handoff updated (UTC):** 2026-11-13T03:04:38Z
+**Supersedes:** 2026-11-13T02:03:13Z edition (content preserved and tightened; this is the only durable handoff).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 
-> **READ FIRST — INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (inferred from repo name `CRASH-REBOUND-STRATEGY`, 2026-11-13T02:03:13Z):**
+> **READ FIRST — INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (inferred from repo name `CRASH-REBOUND-STRATEGY`, 2026-11-13T03:04:38Z):**
 > **Objective:** Produce the first **REAL performance evidence** for the crash-rebound strategy.
-> **State:** Strategy code, portfolio engine, provenance gates, and **905 passing tests** (12 parquet-skipped only when pyarrow absent; pyarrow 26.0.1 installed) are complete. **NO REAL PERFORMANCE EVIDENCE exists.**
-> **Single blocker:** missing a verified, **non-synthetic**, complete hourly OHLCV archive for Hyperliquid perps meeting the spec universe (≥$5M 24h volume) over the full spec window `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (**6792 bars/symbol**, `gap_count=0`, integrity OK, no look-ahead). The public Hyperliquid API **cannot** supply pre-`2026-04-19T00:00:00Z` hourly candles (proven 2026-11-13); a verifiable user-supplied/external archive is required.
+> **State:** Strategy code, portfolio engine, provenance gates, and **916 passing tests / 1 skipped** (green) are complete. **NO REAL PERFORMANCE EVIDENCE exists.**
+> **Sole blocker:** missing a verified, **non-synthetic**, complete hourly OHLCV archive for Hyperliquid perps meeting the spec universe (≥$5M 24h volume) over the full spec window `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (**6792 bars/symbol**, `gap_count=0`, integrity OK, no look-ahead). The public Hyperliquid API **cannot** supply pre-`2026-04-19T00:00:00Z` hourly candles (proven 2026-11-13); a verifiable user-supplied/external archive is required.
 > **Mandatory campaign (execute in order; heavy work, non-optional):**
 > 1. **Acquire & verify full-window data (Phase B):** obtain a verifiable hourly archive for the spec universe covering the full window; validate schema (`symbol,timestamp_ms,open,high,low,close,volume`), 6792/6792 bars/symbol, non-flat OHLCV, real volumes, checksums; derive/reconcile spec universe from verified data → `research_state/universe_verified.json`; ingest via `scripts/fetch_hyperliquid_candles.py` to produce passing provenance (`summary.all_complete=true`, `ready_for_real_campaign=true`, no synthetic flags). Document every acquisition attempt with exact commands/output; if blocked, record precisely what is missing — but only after exhausting attempts.
 > 2. **Run real 283-day campaign (Phase C):** `PYTHONPATH=. python scripts/run_real_campaign.py --manifest <verified_manifest>`; persist full metrics/artifacts (equity curve, returns, Sharpe, Sortino, max DD w/ timestamps, Calmar, win rate, profit factor, monthly/weekly breakdowns, trade/leg attribution buys/shorts/hedges, exposure/cap utilization, liquidation/funding/fee impacts) under `research_state/` with `real_market_data=true`, `performance_evidence=true`, provenance hash/path, universe, and execution-realism limitations; compare vs spec (+81.2% total, +115.2%/yr, -5.4% worst DD, 85 trades: 73 buys/71% win, 12 shorts/83% win) with evidence-based attribution.
 > 3. **Harden & update (Phase D):** run/extend tests as needed (`PYTHONPATH=. pytest -q`), ensure provenance gates cannot be bypassed, and update this HANDOFF with resolved/unresolved blockers, exact commands, artifact paths, and remaining gaps.
 > **Hard prohibitions:** Do **not** substitute fixture/probe/partial-window runs for 283d evidence. Do **not** fabricate, synthesize, or “fill” market data. Do **not** weaken or bypass provenance/gates (including `--allow-partial-not-evidence` semantics) or relabel synthetic/partial data as real evidence. Do **not** declare blockage without actively attempting Phase B acquisition and documenting exact results. Do **not** re-litigate closed Phase A.
-
-**This file is the durable handoff.** Future sessions must continue this campaign; do not treat fixture/probe analysis as progress toward evidence.
+>
+> **This file is the durable handoff.** Future sessions must continue this campaign; do not treat fixture/probe analysis as progress toward evidence.
 
 ---
 
@@ -22,7 +22,7 @@
 
 - **Spec:** `research_state/strategy_spec.md`, `crash-rebound-strategy.pdf` (283d window `2025-12-20T00:00:00Z` → `2026-09-28T23:00:00Z`, 6792 hourly bars/symbol, universe = HL perps with ≥$5M 24h volume, one position/coin, buys+shorts capped 120% of vault w/ equal-share cuts, ETH hedges, 20s slicing/order-book impact described in spec).
 - **Implementation present:** `src/strategy/*`, `src/backtest/engine.py` (hourly sim, fees/funding/liquidation checks as implemented), `src/data/provenance.py`, `scripts/fetch_hyperliquid_candles.py` (archive/API ingest + provenance, parquet supported), `scripts/run_portfolio.py`, `scripts/run_real_campaign.py` (fail-closed gates), `scripts/run_campaign.py` (fixture smoke only).
-- **Test suite green (2026-11-13):** `PYTHONPATH=. python -m pytest -q` → **905 passed, 12 skipped**.
+- **Test suite green (2026-11-13T03:04:38Z):** `PYTHONPATH=. python -m pytest -q` → **916 passed, 1 skipped**. (Two bottlenecks removed this session: a `TypeError` in `src/data/provenance.py` on non-list `complete_symbols`, and `scripts/run_real_campaign.py` now returns `rc==2` instead of crashing on a temp/unverified manifest path.)
 - **Fixture smoke (NOT evidence):** `python scripts/run_campaign.py` → `research_state/campaign_results.json` with `research_status: "SMOKE_TEST_ONLY"`, `real_market_data=false`, synthetic fixtures.
 - **Real full-window run correctly blocked:** `python scripts/run_real_campaign.py` exits non-zero without complete, verified, non-synthetic provenance for the required symbols/window.
 
@@ -50,7 +50,7 @@
 ## 5) Remaining critical blockers (priority order)
 
 1. **No verified, non-synthetic, provenance-approved 283-day dataset for the SPEC-RELEVANT UNIVERSE** (all HL perps meeting ≥$5M 24h volume per spec, with documented symbol selection) covering `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (6792 bars, `gap_count=0`, integrity OK, no look-ahead). **Sole blocker to real evidence.** Public API cannot supply it (Section 3); verifiable user-supplied/external archive required.
-2. **Universe derivation/reconciliation:** spec requires coins with ≥$5M 24h volume over the window; `research_state/universe_verified.json` / `scripts/derive_verified_universe.py` must be grounded in verified full-window data, not assumed.
+2. **Universe derivation/reconciliation:** spec requires coins with ≥$5M 24h volume over the window; `research_state/universe_verified.json` / `scripts/derive_verified_universe.py` must be grounded in verified full-window data, not assumed. Current `universe_verified.json` lists BTC/ETH as synthetic-excluded; must be regenerated once verified data lands.
 3. **Execution-realism gap (known, non-blocking for first real run but must be reported):** hourly-bar simplified (slippage/funding/liquidation proxies); spec's 20s slicing + L2 order-book impact not reproduced. Any real result must state this limitation explicitly.
 
 ## 6) Next focus campaign — HEAVY, ORDERED, NON-OPTIONAL
@@ -72,7 +72,7 @@
 5. Update this `HANDOFF.md`: mark blockers resolved/unresolved with evidence, record exact commands run, artifact paths, and remaining gaps.
 
 ### Phase D — Validation hardening (parallel/after C as appropriate)
-- Run/extend tests: `PYTHONPATH=. pytest -q` (currently 905 passed / 12 skipped) especially around portfolio reservation/cap cuts, same-bar edge cases, hedge sizing, exits, liquidation/funding accounting.
+- Run/extend tests: `PYTHONPATH=. pytest -q` (currently 916 passed / 1 skipped) especially around portfolio reservation/cap cuts, same-bar edge cases, hedge sizing, exits, liquidation/funding accounting.
 - Ensure `run_real_campaign.py`/provenance gates cannot be bypassed; add/adjust tests only if they reflect spec-correct, evidence-backed behavior.
 
 ## 7) Key commands & files
@@ -91,6 +91,7 @@
 - Prior artifacts (fixture): `research_state/campaign_results.json`, `research_state/campaign_metrics.*`
 
 ## 8) Definition of “significant progress” for next session
+
 - **Minimum:** Phase B acquisition attempt executed and documented with exact evidence (either verified full-window data ingested to passing provenance, OR a precise, reproducible record of every acquisition attempt and why each failed).
 - **Target:** Phase B completed (verified full-universe data + passing provenance) and Phase C real campaign executed with full metrics/artifacts.
 - **Unacceptable:** further probe-script churn, fixture-only or partial-window-only reporting presented as progress, re-litigating the closed Phase A, or declaring blockage without actively attempting Phase B acquisition and documenting exact results.

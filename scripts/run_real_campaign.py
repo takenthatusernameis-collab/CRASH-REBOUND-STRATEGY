@@ -347,7 +347,12 @@ def main(argv=None):
     # relaxes any gate for the symbols that remain.
     universe_symbols: Optional[List[str]] = None
     if args.universe_file:
-        raw_for_universe = load_provenance(manifest_path) if manifest_path.exists() else {}
+        try:
+            raw_for_universe = load_provenance(manifest_path) if manifest_path.exists() else {}
+        except ProvenanceError as e:
+            print(str(e), file=sys.stderr)
+            print("BLOCKER: manifest path is not acceptable as verified real-data evidence.", file=sys.stderr)
+            return 2
         universe_symbols = load_universe(Path(args.universe_file), raw_for_universe)
         if not universe_symbols:
             print("BLOCKER: universe file empty or not found.", file=sys.stderr)

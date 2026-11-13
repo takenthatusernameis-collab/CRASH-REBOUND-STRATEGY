@@ -289,8 +289,10 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
         # symbols that remain in scope (out-of-scope symbols were already excluded),
         # so a truthful whole-archive label cannot fail a legitimately scoped run.
         scope_names = set(scope.keys()) if isinstance(scope, dict) else set()
+        cs = summary.get("complete_symbols")
+        cs_list = cs if isinstance(cs, list) else []
         out_of_scope_complete = [
-            str(x) for x in (summary.get("complete_symbols") or [])
+            str(x) for x in cs_list
             if str(x) not in scope_names
         ]
         if summary.get("ready_for_real_campaign") is True and synthetic_detected_actual:
