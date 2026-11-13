@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T03:29:05Z
-**Supersedes:** 2026-11-13T03:04:38Z edition (data-acquisition blocker resolved this session; campaign advanced to real evidence on OKX real data).
+**Handoff updated (UTC):** 2026-11-13T04:04:39Z
+**Supersedes:** 2026-11-13T03:29:05Z edition (data-acquisition blocker resolved; campaign advanced to real evidence on OKX real data).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 
 > **READ FIRST — INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (inferred from repo name `CRASH-REBOUND-STRATEGY`, 2026-11-13T03:29:05Z):**
