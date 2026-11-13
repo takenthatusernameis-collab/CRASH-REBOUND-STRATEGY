@@ -1,0 +1,490 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T20:28:12.865292+00:00",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "method": "return-vs-worst-DD frontier from existing sensitivity/interaction sweep artifacts (no re-simulation)",
+  "k_winner": {
+    "tag": "rsi25_maxpos8",
+    "label": "RSI<25 with max 8 concurrent positions",
+    "params": {
+      "rsi_threshold": 25.0,
+      "max_positions": 8
+    },
+    "total_return_pct": 23.438742424202765,
+    "max_drawdown_pct": -18.339283066110266,
+    "trade_count": 33,
+    "total_pnl": 23438.74242420277,
+    "win_rate": 0.5454545454545454,
+    "profit_factor": 1.678797715546665,
+    "annualized_return_pct": 11.416027538654049,
+    "sharpe": 0.1387778989664591,
+    "net_total_pnl": 17796.006426493055
+  },
+  "baseline": {
+    "tag": "baseline_spec",
+    "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
+    "params": {},
+    "total_return_pct": 9.159691934882952,
+    "max_drawdown_pct": -2.0274965243788596,
+    "trade_count": 8,
+    "total_pnl": 9159.691934882958,
+    "win_rate": 0.5,
+    "profit_factor": 5.23352442904336,
+    "annualized_return_pct": 22.599525626916606,
+    "sharpe": 0.6257881282591806,
+    "net_total_pnl": 8141.289620068439
+  },
+  "frontier_tags_interaction": [
+    "baseline_spec",
+    "rsi25_maxpos3",
+    "rsi25_maxpos8"
+  ],
+  "interaction_points": [
+    {
+      "tag": "baseline_spec",
+      "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
+      "params": {},
+      "total_return_pct": 9.159691934882952,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9159.691934882958,
+      "win_rate": 0.5,
+      "profit_factor": 5.23352442904336,
+      "annualized_return_pct": 22.599525626916606,
+      "sharpe": 0.6257881282591806,
+      "net_total_pnl": 8141.289620068439
+    },
+    {
+      "tag": "rsi18_maxpos8",
+      "label": "RSI<18 with max 8 concurrent positions",
+      "params": {
+        "rsi_threshold": 18.0,
+        "max_positions": 8
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -0.06793894002337877,
+      "trade_count": 2,
+      "total_pnl": 5911.026195224909,
+      "win_rate": 0.5,
+      "profit_factor": 83.09331360374159,
+      "annualized_return_pct": null,
+      "sharpe": 0.976216896275199,
+      "net_total_pnl": 5259.407789696006
+    },
+    {
+      "tag": "rsi25_maxpos3",
+      "label": "RSI<25 with max 3 concurrent positions",
+      "params": {
+        "rsi_threshold": 25.0,
+        "max_positions": 3
+      },
+      "total_return_pct": 19.361967874642573,
+      "max_drawdown_pct": -16.617687525687003,
+      "trade_count": 25,
+      "total_pnl": 19361.96787464257,
+      "win_rate": 0.52,
+      "profit_factor": 1.6400024942225147,
+      "annualized_return_pct": 50.90413525278568,
+      "sharpe": 0.13475797048798782,
+      "net_total_pnl": 14583.714996345414
+    },
+    {
+      "tag": "rsi25_maxpos8",
+      "label": "RSI<25 with max 8 concurrent positions",
+      "params": {
+        "rsi_threshold": 25.0,
+        "max_positions": 8
+      },
+      "total_return_pct": 23.438742424202765,
+      "max_drawdown_pct": -18.339283066110266,
+      "trade_count": 33,
+      "total_pnl": 23438.74242420277,
+      "win_rate": 0.5454545454545454,
+      "profit_factor": 1.678797715546665,
+      "annualized_return_pct": 11.416027538654049,
+      "sharpe": 0.1387778989664591,
+      "net_total_pnl": 17796.006426493055
+    },
+    {
+      "tag": "rsi18_maxpos3",
+      "label": "RSI<18 with max 3 concurrent positions",
+      "params": {
+        "rsi_threshold": 18.0,
+        "max_positions": 3
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -0.06793894002337877,
+      "trade_count": 2,
+      "total_pnl": 5911.026195224909,
+      "win_rate": 0.5,
+      "profit_factor": 83.09331360374159,
+      "annualized_return_pct": null,
+      "sharpe": 0.976216896275199,
+      "net_total_pnl": 5259.407789696006
+    },
+    {
+      "tag": "rsi25_target12",
+      "label": "RSI<25 with +12% buy target",
+      "params": {
+        "rsi_threshold": 25.0,
+        "target_pct": 12.0
+      },
+      "total_return_pct": 18.193233824297184,
+      "max_drawdown_pct": -18.99856331301794,
+      "trade_count": 30,
+      "total_pnl": 18193.233824297167,
+      "win_rate": 0.5,
+      "profit_factor": 1.5268851602544662,
+      "annualized_return_pct": 8.959788403621992,
+      "sharpe": 0.1204143118515934,
+      "net_total_pnl": 13092.942190775102
+    },
+    {
+      "tag": "rsi25_target6",
+      "label": "RSI<25 with +6% buy target",
+      "params": {
+        "rsi_threshold": 25.0,
+        "target_pct": 6.0
+      },
+      "total_return_pct": -1.2092237175841292,
+      "max_drawdown_pct": -20.902343024326246,
+      "trade_count": 30,
+      "total_pnl": -1209.2237175841342,
+      "win_rate": 0.5666666666666667,
+      "profit_factor": 0.9647882141885609,
+      "annualized_return_pct": -0.622606356355504,
+      "sharpe": -0.012622803101802178,
+      "net_total_pnl": -3973.25738491081
+    },
+    {
+      "tag": "rsi15_maxpos3",
+      "label": "RSI<15 with max 3 concurrent positions",
+      "params": {
+        "rsi_threshold": 15.0,
+        "max_positions": 3
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -0.06793894002337877,
+      "trade_count": 2,
+      "total_pnl": 5911.026195224909,
+      "win_rate": 0.5,
+      "profit_factor": 83.09331360374159,
+      "annualized_return_pct": null,
+      "sharpe": 0.976216896275199,
+      "net_total_pnl": 5259.407789696006
+    },
+    {
+      "tag": "rsi15_maxpos8",
+      "label": "RSI<15 with max 8 concurrent positions",
+      "params": {
+        "rsi_threshold": 15.0,
+        "max_positions": 8
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -0.06793894002337877,
+      "trade_count": 2,
+      "total_pnl": 5911.026195224909,
+      "win_rate": 0.5,
+      "profit_factor": 83.09331360374159,
+      "annualized_return_pct": null,
+      "sharpe": 0.976216896275199,
+      "net_total_pnl": 5259.407789696006
+    }
+  ],
+  "sensitivity_points": [
+    {
+      "tag": "baseline_spec",
+      "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
+      "params": {},
+      "total_return_pct": 9.159691934882952,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9159.691934882958,
+      "win_rate": 0.5,
+      "profit_factor": 5.23352442904336,
+      "annualized_return_pct": 22.599525626916606,
+      "sharpe": 0.6257881282591806,
+      "net_total_pnl": 8141.289620068439
+    },
+    {
+      "tag": "rsi_threshold_15",
+      "label": "RSI(21) crash trigger < 15 (spec 20)",
+      "params": {
+        "rsi_threshold": 15.0
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -0.06793894002337877,
+      "trade_count": 2,
+      "total_pnl": 5911.026195224909,
+      "win_rate": 0.5,
+      "profit_factor": 83.09331360374159,
+      "annualized_return_pct": null,
+      "sharpe": 0.976216896275199,
+      "net_total_pnl": 5259.407789696006
+    },
+    {
+      "tag": "rsi_threshold_18",
+      "label": "RSI(21) crash trigger < 18 (spec 20)",
+      "params": {
+        "rsi_threshold": 18.0
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -0.06793894002337877,
+      "trade_count": 2,
+      "total_pnl": 5911.026195224909,
+      "win_rate": 0.5,
+      "profit_factor": 83.09331360374159,
+      "annualized_return_pct": null,
+      "sharpe": 0.976216896275199,
+      "net_total_pnl": 5259.407789696006
+    },
+    {
+      "tag": "rsi_threshold_25",
+      "label": "RSI(21) crash trigger < 25 (spec 20)",
+      "params": {
+        "rsi_threshold": 25.0
+      },
+      "total_return_pct": 17.128398941776645,
+      "max_drawdown_pct": -19.13822718620274,
+      "trade_count": 30,
+      "total_pnl": 17128.398941776642,
+      "win_rate": 0.5,
+      "profit_factor": 1.496047008931852,
+      "annualized_return_pct": 8.454738349734626,
+      "sharpe": 0.10734902512202628,
+      "net_total_pnl": 12146.347610770361
+    },
+    {
+      "tag": "buy_target_6pct",
+      "label": "Buy target +6% (spec +9%)",
+      "params": {
+        "target_pct": 6.0
+      },
+      "total_return_pct": 10.751428703815957,
+      "max_drawdown_pct": -1.9373286531649048,
+      "trade_count": 8,
+      "total_pnl": 10751.428703815971,
+      "win_rate": 0.625,
+      "profit_factor": 5.713744226623565,
+      "annualized_return_pct": 148.20885532000693,
+      "sharpe": 0.7452521404121496,
+      "net_total_pnl": 9555.916002823837
+    },
+    {
+      "tag": "buy_target_12pct",
+      "label": "Buy target +12% (spec +9%)",
+      "params": {
+        "target_pct": 12.0
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 12986.089258227512,
+      "win_rate": 0.5,
+      "profit_factor": 7.002049687181563,
+      "annualized_return_pct": null,
+      "sharpe": 0.6265499322694893,
+      "net_total_pnl": 11542.540227098663
+    },
+    {
+      "tag": "buy_hold_24h",
+      "label": "Buy max hold 24h (spec 50h)",
+      "params": {
+        "time_exit_max_bars": 24
+      },
+      "total_return_pct": 8.924271997568,
+      "max_drawdown_pct": -0.24570200289956243,
+      "trade_count": 8,
+      "total_pnl": 8924.271997567987,
+      "win_rate": 0.75,
+      "profit_factor": 36.90178871696091,
+      "annualized_return_pct": 4.948445689447745,
+      "sharpe": 1.0047083426169157,
+      "net_total_pnl": 7958.596932190743
+    },
+    {
+      "tag": "buy_hold_72h",
+      "label": "Buy max hold 72h (spec 50h)",
+      "params": {
+        "time_exit_max_bars": 72
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -3.957908624904676,
+      "trade_count": 8,
+      "total_pnl": 10738.899020495915,
+      "win_rate": 0.625,
+      "profit_factor": 3.630112777168844,
+      "annualized_return_pct": null,
+      "sharpe": 0.5212425537568258,
+      "net_total_pnl": 9563.65845299283
+    },
+    {
+      "tag": "short_target_6pct",
+      "label": "Rebound-short target -6% (spec -9%)",
+      "params": {
+        "rebound_short_target_pct": 6.0
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 11233.134113304168,
+      "win_rate": 0.5,
+      "profit_factor": 6.191850121321922,
+      "annualized_return_pct": null,
+      "sharpe": 0.6426937146280114,
+      "net_total_pnl": 9984.353962856814
+    },
+    {
+      "tag": "short_target_12pct",
+      "label": "Rebound-short target -12% (spec -9%)",
+      "params": {
+        "rebound_short_target_pct": 12.0
+      },
+      "total_return_pct": 9.159691934882952,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9159.691934882958,
+      "win_rate": 0.5,
+      "profit_factor": 5.23352442904336,
+      "annualized_return_pct": 22.599525626916606,
+      "sharpe": 0.6257881282591806,
+      "net_total_pnl": 8141.289620068439
+    },
+    {
+      "tag": "short_hold_24h",
+      "label": "Rebound-short max hold 24h (spec 48h)",
+      "params": {
+        "rebound_short_time_exit_bars": 24
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9026.182261361148,
+      "win_rate": 0.5,
+      "profit_factor": 5.171817499554207,
+      "annualized_return_pct": null,
+      "sharpe": 0.6222282885834276,
+      "net_total_pnl": 8022.614056676203
+    },
+    {
+      "tag": "short_hold_72h",
+      "label": "Rebound-short max hold 72h (spec 48h)",
+      "params": {
+        "rebound_short_time_exit_bars": 72
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 8642.772602857436,
+      "win_rate": 0.5,
+      "profit_factor": 4.994609121025112,
+      "annualized_return_pct": null,
+      "sharpe": 0.6098135764666263,
+      "net_total_pnl": 7681.8046154373305
+    },
+    {
+      "tag": "eth_hedge_cap_1x",
+      "label": "ETH hedge cap 1x position (spec 3x)",
+      "params": {
+        "hedge_cap_multiplier": 1.0
+      },
+      "total_return_pct": 6.806209709676692,
+      "max_drawdown_pct": -1.4492185324447266,
+      "trade_count": 8,
+      "total_pnl": 6806.209709676681,
+      "win_rate": 0.625,
+      "profit_factor": 5.215270698476577,
+      "annualized_return_pct": 16.541959679414163,
+      "sharpe": 0.5555259101002691,
+      "net_total_pnl": 6049.395937388079
+    },
+    {
+      "tag": "eth_hedge_cap_2x",
+      "label": "ETH hedge cap 2x position (spec 3x)",
+      "params": {
+        "hedge_cap_multiplier": 2.0
+      },
+      "total_return_pct": 9.159691934882952,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9159.691934882958,
+      "win_rate": 0.5,
+      "profit_factor": 5.23352442904336,
+      "annualized_return_pct": 22.599525626916606,
+      "sharpe": 0.6257881282591806,
+      "net_total_pnl": 8141.289620068439
+    },
+    {
+      "tag": "no_rebound_short",
+      "label": "Rebound short disabled (spec enabled)",
+      "params": {
+        "enable_rebound_short": false
+      },
+      "total_return_pct": null,
+      "max_drawdown_pct": -2.1869949335612238,
+      "trade_count": 8,
+      "total_pnl": 15260.099738092675,
+      "win_rate": 0.5,
+      "profit_factor": 7.554601105738973,
+      "annualized_return_pct": null,
+      "sharpe": 0.5854276376515046,
+      "net_total_pnl": 13563.888703573279
+    },
+    {
+      "tag": "max_positions_3",
+      "label": "Max concurrent positions 3 (spec 5)",
+      "params": {
+        "max_positions": 3
+      },
+      "total_return_pct": 9.159691934882952,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9159.691934882958,
+      "win_rate": 0.5,
+      "profit_factor": 5.23352442904336,
+      "annualized_return_pct": 22.599525626916606,
+      "sharpe": 0.6257881282591806,
+      "net_total_pnl": 8141.289620068439
+    },
+    {
+      "tag": "max_positions_8",
+      "label": "Max concurrent positions 8 (spec 5)",
+      "params": {
+        "max_positions": 8
+      },
+      "total_return_pct": 9.159691934882952,
+      "max_drawdown_pct": -2.0274965243788596,
+      "trade_count": 8,
+      "total_pnl": 9159.691934882958,
+      "win_rate": 0.5,
+      "profit_factor": 5.23352442904336,
+      "annualized_return_pct": 22.599525626916606,
+      "sharpe": 0.6257881282591806,
+      "net_total_pnl": 8141.289620068439
+    }
+  ],
+  "governed_variants": [
+    {
+      "variant": "cap_positions_to_baseline_5",
+      "rationale": "rsi25_maxpos8 gains return (+23.44%) but incurs -18.34% DD and 33 trades vs baseline 8; capping positions (rsi25_maxpos3: +19.36%, -16.62% DD, 25 trades) partially governs DD but still elevated.",
+      "evidence_points": [
+        "baseline_spec",
+        "rsi25_maxpos3",
+        "rsi25_maxpos8"
+      ]
+    },
+    {
+      "variant": "prefer_baseline_or_dd_constrained",
+      "rationale": "On return-vs-worst-DD, baseline (+9.16%, -2.03% DD) dominates on drawdown; rsi25_maxpos8 is a risk-budget trade and must not be quoted without -18.34% DD and underpowered caveat.",
+      "evidence_points": [
+        "baseline_spec",
+        "rsi25_maxpos8"
+      ]
+    }
+  ],
+  "caveats": [
+    "rsi25_maxpos8: +23.44% total return with -18.34% worst DD and 33 trades \u2014 risk-budget trade, NOT free alpha; must be quoted together.",
+    "All points are from prior sweeps on underpowered OKX sample (canonical 8 trades baseline); conclusions directional only.",
+    "Cross-venue OKX cache; NOT Hyperliquid performance evidence."
+  ]
+}

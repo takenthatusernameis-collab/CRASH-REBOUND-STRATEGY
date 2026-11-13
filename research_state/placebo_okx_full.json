@@ -1,0 +1,242 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T20:17:19.362136+00:00",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "method": "per-event exit-model null + bootstrap (complementary to full-portfolio placebo)",
+  "seed": 20261113,
+  "canonical": {
+    "trades": 8,
+    "total_pnl": 9159.691934882958,
+    "mean_trade_total_pnl": 1144.9614918603697,
+    "sha256": "57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8"
+  },
+  "pools": {
+    "volume_pass_events": 187,
+    "bounce_confirmed_events": 39,
+    "traded_events": 8,
+    "volume_pass_sim_ok": 11,
+    "bounce_confirmed_sim_ok": 11,
+    "traded_sim_ok": 8
+  },
+  "gate_preserving_proof": {
+    "statement": "All placebo candidates drawn from J1 census events with volume_gate_pass=true and trailing_24h_volume_usd >= 5,000,000; $5M gate NOT relaxed. Per-event exits simulated via generate_signal+backtest_simple on cached bars with canonical StrategyConfig.",
+    "volume_pass_pool": {
+      "count": 11,
+      "all_volume_gate_pass": true,
+      "all_trailing_24h_ge_5m": true,
+      "bounce_confirmed_count": 11,
+      "regime_min_price_ok_count": 11
+    },
+    "bounce_confirmed_pool": {
+      "count": 11,
+      "all_volume_gate_pass": true,
+      "all_trailing_24h_ge_5m": true,
+      "bounce_confirmed_count": 11,
+      "regime_min_price_ok_count": 11
+    },
+    "traded_events_independent_sim": [
+      {
+        "symbol": "AVAX",
+        "ts": "2026-01-31T18:00:00Z",
+        "total_pnl": 11624.183196608337,
+        "exit_reason": "time_exit",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "BCH",
+        "ts": "2026-01-31T18:00:00Z",
+        "total_pnl": 8049.636910794275,
+        "exit_reason": "target_rebound_short",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "BCH",
+        "ts": "2026-05-18T08:00:00Z",
+        "total_pnl": -72.00374714750825,
+        "exit_reason": "time_exit",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "ETH",
+        "ts": "2026-01-20T19:00:00Z",
+        "total_pnl": -14431.896383492945,
+        "exit_reason": "time_exit",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "LINK",
+        "ts": "2026-01-25T20:00:00Z",
+        "total_pnl": -2680.226399818461,
+        "exit_reason": "time_exit",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "SOL",
+        "ts": "2026-01-19T02:00:00Z",
+        "total_pnl": 46412.961976417806,
+        "exit_reason": "liquidated",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "SOL",
+        "ts": "2026-01-25T20:00:00Z",
+        "total_pnl": -4076.9739667358517,
+        "exit_reason": "time_exit",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      },
+      {
+        "symbol": "SOL",
+        "ts": "2026-01-31T20:00:00Z",
+        "total_pnl": 152222.1270065652,
+        "exit_reason": "time_exit",
+        "volume_gate_pass": true,
+        "bounce_confirmed": true,
+        "regime_min_price_ok": true
+      }
+    ],
+    "note": "Independent per-event traded sims differ from canonical portfolio (which includes cap/occupancy/admission effects); canonical total 9159.69 is the compared value."
+  },
+  "null_volume_pass_matched_k8": {
+    "trials": 2000,
+    "draw_k": 8,
+    "distribution_total_pnl": {
+      "n": 2000,
+      "mean": 232103.21159132224,
+      "median": 220987.49665714355,
+      "stdev": 121014.93497503431,
+      "min": -43257.66430249144,
+      "max": 798889.6757853695,
+      "p05": 55419.9367124686,
+      "p25": 144749.39172073308,
+      "p75": 310246.7474938911,
+      "p95": 443209.97044348746
+    },
+    "distribution_mean_trade_pnl": {
+      "n": 2000,
+      "mean": 29012.90144891528,
+      "median": 27623.437082142944,
+      "stdev": 15126.866871879289,
+      "min": -5407.20803781143,
+      "max": 99861.20947317118,
+      "p05": 6927.492089058575,
+      "p25": 18093.673965091635,
+      "p75": 38780.84343673639,
+      "p95": 55401.24630543593
+    },
+    "real_total_pnl": 9159.691934882958,
+    "real_percentile": {
+      "le_frac": 0.0135,
+      "ge_frac": 0.9865,
+      "rank_of_le": 27,
+      "n": 2000
+    },
+    "one_sided_p_ge_real": 0.9865
+  },
+  "null_bounce_confirmed_matched_k8": {
+    "trials": 2000,
+    "draw_k": 8,
+    "distribution_total_pnl": {
+      "n": 2000,
+      "mean": 236055.2012137691,
+      "median": 222367.71401243666,
+      "stdev": 130177.48779759678,
+      "min": -39784.18890047339,
+      "max": 725737.5719399365,
+      "p05": 45811.89445861694,
+      "p25": 138191.15465101143,
+      "p75": 316158.7695757178,
+      "p95": 464286.4574114198
+    },
+    "distribution_mean_trade_pnl": {
+      "n": 2000,
+      "mean": 29506.900151721136,
+      "median": 27795.964251554582,
+      "stdev": 16272.185974699598,
+      "min": -4973.023612559174,
+      "max": 90717.19649249206,
+      "p05": 5726.486807327117,
+      "p25": 17273.89433137643,
+      "p75": 39519.846196964725,
+      "p95": 58035.80717642747
+    },
+    "real_total_pnl": 9159.691934882958,
+    "real_percentile": {
+      "le_frac": 0.015,
+      "ge_frac": 0.985,
+      "rank_of_le": 30,
+      "n": 2000
+    },
+    "one_sided_p_ge_real": 0.985
+  },
+  "symbol_block_bootstrap": {
+    "method": "resample whole symbols with replacement (captures symbol-level dependence); k_symbols=n_traded_symbols each draw",
+    "symbols": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "symbol_trade_counts": {
+      "AVAX": 1,
+      "BCH": 2,
+      "ETH": 1,
+      "LINK": 1,
+      "SOL": 3
+    },
+    "symbol_pnls": {
+      "AVAX": 3499.3737911286935,
+      "BCH": 2916.220406334674,
+      "ETH": -121.63379295786945,
+      "LINK": -1801.376945537424,
+      "SOL": 4667.108475914883
+    },
+    "trials": 2000,
+    "seed": 20261113,
+    "summary": {
+      "n": 2000,
+      "mean": 9152.976498899765,
+      "median": 9159.691934882958,
+      "stdev": 5355.182284487609,
+      "min": -9006.88472768712,
+      "max": 23335.542379574414,
+      "p05": -346.6476858618935,
+      "p25": 5538.684350796393,
+      "p75": 13292.707986762885,
+      "p95": 17498.29687084162
+    },
+    "ci_low_pnl_2p5": -2026.390838441448,
+    "ci_high_pnl_97p5": 19249.184940421823,
+    "prob_total_pnl_positive": 0.942
+  },
+  "trade_level_bootstrap_reference": {
+    "method": "with-replacement over realized trade total_pnl (comparable to Phase L)",
+    "trials": 10000,
+    "seed": 20261113,
+    "ci_low_pnl": -930.6599008027672,
+    "ci_high_pnl": 19152.37881085556,
+    "prob_total_pnl_positive": 0.9633,
+    "note": "Reference recompute; canonical Phase L artifact remains authoritative for that analysis."
+  },
+  "limitations": [
+    "Per-event exit-model null is independent per-event simulation (no portfolio cap/occupancy interaction across concurrent positions); complementary to, not replacement for, full-portfolio placebo.",
+    "n=8 realized trades and 5 traded symbols remain severely underpowered regardless of bootstrap method.",
+    "Bounce-confirmed pool (n=39 events, 11 sim-ok) overlaps with signal-admission logic; interpretation must account for selection funnel.",
+    "Cross-venue OKX cache; NOT Hyperliquid performance evidence."
+  ],
+  "wall_seconds": 0.20397663116455078
+}

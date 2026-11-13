@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T20:28:12.867715+00:00",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "method": "chronological split and rolling windows over realized canonical trades (directional, underpowered OOS; no portfolio re-sim to keep feasible)",
+  "canonical_trade_chronological_split": {
+    "n_trades": 8,
+    "first_half": {
+      "count": 4,
+      "total_pnl": 1070.3639684015434,
+      "symbols": [
+        "ETH",
+        "LINK",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1768946400000",
+        "1769115600000",
+        "1769551200000",
+        "1769551200000"
+      ]
+    },
+    "second_half": {
+      "count": 4,
+      "total_pnl": 8089.327966481414,
+      "symbols": [
+        "AVAX",
+        "BCH",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1770062400000",
+        "1770069600000",
+        "1770112800000",
+        "1779271200000"
+      ]
+    },
+    "both_halves_positive": true
+  },
+  "rolling_windows_w4": [
+    {
+      "start_i": 0,
+      "end_i": 3,
+      "trades": 4,
+      "total_pnl": 1070.3639684015434,
+      "symbols": [
+        "ETH",
+        "LINK",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1768946400000",
+        "1769551200000"
+      ]
+    },
+    {
+      "start_i": 1,
+      "end_i": 4,
+      "trades": 4,
+      "total_pnl": 1407.7684488743598,
+      "symbols": [
+        "AVAX",
+        "ETH",
+        "LINK",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1769115600000",
+        "1770062400000"
+      ]
+    },
+    {
+      "start_i": 2,
+      "end_i": 5,
+      "trades": 4,
+      "total_pnl": 3203.136010850275,
+      "symbols": [
+        "AVAX",
+        "LINK",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1769551200000",
+        "1770069600000"
+      ]
+    },
+    {
+      "start_i": 3,
+      "end_i": 6,
+      "trades": 4,
+      "total_pnl": 6359.9547680914975,
+      "symbols": [
+        "AVAX",
+        "BCH",
+        "LINK",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1769551200000",
+        "1770112800000"
+      ]
+    },
+    {
+      "start_i": 4,
+      "end_i": 7,
+      "trades": 4,
+      "total_pnl": 8089.327966481414,
+      "symbols": [
+        "AVAX",
+        "BCH",
+        "SOL"
+      ],
+      "exit_timestamps": [
+        "1770062400000",
+        "1779271200000"
+      ]
+    }
+  ],
+  "monthly_realized": {
+    "2026-01": {
+      "trades": 4,
+      "total_pnl": 1070.3639684015434,
+      "symbols": [
+        "ETH",
+        "LINK",
+        "SOL"
+      ]
+    },
+    "2026-02": {
+      "trades": 3,
+      "total_pnl": 8161.3317136289215,
+      "symbols": [
+        "AVAX",
+        "BCH",
+        "SOL"
+      ]
+    },
+    "2026-05": {
+      "trades": 1,
+      "total_pnl": -72.00374714750825,
+      "symbols": [
+        "BCH"
+      ]
+    }
+  },
+  "limitations": [
+    "Severely underpowered OOS: only 3-4 realized trades per half, clustered in few months with long no-trade tail; directional evidence only, not proof.",
+    "No independent out-of-sample parameter refit/re-sim performed (each full portfolio sim ~527s; right-sized campaign prioritized placebo/bootstrap); results are realized-trade chronological splits on canonical run.",
+    "Cross-venue OKX cache; NOT Hyperliquid performance evidence."
+  ],
+  "note": "Full bar-split portfolio re-sim deferred due measured cost (527s/run); trade-chronology split provided as feasible directional OOS evidence per handoff allowance for underpowered reporting."
+}
