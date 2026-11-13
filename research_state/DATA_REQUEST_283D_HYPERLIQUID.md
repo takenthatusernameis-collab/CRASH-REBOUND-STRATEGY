@@ -1,33 +1,75 @@
-# Data Request & Verification Checklist — Real 283-Day Hyperliquid Campaign (ITEM 6c)
+# Data Request & Verification Checklist — Hyperliquid-Native 283-Day Campaign (ITEM 6c / Phase J3)
 
-**Timestamp:** 2026-11-05T18:41:20Z (handoff session)
-**Target window (spec):** `2025-12-20T00:00:00Z` → `2026-09-28T23:00:00Z` (283 days, hourly)
-**Required bars per symbol:** `6792` hourly candles (inclusive hourly bounds; see `src/data/provenance.expected_hourly_bars`).
-**Status:** **NOT_RUN — VERIFIED DATA UNAVAILABLE IN THIS ENVIRONMENT. No data fabricated.**
+**Handoff timestamp (UTC):** 2026-11-13T12:29:00Z
+**Target window (spec, Hyperliquid):** `2025-12-20T00:00:00Z` → `2026-09-28T23:00:00Z` (283 days, hourly, 6792 bars/symbol, inclusive bounds).
+**Status:** **NOT_RUN — VERIFIED HYPERLIQUID-NATIVE DATASET FOR THE FULL TARGET WINDOW IS UNAVAILABLE IN THIS ENVIRONMENT. No data fabricated. No OKX data relabeled as Hyperliquid.**
 
-## Concrete blocker evidence (2026-11-05)
-- Hyperliquid public `info` API `candleSnapshot` (BTC/ETH, `1h`, requested full target range) returned data only from `2026-04-11T10:00:00Z` to `2026-09-28T23:00:00Z` with `4094/6792` bars, `gap_count=0` within that returned slice but **incomplete for target window** (missing early window coverage). See `research_state/candle_coverage_gap_report.json` and `research_state/cache/hyperliquid/provenance.json` (manifest records request params, counts, coverage; large candle payloads intentionally not retained).
-- `scripts/run_real_campaign.py` **refuses to run** without a complete, verified provenance manifest (exit non-zero). This is correct behavior.
+## Provenance/cross-venue caveat (mandatory)
+Real OKX exchange data exists on disk for this repo and produced cross-venue research artifacts (see `HANDOFF.md`), but it is **NOT Hyperliquid performance evidence** and must never be relabeled. This document governs a Hyperliquid-native acquisition/verification campaign only. If verified Hyperliquid-native data for the full window is unavailable, the campaign remains `NOT_RUN`.
 
-## What is needed (verified, non-fabricated)
-Provide a user-supplied, verifiable archive of hourly OHLCV candles for the full target window for the required symbol universe (at minimum BTC/ETH for plumbing validation; for a real campaign, the spec-relevant universe with >=$5M 24h volume and documented symbol selection/provenance).
+## Concrete blocker evidence (recorded)
+- Prior environment probe: Hyperliquid public `info` API `candleSnapshot` (e.g. BTC/ETH, `1h`, full target range request) returned data only from `2026-04-11T10:00:00Z` to `2026-09-28T23:00:00Z` with `4094/6792` bars and `gap_count=0` within that returned slice but **incomplete for target window** (missing early coverage). See `research_state/candle_coverage_gap_report.json` and `research_state/cache/hyperliquid/provenance.json` for recorded probe/provenance state where present.
+- `scripts/run_real_campaign.py` **refuses to run** without complete, verified, non-synthetic provenance meeting gates (exit non-zero). This fail-closed behavior is required.
 
-Acceptable archive forms (ingested by `scripts/fetch_hyperliquid_candles.py --source archive --input-archive <path>`):
-- Directory containing `<SYMBOL>.json` or `<SYMBOL>.csv` per symbol
-- Files must contain OHLCV + timestamps; timestamps must map to hourly bars covering the full target window
+---
 
-## Verification checklist (must pass before any real run)
-1. **Source documented:** archive origin, extraction method, time of extraction, and any transformations recorded.
-2. **Coverage:** for each symbol, `6792/6792` hourly bars, `first==2025-12-20T00:00:00Z`, `last==2026-09-28T23:00:00Z`, `gap_count==0` (or explicit, reviewed gaps — default gate requires zero gaps).
-3. **Integrity:** non-finite/invalid OHLC checks pass; checksums/hashes recorded in provenance.
-4. **No look-ahead/leakage:** timestamps monotonic; campaign uses only data available at decision time.
-5. **Provenance manifest:** generate with
-   `PYTHONPATH=. python scripts/fetch_hyperliquid_candles.py --source archive --input-archive <ARCHIVE_PATH> --symbols <...> --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z`
-   Manifest `research_state/cache/hyperliquid/provenance.json` must show `summary.all_complete=true` and `ready_for_real_campaign=true`.
-6. **Real run (gated):**
-   `PYTHONPATH=. python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid/provenance.json`
-   Outputs `research_state/campaign_results_real.json` + `campaign_results_real_metrics.json/.csv` with `real_market_data=true`, `performance_evidence=true`, provenance reference, coverage summary.
-7. **Never mark `NOT_RUN` as complete** without steps 1–6 satisfied with verified data.
+## HYPERLIQUID NATIVE ACQUISITION RUNBOOK
 
-## Next heavy action when unblocked
-- Ingest verified archive → validate provenance → execute real 283-day run → compute full metrics (Sharpe/Sortino/max DD series w/ timestamps/Calmar/win rate/profit factor/monthly-weekly/attribution/exposure) → compare/report vs spec context (with provenance) → update `HANDOFF.md`.
+This runbook is executable step-by-step. Every step states command, pass/fail check, and artifact. Execute from repo root with the project venv (e.g. `PYTHONPATH=. /tmp/venv_h/bin/python ...`) and `PYTHONPATH=.` set. Do not fabricate data, do not synthesize candles, and do not relabel OKX artifacts as Hyperliquid.
+
+### Prerequisites
+- **Command:** `test -x /tmp/venv_h/bin/python && PYTHONPATH=. /tmp/venv_h/bin/python -c "import pytest,numpy,pandas,requests,pyarrow; print('env_ok')"` (or run `bash scripts/bootstrap_env.sh` first)
+- **Pass/fail:** exit 0 and prints `env_ok`.
+- **Artifact:** terminal evidence; `/tmp/venv_h` environment.
+
+### Step 1 — Obtain verified Hyperliquid-native source archive (external, required)
+- **Command (operator action, not automatable in this environment):** obtain a user-supplied, verifiable archive of **Hyperliquid-native** hourly OHLCV candles for the full target window `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (6792 bars/symbol) for the required universe (spec-relevant symbols with documented provenance/volume evidence; at minimum BTC/ETH for plumbing validation). Record origin, extraction method, extraction time, and any transformations in `research_state/archives/hyperliquid_1h_full_20251220_20260928/SOURCE.md` (or equivalent sidecar) inside the archive.
+- **Pass/fail:** archive exists on disk, is Hyperliquid-native (documented source), covers full window for intended symbols, and is non-synthetic. **If unavailable, STOP here: campaign = `NOT_RUN` (do not proceed, do not fabricate).**
+- **Artifact:** archive directory/file path (e.g. `research_state/archives/hyperliquid_1h_full_20251220_20260928/`) plus source documentation sidecar.
+
+### Step 2 — Ingest archive and generate verified provenance manifest
+- **Command (example):**
+  `PYTHONPATH=. /tmp/venv_h/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive research_state/archives/hyperliquid_1h_full_20251220_20260928 --symbols BTC ETH --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928`
+  (Adjust `--symbols`/`--universe-file` to the verified Hyperliquid universe; use `--allow-partial` only for non-evidence debugging — never for spec evidence.)
+- **Pass/fail:** exit 0; command completes without synthetic/unverified/temp-path rejection.
+- **Artifact:** `research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json` and per-symbol cached candles under the cache dir.
+
+### Step 3 — Verify provenance completeness and non-synthetic integrity (hard gate)
+- **Command:**
+  `PYTHONPATH=. /tmp/venv_h/bin/python - <<'PY'
+import json,sys
+p='research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json'
+m=json.load(open(p))
+ok = m.get('summary',{}).get('all_complete') is True and m.get('summary',{}).get('ready_for_real_campaign') is True
+print('all_complete=', m.get('summary',{}).get('all_complete'))
+print('ready_for_real_campaign=', m.get('summary',{}).get('ready_for_real_campaign'))
+print('fabricated_data=', m.get('fabricated_data'))
+# fail if not ready or fabricated
+sys.exit(0 if ok and m.get('fabricated_data') is not True else 1)
+PY`
+- **Pass/fail:** prints `all_complete= True`, `ready_for_real_campaign= True`, `fabricated_data= False` (or absent/false) and exits 0. If any check fails, campaign remains `NOT_RUN`.
+- **Artifact:** verified `provenance.json` with `summary.all_complete=true` and `summary.ready_for_real_campaign=true`.
+
+### Step 4 — Derive/confirm verified Hyperliquid universe (>= $5M 24h volume, point-in-time spec-consistent)
+- **Command (example):**
+  `PYTHONPATH=. /tmp/venv_h/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --output research_state/universe_hyperliquid_full_verified.json`
+- **Pass/fail:** exit 0; universe file lists only symbols with verified complete coverage and spec-compliant volume evidence; `min_24h_volume_usd >= 5000000` reflected.
+- **Artifact:** `research_state/universe_hyperliquid_full_verified.json`.
+
+### Step 5 — Execute gated Hyperliquid-native real campaign
+- **Command:**
+  `PYTHONPATH=. /tmp/venv_h/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees`
+- **Pass/fail:** exit 0 and output states `REAL run complete: ...`; script refuses incomplete/unverified/synthetic inputs (non-zero) so a passing run implies gates satisfied.
+- **Artifact:** `research_state/campaign_results_real_hyperliquid_full.json` and `_metrics.json`/`.csv` with `real_market_data=true`, `performance_evidence=true`, `fabricated_data=false`, and provenance reference. Use a distinct prefix; never overwrite OKX canonical artifacts.
+
+### Step 6 — Post-run verification, metrics, and evidence reporting
+- **Command(s):**
+  - `PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs`
+  - `sha256sum research_state/campaign_results_real_hyperliquid_full*.json research_state/universe_hyperliquid_full_verified.json`
+  - Record coverage, universe, trade/metric outputs (Sharpe/Sortino/max DD with timestamps/Calmar/win rate/profit factor/monthly-weekly/attribution/exposure as produced), and compare vs Hyperliquid spec with provenance.
+- **Pass/fail:** tests green (recorded counts), artifacts present and hash-recorded, conclusions cite Hyperliquid-native provenance; if Step 1–5 could not be satisfied, report remains `NOT_RUN` with blocker evidence (no fabricated results).
+- **Artifact:** updated `HANDOFF.md` with commands, observed results, hashes, conclusions, and explicit `NOT_RUN` or completed status.
+
+## Decision rule
+- **Run permitted:** only when Steps 2–4 pass with `all_complete=true`, `ready_for_real_campaign=true`, non-synthetic, Hyperliquid-native, full 6792-bar coverage, and spec volume gates satisfied.
+- **Otherwise:** `NOT_RUN`. Never fabricate data, never mark partial/unverified as spec evidence, never relabel OKX as Hyperliquid.

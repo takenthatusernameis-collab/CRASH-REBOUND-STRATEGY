@@ -221,12 +221,14 @@ def _worker_init(payload: Dict[str, Any]) -> None:
         "universe": universe,
         "complete": complete,
         "manifest": manifest,
+        "capital": float(payload["capital"]),
     }
 
 
 def _worker_run(job: Dict[str, Any]) -> Dict[str, Any]:
     job = dict(job)
     job["data"] = _worker_init.state["data"]  # type: ignore[attr-defined]
+    job.setdefault("capital", _worker_init.state.get("capital", 100000.0))  # type: ignore[attr-defined]
     return _run_one(job)
 
 
@@ -424,11 +426,13 @@ def main(argv=None) -> int:
         "label": "Spec baseline: RSI(21)<20, +9%/50h, short -9%/48h, 1.25% sizing, hedge 3x, 120% cap",
         "config_kwargs": {},
         "min_daily_volume_usd": 5_000_000.0,
+        "capital": args.capital,
     }]
     for tag, kwargs, label in grid:
         jobs.append({
             "tag": tag, "label": label, "config_kwargs": dict(kwargs),
             "min_daily_volume_usd": 5_000_000.0,
+            "capital": args.capital,
         })
 
     runs_dir = REPO_ROOT / args.runs_dir
