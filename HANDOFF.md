@@ -1,22 +1,30 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T06:35:37Z
-**Supersedes:** 2026-11-13T06:34:01Z (no new work; this session only re-verified state and refreshed the timestamp/commit reference).
+**Handoff updated (UTC):** 2026-11-13T06:40:16Z
+**Supersedes:** 2026-11-13T06:35:37Z (this session re-verified state: suite green, working tree clean, all Phase E/F bottleneck fixes committed; nothing pending; refreshed the timestamp/commit reference).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `8a658bb` (working tree clean; all Phase E/F bottleneck fixes committed; nothing pending).
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> *(Inferred from repo `CRASH-REBOUND-STRATEGY` and the current verified state, 2026-11-13T06:35:37Z.)*
+> *(Inferred from repo `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtest — and the current verified state, 2026-11-13T06:40:16Z.)*
 >
-> **Objective:** Produce the **decision-grade, evidence-backed spec-vs-actual performance analysis** for the real OKX full-universe run, and close the reproducibility/hardening gaps — WITHOUT re-acquiring data, re-running the engine for its own sake, or claiming Hyperliquid parity.
+> **Priority order (repo-aligned: crash-rebound strategy first, everything else second):**
+>
+> **Phase G+ — Spec-vs-actual analysis artifact (PRIMARY, do not skip).** Write `research_state/real_okx_full_spec_comparison.md` AND `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must contain a metric-by-metric table (spec vs actual) and evidence-backed divergence explanations for EVERY row below. This is the heavy deliverable; a summary paragraph is not acceptable.
+>
+> **Phase H — Reproducibility & hardening.** Re-run the full test suite to green, re-derive the universe and re-run the campaign from on-disk provenance/cache/universe, and prove the trade set and `total_pnl` are byte-stable across runs (exclude the volatile `timestamp` field). Add a regression test that serialized campaign trades carry `rebound_short_pnl`/`rebound_hedge_pnl` so future artifacts remain splittable.
+>
+> **Phase I — Update this HANDOFF** with exact commands, test counts, artifact paths + sha256, conclusions, and the next highest-value heavy work (sensitivity/reruns; a REAL Hyperliquid-native acquisition plan per `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` if true spec parity is required — never fabricate data).
 >
 > **Do not redo:** the real OKX 1H archive acquisition, the 54-symbol universe derivation, or the full campaign run. They are done and verified below. Start from the artifacts.
 >
-> **Mandatory heavy campaign (execute in order; do not stop after step 1):**
-> 1. **Phase G+ — Spec-vs-actual analysis artifact (primary).** Write `research_state/real_okx_full_spec_comparison.md` AND `research_state/real_okx_full_spec_comparison_summary.json`. The markdown must contain a metric-by-metric table (spec vs actual) and evidence-backed divergence explanations for EVERY row below. This is the heavy deliverable; a summary paragraph is not acceptable.
-> 2. **Phase H — Reproducibility & hardening.** Re-run the full test suite to green, re-derive the universe and re-run the campaign from on-disk provenance/cache/universe, and prove the trade set and `total_pnl` are byte-stable across runs (exclude the volatile `timestamp` field). Add a regression test that serialized campaign trades carry `rebound_short_pnl`/`rebound_hedge_pnl` so future artifacts remain splittable.
-> 3. **Phase I — Update this HANDOFF** with exact commands, test counts, artifact paths + sha256, conclusions, and the next highest-value heavy work (sensitivity/reruns; a REAL Hyperliquid-native acquisition plan per `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` if true spec parity is required — never fabricate data).
+> **Do not claim Hyperliquid parity from OKX data.** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
+>
+> **Mandatory heavy campaign (execute Phase G+ → H → I in order; do not stop after step 1):**
+> 1. **Phase G+** (primary, evidence-first spec-vs-actual).
+> 2. **Phase H** (reproducibility & hardening).
+> 3. **Phase I** (update this handoff).
 >
 > **Definition of done for Phase G+ (all must be true):**
 > - Spec-vs-actual table includes: total return, annualized return, worst drawdown, positive-month count, trade count, buys/shorts and their win rates, rebound-short profit contribution, and symbol-universe size.
