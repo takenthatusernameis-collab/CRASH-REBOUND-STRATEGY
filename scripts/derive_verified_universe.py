@@ -220,6 +220,21 @@ def main():
             excluded_reason = f"runtime_synthetic:{runtime_synth.get('reason') or 'unknown'}"
         elif int(vol.get("bars") or 0) <= 0:
             excluded_reason = "no_in_window_bars"
+        else:
+            # Spec-reconciled admission (Phase E): universe membership is
+            # point-in-time (spec: perps with >= $5M 24h volume). A symbol is a
+            # spec universe member when its PEAK trailing-24h USD volume across
+            # the target window >= threshold, even if some bars dip below
+            # (all-bars volume_filter_ok false). Per-trade eligibility remains
+            # point-in-time and is enforced separately by generate_signal/engine
+            # on each decision bar — this admission does NOT permit trading on
+            # sub-threshold bars. Symbols whose peak < threshold are excluded.
+            peak = float(vol.get("max_rolling_24h_quote_volume_usd_proxy") or 0.0)
+            if peak < args.min_24h_volume_usd:
+                excluded_reason = (
+                    f"peak_max_24h_usd_volume {peak:g} < required threshold {args.min_24h_volume_usd:g}; "
+                    f"not a spec universe member"
+                )
         passes_volume = float(vol.get("max_rolling_24h_quote_volume_usd_proxy") or 0.0) >= args.min_24h_volume_usd
         selected_ok = passes_volume and excluded_reason is None
         rec = {

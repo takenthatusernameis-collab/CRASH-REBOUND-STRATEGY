@@ -124,10 +124,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1261922.828696,
+        "observed_max_24h_usd_volume": 580266608.66508,
         "observed_mean_24h_usd_volume": 81077489.782384,
         "bars_checked": 6792,
         "bars_passing": 6789,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SOL.json"
     },
@@ -165,10 +167,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1813614.370716,
+        "observed_max_24h_usd_volume": 357369681.66626,
         "observed_mean_24h_usd_volume": 41113561.778268,
         "bars_checked": 6792,
         "bars_passing": 6788,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/XRP.json"
     },
@@ -206,10 +210,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1808591.978734,
+        "observed_max_24h_usd_volume": 288310548.178088,
         "observed_mean_24h_usd_volume": 48571434.998077,
         "bars_checked": 6792,
         "bars_passing": 6787,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/DOGE.json"
     },
@@ -247,10 +253,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 126461.934131,
+        "observed_max_24h_usd_volume": 63132119.349459,
         "observed_mean_24h_usd_volume": 8686488.549328,
         "bars_checked": 6792,
         "bars_passing": 5149,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ADA.json"
     },
@@ -288,10 +296,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 177323.498805,
+        "observed_max_24h_usd_volume": 38623452.726155,
         "observed_mean_24h_usd_volume": 4806889.705374,
         "bars_checked": 6792,
         "bars_passing": 2173,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/AVAX.json"
     },
@@ -329,10 +339,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 145582.466562,
+        "observed_max_24h_usd_volume": 33114947.16248,
         "observed_mean_24h_usd_volume": 6220992.787983,
         "bars_checked": 6792,
         "bars_passing": 3632,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/LINK.json"
     },
@@ -370,10 +382,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 34089.077552,
+        "observed_max_24h_usd_volume": 21549863.68185,
         "observed_mean_24h_usd_volume": 2650317.215559,
         "bars_checked": 6792,
         "bars_passing": 770,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/DOT.json"
     },
@@ -411,10 +425,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 256471.572949,
+        "observed_max_24h_usd_volume": 62072848.193365,
         "observed_mean_24h_usd_volume": 6624778.600131,
         "bars_checked": 6792,
         "bars_passing": 3361,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/LTC.json"
     },
@@ -452,10 +468,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 390633.241322,
+        "observed_max_24h_usd_volume": 75434652.777282,
         "observed_mean_24h_usd_volume": 5339091.730818,
         "bars_checked": 6792,
         "bars_passing": 2268,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/BCH.json"
     },
@@ -493,10 +511,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 197408.744842,
+        "observed_max_24h_usd_volume": 101703867.478362,
         "observed_mean_24h_usd_volume": 8689475.720894,
         "bars_checked": 6792,
         "bars_passing": 2971,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/UNI.json"
     },
@@ -534,10 +554,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 19345.17836,
+        "observed_max_24h_usd_volume": 4069337.08502,
         "observed_mean_24h_usd_volume": 718082.271372,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ATOM.json"
     },
@@ -575,10 +597,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 88600.750745,
+        "observed_max_24h_usd_volume": 63076533.161469,
         "observed_mean_24h_usd_volume": 7152220.18033,
         "bars_checked": 6792,
         "bars_passing": 2325,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/NEAR.json"
     },
@@ -616,10 +640,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 127978.618155,
+        "observed_max_24h_usd_volume": 10552539.674611,
         "observed_mean_24h_usd_volume": 1960682.711871,
         "bars_checked": 6792,
         "bars_passing": 258,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/APT.json"
     },
@@ -657,10 +683,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 75218.147149,
+        "observed_max_24h_usd_volume": 44511332.868034,
         "observed_mean_24h_usd_volume": 3225843.38489,
         "bars_checked": 6792,
         "bars_passing": 847,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ARB.json"
     },
@@ -698,10 +726,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 31469.643911,
+        "observed_max_24h_usd_volume": 12568147.574506,
         "observed_mean_24h_usd_volume": 1695671.29977,
         "bars_checked": 6792,
         "bars_passing": 276,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/OP.json"
     },
@@ -739,10 +769,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 136665.842747,
+        "observed_max_24h_usd_volume": 39784202.517822,
         "observed_mean_24h_usd_volume": 6998588.626281,
         "bars_checked": 6792,
         "bars_passing": 3771,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/FIL.json"
     },
@@ -780,10 +812,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 61004.048221,
+        "observed_max_24h_usd_volume": 29742218.932015,
         "observed_mean_24h_usd_volume": 2402492.829262,
         "bars_checked": 6792,
         "bars_passing": 654,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ICP.json"
     },
@@ -821,10 +855,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 31408.150933,
+        "observed_max_24h_usd_volume": 17275676.984024,
         "observed_mean_24h_usd_volume": 1593517.687546,
         "bars_checked": 6792,
         "bars_passing": 275,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ETC.json"
     },
@@ -862,10 +898,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 159538.33436,
+        "observed_max_24h_usd_volume": 47173112.014891,
         "observed_mean_24h_usd_volume": 10771527.500302,
         "bars_checked": 6792,
         "bars_passing": 5716,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/TRX.json"
     },
@@ -903,10 +941,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 399739.365127,
+        "observed_max_24h_usd_volume": 117413027.062542,
         "observed_mean_24h_usd_volume": 15976483.960776,
         "bars_checked": 6792,
         "bars_passing": 6189,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SUI.json"
     },
@@ -944,10 +984,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 7939.1984,
+        "observed_max_24h_usd_volume": 8962532.519497,
         "observed_mean_24h_usd_volume": 828394.887421,
         "bars_checked": 6792,
         "bars_passing": 80,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SEI.json"
     },
@@ -985,10 +1027,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 44067.988498,
+        "observed_max_24h_usd_volume": 11408800.262899,
         "observed_mean_24h_usd_volume": 1161808.708191,
         "bars_checked": 6792,
         "bars_passing": 65,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/TIA.json"
     },
@@ -1026,10 +1070,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1224.759585,
+        "observed_max_24h_usd_volume": 10952165.729064,
         "observed_mean_24h_usd_volume": 1153720.321974,
         "bars_checked": 6792,
         "bars_passing": 175,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/INJ.json"
     },
@@ -1067,10 +1113,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 7019.801589,
+        "observed_max_24h_usd_volume": 8696182.014306,
         "observed_mean_24h_usd_volume": 1302344.862629,
         "bars_checked": 6792,
         "bars_passing": 134,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/RENDER.json"
     },
@@ -1108,10 +1156,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 3207.008485,
+        "observed_max_24h_usd_volume": 8449002.545977,
         "observed_mean_24h_usd_volume": 1073897.1988,
         "bars_checked": 6792,
         "bars_passing": 79,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/FET.json"
     },
@@ -1149,10 +1199,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1381.4311,
+        "observed_max_24h_usd_volume": 3769595.92256,
         "observed_mean_24h_usd_volume": 156828.840312,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/GRT.json"
     },
@@ -1190,10 +1242,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 20658.822573,
+        "observed_max_24h_usd_volume": 8408709.233811,
         "observed_mean_24h_usd_volume": 627103.709044,
         "bars_checked": 6792,
         "bars_passing": 33,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ALGO.json"
     },
@@ -1231,10 +1285,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 21802.334637,
+        "observed_max_24h_usd_volume": 64708829.198654,
         "observed_mean_24h_usd_volume": 4363593.107864,
         "bars_checked": 6792,
         "bars_passing": 1251,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/XLM.json"
     },
@@ -1272,10 +1328,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 27675.239733,
+        "observed_max_24h_usd_volume": 55764474.303995,
         "observed_mean_24h_usd_volume": 1527659.563641,
         "bars_checked": 6792,
         "bars_passing": 195,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/HBAR.json"
     },
@@ -1313,10 +1371,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 420.406461,
+        "observed_max_24h_usd_volume": 7675952.287627,
         "observed_mean_24h_usd_volume": 458742.933131,
         "bars_checked": 6792,
         "bars_passing": 66,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SAND.json"
     },
@@ -1354,10 +1414,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 6666.166832,
+        "observed_max_24h_usd_volume": 3001801.327225,
         "observed_mean_24h_usd_volume": 216283.986642,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/MANA.json"
     },
@@ -1395,10 +1457,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1745.29155,
+        "observed_max_24h_usd_volume": 29681554.43428,
         "observed_mean_24h_usd_volume": 1393285.097159,
         "bars_checked": 6792,
         "bars_passing": 403,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/AXS.json"
     },
@@ -1436,10 +1500,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 4339.244421,
+        "observed_max_24h_usd_volume": 3463534.684123,
         "observed_mean_24h_usd_volume": 232831.86755,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/THETA.json"
     },
@@ -1477,10 +1543,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 2244.358807,
+        "observed_max_24h_usd_volume": 6544258.046151,
         "observed_mean_24h_usd_volume": 209916.382645,
         "bars_checked": 6792,
         "bars_passing": 15,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/XTZ.json"
     },
@@ -1518,10 +1586,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 5513.151763,
+        "observed_max_24h_usd_volume": 6380829.602056,
         "observed_mean_24h_usd_volume": 239788.168885,
         "bars_checked": 6792,
         "bars_passing": 20,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/FLOW.json"
     },
@@ -1559,10 +1629,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 78804.378132,
+        "observed_max_24h_usd_volume": 9545978.667621,
         "observed_mean_24h_usd_volume": 1982577.256176,
         "bars_checked": 6792,
         "bars_passing": 472,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/CHZ.json"
     },
@@ -1600,10 +1672,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1084.555785,
+        "observed_max_24h_usd_volume": 32369988.396084,
         "observed_mean_24h_usd_volume": 693496.738554,
         "bars_checked": 6792,
         "bars_passing": 236,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ENJ.json"
     },
@@ -1641,10 +1715,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 9000.375727,
+        "observed_max_24h_usd_volume": 2183311.551235,
         "observed_mean_24h_usd_volume": 227874.99579,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/BAT.json"
     },
@@ -1682,10 +1758,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 148833.459416,
+        "observed_max_24h_usd_volume": 198821412.748611,
         "observed_mean_24h_usd_volume": 18751860.604958,
         "bars_checked": 6792,
         "bars_passing": 5281,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ZEC.json"
     },
@@ -1723,10 +1801,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 4296.84871,
+        "observed_max_24h_usd_volume": 27003247.975649,
         "observed_mean_24h_usd_volume": 1888344.736402,
         "bars_checked": 6792,
         "bars_passing": 599,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/DASH.json"
     },
@@ -1764,10 +1844,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 1334.948084,
+        "observed_max_24h_usd_volume": 8059704.172422,
         "observed_mean_24h_usd_volume": 224766.325493,
         "bars_checked": 6792,
         "bars_passing": 34,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/KSM.json"
     },
@@ -1805,10 +1887,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 3220.491567,
+        "observed_max_24h_usd_volume": 8615145.547672,
         "observed_mean_24h_usd_volume": 417280.723086,
         "bars_checked": 6792,
         "bars_passing": 23,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/COMP.json"
     },
@@ -1846,10 +1930,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 9516.876256,
+        "observed_max_24h_usd_volume": 11028270.616499,
         "observed_mean_24h_usd_volume": 1033100.059875,
         "bars_checked": 6792,
         "bars_passing": 363,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SNX.json"
     },
@@ -1887,10 +1973,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 74210.64961,
+        "observed_max_24h_usd_volume": 12561461.149768,
         "observed_mean_24h_usd_volume": 1343064.719116,
         "bars_checked": 6792,
         "bars_passing": 152,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/CRV.json"
     },
@@ -1928,10 +2016,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 106739.059478,
+        "observed_max_24h_usd_volume": 22540269.628131,
         "observed_mean_24h_usd_volume": 3615328.399535,
         "bars_checked": 6792,
         "bars_passing": 1250,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/AAVE.json"
     },
@@ -1969,10 +2059,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 6300.857388,
+        "observed_max_24h_usd_volume": 6621656.955639,
         "observed_mean_24h_usd_volume": 239862.428445,
         "bars_checked": 6792,
         "bars_passing": 18,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SUSHI.json"
     },
@@ -2010,10 +2102,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 8384.373716,
+        "observed_max_24h_usd_volume": 10214501.336065,
         "observed_mean_24h_usd_volume": 831893.299933,
         "bars_checked": 6792,
         "bars_passing": 29,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/LDO.json"
     },
@@ -2051,10 +2145,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 11517.66901,
+        "observed_max_24h_usd_volume": 2116844.045313,
         "observed_mean_24h_usd_volume": 171750.641424,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/IMX.json"
     },
@@ -2092,10 +2188,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 8647.829857,
+        "observed_max_24h_usd_volume": 7397563.45617,
         "observed_mean_24h_usd_volume": 533938.095303,
         "bars_checked": 6792,
         "bars_passing": 20,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/GALA.json"
     },
@@ -2133,10 +2231,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 869.169527,
+        "observed_max_24h_usd_volume": 8630637.69297,
         "observed_mean_24h_usd_volume": 604340.259603,
         "bars_checked": 6792,
         "bars_passing": 86,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/STX.json"
     },
@@ -2174,10 +2274,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 6369.867084,
+        "observed_max_24h_usd_volume": 3071634.706126,
         "observed_mean_24h_usd_volume": 324827.467914,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/MINA.json"
     },
@@ -2215,10 +2317,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 9959.373906,
+        "observed_max_24h_usd_volume": 9382415.49831,
         "observed_mean_24h_usd_volume": 997399.748337,
         "bars_checked": 6792,
         "bars_passing": 48,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/JUP.json"
     },
@@ -2256,10 +2360,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 6801.26544,
+        "observed_max_24h_usd_volume": 4599521.947055,
         "observed_mean_24h_usd_volume": 713040.555046,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/PYTH.json"
     },
@@ -2297,10 +2403,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 39285.185988,
+        "observed_max_24h_usd_volume": 110217574.088495,
         "observed_mean_24h_usd_volume": 9817616.446037,
         "bars_checked": 6792,
         "bars_passing": 3425,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/WLD.json"
     },
@@ -2338,10 +2446,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 11916.364201,
+        "observed_max_24h_usd_volume": 18862529.211788,
         "observed_mean_24h_usd_volume": 1645887.231206,
         "bars_checked": 6792,
         "bars_passing": 295,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/JTO.json"
     },
@@ -2379,10 +2489,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 51980.478254,
+        "observed_max_24h_usd_volume": 23971071.359193,
         "observed_mean_24h_usd_volume": 2247199.765351,
         "bars_checked": 6792,
         "bars_passing": 414,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SHIB.json"
     },
@@ -2420,10 +2532,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 479457.107535,
+        "observed_max_24h_usd_volume": 101618363.033412,
         "observed_mean_24h_usd_volume": 12881716.723399,
         "bars_checked": 6792,
         "bars_passing": 5610,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/PEPE.json"
     },
@@ -2461,10 +2575,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 139348.207216,
+        "observed_max_24h_usd_volume": 24597165.714329,
         "observed_mean_24h_usd_volume": 1973821.55047,
         "bars_checked": 6792,
         "bars_passing": 384,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/BONK.json"
     },
@@ -2502,10 +2618,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 76181.037002,
+        "observed_max_24h_usd_volume": 23417923.820305,
         "observed_mean_24h_usd_volume": 1758207.967976,
         "bars_checked": 6792,
         "bars_passing": 377,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/WIF.json"
     },
@@ -2543,10 +2661,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 9475.253301,
+        "observed_max_24h_usd_volume": 3680793.048165,
         "observed_mean_24h_usd_volume": 278187.371039,
         "bars_checked": 6792,
         "bars_passing": 0,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/FLOKI.json"
     },
@@ -2584,10 +2704,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 92676.380899,
+        "observed_max_24h_usd_volume": 179238143.605406,
         "observed_mean_24h_usd_volume": 3483435.523518,
         "bars_checked": 6792,
         "bars_passing": 686,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/ORDI.json"
     },
@@ -2625,10 +2747,12 @@
       "volume_coverage": {
         "min_daily_volume_usd": 5000000.0,
         "observed_min_24h_usd_volume": 16780.248274,
+        "observed_max_24h_usd_volume": 25638666.2638,
         "observed_mean_24h_usd_volume": 593775.414513,
         "bars_checked": 6792,
         "bars_passing": 78,
-        "volume_filter_ok": false
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
       },
       "cache_path": "research_state/cache/okx_1h_full_20251220_20260928/candles/SATS.json"
     }
@@ -2703,5 +2827,10 @@
       "XTZ",
       "ZEC"
     ]
+  },
+  "repaired_volume_coverage": {
+    "generated_at_utc": "2026-11-13T04:27:23.279995+00:00",
+    "method": "recomputed from verified local caches via analyze_symbol_volume_coverage; observed_max_24h_usd_volume / universe_membership_ok added; all other fields preserved",
+    "errors": []
   }
 }
