@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-13T20:28:12.865292+00:00",
+  "generated_at_utc": "2026-11-13T20:54:59.287112+00:00",
   "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
   "method": "return-vs-worst-DD frontier from existing sensitivity/interaction sweep artifacts (no re-simulation)",
   "k_winner": {

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-13T20:17:19.362136+00:00",
+  "generated_at_utc": "2026-11-13T20:54:59.279838+00:00",
   "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
   "method": "per-event exit-model null + bootstrap (complementary to full-portfolio placebo)",
   "seed": 20261113,
@@ -238,5 +238,5 @@
     "Bounce-confirmed pool (n=39 events, 11 sim-ok) overlaps with signal-admission logic; interpretation must account for selection funnel.",
     "Cross-venue OKX cache; NOT Hyperliquid performance evidence."
   ],
-  "wall_seconds": 0.20397663116455078
+  "wall_seconds": 0.20918941497802734
 }

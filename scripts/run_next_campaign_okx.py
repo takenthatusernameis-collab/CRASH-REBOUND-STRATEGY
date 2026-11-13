@@ -314,70 +314,44 @@ def run_placebo_and_bootstrap(inp):
     return result, vp_sims, bc_sims
 
 def run_walkforward(inp):
-    # Directional/underpowered walk-forward on cached bars using portfolio sim per split is expensive?
-    # But full sim is 527s each - doing multiple splits is costly. Alternative: evaluate trades by exit timestamp halves
-    # on canonical result (directional, no re-sim) and also do a simple in-sample/out-sample by symbol-time split via per-event logic.
-    # Handoff says "expanding-window split... on the 2025-12-20..2026-09-28 cache. Note: only ~3-4 trades fall in each half..."
-    # To be faithful and light, we can report chronological split of realized trades and also attempt a coarse re-sim on halves
-    # by slicing candles - but portfolio sim requires full history for indicators/hedge; slicing start breaks indicators.
-    # Better: run expanding-window evaluation by re-simulating with an allowed-trading window end cutoff? Simpler: compute trade-split OOS
-    # and also run 2 half-period portfolio sims by masking post-split signals? Not straightforward.
-    # Practical: provide chronological expanding/rolling split analysis of realized trades plus a re-sim attempt on first/second half windows
-    # using truncated candle sets with warmup preserved from start (so indicators available). 2 full sims = ~18 min but feasible.
-    from scripts.run_portfolio import run_portfolio_simulation
+    """Directional walk-forward on realized canonical trades (light, no re-sim).
+
+    The full bar-split portfolio re-sim was removed from this script: it cost two
+    ~527s canonical runs and could be killed by the 600s shell limit without a
+    checkpoint.  The exact full-portfolio placebo now lives in
+    scripts/run_portfolio_placebo_okx.py (memoized generate_signal, 0.25s per sim).
+    This function only provides the cheap directional chronological split; it does
+    not claim OOS refit evidence.
+    """
     t0 = time.time()
     campaign = inp['campaign']
     trades = sorted(campaign['results']['trades'], key=lambda t: int(t.get('exit_timestamp',0) or 0))
     n = len(trades)
-    mid = n//2
+    mid = n // 2
     first = trades[:mid]; second = trades[mid:]
     def tsum(ts): return sum(float(t.get('total_pnl',0) or 0) for t in ts)
     def tcount(ts): return len(ts)
     def tsyms(ts): return sorted(set(t['symbol'] for t in ts))
-
-    # rolling 4-trade windows
     windows = []
     wsize = 4
-    for i in range(0, max(1, n-wsize+1)):
+    for i in range(0, max(1, n - wsize + 1)):
         w = trades[i:i+wsize]
         windows.append({'start_i': i, 'end_i': i+wsize-1, 'trades': tcount(w), 'total_pnl': tsum(w),
                         'symbols': tsyms(w), 'exit_span': [w[0].get('exit_timestamp'), w[-1].get('exit_timestamp')]})
-
-    # attempt half-period portfolio re-sim with warmup: split by bar index midpoint of window
-    # window bars 6792 per symbol. use first half bars 0..3395 and second 0..6791 but only count trades exiting in half? easier: run on first-half slice and full but report by exit period.
-    # For indicators correctness, keep full prefix from start.
-    candles = inp['candles_by_sym']
-    eth = inp['eth_candles']
-    syms = inp['symbols']
-    def slice_candles(end_idx):
-        out = {}
-        for s in syms:
-            cs = candles.get(s)
-            if cs: out[s] = cs[:end_idx]
-        return out
-    # mid bar index
-    any_cs = next(iter(candles.values()))
-    mid_bar = len(any_cs)//2
-    half1 = slice_candles(mid_bar)
-    # run sims (these are the heavy steps) - do them
-    cfg = inp['cfg']
-    t1 = time.time()
-    r1 = run_portfolio_simulation(half1, cfg, 100000.0, {'ETH': half1.get('ETH', [])} if half1.get('ETH') else ( {'ETH': eth[:mid_bar]} if eth else {}), require_eth_hedge=True)
-    w1 = time.time()-t1
-    t2 = time.time()
-    r_full = run_portfolio_simulation({s:candles[s] for s in syms if s in candles}, cfg, 100000.0, {'ETH': eth} if eth else {}, require_eth_hedge=True)
-    w2 = time.time()-t2
-    # second half OOS approximation: trades in full run whose exit bar index >= mid_bar (by timestamp position) - derive from full trade exit timestamps vs mid bar timestamp
-    mid_ts = int(any_cs[mid_bar-1].get('timestamp') or any_cs[mid_bar-1].get('timestamp_ms'))
-    full_trades = sorted(r_full['trades'], key=lambda t: int(t.get('exit_timestamp',0) or 0))
-    first_period = [t for t in full_trades if int(t.get('exit_timestamp',0) or 0) <= mid_ts]
-    second_period = [t for t in full_trades if int(t.get('exit_timestamp',0) or 0) > mid_ts]
-
+    monthly = defaultdict(lambda: {'trades': 0, 'total_pnl': 0.0, 'symbols': set()})
+    for t in trades:
+        day = str(t.get('exit_timestamp',''))[:10]
+        month = day[:7] if len(day) >= 7 else 'unknown'
+        monthly[month]['trades'] += 1
+        monthly[month]['total_pnl'] += float(t.get('total_pnl',0) or 0)
+        monthly[month]['symbols'].add(t['symbol'])
+    monthly_rows = [{'month': m, 'trades': v['trades'], 'total_pnl': v['total_pnl'], 'symbols': sorted(v['symbols'])}
+                    for m, v in sorted(monthly.items())]
     result = {
         'schema_version': 1,
         'generated_at_utc': iso_now(),
         'provenance_caveat': PROVENANCE_CAVEAT,
-        'method': 'chronological split of realized canonical trades + expanding-window bar-split portfolio re-sims (directional, underpowered)',
+        'method': 'chronological split and rolling windows over realized canonical trades (directional, underpowered OOS; no portfolio re-sim to keep feasible)',
         'canonical_trade_chronological_split': {
             'n_trades': n,
             'first_half_trades': {'count': tcount(first), 'total_pnl': tsum(first), 'symbols': tsyms(first)},
@@ -385,31 +359,15 @@ def run_walkforward(inp):
             'both_halves_positive': tsum(first) > 0 and tsum(second) > 0,
         },
         'rolling_trade_windows_w4': windows,
-        'bar_split_portfolio_resim': {
-            'mid_bar_index': mid_bar,
-            'mid_bar_timestamp': mid_ts,
-            'first_half_period_sim': {
-                'bars_per_symbol': mid_bar, 'wall_seconds': w1,
-                'num_trades': r1.get('num_trades'), 'total_pnl': r1.get('total_pnl'),
-                'trades': [{'symbol':t.get('symbol'),'exit_timestamp':t.get('exit_timestamp'),'total_pnl':t.get('total_pnl'),'exit_reason':t.get('exit_reason')} for t in r1.get('trades',[])],
-            },
-            'full_period_sim': {
-                'bars_per_symbol': len(any_cs), 'wall_seconds': w2,
-                'num_trades': r_full.get('num_trades'), 'total_pnl': r_full.get('total_pnl'),
-            },
-            'full_sim_partitioned_by_mid_exit_timestamp': {
-                'first_period_count': len(first_period), 'first_period_total_pnl': sum(float(t.get('total_pnl',0) or 0) for t in first_period),
-                'second_period_count': len(second_period), 'second_period_total_pnl': sum(float(t.get('total_pnl',0) or 0) for t in second_period),
-                'note': 'Partition of full-run trades by exit time relative to midpoint bar; not an independent out-of-sample refit.',
-            },
-        },
+        'monthly_realized': monthly_rows,
+        'bar_split_portfolio_resim': None,
         'limitations': [
             'Severely underpowered OOS: only 3-4 realized trades per half and trades cluster in early months; directional evidence only, not proof.',
-            'Bar-split re-sim preserves warmup prefix but first-half sim cannot see future bars; full-sim partition is descriptive, not independent OOS.',
+            'No independent out-of-sample parameter refit/re-sim performed; the exact full-portfolio placebo is the valid portfolio-level null (scripts/run_portfolio_placebo_okx.py).',
             'Cross-venue OKX cache; NOT Hyperliquid performance evidence.',
         ],
-        'wall_seconds': time.time()-t0,
     }
+    result['wall_seconds'] = time.time() - t0
     return result
 
 def run_risk_budget(inp):
@@ -549,6 +507,14 @@ def render_walkforward_md(r):
         lines.append(f"- window {w['start_i']}-{w['end_i']}: trades={w['trades']} total_pnl={w['total_pnl']:.2f} symbols={w['symbols']}")
     lines.append('')
     lines.append('## Bar-split portfolio re-sim (warmup-preserving prefix)')
+    if b is None:
+        lines.append('- Full bar-split portfolio re-sim: **not run** (removed from this script to avoid the 600s shell-limit trap). Use `scripts/run_portfolio_placebo_okx.py` for the exact full-portfolio placebo.')
+        lines.append('')
+        lines.append('## Limitations')
+        for l in r['limitations']:
+            lines.append(f"- {l}")
+        lines.append('')
+        return '\n'.join(lines)
     fh = b['first_half_period_sim']; fp = b['full_sim_partitioned_by_mid_exit_timestamp']
     lines.append(f"- Mid bar index: {b['mid_bar_index']} (ts {b['mid_bar_timestamp']})")
     lines.append(f"- First-half sim ({fh['bars_per_symbol']} bars): trades={fh['num_trades']} total_pnl={fh['total_pnl']:.6f} wall={fh['wall_seconds']:.1f}s")

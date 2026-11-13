@@ -1,6 +1,6 @@
 # Risk budget / Return-vs-Worst-DD frontier — Real OKX 283d
 
-**Generated (UTC):** 2026-11-13T20:28:12.865292+00:00
+**Generated (UTC):** 2026-11-13T20:54:59.287112+00:00
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 **Method:** return-vs-worst-DD frontier from existing sensitivity/interaction sweep artifacts (no re-simulation)
 

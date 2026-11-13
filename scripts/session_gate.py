@@ -230,6 +230,103 @@ def check_robustness() -> Tuple[bool, str]:
                   f"sign-flip p={flip.get('p_value')}, symbols={len(symbols)}")
 
 
+def check_portfolio_placebo() -> Tuple[bool, str]:
+    """Phase M: exact full-portfolio placebo must exist and reconcile with canonical.
+
+    Fails closed on a missing, stub, or non-reconciling artifact. The per-event null
+    alone is not sufficient: it is uncapped and not a portfolio test.
+    """
+    path = STATE / "placebo_portfolio_okx_full.json"
+    md = STATE / "placebo_portfolio_okx_full.md"
+    if not path.exists() or not md.exists():
+        return False, "json and/or md missing"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    if PROVENANCE_CAVEAT.lower() not in str(data.get("provenance_caveat", "")).lower():
+        return False, "json missing provenance caveat"
+    if PROVENANCE_CAVEAT.lower() not in _read_text(md).lower():
+        return False, "markdown missing provenance caveat"
+
+    mode = str(data.get("mode", ""))
+    if "exact_enumeration" not in mode and "random_draws" not in mode:
+        return False, f"mode must be exact_enumeration or random_draws (got {mode!r})"
+    if str(data.get("verdict", "")).lower() != "underpowered":
+        return False, "verdict must be underpowered"
+
+    can = data.get("canonical")
+    if not isinstance(can, dict):
+        return False, "missing canonical"
+    try:
+        can_trades = int(can.get("trades"))
+        can_pnl = float(can.get("total_pnl"))
+    except (TypeError, ValueError):
+        return False, "canonical trades/total_pnl must be numeric"
+    if can_trades != 8:
+        return False, f"canonical.trades must be 8 (got {can_trades})"
+    if abs(can_pnl - 9159.691934882958) > 1e-6:
+        return False, f"canonical.total_pnl mismatch ({can_pnl!r})"
+    replay = can.get("replay")
+    if not isinstance(replay, dict):
+        return False, "missing canonical.replay"
+    try:
+        if int(replay.get("num_trades")) != 8 or abs(float(replay.get("total_pnl")) - can_pnl) > 1e-6:
+            return False, "canonical.replay does not reproduce canonical"
+    except (TypeError, ValueError):
+        return False, "canonical.replay must be numeric"
+
+    pl = data.get("placebo")
+    if not isinstance(pl, dict):
+        return False, "missing placebo"
+    try:
+        runs = int(pl.get("runs"))
+    except (TypeError, ValueError):
+        return False, "placebo.runs must be an integer"
+    if runs < 60:
+        return False, f"placebo.runs must be >= 60 (got {runs})"
+    summary = pl.get("summary")
+    if not isinstance(summary, dict) or int(summary.get("n", 0)) != runs:
+        return False, "placebo.summary.n must equal placebo.runs"
+    for key in ("p_ge_canonical", "canonical_percentile_le", "prob_total_pnl_positive"):
+        try:
+            v = float(pl.get(key))
+        except (TypeError, ValueError):
+            return False, f"missing/invalid placebo.{key}"
+        if not 0.0 <= v <= 1.0:
+            return False, f"placebo.{key} out of [0,1]: {v}"
+    rows = data.get("runs")
+    if not isinstance(rows, list) or len(rows) != runs:
+        return False, "placebo.runs list length mismatch"
+    for r in rows:
+        if not isinstance(r, dict) or "total_pnl" not in r or "num_trades" not in r:
+            return False, "placebo run missing total_pnl/num_trades"
+    if "underpowered" not in _read_text(md).lower():
+        return False, "markdown missing underpowered verdict"
+    return True, (f"exact portfolio placebo: {runs} runs, "
+                  f"p_ge_canon={pl.get('p_ge_canonical')}, "
+                  f"canon_pct={pl.get('canonical_percentile_le')}")
+
+
+def check_decision_memo() -> Tuple[bool, str]:
+    """Phase M: decision memo must synthesize the verdict and stop/go criteria."""
+    path = STATE / "decision_memo_okx_full.md"
+    if not path.exists():
+        return False, "missing"
+    text = _read_text(path)
+    if len(text) < 3000:
+        return False, f"too small ({len(text)} bytes) — decision memo required"
+    if PROVENANCE_CAVEAT.lower() not in text.lower():
+        return False, "missing provenance caveat"
+    missing = [t for t in ("underpowered", "not decision-grade", "stop", "go only if",
+                           "hyperliquid", "9159.691934882958") if t not in text.lower()]
+    if missing:
+        return False, f"missing required terms: {missing}"
+    return True, f"{len(text)} bytes"
+
+
 def check_runbook() -> Tuple[bool, str]:
     path = STATE / "DATA_REQUEST_283D_HYPERLIQUID.md"
     if not path.exists():
@@ -262,6 +359,8 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_j2_sensitivity_sweep", check_sensitivity),
     ("phase_k_interaction_sweep", check_interaction),
     ("phase_l_robustness", check_robustness),
+    ("phase_m_portfolio_placebo", check_portfolio_placebo),
+    ("phase_m_decision_memo", check_decision_memo),
     ("phase_j3_acquisition_runbook", check_runbook),
     ("durable_handoff", check_handoff),
 ]

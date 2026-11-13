@@ -1,6 +1,6 @@
 # Placebo / Null & Bootstrap — Real OKX 283d (post-Phase L)
 
-**Generated (UTC):** 2026-11-13T20:17:19.362136+00:00
+**Generated (UTC):** 2026-11-13T20:54:59.279838+00:00
 **Seed:** 20261113
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
