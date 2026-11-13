@@ -1,0 +1,12 @@
+{
+  "tag": "no_rebound_short",
+  "label": "Rebound short disabled (spec enabled)",
+  "params": {
+    "enable_rebound_short": false
+  },
+  "status": "rejected",
+  "error_type": "TypeError",
+  "error": "src.strategy.config.StrategyConfig() got multiple values for keyword argument 'enable_rebound_short'",
+  "metrics": null,
+  "runtime_seconds": 0.0
+}

@@ -153,6 +153,83 @@ def check_interaction() -> Tuple[bool, str]:
     return _check_sweep_artifacts("interaction_sweep_real_okx_full", 9)
 
 
+def check_robustness() -> Tuple[bool, str]:
+    """Phase L: signal-vs-noise evidence for the 8-trade canonical result.
+
+    The sweep gates prove the evidence chain; this proves the result is not
+    obviously luck. It fails closed on a missing or narrative-only artifact.
+    """
+    path = STATE / "robustness_real_okx_full.json"
+    md = STATE / "robustness_real_okx_full.md"
+    if not path.exists() or not md.exists():
+        return False, "json and/or md missing"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    if PROVENANCE_CAVEAT.lower() not in str(data.get("provenance_caveat", "")).lower():
+        return False, "json missing provenance caveat"
+    if PROVENANCE_CAVEAT.lower() not in _read_text(md).lower():
+        return False, "markdown missing provenance caveat"
+    for key in ("generated_at_utc", "bootstrap", "sign_flip", "concentration",
+                "time_split", "conclusion"):
+        if key not in data:
+            return False, f"missing {key!r}"
+
+    boot = data["bootstrap"]
+    if not isinstance(boot, dict):
+        return False, "bootstrap must be an object"
+    try:
+        resamples = int(boot.get("resamples") or 0)
+    except (TypeError, ValueError):
+        resamples = 0
+    if resamples < 1000:
+        return False, f"bootstrap.resamples must be >= 1000 (got {resamples})"
+    for key in ("ci_low_pnl", "ci_high_pnl", "prob_total_pnl_positive"):
+        if key not in boot:
+            return False, f"missing bootstrap.{key}"
+
+    flip = data["sign_flip"]
+    if not isinstance(flip, dict):
+        return False, "sign_flip must be an object"
+    try:
+        combos = int(flip.get("combinations") or 0)
+    except (TypeError, ValueError):
+        combos = 0
+    if combos != 256:
+        return False, f"sign_flip.combinations must be 256 (2^8) (got {combos})"
+    if "p_value" not in flip:
+        return False, "missing sign_flip.p_value"
+
+    conc = data["concentration"]
+    if not isinstance(conc, dict):
+        return False, "concentration must be an object"
+    symbols = conc.get("symbols")
+    if not isinstance(symbols, list) or not symbols:
+        return False, "concentration.symbols must be a non-empty list"
+    for key in ("top_symbol_pnl_share", "top_trade_pnl_share"):
+        if key not in conc:
+            return False, f"missing concentration.{key}"
+
+    split = data["time_split"]
+    if not isinstance(split, dict):
+        return False, "time_split must be an object"
+    for key in ("first_half_pnl", "second_half_pnl"):
+        if key not in split:
+            return False, f"missing time_split.{key}"
+
+    conclusion = data["conclusion"]
+    verdict = str((conclusion or {}).get("verdict", "")).lower() if isinstance(conclusion, dict) else ""
+    if verdict not in ("signal", "noise", "underpowered"):
+        return False, "conclusion.verdict must be signal, noise, or underpowered"
+    if verdict not in _read_text(md).lower():
+        return False, "markdown missing the verdict"
+    return True, (f"verdict={verdict}, resamples={resamples}, "
+                  f"sign-flip p={flip.get('p_value')}, symbols={len(symbols)}")
+
+
 def check_runbook() -> Tuple[bool, str]:
     path = STATE / "DATA_REQUEST_283D_HYPERLIQUID.md"
     if not path.exists():
@@ -184,6 +261,7 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_j1_crash_event_census", check_census),
     ("phase_j2_sensitivity_sweep", check_sensitivity),
     ("phase_k_interaction_sweep", check_interaction),
+    ("phase_l_robustness", check_robustness),
     ("phase_j3_acquisition_runbook", check_runbook),
     ("durable_handoff", check_handoff),
 ]

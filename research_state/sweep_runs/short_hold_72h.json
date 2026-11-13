@@ -1,0 +1,53 @@
+{
+  "tag": "short_hold_72h",
+  "label": "Rebound-short max hold 72h (spec 48h)",
+  "params": {
+    "rebound_short_time_exit_bars": 72
+  },
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": null,
+    "annualized_return_pct": null,
+    "horizon_years": null,
+    "max_drawdown_pct": -2.0274965243788596,
+    "sharpe": 0.6098135764666263,
+    "sortino": 1.1906204466499273,
+    "calmar": 4.1321239854657525,
+    "win_rate": 0.5,
+    "profit_factor": 4.994609121025112,
+    "trade_count": 8,
+    "total_pnl": 8642.772602857436,
+    "net_total_pnl": 7681.8046154373305,
+    "equity_final": 108642.77260285744,
+    "positive_months": 4,
+    "negative_months": 3,
+    "total_months": 7,
+    "by_leg": {
+      "buy": {
+        "trades": 7,
+        "pnl": 6171.467781400775,
+        "wins": 3
+      },
+      "short": {
+        "trades": 1,
+        "pnl": 2471.3048214566625,
+        "wins": 1
+      }
+    },
+    "exit_reasons": {
+      "liquidated": 1,
+      "time_exit": 6,
+      "target_rebound_short": 1
+    },
+    "traded_symbols": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "max_live_coin_notional_max": 120000.0,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 848.2
+}
