@@ -1,9 +1,9 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T06:40:16Z
-**Supersedes:** 2026-11-13T06:35:37Z (this session re-verified state: suite green, working tree clean, all Phase E/F bottleneck fixes committed; nothing pending; refreshed the timestamp/commit reference).
+**Handoff updated (UTC):** 2026-11-13T06:41:35Z
+**Supersedes:** 2026-11-13T06:40:16Z (this session re-verified state: suite green 933 passed/1 skipped, working tree clean, all Phase E/F bottleneck fixes committed; nothing pending; refreshed timestamp/commit reference).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `8a658bb` (working tree clean; all Phase E/F bottleneck fixes committed; nothing pending).
+**Branch:** `main` @ `e1cffc0` (working tree clean; all Phase E/F bottleneck fixes committed; nothing pending).
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
@@ -105,7 +105,7 @@ Write BOTH `research_state/real_okx_full_spec_comparison.md` and `research_state
 
 ### 3.3 Phase H — reproducibility & hardening
 
-- Confirm `PYTHONPATH=. python3 -m pytest -q` is green and record counts (baseline: `933 passed, 1 skipped`, re-verified green 2026-11-13T06:35:37Z).
+- Confirm `PYTHONPATH=. python3 -m pytest -q` is green and record counts (baseline: `933 passed, 1 skipped`, re-verified green 2026-11-13T06:41:35Z).
 - Re-derive universe and re-run campaign from on-disk manifest/cache/universe; confirm `trades` (symbols, entry/exit timestamps, total_pnl) and `total_pnl` are identical across runs. The top-level `timestamp` field is volatile — exclude it from comparison.
 - Add a regression test asserting persisted campaign trades include `rebound_short_pnl`/`rebound_hedge_pnl` (locks the runner fix so future artifacts stay splittable).
 - Re-confirm no gate bypass: `volume_filter_ok` (all-bars) and per-trade point-in-time trailing-24h ≥$5M remain enforced; no synthetic/fabricated path.
