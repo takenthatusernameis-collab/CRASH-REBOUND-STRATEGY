@@ -1,10 +1,9 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T07:42:00Z
-**Supersedes:** 2026-11-13T06:48:24Z. This session re-verified the whole state from scratch, corrected a **stale count claim** in the prior handoff, and closed the last open Phase H gap (the persisted-rebound-fields regression test now exists).
-**Uncommitted at handoff time:** `M HANDOFF.md` + new `tests/test_campaign_trade_persistence_rebound_fields_20261113.py` (3 tests, passing). The next session must commit these two files first (they are the only working-tree changes), then start Phase G+. Do not `git reset`/`checkout` them away.
+**Handoff updated (UTC):** 2026-11-13T07:56:11Z
+**Supersedes:** 2026-11-13T07:42:00Z. Tree was clean at `b323ce0`; no uncommitted changes at handoff time. Nothing to commit before starting Phase G+. Do not `git reset`/`checkout` anything away.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `8e38824` (verified via `git status --porcelain`: the only working-tree changes are the handoff refresh below plus the new test; the committed tree at `8e38824` was clean).
+**Branch:** `main` @ `b323ce0` (verified via `git status --porcelain`: clean tree; nothing uncommitted at handoff time).
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
