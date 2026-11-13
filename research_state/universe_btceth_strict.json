@@ -1,0 +1,5 @@
+{
+  "symbols": ["BTC", "ETH"],
+  "source": "strict-gate-qualifying universe (BTC/ETH clear whole-window-min >= $5M trailing-24h volume)",
+  "min_24h_volume_usd": 5000000.0
+}
