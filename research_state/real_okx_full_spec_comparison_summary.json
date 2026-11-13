@@ -1,0 +1,463 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T11:24:21.124182+00:00",
+  "run_type": "spec_vs_actual_comparison",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "spec": {
+    "source": "research_state/strategy_spec.md (transcribed from crash-rebound-strategy.pdf)",
+    "venue": "Hyperliquid perpetuals",
+    "window": "2025-12-20 to 2026-09-28 (283 days, hourly)",
+    "total_return_pct": 81.2,
+    "annualized_return_pct": 115.2,
+    "worst_drawdown_pct": -5.4,
+    "positive_months": 6,
+    "total_months": 10,
+    "trades": 85,
+    "buys": 73,
+    "buy_win_rate_pct": 71.0,
+    "shorts": 12,
+    "short_win_rate_pct": 83.0,
+    "rebound_short_profit_share_pct": 27.0
+  },
+  "actual": {
+    "source_artifacts": {
+      "campaign": "research_state/campaign_results_real_okx_full.json",
+      "campaign_sha256": "57973b0c4a0d68c783cd4dffd1c6817d20ad4613bee6e2e28939f9b497d2f9b8",
+      "metrics": "research_state/campaign_results_real_okx_full_metrics.json",
+      "metrics_sha256": "3f95d30e4b557912baeca449514c447fbdd4c253f45be4b6f085c1a826f2867c",
+      "census": "research_state/crash_event_census_real_okx_full.json",
+      "census_sha256": "46ba710ec83a17e45e4fe8bbfc3436353f7ace0cd6a1e942e1d7c3b464779bec",
+      "universe": "research_state/universe_okx_full_verified.json",
+      "manifest": "research_state/cache/okx_1h_full_20251220_20260928/provenance.json",
+      "manifest_sha256": "53ad860b7d9787d3763f23e48070067899f6363b96ab48a61b05b970a675a554"
+    },
+    "venue": "OKX USDT-margined perpetuals (cross-venue proxy)",
+    "window": {
+      "start": "2025-12-20T00:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 6792
+    },
+    "symbols_admitted": 54,
+    "symbols_loaded": 54,
+    "total_return_pct": 9.159691934882952,
+    "annualized_return_pct": 22.599525626916606,
+    "realized_horizon_years": 0.4301369863013699,
+    "worst_drawdown_pct": -2.0274965243788596,
+    "positive_months": 4,
+    "negative_months": 3,
+    "total_months": 7,
+    "trades": 8,
+    "buy_trades": 8,
+    "buy_wins": 4,
+    "buy_win_rate_pct": 50.0,
+    "short_trades": 1,
+    "short_wins": 0,
+    "short_win_rate_pct": 0,
+    "rebound_short_profit_share_pct": -17.87027158190707,
+    "sharpe": 0.6257881282591806,
+    "sortino": 1.2618307809094134,
+    "calmar": 4.379263979604601,
+    "profit_factor": 5.23352442904336,
+    "win_rate": 0.5,
+    "buy_leg_pnl": 10796.553759712579,
+    "buy_leg_pnl_share_pct": 117.87027158190706,
+    "short_leg_pnl": -1636.8618248296225,
+    "equity_final": 109159.69193488295,
+    "trade_attribution_by_leg": {
+      "buy": {
+        "leg": "buy",
+        "pnl": 10796.55375971258,
+        "trades": 8
+      },
+      "short": {
+        "leg": "short",
+        "pnl": -1636.8618248296225,
+        "trades": 1
+      }
+    },
+    "exit_reasons": {
+      "liquidated": 1,
+      "time_exit": 6,
+      "target_rebound_short": 1
+    },
+    "traded_symbols": {
+      "SOL": 3,
+      "ETH": 1,
+      "LINK": 1,
+      "BCH": 2,
+      "AVAX": 1
+    },
+    "symbols_traded": 5,
+    "symbols_never_traded": 49,
+    "first_entry_utc": "2026-01-19T03:00:00Z",
+    "last_exit_utc": "2026-05-20T10:00:00Z",
+    "window_start": "2025-12-20T00:00:00+00:00",
+    "window_end": "2026-09-28T23:00:00+00:00",
+    "no_trade_tail_days": 131.54,
+    "max_live_coin_notional": 120000.0,
+    "gross_cap_usd": 120000.0,
+    "gross_cap_utilization_pct": 100.0
+  },
+  "divergences": [
+    {
+      "id": "trade_frequency",
+      "metric": "trades",
+      "spec": 85,
+      "actual": 8,
+      "ratio_actual_over_spec": 0.0941,
+      "driver": "signal-availability funnel, not a single defect",
+      "evidence": {
+        "funnel": {
+          "rsi_events": 342,
+          "volume_gate_pass": 187,
+          "bounce_confirmed": 39,
+          "regime_min_price_ok": 89,
+          "signal_gate_pass": 11,
+          "trades_opened": 8,
+          "trades_matched_to_census": 8
+        },
+        "blocking_reasons": {
+          "trade_opened": 8,
+          "volume_gate": 155,
+          "bounce_not_confirmed": 159,
+          "regime_min_price": 17,
+          "one_position_per_coin": 3
+        },
+        "blocking_reasons_sum": 342,
+        "unexplained_signal_gate_events": 0,
+        "census_artifact": "research_state/crash_event_census_real_okx_full.json"
+      },
+      "code_paths": [
+        "`src/strategy/crash_rebound.py:162`",
+        "`src/strategy/config.py:7`",
+        "`src/strategy/crash_rebound.py:238`",
+        "`src/strategy/crash_rebound.py:367`",
+        "`scripts/run_portfolio.py:49`"
+      ],
+      "explanation": "Of 342 RSI(21)<20 events across 54 admitted symbols, 155 died on the >= $5M trailing-24h volume gate, 159 on bounce confirmation, 17 on the >= $5 price floor, and 3 on one-position-per-coin. 11 events cleared every signal gate and 8 became trades. Every event has exactly one blocking reason and the reasons sum to the event total, so the shortfall is a property of crash availability in this venue/window, not an attribution bug. Spec's 85 trades came from a denser crash cluster on Hyperliquid."
+    },
+    {
+      "id": "annualization_horizon",
+      "metric": "annualized return",
+      "spec": 115.2,
+      "actual": 22.599525626916606,
+      "driver": "annualization over the realized-trade horizon, not the 283-day window",
+      "evidence": {
+        "realized_horizon_years": 0.4301369863013699,
+        "first_entry_utc": "2026-01-19T03:00:00Z",
+        "last_exit_utc": "2026-05-20T10:00:00Z",
+        "target_window": [
+          "2025-12-20T00:00:00+00:00",
+          "2026-09-28T23:00:00+00:00"
+        ],
+        "equity_curve_points": 9
+      },
+      "code_paths": [
+        "`src/backtest/engine.py:179`",
+        "src/metrics/campaign_metrics.py (equity_annualized_return_pct)"
+      ],
+      "explanation": "Annualized return is computed over 0.4301369863013699 years of realized-trade horizon (2026-01-19T03:00:00Z to 2026-05-20T10:00:00Z), not the 283-day target window. No trade opens after 2026-05-20T10:00:00Z, so the final ~131.54 days of the window contribute zero return while the spec's figure covers its full window. Annualizing a short active span inflates the rate relative to a full-window figure; the two numbers are not directly comparable."
+    },
+    {
+      "id": "drawdown_scale",
+      "metric": "worst drawdown",
+      "spec": -5.4,
+      "actual": -2.0274965243788596,
+      "driver": "smaller realized book (8 trades, 5 symbols) => smaller peak-to-trough",
+      "evidence": {
+        "max_drawdown_usd": -2091.6053422543337,
+        "max_drawdown_timestamp": "1769551200000",
+        "trades": 8,
+        "max_live_coin_notional": 120000.0,
+        "gross_cap_usd": 120000.0,
+        "gross_cap_utilization_pct": 100.0
+      },
+      "code_paths": [
+        "`src/strategy/config.py:87`",
+        "`scripts/run_portfolio.py:49`"
+      ],
+      "explanation": "Worst drawdown -2.0274965243788596% ($-2,091.61) is smaller in magnitude than spec -5.4% because the realized book is far smaller: 8 trades, peak live coin notional $120,000.00 against a $120,000.00 gross cap (100.00% utilization). A smaller book has less absolute peak-to-trough excursion. This is not evidence of superior risk control."
+    },
+    {
+      "id": "monthly_breadth",
+      "metric": "positive months",
+      "spec": "6 of 10",
+      "actual": "4 of 7 (3 negative, 0 flat)",
+      "driver": "different period and bucket count (7 realized-trade buckets vs 10 spec months)",
+      "evidence": {
+        "monthly_breakdown": {
+          "1768946": 3161.969310655877,
+          "1769115": -121.63379295786945,
+          "1769551": -1969.9715492964642,
+          "1770112": 2988.2241534821824,
+          "1770062": 3499.3737911286935,
+          "1770069": 1673.7337690180457,
+          "1779271": -72.00374714750825
+        },
+        "annual_breakdown": {
+          "1768": 3161.969310655877,
+          "1769": -2091.6053422543337,
+          "1770": 8161.3317136289215,
+          "1779": -72.00374714750825
+        },
+        "total_months": 7
+      },
+      "code_paths": [
+        "src/metrics/campaign_metrics.py (monthly_breakdown/positive_months)"
+      ],
+      "explanation": "4 of 7 realized-trade buckets were positive vs spec 6 of 10. The bucket count differs because the realized horizon spans fewer calendar months, so this is a coverage difference, not a reproducibility failure."
+    },
+    {
+      "id": "buy_leg",
+      "metric": "buys (win rate)",
+      "spec": "73 (71%)",
+      "actual": "8 (50.00%)",
+      "driver": "leg attribution split of one rebound-short trade into buy+short constituents",
+      "evidence": {
+        "buy_trades": 8,
+        "buy_wins": 4,
+        "buy_pnl": 10796.553759712579,
+        "buy_pnl_share_pct": 117.87027158190706,
+        "buy_profit_factor": 5.990066741999788,
+        "trade_attribution_by_leg": {
+          "buy": {
+            "leg": "buy",
+            "pnl": 10796.55375971258,
+            "trades": 8
+          },
+          "short": {
+            "leg": "short",
+            "pnl": -1636.8618248296225,
+            "trades": 1
+          }
+        }
+      },
+      "code_paths": [
+        "src/metrics/campaign_metrics.py:161 (constituent split)",
+        "src/metrics/campaign_metrics.py:237 (_split_leg_pnls)"
+      ],
+      "explanation": "Buy leg: 8 constituent trades, 4 wins (50.00%), PnL $10,796.55 (117.87% of grand total), profit factor 5.990. The buy-leg trade count exceeds the 8 campaign trades because the single rebound-short trade is split into its buy and short constituents for attribution; `trade_attribution_by_leg` sums to the grand total ($9,159.69)."
+    },
+    {
+      "id": "short_leg",
+      "metric": "shorts (win rate)",
+      "spec": "12 (83%)",
+      "actual": "1 (0.00%)",
+      "driver": "only one rebound short fired; it was net negative after hedge separation",
+      "evidence": {
+        "short_trades": 1,
+        "short_wins": 0,
+        "short_pnl": -1636.8618248296225,
+        "short_pnl_share_pct": -17.87027158190707,
+        "rebound_short_constituents": {
+          "rebound_short_pnl": 1067.729426,
+          "rebound_hedge_pnl": -2704.591251
+        }
+      },
+      "code_paths": [
+        "`src/strategy/config.py:116`",
+        "src/metrics/campaign_metrics.py:237"
+      ],
+      "explanation": "Short leg: 1 trade, 0 wins, PnL $-1,636.86 (-17.87% share). Its coin leg gained $1,067.73 while the long-ETH hedge against it lost $2,704.59, so the rebound short was net negative after hedge separation. This is a single observation and must not be read as the spec's ~27% profit contribution."
+    },
+    {
+      "id": "rebound_short_attribution_correction",
+      "metric": "rebound-short profit contribution",
+      "spec": 27.0,
+      "actual": -17.87027158190707,
+      "driver": "earlier `short +2,988.22` reading conflated the whole BCH trade with the short leg",
+      "evidence": {
+        "bch_trade_total_pnl": 2988.2241534821824,
+        "bch_trade_pnl": 4625.085978311805,
+        "bch_rebound_short_pnl": 1067.729426268781,
+        "bch_rebound_hedge_pnl": -2704.5912510984035,
+        "authoritative_leg_attribution": {
+          "buy": {
+            "leg": "buy",
+            "pnl": 10796.55375971258,
+            "trades": 8
+          },
+          "short": {
+            "leg": "short",
+            "pnl": -1636.8618248296225,
+            "trades": 1
+          }
+        }
+      },
+      "code_paths": [
+        "src/metrics/campaign_metrics.py:161",
+        "src/metrics/campaign_metrics.py:237"
+      ],
+      "explanation": "RETRACTION: an earlier summary read the BCH rebound-short trade's whole-trade total ($2,988.22) as the short leg's profit. The authoritative attribution is short coin $1,067.73 plus rebound hedge $-2,704.59 = $-1,636.86 for the short leg (-17.87% share), while the buy leg is $10,796.55 (117.87%). The two legs sum to the grand total."
+    },
+    {
+      "id": "universe_utilization",
+      "metric": "universe",
+      "spec": "spec-relevant >= $5M set (~26 on Hyperliquid per spec; up to ~80 in 2024-2025)",
+      "actual": "54 admitted / 5 traded",
+      "driver": "admitted universe is broad but crash+rebound availability is narrow",
+      "evidence": {
+        "universe_size": 54,
+        "symbols_loaded": 54,
+        "symbols_traded": 5,
+        "traded": {
+          "SOL": 3,
+          "ETH": 1,
+          "LINK": 1,
+          "BCH": 2,
+          "AVAX": 1
+        },
+        "never_traded_symbols": 49,
+        "never_traded_with_signal_pass": [],
+        "admitted_but_never_traded_zero_signal": [
+          "OP",
+          "TRX",
+          "FLOW",
+          "WLD",
+          "COMP",
+          "LDO",
+          "SAND",
+          "STX",
+          "SUI",
+          "APT",
+          "CHZ",
+          "GALA",
+          "XRP",
+          "ADA",
+          "DOGE",
+          "FIL",
+          "SEI",
+          "UNI",
+          "WIF",
+          "XLM",
+          "ALGO",
+          "BONK",
+          "FET",
+          "PEPE",
+          "SUSHI",
+          "XTZ",
+          "ZEC",
+          "AAVE",
+          "ARB",
+          "INJ",
+          "SATS",
+          "CRV",
+          "DOT",
+          "ORDI",
+          "LTC",
+          "NEAR",
+          "SHIB",
+          "DASH",
+          "HBAR",
+          "ICP",
+          "JTO",
+          "KSM",
+          "RENDER",
+          "AXS",
+          "ENJ",
+          "ETC",
+          "JUP",
+          "SNX",
+          "TIA"
+        ],
+        "top_symbols_by_events": [
+          {
+            "symbol": "BCH",
+            "bars": 6792,
+            "events": 29,
+            "volume_gate_pass": 19,
+            "bounce_confirmed": 3,
+            "signal_gate_pass": 3,
+            "trades_opened": 2
+          },
+          {
+            "symbol": "OP",
+            "bars": 6792,
+            "events": 22,
+            "volume_gate_pass": 17,
+            "bounce_confirmed": 4,
+            "signal_gate_pass": 0,
+            "trades_opened": 0
+          },
+          {
+            "symbol": "TRX",
+            "bars": 6792,
+            "events": 19,
+            "volume_gate_pass": 19,
+            "bounce_confirmed": 3,
+            "signal_gate_pass": 0,
+            "trades_opened": 0
+          },
+          {
+            "symbol": "FLOW",
+            "bars": 6792,
+            "events": 18,
+            "volume_gate_pass": 0,
+            "bounce_confirmed": 2,
+            "signal_gate_pass": 0,
+            "trades_opened": 0
+          },
+          {
+            "symbol": "SOL",
+            "bars": 6792,
+            "events": 16,
+            "volume_gate_pass": 16,
+            "bounce_confirmed": 5,
+            "signal_gate_pass": 5,
+            "trades_opened": 3
+          },
+          {
+            "symbol": "WLD",
+            "bars": 6792,
+            "events": 14,
+            "volume_gate_pass": 14,
+            "bounce_confirmed": 2,
+            "signal_gate_pass": 0,
+            "trades_opened": 0
+          },
+          {
+            "symbol": "COMP",
+            "bars": 6792,
+            "events": 12,
+            "volume_gate_pass": 0,
+            "bounce_confirmed": 2,
+            "signal_gate_pass": 0,
+            "trades_opened": 0
+          },
+          {
+            "symbol": "ETH",
+            "bars": 6792,
+            "events": 12,
+            "volume_gate_pass": 12,
+            "bounce_confirmed": 1,
+            "signal_gate_pass": 1,
+            "trades_opened": 1
+          }
+        ]
+      },
+      "code_paths": [
+        "`src/strategy/crash_rebound.py:162`",
+        "`scripts/run_portfolio.py:49`"
+      ],
+      "explanation": "54 symbols were admitted (peak trailing-24h volume >= $5M) and all were loaded, but only 5 ever traded (AVAX, BCH, ETH, LINK, SOL). 49 admitted symbols never even produced a signal-gate-passing event, and 0 produced signal-gate passes that did not become trades (one-position-per-coin / capacity). Breadth of admission is therefore not breadth of participation."
+    }
+  ],
+  "conclusions": [
+    "Realized: +9.1597% total return over a 0.4301-year realized-trade horizon (22.5995% annualized), worst drawdown -2.0275%, 8 trades, win rate 50.00%, profit factor 5.234.",
+    "The trade-frequency gap (8 vs 85) is fully explained by the J1 census funnel 342->187->39->11->8 with 0 unexplained signal-gate events and blocking reasons summing to 342. No attribution defect is implied.",
+    "Rebound short contributed -17.8703% of the grand total ($-1,636.86), contradicting the spec's ~27% contribution claim in this venue/window. The buy leg carried the result ($10,796.55, +117.8703%).",
+    "Peak gross-cap utilization was 100.00% of the $120,000.00 120% cap, so the equal-share cut mechanism was not a binding constraint on this realized book.",
+    "No claim of Hyperliquid parity is made or implied: the venue, the realized horizon, and the realized trade count all differ from the spec test."
+  ],
+  "code_path_anchors": {
+    "rsi_trigger": "`src/strategy/crash_rebound.py:162`",
+    "volume_floor": "`src/strategy/config.py:7`",
+    "sizing_lock": "`src/strategy/config.py:32`",
+    "bounce": "`src/strategy/crash_rebound.py:238`",
+    "signal": "`src/strategy/crash_rebound.py:367`",
+    "portfolio": "`scripts/run_portfolio.py:49`",
+    "gross_cap": "`src/strategy/config.py:87`",
+    "rebound_short": "`src/strategy/config.py:116`",
+    "engine": "`src/backtest/engine.py:179`"
+  }
+}

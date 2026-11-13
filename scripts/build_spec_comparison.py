@@ -246,7 +246,9 @@ def main(argv=None) -> int:
         "profit_factor": pf,
         "win_rate": win_rate,
         "buy_leg_pnl": buy_leg.get("total_pnl"),
+        "buy_leg_pnl_share_pct": buy_leg.get("pnl_share_pct"),
         "short_leg_pnl": short_leg.get("total_pnl"),
+        "equity_final": metrics.get("equity_final"),
         "trade_attribution_by_leg": attribution,
         "exit_reasons": exit_reasons,
         "traded_symbols": traded_symbols,
@@ -571,7 +573,7 @@ def render_markdown(r: Dict[str, Any]) -> str:
     L.append(f"| Equity | {_usd(100000.0)} -> {_usd(a.get('equity_final') if a.get('equity_final') is not None else 0.0)} |")
     L.append(f"| Sharpe / Sortino / Calmar | {_num(a['sharpe'], 4)} / {_num(a['sortino'], 4)} / {_num(a['calmar'], 4)} |")
     L.append(f"| Win rate / profit factor | {_num((a['win_rate'] or 0) * 100, 2)}% / {_num(a['profit_factor'], 4)} |")
-    L.append(f"| Buy leg PnL / share | {_usd(a['buy_leg_pnl'])} / {_pct(buy_share)} |")
+    L.append(f"| Buy leg PnL / share | {_usd(a['buy_leg_pnl'])} / {_pct(a.get('buy_leg_pnl_share_pct'))} |")
     L.append(f"| Short leg PnL | {_usd(a['short_leg_pnl'])} |")
     L.append(f"| Exit reasons | {json.dumps(a['exit_reasons'])} |")
     L.append(f"| Traded symbols | {json.dumps(a['traded_symbols'])} |")
