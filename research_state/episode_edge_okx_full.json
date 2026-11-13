@@ -1,0 +1,175 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T23:30:04Z",
+  "phase": "O",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "method": "Crash-episode dependence audit (single-linkage clustering on the spec's 98h holding horizon) + conditional temporal-edge permutation test + episode-block bootstrap power floor. Real portfolio engine, real OKX 283d cache.",
+  "seed": 20261113,
+  "inputs": {
+    "census_events": 342,
+    "signal_gate_events": 11,
+    "canonical_total_pnl": 9159.691934882958,
+    "canonical_num_trades": 8,
+    "canonical_sha256": null,
+    "cache_dir": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/cache/okx_1h_full_20251220_20260928"
+  },
+  "episode_audit": {
+    "link_hours": 98.0,
+    "n_events": 11,
+    "n_episodes": 4,
+    "n_symbols": 5,
+    "n_distinct_crash_days": 5,
+    "distinct_crash_days": [
+      "2026-01-19",
+      "2026-01-20",
+      "2026-01-25",
+      "2026-01-31",
+      "2026-05-18"
+    ],
+    "largest_episode_events": 4,
+    "largest_episode_share": 0.36363636363636365,
+    "mean_episode_size": 2.75,
+    "episodes": [
+      {
+        "episode_id": 0,
+        "start": "2026-01-19T02:00:00Z",
+        "end": "2026-01-20T19:00:00Z",
+        "events": 4,
+        "symbols": [
+          "ETH",
+          "SOL"
+        ],
+        "distinct_days": 2
+      },
+      {
+        "episode_id": 1,
+        "start": "2026-01-25T20:00:00Z",
+        "end": "2026-01-25T20:00:00Z",
+        "events": 2,
+        "symbols": [
+          "LINK",
+          "SOL"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "episode_id": 2,
+        "start": "2026-01-31T18:00:00Z",
+        "end": "2026-01-31T21:00:00Z",
+        "events": 4,
+        "symbols": [
+          "AVAX",
+          "BCH",
+          "SOL"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "episode_id": 3,
+        "start": "2026-05-18T08:00:00Z",
+        "end": "2026-05-18T08:00:00Z",
+        "events": 1,
+        "symbols": [
+          "BCH"
+        ],
+        "distinct_days": 1
+      }
+    ],
+    "effective_independent_sample": {
+      "trades": 8,
+      "symbols": 5,
+      "episodes": 4,
+      "distinct_crash_days": 5
+    },
+    "finding": "11 gate-passing events collapse into 4 crash episodes over 5 distinct crash days; the largest episode holds 4 of 11 events (36.4%). Trade-level and event-level independence assumptions therefore overstate the effective sample."
+  },
+  "episode_block_bootstrap": {
+    "resamples": 20000,
+    "seed": 20261113,
+    "episode_blocks": 4,
+    "episode_trade_counts": {
+      "0": 2,
+      "1": 2,
+      "2": 3,
+      "3": 1
+    },
+    "observed_total_pnl": 9159.691934882956,
+    "observed_episode_totals": {
+      "0": 3040.3355176980076,
+      "1": -1969.9715492964642,
+      "2": 8161.3317136289215,
+      "3": -72.00374714750825
+    },
+    "bootstrap_total_pnl": {
+      "mean": 9092.148664847895,
+      "median": 9159.691934882956,
+      "p05": -2869.579130191385,
+      "p95": 22403.33446265386,
+      "ci_low_pnl_2p5": -4083.950592887945,
+      "ci_high_pnl_97p5": 24411.991393739256,
+      "prob_total_pnl_gt_0": 0.8754
+    },
+    "n_needed_for_ci_excludes_zero": [
+      {
+        "n_episodes": 2,
+        "ci_low": -3939.9430985929284,
+        "ci_high": 16322.663427257843,
+        "excludes_zero": false,
+        "mean": 4574.95420306986
+      },
+      {
+        "n_episodes": 3,
+        "ci_low": -4011.946845740437,
+        "ci_high": 19362.99894495585,
+        "excludes_zero": false,
+        "mean": 6756.830039290721
+      },
+      {
+        "n_episodes": 4,
+        "ci_low": -4083.950592887945,
+        "ci_high": 24411.991393739256,
+        "excludes_zero": false,
+        "mean": 9166.14365930088
+      }
+    ]
+  },
+  "temporal_edge_permutation": {
+    "method": "conditional permutation: event bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; real portfolio engine",
+    "mode": "deterministic_draws:40",
+    "eligible_crash_bars": 342,
+    "observed_event_slots": 11,
+    "observed_per_symbol": {
+      "AVAX": 1,
+      "BCH": 3,
+      "ETH": 1,
+      "LINK": 1,
+      "SOL": 5
+    },
+    "distinct_possible_draws": 2298336768,
+    "draws_evaluated": 40,
+    "canonical_total_pnl": 9159.691934882958,
+    "null_total_pnl": {
+      "mean": 5234.436370102624,
+      "median": 4858.35504693604,
+      "stdev": 3609.3043330396035,
+      "min": -1802.433699592029,
+      "max": 12396.944884842746,
+      "p05": -250.3678354478794,
+      "p95": 10948.118082199297,
+      "ci_low_pnl_2p5": -1802.433699592029,
+      "ci_high_pnl_97p5": 11140.578748971951,
+      "prob_total_pnl_gt_0": 0.875
+    },
+    "canonical_percentile_le": 0.85,
+    "p_null_ge_canonical": 0.15,
+    "n_null_ge_canonical": 6,
+    "wall_seconds": 213.54498052597046
+  },
+  "wall_seconds": 219.68392872810364,
+  "limitations": [
+    "Cross-venue OKX cache; NOT Hyperliquid performance evidence.",
+    "The conditional permutation preserves the number of events, the per-symbol multiplicity and the crash-day calendar; it tests timing, not the RSI<20 detector itself.",
+    "The episode clustering uses the spec's 98h holding horizon as the dependence link; a different horizon changes the episode count but not the clustering fact.",
+    "Power figures are dependence-aware but remain conditioned on the observed episode PnL distribution; they are not a substitute for more crash episodes."
+  ]
+}

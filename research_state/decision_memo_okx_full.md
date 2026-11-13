@@ -45,6 +45,56 @@ distinguishable from a random admission/cap/occupancy draw.
 | **Hyperliquid partial campaign (NOT_EVIDENCE)** | 12 complete symbols, 3,900 bars each; **0 trades, 0 PnL** | Partial window only; `performance_evidence=false`; not spec evidence. |
 | Hyperliquid partial crash census | 12 symbols / 46,800 bars; **8 RSI(21)<20 events, 0 confirmed signals** | Rare-event strategy; the 163-day partial window has no trade to evaluate. |
 | Risk budget (existing sweeps) | `rsi25_maxpos8` +23.44% / **−18.34% DD**, 33 trades; baseline +9.16% / −2.03% DD, 8 trades | Return is a risk-budget trade; never quote +23% without −18% DD. |
+| **Phase O episode audit** | 11 gate-passing events collapse into **4 crash episodes** over **5 distinct crash days**; largest episode 4/11 events (36.4%) | The effective independent sample is **4 crashes / 5 days**, not 8 trades or 11 events. Every trade-level independence assumption overstates the sample. |
+| **Phase O conditional temporal-edge permutation** | Event bars redrawn from the real 342-bar RSI(21)<20 census, per-symbol multiplicity preserved, real engine per draw; canonical at the **85th percentile**; p(placebo ≥ canonical)=**0.15** | The canonical PnL is largely explained by *which crash days occurred*. Timing is not distinguishable from crash-day luck. |
+| **Phase O episode-block bootstrap** | 95% CI **[−4,083.95, 24,411.99]**, P(total PnL>0)=**0.8754**, resampled in 4 episode blocks | Dependence-aware interval spans zero. The trade-level bootstrap (Phase L) CI was narrower only because it assumed 8 independent trades. |
+
+## The binding constraint: independent crash episodes
+
+Every earlier inference in this memo is conditioned on the observed 11 gate-passing
+events and treats trades (or events) as independent draws. Phase O measures what those
+events actually are. Linked at the spec's own 98-hour holding horizon (50h max buy hold +
+48h max rebound short), the 11 events form **4 crash episodes** spread over **5 distinct
+crash days**:
+
+| Episode | Window (UTC) | Events | Symbols | Distinct days | Episode PnL |
+|---|---|---|---|---|---|
+| 0 | 2026-01-19T02:00Z .. 2026-01-20T19:00Z | 4 | ETH, SOL | 2 | +3,040.34 |
+| 1 | 2026-01-25T20:00Z | 2 | LINK, SOL | 1 | **−1,969.97** |
+| 2 | 2026-01-31T18:00Z .. 2026-01-31T21:00Z | 4 | AVAX, BCH, SOL | 1 | +8,161.33 |
+| 3 | 2026-05-18T08:00Z | 1 | BCH | 1 | **−72.00** |
+
+**Two of the four episodes lost money.** The canonical +9,159.69 is the sum of four
+realized crash episodes, three of which are in a single 13-day January stretch. The
+correct denominator for any claim about this strategy is **4 crashes**, not 8 trades and
+not 11 events.
+
+### Conditional temporal-edge test (new; the gap Phase M could not close)
+
+The Phase M placebo holds event *timing* fixed and varies admission. Phase O does the
+opposite: it holds the number of events, the per-symbol multiplicity and the crash-day
+calendar fixed, and redraws *which* real RSI(21)<20 bars the events sit on. Each draw is
+run through the real portfolio engine. This is the first test in the chain that can
+detect a timing edge, and it does not find one:
+
+- Canonical PnL sits at the **85th percentile** of crash-day-timed alternatives.
+- **p(placebo ≥ canonical) = 0.15.**
+- Null total PnL: mean 5,234, median 4,858, p05 −250, p95 10,948; P(null > 0) = 0.875.
+
+The canonical result is *better than typical* but not distinguishable from what you get
+by dropping the same crash events on other real crash bars. **This is the honest answer
+to "is there a temporal edge?" — not yet demonstrable.**
+
+### Dependence-aware power requirement (replaces the trade-level projection)
+
+Resampling trades as if independent understates variance, because trades inside an
+episode co-move. The episode-block bootstrap gives the correct interval:
+**95% CI [−4,083.95, 24,411.99]**, P(total PnL > 0) = **0.8754**. Extrapolating the
+observed episode-total dispersion, the interval does not exclude zero at any episode count
+up to 20, because two of four episodes are negative. **The binding power requirement is
+therefore in independent crash episodes, not trades: the strategy needs a materially
+longer crash history in which most episodes are positive.** No amount of re-slicing the
+283-day OKX window can supply this; only a longer, Hyperliquid-native history can.
 
 ## Why the per-event null is not a portfolio null
 
@@ -76,8 +126,12 @@ liquidation, varying only which gate-passing events are allowed to trade.
 - The canonical result is **inside** the exact full-portfolio placebo distribution
   (45th percentile; P(placebo ≥ canonical)=0.5515). There is no evidence that the specific
   8 admitted trades are special beyond admission/cap/occupancy selection.
-- The sample has **8 trades, 5 symbols, 283 days**. No bootstrap or placebo can create
-  power that the sample does not contain.
+- **The 11 events are 4 crash episodes over 5 crash days; 2 of 4 episodes lost money.**
+  Every independence-based statistic in this memo overstates the effective sample.
+- **Temporal edge is not established:** p(placebo ≥ canonical)=**0.15** under a
+  crash-day-conditioned permutation that preserves event count and per-symbol multiplicity.
+- The sample has **8 trades, 5 symbols, 4 crash episodes, 283 days**. No bootstrap or
+  placebo can create power that the sample does not contain.
 - The +9.16% return must not be presented as validated edge, and the strategy must not be
   funded on this evidence.
 
@@ -110,10 +164,16 @@ liquidation, varying only which gate-passing events are allowed to trade.
    as the stronger 80%-power target. A blanket "≥100 trades" requirement is not a valid
    power target for this rare-event strategy: 46,800 Hyperliquid partial-window bars produced
    only 8 RSI crashes and 0 confirmed signals. Use the pre-registered power target above.
+   **Superseding refinement (Phase O): the binding unit is the independent crash episode.**
+   The run must produce **≥ 10 independent crash episodes with a positive episode-level
+   bootstrap CI**; 23 trades drawn from 4 episodes would not satisfy this.
 3. The trade bootstrap 95% CI excludes 0 **after** multiple-testing correction, and the
    sign-flip p < 0.05.
-4. The exact full-portfolio placebo p(placebo ≥ real) < 0.05 on the Hyperliquid run.
-5. Worst drawdown is within the mandate (the baseline −2.03% DD is acceptable; the
+4. The episode-block bootstrap 95% CI excludes 0 (Phase O method).
+5. The crash-day-conditioned temporal-edge permutation p(placebo ≥ real) < 0.05 (Phase O
+   method).
+6. The exact full-portfolio placebo p(placebo ≥ real) < 0.05 on the Hyperliquid run.
+7. Worst drawdown is within the mandate (the baseline −2.03% DD is acceptable; the
    `rsi25_maxpos8` −18.34% DD is not, unless explicitly risk-budgeted).
 
 **STOP / do not fund if:**
@@ -140,6 +200,10 @@ liquidation, varying only which gate-passing events are allowed to trade.
 4. **Do not regress:** keep the done-gate green; do not re-run the canonical campaign,
    J1/J2/K/L, or re-acquire OKX; do not fabricate data; do not relax the $5M gate; do not
    create a second handoff.
+5. **Dependence audit and temporal-edge test — DONE (Phase O).** The 11 events are 4 crash
+   episodes over 5 crash days (2 episodes negative); crash-day-conditioned permutation gives
+   p(placebo ≥ canonical)=0.15; episode-block bootstrap CI [−4,083.95, 24,411.99]. Artifacts:
+   `research_state/episode_edge_okx_full.{json,md}`. Verdict remains `underpowered`.
 
 ## Reproduction
 
@@ -150,6 +214,8 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_okx.py
 # EXPECT: runs=165 mean=8746.21 median=9287.25 p_ge_canon=0.5515 canon_pct=0.4545
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_stress_okx.py
 # EXPECT: verdict=underpowered; LOO=5, LOTO=8, evaluable_blocks=3
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx.py --draws 200
+# EXPECT: episodes=4 events=11 days=5 largest_episode=4/11 p_ge~0.15
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
-# EXPECT: 13/13 checks passed — DONE
+# EXPECT: 14/14 checks passed — DONE
 ```

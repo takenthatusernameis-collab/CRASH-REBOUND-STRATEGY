@@ -326,6 +326,109 @@ def check_robustness_stress() -> Tuple[bool, str]:
                   f"LOTO={len(loto['runs'])}, evaluable_blocks={wf.get('evaluable_blocks')}")
 
 
+def check_episode_edge() -> Tuple[bool, str]:
+    """Phase O: crash-episode dependence audit + conditional temporal-edge test.
+
+    The trade-level and event-level statistics assume independent observations.
+    Phase O measures how many *crash episodes* the 11 gate-passing events actually
+    form, tests event timing against crash-day-conditioned alternatives, and gives
+    a dependence-aware (episode-block) power floor. A missing or narrative-only
+    artifact fails closed, and so does any claim that temporal edge is established.
+    """
+    path = STATE / "episode_edge_okx_full.json"
+    md = STATE / "episode_edge_okx_full.md"
+    if not path.exists() or not md.exists():
+        return False, "json and/or md missing"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    if PROVENANCE_CAVEAT.lower() not in str(data.get("provenance_caveat", "")).lower():
+        return False, "json missing provenance caveat"
+    if PROVENANCE_CAVEAT.lower() not in _read_text(md).lower():
+        return False, "markdown missing provenance caveat"
+    for key in ("generated_at_utc", "inputs", "episode_audit",
+                "episode_block_bootstrap", "temporal_edge_permutation", "verdict"):
+        if key not in data:
+            return False, f"missing {key!r}"
+
+    try:
+        if int(data["inputs"]["canonical_num_trades"]) != 8:
+            return False, "inputs.canonical_num_trades must be 8"
+        if abs(float(data["inputs"]["canonical_total_pnl"]) - 9159.691934882958) > 1e-6:
+            return False, "inputs.canonical_total_pnl mismatch"
+    except (KeyError, TypeError, ValueError):
+        return False, "inputs.canonical_* must be present and numeric"
+
+    ep = data["episode_audit"]
+    if not isinstance(ep, dict):
+        return False, "episode_audit must be an object"
+    for key in ("n_events", "n_episodes", "n_distinct_crash_days",
+                "largest_episode_events", "effective_independent_sample"):
+        if key not in ep:
+            return False, f"missing episode_audit.{key}"
+    try:
+        n_events = int(ep["n_events"])
+        n_episodes = int(ep["n_episodes"])
+        n_days = int(ep["n_distinct_crash_days"])
+        largest = int(ep["largest_episode_events"])
+    except (TypeError, ValueError):
+        return False, "episode_audit counts must be integers"
+    if n_events != 11:
+        return False, f"episode_audit.n_events must be 11 (got {n_events})"
+    if n_episodes < 2 or n_episodes > n_events:
+        return False, "episode_audit.n_episodes out of range"
+    if n_days < 2 or n_days > n_events:
+        return False, "episode_audit.n_distinct_crash_days out of range"
+    if largest < 1 or largest > n_events:
+        return False, "episode_audit.largest_episode_events out of range"
+    if not isinstance(ep.get("episodes"), list) or len(ep["episodes"]) != n_episodes:
+        return False, "episode_audit.episodes must list every episode"
+
+    perm = data["temporal_edge_permutation"]
+    if not isinstance(perm, dict):
+        return False, "temporal_edge_permutation must be an object"
+    for key in ("mode", "draws_evaluated", "null_total_pnl", "canonical_total_pnl",
+                "p_null_ge_canonical", "n_null_ge_canonical"):
+        if key not in perm:
+            return False, f"missing temporal_edge_permutation.{key}"
+    try:
+        draws = int(perm["draws_evaluated"])
+        ge = int(perm["n_null_ge_canonical"])
+        p_value = float(perm["p_null_ge_canonical"])
+    except (TypeError, ValueError):
+        return False, "temporal_edge_permutation counts/p must be numeric"
+    if draws < 30:
+        return False, f"temporal_edge_permutation.draws_evaluated too small ({draws})"
+    if ge < 0 or ge > draws:
+        return False, "temporal_edge_permutation.n_null_ge_canonical out of range"
+    if abs(p_value - ge / draws) > 1e-9:
+        return False, "temporal_edge_permutation.p_null_ge_canonical inconsistent with counts"
+    if p_value < 0.05:
+        return False, "temporal edge would be established; verdict/handoff must be revisited"
+
+    boot = data["episode_block_bootstrap"]
+    if not isinstance(boot, dict) or int(boot.get("episode_blocks", 0)) != n_episodes:
+        return False, "episode_block_bootstrap.episode_blocks must equal episode_audit.n_episodes"
+    summary = boot.get("bootstrap_total_pnl") if isinstance(boot.get("bootstrap_total_pnl"), dict) else {}
+    try:
+        lo = float(summary["ci_low_pnl_2p5"])
+        hi = float(summary["ci_high_pnl_97p5"])
+    except (KeyError, TypeError, ValueError):
+        return False, "episode_block_bootstrap.bootstrap_total_pnl CI must be numeric"
+    if lo > 0 or hi < 0:
+        return False, "episode-block bootstrap CI excludes zero; verdict must be revisited"
+
+    if str(data.get("verdict", "")).lower() != "underpowered":
+        return False, "verdict must remain underpowered until Hyperliquid GO criteria are met"
+
+    return True, (f"episodes={n_episodes} events={n_events} crash_days={n_days} "
+                  f"largest={largest}/{n_events} perm_p={p_value:.4f} "
+                  f"boot_CI=[{lo:.2f},{hi:.2f}]")
+
+
 def check_hyperliquid_status() -> Tuple[bool, str]:
     """Phase J3: record the exact Hyperliquid acquisition state and the partial evidence.
 
@@ -603,6 +706,7 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_k_interaction_sweep", check_interaction),
     ("phase_l_robustness", check_robustness),
     ("phase_n_robustness_stress", check_robustness_stress),
+    ("phase_o_episode_edge", check_episode_edge),
     ("phase_m_portfolio_placebo", check_portfolio_placebo),
     ("phase_m_decision_memo", check_decision_memo),
     ("phase_j3_hyperliquid_status", check_hyperliquid_status),
