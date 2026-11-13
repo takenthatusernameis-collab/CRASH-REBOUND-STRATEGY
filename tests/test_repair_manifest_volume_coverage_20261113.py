@@ -39,11 +39,12 @@ MANIFEST = REPO / "research_state" / "cache" / "okx_1h_full_20251220_20260928" /
 
 
 def test_repair_manifest_adds_max_and_membership_fields():
+    # The on-disk manifest may already have been repaired (idempotent stamp);
+    # repair must ensure the fields are present either way and stay stable.
     m = load_provenance(str(MANIFEST))
     sample = list(m["symbols"].values())[0]
     vc = sample.get("volume_coverage") or {}
-    assert "observed_max_24h_usd_volume" not in vc
-    assert "universe_membership_ok" not in vc
+    already_repaired = ("observed_max_24h_usd_volume" in vc) and ("universe_membership_ok" in vc)
 
     out = repair_manifest(str(MANIFEST), dry_run=True)
     assert out["repaired"] is True
@@ -52,6 +53,12 @@ def test_repair_manifest_adds_max_and_membership_fields():
         assert "observed_max_24h_usd_volume" in vc, f"{sym}: missing observed_max"
         assert "universe_membership_ok" in vc, f"{sym}: missing universe_membership_ok"
         assert isinstance(vc["universe_membership_ok"], bool)
+    # If it was already repaired, a dry run must reproduce the same fields (idempotent).
+    if already_repaired:
+        reloaded = load_provenance(str(MANIFEST))
+        for sym, info in reloaded["symbols"].items():
+            assert info.get("volume_coverage", {}).get("observed_max_24h_usd_volume") == \
+                   out["manifest"]["symbols"][sym]["volume_coverage"]["observed_max_24h_usd_volume"]
 
 
 def test_repair_preserves_sha256_and_coverage():

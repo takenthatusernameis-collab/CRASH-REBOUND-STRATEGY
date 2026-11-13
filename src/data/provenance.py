@@ -135,7 +135,7 @@ def _as_volume_number(value: Any) -> Optional[float]:
 
 
 def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: float,
-                                     errs: List[str]) -> None:
+                                      errs: List[str], admit_peak_membership: bool = False) -> None:
     """Fail-closed spec volume evidence check for provenance consumers.
 
     Legacy-compatible by required-floor gate only. Phase E (2026-11-13) reconciles
@@ -152,6 +152,13 @@ def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: floa
     - When all-bars ``volume_filter_ok`` is true, observed_min must still be >= floor.
     - Manifests carrying intent fields must not declare sub-spec requested/effective
       values. Missing/unverified fields remain fail-closed.
+
+    When ``admit_peak_membership`` is True (derivation path only), the not-all-bars
+    branch defers universe-membership selection to the caller (derive_verified_universe
+    recomputes peak from verified caches and selects members itself). Fail-closed
+    guarantees preserved: sub-spec intent fields, missing volume_coverage, and
+    all-bars contradictions still reject; a not-all-bars symbol with NO volume evidence
+    at all (no observed_max, no universe_membership_ok) still rejects.
     """
     volcov = info.get("volume_coverage")
     if not isinstance(volcov, dict):
@@ -202,6 +209,14 @@ def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: floa
             errs.append(f"{sym}: observed_max_24h_usd_volume {observed_max:g} < required spec floor {floor:g}")
         return
 
+    # Derivation path (admit_peak_membership=True): universe membership is the caller's
+    # decision, recomputed from verified caches. Do not fail here on peak-vs-floor;
+    # only fail-closed on missing evidence entirely (no peak, no membership flag).
+    if admit_peak_membership:
+        if observed_max is None and "observed_max_24h_usd_volume" not in volcov and "universe_membership_ok" not in volcov:
+            errs.append(f"{sym}: volume_filter_ok is not true and no peak/universe_membership evidence for >= ${floor:g}; spec-compliant universe admission cannot be proven")
+        return
+
     # No membership and not all-bars: fail-closed.
     if observed_max is not None and observed_max < floor:
         errs.append(
@@ -224,7 +239,8 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
                         min_symbols: int = 1,
                         require_spec_volume_floor: Optional[float] = None,
                         start: str = TARGET_START, end: str = TARGET_END,
-                        symbols: Optional[Any] = None) -> Tuple[bool, List[str]]:
+                        symbols: Optional[Any] = None,
+                        admit_peak_membership: bool = False) -> Tuple[bool, List[str]]:
     errs: List[str] = []
     if not isinstance(manifest, dict):
         return False, ["manifest must be an object"]
@@ -313,7 +329,10 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             # Does not invalidate completeness claim for non-volume callers.
             floor = _as_volume_number(require_spec_volume_floor)
             if floor is not None and floor > 0:
-                _validate_symbol_volume_evidence(sym, info, floor, errs)
+                _validate_symbol_volume_evidence(
+                    sym, info, floor, errs,
+                    admit_peak_membership=admit_peak_membership,
+                )
             complete.append(sym)
         elif require_complete:
             errs.append(f"{sym}: incomplete or error (status={info.get('status')}, observed={cov.get('observed_in_window_bars')}/{cov.get('expected_hourly_bars')})")

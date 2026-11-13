@@ -1,0 +1,1858 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T05:16:36.715299+00:00",
+  "run_type": "verified_universe_derivation",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "source_manifest": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/cache/okx_1h_full_20251220_20260928/provenance.json",
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "requested_min_24h_volume_usd": 5000000.0,
+  "min_24h_volume_usd": 5000000.0,
+  "spec_compliant_volume_threshold": true,
+  "volume_method": "max rolling 24h sum(close*volume) over verified local hourly OHLCV in target window; proxy for exchange 24h quote volume",
+  "symbols": [
+    "AAVE",
+    "ADA",
+    "ALGO",
+    "APT",
+    "ARB",
+    "ATOM",
+    "AVAX",
+    "AXS",
+    "BAT",
+    "BCH",
+    "BONK",
+    "CHZ",
+    "COMP",
+    "CRV",
+    "DASH",
+    "DOGE",
+    "DOT",
+    "ENJ",
+    "ETC",
+    "ETH",
+    "FET",
+    "FIL",
+    "FLOKI",
+    "FLOW",
+    "GALA",
+    "GRT",
+    "HBAR",
+    "ICP",
+    "IMX",
+    "INJ",
+    "JTO",
+    "JUP",
+    "KSM",
+    "LDO",
+    "LINK",
+    "LTC",
+    "MANA",
+    "MINA",
+    "NEAR",
+    "OP",
+    "ORDI",
+    "PEPE",
+    "PYTH",
+    "RENDER",
+    "SAND",
+    "SATS",
+    "SEI",
+    "SHIB",
+    "SNX",
+    "SOL",
+    "STX",
+    "SUI",
+    "SUSHI",
+    "THETA",
+    "TIA",
+    "TRX",
+    "UNI",
+    "WIF",
+    "WLD",
+    "XLM",
+    "XRP",
+    "XTZ",
+    "ZEC"
+  ],
+  "selected_symbols": [
+    "AAVE",
+    "ADA",
+    "ALGO",
+    "APT",
+    "ARB",
+    "AVAX",
+    "AXS",
+    "BCH",
+    "BONK",
+    "CHZ",
+    "COMP",
+    "CRV",
+    "DASH",
+    "DOGE",
+    "DOT",
+    "ENJ",
+    "ETC",
+    "ETH",
+    "FET",
+    "FIL",
+    "FLOW",
+    "GALA",
+    "HBAR",
+    "ICP",
+    "INJ",
+    "JTO",
+    "JUP",
+    "KSM",
+    "LDO",
+    "LINK",
+    "LTC",
+    "NEAR",
+    "OP",
+    "ORDI",
+    "PEPE",
+    "RENDER",
+    "SAND",
+    "SATS",
+    "SEI",
+    "SHIB",
+    "SNX",
+    "SOL",
+    "STX",
+    "SUI",
+    "SUSHI",
+    "TIA",
+    "TRX",
+    "UNI",
+    "WIF",
+    "WLD",
+    "XLM",
+    "XRP",
+    "XTZ",
+    "ZEC"
+  ],
+  "selected_count": 54,
+  "report": {
+    "AAVE": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 22540269.628131,
+      "max_24h_quote_volume": 22540269.628131,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "5a70952ec52f09f59ef952ef1eb09ac04c15c1b276a462a9befda0460c18fdea",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ADA": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 63132119.349459,
+      "max_24h_quote_volume": 63132119.349459,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "e5c421637adb7b53b6c600bdbc39b0b60c242bcdad23d9d8404bdc6af611e002",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ALGO": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8408709.233811,
+      "max_24h_quote_volume": 8408709.233811,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "afbbaa1a6a37863ad42b0af80cb265a1cfc3210c0d4cadc1f2c530087ea94bd5",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "APT": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 10552539.674611,
+      "max_24h_quote_volume": 10552539.674611,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "ece4dcd4e211a70afc3b28a572923285c1d78a192f1f7906b43b3a5be0761624",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ARB": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 44511332.868034,
+      "max_24h_quote_volume": 44511332.868034,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "417911802009781a0178a6c953b4e9b884879458227913d3ef6ceac41393c467",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ATOM": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 4069337.08502,
+      "max_24h_quote_volume": 4069337.08502,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "4ccd831ee2002a15084f604d7a7d253c9762f36caa33c3073e1ae70f549d8dcd",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 4.06934e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "AVAX": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 38623452.726155,
+      "max_24h_quote_volume": 38623452.726155,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "38c0ea27d718b0516b5676b8c284462844e3ee2278adf3dd2318db914741f75b",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "AXS": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 29681554.43428,
+      "max_24h_quote_volume": 29681554.43428,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "c0262b7f66d9b8734021dac1b47a08464661afab30484fd2bea807b65446da29",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "BAT": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 2183311.551235,
+      "max_24h_quote_volume": 2183311.551235,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "57f17bd3446c5d08677204569b88197a7408d75695fec6b3bb012f87dc93b186",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 2.18331e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "BCH": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 75434652.777282,
+      "max_24h_quote_volume": 75434652.777282,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "740bf39564f1961de2756f1153ee419be07e90c44a5849e405e6061ae743fa7b",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "BONK": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 24597165.714329,
+      "max_24h_quote_volume": 24597165.714329,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "0fc2c29765a3089929a149fdcbce1f44b9b7e3bac05d0556cc097602d9177b00",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "CHZ": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 9545978.667621,
+      "max_24h_quote_volume": 9545978.667621,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "272cdabd7cee5d66e8d39497f14c5cb206c056ce406a81ab494b157cbc847f84",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "COMP": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8615145.547672,
+      "max_24h_quote_volume": 8615145.547672,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "1a6d4d31fad04248f7afbe33d727dd6f5a4d36079e47274a84adfeed8b57abe8",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "CRV": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 12561461.149768,
+      "max_24h_quote_volume": 12561461.149768,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "62bf093c3403b248009a94c6a2699cea690c13d27fca1e4c5e1feb48ced3ea99",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "DASH": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 27003247.975649,
+      "max_24h_quote_volume": 27003247.975649,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "b8af8b53646f624fb859f4df0e2baf0ec1d3341cb45cc27bbfbfdad797e5a7fc",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "DOGE": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 288310548.178088,
+      "max_24h_quote_volume": 288310548.178088,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "916ee54a7a2bc3f0e5d9103e7584520dc7edf2c8ae2a92776b6c16d877e5ebe5",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "DOT": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 21549863.68185,
+      "max_24h_quote_volume": 21549863.68185,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "1363d86cb192fc82f62981806a1544dbcfdc315173bd395ad3b91b4dc7741954",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ENJ": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 32369988.396084,
+      "max_24h_quote_volume": 32369988.396084,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "188d85b7ec7b1bbbe1e00480cb61611df555716c29ba1b3f158d5296b1f452a6",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6791,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999853
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6791,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999853
+      }
+    },
+    "ETC": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 17275676.984024,
+      "max_24h_quote_volume": 17275676.984024,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "50340e40f83a5572eb0323a7fd8d591af9bba2d0b88001bbeede9f373b50f26d",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ETH": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 2111615790.723694,
+      "max_24h_quote_volume": 2111615790.723694,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "9c442d4918f12885cbbb0b1007ba930ac6374291df6775a4f4eb9c68897459a0",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "FET": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8449002.545978,
+      "max_24h_quote_volume": 8449002.545978,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "978e62ef37c9d711d53e7f65809eca0bfcd36d6ddc436ebd544d07bff009fb29",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "FIL": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 39784202.517822,
+      "max_24h_quote_volume": 39784202.517822,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "06a993a58682bfbec881d806358ae80afc3679832b3133554f9a52a5a5434f08",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "FLOKI": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 3680793.048165,
+      "max_24h_quote_volume": 3680793.048165,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "a58260c53c118e310cd635636846bd566301ae85307b5fca3396f8df0c92b001",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 3.68079e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "FLOW": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 6380829.602056,
+      "max_24h_quote_volume": 6380829.602056,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "dd35672ce6dc7a2dfbd19d9d4ec7f012dccf5ea267de09fe5ebd8ba282d753b0",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6790,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999706
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6790,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999706
+      }
+    },
+    "GALA": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 7397563.45617,
+      "max_24h_quote_volume": 7397563.45617,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "676c42d2782128571a3ccffebd1e5ef5d3c4fc913fa9859fb05d298223192ffd",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "GRT": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 3769595.92256,
+      "max_24h_quote_volume": 3769595.92256,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "762ab6a51694777e94b54f06a4690a8f3696b298ff81af802f301cb4919dcd68",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6791,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999853
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6791,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999853
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 3.7696e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "HBAR": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 55764474.303995,
+      "max_24h_quote_volume": 55764474.303995,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "26712a65703256d4ad79be8fce76f31dc1e83cc9364ec570cd15571ff27399d5",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ICP": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 29742218.932015,
+      "max_24h_quote_volume": 29742218.932015,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "d847a6117aa851ac27e80faafb3e782f2266ccbdd323d93da3274ebd61c4b2f1",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "IMX": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 2116844.045313,
+      "max_24h_quote_volume": 2116844.045313,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "48140897512ac99f086940283b388a13d78e32bca3634afa9a862e00d37a494a",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 2.11684e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "INJ": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 10952165.729063,
+      "max_24h_quote_volume": 10952165.729063,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "09b7c018b7cdacf8763cac7cea2d7fafc187779d38e5ce6c8981619d551e4b92",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "JTO": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 18862529.211788,
+      "max_24h_quote_volume": 18862529.211788,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "fbf81edddbe67ef4c913854f9aaa376544e8bb1431516016730130f92e71a7a3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "JUP": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 9382415.49831,
+      "max_24h_quote_volume": 9382415.49831,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "a164a39032ebfb28c7a8b5e39327c5aecb7e3ece4ed60b2f5b47d15876e3090f",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "KSM": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8059704.172422,
+      "max_24h_quote_volume": 8059704.172422,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "df7c1033af4ae3b652d5bf6f47cbd67399524fcbb6756442692ac6aaf6a9bf87",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "LDO": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 10214501.336065,
+      "max_24h_quote_volume": 10214501.336065,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "b84251c4a289702167b01168ec6db91804a2e596a311a6c7dccf669cf6f84295",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "LINK": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 33114947.16248,
+      "max_24h_quote_volume": 33114947.16248,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "9e61c30cbbcd080be37a76b0972b631332361c13a3712bf875bd77485cc7cf28",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "LTC": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 62072848.193365,
+      "max_24h_quote_volume": 62072848.193365,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "2c18e0db44d6429fc7417dadf58fd167c8add2af166ce40b0beb4e9969b1e661",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "MANA": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 3001801.327225,
+      "max_24h_quote_volume": 3001801.327225,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "f2686318def7faa95a214bbdc9b995df860812d3e9afd8768b3f62918b826143",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 3.0018e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "MINA": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 3071634.706126,
+      "max_24h_quote_volume": 3071634.706126,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "baa4462e02b27279fe98b6b07db5916b6f84cf4c6491c14dc659bb53797f956a",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 3.07163e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "NEAR": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 63076533.161469,
+      "max_24h_quote_volume": 63076533.161469,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "5f786da70cb2cd313ca79bacc49058b01b502c474abaeb85c738b7adf531b330",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "OP": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 12568147.574506,
+      "max_24h_quote_volume": 12568147.574506,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "bfb6dab967d690656e3f33029b2db15bca79e1698cabe7d0b5a66b9aefaa1b1d",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ORDI": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 179238143.605406,
+      "max_24h_quote_volume": 179238143.605406,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "0d775358f91ee17cda7519b9f7943c3b4c8b4f9daa644a19efac5973cc262b1b",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "PEPE": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 101618363.033412,
+      "max_24h_quote_volume": 101618363.033412,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "fce8b1d23955c3f56fd6754573d91d7a284bd48deb5e915553e74b4d03700dd3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "PYTH": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 4599521.947055,
+      "max_24h_quote_volume": 4599521.947055,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "036cb04cb768b7f650b57f89a89ac641b75517a36131b24d3f3834d93045a4ad",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 4.59952e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "RENDER": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8696182.014306,
+      "max_24h_quote_volume": 8696182.014306,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "8a782ffe1373b8791dacc83599ba9c47c8e91d5cdff93bfa1ce5f710b69eafc1",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SAND": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 7675952.287627,
+      "max_24h_quote_volume": 7675952.287627,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "8968a1fab1b291ffbaaee38733e2dcd63127a63e9e9a76c339febd75417aff58",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SATS": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 25638666.2638,
+      "max_24h_quote_volume": 25638666.2638,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "7e111c217f949d6502133cfe809dc2e922449b40db4f0a288570c924a156260e",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SEI": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8962532.519497,
+      "max_24h_quote_volume": 8962532.519497,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "3a8d61eb63896181ad496f0ba6787af98906b110f83dc3651f6d5c8345e87a42",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SHIB": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 23971071.359193,
+      "max_24h_quote_volume": 23971071.359193,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "9c2d6ba66a55b8c3278d01d5b66e891ebeebe755b6d359b3c1b2d6912cb1b352",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SNX": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 11028270.616499,
+      "max_24h_quote_volume": 11028270.616499,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "6907dd02dda1fcc7ba70c69e42630db7162d917b88102dafbffef74d53d466c7",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SOL": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 580266608.665079,
+      "max_24h_quote_volume": 580266608.665079,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "688958ce03c43d1ad9f3b41f1a8ccde6376e34fbe355d09c0597d935dd9612c3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "STX": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 8630637.69297,
+      "max_24h_quote_volume": 8630637.69297,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "0ad4609325fb08befaa2ca17c5e454ca422f0274da8c499d6472ec4343f5b6b0",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SUI": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 117413027.062542,
+      "max_24h_quote_volume": 117413027.062542,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "806089e96a0d834bbece4a9ce2b45c5fd9afbca9a0436d318549c5b18d99a668",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SUSHI": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 6621656.955639,
+      "max_24h_quote_volume": 6621656.955639,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "211189d9e672354be0a5e46a7857bd1110b407be990aa0435f0ad56f2e05549c",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6791,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999853
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6791,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 0.999853
+      }
+    },
+    "THETA": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 3463534.684123,
+      "max_24h_quote_volume": 3463534.684123,
+      "passes_5m_any_24h_window": false,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": false,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "d0152511b7442591aa279df88ae05c3c399cc66a07a79b69846b4dff164798f0",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "excluded_reason": "peak_max_24h_usd_volume 3.46353e+06 < required threshold 5e+06; not a spec universe member"
+    },
+    "TIA": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 11408800.262899,
+      "max_24h_quote_volume": 11408800.262899,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "e40aef682796e75f61c84b27bbcfc20e352f4a24558f7318208d66b11d192174",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "TRX": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 47173112.014891,
+      "max_24h_quote_volume": 47173112.014891,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "b8b91370c84ada56f8c2266880d4cec8606d397d62dbba17cecd8a597a1b2be3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "UNI": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 101703867.478362,
+      "max_24h_quote_volume": 101703867.478362,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "6bb37e45ceba15095b202dcf2e4db7e7521ddc3d24539418cb0e4d2e1f80aa0d",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "WIF": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 23417923.820305,
+      "max_24h_quote_volume": 23417923.820305,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "eae01aa0137821191b77b541f98ef8b512a24afc7870a5c5eb05ec25f4111513",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "WLD": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 110217574.088495,
+      "max_24h_quote_volume": 110217574.088495,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "1548b22fc6c8014087b36b0452e7e2b0199cde0156bebe1c41550aea5fd0e85c",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "XLM": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 64708829.198654,
+      "max_24h_quote_volume": 64708829.198654,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "0dfb4e462190f5adcaf7d4a5cfcc02e3bab422d455ecd0750d4d6e175dcff791",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "XRP": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 357369681.66626,
+      "max_24h_quote_volume": 357369681.66626,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "d55c86050f9800e15ba74df8730537abbe591c0a7ddac782dc6bb997dcc98da3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "XTZ": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 6544258.046151,
+      "max_24h_quote_volume": 6544258.046151,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "7ed19a1f65116228d5a16022836b265ceebad06a7281743cca16a21c9311ba47",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ZEC": {
+      "bars": 6792,
+      "max_rolling_24h_quote_volume_usd_proxy": 198821412.748611,
+      "max_24h_quote_volume": 198821412.748611,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1766188800000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "ccb60af358db5d2328bdbfaa3a9b89ce2b4f60c733ff71b3e5376659db545dea",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      }
+    }
+  },
+  "notes": [
+    "Derived from local verified caches only; not a live exchange universe snapshot.",
+    "For real campaign claims, use with a complete verified provenance manifest and truthful real_market_data flags.",
+    "min_24h_volume_usd is the effective threshold after spec-floor enforcement; requested_min_24h_volume_usd records the caller input. sub-$5M non-zero inputs are raised to $5M for spec-compliant derivation.",
+    "Symbols with manifest status!=ok, incomplete coverage, manifest synthetic_check, runtime synthetic detection, or missing in-window evidence are excluded fail-closed and never labeled real_market_data."
+  ]
+}

@@ -43,8 +43,16 @@ from src.metrics import compute_campaign_metrics, metrics_to_dict, metrics_to_cs
 def load_universe(universe_file: Optional[Path], manifest: dict) -> List[str]:
     if universe_file and universe_file.exists():
         u = json.loads(universe_file.read_text())
-        syms = u.get("symbols") if isinstance(u, dict) else u
-        return [str(s).upper() for s in syms]
+        if isinstance(u, dict):
+            # Prefer the explicitly selected set (selected_symbols) over the full
+            # report key list (symbols), which includes excluded members. A bare
+            # list file or a file with only "symbols" falls back to that list.
+            for key in ("selected_symbols", "symbols"):
+                val = u.get(key)
+                if isinstance(val, list) and val:
+                    return [str(s).upper() for s in val]
+            return []
+        return [str(s).upper() for s in u]
     return [str(s).upper() for s in (manifest.get("symbols") or {}).keys()]
 
 
@@ -554,6 +562,7 @@ def main(argv=None):
             "final_open_positions": results.get("final_open_positions"),
             "final_gross_exposure": results.get("final_gross_exposure"),
             "trades": results.get("trades"),
+            "equity_curve": results.get("equity_curve"),
             "equity_curve_points": len(results.get("equity_curve") or []),
         },
         "metrics": metrics,

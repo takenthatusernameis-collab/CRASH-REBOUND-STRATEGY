@@ -407,6 +407,7 @@ def run_portfolio_simulation(candles_by_symbol: Dict[str, List[Dict[str, Any]]],
                         'exit_timestamp': getattr(res, 'exit_timestamp', ''),
                         'r_multiple': getattr(res, 'r_multiple', 0.0),
                         'bars_held': getattr(res, 'bars_held', 0),
+                        'leg': getattr(res, 'leg', 'short' if 'rebound_short' in str(getattr(res, 'exit_reason', '')) else 'buy'),
                         'hedge_side': getattr(res, 'hedge_side', None),
                         'hedge_size': getattr(res, 'hedge_size', 0.0),
                     })

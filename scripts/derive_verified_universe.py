@@ -148,6 +148,10 @@ def main():
             require_complete=True,
             min_symbols=args.min_symbols,
             require_spec_volume_floor=SPEC_MIN_DAILY_VOLUME_USD,
+            # Derivation path: universe membership is recomputed from verified caches
+            # (peak rolling-24h >= floor). Do not fail here on peak-vs-floor; only
+            # fail-closed on sub-spec intent, missing volume_coverage, or no evidence.
+            admit_peak_membership=True,
         )
         if not ok:
             raise SystemExit("Manifest not complete/verified:\n- " + "\n- ".join(errs))

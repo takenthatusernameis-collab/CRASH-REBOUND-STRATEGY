@@ -11,7 +11,7 @@ import csv
 import math
 from collections import defaultdict
 from datetime import datetime, timezone
-from typing import Any, Dict, Iterable, List, Optional
+from typing import Any, Dict, Iterable, List, Optional, Tuple
 
 
 def _finite(x: Any, default: float = 0.0) -> float:
@@ -221,8 +221,9 @@ def compute_metrics_from_trades(trades: Optional[List[Dict[str, Any]]]):
 def _leg_key(t: Dict[str, Any]) -> str:
     """Determine the leg of a trade for per-leg attribution.
 
-    Prefers an explicit 'leg' field; falls back to 'side'. Unknown legs are
-    bucketed under 'unknown' so attribution never silently drops a trade.
+    Prefers an explicit 'leg' field ('buy' = crash long only, 'short' = rebound
+    short fired within the same trade lifecycle); falls back to 'side'. Unknown
+    legs are bucketed under 'unknown' so attribution never silently drops a trade.
     """
     leg = t.get("leg")
     if isinstance(leg, str) and leg.strip():
@@ -233,15 +234,41 @@ def _leg_key(t: Dict[str, Any]) -> str:
     return "unknown"
 
 
+def _split_leg_pnls(t: Dict[str, Any]) -> List[Tuple[str, float]]:
+    """Split a trade's PnL into constituent legs for per-leg attribution.
+
+    A trade whose primary leg is 'short' (rebound short fired after the buy hit
+    target) contributes a buy-leg PnL (long coin + long hedge) and a short-leg
+    PnL (short coin + short hedge). The engine records the long leg's coin/hedge
+    PnL in `pnl`/`hedge_pnl` and the rebound short's coin/hedge PnL in
+    `rebound_short_pnl`/`rebound_hedge_pnl`. Trades with no rebound short are
+    buy-leg only. Splitting here keeps the spec's per-leg win-rate / profit-factor
+    / PnL-share breakdown machine-checkable rather than a single aggregate bucket.
+    """
+    leg = _leg_key(t)
+    if leg == "short":
+        buy_pnl = _finite(t.get("pnl", 0.0)) + _finite(t.get("hedge_pnl", 0.0))
+        short_pnl = _finite(t.get("rebound_short_pnl", 0.0)) + _finite(t.get("rebound_hedge_pnl", 0.0))
+        return [("buy", buy_pnl), ("short", short_pnl)]
+    return [(leg, _trade_pnl(t))]
+
+
 def _compute_leg_breakdown(trades: List[Dict[str, Any]], total_pnl: float) -> List[Dict[str, Any]]:
-    """Per-leg win rate / profit factor / avg R-multiple / PnL share."""
+    """Per-leg win rate / profit factor / avg R-multiple / PnL share.
+
+    A trade whose primary leg is 'short' (rebound short fired) is split into its
+    buy constituent (long coin + long hedge) and short constituent (short coin +
+    short hedge) so the spec's per-leg statistics are computable. R-multiples are
+    attributed to the primary leg only (per-trade R-multiple, not per constituent).
+    """
     groups: Dict[str, List[float]] = {}
     r_groups: Dict[str, List[float]] = {}
     for t in trades:
         key = _leg_key(t)
-        groups.setdefault(key, []).append(_trade_pnl(t))
         r = _finite(t.get("r_multiple"))
         r_groups.setdefault(key, []).append(r)
+        for leg, pnl in _split_leg_pnls(t):
+            groups.setdefault(leg, []).append(pnl)
 
     out: List[Dict[str, Any]] = []
     for leg, pnls in groups.items():
@@ -370,13 +397,23 @@ def _attach_equity_performance(m: Dict[str, Any], trades: List[Dict[str, Any]],
 
     peak = None
     max_dd_pct = 0.0
-    for eq in eqs:
+    dd_series: List[Dict[str, Any]] = []
+    for ts, eq in pts:
         if peak is None or eq > peak:
             peak = eq
         if peak is not None and math.isfinite(peak) and peak != 0.0:
             dd = (eq - peak) / peak
             if dd < max_dd_pct:
                 max_dd_pct = dd
+            # Record every point's running drawdown so the worst drawdown's
+            # peak/trough timestamps are machine-checkable (spec cites "worst
+            # drop -5.4%" — the value alone is not evidence without timing).
+            dd_series.append({
+                "timestamp": ts if isinstance(ts, str) else "",
+                "equity": _finite(eq),
+                "drawdown": _finite(dd),
+            })
+    m["max_drawdown_series"] = dd_series
 
     m["equity_start"] = _finite(start_cap if start_cap is not None else eqs[0])
     m["equity_final"] = _finite(final_eq)

@@ -30,6 +30,10 @@ class TradeResult:
     rebound_hedge_entry: float = 0.0
     rebound_hedge_exit: float = 0.0
     total_pnl: float = 0.0  # includes hedge PnL
+    # Primary leg of the trade for per-leg attribution: 'buy' (crash long only),
+    # 'short' (rebound short fired after a target exit), or 'buy+short' when both
+    # legs executed within one trade lifecycle. Metrics bucket on this field.
+    leg: str = "buy"
     # Max live coin-position notional across long-entry and rebound-short-entry legs
     # (post cap-cut shares * executed entry price). Hedges are excluded from the coin
     # positions cap context; portfolio runners use this for occupancy/gross-cap reservation
@@ -63,6 +67,11 @@ class TradeResult:
             'total_pnl',
             self.pnl + self.hedge_pnl + self.rebound_short_pnl + self.rebound_hedge_pnl,
         )
+        # Primary leg label for per-leg attribution. 'buy' = crash long only;
+        # 'short' = rebound short fired (buy+short combined lifecycle). Metrics
+        # split 'short'-legged trades into buy/short constituents for the
+        # spec's per-leg win-rate/profit-factor breakdown.
+        self.leg = kwargs.get('leg', 'buy' if not self.rebound_short_pnl else 'short')
         # Max live coin-position notional across the long-entry leg and the
         # rebound-short-entry leg (hedges excluded from the 120% coin-positions
         # cap context). The engine runs the rebound short at the same share count
