@@ -177,16 +177,17 @@ class TestLongLiquidationPrecedesStopAndTargetSameBar(unittest.TestCase):
         self.assertAlmostEqual(res.pnl + res.hedge_pnl, res.total_pnl, places=12)
         self.assertAlmostEqual(long_leg["pnl"], res.pnl, places=12)
 
-        # Engine realizes close settlement on liquidation path (coin-leg pnl) at
-        # liquidation bar; hedge is closed/tracked separately and included in
-        # TradeResult.hedge_pnl/total_pnl. Assert executed close accounting.
+        # Engine realizes close settlement on liquidation path (total_pnl = coin +
+        # hedge) at liquidation bar; risk_state settles the full long-leg
+        # settlement per CELL 14 (engine.py:350). TradeResult.hedge_pnl/total_pnl
+        # expose the same totals separately. Assert executed close accounting.
         closes = [c for c in rs.calls if c[3]]
         self.assertEqual(len(closes), 1)
         close = closes[0]
         self.assertEqual(close[0], "e8")
         self.assertFalse(close[2])
         self.assertTrue(close[3])
-        self.assertAlmostEqual(close[1], res.pnl, places=9)
+        self.assertAlmostEqual(close[1], res.total_pnl, places=9)
         self.assertAlmostEqual(close[4], res.entry_price * res.shares, places=9)
 
     def test_funding_on_vs_off_delta_reconciles_both_legs(self):

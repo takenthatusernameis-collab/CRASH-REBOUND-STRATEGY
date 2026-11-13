@@ -184,13 +184,13 @@ def test_long_stopped_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar
     assert _close_to(leg["exit"], exp["exit_px"])
     assert _close_to(leg["pnl"], exp["coin_pnl"])
 
-    # Engine settlement parity on stop path (traced actual): risk_state records
-    # coin-leg close pnl on this path while TradeResult/leg attribution expose
-    # full coin+hedge totals separately; occupancy/notional released.
+    # Engine settlement parity on stop path: risk_state records total_pnl (coin +
+    # hedge) close pnl on this path per CELL 14 (engine.py:402); TradeResult/leg
+    # attribution expose the same totals separately; occupancy/notional released.
     assert rs_on.open_positions == 0
     assert _close_to(rs_on.gross_exposure, 0.0)
     assert rs_on.open_position_notionals == []
-    assert _close_to(rs_on.realized_pnl, exp["coin_pnl"])
+    assert _close_to(rs_on.realized_pnl, exp["total_pnl"])
 
     # Funding parity: stop path with missing ETH exit bar.
     delta = on.total_pnl - off.total_pnl
