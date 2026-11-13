@@ -2,14 +2,15 @@
 
 **Handoff timestamp (UTC):** 2026-11-13T12:29:00Z
 **Target window (spec, Hyperliquid):** `2025-12-20T00:00:00Z` → `2026-09-28T23:00:00Z` (283 days, hourly, 6792 bars/symbol, inclusive bounds).
-**Status:** **NOT_RUN — VERIFIED HYPERLIQUID-NATIVE DATASET FOR THE FULL TARGET WINDOW IS UNAVAILABLE IN THIS ENVIRONMENT. No data fabricated. No OKX data relabeled as Hyperliquid.**
+**Status:** **FULL 283d `NOT_RUN` — VERIFIED HYPERLIQUID-NATIVE DATASET FOR THE FULL TARGET WINDOW IS UNAVAILABLE IN THIS ENVIRONMENT. PARTIAL 163d API WINDOW `NOT_EVIDENCE` RUN COMPLETE. No data fabricated. No OKX data relabeled as Hyperliquid.**
 
 ## Provenance/cross-venue caveat (mandatory)
 Real OKX exchange data exists on disk for this repo and produced cross-venue research artifacts (see `HANDOFF.md`), but it is **NOT Hyperliquid performance evidence** and must never be relabeled. This document governs a Hyperliquid-native acquisition/verification campaign only. If verified Hyperliquid-native data for the full window is unavailable, the campaign remains `NOT_RUN`.
 
 ## Concrete blocker evidence (recorded)
-- Prior environment probe: Hyperliquid public `info` API `candleSnapshot` (e.g. BTC/ETH, `1h`, full target range request) returned data only from `2026-04-11T10:00:00Z` to `2026-09-28T23:00:00Z` with `4094/6792` bars and `gap_count=0` within that returned slice but **incomplete for target window** (missing early coverage). See `research_state/candle_coverage_gap_report.json` and `research_state/cache/hyperliquid/provenance.json` for recorded probe/provenance state where present.
-- `scripts/run_real_campaign.py` **refuses to run** without complete, verified, non-synthetic provenance meeting gates (exit non-zero). This fail-closed behavior is required.
+- **Current probe (2026-11-13T21:46Z):** Hyperliquid public `info` API `candleSnapshot` for BTC over the full target range returned **3,900** hourly bars, first `2026-04-19T12:00:00Z`, last `2026-09-28T23:00:00Z`; the early **2,892** bars (2025-12-20..2026-04-19T11:00Z) are not served. The public API retains only the latest ~3,900 hourly bars. See `research_state/hyperliquid_acquisition_status.json`.
+- **Partial run (NOT_EVIDENCE):** the available window `2026-04-19T12:00Z..2026-09-28T23:00Z` was acquired for 24 symbols; 12 had complete 3,900-bar coverage. `scripts/run_real_campaign.py --allow-partial-not-evidence` produced **0 trades / 0 PnL**; the crash census found **8 RSI(21)<20 events / 0 confirmed signals** across 12 symbols / 46,800 bars. Artifacts: `research_state/campaign_results_real_hyperliquid_partial_20260419_20260928.json`, `research_state/hyperliquid_partial_crash_census_20260419_20260928.json`. The partial run uses the bare symbol list `research_state/universe_hyperliquid_partial_20260419_20260928.json`; `scripts/derive_verified_universe.py` intentionally refuses the incomplete partial manifest, so do not treat that refusal as a new blocker for the NOT_EVIDENCE pipeline run.
+- `scripts/run_real_campaign.py` **refuses to run** a full-evidence campaign without complete, verified, non-synthetic provenance meeting gates (exit non-zero). This fail-closed behavior is required. Partial runs are explicitly marked `performance_evidence=false` and must never be cited as spec evidence.
 
 ---
 

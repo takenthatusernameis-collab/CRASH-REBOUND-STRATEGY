@@ -230,6 +230,206 @@ def check_robustness() -> Tuple[bool, str]:
                   f"sign-flip p={flip.get('p_value')}, symbols={len(symbols)}")
 
 
+def check_robustness_stress() -> Tuple[bool, str]:
+    """Phase N: exact robustness stress / power analysis must exist and stay underpowered.
+
+    This is the fallback heavy-work gate. It re-runs the real full-portfolio
+    engine under leave-one-symbol-out and leave-one-trade-out, concentration
+    adjustment, bootstrap power projection, and an expanding-window refit. A
+    missing or narrative-only artifact fails closed.
+    """
+    path = STATE / "robustness_stress_okx_full.json"
+    md = STATE / "robustness_stress_okx_full.md"
+    if not path.exists() or not md.exists():
+        return False, "json and/or md missing"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    if PROVENANCE_CAVEAT.lower() not in str(data.get("provenance_caveat", "")).lower():
+        return False, "json missing provenance caveat"
+    if PROVENANCE_CAVEAT.lower() not in _read_text(md).lower():
+        return False, "markdown missing provenance caveat"
+    for key in ("generated_at_utc", "canonical", "leave_one_symbol_out",
+                "leave_one_trade_out", "concentration", "power", "walkforward",
+                "verdict"):
+        if key not in data:
+            return False, f"missing {key!r}"
+
+    can = data["canonical"]
+    if not isinstance(can, dict):
+        return False, "canonical must be an object"
+    try:
+        if int(can.get("trades")) != 8 or abs(float(can.get("total_pnl")) - 9159.691934882958) > 1e-6:
+            return False, "canonical trades/total_pnl mismatch"
+    except (TypeError, ValueError):
+        return False, "canonical trades/total_pnl must be numeric"
+
+    if str(data.get("verdict", "")).lower() != "underpowered":
+        return False, "verdict must remain underpowered until Hyperliquid GO criteria are met"
+
+    loo = data["leave_one_symbol_out"]
+    if not isinstance(loo, dict) or not isinstance(loo.get("runs"), list) or len(loo["runs"]) < 5:
+        return False, "leave_one_symbol_out.runs must be a list with >= 5 runs"
+    if loo.get("all_positive") is not True:
+        return False, "leave_one_symbol_out.all_positive must be true"
+    for key in ("min_total_pnl", "max_total_pnl"):
+        try:
+            float(loo.get(key))
+        except (TypeError, ValueError):
+            return False, f"leave_one_symbol_out.{key} must be numeric"
+
+    loto = data["leave_one_trade_out"]
+    if not isinstance(loto, dict) or not isinstance(loto.get("runs"), list) or len(loto["runs"]) < 8:
+        return False, "leave_one_trade_out.runs must be a list with >= 8 runs"
+    if loto.get("all_positive") is not True:
+        return False, "leave_one_trade_out.all_positive must be true"
+
+    conc = data["concentration"]
+    if not isinstance(conc, dict) or not conc.get("symbols"):
+        return False, "concentration.symbols must be a non-empty list"
+    for key in ("herfindahl_hhi_abs", "effective_symbol_count_abs"):
+        try:
+            float(conc.get(key))
+        except (TypeError, ValueError):
+            return False, f"concentration.{key} must be numeric"
+
+    power = data["power"]
+    if not isinstance(power, dict):
+        return False, "power must be an object"
+    for level in ("trade_level", "symbol_level"):
+        row = power.get(level)
+        if not isinstance(row, dict):
+            return False, f"power.{level} must be an object"
+        try:
+            if int(row.get("observed_n")) < (8 if level == "trade_level" else 5):
+                return False, f"power.{level}.observed_n too small"
+        except (TypeError, ValueError):
+            return False, f"power.{level}.observed_n must be an integer"
+
+    wf = data["walkforward"]
+    if not isinstance(wf, dict):
+        return False, "walkforward must be an object"
+    for key in ("evaluable_blocks", "refit_out_of_sample_total_pnl"):
+        if key not in wf:
+            return False, f"missing walkforward.{key}"
+    try:
+        if int(wf.get("evaluable_blocks")) < 1:
+            return False, "walkforward.evaluable_blocks must be >= 1"
+        float(wf.get("refit_out_of_sample_total_pnl"))
+    except (TypeError, ValueError):
+        return False, "walkforward counts/PnL must be numeric"
+
+    return True, (f"verdict={data.get('verdict')}, LOO={len(loo['runs'])}, "
+                  f"LOTO={len(loto['runs'])}, evaluable_blocks={wf.get('evaluable_blocks')}")
+
+
+def check_hyperliquid_status() -> Tuple[bool, str]:
+    """Phase J3: record the exact Hyperliquid acquisition state and the partial evidence.
+
+    The full 283-day Hyperliquid window is the only decision-grade path. If the
+    public API cannot serve it, this check requires an explicit probe artifact,
+    a NOT_EVIDENCE partial campaign, and a crash census. If the full window is
+    marked available, it requires a full-window campaign with
+    performance_evidence=true.
+    """
+    path = STATE / "hyperliquid_acquisition_status.json"
+    if not path.exists():
+        return False, "missing"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    for key in ("generated_at_utc", "target_window", "full_window_available",
+                "api_probe", "partial_window", "partial_campaign", "crash_census",
+                "verdict", "next_actions"):
+        if key not in data:
+            return False, f"missing {key!r}"
+
+    full_available = data.get("full_window_available")
+    if not isinstance(full_available, bool):
+        return False, "full_window_available must be a boolean"
+
+    if full_available:
+        campaign = data.get("full_campaign") or {}
+        art = campaign.get("artifact")
+        if not art or not (STATE / Path(art).name).exists():
+            return False, "full_window_available=true requires full_campaign.artifact"
+        try:
+            cd = _read_json(STATE / Path(art).name)
+        except json.JSONDecodeError as exc:
+            return False, f"full campaign invalid JSON: {exc}"
+        if cd.get("performance_evidence") is not True:
+            return False, "full campaign must set performance_evidence=true"
+        return True, f"full window available: {art}"
+
+    probe = data["api_probe"]
+    if not isinstance(probe, dict):
+        return False, "api_probe must be an object"
+    try:
+        returned = int(probe.get("returned_bars"))
+        missing = int(probe.get("missing_early_bars"))
+    except (TypeError, ValueError):
+        return False, "api_probe.returned_bars/missing_early_bars must be integers"
+    if returned < 1000 or missing <= 0:
+        return False, "api_probe must document a materially incomplete API window"
+    for key in ("available_start", "available_end", "conclusion"):
+        if not probe.get(key):
+            return False, f"api_probe.{key} missing"
+
+    partial = data["partial_window"]
+    if not isinstance(partial, dict):
+        return False, "partial_window must be an object"
+    comp = partial.get("symbols_complete")
+    if not isinstance(comp, list) or len(comp) < 12:
+        return False, "partial_window.symbols_complete must list >= 12 symbols"
+    if partial.get("all_complete") is not False:
+        return False, "partial_window.all_complete must remain false"
+    if int(partial.get("expected_hourly_bars") or 0) != 3900:
+        return False, "partial_window.expected_hourly_bars must be 3900"
+
+    pc = data["partial_campaign"]
+    if not isinstance(pc, dict):
+        return False, "partial_campaign must be an object"
+    art = pc.get("artifact")
+    if not art or not (STATE / Path(art).name).exists():
+        return False, "partial_campaign.artifact missing"
+    if pc.get("performance_evidence") is not False:
+        return False, "partial_campaign.performance_evidence must be false"
+    if pc.get("fabricated_data") is not False:
+        return False, "partial_campaign.fabricated_data must be false"
+    try:
+        if int(pc.get("num_trades")) < 0:
+            return False, "partial_campaign.num_trades must be >= 0"
+    except (TypeError, ValueError):
+        return False, "partial_campaign.num_trades must be an integer"
+
+    cc = data["crash_census"]
+    if not isinstance(cc, dict):
+        return False, "crash_census must be an object"
+    art = cc.get("artifact")
+    if not art or not (STATE / Path(art).name).exists():
+        return False, "crash_census.artifact missing"
+    try:
+        if int(cc.get("confirmed_signals")) < 0:
+            return False, "crash_census.confirmed_signals must be >= 0"
+        if int(cc.get("rsi_crash_events")) < 1:
+            return False, "crash_census.rsi_crash_events must be >= 1"
+        if int(cc.get("symbols")) < 12 or int(cc.get("bars")) < 46800:
+            return False, "crash_census must cover >= 12 symbols and >= 46800 bars"
+    except (TypeError, ValueError):
+        return False, "crash_census counts must be integers"
+
+    if "BLOCKED" not in str(data.get("verdict", "")).upper():
+        return False, "verdict must record the full-window block"
+    return True, (f"API partial {returned} bars; {len(comp)} complete symbols; "
+                  f"{cc.get('rsi_crash_events')} RSI crashes, {cc.get('confirmed_signals')} signals")
+
+
 def check_portfolio_placebo() -> Tuple[bool, str]:
     """Phase M: exact full-portfolio placebo must exist and reconcile with canonical.
 
@@ -310,6 +510,46 @@ def check_portfolio_placebo() -> Tuple[bool, str]:
                   f"canon_pct={pl.get('canonical_percentile_le')}")
 
 
+def check_hyperliquid_partial_campaign() -> Tuple[bool, str]:
+    """Phase J3: the partial Hyperliquid run must exist and stay explicitly NOT_EVIDENCE."""
+    path = STATE / "campaign_results_real_hyperliquid_partial_20260419_20260928.json"
+    if not path.exists():
+        return False, "missing"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    if data.get("real_market_data") is not True:
+        return False, "real_market_data must be true"
+    if data.get("performance_evidence") is not False:
+        return False, "performance_evidence must be false"
+    if data.get("partial_universe_not_evidence") is not True:
+        return False, "partial_universe_not_evidence must be true"
+    if data.get("fabricated_data") is not False:
+        return False, "fabricated_data must be false"
+    results = data.get("results")
+    if not isinstance(results, dict):
+        return False, "missing results"
+    try:
+        if int(results.get("num_trades")) < 0:
+            return False, "partial run must report a non-negative trade count"
+        float(results.get("total_pnl"))
+    except (TypeError, ValueError):
+        return False, "results.num_trades/total_pnl must be numeric"
+    prov = data.get("data_provenance")
+    if not isinstance(prov, dict):
+        return False, "missing data_provenance"
+    tw = prov.get("target_window") or {}
+    if tw.get("expected_hourly_bars") != 3900:
+        return False, "partial target window must be the 3900-bar API window"
+    if len(prov.get("symbols_complete") or []) < 12:
+        return False, "partial run must load >= 12 complete symbols"
+    return True, (f"partial Hyperliquid NOT_EVIDENCE run: {results.get('num_trades')} trades, "
+                  f"{len(prov.get('symbols_complete') or [])} symbols")
+
+
 def check_decision_memo() -> Tuple[bool, str]:
     """Phase M: decision memo must synthesize the verdict and stop/go criteria."""
     path = STATE / "decision_memo_okx_full.md"
@@ -349,6 +589,9 @@ def check_handoff() -> Tuple[bool, str]:
         return False, "missing INITIAL TASK MESSAGE block"
     if "session_gate.py" not in text:
         return False, "does not reference the done-gate"
+    expected = f"{len(CHECKS)}/{len(CHECKS)} checks passed"
+    if expected not in text:
+        return False, f"handoff must record the current gate result ({expected})"
     return True, f"{len(text)} bytes"
 
 
@@ -359,8 +602,11 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_j2_sensitivity_sweep", check_sensitivity),
     ("phase_k_interaction_sweep", check_interaction),
     ("phase_l_robustness", check_robustness),
+    ("phase_n_robustness_stress", check_robustness_stress),
     ("phase_m_portfolio_placebo", check_portfolio_placebo),
     ("phase_m_decision_memo", check_decision_memo),
+    ("phase_j3_hyperliquid_status", check_hyperliquid_status),
+    ("phase_j3_hyperliquid_partial_campaign", check_hyperliquid_partial_campaign),
     ("phase_j3_acquisition_runbook", check_runbook),
     ("durable_handoff", check_handoff),
 ]

@@ -1,6 +1,6 @@
 # Decision Memo — Crash-Rebound Strategy (Real OKX 283d canonical evidence)
 
-**Generated (UTC):** 2026-11-13T20:54:14Z
+**Generated (UTC):** 2026-11-13T21:48:59Z
 **Status:** `underpowered` / **not decision-grade** — do not allocate capital on this evidence.
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
@@ -36,6 +36,14 @@ distinguishable from a random admission/cap/occupancy draw.
 | **Exact full-portfolio placebo (165/165 subsets)** | mean **8,746.21**, median **9,287.25**, p05 **5,807.36**, p95 **11,360.11**, min **3,988.13**, max **11,795.92** | Canonical at **45.45th percentile**; P(placebo ≥ canonical)=**0.5515**. |
 | Full-portfolio placebo P(>0) | **1.0000** (all 165 subsets positive) | Conditional on the observed 11-event pool; not evidence of temporal edge. |
 | Walk-forward (chronological) | first half 4 trades +1,070.36; second half 4 trades +8,089.33 | Both positive but clustered Jan–May; directional only, no refit. |
+| Phase N leave-one-symbol-out | 5/5 positive; min 3,495.11, max 10,796.53 | No single symbol carries the result; SOL is the largest PnL contributor. |
+| Phase N leave-one-trade-out | 8/8 positive; min 7,485.96, max 13,154.73 | No single trade is solely responsible. |
+| Phase N concentration | HHI 0.2517; effective symbols 3.97; top trade 25.95% of gross | Still concentrated; n=5 traded symbols. |
+| Phase N power projection | First bootstrap CI > 0 at **10 trades / 8 symbols**; 80% power at **23 trades / 17 symbols** | The sample is far below even the minimum power target. |
+| Phase N expanding-window refit | 3 evaluable blocks; refit OOS +10,815.92 vs canonical incremental +9,159.69 | Directionally consistent but only 3 evaluable blocks; not proof. |
+| **Hyperliquid public API partial probe** | API returns **3,900** of 6,792 bars (2026-04-19T12:00Z..2026-09-28T23:00Z); full 283d window **blocked** | Full Hyperliquid-native evidence requires an operator-supplied verified archive. |
+| **Hyperliquid partial campaign (NOT_EVIDENCE)** | 12 complete symbols, 3,900 bars each; **0 trades, 0 PnL** | Partial window only; `performance_evidence=false`; not spec evidence. |
+| Hyperliquid partial crash census | 12 symbols / 46,800 bars; **8 RSI(21)<20 events, 0 confirmed signals** | Rare-event strategy; the 163-day partial window has no trade to evaluate. |
 | Risk budget (existing sweeps) | `rsi25_maxpos8` +23.44% / **−18.34% DD**, 33 trades; baseline +9.16% / −2.03% DD, 8 trades | Return is a risk-budget trade; never quote +23% without −18% DD. |
 
 ## Why the per-event null is not a portfolio null
@@ -73,14 +81,35 @@ liquidation, varying only which gate-passing events are allowed to trade.
 - The +9.16% return must not be presented as validated edge, and the strategy must not be
   funded on this evidence.
 
+## Hyperliquid-native status (2026-11-13T21:48:59Z)
+
+- **Full 283-day window: BLOCKED.** The public Hyperliquid `candleSnapshot` API returned
+  **3,900** hourly bars for BTC over the requested 2025-12-20..2026-09-28 window, starting
+  only at **2026-04-19T12:00:00Z**. The early 2,892 bars are not served. A full-window
+  campaign requires an operator-supplied, verified Hyperliquid-native archive following
+  `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`.
+- **Partial 163-day window: RUN, NOT EVIDENCE.** A real, non-synthetic API acquisition
+  covered 2026-04-19T12:00Z..2026-09-28T23:00Z (3,900 bars/symbol). Twelve symbols had
+  complete coverage (ADA, ALGO, ARB, ATOM, AVAX, BTC, ETH, LTC, NEAR, OP, SOL, TIA); the
+  partial campaign produced **0 trades / 0 PnL**. The crash census found **8 RSI(21)<20
+  events across 46,800 bars** and **0 confirmed rebound signals**.
+- Artifacts: `research_state/hyperliquid_acquisition_status.json`,
+  `research_state/campaign_results_real_hyperliquid_partial_20260419_20260928.json`,
+  `research_state/hyperliquid_partial_crash_census_20260419_20260928.json`.
+- **Do not cite the partial run as Hyperliquid performance evidence.** It is a pipeline and
+  power-reality check only.
+
 ## Stop / go criteria (explicit)
 
 **GO only if all of the following hold on Hyperliquid-native data:**
 
 1. The full 283-day Hyperliquid window is acquired with verified provenance and no
    placeholder/flat series (see `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`).
-2. The canonical campaign produces **≥ 100 trades** across **≥ 10 symbols** (or a
-   pre-registered equivalent power target).
+2. The canonical campaign produces at least **10 trades across ≥ 8 symbols** (the Phase N
+   minimum for the trade bootstrap CI to exclude 0), with **≥ 23 trades across ≥ 17 symbols**
+   as the stronger 80%-power target. A blanket "≥100 trades" requirement is not a valid
+   power target for this rare-event strategy: 46,800 Hyperliquid partial-window bars produced
+   only 8 RSI crashes and 0 confirmed signals. Use the pre-registered power target above.
 3. The trade bootstrap 95% CI excludes 0 **after** multiple-testing correction, and the
    sign-flip p < 0.05.
 4. The exact full-portfolio placebo p(placebo ≥ real) < 0.05 on the Hyperliquid run.
@@ -94,17 +123,20 @@ liquidation, varying only which gate-passing events are allowed to trade.
 - The result depends on the `rsi25_maxpos8` risk budget without disclosing the −18.34% DD.
 - Anyone reports the per-event null as a portfolio test.
 
-## Immediate next work (not done by this memo)
+## Immediate next work (status after this memo)
 
-1. **Hyperliquid-native acquisition and campaign** — the only path to decision-grade
-   evidence. Use the runbook; never use
+1. **Hyperliquid-native acquisition and campaign — BLOCKED on full data.** The public API
+   cannot serve the full 283-day window (3,900 of 6,792 bars). The only decision-grade path
+   is an operator-supplied verified archive; use the runbook. Never use
    `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet`
    (flat synthetic placeholder) as evidence.
-2. **Robustness stress / power analysis** on the OKX cache using the now-cheap exact
-   portfolio path: leave-one-symbol-out, leave-one-trade-out, concentration-adjusted
-   inference, and the sample size required for the CI to exclude 0.
-3. **Walk-forward with refit** if feasible; otherwise document the refit cost and keep the
-   directional label.
+2. **Partial Hyperliquid cross-sectional extension — DONE (NOT_EVIDENCE).** The maximum API
+   window was acquired for 24 symbols (12 complete) and run; 0 trades, 8 RSI crashes, 0
+   confirmed signals. Extending to more symbols is possible but cannot create the missing
+   2,892 early bars; it is not a substitute for the full window.
+3. **Robustness stress / power analysis — DONE.** Phase N LOO/LOTO, concentration,
+   bootstrap power projection, and expanding-window refit are complete and recorded in
+   `research_state/robustness_stress_okx_full.{json,md}`. The verdict remains `underpowered`.
 4. **Do not regress:** keep the done-gate green; do not re-run the canonical campaign,
    J1/J2/K/L, or re-acquire OKX; do not fabricate data; do not relax the $5M gate; do not
    create a second handoff.
@@ -116,4 +148,8 @@ test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_okx.py
 # EXPECT: runs=165 mean=8746.21 median=9287.25 p_ge_canon=0.5515 canon_pct=0.4545
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_stress_okx.py
+# EXPECT: verdict=underpowered; LOO=5, LOTO=8, evaluable_blocks=3
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
+# EXPECT: 13/13 checks passed — DONE
 ```

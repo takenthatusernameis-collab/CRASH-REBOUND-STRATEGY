@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T21:46:36.605086+00:00",
+  "run_type": "hyperliquid_acquisition_status",
+  "provenance_caveat": "Real Hyperliquid public API candles, non-synthetic; PARTIAL window only; NOT the 283-day spec window and NOT performance evidence.",
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "full_window_available": false,
+  "api_probe": {
+    "endpoint": "https://api.hyperliquid.xyz/info",
+    "method": "candleSnapshot",
+    "requested": {
+      "start": "2025-12-20T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "interval": "1h",
+      "coin": "BTC"
+    },
+    "returned_bars": 3900,
+    "available_start": "2026-04-19T12:00:00+00:00",
+    "available_end": "2026-09-28T23:00:00+00:00",
+    "missing_early_bars": 2892,
+    "conclusion": "Public API retains only the latest ~3900 hourly bars; full 283-day window (6792 bars) is not served. Full-window evidence requires an operator-supplied verified Hyperliquid-native archive."
+  },
+  "partial_window": {
+    "start": "2026-04-19T12:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 3900,
+    "cache_dir": "research_state/cache/hyperliquid_partial_20260419_20260928",
+    "manifest": "research_state/cache/hyperliquid_partial_20260419_20260928/provenance.json",
+    "manifest_sha256": "2da30957fa162361510a26b7748eeb6796fd9642e4fe5e60cac415eb0c553be7",
+    "symbols_complete": [
+      "ADA",
+      "ALGO",
+      "ARB",
+      "ATOM",
+      "AVAX",
+      "BTC",
+      "ETH",
+      "LTC",
+      "NEAR",
+      "OP",
+      "SOL",
+      "TIA"
+    ],
+    "symbols_incomplete_or_error": [
+      "XRP",
+      "DOGE",
+      "LINK",
+      "SUI",
+      "APT",
+      "INJ",
+      "BCH",
+      "DOT",
+      "UNI",
+      "AAVE",
+      "SEI",
+      "ICP"
+    ],
+    "symbols_requested": 24,
+    "all_complete": false,
+    "ready_for_real_campaign": false,
+    "note": "Partial manifest is intentionally incomplete; only the 12 complete symbols were used for the NOT_EVIDENCE pipeline run. Do not label the manifest ready_for_real_campaign."
+  },
+  "partial_campaign": {
+    "artifact": "research_state/campaign_results_real_hyperliquid_partial_20260419_20260928.json",
+    "artifact_sha256": "e32d7cf34e2be295aec6e5e5627775db4db9d6a83e31d31837a8544094ffb4bc",
+    "run_type": "real_market_campaign_partial_not_evidence",
+    "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
+    "real_market_data": true,
+    "performance_evidence": false,
+    "fabricated_data": false,
+    "num_trades": 0,
+    "total_pnl": 0.0,
+    "symbols_loaded": [
+      "ADA",
+      "ALGO",
+      "ARB",
+      "ATOM",
+      "AVAX",
+      "BTC",
+      "ETH",
+      "LTC",
+      "NEAR",
+      "OP",
+      "SOL",
+      "TIA"
+    ]
+  },
+  "crash_census": {
+    "artifact": "research_state/hyperliquid_partial_crash_census_20260419_20260928.json",
+    "artifact_sha256": "8b0f9d9e5421ed142442c1ab64b44441796cfcf330e4e5f9da900d6fbda77c14",
+    "symbols": 12,
+    "bars": 46800,
+    "rsi_crash_events": 8,
+    "confirmed_signals": 0,
+    "note": "8 RSI(21)<20 events across 12 symbols/46,800 bars; none passed the full rebound/regime/volume gate set. The partial window is underpowered for a trade-based verdict."
+  },
+  "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION; PARTIAL_HYPERLIQUID_NOT_EVIDENCE; STRATEGY_UNDERPOWERED",
+  "decision": "Do not declare validated. Do not allocate capital. Full 283-day Hyperliquid-native evidence is the only decision-grade path; it requires an operator-supplied verified archive.",
+  "next_actions": [
+    "Operator: supply a verified Hyperliquid-native archive covering 2025-12-20T00:00:00Z..2026-09-28T23:00:00Z (6792 bars/symbol) with source/extraction sidecar; follow research_state/DATA_REQUEST_283D_HYPERLIQUID.md.",
+    "If the archive is supplied, run scripts/run_real_campaign.py on the full window, then the exact full-portfolio placebo, and update decision_memo_okx_full.md.",
+    "If not supplied, extend the partial API acquisition to every available Hyperliquid symbol over 2026-04-19T12:00Z..2026-09-28T23:00Z, run the NOT_EVIDENCE partial campaign, and record the cross-sectional crash census.",
+    "Never relabel OKX or partial Hyperliquid results as full 283-day Hyperliquid performance evidence."
+  ]
+}
