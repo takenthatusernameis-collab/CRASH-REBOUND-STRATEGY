@@ -1,13 +1,13 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T08:33:49Z (this session; verified — repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
-**Supersedes:** all earlier handoffs (2026-11-13T08:20:00Z and prior).
+**Handoff updated (UTC):** 2026-11-13T09:13:29Z (this session; verified — repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
+**Supersedes:** all earlier handoffs (2026-11-13T08:33:49Z and prior).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `23ab482`, working tree clean. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before Phase G+.
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T08:33:49Z.**
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T09:13:29Z.**
 >
 > **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk. Setup and the test baseline are verified. **Do not stop after setup, after the test suite, or after a summary — the session is incomplete until Phase G+, H, I, and J artifacts exist and this file is re-dated.**
 >
