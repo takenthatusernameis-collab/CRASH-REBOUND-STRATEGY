@@ -26,6 +26,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from src.data.provenance import (  # noqa: E402
     require_verified_provenance,
+    load_provenance,
     ProvenanceError,
     TARGET_START,
     TARGET_END,
@@ -337,6 +338,21 @@ def main(argv=None):
         target_start = args.window_start
         target_end = args.window_end
 
+    # Universe scoping MUST happen before provenance validation. A manifest may
+    # legitimately contain symbols that do not meet the >=$5M 24h volume floor in
+    # the chosen market; without scoping, those out-of-universe symbols make
+    # validate_provenance reject the whole run, so a caller can never restrict a
+    # full-window archive to its qualifying subset. Scoping narrows the symbols
+    # that are validated (and later loaded) to the requested universe; it never
+    # relaxes any gate for the symbols that remain.
+    universe_symbols: Optional[List[str]] = None
+    if args.universe_file:
+        raw_for_universe = load_provenance(manifest_path) if manifest_path.exists() else {}
+        universe_symbols = load_universe(Path(args.universe_file), raw_for_universe)
+        if not universe_symbols:
+            print("BLOCKER: universe file empty or not found.", file=sys.stderr)
+            return 2
+
     try:
         manifest = require_verified_provenance(
             manifest_path,
@@ -345,6 +361,7 @@ def main(argv=None):
             require_spec_volume_floor=None if partial_mode else spec_min_daily_volume_usd,
             start=target_start,
             end=target_end,
+            symbols=universe_symbols,
         )
     except ProvenanceError as e:
         if partial_mode:
@@ -372,13 +389,8 @@ def main(argv=None):
             print("For non-evidence pipeline debugging on a verified subset, use --allow-partial-not-evidence with >=1 complete symbol.", file=sys.stderr)
             return 2
     # Optional verified universe filter
-    universe_symbols: Optional[List[str]] = None
-    if args.universe_file:
-        universe_symbols = load_universe(Path(args.universe_file), manifest)
-        if not universe_symbols:
-            print("BLOCKER: universe file empty or not found.", file=sys.stderr)
-            return 2
-        # restrict manifest symbols to universe intersection
+    # Optional verified universe filter (already applied before validation above).
+    if universe_symbols:
         syms = manifest.get("symbols") or {}
         filtered = {k: v for k, v in syms.items() if k.upper() in set(universe_symbols)}
         if not filtered:

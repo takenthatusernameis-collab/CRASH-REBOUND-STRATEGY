@@ -1,0 +1,256 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T02:08:08.761231+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "source": {
+    "kind": "archive",
+    "hl_url": null,
+    "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke",
+    "input_archives": []
+  },
+  "request_params": {
+    "interval": "1h",
+    "start_ms": 1766188800000,
+    "end_ms": 1790636400000,
+    "symbols": [
+      "BTC",
+      "DOGE",
+      "ETH",
+      "SOL",
+      "XRP"
+    ],
+    "min_daily_volume_usd_requested": 5000000.0,
+    "min_daily_volume_usd_effective": 5000000.0,
+    "spec_floor_enforced": false,
+    "spec_compliant_volume_floor_usd": 5000000.0,
+    "min_daily_volume_usd": 5000000.0
+  },
+  "symbols": {
+    "BTC": {
+      "symbol": "BTC",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/BTC.json",
+      "normalized_count": 6792,
+      "sha256": "f81f121304404dd573be15481e67e79f9d53c12f9167aca69a10c124ae09687a",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "json",
+      "loaded_via": "data_loader",
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 6667784.125645,
+        "observed_mean_24h_usd_volume": 500950116.515831,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true
+      },
+      "cache_path": "research_state/cache/okx_smoke/candles/BTC.json"
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/DOGE.json",
+      "normalized_count": 6792,
+      "sha256": "916ee54a7a2bc3f0e5d9103e7584520dc7edf2c8ae2a92776b6c16d877e5ebe5",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "json",
+      "loaded_via": "data_loader",
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 1808591.978734,
+        "observed_mean_24h_usd_volume": 48571434.998077,
+        "bars_checked": 6792,
+        "bars_passing": 6787,
+        "volume_filter_ok": false
+      },
+      "cache_path": "research_state/cache/okx_smoke/candles/DOGE.json"
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/ETH.json",
+      "normalized_count": 6792,
+      "sha256": "9c442d4918f12885cbbb0b1007ba930ac6374291df6775a4f4eb9c68897459a0",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "json",
+      "loaded_via": "data_loader",
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 7494757.389196,
+        "observed_mean_24h_usd_volume": 320808148.068602,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true
+      },
+      "cache_path": "research_state/cache/okx_smoke/candles/ETH.json"
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/SOL.json",
+      "normalized_count": 6792,
+      "sha256": "688958ce03c43d1ad9f3b41f1a8ccde6376e34fbe355d09c0597d935dd9612c3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "json",
+      "loaded_via": "data_loader",
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 1261922.828696,
+        "observed_mean_24h_usd_volume": 81077489.782384,
+        "bars_checked": 6792,
+        "bars_passing": 6789,
+        "volume_filter_ok": false
+      },
+      "cache_path": "research_state/cache/okx_smoke/candles/SOL.json"
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke/XRP.json",
+      "normalized_count": 6792,
+      "sha256": "d55c86050f9800e15ba74df8730537abbe591c0a7ddac782dc6bb997dcc98da3",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "json",
+      "loaded_via": "data_loader",
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 1813614.370716,
+        "observed_mean_24h_usd_volume": 41113561.778268,
+        "bars_checked": 6792,
+        "bars_passing": 6788,
+        "volume_filter_ok": false
+      },
+      "cache_path": "research_state/cache/okx_smoke/candles/XRP.json"
+    }
+  },
+  "summary": {
+    "symbols_requested": 5,
+    "symbols_complete": 5,
+    "symbols_incomplete_or_error": 0,
+    "all_complete": true,
+    "ready_for_real_campaign": true,
+    "complete_symbols": [
+      "BTC",
+      "DOGE",
+      "ETH",
+      "SOL",
+      "XRP"
+    ]
+  }
+}

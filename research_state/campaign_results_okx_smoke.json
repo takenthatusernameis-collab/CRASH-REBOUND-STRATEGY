@@ -1,0 +1,266 @@
+{
+  "timestamp": "2026-11-13T02:10:57.099195+00:00",
+  "run_type": "real_market_campaign",
+  "research_status": "REAL_MARKET_RUN",
+  "real_market_data": true,
+  "performance_evidence": true,
+  "fabricated_data": false,
+  "partial_universe_not_evidence": false,
+  "evidence_warning": null,
+  "data_provenance": {
+    "manifest_path": "research_state/cache/okx_smoke/provenance.json",
+    "manifest_sha256": "41386b3e12e8e2f3c838b12e403cd38223a5bd9bed7bf7edcbd1e6a4703c8a21",
+    "source": {
+      "kind": "archive",
+      "hl_url": null,
+      "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/okx_1h_smoke",
+      "input_archives": []
+    },
+    "target_window": {
+      "start": "2025-12-20T00:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 6792
+    },
+    "symbols_complete": [
+      "BTC",
+      "ETH"
+    ],
+    "symbols_loaded": [
+      "BTC",
+      "ETH"
+    ],
+    "coverage_summary": {
+      "BTC": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "ETH": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      }
+    },
+    "universe_filter": {
+      "source": "research_state/cache/okx_smoke/universe_btceth.json",
+      "symbols": [
+        "BTC",
+        "ETH"
+      ]
+    },
+    "universe_filter_policy": {
+      "min_daily_volume_usd": 5000000.0,
+      "applied_in": [
+        "src.strategy.crash_rebound.filter_universe",
+        "src.data.loader.load_multi_coin_data",
+        "scripts.run_portfolio.run_portfolio_simulation"
+      ],
+      "spec_min_daily_volume_usd": 5000000.0,
+      "note": "Real-universe membership must be justified by verified per-symbol data/provenance for the target window."
+    },
+    "partial_mode": false
+  },
+  "execution_realism": {
+    "execution_model": "hourly_bar_simplified",
+    "order_slicing_simulated": false,
+    "order_book_impact_model": "slippage_proxy",
+    "spread_bps_assumed": 0.0,
+    "slippage_pct": 0.0005,
+    "funding_rate_pct_per_hour": 0.01,
+    "enable_liquidation_checks": true,
+    "liquidation_maint_margin_pct": 5.0,
+    "limitation_note": "Hourly bar simulation only. Per spec the strategy uses 20s order slicing and order-book-aware impact; this implementation does NOT simulate sub-hourly 20s slicing, explicit spread, or live L2 order-book impact. Fees/funding/hourly worst-price liquidation checks and slippage proxy may be modeled, but results must not be interpreted as evidence that 20s slicing/market impact were reproduced."
+  },
+  "config": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "execution_model": "hourly_bar_simplified",
+    "order_slicing_simulated": false,
+    "order_book_impact_model": "slippage_proxy",
+    "spread_bps_assumed": 0.0,
+    "slippage_pct": 0.0005,
+    "funding_rate_pct_per_hour": 0.01,
+    "enable_liquidation_checks": true
+  },
+  "results": {
+    "total_pnl": 1646.075332997607,
+    "num_trades": 2,
+    "final_open_positions": 0,
+    "final_gross_exposure": 0.0,
+    "trades": [
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -2734.143084804412,
+        "total_pnl": -240.2625859157315,
+        "entry_price": 2997.9592300000004,
+        "hedge_pnl": 2493.8804988886804,
+        "max_live_coin_notional": 120000.0,
+        "shares": 40.02722878923206,
+        "entry_timestamp": "1768939200000",
+        "exit_timestamp": "1769115600000",
+        "r_multiple": -0.2676418904689586,
+        "bars_held": 50,
+        "hedge_side": "short",
+        "hedge_size": 40.04725576179892
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": 524.0716142279907,
+        "total_pnl": 1886.3379189133384,
+        "entry_price": 78032.00191371248,
+        "hedge_pnl": 1362.2663046853477,
+        "max_live_coin_notional": 120000.0,
+        "shares": 1.5378305958713656,
+        "entry_timestamp": "1769893200000",
+        "exit_timestamp": "1770069600000",
+        "r_multiple": 0.0371951693785468,
+        "bars_held": 50,
+        "hedge_side": "short",
+        "hedge_size": 33.4387154737924
+      }
+    ],
+    "equity_curve_points": 3
+  },
+  "metrics": {
+    "sharpe_ratio": 0.7740406951186696,
+    "sortino_ratio": 3.425575660737588,
+    "max_drawdown": -240.2625859157315,
+    "max_drawdown_timestamp": "1769115600000",
+    "max_drawdown_series": [
+      {
+        "timestamp": "1769115600000",
+        "equity": -240.2625859157315,
+        "drawdown": -240.2625859157315
+      },
+      {
+        "timestamp": "1770069600000",
+        "equity": 1646.075332997607,
+        "drawdown": 0.0
+      }
+    ],
+    "calmar_ratio": 6.851151321475176,
+    "win_rate": 0.5,
+    "profit_factor": 7.851151321475176,
+    "monthly_breakdown": {
+      "1769115": -240.2625859157315,
+      "1770069": 1886.3379189133384
+    },
+    "weekly_breakdown": {
+      "1769115600": -240.2625859157315,
+      "1770069600": 1886.3379189133384
+    },
+    "annual_breakdown": {
+      "1769": -240.2625859157315,
+      "1770": 1886.3379189133384
+    },
+    "annual_trade_counts": {
+      "1769": 1,
+      "1770": 1
+    },
+    "positive_months": 1,
+    "negative_months": 1,
+    "flat_months": 0,
+    "total_months": 2,
+    "trade_attribution": [
+      {
+        "symbol": "ETH",
+        "pnl": -240.2625859157315,
+        "trades": 1,
+        "coin_pnl": -2734.143084804412,
+        "hedge_pnl": 2493.8804988886804
+      },
+      {
+        "symbol": "BTC",
+        "pnl": 1886.3379189133384,
+        "trades": 1,
+        "coin_pnl": 524.0716142279907,
+        "hedge_pnl": 1362.2663046853477
+      }
+    ],
+    "trade_attribution_by_leg": [
+      {
+        "leg": "unknown",
+        "pnl": 1646.075332997607,
+        "trades": 2
+      }
+    ],
+    "leg_breakdown": [
+      {
+        "leg": "unknown",
+        "trades": 2,
+        "wins": 1,
+        "losses": 1,
+        "win_rate": 0.5,
+        "gross_profit": 1886.3379189133384,
+        "gross_loss": 240.2625859157315,
+        "profit_factor": 7.851151321475176,
+        "total_pnl": 1646.075332997607,
+        "avg_r_multiple": -0.11522336054520589,
+        "pnl_share_pct": 100.0
+      }
+    ],
+    "exposure_metrics": {
+      "total_trades": 2,
+      "gross_profit": 1886.3379189133384,
+      "gross_loss": 240.2625859157315,
+      "total_pnl": 1646.075332997607,
+      "avg_pnl_per_trade": 823.0376664988034,
+      "winning_trades": 1,
+      "losing_trades": 1
+    },
+    "equity_start": 100000.0,
+    "equity_final": 101646.0753329976,
+    "equity_points": 3,
+    "equity_period_returns": [
+      -0.0024026258591572694,
+      0.018908809984969042
+    ],
+    "equity_sharpe_ratio": 0.7745223853774769,
+    "equity_sortino_ratio": 3.4350300657301225,
+    "equity_max_drawdown_pct": -0.24026258591572694,
+    "annual_return_pct": {
+      "1769": -0.2402625859157315,
+      "1770": 1.890880998496916
+    },
+    "aum_fee_total": 0.6881411249933376,
+    "profit_share_total": 164.58432643324488,
+    "vault_fee_total": 165.27246755823822,
+    "gross_total_pnl": 1646.0753329975996,
+    "net_total_pnl": 1480.8028654393613,
+    "gross_final_equity": 101646.0753329976,
+    "net_final_equity": 101481.2589378992,
+    "vault_hwm_final": 101481.2589378992,
+    "fee_hours_per_step": 1.0,
+    "fee_time_base_hours_per_year": 8760.0,
+    "timestamp": "2026-11-13T02:10:57.099090"
+  }
+}

@@ -179,7 +179,8 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
                         require_real_market_data: bool = True,
                         min_symbols: int = 1,
                         require_spec_volume_floor: Optional[float] = None,
-                        start: str = TARGET_START, end: str = TARGET_END) -> Tuple[bool, List[str]]:
+                        start: str = TARGET_START, end: str = TARGET_END,
+                        symbols: Optional[Any] = None) -> Tuple[bool, List[str]]:
     errs: List[str] = []
     if not isinstance(manifest, dict):
         return False, ["manifest must be an object"]
@@ -195,12 +196,39 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
     exp = expected_hourly_bars(start, end)
     if tw.get("expected_hourly_bars") not in (None, exp):
         errs.append(f"expected_hourly_bars mismatch: {tw.get('expected_hourly_bars')} != {exp}")
-    symbols = manifest.get("symbols") or {}
-    if not isinstance(symbols, dict) or len(symbols) < min_symbols:
+    manifest_symbols = manifest.get("symbols") or {}
+    if not isinstance(manifest_symbols, dict) or len(manifest_symbols) < min_symbols:
         errs.append(f"insufficient symbols in manifest (need >= {min_symbols})")
+    # Optional universe scoping. When a caller restricts a campaign to a specific
+    # symbol set (e.g. only the symbols that clear the spec volume floor), the
+    # out-of-scope symbols must not be able to fail the run: they are simply not
+    # part of this campaign's universe. Scoping never relaxes a gate for the
+    # symbols that remain, and an unknown requested symbol is a hard error.
+    scope: Dict[str, Any] = manifest_symbols
+    if symbols:
+        # Accept either a single symbol name or an iterable of names. A bare
+        # string is one symbol, never a sequence of characters.
+        if isinstance(symbols, str):
+            wanted = {symbols.strip().upper()} if symbols.strip() else set()
+        else:
+            try:
+                wanted = {str(s).strip().upper() for s in symbols if str(s).strip()}
+            except TypeError:
+                wanted = {str(symbols).strip().upper()} if str(symbols).strip() else set()
+        if not wanted:
+            errs.append("symbol scoping requested but no valid symbols supplied")
+        else:
+            unknown = sorted(wanted - {str(k).upper() for k in manifest_symbols})
+            if unknown:
+                errs.append(f"requested symbols not present in manifest: {','.join(unknown)}")
+            scope = {str(k): v for k, v in manifest_symbols.items() if str(k).upper() in wanted}
+            if len(scope) < min_symbols:
+                errs.append(
+                    f"scoped universe has {len(scope)} symbol(s) < min_symbols {min_symbols}"
+                )
     complete = []
     synthetic_detected_actual: List[str] = []
-    for sym, info in (symbols.items() if isinstance(symbols, dict) else []):
+    for sym, info in (scope.items() if isinstance(scope, dict) else []):
         if not isinstance(info, dict):
             errs.append(f"{sym}: invalid symbol entry")
             continue
@@ -245,8 +273,8 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
             complete.append(sym)
         elif require_complete:
             errs.append(f"{sym}: incomplete or error (status={info.get('status')}, observed={cov.get('observed_in_window_bars')}/{cov.get('expected_hourly_bars')})")
-    if require_complete and len(complete) != len(symbols):
-        errs.append(f"not all symbols complete: {len(complete)}/{len(symbols)}")
+    if require_complete and len(complete) != len(scope):
+        errs.append(f"not all symbols complete: {len(complete)}/{len(scope)}")
     # Campaign item 4: fail-closed summary consistency. Manifest summary fields
     # are evidence labels; when present they must not contradict symbol facts.
     # Optimistic contradictions (summary claims ready/complete but validated facts
@@ -256,19 +284,28 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
     # compatible.
     summary = manifest.get("summary")
     if isinstance(summary, dict):
+        # Manifest-level summary labels describe the whole archive. When a caller
+        # scopes the campaign to a subset universe, judge those labels against the
+        # symbols that remain in scope (out-of-scope symbols were already excluded),
+        # so a truthful whole-archive label cannot fail a legitimately scoped run.
+        scope_names = set(scope.keys()) if isinstance(scope, dict) else set()
+        out_of_scope_complete = [
+            str(x) for x in (summary.get("complete_symbols") or [])
+            if str(x) not in scope_names
+        ]
         if summary.get("ready_for_real_campaign") is True and synthetic_detected_actual:
             errs.append(
                 "summary.ready_for_real_campaign=true contradicts synthetic symbol(s): "
                 + ",".join(sorted(synthetic_detected_actual))
             )
-        if summary.get("ready_for_real_campaign") is True and len(complete) != len(symbols):
+        if summary.get("ready_for_real_campaign") is True and len(complete) != len(scope):
             errs.append(
                 "summary.ready_for_real_campaign=true optimistic contradiction: validated symbol facts do not prove complete non-synthetic readiness "
-                f"(complete={len(complete)}/{len(symbols)} symbols={sorted(symbols.keys())})"
+                f"(complete={len(complete)}/{len(scope)} symbols={sorted(scope.keys())})"
             )
-        if summary.get("all_complete") is True and len(complete) != len(symbols):
+        if summary.get("all_complete") is True and len(complete) != len(scope) and not out_of_scope_complete:
             errs.append(
-                f"summary.all_complete=true contradicts symbol completeness: {len(complete)}/{len(symbols)} complete"
+                f"summary.all_complete=true contradicts symbol completeness: {len(complete)}/{len(scope)} complete"
             )
         ssd = summary.get("synthetic_series_detected")
         if isinstance(ssd, list):
@@ -279,7 +316,14 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
                     "summary.synthetic_series_detected inconsistent with symbol synthetic_check facts "
                     f"(listed={sorted(set(listed))} actual={actual})"
                 )
-            non_synthetic_listed = [s for s in listed if s in symbols and not (isinstance((symbols[s] or {}).get("synthetic_check"), dict) and (symbols[s] or {}).get("synthetic_check", {}).get("is_synthetic"))]
+            non_synthetic_listed = [
+                s for s in listed
+                if s in manifest_symbols
+                and not (
+                    isinstance((manifest_symbols.get(s) or {}).get("synthetic_check"), dict)
+                    and (manifest_symbols.get(s) or {}).get("synthetic_check", {}).get("is_synthetic")
+                )
+            ]
             if non_synthetic_listed:
                 errs.append(
                     "summary.synthetic_series_detected lists non-synthetic symbol(s): "
@@ -307,16 +351,19 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
     if isinstance(summary, dict):
         actual_complete = sorted(set(complete))
         actual_complete_set = set(complete)
+        scope_names = set(scope.keys()) if isinstance(scope, dict) else set()
         scs = summary.get("complete_symbols")
         if isinstance(scs, list):
             listed_complete = [str(x) for x in scs]
-            invalid_listed = [s for s in listed_complete if s not in symbols]
+            # Symbols outside the requested universe are not part of this campaign;
+            # a whole-archive label naming them is not a contradiction of scoped facts.
+            invalid_listed = [s for s in listed_complete if s not in manifest_symbols and s not in scope_names]
             if invalid_listed:
                 errs.append(
                     "summary.complete_symbols lists unknown symbol(s): "
                     + ",".join(sorted(set(invalid_listed)))
                 )
-            noncomplete_listed = [s for s in listed_complete if s in symbols and s not in actual_complete_set]
+            noncomplete_listed = [s for s in listed_complete if s in scope and s not in actual_complete_set]
             if noncomplete_listed:
                 errs.append(
                     "summary.complete_symbols lists incomplete/invalid symbol(s): "
@@ -339,8 +386,10 @@ def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = Tr
                 errs.append(f"summary.symbols_complete not an integer: {scn!r}")
             else:
                 # Fail-closed on optimistic overcount; stale-pessimistic undercount
-                # must not block when validated facts prove completeness.
-                if scn_i > len(complete):
+                # must not block when validated facts prove completeness. When scoped,
+                # the declared count covers the whole archive so it may exceed the
+                # scoped complete count as long as every scoped symbol is complete.
+                if scn_i > len(complete) and not (symbols and len(complete) == len(scope)):
                     errs.append(
                         f"summary.symbols_complete={scn_i} optimistic contradiction: exceeds validated complete symbol count {len(complete)}"
                     )

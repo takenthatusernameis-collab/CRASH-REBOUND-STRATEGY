@@ -50,6 +50,11 @@ from src.data.loader import load_hyperliquid_candles, validate_candles  # noqa: 
 HL_INFO_URL = "https://api.hyperliquid.xyz/info"
 _TEMP_ARCHIVE_MARKERS = ("_temp/kilo-tmp", "kilo-tmp", "/tmp/", "/var/tmp/")
 
+# Archive directory sidecar files that describe the archive rather than carrying
+# candles for a tradable symbol. Auto-discovery must skip these so a complete
+# archive is not blocked by a metadata file being mistaken for a symbol.
+_NON_SYMBOL_ARCHIVE_STEMS = frozenset({"SOURCE", "MANIFEST", "PROVENANCE", "README", "META", "METADATA"})
+
 
 def _is_temp_archive_path(value: Any) -> bool:
     try:
@@ -977,6 +982,13 @@ def main():
             for f in sorted(apth.iterdir()):
                 if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl"):
                     stem = f.stem.upper().replace("_CANDLES", "")
+                    # Metadata sidecars are not symbol payloads: SOURCE.json is the
+                    # external-exchange archive manifest written by
+                    # scripts/acquire_exchange_archive.py. Treating it as a symbol
+                    # produced a bogus "SOURCE: error" entry that blocked otherwise
+                    # complete archives.
+                    if stem in _NON_SYMBOL_ARCHIVE_STEMS:
+                        continue
                     if stem and stem.isalnum() and 2 <= len(stem) <= 15:
                         discovered.append(stem)
             symbols = sorted(set(discovered))

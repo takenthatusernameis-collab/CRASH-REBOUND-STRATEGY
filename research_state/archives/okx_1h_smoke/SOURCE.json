@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-13T02:07:50.115526+00:00",
+  "run_type": "external_exchange_archive_acquisition",
+  "fabricated_data": false,
+  "real_market_data": true,
+  "performance_evidence": false,
+  "is_hyperliquid_venue_data": false,
+  "venue_note": "Candles are REAL, exchange-published OHLCV for the requested instruments but are NOT Hyperliquid candles. They are cross-venue price/volume proxies for the spec universe. Use for real strategy/behavior campaign runs; document the venue basis when comparing to the Hyperliquid-denominated spec targets.",
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "symbols": {
+    "BTC": {
+      "symbol": "BTC",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "BTC-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 23,
+      "rows_written": 6792,
+      "sha256": "c8c050e3d2a77c8377c5685ca1bb736145f748779b6352d4a8bed289eb93afc7",
+      "archive_file": "research_state/archives/okx_1h_smoke/BTC.json",
+      "retrieved_at_utc": "2026-11-13T02:07:37.099623+00:00",
+      "retrieval_seconds": 3.28,
+      "coverage": {
+        "observed_in_window_bars": 6792,
+        "expected_hourly_bars": 6792,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "ETH-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 23,
+      "rows_written": 6792,
+      "sha256": "6294a707a7629f2fee9ca8bdaa612ce0a01deafe4ec3b9ae0401ea23f7c446a6",
+      "archive_file": "research_state/archives/okx_1h_smoke/ETH.json",
+      "retrieved_at_utc": "2026-11-13T02:07:40.225955+00:00",
+      "retrieval_seconds": 3.13,
+      "coverage": {
+        "observed_in_window_bars": 6792,
+        "expected_hourly_bars": 6792,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "SOL-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 23,
+      "rows_written": 6792,
+      "sha256": "4acc054eae470dd99f1b9b7dd259e45423120fc04a1d552835249b8dfb62a308",
+      "archive_file": "research_state/archives/okx_1h_smoke/SOL.json",
+      "retrieved_at_utc": "2026-11-13T02:07:43.654667+00:00",
+      "retrieval_seconds": 3.43,
+      "coverage": {
+        "observed_in_window_bars": 6792,
+        "expected_hourly_bars": 6792,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "XRP-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 23,
+      "rows_written": 6792,
+      "sha256": "d917bb00abfb6cfea6c3b7bce666a1b2f6fba5d4638ac357f9b8a53bd85469f8",
+      "archive_file": "research_state/archives/okx_1h_smoke/XRP.json",
+      "retrieved_at_utc": "2026-11-13T02:07:46.930629+00:00",
+      "retrieval_seconds": 3.28,
+      "coverage": {
+        "observed_in_window_bars": 6792,
+        "expected_hourly_bars": 6792,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "DOGE-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 23,
+      "rows_written": 6792,
+      "sha256": "855db9d43a1f47ca939bf4609c434b728f152fc009bbe6aa83776bce181539ea",
+      "archive_file": "research_state/archives/okx_1h_smoke/DOGE.json",
+      "retrieved_at_utc": "2026-11-13T02:07:50.115510+00:00",
+      "retrieval_seconds": 3.18,
+      "coverage": {
+        "observed_in_window_bars": 6792,
+        "expected_hourly_bars": 6792,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    }
+  },
+  "summary": {
+    "symbols_requested": 5,
+    "symbols_complete": 5,
+    "all_complete": true
+  }
+}
