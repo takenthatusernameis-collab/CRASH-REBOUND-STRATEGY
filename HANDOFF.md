@@ -1,39 +1,39 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T11:46:07Z
-**Supersedes:** 2026-11-13T11:25:52Z (and all earlier).
+**Handoff updated (UTC):** 2026-11-13T11:47:38Z
+**Supersedes:** 2026-11-13T11:46:07Z (and all earlier).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main` @ `87b05cf` (`origin/main`); working tree **clean**. Do **not** `git reset`/`checkout` anything away. Nothing needs committing unless explicitly requested.
+**Branch:** `main` @ `87b05cf` (`origin/main`); working tree clean at handoff time except this handoff refresh if uncommitted. Do **not** `git reset`/`checkout` anything away. Nothing needs committing unless explicitly requested.
 **Single durable handoff:** this file only. Do not create a second handoff/status file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T11:46:07Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T11:47:38Z)
 >
-> **Priority (inferred from repo name `CRASH-REBOUND-STRATEGY`):** deliver decision-grade, evidence-backed crash-rebound strategy research/backtest conclusions from real artifacts on disk, then close the remaining campaign phases. **This is not a quick-summary task; heavy execution is required.**
+> **Priority (inferred from repo name `CRASH-REBOUND-STRATEGY`):** deliver decision-grade, evidence-backed crash-rebound strategy research/backtest conclusions from real artifacts on disk, then close the remaining campaign phases. **This is not a quick-summary task; heavy execution is required and cannot be skipped.**
 >
-> **Start-of-session done-gate (run first):**
+> **Start-of-session done-gate (run first, record result):**
 > `PYTHONPATH=. /tmp/venv_h/bin/python scripts/session_gate.py`
-> Expected after this handoff refresh: **4/6 PASS**. The two failures are the heavy missing work: **Phase J2 sensitivity sweep** and **Phase J3 executable Hyperliquid-native runbook**. Do not stop until this command prints **6/6 PASS**.
+> Current expected state at this handoff: **4/6 PASS**. The two failures are the heavy missing work: **Phase J2 sensitivity sweep** and **Phase J3 executable Hyperliquid-native runbook**. Phase H reproducibility-contract test is also missing (not a gate line but REQUIRED in §4). **Do not stop until this command prints 6/6 PASS, Phase H is complete, and this handoff is re-dated with evidence.**
 >
-> **Current state (verified 2026-11-13T11:46:07Z):**
-> - Git: `main...origin/main` @ `87b05cf`; working tree clean.
+> **Current state (verified 2026-11-13T11:47:38Z):**
+> - Git: `main...origin/main` @ `87b05cf`.
 > - Phase G+ spec-vs-actual: **done** (`research_state/real_okx_full_spec_comparison.{md,summary.json}`).
 > - Phase J1 crash-event census: **done** (`research_state/crash_event_census_real_okx_full.{json,md}`).
-> - Full suite: **`941 passed, 1 skipped`**; **942 tests collected**; runtime **375.84s** (`PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs`).
-> - Canonical real-OKX manifest/universe/campaign/metrics hashes are intact (see §2).
-> - Phase H reproducibility-contract test: **missing**.
+> - Full suite last observed: **`941 passed, 1 skipped`** (942 collected), 375.84s (`PYTHONPATH=. /tmp/venv_h/bin/python -m pytest -q -rs`, 2026-11-13T11:46Z run). Skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`.
+> - Canonical real-OKX manifest/universe/campaign/metrics hashes intact (see §2).
+> - Phase H reproducibility-contract test: **missing** (`tests/test_reproducibility_contract*` absent).
 > - Phase J2 sweep artifacts: **missing** (`research_state/sensitivity_sweep_real_okx_full.{json,md}` absent).
-> - Phase J3 runbook: **not yet executable step-by-step** (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md` needs the required runbook section).
-> - Env: `/tmp/venv_h` ready (pytest 9.2.0 + numpy/pandas/requests/pyarrow); 4 CPU / 15 GiB RAM. No stranded campaign/backtest/sweep processes observed.
+> - Phase J3 runbook: **not yet executable step-by-step** (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md` lacks `HYPERLIQUID NATIVE ACQUISITION RUNBOOK` section and required tokens).
+> - Env: `/tmp/venv_h` ready (pytest 9.2.0 + numpy/pandas/requests/pyarrow); 4 CPU / 15 GiB RAM. No stranded campaign/backtest/sweep processes observed. Stray temp dirs `tmp1cc2my0z`, `tmpkn07ud42` removed from repo root.
 >
 > **Mandatory remaining work — execute in order, do not stop early:**
 > 1. **Phase H — reproducibility & hardening (NEXT):** add an automated reproducibility-contract test (suggested `tests/test_reproducibility_contract_real_okx_full_20261113.py`) proving a re-run from the committed on-disk manifest/cache/universe reproduces canonical `results.trades` and `results.total_pnl`, modulo the volatile top-level `timestamp`. Use a **distinct output prefix** (e.g. `reproducibility_check_real_okx_full`), never overwrite canonical artifacts, and delete only your own rerun files. Then re-run the full suite and record observed counts. Confirm `volume_filter_ok` (all-bars) and per-trade point-in-time trailing-24h ≥$5M gates remain intact. The persisted-rebound-fields regression already exists — do not rewrite it.
 > 2. **Phase J2 — heavy sensitivity campaign (REQUIRED):** run the parallel one-factor-at-a-time sweep on the on-disk OKX inputs. Use exactly:
 >    `PYTHONPATH=. /tmp/venv_h/bin/python scripts/run_sensitivity_sweep.py --manifest research_state/cache/okx_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/okx_1h_full_20251220_20260928 --universe-file research_state/universe_okx_full_verified.json --workers 4 --output-prefix sensitivity_sweep_real_okx_full`
->    It must produce **17 runs** (baseline + 16 variants) in `research_state/sensitivity_sweep_real_okx_full.json` + `.md`, with per-run params/metrics/runtime, plus per-run files under `research_state/sweep_runs/`. Never overwrite canonical artifacts. State which knobs move results and which do not; no fabricated numbers. Budget: serial equivalent is ~2.7h; with 4 workers expect materially less wall time, but do not run serially.
+>    It must produce **17 runs** (baseline + 16 variants) in `research_state/sensitivity_sweep_real_okx_full.json` + `.md`, with per-run params/metrics/runtime, plus per-run files under `research_state/sweep_runs/`. Never overwrite canonical artifacts. State which knobs move results and which do not; no fabricated numbers. Budget: serial equivalent ~2.7h; with 4 workers expect materially less wall time — **do not run serially**.
 > 3. **Phase J3 — executable Hyperliquid-native acquisition/verification runbook (REQUIRED):** upgrade `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` with a section titled exactly `HYPERLIQUID NATIVE ACQUISITION RUNBOOK`. Include source, exact archive format, `fetch_hyperliquid_candles.py --source archive ...`, provenance checks (`all_complete=true` / `ready_for_real_campaign=true`), and the gated `run_real_campaign.py` command. Every step must have a command, pass/fail check, and artifact. If data is unavailable, mark the campaign `NOT_RUN`; **never fabricate or relabel OKX as Hyperliquid**. The gate requires the tokens `fetch_hyperliquid_candles.py`, `run_real_campaign.py`, and `NOT_RUN`.
 > 4. **Phase I/J4 — final evidence refresh:** re-run the full suite and `scripts/session_gate.py`; record exact commands, observed test counts, new artifact paths + sha256, conclusions from G+/J1/J2/J3, and the next highest-value bottleneck. Re-date this header.
 >
-> **Bottlenecks removed this session (do not re-litigate):** refreshed stale handoff to current HEAD/clean tree; corrected the G+ Markdown sha256 to the actual on-disk hash; verified the full suite green; wired the existing machine-checkable `scripts/session_gate.py` into this handoff; verified canonical hashes unchanged; confirmed no stranded processes and a ready test environment. **Remaining blockers are missing outputs only** (Phase H test, Phase J2 sweep artifacts, Phase J3 runbook, final handoff refresh).
+> **Bottlenecks removed this session (do not re-litigate):** refreshed stale handoff to current state/timestamp; confirmed gate 4/6 with J2/J3 as the explicit blockers; verified Phase H test and J2 artifacts absent; corrected G+ Markdown sha256 to actual on-disk hash (`fb0da9...`); removed stray temp dirs `tmp1cc2my0z`/`tmpkn07ud42`; verified canonical hashes unchanged and no stranded processes. **Remaining blockers are missing outputs only** (Phase H test, Phase J2 sweep artifacts, Phase J3 runbook, final handoff refresh).
 >
 > **Anti-avoidance rules:** do not stop after reading, planning, bootstrapping, or a narrative summary. Do not re-acquire OKX data, re-run the canonical campaign, redo J1, or redo G+ without cause. Do not claim Hyperliquid parity from OKX data. Do not relax the $5M volume gate. Do not overwrite canonical artifacts. Do not mark done while `scripts/session_gate.py` is not 6/6.
 >
@@ -41,22 +41,23 @@
 
 ---
 
-## 0. Verified state (2026-11-13T11:46:07Z)
+## 0. Verified state (2026-11-13T11:47:38Z)
 
 | Check | Result | Evidence |
 |---|---|---|
-| Git | `main...origin/main` @ `87b05cf`; clean. | `git status -sb`, `git log -1` |
+| Git | `main...origin/main` @ `87b05cf`. | `git status -sb`, `git log -1` |
 | Durable handoff | Single file: `./HANDOFF.md` (this file). | `find . -name '*HANDOFF*'` |
-| Done-gate | `scripts/session_gate.py` exists; current result **4/6** after this refresh (J2/J3 remain). | `PYTHONPATH=. /tmp/venv_h/bin/python scripts/session_gate.py` |
+| Done-gate | `scripts/session_gate.py` exists; **4/6** (J2/J3 fail). | `PYTHONPATH=. /tmp/venv_h/bin/python scripts/session_gate.py` |
 | Canonical artifacts | Hashes re-verified unchanged. | `sha256sum` → §2/§3 |
 | Phase G+ | **Done:** `real_okx_full_spec_comparison.md` (12,840 bytes) + `_summary.json` (8 divergences). | artifact presence/hash |
 | Phase J1 | **Done:** `crash_event_census_real_okx_full.{json,md}`; 342 events, 8 trades matched, 0 unexplained. | artifact/hash |
-| Tests | **`941 passed, 1 skipped`**; 942 collected; 375.84s. Skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`. | full pytest run |
-| Phase H reproducibility-contract test | **Missing.** | `tests/` |
+| Tests (last observed) | **`941 passed, 1 skipped`**; 942 collected; 375.84s. Skip: `tests/test_fetch_archive_ingest_temp_path_rejection_20261109.py:80`. | full pytest run 2026-11-13T11:46Z |
+| Phase H reproducibility-contract test | **Missing.** | `tests/` glob |
 | Phase J2 outputs | **Missing** (`sensitivity_sweep_real_okx_full.*` absent). | `research_state/` |
-| Phase J3 runbook | **Not yet executable step-by-step** (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md` needs the runbook section). | file present, not upgraded |
+| Phase J3 runbook | **Not yet executable step-by-step** (needs exact section/tokens). | `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` |
 | Env | `/tmp/venv_h/bin/python` ready (pytest 9.2.0 + deps); `scripts/bootstrap_env.sh` available. | fs checks |
 | Processes | No stranded campaign/backtest/sweep processes observed. | `ps` |
+| Workspace clutter | Removed stray `tmp1cc2my0z`, `tmpkn07ud42` from repo root. | `rm -rf` |
 
 ## 1. Previously resolved bottlenecks (do not re-litigate)
 
@@ -69,7 +70,8 @@
 | Campaign artifact dropped rebound-short fields | `rebound_short_pnl`/`rebound_hedge_pnl` persisted per trade. | `scripts/run_portfolio.py:408` |
 | Trade-frequency gap unexplained | J1 census completed: 342→187→39→11→8 with 0 unexplained signal-gate events. | `research_state/crash_event_census_real_okx_full.*` |
 | `build_spec_comparison.py` crash (G+ blocked) | Fixed `NameError` (`buy_share` → `actual["buy_leg_pnl_share_pct"]`); G+ artifacts produced. | `scripts/build_spec_comparison.py:574`, §2 artifacts |
-| Stale handoff/hash mismatch | Handoff re-dated to `2026-11-13T11:46:07Z`; G+ Markdown hash corrected to actual `fb0da9...`; branch/HEAD updated to `87b05cf`. | this file, `sha256sum` |
+| Stale handoff/hash mismatch | Handoff refreshed; G+ Markdown hash corrected to actual `fb0da9...`; branch/HEAD `87b05cf`. | this file, `sha256sum` |
+| Repo-root temp dir clutter | Removed `tmp1cc2my0z`, `tmpkn07ud42`. | workspace cleanup |
 
 ## 2. Canonical real OKX artifacts (verified, non-synthetic; do not re-acquire/re-run)
 
