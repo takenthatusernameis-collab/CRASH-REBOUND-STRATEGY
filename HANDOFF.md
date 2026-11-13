@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T23:39:00Z
-**Supersedes:** 2026-11-13T21:52:10Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-13T23:50:45Z
+**Supersedes:** 2026-11-13T21:52:10Z, 2026-11-13T23:39:00Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main`, base HEAD `69eb3d0`; this handoff/gate update is the checkpoint delta. **This file is the only durable handoff.** Never create a second status/handoff file.
+**Branch:** `main`, base HEAD `07bf452`; this handoff refresh records the current gate (14/14) and re-issues the mandatory focus campaign. **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T23:39:00Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T23:50:45Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** finish the evidence chain and force a decision-grade Hyperliquid-native verdict. The OKX evidence remains **`underpowered` / not decision-grade**. Phase O shows the binding constraint is **independent crash episodes**, not trades: the 11 gate-passing events are **4 crash episodes over 5 crash days**, two of the four episodes lost money, the crash-day-conditioned temporal-edge permutation gives **p(placebo >= canonical)=0.1500**, and the episode-block bootstrap CI is **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
 >
@@ -44,9 +44,9 @@
 > ls research_state/.sensitivity_sweep.lock 2>&1 || echo "no lock"
 > ```
 >
-> **VERIFIED BASELINE (2026-11-13T23:39:00Z):** gate **14/14 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes; Phase O artifact regenerated at **2026-11-13T23:38:47Z**; canonical hash unchanged; full Hyperliquid 283d still blocked. **A green gate is evidence-chain completeness, NOT permission to stop.**
+> **VERIFIED BASELINE (2026-11-13T23:50:45Z):** gate **14/14 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes; Phase O artifact regenerated at **2026-11-13T23:38:47Z**; canonical hash unchanged; full Hyperliquid 283d still blocked. **A green gate is evidence-chain completeness, NOT permission to stop.**
 >
-> **BOTTLENECK STATUS (2026-11-13T23:39:00Z): NONE KNOWN.** The only known blocker is external: public Hyperliquid API retention cannot serve the full 283-day history. The fallback is achievable real-data work (extend the partial cross-section to every served symbol and record the exact blocker), not planning.
+> **BOTTLENECK STATUS (2026-11-13T23:50:45Z): NONE KNOWN.** The only known blocker is external: public Hyperliquid API retention cannot serve the full 283-day history. The fallback is achievable real-data work (extend the partial cross-section to every served symbol and record the exact blocker), not planning.
 >
 > **MANDATORY NEXT FOCUS CAMPAIGN (EXECUTE IN ORDER — HEAVY, ACHIEVABLE, NO EARLY STOP):**
 > 1. **Full Hyperliquid-native acquisition + canonical campaign (PRIMARY):** follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`. Obtain an operator-supplied verified Hyperliquid-native archive for `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (6792 bars/symbol) with source/extraction sidecar. Verify provenance and non-flat data, ingest into `research_state/cache/hyperliquid_1h_full_20251220_20260928`, derive the verified universe, run `scripts/run_real_campaign.py`, then run the exact full-portfolio placebo adapted to the Hyperliquid cache/config. Produce `research_state/campaign_results_real_hyperliquid_full*.json` and `research_state/placebo_portfolio_hyperliquid_full.{json,md}`. If acquisition fails, record the exact API/provenance failure in `research_state/hyperliquid_acquisition_status.json` and **do not substitute the placeholder**.
@@ -59,7 +59,7 @@
 
 ---
 
-## 0. Verified state (2026-11-13T23:39:00Z)
+## 0. Verified state (2026-11-13T23:50:45Z)
 
 | Check | Result | Evidence |
 |---|---|---|
