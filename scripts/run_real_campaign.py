@@ -122,32 +122,81 @@ def validate_symbol_volume_coverage(manifest: dict, symbols: List[str],
                 f"{sym}: volume evidence min_daily_volume_usd {eff_thr:g} < required spec-compliant floor {intent_floor:g}"
             )
             continue
-        if not volcov.get("volume_filter_ok"):
-            errs.append(
-                f"{sym}: volume filter not met (min_24h_usd={obs_min}, "
-                f"mean={volcov.get('observed_mean_24h_usd_volume')}, bars={volcov.get('bars_passing')}/{volcov.get('bars_checked')})"
-            )
-            continue
-        # Never trust flag alone: enforce requested threshold against observed minimum.
-        if threshold > 0:
-            if obs_min is None:
-                errs.append(
-                    f"{sym}: volume threshold {threshold:g} required but observed_min_24h_usd_volume missing "
-                    f"(volume_filter_ok={volcov.get('volume_filter_ok')})"
-                )
-                continue
+        # Spec-reconciled admission (Phase E): universe membership is point-in-time
+        # (spec: perps with >= $5M 24h volume). Admit a symbol when its peak trailing-24h
+        # USD volume across the target window >= threshold (universe_membership_ok),
+        # even if some bars dip below (all-bars volume_filter_ok false). Per-trade
+        # eligibility remains point-in-time and is enforced by generate_signal/engine
+        # on each decision bar — this gate does NOT permit trading on sub-threshold bars.
+        # Keep volume_filter_ok and observed_min checks for strict/all-bars cases; when
+        # all-bars passes, admission is unchanged. Never remove the per-trade filter.
+        obs_max = volcov.get("observed_max_24h_usd_volume")
+        # infer peak for legacy manifests lacking observed_max/universe_membership_ok
+        if obs_max is None and volcov.get("volume_filter_ok") and obs_min is not None:
+            obs_max = obs_min
+        membership_ok = volcov.get("universe_membership_ok")
+        if membership_ok is None and obs_max is not None and threshold > 0:
             try:
-                obs_min_f = float(obs_min)
+                membership_ok = float(obs_max) >= threshold
             except (TypeError, ValueError):
-                errs.append(f"{sym}: observed_min_24h_usd_volume not numeric: {obs_min!r}")
-                continue
-            if obs_min_f < threshold:
+                membership_ok = None
+        all_bars_ok = bool(volcov.get("volume_filter_ok"))
+
+        if all_bars_ok:
+            # All-bars strict path (existing behavior): require observed minimum >= threshold.
+            if threshold > 0:
+                if obs_min is None:
+                    errs.append(
+                        f"{sym}: volume threshold {threshold:g} required but observed_min_24h_usd_volume missing "
+                        f"(volume_filter_ok={volcov.get('volume_filter_ok')})"
+                    )
+                    continue
+                try:
+                    obs_min_f = float(obs_min)
+                except (TypeError, ValueError):
+                    errs.append(f"{sym}: observed_min_24h_usd_volume not numeric: {obs_min!r}")
+                    continue
+                if obs_min_f < threshold:
+                    errs.append(
+                        f"{sym}: observed_min_24h_usd_volume {obs_min_f:g} < required threshold {threshold:g} "
+                        f"(volume_filter_ok={volcov.get('volume_filter_ok')})"
+                    )
+                    continue
+            passing.append(sym)
+            continue
+
+        # Not all-bars: admit only if peak proves spec universe membership.
+        if membership_ok is True:
+            if threshold > 0 and obs_max is not None:
+                try:
+                    if float(obs_max) < threshold:
+                        errs.append(
+                            f"{sym}: universe membership rejected (observed_max_24h_usd_volume {float(obs_max):g} < required peak threshold {threshold:g})"
+                        )
+                        continue
+                except (TypeError, ValueError):
+                    errs.append(f"{sym}: observed_max_24h_usd_volume not numeric: {obs_max!r}")
+                    continue
+            passing.append(sym)
+            continue
+
+        # No membership evidence and not all-bars: fail-closed with concrete reason.
+        if obs_max is not None and threshold > 0:
+            try:
+                obs_max_f = float(obs_max)
+            except (TypeError, ValueError):
+                obs_max_f = None
+            if obs_max_f is not None and obs_max_f < threshold:
                 errs.append(
-                    f"{sym}: observed_min_24h_usd_volume {obs_min_f:g} < required threshold {threshold:g} "
-                    f"(volume_filter_ok={volcov.get('volume_filter_ok')})"
+                    f"{sym}: universe membership rejected (peak observed_max_24h_usd_volume {obs_max_f:g} < required threshold {threshold:g}; "
+                    f"min_24h_usd={obs_min}, bars_passing={volcov.get('bars_passing')}/{volcov.get('bars_checked')})"
                 )
                 continue
-        passing.append(sym)
+        errs.append(
+            f"{sym}: volume filter not met (min_24h_usd={obs_min}, "
+            f"mean={volcov.get('observed_mean_24h_usd_volume')}, bars={volcov.get('bars_passing')}/{volcov.get('bars_checked')}, "
+            f"peak_max_24h_usd={obs_max}, universe_membership_ok={membership_ok})"
+        )
     if errs:
         raise ProvenanceError("Real campaign blocked by per-symbol coverage/volume validation:\n- " + "\n- ".join(errs))
     return passing

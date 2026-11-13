@@ -138,18 +138,25 @@ def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: floa
                                      errs: List[str]) -> None:
     """Fail-closed spec volume evidence check for provenance consumers.
 
-    Legacy-compatible by required-floor gate only: manifests lacking requested/
-    effective intent fields are still subject to volume_filter_ok, min_daily_volume_usd
-    (or effective) >= floor, and concrete observed_min_24h_usd_volume >= floor when a
-    caller requires a spec floor. Manifests carrying intent fields must not declare
-    sub-spec requested/effective values.
+    Legacy-compatible by required-floor gate only. Phase E (2026-11-13) reconciles
+    spec universe admission (point-in-time/peak >= $5M) with per-trade eligibility:
+    - Universe membership/admission may be satisfied by peak evidence
+      (``universe_membership_ok`` true or ``observed_max_24h_usd_volume >= floor``)
+      even when some bars dip below floor (all-bars ``volume_filter_ok`` false,
+      ``observed_min_24h_usd_volume < floor``). This admits the symbol as a spec
+      universe member; it does NOT permit trading on sub-threshold bars.
+    - Per-trade eligibility remains point-in-time and is enforced separately by the
+      strategy/engine (generate_signal). This provenance check must not be read as
+      permission to trade on sub-threshold bars.
+    - Symbols whose peak/observed_max < floor are rejected (not universe members).
+    - When all-bars ``volume_filter_ok`` is true, observed_min must still be >= floor.
+    - Manifests carrying intent fields must not declare sub-spec requested/effective
+      values. Missing/unverified fields remain fail-closed.
     """
     volcov = info.get("volume_coverage")
     if not isinstance(volcov, dict):
         errs.append(f"{sym}: missing volume_coverage; cannot prove >= ${floor:g} 24h volume evidence")
         return
-    if not volcov.get("volume_filter_ok"):
-        errs.append(f"{sym}: volume_filter_ok is not true; spec-compliant volume evidence required")
     req = _as_volume_number(volcov.get("min_daily_volume_usd_requested"))
     eff = _as_volume_number(volcov.get("min_daily_volume_usd_effective"))
     legacy = _as_volume_number(volcov.get("min_daily_volume_usd"))
@@ -160,19 +167,56 @@ def _validate_symbol_volume_evidence(sym: str, info: Dict[str, Any], floor: floa
         errs.append(f"{sym}: effective min_daily_volume_usd {eff_or_legacy:g} < required spec floor {floor:g}")
     if req is not None and req < floor:
         errs.append(f"{sym}: requested min_daily_volume_usd {req:g} < required spec floor {floor:g}")
-    # Fail-closed: when a spec floor is required, volume_filter_ok/intent fields are
-    # not sufficient evidence on their own. Observed minimum 24h USD volume must be
-    # present, numeric, and >= floor (never trust stale/lying flags without evidence).
-    observed_raw = volcov.get("observed_min_24h_usd_volume")
-    observed = _as_volume_number(observed_raw)
-    if observed is None:
-        if observed_raw is None or observed_raw == "" or "observed_min_24h_usd_volume" not in volcov:
-            errs.append(f"{sym}: volume_coverage missing observed_min_24h_usd_volume; cannot prove >= ${floor:g} 24h volume evidence")
-        else:
-            errs.append(f"{sym}: observed_min_24h_usd_volume not numeric: {observed_raw!r}")
+
+    all_bars_ok = bool(volcov.get("volume_filter_ok"))
+    observed_raw_min = volcov.get("observed_min_24h_usd_volume")
+    observed_min = _as_volume_number(observed_raw_min)
+    observed_raw_max = volcov.get("observed_max_24h_usd_volume")
+    observed_max = _as_volume_number(observed_raw_max)
+    membership_ok = volcov.get("universe_membership_ok")
+    if membership_ok is None and observed_max is not None:
+        membership_ok = observed_max >= floor
+    # infer peak from all-bars pass for legacy manifests
+    if observed_max is None and all_bars_ok and observed_min is not None:
+        observed_max = observed_min
+        if membership_ok is None:
+            membership_ok = observed_max >= floor
+
+    if all_bars_ok:
+        # Strict/all-bars evidence: require concrete observed minimum >= floor.
+        if observed_min is None:
+            if observed_raw_min is None or observed_raw_min == "" or "observed_min_24h_usd_volume" not in volcov:
+                errs.append(f"{sym}: volume_coverage missing observed_min_24h_usd_volume; cannot prove >= ${floor:g} 24h volume evidence")
+            else:
+                errs.append(f"{sym}: observed_min_24h_usd_volume not numeric: {observed_raw_min!r}")
+            return
+        if observed_min < floor:
+            errs.append(f"{sym}: observed_min_24h_usd_volume {observed_min:g} < required spec floor {floor:g}")
         return
-    if observed < floor:
-        errs.append(f"{sym}: observed_min_24h_usd_volume {observed:g} < required spec floor {floor:g}")
+
+    # Not all-bars: admit on peak/universe membership evidence (spec point-in-time universe).
+    if membership_ok is True:
+        # Peak evidence must concretely meet floor when provided; missing max is allowed
+        # only when membership_ok is explicitly asserted by verified provenance.
+        if observed_max is not None and observed_max < floor:
+            errs.append(f"{sym}: observed_max_24h_usd_volume {observed_max:g} < required spec floor {floor:g}")
+        return
+
+    # No membership and not all-bars: fail-closed.
+    if observed_max is not None and observed_max < floor:
+        errs.append(
+            f"{sym}: universe membership rejected (peak observed_max_24h_usd_volume {observed_max:g} < required spec floor {floor:g}); "
+            f"not all-bars and no spec-universe membership evidence"
+        )
+        return
+    if observed_max is None and "observed_max_24h_usd_volume" not in volcov and "universe_membership_ok" not in volcov:
+        # legacy manifest without membership fields and all-bars false: preserve strict failure
+        errs.append(f"{sym}: volume_filter_ok is not true; spec-compliant volume evidence required")
+        return
+    errs.append(
+        f"{sym}: volume_filter_ok is not true and no valid universe_membership_ok/peak evidence for >= ${floor:g}; "
+        f"spec-compliant universe admission cannot be proven"
+    )
 
 
 def validate_provenance(manifest: Dict[str, Any], *, require_complete: bool = True,

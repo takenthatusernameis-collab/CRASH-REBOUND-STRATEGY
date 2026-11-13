@@ -827,9 +827,17 @@ def analyze_symbol_volume_coverage(candles: List[Dict[str, Any]], min_daily_volu
     """Rolling 24h USD volume coverage vs min_daily_volume_usd.
 
     USD volume per bar = volume * close (Hyperliquid perp base volume * quote price).
-    For each bar, sum volume*close over the trailing 24 hourly bars including current;
-    a symbol passes the universe filter when every bar's 24h USD volume >= threshold.
-    Returns pass/fail plus min/mean observed 24h USD volume for provenance.
+    For each bar, sum volume*close over the trailing 24 hourly bars including current.
+
+    Two related but distinct facts are reported (Phase E, spec reconciliation):
+    - ``volume_filter_ok`` (all-bars): every bar's trailing-24h USD volume >=
+      threshold. Kept for strict callers; stricter than the spec universe rule.
+    - ``universe_membership_ok`` (peak/point-in-time universe): the symbol's peak
+      trailing-24h USD volume across the target window >= threshold, so the symbol
+      qualifies as a spec universe member (spec: "perps with >= $5M 24h volume").
+      Per-trade eligibility remains point-in-time and is enforced separately by the
+      strategy (generate_signal / engine) — this flag admits the symbol to the
+      universe, it does NOT permit trading on sub-threshold bars.
 
     Spec-compliant volume analysis enforces the $5M floor for non-zero sub-$5M
     thresholds (min_daily_volume_usd=0 remains a non-spec escape hatch).
@@ -859,19 +867,24 @@ def analyze_symbol_volume_coverage(candles: List[Dict[str, Any]], min_daily_volu
         return {
             "min_daily_volume_usd": min_daily_volume_usd,
             "observed_min_24h_usd_volume": None,
+            "observed_max_24h_usd_volume": None,
             "observed_mean_24h_usd_volume": None,
             "bars_checked": 0,
             "bars_passing": 0,
             "volume_filter_ok": False,
+            "universe_membership_ok": False,
         }
     passing = sum(1 for v in usd_vols if v >= min_daily_volume_usd)
+    observed_max = max(usd_vols)
     return {
         "min_daily_volume_usd": min_daily_volume_usd,
         "observed_min_24h_usd_volume": round(min(usd_vols), 6),
+        "observed_max_24h_usd_volume": round(observed_max, 6),
         "observed_mean_24h_usd_volume": round(sum(usd_vols) / len(usd_vols), 6),
         "bars_checked": len(usd_vols),
         "bars_passing": passing,
         "volume_filter_ok": passing == len(usd_vols),
+        "universe_membership_ok": observed_max >= min_daily_volume_usd,
     }
 
 
