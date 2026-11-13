@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T19:12:00Z
-**Supersedes:** 2026-11-13T17:43:00Z (and all earlier).
+**Handoff updated (UTC):** 2026-11-13T19:33:07Z
+**Supersedes:** 2026-11-13T19:12:00Z (and all earlier).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `dd12ee8` (working tree carries the new Phase K/L code + artifacts listed in §0). **Single durable handoff:** this file only. Do not create a second handoff/status file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T19:12:00Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T19:33:07Z)
 >
 > **Inferred priority (from repo name `CRASH-REBOUND-STRATEGY`):** the decision-grade crash-rebound validation on real OKX evidence is now **8/8 complete**. The prior bottlenecks (missing Phase L script, poisoned J2 run, dead-after-completion J2 aggregate) are **cleared**. The next work is **decision follow-through**, not another sweep.
 >
@@ -14,7 +14,7 @@
 > 2. Run: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` — it must print **8/8 checks passed — DONE**.
 > 3. Run the Phase L verifier (no writes): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_campaign.py --check` — expect `OK: 8 trades, verdict=underpowered`.
 >
-> **Verified state at this handoff (2026-11-13T19:12:00Z):** gate is **8/8** (J2=17 runs, K=9 runs, L=`underpowered`, G+/J1/J3/handoff pass). Full fast suite **966 passed, 1 skipped, 1 deselected**; the reproducibility-contract rerun passed and left the canonical artifact **byte-identical** (sha256 `57973b0c…2f9b8`).
+> **Verified state at this handoff (2026-11-13T19:33:07Z):** gate is **8/8** (J2=17 runs, K=9 runs, L=`underpowered`, G+/J1/J3/handoff pass). Full fast suite **966 passed, 1 skipped, 1 deselected**; the reproducibility-contract rerun passed and left the canonical artifact **byte-identical** (sha256 `57973b0c…2f9b8`).
 >
 > **The decision-critical finding (do not skip, do not soften):** Phase L's verdict is **`underpowered`** — the 8-trade bootstrap 95% CI for total PnL is **[-$930.66, +$19,152.38]** (crosses zero), sign-flip one-sided **p=0.09375** (2/256 masks ≥ observed), and the result is **concentrated** (5 traded symbols, top trade/symbol shares near half the PnL). Phase K then shows **RSI<25 + max-positions 8** lifts return to +23.44% **but drives worst drawdown to −18.3%** and trades 33 times — the "improvement" is a **risk-budget trade, not free alpha**, and it sits on the same small-sample base. **Conclusion: the strategy is NOT decision-grade validated; it is a plausible, concentration-heavy signal that is statistically underpowered at n=8.**
 >
