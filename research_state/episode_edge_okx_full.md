@@ -1,6 +1,6 @@
 # Phase O — Crash-Episode Dependence Audit & Conditional Temporal-Edge Test
 
-**Generated (UTC):** 2026-11-13T23:30:04Z
+**Generated (UTC):** 2026-11-13T23:38:47Z
 **Status:** `0.1500` permutation p; effective sample **4 episodes / 5 crash days**.
 **Provenance:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
@@ -52,6 +52,22 @@ which crash days occurred, not by the strategy's timing skill.
 | 2 | 4574.95 | -3939.94 | 16322.66 | False |
 | 3 | 6756.83 | -4011.95 | 19363.00 | False |
 | 4 | 9166.14 | -4083.95 | 24411.99 | False |
+| 5 | 11405.04 | -2941.58 | 27452.33 | False |
+| 6 | 13771.83 | -3013.59 | 33605.00 | False |
+| 7 | 15917.70 | -3085.59 | 36756.03 | False |
+| 8 | 18327.99 | -1832.53 | 41694.33 | False |
+| 9 | 20550.63 | -690.17 | 43630.98 | False |
+| 10 | 23010.14 | 1025.11 | 47885.69 | True |
+| 11 | 25022.58 | 953.11 | 50926.03 | True |
+| 12 | 27767.36 | 2779.07 | 54077.05 | True |
+| 13 | 29740.56 | 3921.44 | 57120.15 | True |
+| 14 | 31741.57 | 5285.18 | 60160.49 | True |
+| 15 | 34452.55 | 5213.18 | 65206.71 | True |
+| 16 | 36919.32 | 7459.23 | 68247.05 | True |
+| 17 | 38561.35 | 8591.09 | 70294.39 | True |
+| 18 | 41095.88 | 10538.25 | 73915.37 | True |
+| 19 | 43755.40 | 13047.81 | 77589.43 | True |
+| 20 | 45420.62 | 14079.49 | 80629.77 | True |
 
 **Read:** the sample contains only 4 independent crash episodes. Resampling trades as independent
 understates variance because trades inside an episode co-move.

@@ -695,7 +695,13 @@ def check_handoff() -> Tuple[bool, str]:
     expected = f"{len(CHECKS)}/{len(CHECKS)} checks passed"
     if expected not in text:
         return False, f"handoff must record the current gate result ({expected})"
-    return True, f"{len(text)} bytes"
+    try:
+        generated_at = str(_read_json(STATE / "episode_edge_okx_full.json").get("generated_at_utc", ""))
+    except (OSError, json.JSONDecodeError, AttributeError):
+        generated_at = ""
+    if not generated_at or generated_at not in text:
+        return False, "handoff must record the current Phase O artifact timestamp"
+    return True, f"{len(text)} bytes; Phase O {generated_at}"
 
 
 CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [

@@ -183,3 +183,27 @@ def test_episode_edge_rejects_canonical_mismatch(tmp_path, monkeypatch):
     ok, detail = session_gate.check_episode_edge()
     assert not ok
     assert "canonical_total_pnl" in detail
+
+
+def test_handoff_must_record_current_phase_o_timestamp(tmp_path, monkeypatch):
+    monkeypatch.setattr(session_gate, "STATE", tmp_path)
+    monkeypatch.setattr(session_gate, "REPO_ROOT", tmp_path)
+    data = _valid_artifact()
+    (tmp_path / "episode_edge_okx_full.json").write_text(json.dumps(data))
+    expected = f"{len(session_gate.CHECKS)}/{len(session_gate.CHECKS)} checks passed"
+    stale = (
+        "# Handoff\n\n## READ FIRST — INITIAL TASK MESSAGE\n\n"
+        "Run scripts/session_gate.py; the gate must print "
+        f"{expected} — DONE.\n"
+    )
+    (tmp_path / "HANDOFF.md").write_text(stale)
+    ok, detail = session_gate.check_handoff()
+    assert not ok
+    assert "Phase O" in detail
+
+    (tmp_path / "HANDOFF.md").write_text(
+        stale + f"\nPhase O artifact: {data['generated_at_utc']}\n"
+    )
+    ok, detail = session_gate.check_handoff()
+    assert ok, detail
+    assert data["generated_at_utc"] in detail

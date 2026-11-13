@@ -214,8 +214,8 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_okx.py
 # EXPECT: runs=165 mean=8746.21 median=9287.25 p_ge_canon=0.5515 canon_pct=0.4545
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_stress_okx.py
 # EXPECT: verdict=underpowered; LOO=5, LOTO=8, evaluable_blocks=3
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx.py --draws 200
-# EXPECT: episodes=4 events=11 days=5 largest_episode=4/11 p_ge~0.15
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx.py --draws 40
+# EXPECT: episodes=4 events=11 days=5 largest_episode=4/11 perm_p=0.1500
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
 # EXPECT: 14/14 checks passed — DONE
 ```

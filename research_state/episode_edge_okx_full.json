@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-13T23:30:04Z",
+  "generated_at_utc": "2026-11-13T23:38:47Z",
   "phase": "O",
   "provenance_caveat": "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
   "method": "Crash-episode dependence audit (single-linkage clustering on the spec's 98h holding horizon) + conditional temporal-edge permutation test + episode-block bootstrap power floor. Real portfolio engine, real OKX 283d cache.",
@@ -35,6 +35,25 @@
         "start": "2026-01-19T02:00:00Z",
         "end": "2026-01-20T19:00:00Z",
         "events": 4,
+        "size": 4,
+        "keys": [
+          [
+            "SOL",
+            722
+          ],
+          [
+            "SOL",
+            723
+          ],
+          [
+            "SOL",
+            727
+          ],
+          [
+            "ETH",
+            763
+          ]
+        ],
         "symbols": [
           "ETH",
           "SOL"
@@ -46,6 +65,17 @@
         "start": "2026-01-25T20:00:00Z",
         "end": "2026-01-25T20:00:00Z",
         "events": 2,
+        "size": 2,
+        "keys": [
+          [
+            "LINK",
+            884
+          ],
+          [
+            "SOL",
+            884
+          ]
+        ],
         "symbols": [
           "LINK",
           "SOL"
@@ -57,6 +87,25 @@
         "start": "2026-01-31T18:00:00Z",
         "end": "2026-01-31T21:00:00Z",
         "events": 4,
+        "size": 4,
+        "keys": [
+          [
+            "AVAX",
+            1026
+          ],
+          [
+            "BCH",
+            1026
+          ],
+          [
+            "SOL",
+            1028
+          ],
+          [
+            "BCH",
+            1029
+          ]
+        ],
         "symbols": [
           "AVAX",
           "BCH",
@@ -69,6 +118,13 @@
         "start": "2026-05-18T08:00:00Z",
         "end": "2026-05-18T08:00:00Z",
         "events": 1,
+        "size": 1,
+        "keys": [
+          [
+            "BCH",
+            3584
+          ]
+        ],
         "symbols": [
           "BCH"
         ],
@@ -109,29 +165,165 @@
       "ci_high_pnl_97p5": 24411.991393739256,
       "prob_total_pnl_gt_0": 0.8754
     },
-    "n_needed_for_ci_excludes_zero": [
-      {
-        "n_episodes": 2,
-        "ci_low": -3939.9430985929284,
-        "ci_high": 16322.663427257843,
-        "excludes_zero": false,
-        "mean": 4574.95420306986
-      },
-      {
-        "n_episodes": 3,
-        "ci_low": -4011.946845740437,
-        "ci_high": 19362.99894495585,
-        "excludes_zero": false,
-        "mean": 6756.830039290721
-      },
-      {
-        "n_episodes": 4,
-        "ci_low": -4083.950592887945,
-        "ci_high": 24411.991393739256,
-        "excludes_zero": false,
-        "mean": 9166.14365930088
-      }
-    ]
+    "n_needed_for_ci_excludes_zero": {
+      "grid": [
+        {
+          "n_episodes": 2,
+          "ci_low": -3939.9430985929284,
+          "ci_high": 16322.663427257843,
+          "excludes_zero": false,
+          "mean": 4574.95420306986,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 3,
+          "ci_low": -4011.946845740437,
+          "ci_high": 19362.99894495585,
+          "excludes_zero": false,
+          "mean": 6756.830039290721,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 4,
+          "ci_low": -4083.950592887945,
+          "ci_high": 24411.991393739256,
+          "excludes_zero": false,
+          "mean": 9166.14365930088,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 5,
+          "ci_low": -2941.5828773388935,
+          "ci_high": 27452.326911437263,
+          "excludes_zero": false,
+          "mean": 11405.036235952513,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 6,
+          "ci_low": -3013.5866244864014,
+          "ci_high": 33605.00169398079,
+          "excludes_zero": false,
+          "mean": 13771.828668956858,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 7,
+          "ci_low": -3085.59037163391,
+          "ci_high": 36756.02634061524,
+          "excludes_zero": false,
+          "mean": 15917.695818026905,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 8,
+          "ci_low": -1832.533527148416,
+          "ci_high": 41694.3296604622,
+          "excludes_zero": false,
+          "mean": 18327.988777203445,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 9,
+          "ci_low": -690.1658115993644,
+          "ci_high": 43630.98284440009,
+          "excludes_zero": false,
+          "mean": 20550.632254800392,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 10,
+          "ci_low": 1025.1091144656411,
+          "ci_high": 47885.68982479466,
+          "excludes_zero": true,
+          "mean": 23010.143446406684,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 11,
+          "ci_low": 953.105367318133,
+          "ci_high": 50926.02534249266,
+          "excludes_zero": true,
+          "mean": 25022.584746627457,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 12,
+          "ci_low": 2779.0694223195806,
+          "ci_high": 54077.04998912712,
+          "excludes_zero": true,
+          "mean": 27767.357570796215,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 13,
+          "ci_low": 3921.4371378686324,
+          "ci_high": 57120.15273504854,
+          "excludes_zero": true,
+          "mean": 29740.557781839438,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 14,
+          "ci_low": 5285.183111290568,
+          "ci_high": 60160.48825274655,
+          "excludes_zero": true,
+          "mean": 31741.570727634047,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 15,
+          "ci_low": 5213.1793641430595,
+          "ci_high": 65206.71347330654,
+          "excludes_zero": true,
+          "mean": 34452.55230480296,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 16,
+          "ci_low": 7459.229413452229,
+          "ci_high": 68247.04899100454,
+          "excludes_zero": true,
+          "mean": 36919.322124865044,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 17,
+          "ci_low": 8591.09497914359,
+          "ci_high": 70294.39130387887,
+          "excludes_zero": true,
+          "mean": 38561.35059414984,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 18,
+          "ci_low": 10538.250312939172,
+          "ci_high": 73915.36895372716,
+          "excludes_zero": true,
+          "mean": 41095.879349639574,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 19,
+          "ci_low": 13047.810707393015,
+          "ci_high": 77589.43380197145,
+          "excludes_zero": true,
+          "mean": 43755.395834043,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 20,
+          "ci_low": 14079.489294005623,
+          "ci_high": 80629.76931966946,
+          "excludes_zero": true,
+          "mean": 45420.62390619961,
+          "within_observed": false
+        }
+      ],
+      "observed_episodes": 4,
+      "first_size_excluding_zero": 10,
+      "extrapolation_basis": "observed episode-total PnL resampled with replacement"
+    }
   },
   "temporal_edge_permutation": {
     "method": "conditional permutation: event bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; real portfolio engine",
@@ -163,9 +355,10 @@
     "canonical_percentile_le": 0.85,
     "p_null_ge_canonical": 0.15,
     "n_null_ge_canonical": 6,
-    "wall_seconds": 213.54498052597046
+    "wall_seconds": 279.5836842060089
   },
-  "wall_seconds": 219.68392872810364,
+  "verdict": "underpowered",
+  "wall_seconds": 287.7011203765869,
   "limitations": [
     "Cross-venue OKX cache; NOT Hyperliquid performance evidence.",
     "The conditional permutation preserves the number of events, the per-symbol multiplicity and the crash-day calendar; it tests timing, not the RSI<20 detector itself.",
