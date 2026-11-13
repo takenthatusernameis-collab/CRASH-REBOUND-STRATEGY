@@ -1,45 +1,30 @@
 # DURABLE HANDOFF — CRASH-REBOUND-STRATEGY
-**Updated (UTC):** 2026-11-13T00:22:47Z
-**HEAD audited:** `e4bedfd` (HEAD). Base worktree clean at HEAD `e4bedfd`; this handoff update is the only intended modification. CELL 14 engine fix (risk_state settles total_pnl = coin + hedge on liq/stop/target, engine.py:350/:402/:457) is IN CODE; the enshrining test `tests/test_long_leg_liquidation_hedge_completeness.py:146` (`rs.realized_pnl == res.total_pnl`) and 2 stale coin-only assertions in `tests/test_long_liquidation_precedes_stop_and_target_same_bar_*_eth_hedge_20261111.py:189` and `tests/test_long_stop_target_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py:193` were corrected to `total_pnl` (CORRECTION, not a regression). CELL 14 is now FIXED + GATE GREEN.
-**Gate at this HEAD:** `PYTHONPATH=. python3 -m pytest -q --tb=short` → **905 passed, 12 skipped in 35.94s**, GREEN.
-**Checkpoint note:** CELL 14 FIXED (engine risk_state settles total_pnl on liq/stop/target; tests corrected to total_pnl). Gate re-verified at HEAD e4bedfd, base worktree clean: 905 passed, 12 skipped, GREEN. CELL 14 defect repro confirmed fixed; no new gap invented.
+**Updated (UTC):** 2026-11-13T00:27:42Z
+**HEAD audited:** `815e09a` (HEAD, `chore(kilo): checkpoint agent session`; base worktree clean aside from this handoff refresh). CELL 14 engine fix (risk_state settles total_pnl = coin + hedge on liq/stop/target, engine.py:350/:402/:457) is IN CODE; the enshrining test `tests/test_long_leg_liquidation_hedge_completeness.py:146` (`rs.realized_pnl == res.total_pnl`) and 2 stale coin-only assertions in `tests/test_long_liquidation_precedes_stop_and_target_same_bar_*_eth_hedge_20261111.py:189` and `tests/test_long_stop_target_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py:193` were corrected to `total_pnl` (CORRECTION, not a regression). CELL 14 is now FIXED + GATE GREEN.
+**Gate at this HEAD:** last verified 2026-11-13T00:22:47Z at HEAD `e4bedfd` (`PYTHONPATH=. python3 -m pytest -q --tb=short` → **905 passed, 12 skipped in 35.94s**, GREEN). No production/test-code changes since; next session must re-run at its HEAD/worktree and report exact count.
+**Checkpoint note:** Bottleneck audit 2026-11-13T00:27:42Z — single durable handoff is root `HANDOFF.md` only, no `*.lock` outside `.git/`, no TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT artifacts, no multi-session contention, placeholder real-data blocker unchanged (real 283d campaign NOT RUN). CELL 14 remains fixed; STEP 2 CELL 15 is the next mandatory heavy item.
 
 **Single canonical durable handoff: ONLY this root `HANDOFF.md`.** `README.md` points here. Do not create or trust any other TODO/NEXT/PROGRESS/STATUS/SESSION/CONTEXT handoff file.
 
-## INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (2026-11-13T00:22:47Z, MANDATORY, HEAVY, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT AGENTIC WORK SESSION (2026-11-13T00:27:42Z, MANDATORY, HEAVY, NON-OPTIONAL)
 ```text
-CRASH-REBOUND-STRATEGY | 2026-11-13T00:22:47Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
+CRASH-REBOUND-STRATEGY | 2026-11-13T00:27:42Z | INITIAL TASK (HEAVY, NON-OPTIONAL, SINGLE DURABLE HANDOFF)
 
 REPO IDENTITY / PRIORITY (DRIVES ALL WORK): CRASH-REBOUND-STRATEGY → implement and harden crash→rebound execution fidelity to crash-rebound-strategy.pdf / research_state/strategy_spec.md. Hourly bar-by-bar backtest engine only. NEVER claim 20s slicing, spread/L2/order-book impact. Mission: RSI(21)<20 crash trigger → rebound short (+9% target, +40% stop, -9% target, 48h) with ETH hedge every leg, equal-share cap cuts, strict no look-ahead, fail-closed gates.
 
 STEP 0 — GATE (NON-NEGOTIABLE, RUN FIRST):
   PYTHONPATH=. python3 -m pytest -q --tb=short
-  Last verified 2026-11-13T00:17:13Z at HEAD 23607f7, base worktree clean: 905 passed, 12 skipped in 34.82s, GREEN.
+  Last verified 2026-11-13T00:22:47Z at HEAD e4bedfd, base worktree clean: 905 passed, 12 skipped in 35.94s, GREEN.
   Re-run at your HEAD/worktree and report the exact count. If broken or regressed, fix before ANYTHING else.
   Fresh env deps: python -m pip install --break-system-packages pytest numpy pandas requests (Python 3.12).
 
 STEP 1 — CELL 14 (RISK-STATE SETTLEMENT DROPS ETH HEDGE ON LIQ/STOP): FIXED — COMPLETE. DO NOT RE-OPEN WITHOUT A CONCRETE FAILING DEFECT.
-  DEFECT: src/backtest/engine.py settles the risk ledger with COIN-ONLY pnl on the long-leg liquidation and stop exits, silently dropping the ETH hedge credit.
+  DEFECT (RESOLVED): src/backtest/engine.py settles the risk ledger with COIN-ONLY pnl on long-leg liquidation and stop exits, silently dropping the ETH hedge credit.
     - Liq:  risk_state.apply_trade(..., pnl, ...) at src/backtest/engine.py:350. Hedge is computed at :331-343 and total at :352.
     - Stop: risk_state.apply_trade(..., pnl, ...) at src/backtest/engine.py:402. Hedge is computed at :381-395 and total at :404.
     - Correct paths: target :457 (total_pnl), time-exit :748 (total_pnl_result), rebound branches :547/:581/:613/:644 (short_pnl + rebound_hedge_pnl), loop-else final :677 (LOCKED, do not touch).
-  INVARIANT VIOLATED: on any fully-closed long trade, risk_state.realized_pnl must equal res.total_pnl (coin + hedge).
-  PROOF RE-RUN AT HEAD 23607f7, 2026-11-13T00:17:13Z (fixtures from tests/test_long_leg_liquidation_hedge_completeness.py, funding_rate_pct_per_hour=0.01, entry 100, shares 1.0, signal_idx 5):
-    liq_bar=8  exit=liquidated coin=-7.5400 hedge=+1.9066 total_pnl=-5.6334 realized_pnl=-7.5400 match=False
-    stop       exit=stopped    coin=-5.0400 hedge=+1.9066 total_pnl=-3.1334 realized_pnl=-5.0400 match=False
-    stop(f=0)  exit=stopped    coin=-5.0000 hedge=+1.7866 total_pnl=-3.2134 realized_pnl=-5.0000 match=False.
-    (stop fixture: stop_px=95, liquidation checks disabled, bar[8] low=93.0. liq funding=0 control from prior audit still holds.)
-  ENSHRINING TEST TO CORRECT: tests/test_long_leg_liquidation_hedge_completeness.py:146 asserts rs.realized_pnl == res.pnl. Change it to rs.realized_pnl == res.total_pnl. This is a CORRECTION, not a regression.
-  ORDERED FIX:
-    1) src/backtest/engine.py:350 → risk_state.apply_trade(..., pnl + hedge_pnl_total, ...)
-    2) src/backtest/engine.py:402 → identical change: pnl + hedge_pnl_total
-    3) Correct tests/test_long_leg_liquidation_hedge_completeness.py:146 to rs.realized_pnl == res.total_pnl
-    4) Add tests/test_long_liquidation_stop_risk_state_hedge_funding_settlement_20261112.py. Assert liq AND stop with funding_rate_pct_per_hour=0.01, using the exact traces above. It must FAIL before 1-2 and PASS after.
-    5) Mutation-verify: revert fix 1 alone → liq case FAILS; revert fix 2 alone → stop case FAILS; restore. Both changes must be independently load-bearing.
-    6) Additive: expose rebound_short_pnl / rebound_hedge_pnl in the portfolio trade record at scripts/run_portfolio.py:391-412 (currently only used in the total_pnl fallback at :323-330). Assert per-leg funding reconciliation at portfolio level.
-  DO NOT TOUCH: loop-else final-exit settlement (engine.py:677) or the portfolio runner's total_pnl reconciliation — LOCKED SEMANTICS.
-  GATE: full PYTHONPATH=. python3 -m pytest -q --tb=short. Report exact count. Expect 905 passed, 12 skipped, GREEN (verified at HEAD e4bedfd, 35.94s); corrected test_long_leg_liquidation_hedge_completeness stays green.
-  CELL 14 FIXED at this HEAD (engine.py:350/:402/:457 settle total_pnl = coin + hedge on liq/stop/target; tests corrected to total_pnl). Re-probe confirmed: invariant risk_state.realized_pnl == res.total_pnl holds on liq/stop/target. Continue to STEP 2 CELL 15. Do NOT invent a new gap or re-litigate CELL 14.
+  SHIPPED FIX (do not revert): engine.py:350/:402/:457 settle total_pnl = coin + hedge on liq/stop/target. Corrected assertions: tests/test_long_leg_liquidation_hedge_completeness.py:146 (rs.realized_pnl == res.total_pnl), tests/test_long_liquidation_precedes_stop_and_target_same_bar_*_eth_hedge_20261111.py:189, tests/test_long_stop_target_missing_eth_exit_bar_cap_cut_commission_min_entry_next_bar_funding_20261111.py:193.
+  Re-probe invariant holds: risk_state.realized_pnl == res.total_pnl on liq/stop/target. Continue to STEP 2 CELL 15. Do NOT invent a new gap or re-litigate CELL 14.
 
 STEP 2 — CONTINUE THE FINITE CAMPAIGN TOP-DOWN (do not stop after CELL 14):
   CELL 15 — Long-leg risk_state attribution vs portfolio master reconciliation under MIXED exits (liq + stop + target + time-exit + loop-else final). Per-leg funding must reconcile to the runner master risk_state using rebound_short_pnl / rebound_hedge_pnl. Cite existing coverage or ship a new dated test.
@@ -54,7 +39,7 @@ METHOD FOR EVERY ITEM (NON-NEGOTIABLE):
   4) VERIFY — targeted test + full gate with exact count.
   5) CONTINUE down the campaign until exhausted with evidence.
 
-BOTTLENECKS (audit 2026-11-13T00:22:47Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff artifacts. Working tree clean at HEAD e4bedfd. Gate GREEN (905/12, 35.94s). No multi-session contention; nothing idle-blocked. CELL 14 is FIXED (engine.py:350/:402/:457 settle total_pnl; tests corrected; gate green) — no active code blocker remains. The only open campaign items are CELL 15→18 (STEP 2).
+BOTTLENECKS (audit 2026-11-13T00:27:42Z): CLEARED. Single durable handoff = root HANDOFF.md only. No *.lock outside .git/. No contradictory handoff artifacts. Working tree clean except this handoff refresh. Gate GREEN (905/12, 35.94s at e4bedfd). No multi-session contention; nothing idle-blocked. CELL 14 is FIXED (engine.py:350/:402/:457 settle total_pnl; tests corrected; gate green) — no active code blocker remains. The only open campaign items are CELL 15→18 (STEP 2).
 
 DATA BLOCKER — CONFIRMED REAL, DO NOT TRY TO UNBLOCK: the tracked 6792-bar BTC/ETH under research_state/cache/hyperliquid_verified_283d_btceth/ are PLACEHOLDERS (provenance per-symbol status:"error", synthetic_check.is_synthetic:true, reason flat_series_all_bars_identical, 1/6792 distinct signatures, summary.ready_for_real_campaign:false). The coverage report's observed_min_24h_usd_volume is placeholder-derived and is NOT real evidence — never cite it as a campaign result. Fabricating or promoting is forbidden. The 283d real-data campaign stays NOT RUN. This blocks ONLY real-data runs; all spec-unit and engine tests run on fixtures and remain fully executable.
 ```
