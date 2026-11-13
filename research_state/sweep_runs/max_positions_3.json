@@ -1,0 +1,53 @@
+{
+  "tag": "max_positions_3",
+  "label": "Max concurrent positions 3 (spec 5)",
+  "params": {
+    "max_positions": 3
+  },
+  "status": "ok",
+  "metrics": {
+    "total_return_pct": 9.159691934882952,
+    "annualized_return_pct": 22.599525626916606,
+    "horizon_years": 0.4301369863013699,
+    "max_drawdown_pct": -2.0274965243788596,
+    "sharpe": 0.6257881282591806,
+    "sortino": 1.2618307809094134,
+    "calmar": 4.379263979604601,
+    "win_rate": 0.5,
+    "profit_factor": 5.23352442904336,
+    "trade_count": 8,
+    "total_pnl": 9159.691934882958,
+    "net_total_pnl": 8141.289620068439,
+    "equity_final": 109159.69193488295,
+    "positive_months": 4,
+    "negative_months": 3,
+    "total_months": 7,
+    "by_leg": {
+      "buy": {
+        "trades": 7,
+        "pnl": 6171.467781400775,
+        "wins": 3
+      },
+      "short": {
+        "trades": 1,
+        "pnl": 2988.2241534821824,
+        "wins": 1
+      }
+    },
+    "exit_reasons": {
+      "liquidated": 1,
+      "time_exit": 6,
+      "target_rebound_short": 1
+    },
+    "traded_symbols": [
+      "AVAX",
+      "BCH",
+      "ETH",
+      "LINK",
+      "SOL"
+    ],
+    "max_live_coin_notional_max": 120000.0,
+    "gross_cap_usd": 120000.0
+  },
+  "runtime_seconds": 790.47
+}

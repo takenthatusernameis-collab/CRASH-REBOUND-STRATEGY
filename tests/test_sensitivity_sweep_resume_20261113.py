@@ -141,3 +141,41 @@ def test_only_subset_and_unknown_tag():
         pass
     else:  # pragma: no cover
         raise AssertionError("unknown --only tag should fail closed")
+
+
+def test_reusable_record_does_not_reuse_rejected(tmp_path):
+    """A rejected run must re-execute so a bug fix can take effect.
+
+    Before this, `no_rebound_short` failed with a TypeError, and every later resume
+    reused the poisoned rejected file: the sweep reported 17/17 reused while that
+    variant had never actually run.
+    """
+    path = tmp_path / "no_rebound_short.json"
+    rejected = {
+        "tag": "no_rebound_short",
+        "label": "Rebound short disabled (spec enabled)",
+        "params": {"enable_rebound_short": False},
+        "status": "rejected",
+        "error_type": "TypeError",
+        "error": "got multiple values for keyword argument 'enable_rebound_short'",
+        "metrics": None,
+        "runtime_seconds": 0.0,
+    }
+    path.write_text(json.dumps(rejected))
+    assert _reusable_record(path, _job("no_rebound_short", enable_rebound_short=False)) is None
+
+
+def test_no_rebound_short_job_config_does_not_collide():
+    """The exact failure mode: a caller override must replace the default, not duplicate it."""
+    from scripts.run_sensitivity_sweep import _build_config_kwargs
+
+    kwargs = _build_config_kwargs({"enable_rebound_short": False}, min_daily_volume_usd=5_000_000.0)
+    assert kwargs["enable_rebound_short"] is False
+    # A single dict cannot carry duplicate keys; StrategyConfig(**kwargs) must be legal.
+    from src.strategy.config import StrategyConfig
+
+    config = StrategyConfig(**kwargs)
+    assert config.enable_rebound_short is False
+
+    spec_defaults = _build_config_kwargs({}, min_daily_volume_usd=5_000_000.0)
+    assert spec_defaults["enable_rebound_short"] is True

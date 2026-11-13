@@ -158,6 +158,27 @@ def _load_inputs(manifest_path: Path, cache_dir: Path, universe_file: Path, capi
     return manifest, data, universe, _validated_complete_symbols(manifest)
 
 
+def _build_config_kwargs(
+    config_kwargs: Dict[str, Any], min_daily_volume_usd: float
+) -> Dict[str, Any]:
+    """Merge run-mode defaults with caller overrides.
+
+    A caller override (e.g. ``enable_rebound_short=False``) replaces the default
+    instead of colliding with an explicit keyword, which is what previously made
+    every rebound-short-disabled run fail closed with
+    "got multiple values for keyword argument 'enable_rebound_short'".
+    """
+    merged: Dict[str, Any] = {
+        "use_rsi_trigger": True,
+        "enable_rebound_short": True,
+        "enable_eth_hedge": True,
+        "enable_volume_based_sizing": True,
+        "min_daily_volume_usd": min_daily_volume_usd,
+    }
+    merged.update(dict(config_kwargs or {}))
+    return merged
+
+
 def _run_one(job: Dict[str, Any]) -> Dict[str, Any]:
     """Execute a single campaign configuration. Runs in a worker process."""
     tag = job["tag"]
@@ -175,13 +196,11 @@ def _run_one(job: Dict[str, Any]) -> Dict[str, Any]:
         from scripts.run_portfolio import run_portfolio_simulation
         from src.metrics import compute_campaign_metrics
 
+        # Defaults for the four run-mode knobs. Callers may override any of them
+        # via config_kwargs (e.g. no_rebound_short passes enable_rebound_short=False);
+        # a caller override must win instead of colliding with an explicit default.
         config = StrategyConfig(
-            use_rsi_trigger=True,
-            enable_rebound_short=True,
-            enable_eth_hedge=True,
-            enable_volume_based_sizing=True,
-            min_daily_volume_usd=job["min_daily_volume_usd"],
-            **kwargs,
+            **_build_config_kwargs(kwargs, job["min_daily_volume_usd"])
         )
         eth = job["data"].get("ETH")
         results = run_portfolio_simulation(
@@ -396,8 +415,11 @@ def _reusable_record(path: Path, job: Dict[str, Any]) -> Optional[Dict[str, Any]
         return None
     if rec.get("status") == "ok":
         return rec if isinstance(rec.get("metrics"), dict) else None
-    if rec.get("status") == "rejected":
-        return rec
+    # A rejected record is deliberately NOT reused. Rejecting used to be permanent:
+    # a bug fixed after the sweep started (e.g. the enable_rebound_short kwarg
+    # collision) left a poisoned per-run file that made every later resume report
+    # 17/17 reused while one run had never actually executed. Re-executing a
+    # rejected run is cheap (it failed fast) and is the only way a fix can take.
     return None
 
 
