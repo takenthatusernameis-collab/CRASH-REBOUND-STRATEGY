@@ -1,15 +1,15 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T09:14:55Z (this session; verified — repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
-**Supersedes:** all earlier handoffs (2026-11-13T09:13:29Z, 2026-11-13T08:33:49Z and prior).
+**Handoff updated (UTC):** 2026-11-13T09:30:40Z (this session; verified — repo name `CRASH-REBOUND-STRATEGY` ⇒ crash-rebound strategy research/backtest is the priority lens)
+**Supersedes:** all earlier handoffs (2026-11-13T09:14:55Z, 2026-11-13T09:13:29Z, 2026-11-13T08:33:49Z and prior).
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main` @ `23ab482`, working tree clean. Do **not** `git reset`/`checkout` anything away. Nothing needs committing before Phase G+.
 
 > ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION
 >
-> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and the state verified at 2026-11-13T09:13:29Z.**
+> **Inferred from repo `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtest) and state verified at 2026-11-13T09:30:40Z.**
 >
-> **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk. Setup and the test baseline are verified. **Do not stop after setup, after the test suite, or after a summary — the session is incomplete until Phase G+, H, I, and J artifacts exist and this file is re-dated.**
+> **Mission:** produce decision-grade, evidence-backed analysis of the crash-rebound strategy on the real OKX run already on disk, then run the heavy forward-looking campaign. Setup and the test baseline are verified. **The session is incomplete until Phase G+, H, I, and J artifacts exist and this file is re-dated.** Do not stop after setup, after the test suite, or after a summary.
 >
 > **Priority order (repo-aligned: crash-rebound strategy first, everything else second):**
 >
@@ -34,10 +34,14 @@
 > - Divergence is quantified with artifact evidence: trade-frequency gap (8 vs 85), universe actually traded vs admitted (5 of 54), exit-reason mix, leg mix, active-period coverage, and exposure/gross-cap utilization.
 > - The rebound-short finding is stated explicitly: the **short leg's true PnL is −1,636.86** (short coin +1,067.73, rebound hedge −2,704.59); the previously cited `+2,988.22` was the whole BCH trade (buy + short), not the short leg. Contrast with the spec's "~27% of profit" claim.
 > - Every claim carries the provenance caveat: "Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence."
+>
+> **Bottleneck status (none active):** environment deps unblocked (`bootstrap_env.sh` / `/tmp/venv_h`); leg-attribution, canonical-gap-report, and trade-attribution bugs resolved; no stranded processes/sessions; working tree clean. Nothing is blocking Phase G+ → H → I → J.
+>
+> **Start now:** `bash scripts/bootstrap_env.sh` → Phase G+ → H → I → J. Do not stop after setup/tests/summary.
 
 ---
 
-## 0. Verified state this session (2026-11-13T08:33:49Z) — no blockers/bottlenecks found
+## 0. Verified state this session (2026-11-13T09:30:40Z) — no blockers/bottlenecks found
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -51,8 +55,6 @@
 **Baseline to expect:** `936 passed, 1 skipped` (re-verified this session, 381.68s). Record what you observe; do not assume older "952 passed" claims.
 
 **Commands this session:** `ls`/`find`, read `HANDOFF.md`/`README.md`/`strategy_spec.md`/`DATA_REQUEST_283D_HYPERLIQUID.md`, inspected `requirements-test.txt`+`scripts/bootstrap_env.sh`, `sha256sum` of 4 artifacts, confirmed Phase G+/J output absence, ran the full suite, `git status -sb`, `date -u`. No code/tests/data modified or re-acquired.
-
-**Start now:** `bash scripts/bootstrap_env.sh` → Phase G+ → H → I → J. Do not stop after setup/tests/summary.
 
 ---
 
