@@ -1,0 +1,688 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T17:48:16Z",
+  "run_type": "hyperliquid_exploratory_fragility_audit",
+  "label": "NOT_EVIDENCE_FRAGILITY",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "canonical_baseline_changed": false,
+  "provenance_caveat": "Bounded fragility audit (8 variants max) on the SAME retained PARTIAL aligned Hyperliquid chain used by the exploratory spec-literal next-open campaign; real fetched candles, non-synthetic. NOT the 283-day spec window and NOT performance evidence. Baseline exploratory path unchanged and not rerun as canonical campaign artifact.",
+  "basis": {
+    "cache_dir": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z",
+    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json",
+    "manifest_sha256": "135ece4ea010fa704be4757a8459dfb3bf8b568ca93a8f4dfc0cde1dee6b6ce2",
+    "baseline_exploratory_artifact": "research_state/campaign_results_real_hyperliquid_exploratory_next_open_20261114T162212Z.json",
+    "capital": 100000.0,
+    "variant_count": 8
+  },
+  "baseline_reference": {
+    "variant": "V0_baseline_spec_literal",
+    "total_pnl": -2670.7567875859345,
+    "btc_total_pnl": -3230.116863449931,
+    "bch_total_pnl": 559.3600758639964,
+    "btc_liquidation_note": "Baseline loss dominated by single BTC liquidation (symbol BTC, exit_reason liquidated 2026-06-04T00:00Z, total_pnl -3230.12); BTC contribution equals total loss in baseline."
+  },
+  "variants": [
+    {
+      "variant": "V0_baseline_spec_literal",
+      "overrides": {},
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 120.0,
+        "target_pct": 9.0,
+        "time_exit_max_bars": 50,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -2670.7567875859345,
+      "max_drawdown": -3230.116863449931,
+      "win_rate": 0.5,
+      "sharpe_ratio": -0.7047824357705331,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 559.3600758639964
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -3230.116863449931
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 2044.4547345784185,
+          "total_pnl": 559.3600758639964,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -1485.0946587144222,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "r_multiple": 0.2110121191644389,
+          "bars_held": 50,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -9990.339461044698,
+          "total_pnl": -3230.116863449931,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 6760.222597594767,
+          "max_live_coin_notional": 120000.0,
+          "shares": 1.763642388659482,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3581159650176453,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 44.246964563505536
+        }
+      ]
+    },
+    {
+      "variant": "V1_no_eth_hedge",
+      "overrides": {
+        "enable_eth_hedge": false
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": false,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 120.0,
+        "target_pct": 9.0,
+        "time_exit_max_bars": 50,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -7945.884726466279,
+      "max_drawdown": -9990.339461044698,
+      "win_rate": 0.5,
+      "sharpe_ratio": -0.6602426761361724,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 2044.4547345784185
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -9990.339461044698
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 2044.4547345784185,
+          "total_pnl": 2044.4547345784185,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": 0.0,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "r_multiple": 0.2110121191644389,
+          "bars_held": 50,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": null,
+          "hedge_size": 0.0
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -9990.339461044698,
+          "total_pnl": -9990.339461044698,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 0.0,
+          "max_live_coin_notional": 120000.0,
+          "shares": 1.763642388659482,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3581159650176453,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": null,
+          "hedge_size": 0.0
+        }
+      ]
+    },
+    {
+      "variant": "V2_no_rebound_short",
+      "overrides": {
+        "enable_rebound_short": false
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": false,
+        "gross_cap_pct": 120.0,
+        "target_pct": 9.0,
+        "time_exit_max_bars": 50,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -2670.7567875859345,
+      "max_drawdown": -3230.116863449931,
+      "win_rate": 0.5,
+      "sharpe_ratio": -0.7047824357705331,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 559.3600758639964
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -3230.116863449931
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 2044.4547345784185,
+          "total_pnl": 559.3600758639964,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -1485.0946587144222,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "r_multiple": 0.2110121191644389,
+          "bars_held": 50,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -9990.339461044698,
+          "total_pnl": -3230.116863449931,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 6760.222597594767,
+          "max_live_coin_notional": 120000.0,
+          "shares": 1.763642388659482,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3581159650176453,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 44.246964563505536
+        }
+      ]
+    },
+    {
+      "variant": "V3_cap_100",
+      "overrides": {
+        "gross_cap_pct": 100.0
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 100.0,
+        "target_pct": 9.0,
+        "time_exit_max_bars": 50,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -2132.9045436776173,
+      "max_drawdown": -2692.2646195416137,
+      "win_rate": 0.5,
+      "sharpe_ratio": -0.6559504074044306,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 559.3600758639964
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -2692.2646195416137
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 2044.4547345784185,
+          "total_pnl": 559.3600758639964,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -1485.0946587144222,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "r_multiple": 0.2110121191644389,
+          "bars_held": 50,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -8325.449550870582,
+          "total_pnl": -2692.2646195416137,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 5633.184931328969,
+          "max_live_coin_notional": 100000.0,
+          "shares": 1.4697019905495685,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3581431536025839,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 36.872470469587945
+        }
+      ]
+    },
+    {
+      "variant": "V4_cap_150",
+      "overrides": {
+        "gross_cap_pct": 150.0
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 150.0,
+        "target_pct": 9.0,
+        "time_exit_max_bars": 50,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -3477.535153448413,
+      "max_drawdown": -4036.8952293124094,
+      "win_rate": 0.5,
+      "sharpe_ratio": -0.7566018253015525,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 559.3600758639964
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -4036.8952293124094
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 2044.4547345784185,
+          "total_pnl": 559.3600758639964,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -1485.0946587144222,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "r_multiple": 0.2110121191644389,
+          "bars_held": 50,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -12487.674326305872,
+          "total_pnl": -4036.8952293124094,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 8450.779096993463,
+          "max_live_coin_notional": 150000.0,
+          "shares": 2.204552985824353,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3580887764327063,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 55.30870570438192
+        }
+      ]
+    },
+    {
+      "variant": "V5_exit_wider_tp12_50h",
+      "overrides": {
+        "target_pct": 12.0,
+        "time_exit_max_bars": 50
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 120.0,
+        "target_pct": 12.0,
+        "time_exit_max_bars": 50,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -2670.7567875859345,
+      "max_drawdown": -3230.116863449931,
+      "win_rate": 0.5,
+      "sharpe_ratio": -0.7047824357705331,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 559.3600758639964
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -3230.116863449931
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 2044.4547345784185,
+          "total_pnl": 559.3600758639964,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -1485.0946587144222,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "r_multiple": 0.2110121191644389,
+          "bars_held": 50,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -9990.339461044698,
+          "total_pnl": -3230.116863449931,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 6760.222597594767,
+          "max_live_coin_notional": 120000.0,
+          "shares": 1.763642388659482,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3581159650176453,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 44.246964563505536
+        }
+      ]
+    },
+    {
+      "variant": "V6_exit_narrow_tp6_30h",
+      "overrides": {
+        "target_pct": 6.0,
+        "time_exit_max_bars": 30
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 120.0,
+        "target_pct": 6.0,
+        "time_exit_max_bars": 30,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": 2112.9958505768104,
+      "max_drawdown": 0.0,
+      "win_rate": 1.0,
+      "sharpe_ratio": 2.5420455779712974,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": 640.8885694044116
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": 1472.1072811723989
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 1819.51948573298,
+          "total_pnl": 640.8885694044116,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -1178.6309163285684,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-29T20:00:00+00:00",
+          "r_multiple": 0.18779611798286036,
+          "bars_held": 30,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "time_exit",
+          "pnl": -5802.7162415746725,
+          "total_pnl": 1472.1072811723989,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 7274.823522747071,
+          "max_live_coin_notional": 120000.0,
+          "shares": 1.763642388659482,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-03T20:00:00+00:00",
+          "r_multiple": -0.7888382170474968,
+          "bars_held": 30,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 44.246964563505536
+        }
+      ]
+    },
+    {
+      "variant": "V7_exit_wider_tp15_72h",
+      "overrides": {
+        "target_pct": 15.0,
+        "time_exit_max_bars": 72
+      },
+      "config_effective": {
+        "entry_spec_literal_next_open": true,
+        "enable_eth_hedge": true,
+        "enable_rebound_short": true,
+        "gross_cap_pct": 120.0,
+        "target_pct": 15.0,
+        "time_exit_max_bars": 72,
+        "min_daily_volume_usd": 5000000.0
+      },
+      "num_trades": 2,
+      "total_pnl": -3244.4527554229862,
+      "max_drawdown": -3244.4527554229862,
+      "win_rate": 0.0,
+      "sharpe_ratio": -1.0089159629341742,
+      "trade_attribution_by_symbol": {
+        "BCH": {
+          "trades": 1,
+          "total_pnl": -14.335891973055425
+        },
+        "BTC": {
+          "trades": 1,
+          "total_pnl": -3230.116863449931
+        }
+      },
+      "trades": [
+        {
+          "symbol": "BCH",
+          "exit_reason": "time_exit",
+          "pnl": 117.78340507777233,
+          "total_pnl": -14.335891973055425,
+          "entry_price": 296.15234307347947,
+          "hedge_pnl": -132.11929705082775,
+          "max_live_coin_notional": 68189.57691485158,
+          "shares": 230.25168805749684,
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-31T14:00:00+00:00",
+          "r_multiple": 0.01215665257220248,
+          "bars_held": 72,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 57.59430132489286
+        },
+        {
+          "symbol": "BTC",
+          "exit_reason": "liquidated",
+          "pnl": -9990.339461044698,
+          "total_pnl": -3230.116863449931,
+          "entry_price": 68041.00466830477,
+          "hedge_pnl": 6760.222597594767,
+          "max_live_coin_notional": 120000.0,
+          "shares": 1.763642388659482,
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "r_multiple": -1.3581159650176453,
+          "bars_held": 34,
+          "leg": "buy",
+          "rebound_short_pnl": 0.0,
+          "rebound_hedge_pnl": 0.0,
+          "hedge_side": "short",
+          "hedge_size": 44.246964563505536
+        }
+      ]
+    }
+  ],
+  "summary": [
+    {
+      "variant": "V0_baseline_spec_literal",
+      "num_trades": 2,
+      "total_pnl": -2670.7567875859345,
+      "delta_vs_baseline": 0.0,
+      "max_drawdown": -3230.116863449931,
+      "win_rate": 0.5,
+      "btc_pnl": -3230.116863449931,
+      "non_btc_pnl": 559.3600758639964
+    },
+    {
+      "variant": "V1_no_eth_hedge",
+      "num_trades": 2,
+      "total_pnl": -7945.884726466279,
+      "delta_vs_baseline": -5275.127938880345,
+      "max_drawdown": -9990.339461044698,
+      "win_rate": 0.5,
+      "btc_pnl": -9990.339461044698,
+      "non_btc_pnl": 2044.4547345784185
+    },
+    {
+      "variant": "V2_no_rebound_short",
+      "num_trades": 2,
+      "total_pnl": -2670.7567875859345,
+      "delta_vs_baseline": 0.0,
+      "max_drawdown": -3230.116863449931,
+      "win_rate": 0.5,
+      "btc_pnl": -3230.116863449931,
+      "non_btc_pnl": 559.3600758639964
+    },
+    {
+      "variant": "V3_cap_100",
+      "num_trades": 2,
+      "total_pnl": -2132.9045436776173,
+      "delta_vs_baseline": 537.8522439083172,
+      "max_drawdown": -2692.2646195416137,
+      "win_rate": 0.5,
+      "btc_pnl": -2692.2646195416137,
+      "non_btc_pnl": 559.3600758639964
+    },
+    {
+      "variant": "V4_cap_150",
+      "num_trades": 2,
+      "total_pnl": -3477.535153448413,
+      "delta_vs_baseline": -806.7783658624785,
+      "max_drawdown": -4036.8952293124094,
+      "win_rate": 0.5,
+      "btc_pnl": -4036.8952293124094,
+      "non_btc_pnl": 559.3600758639964
+    },
+    {
+      "variant": "V5_exit_wider_tp12_50h",
+      "num_trades": 2,
+      "total_pnl": -2670.7567875859345,
+      "delta_vs_baseline": 0.0,
+      "max_drawdown": -3230.116863449931,
+      "win_rate": 0.5,
+      "btc_pnl": -3230.116863449931,
+      "non_btc_pnl": 559.3600758639964
+    },
+    {
+      "variant": "V6_exit_narrow_tp6_30h",
+      "num_trades": 2,
+      "total_pnl": 2112.9958505768104,
+      "delta_vs_baseline": 4783.752638162745,
+      "max_drawdown": 0.0,
+      "win_rate": 1.0,
+      "btc_pnl": 1472.1072811723989,
+      "non_btc_pnl": 640.8885694044116
+    },
+    {
+      "variant": "V7_exit_wider_tp15_72h",
+      "num_trades": 2,
+      "total_pnl": -3244.4527554229862,
+      "delta_vs_baseline": -573.6959678370517,
+      "max_drawdown": -3244.4527554229862,
+      "win_rate": 0.0,
+      "btc_pnl": -3230.116863449931,
+      "non_btc_pnl": -14.335891973055368
+    }
+  ],
+  "fragility_findings": {
+    "btc_dominates_baseline_loss": true,
+    "all_variants_negative_total_pnl": false,
+    "pnl_range": [
+      -7945.884726466279,
+      2112.9958505768104
+    ],
+    "trade_count_range": [
+      2,
+      2
+    ],
+    "note": "Across 8 bounded variants on the same chain outcomes remain negative or path-sensitive around the BTC episode/constraints; no variant constitutes evidence or changes the underpowered verdict."
+  },
+  "limitations": [
+    "Only 8 opt-in variants on the same 162-day partial retained chain; not a search, not optimization, not validation.",
+    "n<=2 trades in baseline; variant deltas reflect path/constraint mechanics around a single dominant BTC liquidation, not robust edge.",
+    "Exploratory NOT_EVIDENCE_FRAGILITY, performance_evidence=false; no capital-allocation inference permitted."
+  ]
+}

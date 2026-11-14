@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T17:27:00Z",
+  "run_type": "hyperliquid_data_request_probe_update",
+  "label": "NOT_EVIDENCE_BLOCKER_UPDATE",
+  "provenance_caveat": "Live public-API probe facts recorded for operator escalation; non-synthetic observation, not market/performance evidence.",
+  "probe_artifact": "research_state/hyperliquid_retention_probe.json",
+  "probe_artifact_sha256": "cdaa0c6a603cede77b7316565586d86eee3da50e355667f1c4911e4313d210db",
+  "probe_generated_at_utc": "2026-11-14T17:26:22Z",
+  "spec_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "probe_summary": {
+    "perps_total": 235,
+    "perps_passing_volume_gate": 32,
+    "probed": 32,
+    "max_bars_returned": 3882,
+    "missing_early_bars_vs_expected": 2910,
+    "earliest_served_start_utc": "2026-04-20T06:00:00Z",
+    "full_window_served": false,
+    "symbols_empty_or_error": ["KPEPE"],
+    "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1"
+  },
+  "decay_trend_this_session": [
+    {"generated_at_utc": "2026-11-14T15:28:09Z", "max_bars_returned": 3884, "earliest_served_start_utc": "2026-04-20T04:00:00Z"},
+    {"generated_at_utc": "2026-11-14T16:19:37Z", "max_bars_returned": 3883, "earliest_served_start_utc": "2026-04-20T05:00:00Z"},
+    {"generated_at_utc": "2026-11-14T16:48:40Z", "max_bars_returned": 3882, "earliest_served_start_utc": "2026-04-20T06:00:00Z"},
+    {"generated_at_utc": "2026-11-14T17:26:22Z", "max_bars_returned": 3882, "earliest_served_start_utc": "2026-04-20T06:00:00Z"}
+  ],
+  "retained_chain_kept": {
+    "decision": "KEEP_RETAINED",
+    "cache_dir_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z",
+    "complete_symbols": 24,
+    "expected_hourly_bars": 3885,
+    "aligned_start": "2026-04-20T03:00:00Z",
+    "reason": "Live probe serves 3882 bars from 2026-04-20T06:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fetch warranted; re-fetch is a known dead end while probe degrades."
+  },
+  "operator_request": "Provide verified Hyperliquid-native hourly OHLCV archive for 2025-12-20T00:00:00Z..2026-09-28T23:00:00Z (6792 bars/symbol) with provenance/SOURCE sidecar; follow research_state/DATA_REQUEST_283D_HYPERLIQUID.md Steps 1-6. Public candleSnapshot cannot serve the full window (3882/6792, decaying)."
+}

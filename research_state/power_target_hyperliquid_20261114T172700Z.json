@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T17:27:00Z",
+  "run_type": "hyperliquid_power_target_closure",
+  "label": "NOT_EVIDENCE_POWER_ANALYSIS",
+  "real_market_data_basis": true,
+  "performance_evidence": false,
+  "provenance_caveat": "Quantitative power/sample-size closure derived from real retained Hyperliquid partial artifacts (non-synthetic) on 2026-04-20T03:00Z..2026-09-28T23:00Z (24 symbols x 3885 bars, ~161.875 days). NOT the 283-day spec window and NOT performance evidence. Projections are base-rate extrapolations with stated assumptions; n=2 observed exploratory trades provide no stable variance estimate and are a caveat, not a result.",
+  "observed_base_rates": {
+    "retained_window_days": 161.875,
+    "symbols": 24,
+    "bars": 93240,
+    "census_rsi_crash_events": 11,
+    "census_confirmed_signals_canonical": 0,
+    "census_distinct_crash_days": 4,
+    "crash_days_per_calendar_day": 0.02471042471042471,
+    "rsi_crash_events_per_symbol_day": 0.002831890331890332,
+    "exploratory_funnel": {
+      "rsi_crash_hours_no_volume_gate": 29,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 11,
+      "same_bar_rebound_confirm": 0,
+      "next_bar_rebound_confirm": 5,
+      "generate_signal_canonical": 0,
+      "generate_signal_spec_literal_next_open": 8,
+      "real_engine_trades": 2
+    },
+    "exploratory_traded_episodes": 2,
+    "traded_episodes_per_census_crash_day": 0.5,
+    "traded_episodes_per_calendar_day": 0.012355212355212355,
+    "exploratory_episode_pnls": [559.3600758639964, -3230.116863449931],
+    "exploratory_mean_episode_pnl": -1335.3783937929672,
+    "exploratory_episode_pnl_std_sample_n2": 2679.5643603739065,
+    "variance_caveat": "Sample standard deviation computed from n=2 episodes is numerically unstable and dominated by the BTC liquidation; treat as an order-of-magnitude diagnostic only, not a reliable estimator."
+  },
+  "binding_target": {
+    "min_independent_crash_episodes": 10,
+    "episode_block_bootstrap_95ci_excludes_0": true,
+    "crash_day_permutation_p_lt_0_05": true,
+    "full_portfolio_placebo_p_lt_0_05": true,
+    "memo_reference": "research_state/decision_memo_okx_full.md (updated 2026-11-14T16:26Z)"
+  },
+  "power_closure": {
+    "episodes_observed": 2,
+    "episodes_needed_additional": 8,
+    "assumptions": [
+      "Crash-day arrival is approximately Poisson with rate lambda_day = 0.02471 crash-days/day estimated from 4 crash days over 161.875 days (24 symbols).",
+      "Traded-episode conversion given a crash day is ~0.5 (2 traded episodes / 4 crash days) on the exploratory spec-literal path with portfolio constraints; this is highly uncertain at n=4.",
+      "Symbol-count scaling assumes additional symbols contribute crash episodes at a similar per-symbol-day rate and are not perfectly correlated; correlation across symbols on shared market crashes likely reduces effective independence, so symbol scaling is an optimistic upper bound unless episodes are de-duplicated by day.",
+      "Episode PnL distribution is unknown/unstable (n=2, one liquidation). No claim is made that the true mean is positive; CI-width projections below are framed as detectability of a hypothesized effect size, not as evidence of edge."
+    ],
+    "calendar_time_projection_same_universe_24_symbols": {
+      "rate_traded_episodes_per_day": 0.012355212355212355,
+      "days_for_expected_10_episodes": 809.375,
+      "days_additional_beyond_observed_window": 647.5,
+      "approx_calendar_months_for_expected_10": 26.6,
+      "prob_at_least_10_in_283_days_poisson": 0.001892,
+      "prob_at_least_10_in_679_days_poisson": 0.3331,
+      "note": "At observed rates, the 283-day spec window (~3.5 expected traded episodes for 24 symbols) is insufficient for >=10 episodes in expectation; ~810 days at the same symbol set/rate are needed for E[N]=10."
+    },
+    "symbol_scaling_projection_hold_283_days": {
+      "target_expected_episodes": 10,
+      "observed_symbols": 24,
+      "required_symbols_for_E10_in_283d_independence_assumption": 195,
+      "formula": "symbols_needed = 24 * (10 / (0.012355212355212355 * 283))",
+      "feasibility_note": "Requires ~195 symbols contributing independent traded episodes at observed per-symbol rates over 283 days. Hyperliquid universe passing $5M gate was 31-32 in recent probes and crash clustering across symbols on the same days (4 shared crash days total) breaks independence; this scaling is not feasible as an independence assumption and is presented as a bound, not a plan."
+    },
+    "episode_block_bootstrap_ci_width_projection": {
+      "caveat": "CI width scales ~1/sqrt(n) for a stable variance; with n=2 the observed sample SD is dominated by one liquidation and is not a reliable sigma estimate. Values below use sigma_hat=2679.56 USD/episode (diagnostic only) to illustrate scaling, not to forecast a real CI.",
+      "sigma_hat_diagnostic_usd": 2679.5643603739065,
+      "normal_approx_halfwidth_95ci_usd_by_episode_count": {
+        "2": 3714.37,
+        "4": 2626.63,
+        "10": 1661.29,
+        "20": 1174.70,
+        "50": 742.87
+      },
+      "interpretation": "Even under a (very uncertain) sigma_hat, a 95% episode-block CI excluding 0 at n=10 would require |mean_episode_pnl| > ~1661 USD with that variance profile. Observed mean is -1335 USD at n=2 (sign negative, unstable). No detectability claim is supported; the projection shows the >=10-episode target is a necessary but not sufficient condition given observed volatility/instability."
+    }
+  },
+  "reconciliation_with_memo_target": {
+    "memo_requires": ">=10 independent crash episodes with episode-block bootstrap 95% CI excluding 0 + crash-day permutation p<0.05 + full-portfolio placebo p<0.05",
+    "current_state": "2 traded episodes, 4 crash days, 2 trades, total PnL -2670.76 (exploratory, NOT evidence). All inference criteria NOT_APPLICABLE/NOT_RUN due to underpower.",
+    "gap": "8 additional traded episodes needed to reach the count floor alone; at observed rates the 283-day window and the currently liquid symbol set cannot plausibly deliver this without either much longer history or a materially different regime (neither of which can be assumed).",
+    "verdict": "UNDERPOWERED — the retained partial chain cannot close the memo's GO criteria; only a verified full 283-day Hyperliquid-native archive plus sufficient realized episodes can."
+  }
+}

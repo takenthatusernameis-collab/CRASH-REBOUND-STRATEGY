@@ -1,0 +1,119 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T17:27:00Z",
+  "run_type": "hyperliquid_exploratory_episode_edge_ledger",
+  "label": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "canonical_baseline_changed": false,
+  "provenance_caveat": "Episode ledger for the spec-literal exploratory next-open adjudication on the retained PARTIAL aligned Hyperliquid chain (real fetched candles, non-synthetic; 2026-04-20T03:00Z..2026-09-28T23:00Z, 24 symbols x 3885 bars). NOT the 283-day spec window and NOT performance evidence. Never use for validation or capital allocation. Canonical baseline unchanged.",
+  "basis": {
+    "campaign_artifact": "research_state/campaign_results_real_hyperliquid_exploratory_next_open_20261114T162212Z.json",
+    "funnel_artifact": "research_state/hyperliquid_signal_funnel_exploratory_next_open_20261114T162212Z.json",
+    "census_artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json",
+    "retained_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z",
+    "spec_literal_signals": 8,
+    "real_engine_trades": 2,
+    "portfolio_constraints_blocked_signals": 6,
+    "census_rsi_crash_events": 11,
+    "census_confirmed_signals_canonical": 0,
+    "census_distinct_crash_days": ["2026-05-28", "2026-06-02", "2026-06-05", "2026-06-24"]
+  },
+  "episode_clustering": {
+    "link_hours": 98,
+    "rule": "Trades/signals belong to the same crash episode if their entry timestamps are within 98 hours (spec holding horizon) of any member (single-linkage by temporal proximity on crash/entry events).",
+    "n_events_trades": 2,
+    "n_episodes": 2,
+    "n_symbols_traded": 2,
+    "n_distinct_crash_days_with_trades": 2,
+    "distinct_crash_days_with_trades": ["2026-05-28", "2026-06-02"]
+  },
+  "episodes": [
+    {
+      "episode_id": 1,
+      "crash_day": "2026-05-28",
+      "symbols": ["BCH"],
+      "trades": 1,
+      "signals_in_episode_window": 2,
+      "trade_pnl_total": 559.3600758639964,
+      "trade_pnl_coin": 2044.4547345784185,
+      "trade_pnl_hedge": -1485.0946587144222,
+      "entries": [
+        {
+          "symbol": "BCH",
+          "entry_timestamp": "2026-05-28T15:00:00+00:00",
+          "exit_timestamp": "2026-05-30T16:00:00+00:00",
+          "exit_reason": "time_exit",
+          "bars_held": 50,
+          "total_pnl": 559.3600758639964,
+          "r_multiple": 0.2110121191644389
+        }
+      ],
+      "notes": "BCH generated 2 spec-literal signals on 2026-05-28 crash hours; 1 realized as engine trade (portfolio constraints blocked the other)."
+    },
+    {
+      "episode_id": 2,
+      "crash_day": "2026-06-02",
+      "symbols": ["BTC"],
+      "trades": 1,
+      "signals_in_episode_window": 6,
+      "trade_pnl_total": -3230.116863449931,
+      "trade_pnl_coin": -9990.339461044698,
+      "trade_pnl_hedge": 6760.222597594767,
+      "entries": [
+        {
+          "symbol": "BTC",
+          "entry_timestamp": "2026-06-02T15:00:00+00:00",
+          "exit_timestamp": "2026-06-04T00:00:00+00:00",
+          "exit_reason": "liquidated",
+          "bars_held": 34,
+          "total_pnl": -3230.116863449931,
+          "r_multiple": -1.3581159650176453
+        }
+      ],
+      "notes": "BTC generated 6 spec-literal signals on 2026-06-02 crash hours; 1 realized as engine trade (portfolio/gross-cap/hedge constraints blocked the rest). Single BTC liquidation dominates portfolio loss (-3230.12)."
+    }
+  ],
+  "episode_summary": {
+    "total_pnl": -2670.7567875859345,
+    "episode_pnls": [559.3600758639964, -3230.116863449931],
+    "positive_episodes": 1,
+    "negative_episodes": 1,
+    "largest_loss_episode_share_of_total_loss_abs": 1.0,
+    "mean_episode_pnl": -1335.3783937929672
+  },
+  "statistical_inference": {
+    "episode_block_bootstrap": {
+      "status": "NOT_APPLICABLE",
+      "mode": "not_run",
+      "ci_low_pnl_2p5": null,
+      "ci_high_pnl_97p5": null,
+      "reason": "n_episodes=2 < 10 (binding target: >=10 independent crash episodes). Resampling 2 episodes cannot produce a credible confidence interval and would manufacture precision; recorded as NOT_APPLICABLE with explicit reason."
+    },
+    "crash_day_permutation": {
+      "status": "NOT_APPLICABLE",
+      "mode": "not_run",
+      "p_value": null,
+      "reason": "n_episodes=2 < 10 and only 2 traded crash days; permutation p-value at this sample size is not informative and must not be manufactured. Recorded as NOT_APPLICABLE with explicit reason."
+    },
+    "full_portfolio_placebo": {
+      "status": "NOT_RUN_THIS_SESSION",
+      "reason": "No new full-portfolio placebo run on the exploratory path in this session; canonical partial campaign remains 0-trade and the retained window is underpowered (4 crash days total, 2 traded episodes)."
+    }
+  },
+  "go_criteria_check": {
+    "full_283d_hyperliquid_window_acquired": false,
+    "at_least_10_independent_crash_episodes": false,
+    "episode_block_bootstrap_95ci_excludes_0": false,
+    "crash_day_permutation_p_lt_0_05": false,
+    "full_portfolio_placebo_p_lt_0_05": false,
+    "verdict": "UNDERPOWERED_NOT_EVIDENCE"
+  },
+  "limitations": [
+    "Only 2 realized trades from 2 independent crash episodes on a 162-day partial retained window; far below the >=10 episode power target.",
+    "6 of 8 spec-literal signals were blocked by portfolio constraints (ETH hedge/gross cap/availability), so episode outcomes are path- and portfolio-dependent.",
+    "The single BTC liquidation (-3230.12) dominates total PnL; results are fragile to that one episode/trade.",
+    "Partial window (3885/6792 bars) under decaying public-API retention; not the 283-day spec window.",
+    "Exploratory label NOT_EVIDENCE_EXPLORATORY_FANOUT, performance_evidence=false; no validation or capital-allocation inference permitted."
+  ]
+}

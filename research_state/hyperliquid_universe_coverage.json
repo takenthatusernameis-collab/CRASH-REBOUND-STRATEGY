@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T17:18:30Z",
+  "generated_at_utc": "2026-11-14T17:49:00Z",
   "run_type": "hyperliquid_universe_coverage",
   "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
-  "sliding_retention_finding": "Fresh probe 2026-11-14T16:48:40Z: earliest_served_start_utc 2026-04-20T06:00:00Z, max_bars_returned 3882/6792, missing_early_bars_vs_expected 2910, perps_total 235 / perps_passing_volume_gate 31 / probed 31, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1. The live probe is strictly worse than the retained chain (3882 bars from 06:00Z vs 3885 bars from 03:00Z), so no fresh full-universe fetch was run; that is the intentional bottleneck removal. Adopt-or-keep: KEEP retained chain 20261114T104210Z_aligned_20260420T0300Z (24 complete x 3885 bars, start 2026-04-20T03:00:00Z).",
+  "sliding_retention_finding": "Fresh probe 2026-11-14T17:26:22Z (Step 1, C1 session): earliest_served_start_utc 2026-04-20T06:00:00Z, max_bars_returned 3882/6792, missing_early_bars_vs_expected 2910, perps_total 235 / perps_passing_volume_gate 32 / probed 32, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1. Live probe remains strictly worse than retained chain (3882 bars from 06:00Z vs 3885 bars from 03:00Z), so no fresh full-universe fetch was run. Adopt-or-keep: KEEP_RETAINED ..._aligned_20260420T0300Z (24 complete x 3885 bars, start 2026-04-20T03:00:00Z).",
   "spec_window": {
     "start": "2025-12-20T00:00:00Z",
     "end": "2026-09-28T23:00:00Z",
@@ -11,11 +11,11 @@
   },
   "api_retention_probe": {
     "artifact": "research_state/hyperliquid_retention_probe.json",
-    "artifact_sha256": "b072607f9e1dd2500da3c540741150f143967a608cdedf1e8720e2967b0f8e72",
-    "generated_at_utc": "2026-11-14T16:48:40Z",
+    "artifact_sha256": "cdaa0c6a603cede77b7316565586d86eee3da50e355667f1c4911e4313d210db",
+    "generated_at_utc": "2026-11-14T17:26:22Z",
     "perps_total": 235,
-    "perps_passing_volume_gate": 31,
-    "probed": 31,
+    "perps_passing_volume_gate": 32,
+    "probed": 32,
     "full_window_served": false,
     "max_bars_returned": 3882,
     "missing_early_bars_vs_expected": 2910,
@@ -23,7 +23,7 @@
     "symbols_empty_or_error": [
       "KPEPE"
     ],
-    "note": "Live probe re-captured 2026-11-14T16:48:40Z; full 283-day window remains API-retention-blocked and the served window continues to decay (3882 bars from 06:00Z vs 3885 bars from 03:00Z retained)."
+    "note": "Live probe re-captured 2026-11-14T17:26:22Z (Step 1/C1-T5). Full 283-day window remains API-retention-blocked and decaying vs retained chain; KEEP_RETAINED."
   },
   "universe_snapshot": {
     "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z",
@@ -80,8 +80,8 @@
     "retained_expected_hourly_bars": 3885,
     "retained_aligned_start": "2026-04-20T03:00:00+00:00",
     "decision": "KEEP_RETAINED",
-    "reason": "Fresh probe 2026-11-14T16:48:40Z serves 3882 bars from 2026-04-20T06:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fresh full-universe fetch was run this session; degraded 145453Z (3881 bars) and 151710Z aligned (26x2127 bars) remain rejected.",
-    "note_this_session": "Re-fetch skipped by design: the decaying public API cannot beat the retained chain; re-fetching only creates degraded slices."
+    "reason": "Fresh probe 2026-11-14T17:26:22Z serves 3882 bars from 2026-04-20T06:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fresh full-universe fetch run; degraded 145453Z/151710Z remain rejected.",
+    "note_this_session": "Step 2: re-fetch skipped by design (probe degraded). C1-T1..T4 artifacts produced on retained chain."
   },
   "crash_census": {
     "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json",
@@ -135,5 +135,56 @@
     "max_drawdown": -3230.116863449931,
     "win_rate": 0.5,
     "caveat": "Exploratory real-engine run on the PARTIAL retained chain; NOT the 283-day spec window and NOT performance evidence."
+  },
+  "c1_session_artifacts": {
+    "session_utc": "2026-11-14T17:49:00Z",
+    "step1_probe": {
+      "artifact": "research_state/hyperliquid_retention_probe.json",
+      "sha256": "cdaa0c6a603cede77b7316565586d86eee3da50e355667f1c4911e4313d210db",
+      "generated_at_utc": "2026-11-14T17:26:22Z"
+    },
+    "c1_t1_episode_ledger": {
+      "artifact_json": "research_state/episode_edge_hyperliquid_exploratory_next_open_20261114T172700Z.json",
+      "sha256_json": "e10e4bc41eccbcd0b70b6e876f7b4d6ee472b7d1d95f646dc0076bf27791d744",
+      "artifact_md": "research_state/episode_edge_hyperliquid_exploratory_next_open_20261114T172700Z.md",
+      "n_episodes": 2,
+      "n_trades": 2,
+      "inference_status": {
+        "episode_block_bootstrap": "NOT_APPLICABLE",
+        "crash_day_permutation": "NOT_APPLICABLE",
+        "reason": "n_episodes=2 < 10"
+      }
+    },
+    "c1_t2_power_closure": {
+      "artifact_json": "research_state/power_target_hyperliquid_20261114T172700Z.json",
+      "sha256_json": "69483c2d4e36b9ab08441d5f37a70da84dbd9ddc01702509d86a9606c01829f6",
+      "artifact_md": "research_state/power_target_hyperliquid_20261114T172700Z.md",
+      "episodes_needed_for_count_floor": 10,
+      "expected_days_for_10_same_universe": 809.375,
+      "prob_ge10_in_283d_poisson": 0.001892,
+      "verdict": "UNDERPOWERED"
+    },
+    "c1_t3_fragility": {
+      "artifact_json": "research_state/fragility_hyperliquid_exploratory_next_open_20261114T172700Z.json",
+      "sha256_json": "9d6e45b2fcb01f9f2ce52365cebd5c8852ff9fd3288f7965f0d2fbc04d8a86b8",
+      "artifact_md": "research_state/fragility_hyperliquid_exploratory_next_open_20261114T172700Z.md",
+      "variant_count": 8,
+      "all_variants_negative_total_pnl": false,
+      "pnl_range": [
+        -7945.884726466279,
+        2112.9958505768104
+      ],
+      "trade_count_range": [
+        2,
+        2
+      ],
+      "btc_dominates_baseline_loss": true
+    },
+    "c1_t4_data_request_update": {
+      "artifact_json": "research_state/data_request_probe_update_20261114T172700Z.json",
+      "sha256_json": "e14c7dcfa2529ddd607afe33f9f106b630313c496f5d07fc283c313db5a4592a",
+      "doc_updated": "research_state/DATA_REQUEST_283D_HYPERLIQUID.md",
+      "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1"
+    }
   }
 }
