@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T18:20:45.926821+00:00",
+  "run_type": "hyperliquid_archive_ingestion_readiness",
+  "label": "ARCHIVE_READINESS",
+  "provenance_caveat": "Readiness bookkeeping only; no data fabricated; placeholder parquet is NOT evidence. Confirms runbook scripts/flags match the repo so an operator-supplied verified Hyperliquid-native 283-day archive can be ingested on arrival.",
+  "runbook": "research_state/DATA_REQUEST_283D_HYPERLIQUID.md",
+  "runbook_sha256": "12dd4efd75af691959d2e51d5905a0646678e18b07f3d10ece9fb81fcdb9a594",
+  "script_checks": {
+    "fetch_hyperliquid_candles.py": {
+      "exists": true,
+      "sha256": "09db1f1f3a8b365e88eef85447046be18d852381a5771931b3f22c0ca944fc02",
+      "flags_present": {
+        "--source": true,
+        "--input-archive": true,
+        "--symbols": true,
+        "--cache-dir": true,
+        "--allow-partial": true
+      }
+    },
+    "derive_verified_universe.py": {
+      "exists": true,
+      "sha256": "e8f522d0a98e2db2bde4d6d6d11ccbb65f5f1a5d24868c08bcccd4aa025fb931",
+      "flags_present": {
+        "--manifest": true,
+        "--cache-dir": true,
+        "--output": true,
+        "--min-24h-volume-usd": true
+      }
+    },
+    "run_real_campaign.py": {
+      "exists": true,
+      "sha256": "8ce2954a84198fd0f48e850c4afc06254b8e4f4fc621d497829369195ef8f338",
+      "flags_present": {
+        "--manifest": true,
+        "--cache-dir": true,
+        "--universe-file": true,
+        "--output-prefix": true,
+        "--apply-vault-fees": true,
+        "--allow-partial-not-evidence": true
+      }
+    }
+  },
+  "all_scripts_and_flags_ok": true,
+  "archive_state": {
+    "full_archive_dir_present": false,
+    "full_archive_dir": null,
+    "placeholder_present": true,
+    "placeholder_sha256": "e0e783f64f0ee18aabc8b490da56d2750396b21b3d99d55d63baf000f757c28c",
+    "placeholder_is_evidence": false,
+    "placeholder_note": "flat synthetic placeholder; NEVER evidence (see HANDOFF.md)"
+  },
+  "ingest_pipeline_ready": true,
+  "next_step_on_operator_data": [
+    "1. Place verified Hyperliquid-native 283-day archive at research_state/archives/hyperliquid_1h_full_20251220_20260928/ with SOURCE.md sidecar",
+    "2. PYTHONPATH=. /tmp/crs-venv/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive research_state/archives/hyperliquid_1h_full_20251220_20260928 --symbols <verified> --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928",
+    "3. Verify provenance: all_complete=true, ready_for_real_campaign=true, fabricated_data=false",
+    "4. PYTHONPATH=. /tmp/crs-venv/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --output research_state/universe_hyperliquid_full_verified.json",
+    "5. PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees",
+    "6. Run full-portfolio placebo + episode-aware audit on the full window; update decision memo"
+  ],
+  "verdict": "READY"
+}

@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T18:19:17Z",
+  "run_type": "data_request_probe_update",
+  "session": "C2",
+  "probe_artifact": "research_state/hyperliquid_retention_probe.json",
+  "probe_sha256": "ffd11714f91b2b57305f2f8877aca9d02d4933e0a4afd9082c6c7da6e3a97b27",
+  "prev_probe_sha256": "cdaa0c6a603cede77b7316565586d86eee3da50e355667f1c4911e4313d210db",
+  "prev_probe_generated_at_utc": "2026-11-14T17:26:22Z",
+  "counts": {
+    "perps_total": 235,
+    "perps_passing_volume_gate": 32,
+    "probed": 32,
+    "max_bars_returned": 3881,
+    "expected_hourly_bars": 6792,
+    "missing_early_bars_vs_expected": 2911,
+    "earliest_served_start_utc": "2026-04-20T07:00:00Z",
+    "full_window_served": false,
+    "symbols_empty_or_error": ["KPEPE"]
+  },
+  "decay_trend_this_session": [
+    {"probe_utc": "2026-11-14T15:28:00Z", "max_bars_returned": 3884, "earliest_served_start_utc": "2026-04-20T04:00:00Z"},
+    {"probe_utc": "2026-11-14T16:19:00Z", "max_bars_returned": 3883, "earliest_served_start_utc": "2026-04-20T05:00:00Z"},
+    {"probe_utc": "2026-11-14T16:48:00Z", "max_bars_returned": 3882, "earliest_served_start_utc": "2026-04-20T06:00:00Z"},
+    {"probe_utc": "2026-11-14T17:26:22Z", "max_bars_returned": 3882, "earliest_served_start_utc": "2026-04-20T06:00:00Z"},
+    {"probe_utc": "2026-11-14T18:19:17Z", "max_bars_returned": 3881, "earliest_served_start_utc": "2026-04-20T07:00:00Z"}
+  ],
+  "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1",
+  "adopt_or_keep": "KEEP_RETAINED",
+  "retained_chain": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z",
+  "retained_bars": 3885,
+  "retained_start": "2026-04-20T03:00:00Z",
+  "note": "Live probe strictly worse than retained chain (3881 bars from 07:00Z vs 3885 bars from 03:00Z). No fresh full-universe fetch run. Decay continues but has stabilized near 3881-3882. Operator archive remains the only path to full 283-day evidence."
+}
