@@ -1,0 +1,427 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T02:12:03.904676+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "derived_from": {
+    "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T021005Z",
+    "note": "Aligned slice of live Hyperliquid public API snapshot fetched 2026-11-14T02:10Z; non-synthetic; partial sliding window only."
+  },
+  "target_window": {
+    "start": "2026-04-19T19:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 3893
+  },
+  "source": {
+    "kind": "hyperliquid_api_slice"
+  },
+  "symbols": {
+    "AAVE": {
+      "status": "ok",
+      "cache_path": "candles/AAVE.json",
+      "sha256": "0ba9fddaaf59f988f6abc2c1b5dd697cf65ecedb73c781861b62ab39f90252f0",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "ADA": {
+      "status": "ok",
+      "cache_path": "candles/ADA.json",
+      "sha256": "b623fc78a6beae5268335d06c64646eedcd9504e25d492742770c401015df54d",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "ARB": {
+      "status": "ok",
+      "cache_path": "candles/ARB.json",
+      "sha256": "67ac6c4624f4f9b680ef59adde9e0dece8513d31f2fb9fef28001300f24f26ab",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "AVAX": {
+      "status": "ok",
+      "cache_path": "candles/AVAX.json",
+      "sha256": "9ac998ec9194385148c76405edc362732b07d3a4891139cf1f86e4cb752fda18",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "BNB": {
+      "status": "ok",
+      "cache_path": "candles/BNB.json",
+      "sha256": "56a41c8dc2ca16a2b0b86010b4d4d77d001d97cb0e228962e0016c039eed0ae4",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "BTC": {
+      "status": "ok",
+      "cache_path": "candles/BTC.json",
+      "sha256": "49a08e7b7ac26fd91d218beabddfdd7d6562921172e6b4612c837c2664352f9e",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "DOGE": {
+      "status": "ok",
+      "cache_path": "candles/DOGE.json",
+      "sha256": "25d60ed053e8f3163b0da83b0df3a18ece17d0dcb4d3c1638f829a6be9b89e2e",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "ENA": {
+      "status": "ok",
+      "cache_path": "candles/ENA.json",
+      "sha256": "e10ac3549f5d93b76c4b26d5e386d79988c63b66ca1ee65df61945f52656c1af",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "ETH": {
+      "status": "ok",
+      "cache_path": "candles/ETH.json",
+      "sha256": "9e1ab68e0f22625216b7d30486b267351d64a1b37eca51ec5848ba187d7be887",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "HYPE": {
+      "status": "ok",
+      "cache_path": "candles/HYPE.json",
+      "sha256": "7c47c8dbbe78ca482c470287cf99f7ecc8fa195207053d3cdb20fe6348f499f8",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "INIT": {
+      "status": "ok",
+      "cache_path": "candles/INIT.json",
+      "sha256": "b4452e95d48518fc9f0a718f16ce73a8c9867366e054bb1014d8fedc7c7403fe",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "INJ": {
+      "status": "ok",
+      "cache_path": "candles/INJ.json",
+      "sha256": "c60889419dd93ca14b732894dd22ae54a70cbd7e62e1c4e8823ed76a2c16f5ab",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "LINK": {
+      "status": "ok",
+      "cache_path": "candles/LINK.json",
+      "sha256": "93b53d59b13a84149f29dd086c40639a4863899620e79c86f4fb2eae3065cd83",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "LIT": {
+      "status": "ok",
+      "cache_path": "candles/LIT.json",
+      "sha256": "80740b487a17c7337a9032aae2b0afdcffc65c6ce40fe554b13f8bb941c22a15",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "NEAR": {
+      "status": "ok",
+      "cache_path": "candles/NEAR.json",
+      "sha256": "4febca22beff075e0a62f0b933ba0973d9becc34d7d703954172b5ced0d9caa2",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "PUMP": {
+      "status": "ok",
+      "cache_path": "candles/PUMP.json",
+      "sha256": "6e3830b447142084ae042d2a12eaf59eeb0f0611f86913f9b5cdd3fd26128ff2",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "SOL": {
+      "status": "ok",
+      "cache_path": "candles/SOL.json",
+      "sha256": "610f431b49d2b5b627ba3cc713d8fbf9f0e41dff02a3b413f50e66f811d78656",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "SUI": {
+      "status": "ok",
+      "cache_path": "candles/SUI.json",
+      "sha256": "d850b8934ae572c2851db4031fdcc68deb978783b8e26ba3314e4cc5c7f18e94",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "TAO": {
+      "status": "ok",
+      "cache_path": "candles/TAO.json",
+      "sha256": "60d64fbb05b347ba81de5295fb9263c5f55519b70bbf23be1dc6ca7b320aad05",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "UNI": {
+      "status": "ok",
+      "cache_path": "candles/UNI.json",
+      "sha256": "c769dd832a9c2fb7a277f9c29a48bbc656d63b62d4484db88b3d7c59ba4a15cb",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "VVV": {
+      "status": "ok",
+      "cache_path": "candles/VVV.json",
+      "sha256": "0ea9b00079b0b8044f7f25fdf73a4cdee22a4c7c0efccf6018b91f144b14b1b6",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "WLD": {
+      "status": "ok",
+      "cache_path": "candles/WLD.json",
+      "sha256": "47d298b180281b541084ba8f1eda5a3938c03fc839df5f57ebfe03dd718322a2",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "XMR": {
+      "status": "ok",
+      "cache_path": "candles/XMR.json",
+      "sha256": "801d780ac8d4857f30e75f63258dd95dec469f2ac5f47b8a004857230b224ae0",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "XPL": {
+      "status": "ok",
+      "cache_path": "candles/XPL.json",
+      "sha256": "532a3520c94ab0162e993c3e1eab8c6014fefde6a533d0ba92994b2b1f26f940",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "XRP": {
+      "status": "ok",
+      "cache_path": "candles/XRP.json",
+      "sha256": "2cb9a11ef10fdc252786ac446fc1c8905c0dfc9def04991c14fa77d46ce27772",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "ZEC": {
+      "status": "ok",
+      "cache_path": "candles/ZEC.json",
+      "sha256": "e179ab72c02c752cb6e4fed4730aec5543618b96ef5bc6739f9f7cc139a512ee",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    },
+    "ZRO": {
+      "status": "ok",
+      "cache_path": "candles/ZRO.json",
+      "sha256": "62debb6f57c6279d9201572b519c7f5fb7982dec8f9d7eeb258ddd759f5406b5",
+      "coverage": {
+        "complete_for_target_window": true,
+        "expected_hourly_bars": 3893,
+        "observed_in_window_bars": 3893,
+        "gap_count": 0
+      },
+      "volume_coverage": {
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      }
+    }
+  },
+  "symbols_complete": 27
+}
