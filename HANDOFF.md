@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T22:22:57Z
+**Handoff updated (UTC):** 2026-11-14T22:24:04Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** The duplicate `HANDOFF_20261114T202006Z.md` was deleted this session; do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -20,7 +20,7 @@
 
 **REMAINING FOCUS CAMPAIGN — C5-T1 EXECUTION (BLOCKED ON OPERATOR ARCHIVE).** The C5-T1 orchestrator (`scripts/run_full_validation_campaign.py`) is on disk and dry-run proven (6/6 steps PASS). When an operator archive lands, run C4-T1 intake validator → if `ACCEPT_AS_EVIDENCE_CANDIDATE` → run C5-T1 orchestrator → full decision-grade campaign. **No planning-only turn. No simulation theater. No cross-venue relabeling.**
 
-**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:22:57Z or later.**
+**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:24:04Z or later.**
 
 ---
 
@@ -56,11 +56,11 @@ Canonical partial window audit is recorded NOT_APPLICABLE (`research_state/episo
 ### STEP 8 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE (v2 request in C5-T2)
 If an operator-supplied verified Hyperliquid-native archive arrives, it must first pass C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`) and then the C5-T1 orchestrator. Follow `research_state/operator_archive_request_20261114T221003Z.md`. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder; C4-T1 rejects it).
 
-**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:22:57Z or later.**
+**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:24:04Z or later.**
 
 ---
 
-## Verified state (as of 2026-11-14T22:22:57Z; retained/gate-checked chain unless noted)
+## Verified state (as of 2026-11-14T22:24:04Z; retained/gate-checked chain unless noted)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -133,6 +133,6 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 - No additional handoff/status files. **This file is the single durable handoff.**
 
 ## Definition of done
-Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1 execution artifacts on disk (when operator archive arrives) + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:22:57Z or later.
+Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1 execution artifacts on disk (when operator archive arrives) + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:24:04Z or later.
 
 (End of file - total 136 lines)
