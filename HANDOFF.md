@@ -1,26 +1,29 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T19:42:25Z
-**Supersedes:** all earlier handoffs (including 2026-11-14T19:41:37Z, 19:34:05Z, 19:21:13Z, 18:21:30Z, 17:55:20Z, 17:51:04Z, 17:23:52Z, 16:42:01Z, 15:30:41Z, 15:24:40Z, 15:23:23Z, 14:52:02Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
+**Handoff updated (UTC):** 2026-11-14T20:26:01Z
+**Supersedes:** all earlier handoffs (including 2026-11-14T20:20:06Z, 19:42:25Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from the repo name):** produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or conclusively prove the data block with fresh reproducible artifacts. **OKX is cross-venue, underpowered, and NEVER Hyperliquid performance evidence.**
 
-**Baseline (this session):** branch `main`; C1/C2/C3 are complete. `scripts/session_gate.py` is **21/21 checks passed — DONE** after this refresh, and `scripts/verify_campaign_evidence.py` is **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation. The canonical `episode_edge_okx_full.json` artifact timestamp is `2026-11-13T23:38:47Z`.
+**Baseline (this session):** branch `main`; C1/C2/C3 are complete. `scripts/session_gate.py` is **21/21 checks passed — DONE**, and `scripts/verify_campaign_evidence.py` is **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation. The canonical `episode_edge_okx_full.json` artifact timestamp is `2026-11-13T23:38:47Z`.
 
 **META-PROMPT OVERRIDE — READ BEFORE TOUCHING THIS FILE.** If your only instruction is the recurring "leave a timestamped initial task in the durable handoff" meta-prompt, this file is already the current handoff. Do not spend the session rewriting it. C1, C2 and C3 are COMPLETE. **Start at C4-T1 now.** No handoff-only turn is allowed until C4-T1 artifacts exist on disk.
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T19:42:25Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T20:26:01Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness) and C3 (Spec-Comparison Hardening) are COMPLETE. Do not repeat C1/C2/C3 work and do not re-run any deterministic campaign on the retained chain. Your first action is C4-T1 below.**
 
 **NEXT FOCUS CAMPAIGN — C4: DATA-BLOCK DECISION LOCK, OPERATOR INTAKE VALIDATION & MULTI-YEAR PROTOCOL.** This is the non-avoidable heavy work. Every task must land a new-stem artifact on disk before the session closes. **No planning-only turn. No simulation theater. No cross-venue relabeling. No re-running an existing campaign on the same chain without a new artifact purpose.**
 
 - **C4-T1 — Operator archive intake validator (heavy, mandatory).** Build `scripts/validate_hyperliquid_archive_intake.py` and produce `research_state/archive_intake_validation_<TS>.{json,md}`. It must fail closed on short windows, flat series, placeholder/synthetic data, missing provenance, missing symbols, and bad hashes. Validate it against a clearly labelled synthetic non-evidence fixture: the fixture must be accepted for plumbing but recorded `is_market_data=false`, `is_evidence=false`, `performance_evidence=false`; a deliberately truncated/flat fixture must be rejected. Do not use the placeholder parquet as evidence.
+
 - **C4-T2 — Multi-year validation protocol + power-optimal duration (heavy, mandatory).** Produce `research_state/multi_year_validation_protocol_<TS>.{json,md}` with machine-checkable fields: primary endpoint, episode clustering rule, bootstrap/permutation/placebo methods, multiple-testing correction, minimum independent episodes (≥10), stop/go rules, and the archive duration required for 80% power at the observed episode rate. Use the committed C3-T3 rates (283d 0.33%, 2y 41.51%, pooled upper bound 22.32%) and record the explicit decision lock: **NO_GO on current data; continue only with an operator-supplied multi-year Hyperliquid-native archive.** This must include an executable power/duration calculation and its output, not prose alone.
+
 - **C4-T3 — Execution-friction stress on the retained exploratory path (heavy, mandatory).** Produce `research_state/execution_friction_stress_hyperliquid_<TS>.{json,md}`. Run the real engine on the retained chain with the opt-in exploratory next-open path under a pre-specified fee/slippage/funding/liquidation/ETH-hedge stress grid; label `NOT_EVIDENCE_EXECUTION_FRICTION`, `performance_evidence=false`, and `canonical_baseline_changed=false`. The result is a fragility check only; it must not be promoted to evidence or used to change the canonical default.
+
 - **C4-T4 — Close the chain (mandatory).** Refresh the Hyperliquid retention probe with `scripts/probe_hyperliquid_blocker.py`; record `KEEP_RETAINED` unless the probe is strictly better (start ≤ `2026-04-20T03:00:00Z` and ≥ 3885 bars). Update `research_state/hyperliquid_universe_coverage.json` with the C4 artifacts and integer counts. Update `research_state/decision_memo_okx_full.md` with the C3/C4 state and the explicit `NO_GO` on current evidence. Then run:
 ```bash
 test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh
@@ -54,7 +57,7 @@ Coverage was refreshed 2026-11-14T19:34:05Z with C3 artifacts and the restored c
 ### STEP 7 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE
 If an operator-supplied verified Hyperliquid-native 283-day archive arrives, follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` and the C4-T1 validator. Then ingest, derive verified universe, run canonical full-window campaign, full-portfolio placebo, episode-aware audit, and update the decision memo. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder).
 
-**No session may close without: C4-T1..T4 artifacts on disk (new stems), C4-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T19:42:25Z or later.**
+**No session may close without: C4-T1..T4 artifacts on disk (new stems), C4-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T20:26:01Z or later.**
 
 ---
 
@@ -125,4 +128,6 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 - No additional handoff/status files. **This file is the single durable handoff.**
 
 ## Definition of done
-Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C4-T1..T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T19:42:25Z or later.
+Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C4-T1..T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T20:26:01Z or later.
+
+(End of file - total 203 lines)
