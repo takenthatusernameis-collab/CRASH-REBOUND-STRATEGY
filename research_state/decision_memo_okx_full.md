@@ -1,6 +1,7 @@
 # Decision Memo — Crash-Rebound Strategy (Real OKX 283d canonical evidence)
 
 **Generated (UTC):** 2026-11-13T21:48:59Z
+**Updated (UTC):** 2026-11-14T09:33:25Z (session re-probe + partial re-capture; canonical OKX section unchanged)
 **Status:** `underpowered` / **not decision-grade** — do not allocate capital on this evidence.
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
@@ -135,7 +136,14 @@ liquidation, varying only which gate-passing events are allowed to trade.
 - The +9.16% return must not be presented as validated edge, and the strategy must not be
   funded on this evidence.
 
-## Hyperliquid-native status (2026-11-13T21:48:59Z)
+## Hyperliquid-native status (updated 2026-11-14T09:33:25Z; supersedes the 2026-11-13 block below)
+
+- **Full 283-day window: BLOCKED.** Live re-probe this session (`hyperliquid_retention_probe.json`, 2026-11-14T09:33Z) served **3,890 of 6,792** hourly bars; **2,902 missing**; earliest served **2026-04-19T22:00:00Z**. Universe: **235 perps / 27 pass the $5M trailing-24h gate / 27 probed**; unprobeable/empty = `['KPEPE']`. Verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`. The window is **not sliding further** in this session (still 3,890 bars) but the early history is permanently lost to API retention. A full-window campaign requires an operator-supplied, verified Hyperliquid-native archive following `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`.
+- **Partial window re-captured this session (NOT_EVIDENCE).** Snapshot `hyperliquid_universe_snapshot_20261114T092520Z` → aligned `..._aligned_20260420T0200Z`: **23 complete symbols × 3,886 bars** (2026-04-20T02:00:00Z..2026-09-28T23:00:00Z), 26 requested (ADA incomplete 2,999; MATIC/FTM error). Census: **23 symbols / 89,378 bars / 9 RSI(21)<20 events / 0 confirmed signals**. Partial campaign (`--allow-partial-not-evidence`): **0 trades, 0 PnL, `performance_evidence=false`**. Coverage artifact `hyperliquid_universe_coverage.json` records probe/snapshot/aligned/census/campaign hashes and the verdict `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED`.
+- **Session gate 17/17 — DONE; evidence verifier 4/4 — EVIDENCE VERIFIED** on the refreshed artifacts.
+- **Do not cite the partial run as Hyperliquid performance evidence.** It is a pipeline and power-reality check only. The partial window has **zero trades to evaluate** — the rare-event strategy produces no signal in a 161-day window, consistent with the OKX finding that the binding unit is the independent crash episode (4 episodes / 5 days on OKX; 0 on Hyperliquid partial).
+
+## Hyperliquid-native status (original 2026-11-13T21:48:59Z block, retained for the record)
 
 - **Full 283-day window: BLOCKED.** The public Hyperliquid `candleSnapshot` API returned
   **3,900** hourly bars for BTC over the requested 2025-12-20..2026-09-28 window, starting
@@ -190,10 +198,7 @@ liquidation, varying only which gate-passing events are allowed to trade.
    is an operator-supplied verified archive; use the runbook. Never use
    `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet`
    (flat synthetic placeholder) as evidence.
-2. **Partial Hyperliquid cross-sectional extension — DONE (NOT_EVIDENCE).** The maximum API
-   window was acquired for 24 symbols (12 complete) and run; 0 trades, 8 RSI crashes, 0
-   confirmed signals. Extending to more symbols is possible but cannot create the missing
-   2,892 early bars; it is not a substitute for the full window.
+2. **Partial Hyperliquid cross-sectional extension — RE-RUN (NOT_EVIDENCE), 2026-11-14.** The maximum API window was re-acquired for 26 requested symbols → **23 complete** (ADA incomplete, MATIC/FTM error), aligned 2026-04-20T02:00Z..2026-09-28T23:00Z (3,886 bars/symbol); census **23 symbols / 89,378 bars / 9 RSI crashes / 0 signals**; partial campaign **0 trades, 0 PnL, `performance_evidence=false`**. Extending to more symbols is possible but cannot create the missing 2,902 early bars; it is not a substitute for the full window. **Every session must re-probe and re-capture before heavy work — the partial window decays.**
 3. **Robustness stress / power analysis — DONE.** Phase N LOO/LOTO, concentration,
    bootstrap power projection, and expanding-window refit are complete and recorded in
    `research_state/robustness_stress_okx_full.{json,md}`. The verdict remains `underpowered`.
@@ -216,6 +221,10 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_stress_okx.py
 # EXPECT: verdict=underpowered; LOO=5, LOTO=8, evaluable_blocks=3
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx.py --draws 40
 # EXPECT: episodes=4 events=11 days=5 largest_episode=4/11 perm_p=0.1500
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30
+# EXPECT: 3890/6792 bars; 2902 missing; 235 perps / 27 pass $5M / 27 probed
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
-# EXPECT: 14/14 checks passed — DONE
+# EXPECT: 17/17 checks passed — DONE
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py
+# EXPECT: 4/4 — EVIDENCE VERIFIED
 ```
