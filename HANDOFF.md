@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T15:03:00Z
+**Handoff updated (UTC):** 2026-11-14T15:23:23Z
 **Supersedes:** all earlier handoffs (incl. 2026-11-14T14:52:02Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
@@ -10,7 +10,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T15:03:00Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T15:23:23Z)
 
 **Objective:** Produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or conclusively prove the Hyperliquid data block with fresh reproducible artifacts. Full 283-day Hyperliquid is API-retention-blocked; partial public-API windows **decay continuously** and any NOT_EVIDENCE result is **not validation**. The retained partial Hyperliquid window produces **0 trades** — adjudication shows this is structurally consistent with implementation **same-bar rebound confirmation** (`confirm_rebound`) vs spec **next hourly open** after RSI crash close (11 volume-passing crash hours, 0 same-bar confirms, 5 next-bar confirms, 11 spec-literal next-open upper-bound opportunities). Next session must **re-probe, refresh chain if improved, and adjudicate/follow through** with real artifacts; do not claim validation.
 
@@ -80,7 +80,7 @@ Refresh `research_state/hyperliquid_retention_probe.json`. Record live `generate
 
 ---
 
-## Verified state (as of 2026-11-14T15:03:00Z; retained/gate-checked chain unless noted)
+## Verified state (as of 2026-11-14T15:23:23Z; retained/gate-checked chain unless noted)
 
 | Check | Result | Evidence |
 |---|---|---|
