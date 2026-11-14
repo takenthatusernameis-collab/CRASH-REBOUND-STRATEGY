@@ -1,0 +1,213 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T20:30:40Z",
+  "run_type": "multi_year_validation_protocol",
+  "label": "NOT_EVIDENCE_VALIDATION_PROTOCOL",
+  "performance_evidence": false,
+  "provenance_caveat": "Protocol + power calculation only. NOT performance evidence. The protocol defines what a future GO decision requires; it does not validate the strategy, and it never relabels partial, cross-venue, or synthetic data.",
+  "decision_lock": {
+    "current_verdict": "NO_GO",
+    "reason": "Retained Hyperliquid window is a partial 161-day window with only 4 distinct crash days and 2 traded episodes; the power floor is >=10 independent crash episodes. No achievable API window can reach the floor, and no cross-venue, partial, dry-run, or synthetic artifact may be promoted to evidence.",
+    "continue_only_with": "an operator-supplied, C4-T1-validated, Hyperliquid-native archive covering at least the duration computed below (>=10 independent crash episodes), ingested through the DATA_REQUEST runbook",
+    "forbidden_relabelings": [
+      "OKX artifacts as Hyperliquid evidence",
+      "partial-window campaigns as full-window evidence",
+      "dry-run/synthetic fixtures as market data",
+      "the placeholder parquet as evidence",
+      "the exploratory spec-literal fan-out as validation"
+    ]
+  },
+  "primary_endpoint": {
+    "name": "episode_level_net_pnl",
+    "definition": "Net PnL of one crash episode (all positions opened by that episode's crash-day signal, including ETH hedge legs, funding, fees, slippage, and liquidation penalties), aggregated per independent episode",
+    "test": "two-sided 95% episode-block bootstrap CI on the mean episode PnL",
+    "go_rule": "bootstrap 95% CI excludes 0 in the positive direction",
+    "alpha": 0.05
+  },
+  "secondary_endpoints": [
+    {
+      "name": "episode_win_rate",
+      "definition": "fraction of independent episodes with positive net PnL",
+      "go_rule": "95% CI lower bound > 0.5"
+    },
+    {
+      "name": "max_drawdown",
+      "definition": "peak-to-trough equity drawdown across the episode sequence",
+      "go_rule": "no drawdown worse than -8%"
+    },
+    {
+      "name": "rebound_short_profit_share",
+      "definition": "rebound-short leg PnL / total PnL",
+      "go_rule": "reported, not a GO gate (spec target ~27%, not a validity test)"
+    }
+  ],
+  "episode_clustering_rule": {
+    "unit": "independent crash episode",
+    "cluster_key": "utc_crash_day",
+    "window_hours": 72,
+    "rule": "Collapse all crash signals within 72h on the same UTC crash day into one episode; an episode counts once regardless of how many symbols fired. Independence requires distinct crash days.",
+    "independence_requirement": "Episodes on the same crash day are NOT independent (shared market move). Inference uses crash-day blocks, never raw trade counts."
+  },
+  "resampling": {
+    "bootstrap": {
+      "method": "stationary block bootstrap over crash-day blocks",
+      "block_unit": "crash_day",
+      "resamples": 10000,
+      "statistic": "mean episode net PnL",
+      "ci": "95% percentile"
+    },
+    "permutation": {
+      "method": "crash-day label permutation",
+      "resamples": 10000,
+      "null": "episode PnL is exchangeable across crash days (no crash-day effect)",
+      "go_rule": "permutation p < 0.05"
+    },
+    "placebo": {
+      "method": "full-portfolio placebo over all signal-gate events",
+      "detail": "Enumerate exact subsets of signal-gate events where feasible; otherwise Monte Carlo over event subsets, replaying the real engine.",
+      "go_rule": "canonical result is not an extreme of the placebo distribution (one-sided p < 0.05 against the placebo mean)"
+    }
+  },
+  "multiple_testing": {
+    "method": "Holm-Bonferroni",
+    "family": [
+      "episode_level_net_pnl",
+      "episode_win_rate",
+      "max_drawdown"
+    ],
+    "alpha": 0.05,
+    "rule": "GO requires the primary endpoint to survive Holm correction across the family"
+  },
+  "minimum_independent_episodes": 10,
+  "power_calculation": {
+    "method": "Poisson episode arrivals; bisection solve for duration D at target power",
+    "code_sha256": "e76f5784df3ece72e66e1e0c951c17bed823415c3bae6114325e5d3fdecc6cee",
+    "reproduce": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/build_multi_year_validation_protocol.py",
+    "inputs": {
+      "observed_traded_episodes_per_day": 0.012355212355212355,
+      "observed_crash_days_per_day": 0.02471042471042471,
+      "symbols": 24,
+      "retained_window_days": 161.875,
+      "observed_independent_episodes": 2,
+      "observed_crash_days": 4,
+      "power_sensitivity_best_case_prob_at_least_target": 0.4151352833064923
+    },
+    "traded_episode_rate": {
+      "0.8": {
+        "solvable": true,
+        "target_power": 0.8,
+        "min_episodes": 10,
+        "rate_per_day": 0.012355212355212355,
+        "required_days": 1013.2365560892504,
+        "required_years": 2.775990564628083,
+        "required_hours_per_symbol": 24317.67734614201,
+        "required_hourly_bars_per_symbol": 24319,
+        "achieved_power_at_solution": 0.7999999997509584
+      },
+      "0.9": {
+        "solvable": true,
+        "target_power": 0.9,
+        "min_episodes": 10,
+        "rate_per_day": 0.012355212355212355,
+        "required_days": 1149.7973395364825,
+        "required_years": 3.1501296973602257,
+        "required_hours_per_symbol": 27595.13614887558,
+        "required_hourly_bars_per_symbol": 27597,
+        "achieved_power_at_solution": 0.9000000001440753
+      },
+      "0.95": {
+        "solvable": true,
+        "target_power": 0.95,
+        "min_episodes": 10,
+        "rate_per_day": 0.012355212355212355,
+        "required_days": 1271.1409540816676,
+        "required_years": 3.4825779563881305,
+        "required_hours_per_symbol": 30507.382897960022,
+        "required_hourly_bars_per_symbol": 30509,
+        "achieved_power_at_solution": 0.9499999999750853
+      }
+    },
+    "crash_day_rate": {
+      "0.8": {
+        "solvable": true,
+        "target_power": 0.8,
+        "min_episodes": 10,
+        "rate_per_day": 0.02471042471042471,
+        "required_days": 506.61827794788405,
+        "required_years": 1.3879952820489974,
+        "required_hours_per_symbol": 12158.838670749217,
+        "required_hourly_bars_per_symbol": 12160,
+        "achieved_power_at_solution": 0.7999999995690082
+      },
+      "0.9": {
+        "solvable": true,
+        "target_power": 0.9,
+        "min_episodes": 10,
+        "rate_per_day": 0.02471042471042471,
+        "required_days": 574.8986696028151,
+        "required_years": 1.5750648482268905,
+        "required_hours_per_symbol": 13797.568070467561,
+        "required_hourly_bars_per_symbol": 13799,
+        "achieved_power_at_solution": 0.8999999999644438
+      },
+      "0.95": {
+        "solvable": true,
+        "target_power": 0.95,
+        "min_episodes": 10,
+        "rate_per_day": 0.02471042471042471,
+        "required_days": 635.570476890076,
+        "required_years": 1.74128897778103,
+        "required_hours_per_symbol": 15253.691445361823,
+        "required_hourly_bars_per_symbol": 15255,
+        "achieved_power_at_solution": 0.9499999998849067
+      }
+    },
+    "required_for_80pct_power": {
+      "solvable": true,
+      "target_power": 0.8,
+      "min_episodes": 10,
+      "rate_per_day": 0.012355212355212355,
+      "required_days": 1013.2365560892504,
+      "required_years": 2.775990564628083,
+      "required_hours_per_symbol": 24317.67734614201,
+      "required_hourly_bars_per_symbol": 24319,
+      "achieved_power_at_solution": 0.7999999997509584
+    },
+    "archive_requirement": {
+      "min_independent_crash_episodes": 10,
+      "min_duration_days": 1013.2365560892504,
+      "min_duration_years": 2.775990564628083,
+      "min_hourly_bars_per_symbol": 24319,
+      "symbols": 24,
+      "min_total_bars_all_symbols": 583656,
+      "window_start": "2025-12-20T00:00:00Z",
+      "window_end": "2026-09-28T23:00:00Z",
+      "note": "The spec window is only 283 days; reaching 80% power needs a longer archive than the spec window, which is exactly why the operator archive must be multi-year."
+    }
+  },
+  "stop_go_rules": {
+    "GO": [
+      ">= 10 independent crash episodes on distinct crash days",
+      "primary endpoint bootstrap 95% CI excludes 0 (positive)",
+      "crash-day permutation p < 0.05",
+      "full-portfolio placebo one-sided p < 0.05",
+      "primary endpoint survives Holm-Bonferroni",
+      "all inputs C4-T1 validated Hyperliquid-native, non-synthetic, checksummed"
+    ],
+    "NO_GO": [
+      "any criterion unmet",
+      "episode count < floor",
+      "any input is partial, cross-venue, synthetic, or unchecksummed"
+    ],
+    "current_status": "NO_GO (retained partial window; floor unreachable on API data)"
+  },
+  "okx_cross_venue_note": {
+    "okx_independent_episodes": 4,
+    "statement": "OKX is cross-venue and is never Hyperliquid evidence."
+  },
+  "coverage_reference": {
+    "coverage_artifact": "research_state/hyperliquid_universe_coverage.json",
+    "verdict": "PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED"
+  },
+  "no_new_data_fabricated": true
+}

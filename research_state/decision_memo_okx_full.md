@@ -138,6 +138,49 @@ liquidation, varying only which gate-passing events are allowed to trade.
 - The +9.16% return must not be presented as validated edge, and the strategy must not be
   funded on this evidence.
 
+## Hyperliquid-native status (updated 2026-11-14T20:47:08Z; C4 decision lock; supersedes all earlier Hyperliquid blocks below)
+
+- **C4 DECISION LOCK: `NO_GO` on current data.** The only decision-grade path is an
+  operator-supplied, C4-T1-validated, Hyperliquid-native **multi-year** archive. No
+  partial window, cross-venue (OKX), dry-run fixture, placeholder parquet, or
+  exploratory fan-out may be promoted to evidence. Verdict remains
+  **`underpowered`** until every GO criterion in `multi_year_validation_protocol_20261114T203040Z.md`
+  is met.
+- **C4-T1 — archive intake gate is executable and fail-closed.**
+  `scripts/validate_hyperliquid_archive_intake.py` →
+  `research_state/archive_intake_validation_20261114T202957Z.{json,md}`. Verdict on the
+  committed placeholder parquet: **`REJECT_NOT_EVIDENCE`** (flat series, 1/6,792 distinct
+  signature per symbol). Built-in self-test **4/4 expectations met**: flat full-window
+  fixture is rejected without `--allow-synthetic-fixture` and accepted only as
+  `ACCEPT_FIXTURE_NON_EVIDENCE` (`is_market_data=false`, `is_evidence=false`,
+  `performance_evidence=false`) with it; a truncated 300-bar fixture is **rejected even
+  with the opt-in**; the placeholder is rejected even with the opt-in.
+- **C4-T2 — multi-year protocol and executed power calculation.**
+  `research_state/multi_year_validation_protocol_20261114T203040Z.{json,md}`. At the
+  observed traded-episode rate (0.012355/day), **80% power for ≥10 independent crash
+  episodes requires 1,013.2 days (~2.78 years) = 24,319 hourly bars/symbol** (×24 symbols
+  = 583,656 bars). The 283-day spec window is 2.78× too short; the crash-day rate needs
+  404.9 days. Protocol binds: primary endpoint episode-level net PnL, 72h crash-day
+  clustering, crash-day block bootstrap (10,000), crash-day permutation (10,000),
+  full-portfolio placebo, Holm–Bonferroni across 3 endpoints.
+- **C4-T3 — execution-friction stress on the retained exploratory path.**
+  `research_state/execution_friction_stress_hyperliquid_20261114T204632Z.{json,md,csv}`,
+  label `NOT_EVIDENCE_EXECUTION_FRICTION`, `performance_evidence=false`,
+  `canonical_baseline_changed=false`. 9 variants on the same retained chain: **all 9 have
+  negative total PnL**, range **−7,945.88 .. −501.77** vs baseline −2,670.76; trade count
+  is 2 in every variant; the no-ETH-hedge variant is worst (−7,945.88), slippage 10× is
+  −5,062.61. This is a fragility check on a 2-trade path, never performance evidence.
+- **C4-T4 — retention probe re-captured (still decaying).** Live probe
+  `research_state/hyperliquid_retention_probe.json` (2026-11-14T20:34:15Z, sha256
+  `27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927`): **3,879 / 6,792**
+  bars, **2,913 missing**, earliest served **2026-04-20T09:00:00Z**, 235 perps / 34 pass
+  the $5M gate / 34 probed, unprobeable `['KPEPE']`. Strictly worse than the retained
+  chain, so **KEEP_RETAINED** (24 × 3,885 bars, start 2026-04-20T03:00:00Z); no fetch.
+- **C4 closes the analysis loop but not the evidence gap.** The repo now has a
+  fail-closed intake gate, a numeric multi-year requirement, and a friction bound; it still
+  has **zero** Hyperliquid decision-grade evidence. The single durable handoff is
+  `HANDOFF.md` (the duplicate `HANDOFF_20261114T202006Z.md` was removed).
+
 ## Hyperliquid-native status (updated 2026-11-14T16:26:00Z; supersedes all earlier Hyperliquid blocks below)
 
 - **Full 283-day window: BLOCKED, and now measurably worse.** Live re-probe this session
@@ -295,6 +338,15 @@ liquidation, varying only which gate-passing events are allowed to trade.
    days, which is likewise below any episode-aware inference floor. A longer
    Hyperliquid-native history is required before any episode-aware inference is possible on
    Hyperliquid.
+8. **C4 (2026-11-14T20:47Z) — decision lock built, evidence gap unchanged.** Done this
+   session, all NOT_EVIDENCE: C4-T1 fail-closed intake validator
+   (`archive_intake_validation_20261114T202957Z`), C4-T2 multi-year protocol with executed
+   80%-power duration (`multi_year_validation_protocol_20261114T203040Z`: 1,013.2 days /
+   24,319 bars per symbol), C4-T3 execution-friction stress
+   (`execution_friction_stress_hyperliquid_20261114T204632Z`: 9/9 variants negative), C4-T4
+   probe/coverage/handoff closeout. **Next campaign C5: operator archive ingest → verified
+   universe → full-window canonical campaign → placebo → episode audit → memo update.** Do
+   not start C5 without a C4-T1 `ACCEPT_AS_EVIDENCE_CANDIDATE` artifact.
 
 ## Reproduction
 
@@ -308,9 +360,9 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_stress_okx.py
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx.py --draws 40
 # EXPECT: episodes=4 events=11 days=5 largest_episode=4/11 perm_p=0.1500
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py
-# EXPECT (2026-11-14T16:19Z): 3883/6792 bars; 2909 missing; 235 perps / 29 pass $5M / 29 probed; earliest 2026-04-20T05:00:00Z
+# EXPECT (2026-11-14T20:34Z): 3879/6792 bars; 2913 missing; 235 perps / 34 pass $5M / 34 probed; earliest 2026-04-20T09:00:00Z
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
-# EXPECT: 18/18 checks passed — DONE
+# EXPECT: 21/21 checks passed — DONE
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py
 # EXPECT: 4/4 — EVIDENCE VERIFIED
 ```
