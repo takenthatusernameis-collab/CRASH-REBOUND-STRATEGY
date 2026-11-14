@@ -1,17 +1,17 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T02:11:30Z
-**Supersedes:** 2026-11-14T01:53:24Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-14T02:43:05Z
+**Supersedes:** 2026-11-14T02:11:30Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main`, base HEAD `915e38e`; evidence chain **17/17 green**. **This file is the only durable handoff.** Never create a second status/handoff file.
+**Branch:** `main`, base HEAD `2cc587a`; evidence chain **17/17 green**. **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T02:11:30Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T02:43:05Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** force a decision-grade Hyperliquid-native verdict, or prove the data block with a reproducible probe. The OKX evidence is **cross-venue, `underpowered`, and NOT Hyperliquid performance evidence**. The binding constraint is **independent crash episodes**, not trades: 11 gate-passing events are **4 crash episodes over 5 crash days**, two of the four episodes lost money, crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**, and episode-block bootstrap CI **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
 >
-> **VERIFIED BASELINE (2026-11-14T02:11:30Z):** gate **17/17 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes. Canonical OKX hash unchanged; evidence verifier **4/4 PASS**. **A green gate is evidence-chain completeness, NOT permission to stop.**
+> **VERIFIED BASELINE (2026-11-14T02:43:05Z):** gate **17/17 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes. Canonical OKX hash unchanged; evidence verifier **4/4 PASS**. **A green gate is evidence-chain completeness, NOT permission to stop.**
 >
-> **BOTTLENECK STATUS (2026-11-14T02:11:30Z): NONE INTERNAL. TWO EXTERNAL CONSTRAINTS.**
+> **BOTTLENECK STATUS (2026-11-14T02:43:05Z): NONE INTERNAL. TWO EXTERNAL CONSTRAINTS.**
 > 1. **Full 283-day window is API-blocked (reproducible, re-probed 2026-11-14T02:10:00Z).** 235 perps / **29** pass the $5M gate / **29 probed**; 28 served partial, 1 empty/error (`KPEPE`). Max **3,897 of 6,792** hourly bars served, **2,895** early bars missing, earliest served **2026-04-19T15:00:00Z**. Only an operator-supplied verified Hyperliquid-native archive escapes this.
 > 2. **The partial window is SLIDING (time-critical).** Retention decays (~1h/hr): prior probe had earliest 2026-04-19T14:00:00Z / max 3898; this session 15:00:00Z / 3897. Capture now and re-capture periodically; do not treat any partial snapshot as stable evidence.
 >
@@ -61,11 +61,11 @@
 
 ---
 
-## 0. Verified state (2026-11-14T02:11:30Z)
+## 0. Verified state (2026-11-14T02:43:05Z)
 
 | Check | Result | Evidence |
 |---|---|---|
-| Git | base HEAD `915e38e`, `main`; this handoff/artifact recapture is the checkpoint delta. | `git rev-parse --short HEAD`, `git status --short` |
+| Git | base HEAD `2cc587a`, `main`; clean tree; this handoff is the checkpoint delta. | `git rev-parse --short HEAD`, `git status --short` |
 | Durable handoff | Single file: `./HANDOFF.md`. | repo root |
 | Environment | `/tmp/crs-venv` present; no bootstrap needed. | `test -x` |
 | Done-gate | **17/17 — DONE.** | `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` |
