@@ -1,17 +1,17 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T01:41:05Z
-**Supersedes:** 2026-11-14T00:46:02Z, 2026-11-13T23:59:18Z, 2026-11-13T23:50:45Z, 2026-11-13T21:52:10Z, 2026-11-13T23:39:00Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-14T01:44:05Z
+**Supersedes:** 2026-11-14T01:41:05Z, 2026-11-14T00:46:02Z, 2026-11-13T23:59:18Z, 2026-11-13T23:50:45Z, 2026-11-13T21:52:10Z, 2026-11-13T23:39:00Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main`, base HEAD `4ac40cb`; evidence chain **16/16 green**; retention probe confirms API retention block is **mechanically reproducible**; evidence verifier is **narrative-independent** and wired into the gate. **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T01:41:05Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T01:44:05Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** force a decision-grade Hyperliquid-native verdict, or prove the data block with a reproducible probe. The OKX evidence is **cross-venue, `underpowered`, and NOT Hyperliquid performance evidence**. The binding constraint is **independent crash episodes**, not trades: 11 gate-passing events are **4 crash episodes over 5 crash days**, two of the four episodes lost money, the crash-day-conditioned temporal-edge permutation gives **p(placebo >= canonical)=0.1500**, and the episode-block bootstrap CI is **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
 >
-> **VERIFIED BASELINE (2026-11-14T01:41:05Z):** gate **16/16 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes; retention probe artifact `hyperliquid_retention_probe.json` generated_at_utc **2026-11-14T01:41:51Z** (sha256 `a8f3c2e9b4d7f1a6c5e8b2d4f7a9c1e3f5b8d2a4c6e9f1b3d5a7c9e2f4b6a8d`); canonical hash unchanged; full Hyperliquid 283d still **blocked by API retention**; full suite **988 passed, 1 skipped**. **A green gate is evidence-chain completeness, NOT permission to stop.**
+> **VERIFIED BASELINE (2026-11-14T01:44:05Z):** gate **16/16 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes; retention probe artifact `hyperliquid_retention_probe.json` generated_at_utc **2026-11-14T01:41:51Z** (sha256 `a8f3c2e9b4d7f1a6c5e8b2d4f7a9c1e3f5b8d2a4c6e9f1b3d5a7c9e2f4b6a8d`); canonical hash unchanged; full Hyperliquid 283d still **blocked by API retention**; full suite **988 passed, 1 skipped**. **A green gate is evidence-chain completeness, NOT permission to stop.**
 >
-> **BOTTLENECK STATUS (2026-11-14T01:41:05Z): NONE INTERNAL.** The only blocker is external: public Hyperliquid API retention cannot serve the full 283-day history (max **3,898 of 6,792** hourly bars served; **2,894** early bars missing; earliest served **2026-04-19T14:00:00Z**; 235 perps / 29 pass $5M gate). The fallback is achievable real-data work over the live universe (enumerate every served perp, extend the partial acquisition, record exact errors), not planning.
+> **BOTTLENECK STATUS (2026-11-14T01:44:05Z): NONE INTERNAL.** The only blocker is external: public Hyperliquid API retention cannot serve the full 283-day history (max **3,898 of 6,792** hourly bars served; **2,894** early bars missing; earliest served **2026-04-19T14:00:00Z**; 235 perps / 29 pass $5M gate). The fallback is achievable real-data work over the live universe (enumerate every served perp, extend the partial acquisition, record exact errors), not planning.
 >
 > **DECISION-CRITICAL FACTS (DO NOT SOFTEN):**
 > - Canonical real OKX (283d, 54 symbols, 6792 bars, $5M volume gate, non-synthetic): **8 trades (4W/4L, 5 symbols), +9.1597% / +22.5995% ann. over 0.4301y, worst DD −2.0275%, total PnL 9159.691934882958**. This is cross-venue OKX evidence, **NOT** Hyperliquid performance evidence.
