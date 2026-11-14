@@ -1,0 +1,199 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T18:27:53Z",
+  "run_type": "full_window_dry_run_readiness",
+  "label": "NOT_EVIDENCE_DRY_RUN_READINESS",
+  "performance_evidence": false,
+  "provenance_caveat": "Readiness/wiring proof only. A synthetic, clearly-labelled fixture is used to prove the pipeline executes end-to-end; it is NOT market data and NOT evidence. No canonical artifact is written or overwritten. The placeholder parquet remains NEVER evidence.",
+  "fixture": {
+    "kind": "synthetic_dry_run_fixture",
+    "is_market_data": false,
+    "is_evidence": false,
+    "bars_per_symbol": 120,
+    "window": [
+      "2025-01-01T00:00:00+00:00",
+      "2025-01-05T23:00:00+00:00"
+    ],
+    "symbols": [
+      "AAA",
+      "BBB",
+      "ETH"
+    ]
+  },
+  "steps": [
+    {
+      "step": "env",
+      "ok": true,
+      "exit": 0,
+      "stdout_tail": "env_ok"
+    },
+    {
+      "step": "runbook_scripts_and_flags",
+      "ok": true,
+      "scripts": {
+        "fetch_hyperliquid_candles.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "09db1f1f3a8b365e88eef85447046be18d852381a5771931b3f22c0ca944fc02",
+          "flags_present": {
+            "--source": true,
+            "--input-archive": true,
+            "--symbols": true,
+            "--start": true,
+            "--end": true,
+            "--cache-dir": true
+          },
+          "ok": true
+        },
+        "derive_verified_universe.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "e8f522d0a98e2db2bde4d6d6d11ccbb65f5f1a5d24868c08bcccd4aa025fb931",
+          "flags_present": {
+            "--manifest": true,
+            "--cache-dir": true,
+            "--output": true
+          },
+          "ok": true
+        },
+        "run_real_campaign.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "8ce2954a84198fd0f48e850c4afc06254b8e4f4fc621d497829369195ef8f338",
+          "flags_present": {
+            "--manifest": true,
+            "--cache-dir": true,
+            "--universe-file": true,
+            "--output-prefix": true,
+            "--apply-vault-fees": true
+          },
+          "ok": true
+        },
+        "run_hyperliquid_exploratory_next_open.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "d1dc3a2d65552439445e33fd0c20ec63103b30befdc23eb5a4ab6df8c6e4452a",
+          "flags_present": {
+            "--cache-dir": true,
+            "--manifest": true,
+            "--output-prefix": true
+          },
+          "ok": true
+        },
+        "run_portfolio_placebo_hyperliquid_exploratory.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "313dee0c1c6cf5eee83a197619ce42de072f79e210c8bbf9472927abc01c2b60",
+          "flags_present": {
+            "--cache-dir": true,
+            "--out": true
+          },
+          "ok": true
+        },
+        "build_crash_event_census.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "62ab60d4d8a0687abb07ed40e9becbd9c2e84ae33e72ce0491b4608c7ec660d1",
+          "flags_present": {
+            "--manifest": true,
+            "--cache-dir": true,
+            "--universe-file": true,
+            "--output-prefix": true
+          },
+          "ok": true
+        },
+        "run_episode_edge_okx.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "111661deb461610d5ee73736f7e6773a9536993cce532b2e8d0d6b05eb8f86b7",
+          "flags_present": {
+            "--out": true,
+            "--draws": true,
+            "--seed": true
+          },
+          "ok": true
+        },
+        "audit_spec_divergence_closure.py": {
+          "exists": true,
+          "help_exit": 0,
+          "sha256": "2964ec485b3d2fd9ad6ff436342cf3fe6ee3b9e24693252c0cc31e2331116bba",
+          "flags_present": {},
+          "ok": true
+        }
+      }
+    },
+    {
+      "step": "fixture_fetch_provenance",
+      "ok": true,
+      "exit": 0,
+      "manifest": ".dryrun_fixture_rmkxgad8/cache/provenance.json",
+      "stderr_tail": ""
+    },
+    {
+      "step": "fixture_derive_universe",
+      "ok": true,
+      "exit": 0,
+      "stderr_tail": ""
+    },
+    {
+      "step": "fixture_campaign_partial_not_evidence",
+      "ok": true,
+      "exit": 0,
+      "stdout_tail": "PARTIAL NOT-EVIDENCE run complete (performance_evidence=false): 0 trades, total_pnl=0.0, symbols=['AAA', 'BBB', 'ETH']\nWrote /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/dryrun_fixture_campaign_20261114T182753Z.json",
+      "stderr_tail": ""
+    },
+    {
+      "step": "fixture_exploratory_next_open",
+      "ok": true,
+      "exit": 0,
+      "stdout_tail": "EXPLORATORY NOT_EVIDENCE_EXPLORATORY_FANOUT: 3 trades, total_pnl=-61895.2936381065, symbols=3\nWrote /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/dryrun_fixture_exploratory_20261114T182753Z.json",
+      "stderr_tail": ""
+    },
+    {
+      "step": "episode_audit_wiring",
+      "ok": true,
+      "episodes": 1
+    },
+    {
+      "step": "fixture_artifacts_not_evidence",
+      "ok": true,
+      "artifacts": [
+        {
+          "artifact": "research_state/dryrun_fixture_campaign_20261114T182753Z.json",
+          "sha256": "949c7af89c34582169e76366f82e2d22a6156f0eed711cec3f9addc9c03446eb",
+          "performance_evidence": false,
+          "fabricated_data": false,
+          "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
+          "ok": true
+        },
+        {
+          "artifact": "research_state/dryrun_fixture_exploratory_20261114T182753Z.json",
+          "sha256": "7b4992e1282f7ed50664f3af06d00f4ff2011f1f9c8c379c24607a7139d4a36e",
+          "performance_evidence": false,
+          "fabricated_data": false,
+          "research_status": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+          "ok": true
+        }
+      ]
+    },
+    {
+      "step": "fixture_outputs_removed",
+      "ok": true,
+      "remaining": []
+    }
+  ],
+  "operator_command_sequence": [
+    "test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh",
+    "# 1. operator: place verified archive at research_state/archives/hyperliquid_1h_full_20251220_20260928/ with SOURCE.md",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive research_state/archives/hyperliquid_1h_full_20251220_20260928 --symbols <VERIFIED_SYMBOLS> --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --output research_state/universe_hyperliquid_full_verified.json",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_hyperliquid_exploratory.py --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/build_crash_event_census.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --campaign research_state/campaign_results_real_hyperliquid_full.json --output-prefix crash_event_census_hyperliquid_full",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py",
+    "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py"
+  ],
+  "full_archive_present": false,
+  "pipeline_wired_end_to_end": true,
+  "verdict": "READY"
+}

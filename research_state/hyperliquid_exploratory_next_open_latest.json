@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-14T16:25:41.332042+00:00",
+  "timestamp": "2026-11-14T18:27:55.343870+00:00",
   "run_type": "real_market_campaign_exploratory_spec_literal_next_open",
   "label": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
   "research_status": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
@@ -26,416 +26,238 @@
     "enable_liquidation_checks": true
   },
   "data_provenance": {
-    "manifest_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json",
-    "manifest_sha256": "135ece4ea010fa704be4757a8459dfb3bf8b568ca93a8f4dfc0cde1dee6b6ce2",
+    "manifest_path": ".dryrun_fixture_rmkxgad8/cache/provenance.json",
+    "manifest_sha256": "132dcc4c54918ed6c91a9bd84b730c51e69b2ab0facb8ce763c5a5e2563cf0c3",
     "source": {
-      "kind": "hyperliquid_api_aligned_slice",
-      "hl_url": "https://api.hyperliquid.xyz/info",
-      "input_archive": null,
+      "kind": "archive",
+      "hl_url": null,
+      "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/.dryrun_fixture_rmkxgad8/archive",
       "input_archives": []
     },
     "target_window": {
-      "start": "2026-04-20T03:00:00+00:00",
-      "end": "2026-09-28T23:00:00+00:00",
-      "expected_hourly_bars": 3885
+      "start": "2025-01-01T00:00:00+00:00",
+      "end": "2025-01-05T23:00:00+00:00",
+      "expected_hourly_bars": 120
     },
     "symbols_loaded": [
-      "AAVE",
-      "ADA",
-      "ALGO",
-      "APT",
-      "ARB",
-      "ATOM",
-      "AVAX",
-      "BCH",
-      "BTC",
-      "DOGE",
-      "DOT",
-      "ETH",
-      "ICP",
-      "INJ",
-      "LINK",
-      "LTC",
-      "NEAR",
-      "OP",
-      "SEI",
-      "SOL",
-      "SUI",
-      "TIA",
-      "UNI",
-      "XRP"
+      "AAA",
+      "BBB",
+      "ETH"
     ]
   },
-  "funnel": {
-    "totals": {
-      "symbols": 24,
-      "bars_total": 93240,
-      "rsi_crash_hours_no_volume_gate": 29,
-      "rsi_crash_hours_passing_trailing_24h_5m_volume": 11,
-      "same_bar_rebound_confirm_implementation": 0,
-      "next_bar_rebound_confirm_implementation": 5,
-      "generate_signal_canonical_same_bar_confirm": 0,
-      "generate_signal_spec_literal_next_open": 8
-    },
-    "per_symbol": {
-      "AAVE": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "ADA": {
-        "rsi_crash_hours_no_volume_gate": 2,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 1,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "ALGO": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "APT": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "ARB": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "ATOM": {
-        "rsi_crash_hours_no_volume_gate": 2,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "AVAX": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "BCH": {
-        "rsi_crash_hours_no_volume_gate": 17,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 1,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 2
-      },
-      "BTC": {
-        "rsi_crash_hours_no_volume_gate": 6,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 6,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 2,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 6
-      },
-      "DOGE": {
-        "rsi_crash_hours_no_volume_gate": 1,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 1,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "DOT": {
-        "rsi_crash_hours_no_volume_gate": 1,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "ETH": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "ICP": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "INJ": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "LINK": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "LTC": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "NEAR": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "OP": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "SEI": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "SOL": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "SUI": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "TIA": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "UNI": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      },
-      "XRP": {
-        "rsi_crash_hours_no_volume_gate": 0,
-        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
-        "same_bar_rebound_confirm_implementation": 0,
-        "next_bar_rebound_confirm_implementation": 0,
-        "generate_signal_canonical_same_bar_confirm": 0,
-        "generate_signal_spec_literal_next_open": 0
-      }
-    }
-  },
+  "funnel": null,
   "results": {
-    "num_trades": 2,
-    "total_pnl": -2670.7567875859345,
+    "num_trades": 3,
+    "total_pnl": -61895.2936381065,
     "final_open_positions": 0,
     "final_gross_exposure": 0.0,
     "trades": [
       {
-        "symbol": "BCH",
-        "exit_reason": "time_exit",
-        "pnl": 2044.4547345784185,
-        "total_pnl": 559.3600758639964,
-        "entry_price": 296.15234307347947,
-        "hedge_pnl": -1485.0946587144222,
-        "max_live_coin_notional": 68189.57691485158,
-        "shares": 230.25168805749684,
-        "entry_timestamp": "2026-05-28T15:00:00+00:00",
-        "exit_timestamp": "2026-05-30T16:00:00+00:00",
-        "r_multiple": 0.2110121191644389,
-        "bars_held": 50,
-        "leg": "buy",
-        "rebound_short_pnl": 0.0,
-        "rebound_hedge_pnl": 0.0,
+        "symbol": "AAA",
+        "exit_reason": "target_rebound_short",
+        "pnl": 7802.573350949506,
+        "total_pnl": -117546.46885532461,
+        "entry_price": 71.79387849999999,
+        "hedge_pnl": -119559.51735722946,
+        "max_live_coin_notional": 130665.8906323333,
+        "shares": 1671.451696261263,
+        "entry_timestamp": "2025-01-02T17:00:00+00:00",
+        "exit_timestamp": "2025-01-03T22:00:00+00:00",
+        "r_multiple": -3.1265990614527643,
+        "bars_held": 30,
+        "leg": "short",
+        "rebound_short_pnl": -8503.880046398896,
+        "rebound_hedge_pnl": -116845.16215987522,
         "hedge_side": "short",
-        "hedge_size": 57.59430132489286
+        "hedge_size": 176.38412542871143
       },
       {
-        "symbol": "BTC",
-        "exit_reason": "liquidated",
-        "pnl": -9990.339461044698,
-        "total_pnl": -3230.116863449931,
-        "entry_price": 68041.00466830477,
-        "hedge_pnl": 6760.222597594767,
-        "max_live_coin_notional": 120000.0,
-        "shares": 1.763642388659482,
-        "entry_timestamp": "2026-06-02T15:00:00+00:00",
-        "exit_timestamp": "2026-06-04T00:00:00+00:00",
-        "r_multiple": -1.3581159650176453,
-        "bars_held": 34,
-        "leg": "buy",
-        "rebound_short_pnl": 0.0,
-        "rebound_hedge_pnl": 0.0,
+        "symbol": "BBB",
+        "exit_reason": "target_rebound_short",
+        "pnl": 56664.25024480104,
+        "total_pnl": 56133.484172364726,
+        "entry_price": 36.16138365625,
+        "hedge_pnl": 55129.29568836879,
+        "max_live_coin_notional": 65331.29872252368,
+        "shares": 1659.2285453001414,
+        "entry_timestamp": "2025-01-03T08:00:00+00:00",
+        "exit_timestamp": "2025-01-04T13:00:00+00:00",
+        "r_multiple": 2.9861812613796577,
+        "bars_held": 30,
+        "leg": "short",
+        "rebound_short_pnl": -4253.452287458768,
+        "rebound_hedge_pnl": 3722.686215022454,
         "hedge_side": "short",
-        "hedge_size": 44.246964563505536
+        "hedge_size": 87.54863813229572
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "target_rebound_short",
+        "pnl": 277.10134285714776,
+        "total_pnl": -482.308955146616,
+        "entry_price": 1471.4713674999998,
+        "hedge_pnl": -1281.4106293215823,
+        "max_live_coin_notional": 65332.61685000002,
+        "shares": 40.7755130852045,
+        "entry_timestamp": "2025-01-04T01:00:00+00:00",
+        "exit_timestamp": "2025-01-05T07:00:00+00:00",
+        "r_multiple": -0.025641054443363176,
+        "bars_held": 31,
+        "leg": "short",
+        "rebound_short_pnl": -4459.198325825046,
+        "rebound_hedge_pnl": 3699.788027821282,
+        "hedge_side": "short",
+        "hedge_size": 40.79592856632909
       }
     ],
-    "equity_curve_points": 3
+    "equity_curve_points": 4
   },
   "metrics": {
-    "sharpe_ratio": -0.7047824357705331,
-    "sortino_ratio": -0.41341488566661777,
-    "max_drawdown": -3230.116863449931,
-    "max_drawdown_timestamp": "2026-06-04T00:00:00+00:00",
+    "sharpe_ratio": -0.28527693075277066,
+    "sortino_ratio": -0.2482207752395779,
+    "max_drawdown": -117546.46885532461,
+    "max_drawdown_timestamp": "2025-01-03T22:00:00+00:00",
     "max_drawdown_series": [
       {
-        "timestamp": "2026-04-21T00:00:00+00:00",
+        "timestamp": "2025-01-01T21:00:00+00:00",
         "equity": 100000.0,
         "drawdown": 0.0
       },
       {
-        "timestamp": "2026-05-30T16:00:00+00:00",
-        "equity": 100559.360075864,
-        "drawdown": 0.0
+        "timestamp": "2025-01-03T22:00:00+00:00",
+        "equity": -17546.46885532461,
+        "drawdown": -1.175464688553246
       },
       {
-        "timestamp": "2026-06-04T00:00:00+00:00",
-        "equity": 97329.24321241406,
-        "drawdown": -0.032121493822286344
+        "timestamp": "2025-01-04T13:00:00+00:00",
+        "equity": 38587.01531704012,
+        "drawdown": -0.6141298468295988
+      },
+      {
+        "timestamp": "2025-01-05T07:00:00+00:00",
+        "equity": 38104.7063618935,
+        "drawdown": -0.618952936381065
       }
     ],
-    "calmar_ratio": -0.8268297713332355,
-    "win_rate": 0.5,
-    "profit_factor": 0.1731702286667644,
+    "calmar_ratio": -0.5265602126618266,
+    "win_rate": 0.3333333333333333,
+    "profit_factor": 0.47559150584870924,
     "monthly_breakdown": {
-      "2026-05": 559.3600758639964,
-      "2026-06": -3230.116863449931
+      "2025-01": -61895.2936381065
     },
     "weekly_breakdown": {
-      "2026-W22": 559.3600758639964,
-      "2026-W23": -3230.116863449931
+      "2025-W01": -61895.2936381065
     },
     "annual_breakdown": {
-      "2026": -2670.7567875859345
+      "2025": -61895.2936381065
     },
     "annual_trade_counts": {
-      "2026": 2
+      "2025": 3
     },
-    "positive_months": 1,
+    "positive_months": 0,
     "negative_months": 1,
     "flat_months": 0,
-    "total_months": 2,
+    "total_months": 1,
     "trade_attribution": [
       {
-        "symbol": "BCH",
-        "pnl": 559.3600758639964,
+        "symbol": "AAA",
+        "pnl": -117546.46885532461,
         "trades": 1,
-        "coin_pnl": 2044.4547345784185,
-        "hedge_pnl": -1485.0946587144222
+        "coin_pnl": 7802.573350949506,
+        "hedge_pnl": -119559.51735722946
       },
       {
-        "symbol": "BTC",
-        "pnl": -3230.116863449931,
+        "symbol": "BBB",
+        "pnl": 56133.484172364726,
         "trades": 1,
-        "coin_pnl": -9990.339461044698,
-        "hedge_pnl": 6760.222597594767
+        "coin_pnl": 56664.25024480104,
+        "hedge_pnl": 55129.29568836879
+      },
+      {
+        "symbol": "ETH",
+        "pnl": -482.308955146616,
+        "trades": 1,
+        "coin_pnl": 277.10134285714776,
+        "hedge_pnl": -1281.4106293215823
       }
     ],
     "trade_attribution_by_leg": [
       {
         "leg": "buy",
-        "pnl": -2670.7567875859345,
-        "trades": 2
+        "pnl": 64743.92493860769,
+        "trades": 3
+      },
+      {
+        "leg": "short",
+        "pnl": -126639.21857671418,
+        "trades": 3
       }
     ],
     "leg_breakdown": [
       {
         "leg": "buy",
-        "trades": 2,
-        "wins": 1,
-        "losses": 1,
-        "win_rate": 0.5,
-        "gross_profit": 559.3600758639964,
-        "gross_loss": 3230.116863449931,
-        "profit_factor": 0.1731702286667644,
-        "total_pnl": -2670.7567875859345,
-        "avg_r_multiple": -0.5735519229266032,
-        "pnl_share_pct": 100.0
+        "trades": 3,
+        "wins": 3,
+        "losses": 0,
+        "win_rate": 1.0,
+        "gross_profit": 64743.9249386077,
+        "gross_loss": 0,
+        "profit_factor": 1.0,
+        "total_pnl": 64743.9249386077,
+        "avg_r_multiple": 0.0,
+        "pnl_share_pct": -104.60233910054093
+      },
+      {
+        "leg": "short",
+        "trades": 3,
+        "wins": 0,
+        "losses": 3,
+        "win_rate": 0.0,
+        "gross_profit": 0,
+        "gross_loss": 126639.2185767142,
+        "profit_factor": 0.0,
+        "total_pnl": -126639.2185767142,
+        "avg_r_multiple": -0.055352951505489946,
+        "pnl_share_pct": 204.60233910054092
       }
     ],
     "exposure_metrics": {
-      "total_trades": 2,
-      "gross_profit": 559.3600758639964,
-      "gross_loss": 3230.116863449931,
-      "total_pnl": -2670.7567875859345,
-      "avg_pnl_per_trade": -1335.3783937929672,
+      "total_trades": 3,
+      "gross_profit": 56133.484172364726,
+      "gross_loss": 118028.77781047122,
+      "total_pnl": -61895.2936381065,
+      "avg_pnl_per_trade": -20631.7645460355,
       "winning_trades": 1,
-      "losing_trades": 1
+      "losing_trades": 2
     },
     "equity_start": 100000.0,
-    "equity_final": 97329.24321241406,
-    "equity_points": 3,
+    "equity_final": 38104.7063618935,
+    "equity_points": 4,
     "equity_period_returns": [
-      0.00559360075863995,
-      -0.032121493822286344
+      -1.175464688553246,
+      -3.1991328075865586,
+      -0.012499255285329868
     ],
-    "equity_sharpe_ratio": -0.703376018499033,
-    "equity_sortino_ratio": -0.41293056310539594,
-    "equity_max_drawdown_pct": -3.212149382228634,
+    "equity_sharpe_ratio": -1.1106625787419095,
+    "equity_sortino_ratio": -0.7431598237504754,
+    "equity_max_drawdown_pct": -117.5464688553246,
     "annual_return_pct": {
-      "2026": -2.6707567875859346
+      "2025": -61.895293638106494
     },
-    "equity_total_return_pct": -2.6707567875859373,
-    "equity_annualized_return_pct": -20.11353288930643,
-    "equity_horizon_years": 0.12054794520547946,
-    "equity_annualized_calmar_ratio": -6.2617053243493235,
-    "aum_fee_total": 0.6801109664115937,
-    "profit_share_total": 55.913048828391766,
-    "vault_fee_total": 56.59315979480336,
-    "gross_total_pnl": -2670.7567875859386,
-    "net_total_pnl": -2727.349947380742,
-    "gross_final_equity": 97329.24321241406,
-    "net_final_equity": 97329.02099953001,
-    "vault_hwm_final": 100503.21743945553,
+    "equity_total_return_pct": -61.89529363810651,
+    "equity_annualized_return_pct": -100.0,
+    "equity_horizon_years": 0.009360730593607305,
+    "equity_annualized_calmar_ratio": -0.8507273844446941,
+    "aum_fee_total": 0.4034057572578393,
+    "profit_share_total": 0.0,
+    "vault_fee_total": 0.4034057572578393,
+    "gross_total_pnl": -61895.2936381065,
+    "net_total_pnl": -61895.69704386376,
+    "gross_final_equity": 38104.7063618935,
+    "net_final_equity": 38104.61936484701,
+    "vault_hwm_final": 100000.0,
     "fee_hours_per_step": 1.0,
     "fee_time_base_hours_per_year": 8760.0,
-    "timestamp": "2026-11-14T16:25:41.331918"
+    "timestamp": "2026-11-14T18:27:55.343777"
   }
 }

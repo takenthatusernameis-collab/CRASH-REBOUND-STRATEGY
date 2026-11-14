@@ -977,6 +977,128 @@ def check_handoff() -> Tuple[bool, str]:
     return True, f"{len(text)} bytes; Phase O {generated_at}"
 
 
+def _latest(pattern: str) -> Optional[Path]:
+    """Newest file matching a research_state glob (name-sortable UTC stems)."""
+    matches = sorted(STATE.glob(pattern))
+    return matches[-1] if matches else None
+
+
+def check_spec_divergence_closure() -> Tuple[bool, str]:
+    """Phase S1: every spec-comparison divergence must be adjudicated in code.
+
+    The comparison explains why numbers differ; this proves the loop was closed:
+    each divergence is RESOLVED_IN_CODE, INTENTIONALLY_RETAINED, or GENUINE_GAP,
+    with no UNRESOLVED rows, and no strategy behaviour was changed.
+    """
+    path = _latest("spec_divergence_closure_*.json")
+    if path is None:
+        return False, ("missing spec_divergence_closure_*.json (run "
+                       "scripts/audit_spec_divergence_closure.py)")
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if data.get("label") != "NOT_EVIDENCE_SPEC_COMPARISON_CLOSURE":
+        return False, "label must be NOT_EVIDENCE_SPEC_COMPARISON_CLOSURE"
+    if data.get("performance_evidence") is not False:
+        return False, "performance_evidence must be false (code audit, not evidence)"
+    if data.get("code_changes_made") is not False:
+        return False, "code_changes_made must be false (audit only)"
+    rows = data.get("rows")
+    if not isinstance(rows, list) or not rows:
+        return False, "rows must be a non-empty list"
+    total = int(data.get("divergences_total") or 0)
+    if total < 8 or len(rows) != total:
+        return False, f"expected all {total} divergences adjudicated; got {len(rows)} rows"
+    bad = [r.get("id") for r in rows
+           if r.get("status") not in ("RESOLVED_IN_CODE", "INTENTIONALLY_RETAINED", "GENUINE_GAP")]
+    if bad:
+        return False, f"unadjudicated divergences: {bad}"
+    counts = data.get("status_counts")
+    if not isinstance(counts, dict):
+        return False, "missing status_counts"
+    return True, (f"{len(rows)}/{total} divergences adjudicated; "
+                  f"resolved={counts.get('RESOLVED_IN_CODE', 0)} "
+                  f"retained={counts.get('INTENTIONALLY_RETAINED', 0)} "
+                  f"gap={counts.get('GENUINE_GAP', 0)}")
+
+
+def check_dry_run_readiness() -> Tuple[bool, str]:
+    """Phase S2: the full-window pipeline must be provably wired end-to-end.
+
+    The only route to decision-grade evidence is operator data. This proves the
+    pipeline runs today, on a synthetic fixture that is labelled non-evidence,
+    and that the fixture outputs were removed (never left as artifacts).
+    """
+    path = _latest("full_window_dry_run_readiness_*.json")
+    if path is None:
+        return False, ("missing full_window_dry_run_readiness_*.json (run "
+                       "scripts/build_full_window_dry_run_readiness.py)")
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if data.get("label") != "NOT_EVIDENCE_DRY_RUN_READINESS":
+        return False, "label must be NOT_EVIDENCE_DRY_RUN_READINESS"
+    if data.get("performance_evidence") is not False:
+        return False, "performance_evidence must be false"
+    fixture = data.get("fixture")
+    if not isinstance(fixture, dict):
+        return False, "missing fixture block"
+    if fixture.get("is_market_data") is not False or fixture.get("is_evidence") is not False:
+        return False, "fixture must be explicitly non-market-data and non-evidence"
+    steps = data.get("steps")
+    if not isinstance(steps, list) or not steps:
+        return False, "missing steps"
+    failed = [s.get("step") for s in steps if not s.get("ok")]
+    if failed:
+        return False, f"dry-run steps failed: {failed}"
+    if data.get("pipeline_wired_end_to_end") is not True:
+        return False, "pipeline_wired_end_to_end must be true"
+    if data.get("verdict") != "READY":
+        return False, f"verdict must be READY (got {data.get('verdict')!r})"
+    if list(STATE.glob("dryrun_fixture_*")):
+        return False, "fixture outputs left on disk; they must be removed after recording"
+    seq = data.get("operator_command_sequence")
+    if not isinstance(seq, list) or len(seq) < 5:
+        return False, "operator_command_sequence must list the full runbook"
+    return True, (f"dry-run READY: {len(steps)}/{len(steps)} steps pass on synthetic fixture; "
+                  f"operator sequence has {len(seq)} commands")
+
+
+def check_power_sensitivity() -> Tuple[bool, str]:
+    """Phase S3: the power floor must be tested against achievable datasets."""
+    path = _latest("power_sensitivity_*.json")
+    if path is None:
+        return False, "missing power_sensitivity_*.json (run scripts/build_power_sensitivity.py)"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if data.get("label") != "NOT_EVIDENCE_POWER_SENSITIVITY":
+        return False, "label must be NOT_EVIDENCE_POWER_SENSITIVITY"
+    if data.get("performance_evidence") is not False:
+        return False, "performance_evidence must be false"
+    if int(data.get("target_min_independent_episodes") or 0) < 10:
+        return False, "target_min_independent_episodes must be >= 10 (C1-T2 binding target)"
+    scenarios = data.get("scenarios")
+    if not isinstance(scenarios, list) or len(scenarios) < 3:
+        return False, "at least 3 scenarios (283d, 2y, cross-venue pooled) are required"
+    for s in scenarios:
+        try:
+            p = float(s["prob_at_least_target"])
+        except (KeyError, TypeError, ValueError):
+            return False, f"scenario {s.get('scenario')!r} missing probability"
+        if not 0.0 <= p <= 1.0:
+            return False, f"scenario {s.get('scenario')!r} probability out of range"
+    pooled = [s for s in scenarios if s.get("cross_venue")]
+    if not pooled:
+        return False, "a cross-venue pooled scenario must be present and labelled"
+    best = float(data.get("best_case_prob_at_least_target") or 0.0)
+    return True, (f"{len(scenarios)} scenarios; best P(N>=target)={best:.4f}; "
+                  f"verdict={data.get('verdict')}")
+
+
 CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_g_spec_comparison_md", check_spec_comparison_md),
     ("phase_g_spec_comparison_json", check_spec_comparison_json),
@@ -994,6 +1116,9 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_p_retention_probe", check_retention_probe),
     ("phase_q_universe_coverage", check_universe_coverage),
     ("phase_r_exploratory_next_open", check_exploratory_next_open),
+    ("phase_s1_spec_divergence_closure", check_spec_divergence_closure),
+    ("phase_s2_dry_run_readiness", check_dry_run_readiness),
+    ("phase_s3_power_sensitivity", check_power_sensitivity),
     ("phase_p_evidence_verifier", check_evidence_verifier),
     ("durable_handoff", check_handoff),
 ]

@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T18:28:32Z",
+  "run_type": "power_sensitivity",
+  "label": "NOT_EVIDENCE_POWER_SENSITIVITY",
+  "performance_evidence": false,
+  "provenance_caveat": "Power sensitivity projections from observed base rates. NOT performance evidence. Poisson independence is an approximation; cross-venue pooling (scenario c) is NOT Hyperliquid evidence and is an upper bound on independent information.",
+  "inputs": {
+    "power_target": "research_state/power_target_hyperliquid_20261114T172700Z.json",
+    "power_target_sha256": "69483c2d4e36b9ab08441d5f37a70da84dbd9ddc01702509d86a9606c01829f6",
+    "okx_episode_edge": "research_state/episode_edge_okx_full.json",
+    "coverage": "research_state/hyperliquid_universe_coverage.json"
+  },
+  "observed": {
+    "traded_episodes_per_calendar_day": 0.012355212355212355,
+    "crash_days_per_calendar_day": 0.02471042471042471,
+    "symbols": 24,
+    "retained_window_days": 161.875,
+    "okx_independent_episodes": 4
+  },
+  "target_min_independent_episodes": 10,
+  "scenarios": [
+    {
+      "scenario": "a_partial_extended_to_283d_spec_window",
+      "window_days": 283.0,
+      "symbols": 24,
+      "rate_traded_episodes_per_day": 0.012355212355212355,
+      "expected_episodes_lambda": 3.4965250965250965,
+      "prob_at_least_target": 0.003292215513317154,
+      "prob_at_least_target_pct": 0.3292215513317154,
+      "cross_venue": false,
+      "note": "Observed retained-window episode rate extended to the full 283-day spec window at the same 24 symbols; no new symbols, no new venues."
+    },
+    {
+      "scenario": "b_two_year_window_24_symbols",
+      "window_days": 730.0,
+      "symbols": 24,
+      "rate_traded_episodes_per_day": 0.012355212355212355,
+      "expected_episodes_lambda": 9.019305019305019,
+      "prob_at_least_target": 0.4151352833064923,
+      "prob_at_least_target_pct": 41.51352833064923,
+      "cross_venue": false,
+      "note": "Same rate/universe held for 2 years of calendar time (beyond the API retention horizon, so operator archive required)."
+    },
+    {
+      "scenario": "c_multi_venue_pooled_hl_plus_okx",
+      "window_days": 283.0,
+      "symbols": 24,
+      "rate_traded_episodes_per_day": 0.02648948797358691,
+      "expected_episodes_lambda": 7.496525096525096,
+      "prob_at_least_target": 0.22319485559281516,
+      "prob_at_least_target_pct": 22.319485559281517,
+      "cross_venue": true,
+      "note": "Hyperliquid observed rate plus OKX observed episode rate pooled over the same 283-day window. CROSS-VENUE: not Hyperliquid evidence; pooling assumes independence across venues, which shared market crashes violate, so this is an upper bound on independent information."
+    }
+  ],
+  "rate_sensitivity": {
+    "basis": "traded-episode rate is estimated from 2 events; +/-50% band shown",
+    "rate_per_day_low": 0.006177606177606178,
+    "rate_per_day_high": 0.018532818532818532,
+    "prob_at_least_target_283d_low": 1.5170364933370095e-05,
+    "prob_at_least_target_283d_high": 0.0415982919004797,
+    "prob_at_least_target_730d_low": 0.01731741028806133,
+    "prob_at_least_target_730d_high": 0.8663575521236238
+  },
+  "best_case_prob_at_least_target": 0.4151352833064923,
+  "verdict": "POWER_FLOOR_UNREACHABLE_ON_ACHIEVABLE_DATA",
+  "interpretation": "Even the most favourable achievable scenario stays well below even odds of reaching the >=10 independent-episode floor. The 283-day spec window at the observed rate cannot reach the floor; only a multi-year archive or a materially higher episode rate can, and the pooled cross-venue scenario is an upper bound, not evidence.",
+  "no_new_data_fabricated": true
+}

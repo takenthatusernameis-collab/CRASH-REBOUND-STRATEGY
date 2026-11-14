@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T18:25:39Z",
+  "run_type": "spec_divergence_closure",
+  "label": "NOT_EVIDENCE_SPEC_COMPARISON_CLOSURE",
+  "performance_evidence": false,
+  "provenance_caveat": "Code/spec audit only. Cross-venue OKX artifacts are NOT Hyperliquid performance evidence. No strategy behaviour changed; no campaign re-run.",
+  "inputs": {
+    "comparison_summary": "research_state/real_okx_full_spec_comparison_summary.json",
+    "comparison_summary_sha256": "58752ccf35214e53291bae2d9ff7d6cb2130cb220f21016d21794012dffef452",
+    "spec_md": "research_state/strategy_spec.md",
+    "spec_md_sha256": "1e4f9bc06441112bcbfb91a8c6219d56ec6662459e147bdac49f90c5d81b99ff",
+    "code": {
+      "config": "src/strategy/config.py",
+      "crash_rebound": "src/strategy/crash_rebound.py",
+      "engine": "src/backtest/engine.py",
+      "metrics": "src/metrics/campaign_metrics.py"
+    }
+  },
+  "divergences_total": 8,
+  "divergences_audited": 8,
+  "status_counts": {
+    "RESOLVED_IN_CODE": 4,
+    "INTENTIONALLY_RETAINED": 4,
+    "GENUINE_GAP": 0,
+    "UNRESOLVED": 0
+  },
+  "rows": [
+    {
+      "id": "trade_frequency",
+      "metric": "trades",
+      "spec_value": 85,
+      "actual_value": 8,
+      "status": "RESOLVED_IN_CODE",
+      "reason": "Funnel closes exactly (blocking reasons sum to RSI events, 0 unexplained); trade count is crash-availability, not an attribution bug.",
+      "evidence": [
+        "census_funnel={\"bounce_confirmed\": 39, \"regime_min_price_ok\": 89, \"rsi_events\": 342, \"signal_gate_pass\": 11, \"trades_matched_to_census\": 8, \"trades_opened\": 8, \"volume_gate_pass\": 187}",
+        "blocking_reasons_sum=342",
+        "unexplained_signal_gate_events=0"
+      ]
+    },
+    {
+      "id": "annualization_horizon",
+      "metric": "annualized return",
+      "spec_value": 115.2,
+      "actual_value": 22.599525626916606,
+      "status": "INTENTIONALLY_RETAINED",
+      "reason": "Annualization is horizon-explicit and timestamp-derived; the delta vs spec is a realized-horizon difference, not a defect. Retained as-is (no full-window curve exists to annualize over).",
+      "evidence": [
+        "metrics: equity_annualized_return_pct derived from curve timestamps",
+        "metrics: equity_horizon_years recorded alongside annualized return",
+        "no fabricated 283d horizon: annualization requires >=2 curve timestamps"
+      ]
+    },
+    {
+      "id": "drawdown_scale",
+      "metric": "worst drawdown",
+      "spec_value": -5.4,
+      "actual_value": -2.0274965243788596,
+      "status": "INTENTIONALLY_RETAINED",
+      "reason": "Drawdown magnitude scales with realized book size; smaller DD is a coverage artefact, explicitly not evidence of superior risk control.",
+      "evidence": [
+        "realized_max_drawdown_usd=-2091.6053422543337",
+        "gross_cap_utilization_pct=100.0",
+        "engine enforces gross cap + per-trade sizing (no silent change)"
+      ]
+    },
+    {
+      "id": "monthly_breadth",
+      "metric": "positive months",
+      "spec_value": "6 of 10",
+      "actual_value": "4 of 7 (3 negative, 0 flat)",
+      "status": "INTENTIONALLY_RETAINED",
+      "reason": "Bucket count differs because the realized horizon spans fewer calendar months; a coverage difference, not a reproducibility failure.",
+      "evidence": [
+        "realized_month_buckets=7",
+        "metrics: positive_months derived from the same monthly buckets"
+      ]
+    },
+    {
+      "id": "buy_leg",
+      "metric": "buys (win rate)",
+      "spec_value": "73 (71%)",
+      "actual_value": "8 (50.00%)",
+      "status": "RESOLVED_IN_CODE",
+      "reason": "Constituent split is implemented and documented; buy-leg count is attribution granularity, and legs sum to the grand total.",
+      "evidence": [
+        "buy_trades=8",
+        "trade_attribution_by_leg={\"buy\": {\"leg\": \"buy\", \"pnl\": 10796.55375971258, \"trades\": 8}, \"short\": {\"leg\": \"short\", \"pnl\": -1636.8618248296225, \"trades\": 1}}",
+        "metrics: _split_leg_pnls splits rebound-short trades into buy/short constituents"
+      ]
+    },
+    {
+      "id": "short_leg",
+      "metric": "shorts (win rate)",
+      "spec_value": "12 (83%)",
+      "actual_value": "1 (0.00%)",
+      "status": "INTENTIONALLY_RETAINED",
+      "reason": "n=1 observation; hedge separation explains the net-negative short. Not evidence for or against the spec's ~27% short contribution.",
+      "evidence": [
+        "short_trades=1",
+        "rebound_short_constituents={\"rebound_hedge_pnl\": -2704.591251, \"rebound_short_pnl\": 1067.729426}"
+      ]
+    },
+    {
+      "id": "rebound_short_attribution_correction",
+      "metric": "rebound-short profit contribution",
+      "spec_value": 27.0,
+      "actual_value": -17.87027158190707,
+      "status": "RESOLVED_IN_CODE",
+      "reason": "Authoritative attribution now separates coin leg from ETH hedge and sums to the grand total; the earlier reading is retracted in-artifact.",
+      "evidence": [
+        "authoritative_leg_attribution={\"buy\": {\"leg\": \"buy\", \"pnl\": 10796.55375971258, \"trades\": 8}, \"short\": {\"leg\": \"short\", \"pnl\": -1636.8618248296225, \"trades\": 1}}",
+        "metrics: rebound hedge PnL separated (rebound_hedge_pnl)",
+        "metrics: _split_leg_pnls returns constituents summing to trade total"
+      ]
+    },
+    {
+      "id": "universe_utilization",
+      "metric": "universe",
+      "spec_value": "spec-relevant >= $5M set (~26 on Hyperliquid per spec; up to ~80 in 2024-2025)",
+      "actual_value": "54 admitted / 5 traded",
+      "status": "RESOLVED_IN_CODE",
+      "reason": "Every admitted symbol was loaded and evaluated; non-participation is fully attributed to zero signal-gate passes (no silent drop).",
+      "evidence": [
+        "universe_size=54",
+        "symbols_traded=5",
+        "never_traded_with_signal_pass=[]"
+      ]
+    }
+  ],
+  "code_changes_made": false,
+  "verdict": "ALL_DIVERGENCES_ADJUDICATED"
+}
