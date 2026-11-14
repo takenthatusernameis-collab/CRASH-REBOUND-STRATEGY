@@ -24,7 +24,11 @@ from src.strategy.crash_rebound import detect_crash_rsi, generate_signal  # noqa
 
 DEFAULT_CACHE = REPO / "research_state/cache/hyperliquid_partial_20260419_20260928"
 DEFAULT_OUT = REPO / "research_state/hyperliquid_partial_crash_census_20260419_20260928.json"
-DEFAULT_SYMBOLS = ["ADA", "ALGO", "ARB", "ATOM", "AVAX", "BTC", "ETH", "LTC", "NEAR", "OP", "SOL", "TIA"]
+# HARDENED: no hardcoded universe. A 12-symbol default silently undercounts crash
+# events on any larger aligned slice and makes it look falsely healthy. The caller
+# MUST pass --symbols from the aligned provenance complete-symbol set; if omitted,
+# the script refuses to run rather than silently undercount.
+DEFAULT_SYMBOLS = None
 CAVEAT = (
     "Real Hyperliquid public API candles, non-synthetic; PARTIAL window "
     "2026-04-19T12:00Z..2026-09-28T23:00Z; NOT the 283-day spec window and "
@@ -45,6 +49,17 @@ def main(argv: List[str] | None = None) -> int:
     ap.add_argument("--output", default=str(DEFAULT_OUT))
     ap.add_argument("--symbols", nargs="*", default=DEFAULT_SYMBOLS)
     args = ap.parse_args(argv)
+
+    if not args.symbols:
+        print(
+            "ERROR: --symbols is REQUIRED. A hardcoded 12-symbol default silently "
+            "undercounts crash events on any larger aligned slice and makes it look "
+            "falsely healthy. Pass the full complete-symbol set from the aligned "
+            "provenance, e.g.: "
+            "SYMS=$(python3 -c \"import json;d=json.load(open('<aligned>/provenance.json'));print(' '.join(d['summary']['complete_symbols']))\")",
+            file=sys.stderr,
+        )
+        return 2
 
     cache = Path(args.cache_dir) / "candles"
     cfg = StrategyConfig(
