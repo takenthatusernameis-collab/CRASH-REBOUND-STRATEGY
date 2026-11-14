@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T15:29:00Z
+**Handoff updated (UTC):** 2026-11-14T15:30:41Z
 **Supersedes:** all earlier handoffs (incl. 2026-11-14T15:24:40Z, 15:23:23Z, 14:52:02Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -10,11 +10,13 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T15:29:00Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T15:30:41Z)
 
 **You are continuing a Hyperliquid crash-rebound research program. The two real blockers are (a) a decaying public-API retention window that cannot serve the 283-day spec window, and (b) a structural 0-trade funnel: the implementation requires a same-bar `confirm_rebound` candle, while the spec enters at the next hourly open after the RSI crash close. Do not spend the session re-running the same partial campaign; that is the inefficiency this handoff removes. Do the heavy work below and leave a real artifact.**
 
-**Objective:** Either produce a decision-grade Hyperliquid-native crash-rebound result, or prove the data block with fresh artifacts. Because the retained partial window contains only **4 distinct crash days (2026-05-28, 2026-06-02, 2026-06-05, 2026-06-24) = 4 independent crash episodes**, any partial result remains **underpowered**; the value of this session is a **spec-literal next-open adjudication with real trades/PnL**, an episode-aware audit, and a power-based stop/go target — not a repeated 0-trade run.
+**INHERITED / DONE this session (do not repeat):** Step 1 live probe captured 2026-11-14T15:28:52Z (3884/6792 bars; earliest 2026-04-20T04:00Z; FULL_283D_BLOCKED_BY_API_RETENTION). Step 2 adopt-or-keep = KEEP_RETAINED (24×3885 bars, 2026-04-20T03:00Z..2026-09-28T23:00Z; degraded 145453Z/151710Z slices rejected). Gates green: session_gate 17/17, verify_campaign_evidence 4/4. Exploratory next-open upper-bound artifact exists (11 opportunities) but is a count only — NOT a real-engine run.
+
+**Objective:** Produce a decision-grade Hyperliquid-native crash-rebound verdict, or conclusively prove the data block with fresh reproducible artifacts. Because the retained partial window contains only **4 distinct crash days (2026-05-28, 2026-06-02, 2026-06-05, 2026-06-24) = 4 independent crash episodes**, any partial result remains **underpowered**; do not re-run the same partial 0-trade campaign. The next focus campaign is the **spec-literal next-open adjudication executed through the real engine**, reporting actual trades/PnL/metrics/max-drawdown on the retained chain — this is the heavy work this session must ship, and it cannot be deferred or relabeled as OKX evidence.
 
 **Execute in order. No planning-only turn. No simulation theater. No cross-venue relabeling.**
 
@@ -66,7 +68,7 @@ Then update this handoff with the new timestamp and the exploratory artifact ref
 ### STEP 7 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE
 If an operator-supplied verified Hyperliquid-native 283-day archive arrives, follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` (verify provenance/non-flat, ingest, derive verified universe, run canonical full-window campaign, full-portfolio placebo, episode-aware audit). Produce `campaign_results_real_hyperliquid_full*.json` and `placebo_portfolio_hyperliquid_full.{json,md}`. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder).
 
-**No session may close without Steps 1–6 executed and artifacts on disk, gates green. The heavy-work acceptance gate is Step 3 + Step 4. If the live probe proves no data progress is possible, the session must still produce the Step 3 spec-literal adjudication on the retained chain.**
+**No session may close without Steps 1–3, 5–6 executed, artifacts on disk, and gates green. The heavy-work acceptance gate is Step 3: a real-engine spec-literal next-open artifact reporting trades/PnL (0 allowed only with the structural reason quantified). An upper-bound count or prose note alone is not acceptance. If the live probe proves no data progress is possible, the session must still produce the Step 3 spec-literal adjudication on the retained chain.**
 
 ---
 
@@ -93,7 +95,7 @@ If an operator-supplied verified Hyperliquid-native 283-day archive arrives, fol
 
 1. **External/data block (NOT agent-removable):** full 283-day Hyperliquid window API-blocked by retention (3884/6792 bars served). Only an operator-supplied verified Hyperliquid-native archive can unblock (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`).
 2. **Retention decay / wasted re-fetch (REMOVED this handoff):** the partial window slides; re-fetching every session only produces a smaller/degraded slice (this session's 145453Z = 3881 bars, 151710Z aligned = 2127 bars). New rule: probe first, and **skip the fetch unless the probe improves** over the retained chain. This stops the per-session churn.
-3. **Structural 0-trade funnel (agent-removable — the primary blocker):** same-bar `confirm_rebound` vs spec next-hourly-open entry. The exploratory adjudication (Step 3) removes it by measuring the spec-literal path with real engine constraints; the canonical baseline stays unchanged. The prior funnel counts (29→11→0→5→0) are now a known structural fact, not a new mystery.
+3. **Structural 0-trade funnel (agent-removable — the ACTIVE primary blocker):** same-bar `confirm_rebound` vs spec next-hourly-open entry. The exploratory upper-bound (11 next-open opportunities) exists but is NOT a real-engine run with trades/PnL. Completing this blocker requires the Step 3 spec-literal next-open path executed through the real engine (fees, $5M gate, 120% cap, ETH hedge, exits) on the retained chain, producing a trades/PnL artifact. Canonical baseline unchanged. The prior funnel counts (29→11→0→5→0) are a known structural fact, not a new mystery.
 4. **Statistical (agent-mitigating, not removable):** the retained partial window has only **4 independent crash episodes**; even the spec-literal path is underpowered. Record the power target; do not promote to evidence.
 5. **Resolved traps (do not reintroduce):** census requires `--symbols` (full aligned set); campaign flag is `--allow-partial-not-evidence` (hyphens); never replace the retained 104210Z chain with a degraded slice; coverage needs integer aggregate counts and correct probe field mapping.
 
