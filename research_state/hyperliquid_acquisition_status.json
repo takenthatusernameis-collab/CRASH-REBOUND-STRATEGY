@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-13T21:46:36.605086+00:00",
+  "generated_at_utc": "2026-11-14T01:53:24Z",
   "run_type": "hyperliquid_acquisition_status",
   "provenance_caveat": "Real Hyperliquid public API candles, non-synthetic; PARTIAL window only; NOT the 283-day spec window and NOT performance evidence.",
   "target_window": {
@@ -18,11 +18,46 @@
       "interval": "1h",
       "coin": "BTC"
     },
-    "returned_bars": 3900,
-    "available_start": "2026-04-19T12:00:00+00:00",
+    "returned_bars": 3898,
+    "available_start": "2026-04-19T14:00:00+00:00",
     "available_end": "2026-09-28T23:00:00+00:00",
-    "missing_early_bars": 2892,
-    "conclusion": "Public API retains only the latest ~3900 hourly bars; full 283-day window (6792 bars) is not served. Full-window evidence requires an operator-supplied verified Hyperliquid-native archive."
+    "missing_early_bars": 2894,
+    "conclusion": "Public API retains only a decaying tail of the window; the full 283-day window (6792 bars) is not served. Full-window evidence requires an operator-supplied verified Hyperliquid-native archive."
+  },
+  "full_universe_probe": {
+    "artifact": "research_state/hyperliquid_retention_probe.json",
+    "generated_at_utc": "2026-11-14T01:41:51Z",
+    "perps_total": 235,
+    "perps_passing_volume_gate": 29,
+    "probed": 29,
+    "note": "2026-11-14 widened probe covered every qualifying perp (was 6). Full window still blocked; retention is a moving window (BTC served 3900 bars at 2026-11-13T21:43Z, 3896 at 2026-11-14T01:48Z)."
+  },
+  "universe_snapshot": {
+    "artifact": "research_state/hyperliquid_universe_coverage.json",
+    "cache_dir": "research_state/cache/hyperliquid_universe_snapshot_20260419_20260928",
+    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20260419_20260928/provenance.json",
+    "target_window": {
+      "start": "2026-04-19T18:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "expected_hourly_bars": 3894
+    },
+    "symbols_requested": 29,
+    "symbols_complete": 27,
+    "symbols_incomplete_or_error": 2,
+    "crash_census": {
+      "artifact": "research_state/hyperliquid_universe_snapshot_census_20260419_20260928.json",
+      "symbols": 27,
+      "bars": 105138,
+      "rsi_crash_events": 13,
+      "confirmed_signals": 0
+    },
+    "partial_campaign": {
+      "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20260419_20260928.json",
+      "performance_evidence": false,
+      "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
+      "num_trades": 0,
+      "total_pnl": 0.0
+    }
   },
   "partial_window": {
     "start": "2026-04-19T12:00:00+00:00",
@@ -101,9 +136,9 @@
   "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION; PARTIAL_HYPERLIQUID_NOT_EVIDENCE; STRATEGY_UNDERPOWERED",
   "decision": "Do not declare validated. Do not allocate capital. Full 283-day Hyperliquid-native evidence is the only decision-grade path; it requires an operator-supplied verified archive.",
   "next_actions": [
+    "Re-capture the partial universe snapshot before retention advances further; the window start is sliding (earliest served hour advances ~1h per elapsed hour).",
     "Operator: supply a verified Hyperliquid-native archive covering 2025-12-20T00:00:00Z..2026-09-28T23:00:00Z (6792 bars/symbol) with source/extraction sidecar; follow research_state/DATA_REQUEST_283D_HYPERLIQUID.md.",
     "If the archive is supplied, run scripts/run_real_campaign.py on the full window, then the exact full-portfolio placebo, and update decision_memo_okx_full.md.",
-    "If not supplied, extend the partial API acquisition to every available Hyperliquid symbol over 2026-04-19T12:00Z..2026-09-28T23:00Z, run the NOT_EVIDENCE partial campaign, and record the cross-sectional crash census.",
-    "Never relabel OKX or partial Hyperliquid results as full 283-day Hyperliquid performance evidence."
+    "Never relabel OKX, the decaying partial snapshot, or the 27-symbol partial campaign as full 283-day Hyperliquid performance evidence."
   ]
 }

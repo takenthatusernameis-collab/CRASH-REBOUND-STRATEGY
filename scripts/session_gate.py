@@ -755,6 +755,102 @@ def check_retention_probe() -> Tuple[bool, str]:
                   f"universe {perps} perps / {passing} pass gate / {probed} probed")
 
 
+def check_universe_coverage() -> Tuple[bool, str]:
+    """Phase Q: the full live Hyperliquid universe must be probed, snapshotted, and censused.
+
+    The binding constraint is independent crash episodes, and the public API only
+    serves a decaying partial window. A prose 'data unavailable' claim is not
+    enough: this check fails closed unless the *whole* qualifying universe was
+    probed (not a 6-symbol sample), a real partial-window snapshot was captured
+    for every served symbol, a cross-sectional crash census was run over the
+    complete symbols, and a NOT_EVIDENCE partial campaign was executed. This is
+    the achievable heavy-work floor; an agent cannot satisfy the handoff without
+    producing it.
+    """
+    path = STATE / "hyperliquid_universe_coverage.json"
+    if not path.exists():
+        return False, "missing hyperliquid_universe_coverage.json (run probe + snapshot + census + partial campaign)"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    for key in ("generated_at_utc", "api_retention_probe", "universe_snapshot",
+                "crash_census", "partial_campaign", "verdict"):
+        if key not in data:
+            return False, f"missing {key!r}"
+
+    probe = data["api_retention_probe"]
+    if not isinstance(probe, dict):
+        return False, "api_retention_probe must be an object"
+    try:
+        perps = int(probe["perps_total"])
+        passing = int(probe["perps_passing_volume_gate"])
+        probed = int(probe["probed"])
+    except (KeyError, TypeError, ValueError):
+        return False, "api_retention_probe universe counts must be integers"
+    if perps <= 0 or passing <= 0:
+        return False, "api_retention_probe universe must be non-empty"
+    if probed < passing:
+        return False, (
+            f"full universe not probed: probed={probed} < passing_gate={passing}; "
+            "run scripts/probe_hyperliquid_blocker.py with --limit >= passing gate"
+        )
+
+    snap = data["universe_snapshot"]
+    if not isinstance(snap, dict):
+        return False, "universe_snapshot must be an object"
+    try:
+        complete = int(snap["symbols_complete"])
+        requested = int(snap["symbols_requested"])
+    except (KeyError, TypeError, ValueError):
+        return False, "universe_snapshot.symbols_complete/requested must be integers"
+    if complete < 12:
+        return False, f"universe_snapshot.symbols_complete must be >= 12 (got {complete})"
+    if requested < complete:
+        return False, "universe_snapshot.symbols_requested must be >= complete"
+    if not isinstance(snap.get("complete_symbols"), list) or len(snap["complete_symbols"]) != complete:
+        return False, "universe_snapshot.complete_symbols must list every complete symbol"
+
+    census = data["crash_census"]
+    if not isinstance(census, dict):
+        return False, "crash_census must be an object"
+    try:
+        c_symbols = int(census["symbols"])
+        c_bars = int(census["bars"])
+        c_crashes = int(census["rsi_crash_events"])
+        c_signals = int(census["confirmed_signals"])
+    except (KeyError, TypeError, ValueError):
+        return False, "crash_census counts must be integers"
+    if c_symbols != complete:
+        return False, f"crash_census.symbols ({c_symbols}) must equal complete symbols ({complete})"
+    if c_bars < complete * 3000:
+        return False, f"crash_census.bars ({c_bars}) too small for {complete} symbols"
+    if c_crashes < 1:
+        return False, "crash_census.rsi_crash_events must be >= 1"
+    if c_signals < 0:
+        return False, "crash_census.confirmed_signals must be >= 0"
+
+    camp = data["partial_campaign"]
+    if not isinstance(camp, dict):
+        return False, "partial_campaign must be an object"
+    if camp.get("performance_evidence") is not False:
+        return False, "partial_campaign.performance_evidence must be false (NOT_EVIDENCE)"
+    try:
+        if int(camp.get("num_trades", -1)) < 0:
+            return False, "partial_campaign.num_trades must be >= 0"
+    except (TypeError, ValueError):
+        return False, "partial_campaign.num_trades must be an integer"
+
+    if "BLOCKED" not in str(data.get("verdict", "")).upper():
+        return False, "verdict must record the full-window block"
+    if "UNDERPOWERED" not in str(data.get("verdict", "")).upper():
+        return False, "verdict must record the underpowered strategy state"
+    return True, (f"full universe probed {probed}/{passing}; snapshot {complete} complete; "
+                  f"census {c_symbols} symbols/{c_bars} bars/{c_crashes} crashes/{c_signals} signals")
+
+
 def check_evidence_verifier() -> Tuple[bool, str]:
     """Phase P: the mechanical anti-avoidance verifier must pass on real artifacts.
 
@@ -822,6 +918,7 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_j3_hyperliquid_partial_campaign", check_hyperliquid_partial_campaign),
     ("phase_j3_acquisition_runbook", check_runbook),
     ("phase_p_retention_probe", check_retention_probe),
+    ("phase_q_universe_coverage", check_universe_coverage),
     ("phase_p_evidence_verifier", check_evidence_verifier),
     ("durable_handoff", check_handoff),
 ]

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T01:41:51Z",
+  "generated_at_utc": "2026-11-14T01:47:18Z",
   "run_type": "hyperliquid_api_retention_probe",
   "provenance_caveat": "Live Hyperliquid public API probe; non-synthetic; records only what the public candleSnapshot endpoint served. Not performance evidence.",
   "endpoint": {
@@ -16,9 +16,9 @@
   "universe": {
     "perps_total": 235,
     "perps_passing_volume_gate": 29,
-    "probed": 6,
+    "probed": 29,
     "requested_not_in_live_universe": [],
-    "probe_limit": 6
+    "probe_limit": 30
   },
   "probe_summary": {
     "full_window_served": false,
@@ -29,9 +29,33 @@
       "HYPE",
       "ZEC",
       "SOL",
-      "XRP"
+      "XRP",
+      "NEAR",
+      "XMR",
+      "PUMP",
+      "LIT",
+      "ENA",
+      "AVAX",
+      "UNI",
+      "SUI",
+      "DOGE",
+      "ZRO",
+      "BNB",
+      "WLD",
+      "LINK",
+      "INJ",
+      "AAVE",
+      "ARB",
+      "GRAM",
+      "VVV",
+      "INIT",
+      "TAO",
+      "ADA"
     ],
-    "symbols_empty_or_error": [],
+    "symbols_empty_or_error": [
+      "KPEPE",
+      "XPL"
+    ],
     "max_bars_returned": 3898,
     "expected_hourly_bars": 6792,
     "missing_early_bars_vs_expected": 2894,
@@ -44,7 +68,7 @@
       "bars_returned": 3896,
       "first_bar_utc": "2026-04-19T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 5069221387.41
+      "day_volume_usd": 5076519779.75
     },
     {
       "symbol": "ETH",
@@ -52,7 +76,7 @@
       "bars_returned": 3896,
       "first_bar_utc": "2026-04-19T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 1363924639.8
+      "day_volume_usd": 1364381591.88
     },
     {
       "symbol": "HYPE",
@@ -60,7 +84,7 @@
       "bars_returned": 3898,
       "first_bar_utc": "2026-04-19T14:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 583152289.46
+      "day_volume_usd": 583580853.72
     },
     {
       "symbol": "ZEC",
@@ -68,7 +92,7 @@
       "bars_returned": 3895,
       "first_bar_utc": "2026-04-19T17:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 516040512.42
+      "day_volume_usd": 516295023.48
     },
     {
       "symbol": "SOL",
@@ -76,7 +100,7 @@
       "bars_returned": 3896,
       "first_bar_utc": "2026-04-19T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 398482720.91
+      "day_volume_usd": 399561572.46
     },
     {
       "symbol": "XRP",
@@ -84,9 +108,191 @@
       "bars_returned": 3895,
       "first_bar_utc": "2026-04-19T17:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 84245244.11
+      "day_volume_usd": 84268683.63
+    },
+    {
+      "symbol": "NEAR",
+      "status": "ok",
+      "bars_returned": 3897,
+      "first_bar_utc": "2026-04-19T15:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 72072913.26
+    },
+    {
+      "symbol": "XMR",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 61016884.16
+    },
+    {
+      "symbol": "PUMP",
+      "status": "ok",
+      "bars_returned": 3896,
+      "first_bar_utc": "2026-04-19T16:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 41544496.61
+    },
+    {
+      "symbol": "LIT",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 37336171.03
+    },
+    {
+      "symbol": "KPEPE",
+      "status": "error",
+      "error": "Hyperliquid info request failed after 3 attempts: HTTP Error 500: Internal Server Error",
+      "bars_returned": 0,
+      "day_volume_usd": 25044409.32
+    },
+    {
+      "symbol": "ENA",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 17693733.99
+    },
+    {
+      "symbol": "AVAX",
+      "status": "ok",
+      "bars_returned": 3896,
+      "first_bar_utc": "2026-04-19T16:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 16298415.82
+    },
+    {
+      "symbol": "UNI",
+      "status": "ok",
+      "bars_returned": 3894,
+      "first_bar_utc": "2026-04-19T18:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 16121332.28
+    },
+    {
+      "symbol": "SUI",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 13367239.59
+    },
+    {
+      "symbol": "DOGE",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 12291289.39
+    },
+    {
+      "symbol": "ZRO",
+      "status": "ok",
+      "bars_returned": 3894,
+      "first_bar_utc": "2026-04-19T18:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 11329703.22
+    },
+    {
+      "symbol": "BNB",
+      "status": "ok",
+      "bars_returned": 3896,
+      "first_bar_utc": "2026-04-19T16:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 11266575.3
+    },
+    {
+      "symbol": "WLD",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 10244465.83
+    },
+    {
+      "symbol": "LINK",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 8687948.63
+    },
+    {
+      "symbol": "INJ",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 8602400.74
+    },
+    {
+      "symbol": "AAVE",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 8407576.23
+    },
+    {
+      "symbol": "ARB",
+      "status": "ok",
+      "bars_returned": 3896,
+      "first_bar_utc": "2026-04-19T16:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 8342053.41
+    },
+    {
+      "symbol": "GRAM",
+      "status": "ok",
+      "bars_returned": 2127,
+      "first_bar_utc": "2026-07-02T09:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 7578297.84
+    },
+    {
+      "symbol": "VVV",
+      "status": "ok",
+      "bars_returned": 3897,
+      "first_bar_utc": "2026-04-19T15:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 7367499.84
+    },
+    {
+      "symbol": "INIT",
+      "status": "ok",
+      "bars_returned": 3896,
+      "first_bar_utc": "2026-04-19T16:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 7015343.22
+    },
+    {
+      "symbol": "TAO",
+      "status": "ok",
+      "bars_returned": 3895,
+      "first_bar_utc": "2026-04-19T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 6377135.08
+    },
+    {
+      "symbol": "ADA",
+      "status": "ok",
+      "bars_returned": 3897,
+      "first_bar_utc": "2026-04-19T15:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 5704923.52
+    },
+    {
+      "symbol": "XPL",
+      "status": "error",
+      "error": "Hyperliquid info request failed after 3 attempts: HTTP Error 429: Too Many Requests",
+      "bars_returned": 0,
+      "day_volume_usd": 5418849.11
     }
   ],
-  "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION",
+  "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2",
   "next_action": "Public API cannot supply the full 283-day window; obtain an operator-supplied verified Hyperliquid-native archive per research_state/DATA_REQUEST_283D_HYPERLIQUID.md."
 }

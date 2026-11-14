@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T01:53:08Z",
+  "run_type": "hyperliquid_universe_coverage",
+  "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic; PARTIAL window 2026-04-19T18:00Z..2026-09-28T23:00Z (3894 bars/symbol); NOT the 283-day spec window and NOT performance evidence.",
+  "sliding_retention_finding": "Public Hyperliquid retention is a moving window: the 2026-11-13T21:43Z partial acquisition recorded 3900 served bars for BTC/ETH; by 2026-11-14T01:48Z the same symbols served 3896/3900, so the earliest served hour advanced ~1h per elapsed hour. A partial snapshot must be captured now and re-captured periodically; it decays.",
+  "spec_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "api_retention_probe": {
+    "artifact": "research_state/hyperliquid_retention_probe.json",
+    "artifact_sha256": "40156de090ee6bbe47b0118cb6a0d09f9ce7fe3b66d654351b90ff958b94f7fa",
+    "perps_total": 235,
+    "perps_passing_volume_gate": 29,
+    "probed": 29,
+    "full_window_served": false,
+    "max_bars_returned": 3898,
+    "missing_early_bars_vs_expected": 2894,
+    "earliest_served_start_utc": "2026-04-19T14:00:00Z"
+  },
+  "universe_snapshot": {
+    "cache_dir": "research_state/cache/hyperliquid_universe_snapshot_20260419_20260928",
+    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20260419_20260928/provenance.json",
+    "manifest_sha256": "072fa71d2123eb0f2825bfdd32baf3a01e705d49545e1de5ede5e130e17b46bc",
+    "target_window": {
+      "start": "2026-04-19T18:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "expected_hourly_bars": 3894
+    },
+    "symbols_requested": 29,
+    "symbols_complete": 27,
+    "symbols_incomplete_or_error": 2,
+    "complete_symbols": [
+      "AAVE",
+      "ADA",
+      "ARB",
+      "AVAX",
+      "BNB",
+      "BTC",
+      "DOGE",
+      "ENA",
+      "ETH",
+      "HYPE",
+      "INIT",
+      "INJ",
+      "LINK",
+      "LIT",
+      "NEAR",
+      "PUMP",
+      "SOL",
+      "SUI",
+      "TAO",
+      "UNI",
+      "VVV",
+      "WLD",
+      "XMR",
+      "XPL",
+      "XRP",
+      "ZEC",
+      "ZRO"
+    ]
+  },
+  "crash_census": {
+    "artifact": "research_state/hyperliquid_universe_snapshot_census_20260419_20260928.json",
+    "artifact_sha256": "0704e85d88918e97d817e99f852ce99c742a5117ef406d9dd86c3d3956571f16",
+    "symbols": 27,
+    "bars": 105138,
+    "rsi_crash_events": 13,
+    "confirmed_signals": 0
+  },
+  "partial_campaign": {
+    "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20260419_20260928.json",
+    "artifact_sha256": "d45c9fb4c422ae28a687ac040cb21d742db9a50379c4f9db065ad1e8115876ab",
+    "performance_evidence": false,
+    "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
+    "num_trades": 0,
+    "total_pnl": 0.0
+  },
+  "verdict": "PARTIAL_WINDOW_DECAYING; FULL_283D_BLOCKED_BY_API_RETENTION; STRATEGY_UNDERPOWERED (0 confirmed rebound signals in 105,138 partial-window bars)",
+  "next_actions": [
+    "Re-capture the partial snapshot before retention advances further (window start is sliding).",
+    "Obtain an operator-supplied verified Hyperliquid-native archive for the full 283-day window to escape retention decay.",
+    "Never relabel this partial snapshot or OKX results as full Hyperliquid performance evidence."
+  ]
+}
