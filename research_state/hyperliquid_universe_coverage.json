@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T07:44:52Z",
+  "generated_at_utc": "2026-11-14T08:47:33Z",
   "run_type": "hyperliquid_universe_coverage",
-  "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T00:00:00Z..2026-09-28T23:00:00Z (3888 bars/symbol); NOT the 283-day spec window and NOT performance evidence.",
-  "sliding_retention_finding": "Public Hyperliquid retention is a moving window (~1h/hr decay). Fresh probe 2026-11-14T06:56:29Z: earliest_served_start_utc 2026-04-19T20:00:00Z, max_bars_returned 3892/6792, missing_early_bars_vs_expected 2900, perps_total 235 / perps_passing_volume_gate 26 / probed 26, symbols_empty_or_error [KPEPE], verdict FULL_283D_BLOCKED_BY_API_RETENTION; served bars permanently lost as window slides. Partial snapshots must be re-captured promptly.",
+  "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T01:00:00Z..2026-09-28T23:00:00Z (3887 bars/symbol); NOT the 283-day spec window and NOT performance evidence.",
+  "sliding_retention_finding": "Public Hyperliquid retention is a moving window (~1h/hr decay). Fresh probe 2026-11-14T08:42:49Z: earliest_served_start_utc 2026-04-19T21:00:00Z, max_bars_returned 3891/6792, missing_early_bars_vs_expected 2901, perps_total 235 / perps_passing_volume_gate 28 / probed 28, symbols_empty_or_error ['KPEPE'], verdict FULL_283D_BLOCKED_BY_API_RETENTION; served bars permanently lost as window slides. Partial snapshots must be re-captured promptly.",
   "spec_window": {
     "start": "2025-12-20T00:00:00Z",
     "end": "2026-09-28T23:00:00Z",
@@ -11,66 +11,82 @@
   },
   "api_retention_probe": {
     "artifact": "research_state/hyperliquid_retention_probe.json",
-    "artifact_sha256": "1c228618461e2fa814a8d92c8d1ccf471fe72be1214d5d29c1ed47da8687d841",
-    "generated_at_utc": "2026-11-14T06:56:29Z",
+    "artifact_sha256": "c27c92bd1a07e946b0da6c8dd0fd289222eadecc6a3049db500be3b6a6671d39",
+    "generated_at_utc": "2026-11-14T08:42:49Z",
     "perps_total": 235,
-    "perps_passing_volume_gate": 26,
-    "probed": 26,
+    "perps_passing_volume_gate": 28,
+    "probed": 28,
     "full_window_served": false,
-    "max_bars_returned": 3892,
-    "missing_early_bars_vs_expected": 2900,
-    "earliest_served_start_utc": "2026-04-19T20:00:00Z",
-    "symbols_empty_or_error": ["KPEPE"],
-    "note": "Unprobeable/error symbol in this probe: KPEPE (empty_or_error). Previous probe also reported MATIC,FTM as unprobeable in some snapshots; track live probe per run."
+    "max_bars_returned": 3891,
+    "missing_early_bars_vs_expected": 2901,
+    "earliest_served_start_utc": "2026-04-19T21:00:00Z",
+    "symbols_empty_or_error": [
+      "KPEPE"
+    ],
+    "note": "Unprobeable/error symbol in this probe: KPEPE. MATIC/FTM also error in fetch snapshots; track live probe per run."
   },
   "universe_snapshot": {
-    "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T074101Z",
-    "manifest_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T074101Z/provenance.json",
-    "manifest_raw_fetch_sha256": "32f469f3908e9d1c6ead33a7bf79ed39b0bff56275b7eb502b77bd8819c30044",
-    "cache_dir_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T074101Z_aligned_20260420T0000Z",
-    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20261114T074101Z_aligned_20260420T0000Z/provenance.json",
-    "manifest_sha256": "eaa8dd0e5e85aa36f2aab9c98ce0e0d5384a40be04a7c4305e90e2fd31d85129",
+    "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T084310Z",
+    "manifest_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T084310Z/provenance.json",
+    "manifest_raw_fetch_sha256": "93d5c2fb90f9afd60be34670a46685d9ab1df0d7a5747768c682f0936912a22c",
+    "cache_dir_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T084310Z_aligned_20260420T0100Z",
+    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20261114T084310Z_aligned_20260420T0100Z/provenance.json",
+    "manifest_sha256": "f5b03ac75d684fa0721806a1c347b0a83085d2c4e4d58f7e62c514b332dc16f6",
     "target_window": {
-      "start": "2026-04-20T00:00:00Z",
-      "end": "2026-09-28T23:00:00Z",
-      "expected_hourly_bars": 3888
+      "start": "2026-04-20T01:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 3887
     },
     "symbols_requested": 26,
     "symbols_complete": 24,
-    "symbols_incomplete_or_error": 2,
-    "complete_symbols": ["AAVE","ADA","ALGO","APT","ARB","ATOM","AVAX","BCH","BTC","DOGE","DOT","ETH","ICP","INJ","LINK","LTC","NEAR","OP","SEI","SOL","SUI","TIA","UNI","XRP"],
+    "symbols_incomplete_or_error": 26,
+    "complete_symbols": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ARB",
+      "ATOM",
+      "AVAX",
+      "BCH",
+      "BTC",
+      "DOGE",
+      "DOT",
+      "ETH",
+      "ICP",
+      "INJ",
+      "LINK",
+      "LTC",
+      "NEAR",
+      "OP",
+      "SEI",
+      "SOL",
+      "SUI",
+      "TIA",
+      "UNI",
+      "XRP"
+    ],
     "rejected_source_symbols": {
       "MATIC": "status=error",
       "FTM": "status=error"
     }
   },
   "crash_census": {
-    "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T074101Z.json",
-    "artifact_sha256": "a7e339e76642b0af7e0be2993596a990a98f0145a3eb302f7e8415fa9604175a",
+    "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T084310Z.json",
+    "artifact_sha256": "72c733b43e7844956cec58106afbc57fc5a82e9ef1701be57f8c8e8571f02fdd",
     "symbols": 24,
-    "bars": 93312,
+    "bars": 93288,
     "rsi_crash_events": 11,
     "confirmed_signals": 0,
-    "note": "Census run over all 24 complete aligned symbols (explicit --symbols from aligned provenance; never rely on script 12-symbol default)."
+    "caveat": "PARTIAL window only; NOT the 283-day spec window and NOT performance evidence."
   },
   "partial_campaign": {
-    "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T074101Z.json",
-    "artifact_sha256": "785857c1dfd3a039c9b15a23819d7b5c0b6143479179ac47fab326547e722723",
-    "metrics_json": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T074101Z_metrics.json",
-    "metrics_json_sha256": "9db84f7764b7808d087383bd7b4896f6451e1c6fe505d1aaa37480bae83ecd95",
-    "metrics_csv": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T074101Z_metrics.csv",
-    "metrics_csv_sha256": "74b537e158b8fb31f0cf6dd36591be2602e0a65db840872a07ca96a9e67fd9ed",
+    "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T084310Z.json",
+    "artifact_sha256": "27d8ff0c83c5682f9a4639a6c6417309f6340c45a6ddbfb7322af92aa1cd4ed9",
     "performance_evidence": false,
-    "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
     "num_trades": 0,
-    "total_pnl": 0
+    "total_pnl": 0.0,
+    "caveat": "PARTIAL NOT_EVIDENCE run; must never be relabeled as performance evidence."
   },
-  "verdict": "PARTIAL_WINDOW_DECAYING; FULL_283D_BLOCKED_BY_API_RETENTION; STRATEGY_UNDERPOWERED (0 confirmed rebound signals in 93312 aligned partial-window bars across 24 symbols; binding constraint remains independent crash episodes).",
-  "next_actions": [
-    "Re-probe Hyperliquid retention before any other heavy work (window slides ~1h/hr; served bars permanently lost).",
-    "Re-capture partial snapshot for live earliest_served_start_utc, derive aligned slice, run full-set census, run NOT_EVIDENCE partial campaign, refresh this coverage artifact and HANDOFF.md, and verify 17/17 + 4/4.",
-    "Obtain an operator-supplied verified Hyperliquid-native archive for the full 283-day window (2025-12-20T00:00:00Z..2026-09-28T23:00:00Z) to escape retention decay; follow research_state/DATA_REQUEST_283D_HYPERLIQUID.md.",
-    "If full 283d archive supplied: ingest, verify provenance/non-flat data, run full campaign + exact full-portfolio placebo + episode-aware audit; produce Hyperliquid-native evidence artifacts and update decision memo.",
-    "Never relabel this partial snapshot/campaign or OKX results as full Hyperliquid performance evidence."
-  ]
+  "verdict": "PARTIAL_WINDOW_DECAYING; FULL_283D_BLOCKED_BY_API_RETENTION; STRATEGY_UNDERPOWERED"
 }
