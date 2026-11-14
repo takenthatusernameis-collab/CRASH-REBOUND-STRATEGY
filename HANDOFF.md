@@ -1,16 +1,16 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T14:50:18Z
-**Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create a second status/handoff file.
+**Handoff updated (UTC):** 2026-11-14T14:52:02Z
+**Supersedes:** all earlier handoffs (incl. 2026-11-14T14:50:18Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Priority:** produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. **OKX is cross-venue, underpowered, and NEVER Hyperliquid performance evidence.**
 
-**Branch/HEAD (session baseline):** prior checkpoints present; working tree may contain **uncommitted degraded** 20261114T144234Z Hyperliquid artifacts (do not adopt/promote) plus a modified `research_state/hyperliquid_retention_probe.json` from the latest live probe. **Gate/evidence (last verified 2026-11-14T14:32Z baseline):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation.
+**Branch/HEAD (session baseline):** working tree clean; prior checkpoints present; **do not adopt/promote** any degraded 134000Z/144234Z Hyperliquid chain. **Gate/evidence (last verified baseline):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation.
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T14:50:18Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T14:52:02Z)
 
 **Objective:** Produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or conclusively prove the Hyperliquid data block with fresh reproducible artifacts. Full 283-day Hyperliquid is API-retention-blocked; partial public-API windows **decay continuously** and any NOT_EVIDENCE result is **not validation**. The current partial Hyperliquid window produces **0 trades** — the next session must **adjudicate the crash→entry funnel** (implementation same-bar confirmation vs spec next-open entry) with real artifacts before more partial campaigns can teach anything.
 
@@ -74,7 +74,7 @@ Refresh `research_state/hyperliquid_retention_probe.json`. Record live `generate
 11. **Episode-aware audit for any new Hyperliquid run with trades/episodes:** independent crash episodes/distinct crash days (not trades); episode-block bootstrap and, if sample permits, crash-day-conditioned temporal-edge permutation. Record `research_state/episode_edge_hyperliquid_*.{json,md}`. Do not promote to evidence until **≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0**.
 12. **Update `research_state/decision_memo_okx_full.md`** with fresh partial/data-block facts, funnel finding, and power-based sample-size target. Keep verdict `underpowered` until every GO criterion is met (full window + ≥10 independent episodes with positive bootstrap CI + trade bootstrap CI excludes 0 + episode-block CI excludes 0 + crash-day permutation p<0.05 + full-portfolio placebo p<0.05 + DD within mandate).
 
-**No session may close without steps 1–9 executed (or blocked only by live probe proving no progress possible, with that probe artifact written), gates green, and artifacts on disk.**
+**No session may close without steps 1–9 executed (or blocked only by the live probe proving no progress possible, with that probe artifact written), gates green, and artifacts on disk.** This is the focus campaign: probe → fetch → derive → adopt-or-keep → census → partial campaign → funnel adjudication → coverage refresh → gate verify. No session may substitute planning, simulation theater, or cross-venue relabeling for these real artifacts.
 
 ---
 
@@ -96,10 +96,11 @@ Refresh `research_state/hyperliquid_retention_probe.json`. Record live `generate
 | OKX (cross-venue, NOT HL evidence) | 4 episodes / 11 events / 5 crash days; p=0.1500; bootstrap CI [-4083.95,24411.99]; 8 trades, total PnL 9159.691934882958 | `episode_edge_okx_full.json`, `campaign_results_real_okx_full.json` |
 
 ## Bottlenecks (current)
-1. **External/data block:** Full 283-day Hyperliquid window API-blocked by retention. Only operator-supplied verified Hyperliquid-native archive can unblock (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`).
-2. **Maintenance (decaying):** partial public-API window slides; re-probe and re-capture before heavy work each session. Fresh fetches can be severely degraded — **adopt-or-keep check is mandatory** (144234Z degraded vs retained).
-3. **Signal funnel (primary structural/statistical blocker):** partial Hyperliquid yields **0 trades** because implementation requires **same-bar** `confirm_rebound`, while spec entry is **next hourly open after RSI crash close** (29→11 pass volume→0 same-bar confirm, 5 next-bar confirm). Must adjudicate with **exploratory** next-open artifact; **no silent baseline change**.
-4. **Statistical:** OKX underpowered/few independent episodes; no Hyperliquid-native performance evidence.
+
+1. **External/data block (NOT agent-removable):** Full 283-day Hyperliquid window API-blocked by retention. Only an operator-supplied verified Hyperliquid-native archive can unblock (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`). Partial-window work proceeds regardless; this blocker is documented, not ignored.
+2. **Maintenance (decaying) — agent-removable each session:** partial public-API window slides; re-probe and re-capture **before** heavy work each session (step 1 below). Fresh fetches can be severely degraded — **adopt-or-keep check is mandatory** (144234Z degraded vs retained 104210Z). Never let a stale probe gate heavy work.
+3. **Signal funnel (primary structural/statistical blocker) — agent-removable:** partial Hyperliquid yields **0 trades** because implementation requires **same-bar** `confirm_rebound`, while spec entry is **next hourly open after RSI crash close** (29→11 pass volume→0 same-bar confirm, 5 next-bar confirm). Adjudicate with **exploratory** next-open artifact (step 7 below); **no silent baseline change**.
+4. **Statistical — agent-mitigating, not removable:** OKX underpowered/few independent episodes; no Hyperliquid-native performance evidence. Does not block steps 1–9.
 5. **Resolved traps (do not reintroduce):** census requires `--symbols` (full aligned set); campaign flag is `--allow-partial-not-evidence` (hyphens); `derive_hyperliquid_aligned_slice.py` handles alignment; never replace retained 104210Z chain with degraded slices (134000Z, 144234Z); gate coverage needs integer aggregate counts and correct probe field mapping.
 
 ## Canonical artifacts (do not re-acquire/re-run/overwrite)
