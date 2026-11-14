@@ -346,8 +346,15 @@ def run_real(args: argparse.Namespace) -> int:
         return 1
 
     # ---- Step 2: verified-universe derivation ($5M floor) ----
-    manifest = STATE / "cache" / "hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z" / "provenance.json"
-    cache_dir = STATE / "cache" / "hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z"
+    # The manifest/cache-dir are NOT hardcoded: they come from the operator-supplied
+    # archive that passed Step 1 (C5-T2 runbook ingests into
+    # research_state/cache/hyperliquid_1h_full_20231220_20260928). Falling back to the
+    # retained partial chain would silently re-run the blocked 283-day window, which
+    # the intake gate in Step 1 already refused.
+    manifest = Path(args.manifest) if args.manifest else (
+        STATE / "cache" / "hyperliquid_1h_full_20231220_20260928" / "provenance.json")
+    cache_dir = Path(args.cache_dir) if args.cache_dir else (
+        STATE / "cache" / "hyperliquid_1h_full_20231220_20260928")
     universe_out = STATE / f"universe_verified_c5_{ts}.json"
     rc, out, err = run_cli("scripts/derive_verified_universe.py", [
         "--manifest", str(manifest),

@@ -242,8 +242,15 @@ def validate_archive(
     min_symbols: int = DEFAULT_MIN_SYMBOLS,
     min_volume_usd: float = DEFAULT_MIN_VOLUME_USD,
     allow_synthetic_fixture: bool = False,
+    skip_selftest: bool = False,
 ) -> Dict[str, Any]:
-    """Run every intake gate. Never raises for content problems; returns a verdict."""
+    """Run every intake gate. Never raises for content problems; returns a verdict.
+
+    ``skip_selftest`` is accepted for callers (notably the C5-T1 orchestrator) that
+    manage their own self-test lifecycle; it is a no-op here because the built-in
+    self-test is a CLI-wrapper concern that constructs fixtures in a temp dir.
+    """
+    del skip_selftest  # accepted for API compatibility; self-test is CLI-only
     checks: List[Dict[str, Any]] = []
 
     def add(cid: str, ok: bool, detail: str, tolerable: bool = False) -> None:
