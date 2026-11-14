@@ -1,5 +1,5 @@
 {
-  "timestamp": "2026-11-14T10:45:00.485364+00:00",
+  "timestamp": "2026-11-14T12:44:57.458732+00:00",
   "run_type": "real_market_campaign_partial_not_evidence",
   "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
   "real_market_data": true,
@@ -544,6 +544,6 @@
     "vault_hwm_final": 100000.0,
     "fee_hours_per_step": 1.0,
     "fee_time_base_hours_per_year": 8760.0,
-    "timestamp": "2026-11-14T10:45:00.485205"
+    "timestamp": "2026-11-14T12:44:57.458567"
   }
 }

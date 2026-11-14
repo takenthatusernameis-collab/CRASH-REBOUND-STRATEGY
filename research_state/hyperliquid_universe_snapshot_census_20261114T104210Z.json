@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T10:43:33.617119+00:00",
+  "generated_at_utc": "2026-11-14T12:42:03.414814+00:00",
   "run_type": "hyperliquid_partial_crash_census",
   "provenance_caveat": "Real Hyperliquid public API candles, non-synthetic; PARTIAL window 2026-04-19T12:00Z..2026-09-28T23:00Z; NOT the 283-day spec window and NOT performance evidence.",
   "target_window": {
