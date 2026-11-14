@@ -1,1 +1,113 @@
-{"schema_version":1,"generated_at_utc":"2026-11-14T13:40:30Z","run_type":"hyperliquid_universe_coverage","provenance_caveat":"Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.","sliding_retention_finding":"Fresh probe 2026-11-14T13:40:15Z (this session): earliest_served_start_utc 2026-04-20T02:00:00Z, max_bars_returned 3886/6792, missing_early_bars_vs_expected 2906, perps_total 235 / perps_passing_volume_gate 27 / probed 27, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION. Fresh full-universe fetch this session (20261114T134000Z) derived a DEGRADED aligned slice (24 complete but aligned_start 2026-06-21T14:00:00Z, 2386 bars) vs retained gate-checked chain (20261114T104210Z_aligned_20260420T0300Z, 24 complete symbols x 3885 bars 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z); retained largest valid aligned complete slice per handoff step 2.","spec_window":{"start":"2025-12-20T00:00:00Z","end":"2026-09-28T23:00:00Z","expected_hourly_bars":6792},"api_retention_probe":{"artifact":"research_state/hyperliquid_retention_probe.json","artifact_sha256":"c180d847158f2da4111c3e15774589c4514aa6d05e25620546354494984b7b0f","generated_at_utc":"2026-11-14T13:40:15Z","perps_total":235,"perps_passing_volume_gate":27,"probed":27,"full_window_served":false,"max_bars_returned":3886,"missing_early_bars_vs_expected":2906,"earliest_served_start_utc":"2026-04-20T02:00:00Z","symbols_empty_or_error":["KPEPE"],"note":"Live probe re-captured this session (2026-11-14T13:40:15Z) before heavy work; fresh fetch degraded vs retained chain."},"universe_snapshot":{"cache_dir_raw_fetch":"research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z","manifest_raw_fetch":"research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z/provenance.json","manifest_raw_fetch_sha256":"7b8ea12c8b29a5257b4d44ecd4287e823bb79ff38d401fb8b8f9c4c62b9bde95","cache_dir_aligned":"research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z","manifest":"research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json","manifest_sha256":"135ece4ea010fa704be4757a8459dfb3bf8b568ca93a8f4dfc0cde1dee6b6ce2","symbols_requested":26,"symbols_complete":24,"complete_symbols":["AAVE","ADA","ALGO","APT","ARB","ATOM","AVAX","BCH","BTC","DOGE","DOT","ETH","ICP","INJ","LINK","LTC","NEAR","OP","SEI","SOL","SUI","TIA","UNI","XRP"],"aligned_window":"2026-04-20T03:00:00+00:00..2026-09-28T23:00:00+00:00","expected_hourly_bars":3885,"rejected_source_symbols":{"MATIC":"status=error","FTM":"status=error"},"caveat":"PARTIAL retained window (aligned); NOT the 283-day spec window and NOT performance evidence."},"crash_census":{"artifact":"research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json","artifact_sha256":"4e66f6e1b829401c1d02d6d46ed46013a5e8d3467b07c90f99a09d8634236b07","symbols":24,"bars":93240,"rsi_crash_events":11,"confirmed_signals":0,"caveat":"PARTIAL window only; NOT the 283-day spec window and NOT performance evidence."},"partial_campaign":{"artifact":"research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T125249Z.json","artifact_sha256":"d6cc997451dc8da3cdf398b530d58c3526d78849ab16a1da27fe7be18fd677fd","performance_evidence":false,"num_trades":0,"total_pnl":0.0,"real_market_data":true,"research_status":"NOT_EVIDENCE_PARTIAL_UNIVERSE","caveat":"PARTIAL NOT_EVIDENCE run; must never be relabeled as performance evidence."},"verdict":"PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED"}
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T15:02:30Z",
+  "run_type": "hyperliquid_universe_coverage",
+  "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
+  "sliding_retention_finding": "Fresh probe 2026-11-14T14:42:12Z: earliest_served_start_utc 2026-04-20T03:00:00Z, max_bars_returned 3885/6792, missing_early_bars_vs_expected 2907, perps_total 235 / perps_passing_volume_gate 28 / probed 28, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1. Fresh full-universe fetch+derive this session (20261114T145453Z) produced aligned slice 24 complete x 3881 bars, start 2026-04-20T07:00:00Z (degraded vs retained). Adopt-or-keep: KEEP retained chain 20261114T104210Z_aligned_20260420T0300Z (24 complete x 3885 bars, start 2026-04-20T03:00:00Z).",
+  "spec_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "api_retention_probe": {
+    "artifact": "research_state/hyperliquid_retention_probe.json",
+    "artifact_sha256": "60741aa5aca4c4aca3b5924013ba966b4691fca5d885bc24152def75c3db8eec",
+    "generated_at_utc": "2026-11-14T14:42:12Z",
+    "perps_total": 235,
+    "perps_passing_volume_gate": 28,
+    "probed": 28,
+    "full_window_served": false,
+    "max_bars_returned": 3885,
+    "missing_early_bars_vs_expected": 2907,
+    "earliest_served_start_utc": "2026-04-20T03:00:00Z",
+    "symbols_empty_or_error": [
+      "KPEPE"
+    ],
+    "note": "Live probe re-captured this session before heavy work; full 283-day window remains API-retention-blocked."
+  },
+  "universe_snapshot": {
+    "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z",
+    "manifest_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z/provenance.json",
+    "manifest_raw_fetch_sha256": "7b8ea12c8b29a5257b4d44ecd4287e823bb79ff38d401fb8b8f9c4c62b9bde95",
+    "cache_dir_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z",
+    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json",
+    "manifest_sha256": "135ece4ea010fa704be4757a8459dfb3bf8b568ca93a8f4dfc0cde1dee6b6ce2",
+    "symbols_requested": 26,
+    "symbols_complete": 24,
+    "complete_symbols": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ARB",
+      "ATOM",
+      "AVAX",
+      "BCH",
+      "BTC",
+      "DOGE",
+      "DOT",
+      "ETH",
+      "ICP",
+      "INJ",
+      "LINK",
+      "LTC",
+      "NEAR",
+      "OP",
+      "SEI",
+      "SOL",
+      "SUI",
+      "TIA",
+      "UNI",
+      "XRP"
+    ],
+    "aligned_window": "2026-04-20T03:00:00+00:00..2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 3885,
+    "rejected_source_symbols": {
+      "MATIC": "status=error",
+      "FTM": "status=error"
+    },
+    "caveat": "PARTIAL retained window (aligned); NOT the 283-day spec window and NOT performance evidence."
+  },
+  "adopt_or_keep_decision": {
+    "fresh_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T145453Z",
+    "fresh_raw_manifest_sha256": "d04dcf180f68d9c9441bd15491b9b8027cfe21bcb7d8b4af4fbb45797080764f",
+    "fresh_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T145453Z_aligned_20260420T0700Z",
+    "fresh_aligned_manifest_sha256": "a0928c26d91107561165a6af1391c461dbd36cd9e635492be7b32c5fa75a4916",
+    "fresh_complete_symbols": 24,
+    "fresh_expected_hourly_bars": 3881,
+    "fresh_aligned_start": "2026-04-20T07:00:00+00:00",
+    "retained_complete_symbols": 24,
+    "retained_expected_hourly_bars": 3885,
+    "retained_aligned_start": "2026-04-20T03:00:00+00:00",
+    "decision": "KEEP_RETAINED",
+    "reason": "Fresh aligned slice degraded (3881 bars, start 07:00Z) vs retained (3885 bars, start 03:00Z); adopt condition not met."
+  },
+  "crash_census": {
+    "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json",
+    "artifact_sha256": "4e66f6e1b829401c1d02d6d46ed46013a5e8d3467b07c90f99a09d8634236b07",
+    "symbols": 24,
+    "bars": 93240,
+    "rsi_crash_events": 11,
+    "confirmed_signals": 0,
+    "caveat": "PARTIAL window only; NOT the 283-day spec window and NOT performance evidence."
+  },
+  "partial_campaign": {
+    "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T125249Z.json",
+    "artifact_sha256": "d6cc997451dc8da3cdf398b530d58c3526d78849ab16a1da27fe7be18fd677fd",
+    "performance_evidence": false,
+    "num_trades": 0,
+    "total_pnl": 0.0,
+    "real_market_data": true,
+    "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
+    "caveat": "PARTIAL NOT_EVIDENCE run; must never be relabeled as performance evidence."
+  },
+  "signal_funnel": {
+    "canonical_artifact": "research_state/hyperliquid_signal_funnel_20261114T145550Z.json",
+    "canonical_artifact_sha256": "8e6a2923f117917fbfdb6802797a9064ae1f305e43f8e819ec48da50e49ab480",
+    "exploratory_next_open_artifact": "research_state/hyperliquid_signal_funnel_exploratory_next_open_20261114T145550Z.json",
+    "exploratory_next_open_artifact_sha256": "6469f2a557a572c0e18f90737c99c043b695b74e5a138617cb4a8e1d568c3717",
+    "exploratory_label": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+    "summary": "Retained chain: 29 RSI<20 hours, 11 pass trailing-24h $5M volume, 0 same-bar rebound confirm, 5 next-bar confirm, 0 generate_signal. Spec-literal next-open upper bound admits 11 opportunities (all volume-passing crash hours) vs 0 canonical entries; structural filter is same-bar confirmation."
+  },
+  "verdict": "PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED"
+}
