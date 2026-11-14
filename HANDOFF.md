@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T06:52:27Z
+**Handoff updated (UTC):** 2026-11-14T06:54:33Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
@@ -9,12 +9,12 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T06:52:27Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T06:54:33Z)
 
-**Inferred priority (repo name):** produce a **decision-grade Hyperliquid-native** verdict, or prove the data block with a reproducible live probe. **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** Binding constraint is **independent crash episodes**, not trades: 11 gate-passing events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
+**Inferred priority (repo name `CRASH-REBOUND-STRATEGY`):** produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** Binding constraint is **independent crash episodes**, not trades: 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. Hyperliquid partial window: **0 trades, 0 PnL, 0 confirmed signals** across 23 symbols / 89,470 bars. **Do not declare validated. Do not allocate capital.** Campaign = `NOT_RUN` for full Hyperliquid until an operator-supplied verified archive arrives or the data block is proven with live probe counts.
 
-### FIRST ACTION — EXECUTE IMMEDIATELY (time-critical; window slides ~1h/hr)
-The partial Hyperliquid public-API window decays ~1h/hr. Last recorded probe (2026-11-14T05:52:03Z, `research_state/hyperliquid_retention_probe.json`) showed `earliest_served_start_utc=2026-04-19T19:00:00Z`, max **3893/6792** bars, missing **2899**, perps **235** / **26** pass $5M gate / **26 probed**, verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2` (`MATIC`,`FTM`). **>1h has elapsed since that probe — the window has likely slid further and served bars are permanently lost from the public API path. Re-probe before any other heavy work.**
+### FIRST ACTION — EXECUTE IMMEDIATELY (time-critical; window slides ~1h/hr; bars permanently lost per hour)
+The partial Hyperliquid public-API window decays ~1h/hr. Last recorded probe (2026-11-14T05:52:03Z, `research_state/hyperliquid_retention_probe.json`) showed `earliest_served_start_utc=2026-04-19T19:00:00Z`, max **3893/6792** bars, missing **2899**, perps **235** / **26** pass $5M gate / **26 probed**, verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2` (`MATIC`,`FTM`). **>1h has elapsed since that probe — the window has certainly slid further and served bars are permanently lost from the public API path. Re-probe before any other heavy work.**
 
 ### BOTTLENECK REMOVAL — EXECUTE IN ORDER, NO EARLY STOP (no planning-only turn)
 1. **Probe retention now:**
@@ -38,11 +38,13 @@ The partial Hyperliquid public-API window decays ~1h/hr. Last recorded probe (20
 9. **Episode-aware audit for any new Hyperliquid run:** independent crash episodes/distinct crash days (not trades); episode-block bootstrap and, if sample permits, crash-day-conditioned temporal-edge permutation. Record `research_state/episode_edge_hyperliquid_*.{json,md}`. Do not promote to evidence until **>2 independent crash episodes with positive mean PnL and episode-block bootstrap CI excluding 0**.
 10. **Update `research_state/decision_memo_okx_full.md`** with fresh partial/data-block facts and power-based sample-size target. Keep verdict `underpowered` until every GO criterion is met.
 
+**NEXT FOCUS CAMPAIGN (unavoidable heavy work):** The repo name mandates crash-rebound strategy validation on Hyperliquid-native data. Every session must: (a) re-probe retention before any other work; (b) capture the partial snapshot before retention slides further; (c) run census over the full aligned symbol set (not the 12-symbol default); (d) run the gated campaign marked `performance_evidence=false`; (e) verify the 17/17 + 4/4 chain. No session may close without steps 1–7 complete and artifacts on disk. Planning-only turns are prohibited.
+
 **ANTI-AVOIDANCE (hard):** execute step 1–7 and produce real gate-relevant artifacts first; no planning-only turn; no validation/parity claims; no per-event-null as portfolio test; no 10,000-sim theater (exact 165-subset enumeration standard); no second handoff; no fabricated data; never relax $5M gate; no "data unavailable" without live probe artifact + full-universe counts.
 
 ---
 
-## Verified state (2026-11-14T06:52:27Z)
+## Verified state (2026-11-14T06:54:33Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -51,7 +53,7 @@ The partial Hyperliquid public-API window decays ~1h/hr. Last recorded probe (20
 | Env | `/tmp/crs-venv` present | `test -x` |
 | Session gate | **17/17 — DONE** (re-verified 2026-11-14T06:52Z) | `scripts/session_gate.py` |
 | Evidence verifier | **4/4 PASS — EVIDENCE VERIFIED** (re-verified 2026-11-14T06:52Z) | `scripts/verify_campaign_evidence.py` |
-| Retention probe (last recorded) | 3893/6792 bars; 2899 missing; earliest 2026-04-19T19:00:00Z; 235 perps / 26 pass $5M / 26 probed; 2 unprobeable (MATIC,FTM); generated 2026-11-14T05:52:03Z (**likely slid since**) | `hyperliquid_retention_probe.json` (`b47396e9...`) |
+| Retention probe (last recorded) | 3893/6792 bars; 2899 missing; earliest 2026-04-19T19:00:00Z; 235 perps / 26 pass $5M / 26 probed; 2 unprobeable (MATIC,FTM); generated 2026-11-14T05:52:03Z (**>1h elapsed — window has definitely slid further; served bars permanently lost; re-probe before any heavy work**) | `hyperliquid_retention_probe.json` (`b47396e9...`) |
 | Latest gate-compliant raw snapshot | fetch-produced provenance 055219Z | `cache/hyperliquid_universe_snapshot_20261114T055219Z/provenance.json` (`4555805a...`) |
 | Latest aligned partial slice | 23 complete symbols × 3890 bars (2026-04-19T22:00:00Z..2026-09-28T23:00:00Z), synthetic checks ok | `..._aligned_20260419T2200Z/provenance.json` (`a0f8ed90...`) |
 | Latest aligned census (full set) | 23 symbols / 89470 bars / 11 RSI crashes / 0 confirmed signals | `hyperliquid_universe_snapshot_census_20261114T055219Z.json` (`261e440a...`) |
@@ -65,7 +67,7 @@ The partial Hyperliquid public-API window decays ~1h/hr. Last recorded probe (20
 ## Bottlenecks (current)
 
 1. **External/data block:** Full 283-day Hyperliquid window API-blocked (retention-limited). Only operator-supplied verified Hyperliquid-native archive can provide missing early history (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`).
-2. **Urgent maintenance (decaying):** partial public-API window slides ~1h/hr; delay permanently loses served bars — re-capture continuously.
+2. **Urgent maintenance (decaying, definitely stale):** partial public-API window slides ~1h/hr; **>1h elapsed since last probe — served bars permanently lost; re-capture immediately before any heavy work.**
 3. **Known script trap:** `run_hyperliquid_partial_census.py` hardcoded 12-symbol default; always pass full complete-symbol `--symbols` from aligned provenance.
 4. **Statistical:** OKX evidence underpowered / few independent episodes; no Hyperliquid-native performance evidence yet.
 
