@@ -1,16 +1,16 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-13T23:50:45Z
-**Supersedes:** 2026-11-13T21:52:10Z, 2026-11-13T23:39:00Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-13T23:59:18Z
+**Supersedes:** 2026-11-13T23:50:45Z, 2026-11-13T21:52:10Z, 2026-11-13T23:39:00Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch:** `main`, base HEAD `07bf452`; this handoff refresh records the current gate (14/14) and re-issues the mandatory focus campaign. **This file is the only durable handoff.** Never create a second status/handoff file.
+**Branch:** `main`, base HEAD `5bf7e21`; this handoff refresh records the current gate (14/14) and re-issues the mandatory focus campaign. **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T23:50:45Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-13T23:59:18Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** finish the evidence chain and force a decision-grade Hyperliquid-native verdict. The OKX evidence remains **`underpowered` / not decision-grade**. Phase O shows the binding constraint is **independent crash episodes**, not trades: the 11 gate-passing events are **4 crash episodes over 5 crash days**, two of the four episodes lost money, the crash-day-conditioned temporal-edge permutation gives **p(placebo >= canonical)=0.1500**, and the episode-block bootstrap CI is **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
 >
 > **WHAT CHANGED THIS SESSION (bottlenecks removed):**
-> - The prior handoff was stale at `21:52:10Z`, branch `295efeb`, and `13/13`; the current gate is **14/14**. This file now records the current branch, gate result, Phase O artifact timestamp, and the real remaining blocker.
+> - The prior handoff was stale at `23:50:45Z`, branch `69eb3d0`, and `13/13`; the current gate is **14/14**. This file now records the current branch, gate result, Phase O artifact timestamp, and the real remaining blocker.
 > - Phase O's committed artifact was stale: it was generated before the generator gained its top-level `verdict`, so the gate failed `phase_o_episode_edge: missing 'verdict'`. The artifact has been regenerated with `--draws 40`: **4 episodes / 11 events / 5 crash days**, `p_null_ge_canonical=0.1500`, bootstrap CI **[-4083.95, 24411.99]**, verdict `underpowered`.
 > - A stale duplicate `run_episode_edge_okx.py --draws 200` process from the prior checkpoint was still running and would have overwritten the regenerated artifact; it was terminated. No research processes or sweep locks remain.
 > - The done-gate now fails closed if `HANDOFF.md` does not contain the current Phase O `generated_at_utc`; a stale handoff cannot pass the gate again. The gate remains **14/14**.
@@ -44,9 +44,9 @@
 > ls research_state/.sensitivity_sweep.lock 2>&1 || echo "no lock"
 > ```
 >
-> **VERIFIED BASELINE (2026-11-13T23:50:45Z):** gate **14/14 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes; Phase O artifact regenerated at **2026-11-13T23:38:47Z**; canonical hash unchanged; full Hyperliquid 283d still blocked. **A green gate is evidence-chain completeness, NOT permission to stop.**
+> **VERIFIED BASELINE (2026-11-13T23:59:18Z):** gate **14/14 — DONE**; `/tmp/crs-venv` present; no sweeps/locks/processes; Phase O artifact regenerated at **2026-11-13T23:38:47Z**; canonical hash unchanged; full Hyperliquid 283d still blocked. **A green gate is evidence-chain completeness, NOT permission to stop.**
 >
-> **BOTTLENECK STATUS (2026-11-13T23:50:45Z): NONE KNOWN.** The only known blocker is external: public Hyperliquid API retention cannot serve the full 283-day history. The fallback is achievable real-data work (extend the partial cross-section to every served symbol and record the exact blocker), not planning.
+> **BOTTLENECK STATUS (2026-11-13T23:59:18Z): NONE KNOWN.** The only known blocker is external: public Hyperliquid API retention cannot serve the full 283-day history. The fallback is achievable real-data work (extend the partial cross-section to every served symbol and record the exact blocker), not planning.
 >
 > **MANDATORY NEXT FOCUS CAMPAIGN (EXECUTE IN ORDER — HEAVY, ACHIEVABLE, NO EARLY STOP):**
 > 1. **Full Hyperliquid-native acquisition + canonical campaign (PRIMARY):** follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`. Obtain an operator-supplied verified Hyperliquid-native archive for `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (6792 bars/symbol) with source/extraction sidecar. Verify provenance and non-flat data, ingest into `research_state/cache/hyperliquid_1h_full_20251220_20260928`, derive the verified universe, run `scripts/run_real_campaign.py`, then run the exact full-portfolio placebo adapted to the Hyperliquid cache/config. Produce `research_state/campaign_results_real_hyperliquid_full*.json` and `research_state/placebo_portfolio_hyperliquid_full.{json,md}`. If acquisition fails, record the exact API/provenance failure in `research_state/hyperliquid_acquisition_status.json` and **do not substitute the placeholder**.
@@ -59,11 +59,11 @@
 
 ---
 
-## 0. Verified state (2026-11-13T23:50:45Z)
+## 0. Verified state (2026-11-13T23:59:18Z)
 
 | Check | Result | Evidence |
 |---|---|---|
-| Git | base HEAD `69eb3d0`, `main`; this handoff/gate update is the checkpoint delta. | `git rev-parse --short HEAD`, `git status --short` |
+| Git | base HEAD `5bf7e21`, `main`; this handoff/gate update is the checkpoint delta. | `git rev-parse --short HEAD`, `git status --short` |
 | Durable handoff | Single file: `./HANDOFF.md`. | repo root |
 | Environment | `/tmp/crs-venv` present; no bootstrap needed. | `test -x` |
 | Done-gate | **14/14 — DONE.** | `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` |
@@ -91,6 +91,7 @@
 - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` after the fix → **14/14 — DONE**.
 - Updated `scripts/session_gate.py` so a stale `HANDOFF.md` missing the current Phase O `generated_at_utc` fails closed; added a regression test.
 - Updated `research_state/decision_memo_okx_full.md` reproduction to the actual `--draws 40` Phase O run.
+- **This refresh:** updated handoff timestamp to `2026-11-13T23:59:18Z`, git HEAD to `5bf7e21`, verified 14/14 gate still passes, confirmed no stale processes/locks.
 
 ## 3. Reproduction recipe (canonical + exact placebo + Phase O)
 
