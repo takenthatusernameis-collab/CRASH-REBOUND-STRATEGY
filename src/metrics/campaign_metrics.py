@@ -60,6 +60,17 @@ def _parse_dt(ts: Optional[str]):
     s = ts.strip()
     if not s:
         return None
+    # Numeric epoch (milliseconds or seconds) is a common candle timestamp form.
+    # Detect it before fromisoformat, which otherwise misreads long digit strings
+    # as ISO basic dates and produces garbage years (e.g. 1770) and horizons.
+    if s.isdigit() or (s.startswith("-") and s[1:].isdigit()):
+        try:
+            iv = int(s)
+            if abs(iv) > 10_000_000_000:
+                return datetime.fromtimestamp(iv / 1000.0, tz=timezone.utc)
+            return datetime.fromtimestamp(iv, tz=timezone.utc)
+        except Exception:
+            return None
     try:
         # Handle ISO strings; tolerate trailing Z
         if s.endswith("Z"):

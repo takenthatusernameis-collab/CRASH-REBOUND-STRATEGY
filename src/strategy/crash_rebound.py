@@ -94,21 +94,59 @@ def _rsi(candles: List[Dict[str, Any]], period: int = 21,
     """Calculate RSI using Wilder's smoothing method.
 
     Exact same result as the uncached path. When a per-symbol `cache` dict is
-    supplied, results are memoized by (len(candles), period). Callers that pass
-    prefixes of the *same* underlying candle list (e.g. the portfolio scanner,
-    which advances one bar at a time) get O(1) amortized RSI per bar instead of
-    O(n) — turning the scanner's O(n^2) RSI cost into O(n). The cache is caller-
-    owned (no global mutable state), so tests that omit it are unaffected.
+    supplied, results are memoized by (len(candles), period) and the most recent
+    Wilder state is updated incrementally when the caller advances one bar on
+    the same series. This turns the portfolio scanner's RSI cost from O(n^2) to
+    O(n) per symbol. The cache is caller-owned (no global mutable state), so
+    tests that omit it are unaffected.
     """
-    key = (len(candles), period) if cache is not None else None
+    n = len(candles)
+    key = (n, period) if cache is not None else None
     if key is not None and key in cache:
         return cache[key]
-    if len(candles) < period + 1:
+
+    state_key = ("__rsi_state__", period) if cache is not None else None
+    state = cache.get(state_key) if state_key is not None else None
+
+    # Incremental Wilder update: only when the caller advanced exactly one bar.
+    if state is not None and state.get("valid") and state.get("len") == n - 1 and n >= 2:
+        close = _close(candles[n - 1])
+        prev_close = _close(candles[n - 2])
+        if close is not None and prev_close is not None:
+            change = close - prev_close
+            gain = change if change >= 0 else 0.0
+            loss = 0.0 if change >= 0 else abs(change)
+            avg_gain = (float(state["avg_gain"]) * (period - 1) + gain) / period
+            avg_loss = (float(state["avg_loss"]) * (period - 1) + loss) / period
+        else:
+            avg_gain = float(state["avg_gain"])
+            avg_loss = float(state["avg_loss"])
+        if avg_loss == 0:
+            result = 100.0
+        else:
+            rs = avg_gain / avg_loss
+            result = 100.0 - (100.0 / (1.0 + rs))
+        state.update({
+            "len": n,
+            "avg_gain": avg_gain,
+            "avg_loss": avg_loss,
+            "result": result,
+            "valid": True,
+        })
+        if key is not None:
+            cache[key] = result
+        return result
+
+    # Full recompute: cold cache, non-consecutive prefix, or first valid prefix.
+    if n < period + 1:
         result = None
+        valid = False
+        avg_gain = 0.0
+        avg_loss = 0.0
     else:
         gains = []
         losses = []
-        for i in range(1, len(candles)):
+        for i in range(1, n):
             close = _close(candles[i])
             prev_close = _close(candles[i - 1])
             if close is None or prev_close is None:
@@ -122,6 +160,9 @@ def _rsi(candles: List[Dict[str, Any]], period: int = 21,
                 losses.append(abs(change))
         if len(gains) < period:
             result = None
+            valid = False
+            avg_gain = 0.0
+            avg_loss = 0.0
         else:
             avg_gain = sum(gains[:period]) / period
             avg_loss = sum(losses[:period]) / period
@@ -133,6 +174,15 @@ def _rsi(candles: List[Dict[str, Any]], period: int = 21,
             else:
                 rs = avg_gain / avg_loss
                 result = 100.0 - (100.0 / (1.0 + rs))
+            valid = True
+    if state_key is not None:
+        cache[state_key] = {
+            "len": n,
+            "avg_gain": avg_gain,
+            "avg_loss": avg_loss,
+            "result": result,
+            "valid": valid,
+        }
     if key is not None:
         cache[key] = result
     return result

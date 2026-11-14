@@ -1,0 +1,127 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T23:42:25Z",
+  "run_type": "multiyear_cross_venue_power_reassessment",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; CROSS-VENUE. NOT Hyperliquid performance evidence.",
+  "inputs": {
+    "census": "research_state/crash_event_census_real_okx_multiyear.json",
+    "census_sha256": "128d3ab32c53dca4e54e179ce870ada9d13e050e63cbffaf58dcca8dac8e52ba",
+    "census_generated_at_utc": "2026-11-14T23:42:25.143012+00:00",
+    "universe_size": 34,
+    "window": {
+      "start": "2023-01-01T00:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "bars_scanned": 1115472
+    }
+  },
+  "method": {
+    "episode_link_hours": 98.0,
+    "episode_rule": "single-linkage on crash-bar time; spec holding horizon",
+    "power_floor_episodes": 10,
+    "power_floor_distinct_days": 10,
+    "min_days_for_80pct_power": 1013.2
+  },
+  "observed": {
+    "all_events": {
+      "events": 1182,
+      "episodes": 69,
+      "distinct_crash_days": 96,
+      "first_event_utc": "2023-01-06T04:00:00Z",
+      "last_event_utc": "2026-09-10T15:00:00Z",
+      "largest_episode_events": 157,
+      "largest_episode_share": 0.13282571912013535,
+      "episode_size_histogram": {
+        "1": 14,
+        "2": 6,
+        "3": 8,
+        "4": 8,
+        "5": 1,
+        "6": 2,
+        "7": 3,
+        "8": 3,
+        "9": 1,
+        "10": 1,
+        "11": 1,
+        "12": 2,
+        "13": 1,
+        "17": 1,
+        "19": 1,
+        "21": 3,
+        "22": 1,
+        "38": 2,
+        "42": 1,
+        "57": 1,
+        "60": 1,
+        "66": 1,
+        "72": 1,
+        "73": 1,
+        "76": 1,
+        "82": 1,
+        "89": 1,
+        "157": 1
+      }
+    },
+    "volume_gate_pass": {
+      "events": 782,
+      "episodes": 57,
+      "distinct_crash_days": 79,
+      "first_event_utc": "2023-01-06T04:00:00Z",
+      "last_event_utc": "2026-09-10T15:00:00Z",
+      "largest_episode_events": 100,
+      "largest_episode_share": 0.1278772378516624,
+      "episode_size_histogram": {
+        "1": 13,
+        "2": 4,
+        "3": 7,
+        "4": 5,
+        "5": 4,
+        "6": 2,
+        "7": 3,
+        "8": 2,
+        "9": 1,
+        "11": 2,
+        "17": 2,
+        "23": 1,
+        "30": 1,
+        "32": 2,
+        "42": 1,
+        "43": 1,
+        "48": 1,
+        "51": 1,
+        "54": 1,
+        "62": 1,
+        "69": 1,
+        "100": 1
+      }
+    },
+    "signal_gate_pass": {
+      "events": 55,
+      "episodes": 19,
+      "distinct_crash_days": 23,
+      "first_event_utc": "2023-03-10T11:00:00Z",
+      "last_event_utc": "2026-05-18T08:00:00Z",
+      "largest_episode_events": 9,
+      "largest_episode_share": 0.16363636363636364,
+      "episode_size_histogram": {
+        "1": 7,
+        "2": 5,
+        "3": 1,
+        "4": 3,
+        "6": 1,
+        "8": 1,
+        "9": 1
+      }
+    },
+    "days_observed": null
+  },
+  "checks": {
+    "signal_episodes_ge_10": true,
+    "signal_distinct_days_ge_10": true,
+    "days_observed_ge_1013": false,
+    "largest_episode_share_below_0.5": true
+  },
+  "verdict": "CROSS_VENUE_POWERED_OBSERVED",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "powered": true
+}

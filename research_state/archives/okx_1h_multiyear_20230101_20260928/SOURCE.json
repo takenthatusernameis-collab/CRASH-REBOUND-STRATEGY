@@ -1,0 +1,974 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T23:21:39.621732+00:00",
+  "run_type": "external_exchange_archive_acquisition",
+  "fabricated_data": false,
+  "real_market_data": true,
+  "performance_evidence": false,
+  "is_hyperliquid_venue_data": false,
+  "venue_note": "Candles are REAL, exchange-published OHLCV for the requested instruments but are NOT Hyperliquid candles. They are cross-venue price/volume proxies for the spec universe. Use for real strategy/behavior campaign runs; document the venue basis when comparing to the Hyperliquid-denominated spec targets.",
+  "target_window": {
+    "start": "2023-01-01T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 32808
+  },
+  "symbols": {
+    "AAVE": {
+      "symbol": "AAVE",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "AAVE-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "62742b199fe5cf91da8594b3596fe876a53237dcfdec5274ba552fb8056cfcd9",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/AAVE.json",
+      "retrieved_at_utc": "2026-11-14T23:13:05.326921+00:00",
+      "retrieval_seconds": 15.8,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "ADA-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "db78f2d5ef79e3ce8ecd3fb6aa211bd75f0057be133c90177b256075c835a25a",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/ADA.json",
+      "retrieved_at_utc": "2026-11-14T23:13:20.450978+00:00",
+      "retrieval_seconds": 15.12,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ALGO": {
+      "symbol": "ALGO",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "ALGO-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "c492cb38acd29fc99115f3be9e412eb92814e6f407d95d5f4f3067209137e02b",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/ALGO.json",
+      "retrieved_at_utc": "2026-11-14T23:13:36.251133+00:00",
+      "retrieval_seconds": 15.8,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "APT": {
+      "symbol": "APT",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "APT-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "d98b7ab948b742e1d6acaf38c76024b4685257767ec083e6be1cfafff9bccab9",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/APT.json",
+      "retrieved_at_utc": "2026-11-14T23:13:51.678017+00:00",
+      "retrieval_seconds": 15.43,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ATOM": {
+      "symbol": "ATOM",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "ATOM-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "1650e805cda9bd6a336ef90994fe4849367f4a010169a30c95ff4f2c078b8e43",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/ATOM.json",
+      "retrieved_at_utc": "2026-11-14T23:14:07.007317+00:00",
+      "retrieval_seconds": 15.33,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "AVAX-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "6120e89f2a7e4f6a9456325d3001d46b7cabc700fb4109691a25d711ff67d59c",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/AVAX.json",
+      "retrieved_at_utc": "2026-11-14T23:14:22.872719+00:00",
+      "retrieval_seconds": 15.87,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "BAT": {
+      "symbol": "BAT",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "BAT-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "31bfcdabda5c1e36dee00b96a279bdc40c3c9ade3567cebcd08600c8000a9119",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/BAT.json",
+      "retrieved_at_utc": "2026-11-14T23:14:38.883117+00:00",
+      "retrieval_seconds": 16.01,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "BCH-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "86831ce548fc821cf2ebfdd6452667aec1540e2337e928cc6368debc7ad70536",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/BCH.json",
+      "retrieved_at_utc": "2026-11-14T23:14:54.410770+00:00",
+      "retrieval_seconds": 15.53,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "COMP": {
+      "symbol": "COMP",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "COMP-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "e7fc9de932a2631067f5801e7c446ef3b0b2c4990b1f5c901f4c9d9583cbc62c",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/COMP.json",
+      "retrieved_at_utc": "2026-11-14T23:15:10.018024+00:00",
+      "retrieval_seconds": 15.61,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "CRV": {
+      "symbol": "CRV",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "CRV-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "aa0aa32c1a0c6a2482ff67334b04187efa6b5c063f33b4c70559cb81d6666e3f",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/CRV.json",
+      "retrieved_at_utc": "2026-11-14T23:15:26.376119+00:00",
+      "retrieval_seconds": 16.36,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "DOGE-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "0f5a5c3b33341239c1c1683ed31449ef15347330c09723ae692a747286e16094",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/DOGE.json",
+      "retrieved_at_utc": "2026-11-14T23:15:42.051794+00:00",
+      "retrieval_seconds": 15.68,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "DOT": {
+      "symbol": "DOT",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "DOT-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "670aef24d162f64cc8eebaae02832b5258446f3487c402ecad7ae4b2e2688305",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/DOT.json",
+      "retrieved_at_utc": "2026-11-14T23:15:57.631170+00:00",
+      "retrieval_seconds": 15.58,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ETC": {
+      "symbol": "ETC",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "ETC-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "bbb18da4d269a54496204518b9cce1dcb887d37250854a16ca9ea5b626f6ca18",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/ETC.json",
+      "retrieved_at_utc": "2026-11-14T23:16:12.893715+00:00",
+      "retrieval_seconds": 15.26,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "ETH-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "660ae3630f7ceddca4db84871f3a0d39598ea23fae6cd01642fd1d22766296a5",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/ETH.json",
+      "retrieved_at_utc": "2026-11-14T23:16:28.700038+00:00",
+      "retrieval_seconds": 15.81,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "FIL": {
+      "symbol": "FIL",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "FIL-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "fdef3ebb2f4cfcbdfd9a94d975675152a68a882fd9c06599e4fb07d9ae8f3cff",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/FIL.json",
+      "retrieved_at_utc": "2026-11-14T23:16:44.582099+00:00",
+      "retrieval_seconds": 15.88,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "GRT": {
+      "symbol": "GRT",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "GRT-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "65187685058dc833f1fd34b379c1ba2b8f0c3133cbadb24901ac8984bf4ac323",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/GRT.json",
+      "retrieved_at_utc": "2026-11-14T23:17:00.087713+00:00",
+      "retrieval_seconds": 15.51,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "KSM": {
+      "symbol": "KSM",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "KSM-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "a019a00d4bb182a6f644942c01e284ff46b4c3ae0293a2245c21b85809bf968f",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/KSM.json",
+      "retrieved_at_utc": "2026-11-14T23:17:15.774600+00:00",
+      "retrieval_seconds": 15.69,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "LINK-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "e517732c482ae33792ba4e2e15e6416e6e44d70d00b060567b5b7a003f65333a",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/LINK.json",
+      "retrieved_at_utc": "2026-11-14T23:17:31.204666+00:00",
+      "retrieval_seconds": 15.43,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "LTC": {
+      "symbol": "LTC",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "LTC-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "87063a853ff2ad87876f8bedb272af627c2188d3663a815d06767491e73f5ea6",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/LTC.json",
+      "retrieved_at_utc": "2026-11-14T23:17:46.494229+00:00",
+      "retrieval_seconds": 15.29,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "MANA": {
+      "symbol": "MANA",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "MANA-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "80bdb1e7e23e7915cc8a01ff43a53ee0d4472213e4340bdb677533ae0a492e3c",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/MANA.json",
+      "retrieved_at_utc": "2026-11-14T23:18:02.206258+00:00",
+      "retrieval_seconds": 15.71,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "MINA": {
+      "symbol": "MINA",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "MINA-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "a71776912ff96948ea49270a1135b27e915b0c1d4e31c2b5326b1140a1568821",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/MINA.json",
+      "retrieved_at_utc": "2026-11-14T23:18:17.715466+00:00",
+      "retrieval_seconds": 15.51,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "NEAR": {
+      "symbol": "NEAR",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "NEAR-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "704d09866ffab6b87301bfe44d8b4ae696dbd99885f5a765ca9420c914892fb1",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/NEAR.json",
+      "retrieved_at_utc": "2026-11-14T23:18:33.162216+00:00",
+      "retrieval_seconds": 15.45,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "OP": {
+      "symbol": "OP",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "OP-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "8335cabfb9fc9fa4507b8aa6a93ae78db01d05dfe3e13e0e611114a269f66551",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/OP.json",
+      "retrieved_at_utc": "2026-11-14T23:18:49.215582+00:00",
+      "retrieval_seconds": 16.05,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SAND": {
+      "symbol": "SAND",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "SAND-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "cff8015a3891e0864c5c45dcfeb0efead670f204aa02913e2ba1c101fd3f770e",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/SAND.json",
+      "retrieved_at_utc": "2026-11-14T23:19:04.727673+00:00",
+      "retrieval_seconds": 15.51,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SHIB": {
+      "symbol": "SHIB",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "SHIB-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "88d0a6d306839d7633973b19bfdf397ee73d466220e977fcb318704665574ed9",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/SHIB.json",
+      "retrieved_at_utc": "2026-11-14T23:19:20.116953+00:00",
+      "retrieval_seconds": 15.39,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SNX": {
+      "symbol": "SNX",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "SNX-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "41bb0a580e90e45a55168cbcf8d91dbe5fef24be26402642f314ec7a44bd3b2f",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/SNX.json",
+      "retrieved_at_utc": "2026-11-14T23:19:35.958631+00:00",
+      "retrieval_seconds": 15.84,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "SOL-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "610f74bf47b29d0771a10ddf61cebce2a7f9445c7a8c6a0f72b1fcb371269db7",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/SOL.json",
+      "retrieved_at_utc": "2026-11-14T23:19:51.093026+00:00",
+      "retrieval_seconds": 15.13,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SUSHI": {
+      "symbol": "SUSHI",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "SUSHI-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "a63df81270e5ca84c5aa719dc51b1152fb65add15712a861d77a73594d0653de",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/SUSHI.json",
+      "retrieved_at_utc": "2026-11-14T23:20:06.595674+00:00",
+      "retrieval_seconds": 15.5,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "THETA": {
+      "symbol": "THETA",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "THETA-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "9876ee0fdc42db3846627bf1223f556532ce9bd730fe33d3497e687ae88a49dd",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/THETA.json",
+      "retrieved_at_utc": "2026-11-14T23:20:21.842811+00:00",
+      "retrieval_seconds": 15.25,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "TRX": {
+      "symbol": "TRX",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "TRX-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "39eac3114b8730fa310b6289fcd5e64041cc3308618ad42796abe498589f259f",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/TRX.json",
+      "retrieved_at_utc": "2026-11-14T23:20:37.298799+00:00",
+      "retrieval_seconds": 15.46,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "UNI-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "913eeb02808eb2cbbd2cf147e738ae766885db382817fa8834ca811ba7f37608",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/UNI.json",
+      "retrieved_at_utc": "2026-11-14T23:20:53.261158+00:00",
+      "retrieval_seconds": 15.96,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XLM": {
+      "symbol": "XLM",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "XLM-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "15093f288443ce796474e1c40d73b5b1cc4af9fad6611d19ace53f82bfa45ade",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/XLM.json",
+      "retrieved_at_utc": "2026-11-14T23:21:08.777153+00:00",
+      "retrieval_seconds": 15.52,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "XRP-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "943c0d0e1419f60e3bb1a8362539622e6752aaed6497871e02d02b83de70dd0f",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/XRP.json",
+      "retrieved_at_utc": "2026-11-14T23:21:23.991584+00:00",
+      "retrieval_seconds": 15.21,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XTZ": {
+      "symbol": "XTZ",
+      "status": "ok",
+      "venue": "okx",
+      "instrument": "XTZ-USDT",
+      "endpoint": "GET https://www.okx.com/api/v5/market/history-candles",
+      "bar": "1H",
+      "pages_fetched": 110,
+      "rows_written": 32808,
+      "sha256": "e9c72d59a707fc7a90e29a6e27182ba3cb561b397dd46c704e2c80b9f4b000be",
+      "archive_file": "research_state/archives/okx_1h_multiyear_20230101_20260928/XTZ.json",
+      "retrieved_at_utc": "2026-11-14T23:21:39.621708+00:00",
+      "retrieval_seconds": 15.63,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    }
+  },
+  "summary": {
+    "symbols_requested": 34,
+    "symbols_complete": 34,
+    "all_complete": true
+  }
+}
