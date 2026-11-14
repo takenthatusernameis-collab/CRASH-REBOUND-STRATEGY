@@ -1,35 +1,55 @@
-# Data Request & Verification Checklist — Hyperliquid-Native 283-Day Campaign (ITEM 6c / Phase J3)
+# Data Request & Verification Checklist — Hyperliquid-Native 283-Day Campaign (ITEM 6c / Phase J3) — **SUPERSEDED BY v2**
 
 **Handoff timestamp (UTC):** 2026-11-13T12:29:00Z
-**Probe update (UTC):** 2026-11-14T18:19:17Z — fresh live probe `research_state/hyperliquid_retention_probe.json` (sha256 `ffd11714f91b2b57305f2f8877aca9d02d4933e0a4afd9082c6c7da6e3a97b27`, generated 2026-11-14T18:19:17Z): perps_total 235 / perps_passing_volume_gate 32 / probed 32, **3881/6792** bars served, **2911** missing, earliest served **2026-04-20T07:00:00Z**, full_window_served=false, symbols_empty_or_error `['KPEPE']`, verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`. Decay trend this session: 3884@04:00Z (15:28Z) → 3883@05:00Z (16:19Z) → 3882@06:00Z (16:48Z) → 3882@06:00Z (17:26Z) → 3881@07:00Z (18:19Z, still decaying slowly). Adopt-or-keep remains **KEEP_RETAINED** (`research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z`, 24×3885 bars, start 2026-04-20T03:00:00Z) because live probe is strictly worse; no fetch warranted. Structured update: `research_state/data_request_probe_update_20261114T181917Z.json`. Archive-ingestion readiness: **READY** (`research_state/archive_readiness_20261114T182045Z.json`) — all runbook scripts/flags verified against repo. Runbook Steps 1–6 remain valid as written (venv + `PYTHONPATH=.`; substitute verified archive/cache/universe paths when operator data arrives).
+**Probe update (UTC):** 2026-11-14T21:23:00Z — fresh live probe `research_state/hyperliquid_retention_probe.json` (sha256 `27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927`, generated 2026-11-14T21:23:00Z): perps_total 235 / perps_passing_volume_gate 37 / probed 37, **3877/6792** bars served, **2915** missing, earliest served **2026-04-20T11:00:00Z**, full_window_served=false, symbols_empty_or_error `['KPEPE', '...']`, verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2`. Adopt-or-keep remains **KEEP_RETAINED** (`research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z`, 24×3885 bars, start 2026-04-20T03:00:00Z) because live probe is strictly worse; no fetch warranted.
+
 **Target window (spec, Hyperliquid):** `2025-12-20T00:00:00Z` → `2026-09-28T23:00:00Z` (283 days, hourly, 6792 bars/symbol, inclusive bounds).
+
 **Status:** **FULL 283d `NOT_RUN` — VERIFIED HYPERLIQUID-NATIVE DATASET FOR THE FULL TARGET WINDOW IS UNAVAILABLE IN THIS ENVIRONMENT. PARTIAL 163d API WINDOW `NOT_EVIDENCE` RUN COMPLETE. No data fabricated. No OKX data relabeled as Hyperliquid.**
 
+---
+
+## ⚠️ SUPERSEDED BY OPERATOR ARCHIVE REQUEST v2 (C5-T2)
+
+**This document is retained as historical record only.** The binding data requirement is now defined in **C5-T2 — Operator data request v2 with machine-checkable acceptance**:
+
+- **v2 artifact:** `research_state/operator_archive_request_20261114T221003Z.{json,md}`
+- **Binding window:** `2023-12-20T17:19:21Z` .. `2026-09-28T23:00:00Z` (1,013.2 days, 24,319 hourly bars/symbol) — **80% power target per C4-T2**
+- **Key statement:** The 283-day spec window is **2.78× too short** (0.33% power per C3-T3). The multi-year window is the binding requirement.
+- **All future operator data acquisition follows the v2 specification.** When operator archive arrives, it must first pass C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`) and then the C5-T1 orchestrator (`scripts/run_full_validation_campaign.py`).
+
+---
+
 ## Provenance/cross-venue caveat (mandatory)
+
 Real OKX exchange data exists on disk for this repo and produced cross-venue research artifacts (see `HANDOFF.md`), but it is **NOT Hyperliquid performance evidence** and must never be relabeled. This document governs a Hyperliquid-native acquisition/verification campaign only. If verified Hyperliquid-native data for the full window is unavailable, the campaign remains `NOT_RUN`.
 
 ## Concrete blocker evidence (recorded)
-- **Current probe (2026-11-13T21:46Z):** Hyperliquid public `info` API `candleSnapshot` for BTC over the full target range returned **3,900** hourly bars, first `2026-04-19T12:00:00Z`, last `2026-09-28T23:00:00Z`; the early **2,892** bars (2025-12-20..2026-04-19T11:00Z) are not served. The public API retains only the latest ~3,900 hourly bars. See `research_state/hyperliquid_acquisition_status.json`.
+
+- **Current probe (2026-11-14T21:23Z):** Hyperliquid public `info` API `candleSnapshot` serves **3,877/6,792** hourly bars (2,915 missing); earliest served **2026-04-20T11:00:00Z**; full_window_served=false; unprobeable symbols: 2. The public API retains only the latest ~3,900 hourly bars. See `research_state/hyperliquid_retention_probe.json`.
 - **Partial run (NOT_EVIDENCE):** the available window `2026-04-19T12:00Z..2026-09-28T23:00Z` was acquired for 24 symbols; 12 had complete 3,900-bar coverage. `scripts/run_real_campaign.py --allow-partial-not-evidence` produced **0 trades / 0 PnL**; the crash census found **8 RSI(21)<20 events / 0 confirmed signals** across 12 symbols / 46,800 bars. Artifacts: `research_state/campaign_results_real_hyperliquid_partial_20260419_20260928.json`, `research_state/hyperliquid_partial_crash_census_20260419_20260928.json`. The partial run uses the bare symbol list `research_state/universe_hyperliquid_partial_20260419_20260928.json`; `scripts/derive_verified_universe.py` intentionally refuses the incomplete partial manifest, so do not treat that refusal as a new blocker for the NOT_EVIDENCE pipeline run.
 - `scripts/run_real_campaign.py` **refuses to run** a full-evidence campaign without complete, verified, non-synthetic provenance meeting gates (exit non-zero). This fail-closed behavior is required. Partial runs are explicitly marked `performance_evidence=false` and must never be cited as spec evidence.
 
 ---
 
-## HYPERLIQUID NATIVE ACQUISITION RUNBOOK
+## HYPERLIQUID NATIVE ACQUISITION RUNBOOK (v1 — HISTORICAL)
 
 This runbook is executable step-by-step. Every step states command, pass/fail check, and artifact. Execute from repo root with the project venv (e.g. `PYTHONPATH=. /tmp/crs-venv/bin/python ...` after `bash scripts/bootstrap_env.sh`) and `PYTHONPATH=.` set. Do not fabricate data, do not synthesize candles, and do not relabel OKX artifacts as Hyperliquid.
 
 ### Prerequisites
+
 - **Command:** `test -x /tmp/crs-venv/bin/python && PYTHONPATH=. /tmp/crs-venv/bin/python -c "import pytest,numpy,pandas,requests,pyarrow; print('env_ok')"` (or run `bash scripts/bootstrap_env.sh` first)
 - **Pass/fail:** exit 0 and prints `env_ok`.
 - **Artifact:** terminal evidence; `/tmp/venv_h` environment.
 
 ### Step 1 — Obtain verified Hyperliquid-native source archive (external, required)
+
 - **Command (operator action, not automatable in this environment):** obtain a user-supplied, verifiable archive of **Hyperliquid-native** hourly OHLCV candles for the full target window `2025-12-20T00:00:00Z..2026-09-28T23:00:00Z` (6792 bars/symbol) for the required universe (spec-relevant symbols with documented provenance/volume evidence; at minimum BTC/ETH for plumbing validation). Record origin, extraction method, extraction time, and any transformations in `research_state/archives/hyperliquid_1h_full_20251220_20260928/SOURCE.md` (or equivalent sidecar) inside the archive.
 - **Pass/fail:** archive exists on disk, is Hyperliquid-native (documented source), covers full window for intended symbols, and is non-synthetic. **If unavailable, STOP here: campaign = `NOT_RUN` (do not proceed, do not fabricate).**
 - **Artifact:** archive directory/file path (e.g. `research_state/archives/hyperliquid_1h_full_20251220_20260928/`) plus source documentation sidecar.
 
 ### Step 2 — Ingest archive and generate verified provenance manifest
+
 - **Command (example):**
   `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive research_state/archives/hyperliquid_1h_full_20251220_20260928 --symbols BTC ETH --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928`
   (Adjust `--symbols`/`--universe-file` to the verified Hyperliquid universe; use `--allow-partial` only for non-evidence debugging — never for spec evidence.)
@@ -37,6 +57,7 @@ This runbook is executable step-by-step. Every step states command, pass/fail ch
 - **Artifact:** `research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json` and per-symbol cached candles under the cache dir.
 
 ### Step 3 — Verify provenance completeness and non-synthetic integrity (hard gate)
+
 - **Command:**
   `PYTHONPATH=. /tmp/crs-venv/bin/python - <<'PY'
 import json,sys
@@ -53,18 +74,21 @@ PY`
 - **Artifact:** verified `provenance.json` with `summary.all_complete=true` and `summary.ready_for_real_campaign=true`.
 
 ### Step 4 — Derive/confirm verified Hyperliquid universe (>= $5M 24h volume, point-in-time spec-consistent)
+
 - **Command (example):**
   `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --output research_state/universe_hyperliquid_full_verified.json`
 - **Pass/fail:** exit 0; universe file lists only symbols with verified complete coverage and spec-compliant volume evidence; `min_24h_volume_usd >= 5000000` reflected.
 - **Artifact:** `research_state/universe_hyperliquid_full_verified.json`.
 
 ### Step 5 — Execute gated Hyperliquid-native real campaign
+
 - **Command:**
   `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20251220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20251220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees`
 - **Pass/fail:** exit 0 and output states `REAL run complete: ...`; script refuses incomplete/unverified/synthetic inputs (non-zero) so a passing run implies gates satisfied.
 - **Artifact:** `research_state/campaign_results_real_hyperliquid_full.json` and `_metrics.json`/`.csv` with `real_market_data=true`, `performance_evidence=true`, `fabricated_data=false`, and provenance reference. Use a distinct prefix; never overwrite OKX canonical artifacts.
 
 ### Step 6 — Post-run verification, metrics, and evidence reporting
+
 - **Command(s):**
   - `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q -rs`
   - `sha256sum research_state/campaign_results_real_hyperliquid_full*.json research_state/universe_hyperliquid_full_verified.json`
@@ -73,5 +97,10 @@ PY`
 - **Artifact:** updated `HANDOFF.md` with commands, observed results, hashes, conclusions, and explicit `NOT_RUN` or completed status.
 
 ## Decision rule
+
 - **Run permitted:** only when Steps 2–4 pass with `all_complete=true`, `ready_for_real_campaign=true`, non-synthetic, Hyperliquid-native, full 6792-bar coverage, and spec volume gates satisfied.
 - **Otherwise:** `NOT_RUN`. Never fabricate data, never mark partial/unverified as spec evidence, never relabel OKX as Hyperliquid.
+
+---
+
+**SEE v2 FOR BINDING REQUIREMENTS:** `research_state/operator_archive_request_20261114T221003Z.{json,md}`

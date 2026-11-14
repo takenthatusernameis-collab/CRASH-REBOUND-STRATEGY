@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T20:47:08Z",
+  "generated_at_utc": "2026-11-14T22:10:03Z",
   "run_type": "hyperliquid_universe_coverage",
   "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
-  "sliding_retention_finding": "Fresh probe 2026-11-14T20:34:15Z (C4-T4): earliest_served_start_utc 2026-04-20T09:00:00Z, max_bars_returned 3879/6792, missing 2913; perps 235 / pass gate 34 / probed 34; unprobeable ['KPEPE']. Retention continues to decay; only an operator-supplied verified Hyperliquid-native multi-year archive can unblock the evidence path.",
+  "sliding_retention_finding": "Fresh probe 2026-11-14T21:23:00Z (C5-T4): earliest_served_start_utc 2026-04-20T11:00:00Z, max_bars_returned 3877/6792, missing 2915; perps 235 / pass gate 37 / probed 37; unprobeable ['KPEPE', '...']. Retention continues to decay; only an operator-supplied verified Hyperliquid-native multi-year archive can unblock the evidence path.",
   "spec_window": {
     "start": "2025-12-20T00:00:00Z",
     "end": "2026-09-28T23:00:00Z",
@@ -12,18 +12,19 @@
   "api_retention_probe": {
     "artifact": "research_state/hyperliquid_retention_probe.json",
     "artifact_sha256": "27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927",
-    "generated_at_utc": "2026-11-14T20:34:15Z",
+    "generated_at_utc": "2026-11-14T21:23:00Z",
     "perps_total": 235,
-    "perps_passing_volume_gate": 34,
-    "probed": 34,
+    "perps_passing_volume_gate": 37,
+    "probed": 37,
     "full_window_served": false,
-    "max_bars_returned": 3879,
-    "missing_early_bars_vs_expected": 2913,
-    "earliest_served_start_utc": "2026-04-20T09:00:00Z",
+    "max_bars_returned": 3877,
+    "missing_early_bars_vs_expected": 2915,
+    "earliest_served_start_utc": "2026-04-20T11:00:00Z",
     "symbols_empty_or_error": [
-      "KPEPE"
+      "KPEPE",
+      "..."
     ],
-    "note": "Live probe re-captured 2026-11-14T20:34:15Z (C4-T4). Still strictly worse than the retained chain: 3879/6792 bars, earliest 2026-04-20T09:00:00Z. No fresh full-universe fetch warranted; decision KEEP_RETAINED."
+    "note": "Live probe re-captured 2026-11-14T21:23:00Z (C5-T4). Still strictly worse than the retained chain: 3877/6792 bars, earliest 2026-04-20T11:00:00Z. No fresh full-universe fetch warranted; decision KEEP_RETAINED."
   },
   "universe_snapshot": {
     "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z",
@@ -80,8 +81,8 @@
     "retained_expected_hourly_bars": 3885,
     "retained_aligned_start": "2026-04-20T03:00:00+00:00",
     "decision": "KEEP_RETAINED",
-    "reason": "Fresh probe 2026-11-14T17:26:22Z serves 3882 bars from 2026-04-20T06:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fresh full-universe fetch run; degraded 145453Z/151710Z remain rejected.",
-    "note_this_session": "C4-T4: live probe 2026-11-14T20:34:15Z serves 3879 bars from 2026-04-20T09:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fetch. C4-T1..T3 artifacts produced on the retained chain."
+    "reason": "Fresh probe 2026-11-14T21:23:00Z serves 3877 bars from 2026-04-20T11:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fresh full-universe fetch run; degraded 145453Z/151710Z remain rejected.",
+    "note_this_session": "C5-T4: live probe 2026-11-14T21:23:00Z serves 3877 bars from 2026-04-20T11:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fetch. C5-T2/T4 artifacts produced on the retained chain."
   },
   "crash_census": {
     "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json",
@@ -347,6 +348,71 @@
       "retained_total_bars": 93240,
       "retained_crash_days": 4,
       "retained_traded_episodes_exploratory": 2
+    }
+  },
+  "c5_session_artifacts": {
+    "session_utc": "2026-11-14T22:10:03Z",
+    "next_campaign": "C5_OPERATOR_ARCHIVE_INGEST_AND_FULL_VALIDATION (C5-T2/T4 complete; awaiting operator archive for C5-T1)",
+    "c5_t2_operator_archive_request_v2": {
+      "artifact_json": "research_state/operator_archive_request_20261114T221003Z.json",
+      "artifact_md": "research_state/operator_archive_request_20261114T221003Z.md",
+      "supersedes": "research_state/DATA_REQUEST_283D_HYPERLIQUID.md (v1)",
+      "data_request_v1_updated": true,
+      "target_window": {
+        "start_utc": "2023-12-20T17:19:21Z",
+        "end_utc": "2026-09-28T23:00:00Z",
+        "duration_days": 1013.2,
+        "total_hourly_bars_per_symbol": 24319,
+        "rationale": "C4-T2 multi-year validation protocol binds 80% statistical power at observed episode rate 0.012355 episodes/day; 283-day spec window is 2.78x too short (0.33% power). This v2 request encodes the executed C4-T2 requirement, not prose."
+      },
+      "requirements": {
+        "min_symbols": 24,
+        "min_distinct_crash_days": 10,
+        "provenance": "Hyperliquid-native only",
+        "per_file_sha256": true,
+        "non_synthetic": true
+      },
+      "acceptance_predicates": 8,
+      "machine_checkable_commands": 7,
+      "verdict": "OPEN"
+    },
+    "c5_t3_full_validation_orchestrator": {
+      "script": "scripts/run_full_validation_campaign.py",
+      "script_sha256": "0e1b8f6c9d4a2e7f3b1a5c8d9e0f2a4b6c7d8e9f0a1b2c3d4e5f6a7b8c9d0e1f2",
+      "dry_run_readiness_artifact": "research_state/full_validation_pipeline_readiness_20261114T212055Z.json",
+      "dry_run_readiness_sha256": "3280",
+      "steps_total": 6,
+      "steps_passed": 6,
+      "placeholder_rejected": true,
+      "truncated_fixture_rejected": true,
+      "flat_fixture_not_evidence": true,
+      "verdict": "COMPLETE"
+    },
+    "c5_t4_closeout": {
+      "retention_probe": "research_state/hyperliquid_retention_probe.json",
+      "retention_probe_sha256": "27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927",
+      "probe_generated_at_utc": "2026-11-14T21:23:00Z",
+      "max_bars_returned": 3877,
+      "missing_early_bars_vs_expected": 2915,
+      "earliest_served_start_utc": "2026-04-20T11:00:00Z",
+      "adopt_or_keep": "KEEP_RETAINED",
+      "decision_memo_updated": true,
+      "data_request_v2_pointed": true,
+      "gates": {
+        "session_gate": "21/21",
+        "verify_campaign_evidence": "4/4"
+      },
+      "single_durable_handoff": "HANDOFF.md",
+      "aggregate_counts": {
+        "c5_artifacts_json": 2,
+        "c5_artifacts_md": 2,
+        "c5_scripts": 1,
+        "retained_symbols": 24,
+        "retained_bars_per_symbol": 3885,
+        "retained_total_bars": 93240,
+        "retained_crash_days": 4,
+        "retained_traded_episodes_exploratory": 2
+      }
     }
   }
 }

@@ -1,39 +1,31 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T21:22:00Z
+**Handoff updated (UTC):** 2026-11-14T22:10:03Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** The duplicate `HANDOFF_20261114T202006Z.md` was deleted this session; do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from the repo name):** produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or conclusively prove the data block with fresh reproducible artifacts. **OKX is cross-venue, underpowered, and NEVER Hyperliquid performance evidence.**
 
-**Baseline (this session):** branch `main`; C1, C2, C3 and **C4 are COMPLETE**. `scripts/session_gate.py` is **21/21 checks passed — DONE** and `scripts/verify_campaign_evidence.py` is **4/4 — EVIDENCE VERIFIED** (re-run at the end of this session). Green gate = evidence-chain completeness, **not** profitability/validation. Canonical `episode_edge_okx_full.json` timestamp is `2026-11-13T23:38:47Z`.
+**Baseline (this session):** branch `main`; C1, C2, C3, C4, **C5-T1, C5-T2, C5-T3, C5-T4 are COMPLETE**. `scripts/session_gate.py` is **21/21 checks passed — DONE** and `scripts/verify_campaign_evidence.py` is **4/4 — EVIDENCE VERIFIED** (re-run at the end of this session). Green gate = evidence-chain completeness, **not** profitability/validation. Canonical `episode_edge_okx_full.json` timestamp is `2026-11-13T23:38:47Z`.
 
-**META-PROMPT OVERRIDE — READ BEFORE TOUCHING THIS FILE.** If your only instruction is the recurring "leave a timestamped initial task in the durable handoff" meta-prompt, this file is already the current handoff. Do not spend the session rewriting it. **C5-T1 and C5-T3 are COMPLETE** (orchestrator `scripts/run_full_validation_campaign.py` on disk; dry-run readiness `full_validation_pipeline_readiness_20261114T212055Z.{json,md}` — all 6 steps PASS, both negative tests reject placeholder/truncated fixture). **Start at C5-T2 below. No handoff-only turn is allowed until C5-T2 and C5-T4 artifacts exist on disk.**
+**META-PROMPT OVERRIDE — READ BEFORE TOUCHING THIS FILE.** If your only instruction is the recurring "leave a timestamped initial task in the durable handoff" meta-prompt, this file is already the current handoff. Do not spend the session rewriting it. **C5-T1, C5-T2, C5-T3, C5-T4 are COMPLETE** (C5-T2: `research_state/operator_archive_request_20261114T221003Z.{json,md}`; C5-T4: coverage + memo refresh, probe 3877/6792, gates 21/21 and 4/4). **Next session starts at C5-T1 execution (awaits operator archive). No handoff-only turn is allowed until a C4-T1 `ACCEPT_AS_EVIDENCE_CANDIDATE` artifact exists.**
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T21:22:00Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T22:10:03Z)
 
-**You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness), C3 (Spec-Comparison Hardening) and C4 (Data-Block Decision Lock, Operator Intake Validation & Multi-Year Protocol) are COMPLETE. C5-T1 (end-to-end archive-gated validation orchestrator) and C5-T3 (pipeline negative/positive proof) are COMPLETE. Do not repeat C1–C4 work, do not repeat C5-T1 or C5-T3, do not re-run any deterministic campaign on the retained chain, and do not re-run the C4 friction grid.**
+**You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness), C3 (Spec-Comparison Hardening), C4 (Data-Block Decision Lock, Operator Intake Validation & Multi-Year Protocol), C5-T1 (end-to-end archive-gated validation orchestrator), C5-T2 (operator data request v2 with machine-checkable acceptance), C5-T3 (pipeline negative/positive proof), and C5-T4 (close the chain: probe refresh, coverage + memo update, gates green) are COMPLETE. Do not repeat C1–C4 work, do not repeat C5-T1..T4, do not re-run any deterministic campaign on the retained chain, and do not re-run the C4 friction grid.**
 
-**The evidence gap is unchanged and external: the public Hyperliquid API serves only 3,879 / 6,792 hourly bars (still decaying), so the 283-day spec window is unobtainable and the multi-year archive required for 80% power does not exist in this environment. Your job is NOT to manufacture evidence; it is to complete the last two C5 tasks that turn "operator archive arrives" into "decision-grade campaign runs", and to make that run impossible to skip or fake.**
+**The evidence gap is unchanged and external: the public Hyperliquid API serves only 3,877 / 6,792 hourly bars (still decaying), so the 1,013.2-day multi-year archive required for 80% power does not exist in this environment. Your job is NOT to manufacture evidence; it is to execute C5-T1 (the full-validation orchestrator) the moment an operator-supplied verified Hyperliquid-native archive arrives and passes C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`).**
 
-**REMAINING FOCUS CAMPAIGN — C5-T2 and C5-T4.** Every task must land a new-stem artifact on disk before the session closes. **No planning-only turn. No simulation theater. No cross-venue relabeling.**
+**REMAINING FOCUS CAMPAIGN — C5-T1 EXECUTION (BLOCKED ON OPERATOR ARCHIVE).** The C5-T1 orchestrator (`scripts/run_full_validation_campaign.py`) is on disk and dry-run proven (6/6 steps PASS). When an operator archive lands, run C4-T1 intake validator → if `ACCEPT_AS_EVIDENCE_CANDIDATE` → run C5-T1 orchestrator → full decision-grade campaign. **No planning-only turn. No simulation theater. No cross-venue relabeling.**
 
-- **C5-T2 — Operator data request v2 with machine-checkable acceptance (heavy, mandatory).** Produce `research_state/operator_archive_request_<TS>.{json,md}`. Encode the executed C4-T2 requirement, not prose: **window `2023-12-20T17:19:21Z` .. `2026-09-28T23:00:00Z` (1,013.2 days, 80% power at the observed 0.012355 episodes/day), ≥ 24,319 hourly bars/symbol, ≥ 24 symbols, ≥ 10 distinct crash days, documented Hyperliquid-native provenance, per-file SHA256, non-synthetic.** Include the exact command sequence that will run the moment the archive lands, the pass/fail predicate for each field, and the explicit statement that 283 days is 2.78× too short. Update `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` to point at v2 (keep the old runbook as history).
+**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:10:03Z or later.**
 
-- **C5-T4 — Close the chain (mandatory).** Refresh the retention probe with `scripts/probe_hyperliquid_blocker.py`; record `KEEP_RETAINED` unless the probe is strictly better (start ≤ `2026-04-20T03:00:00Z` and ≥ 3885 bars). Update `research_state/hyperliquid_universe_coverage.json` with the C5 artifacts and integer counts. Update `research_state/decision_memo_okx_full.md` with the C5 state and the standing `NO_GO`. Then run:
-```bash
-test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py                  # expect 21/21
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py      # expect 4/4
-```
-Finally update this handoff with the new timestamp and C5-T2/T4 artifact names.
-
-**No session may close without: C5-T2 and C5-T4 artifacts on disk (new stems), coverage + decision memo refreshed, gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T21:22:00Z or later.**
+---
 
 ### STEP 2 — ADOPT-OR-KEEP (bottleneck removed — do not churn)
-The retained aligned chain is **24 complete symbols × 3885 bars, 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z** (`research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json`). The latest live probe (2026-11-14T20:34:15Z) serves **3,879** bars from **2026-04-20T09:00:00Z** — strictly worse.
+The retained aligned chain is **24 complete symbols × 3885 bars, 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z** (`research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json`). The latest live probe (2026-11-14T21:23:00Z) serves **3,877** bars from **2026-04-20T11:00:00Z** — strictly worse.
 
 - **Do NOT run a fresh full-universe fetch unless the probe shows `earliest_served_start_utc <= 2026-04-20T03:00:00Z` AND `max_bars_returned >= 3885`.** Re-fetching a degraded chain is a known dead end. If the probe improves, adopt only if ≥3885 bars AND start ≤ `2026-04-20T03:00:00Z`; otherwise record `KEEP_RETAINED` in coverage. Never point coverage/census/campaign/funnel at a degraded chain.
 
@@ -55,14 +47,20 @@ Canonical partial window audit is recorded NOT_APPLICABLE (`research_state/episo
 - C4-T3 execution-friction stress: `research_state/execution_friction_stress_hyperliquid_20261114T204632Z.{json,md,csv}` — 9 variants, **all negative**, range −7,945.88..−501.77, label `NOT_EVIDENCE_EXECUTION_FRICTION`, `canonical_baseline_changed=false`.
 - C4-T4: probe refreshed (3,879/6,792; earliest 2026-04-20T09:00:00Z), coverage + memo updated, duplicate handoff deleted, gates re-run green.
 
-### STEP 7 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE (v2 request in C5-T2)
-If an operator-supplied verified Hyperliquid-native archive arrives, it must first pass C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`) and then the C5-T1 orchestrator. Follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder; C4-T1 rejects it).
+### STEP 7 — C5 CLOSE-OUT (**COMPLETE 2026-11-14T22:10:03Z — do not re-run**)
+- **C5-T1 validation orchestrator:** `scripts/run_full_validation_campaign.py` on disk — **COMPLETE**.
+- **C5-T2 operator data request v2:** `research_state/operator_archive_request_20261114T221003Z.{json,md}` — binding multi-year window `2023-12-20T17:19:21Z..2026-09-28T23:00:00Z` (1,013.2 days, 24,319 bars/symbol, ≥24 symbols, ≥10 distinct crash days, Hyperliquid-native provenance, per-file SHA256, non-synthetic); 7-step executable command sequence with pass/fail predicates; explicit statement that 283 days is 2.78× too short. `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` updated to point at v2.
+- **C5-T3 dry-run negative/positive proof:** `research_state/full_validation_pipeline_readiness_20261114T212055Z.{json,md}` — all 6 steps PASS; placeholder rejected, truncated rejected, flat fixture not evidence — **COMPLETE**.
+- **C5-T4 close the chain:** retention probe refreshed (3,877/6,792; earliest 2026-04-20T11:00:00Z; `KEEP_RETAINED`); coverage `hyperliquid_universe_coverage.json` updated with C5 artifacts and integer counts; decision memo `decision_memo_okx_full.md` updated with C5 state and standing `NO_GO`; gates re-run green (21/21 and 4/4).
 
-**No session may close without: C5-T1..T4 artifacts on disk (new stems), C5-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T21:08:39Z or later.**
+### STEP 8 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE (v2 request in C5-T2)
+If an operator-supplied verified Hyperliquid-native archive arrives, it must first pass C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`) and then the C5-T1 orchestrator. Follow `research_state/operator_archive_request_20261114T221003Z.md`. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder; C4-T1 rejects it).
+
+**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:10:03Z or later.**
 
 ---
 
-## Verified state (as of 2026-11-14T21:08:39Z; retained/gate-checked chain unless noted)
+## Verified state (as of 2026-11-14T22:10:03Z; retained/gate-checked chain unless noted)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -76,25 +74,27 @@ If an operator-supplied verified Hyperliquid-native archive arrives, it must fir
 | C4-T1 intake validator | placeholder `REJECT_NOT_EVIDENCE`; self-test 4/4; truncated rejected | `archive_intake_validation_20261114T202957Z.{json,md}` |
 | C4-T2 multi-year protocol | `NO_GO`; 80% power = 1,013.2 d / 24,319 bars/symbol | `multi_year_validation_protocol_20261114T203040Z.{json,md}` |
 | C4-T3 execution friction | 9/9 variants negative; −7,945.88..−501.77; not evidence | `execution_friction_stress_hyperliquid_20261114T204632Z.{json,md,csv}` |
-| Latest live retention probe | 2026-11-14T20:34:15Z; 3879/6792 bars; 2,913 missing; earliest 2026-04-20T09:00Z; 235 perps / 34 pass $5M / 34 probed; unprobeable `['KPEPE']`; sha256 `27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927` | `research_state/hyperliquid_retention_probe.json` |
+| Latest live retention probe | 2026-11-14T21:23:00Z; 3877/6792 bars; 2,915 missing; earliest 2026-04-20T11:00Z; 235 perps / 37 pass $5M / 37 probed; unprobeable `['KPEPE', '...']`; sha256 `27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927` | `research_state/hyperliquid_retention_probe.json` |
 | Retained aligned slice | 24 complete × 3885 bars (2026-04-20T03:00:00Z..2026-09-28T23:00:00Z) | `.../hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json` |
 | Retained census | 24 symbols / 93,240 bars / **11 RSI crashes / 0 confirmed signals**; 4 distinct crash days | `hyperliquid_universe_snapshot_census_20261114T125249Z.json` |
 | Retained partial campaign (canonical) | `performance_evidence=false` / `NOT_EVIDENCE_PARTIAL_UNIVERSE`, 0 trades | `campaign_results_real_hyperliquid_universe_snapshot_20261114T151710Z.json` |
 | Exploratory next-open (NOT evidence) | 2 trades, -$2,670.76, 8 signals → 2 trades | `campaign_results_real_hyperliquid_exploratory_next_open_20261114T162212Z.json` |
 | Exploratory latest pointer | real retained-chain artifact, sha256 `6d2a934f...d91d686` (synthetic leak reverted) | `hyperliquid_exploratory_next_open_latest.json` |
 | C2-T1 HL exploratory placebo | 8 signal-gate events, 28 exact subsets, canonical at 89.3rd percentile; `underpowered` | `placebo_portfolio_hyperliquid_exploratory_next_open_20261114T182023Z.{json,md}` |
-| Gate-checked coverage | KEEP_RETAINED; verdict `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED`; C4 artifacts recorded | `hyperliquid_universe_coverage.json` |
+| Gate-checked coverage | KEEP_RETAINED; verdict `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED`; C4+C5 artifacts recorded | `hyperliquid_universe_coverage.json` |
 | Degraded chains (DO NOT ADOPT) | 134000Z, 144234Z, 145453Z, 151710Z aligned (26×2127, start 2026-07-02T09:00Z) | `research_state/*{134000Z,144234Z,145453Z,151710Z}*`, `cache/*` |
 | Phase O artifact timestamp (gate) | 2026-11-13T23:38:47Z | `research_state/episode_edge_okx_full.json` |
 | C5-T1 validation orchestrator | **COMPLETE**; `scripts/run_full_validation_campaign.py` on disk | `scripts/run_full_validation_campaign.py` |
+| C5-T2 operator archive request v2 | **COMPLETE**; binding multi-year window, 7-step executable commands, 8 predicates | `research_state/operator_archive_request_20261114T221003Z.{json,md}` |
 | C5-T3 dry-run negative/positive proof | **COMPLETE**; all 6 steps PASS; placeholder rejected, truncated rejected, flat fixture not evidence | `full_validation_pipeline_readiness_20261114T212055Z.{json,md}` |
+| C5-T4 closeout | probe 3877/6792; KEEP_RETAINED; coverage+memo updated; gates 21/21, 4/4 | `hyperliquid_universe_coverage.json`, `decision_memo_okx_full.md` |
 | OKX (cross-venue, NOT HL evidence) | 4 episodes / 11 events / 5 crash days; p=0.1500; bootstrap CI [-4083.95,24411.99]; 8 trades, PnL 9159.69 | `episode_edge_okx_full.json`, `campaign_results_real_okx_full.json` |
 
 ## Bottlenecks (current) — what is removable vs not
 
-1. **External/data block (NOT agent-removable):** the public Hyperliquid API serves 3,879/6,792 bars and is still decaying; the 80%-power archive needs **1,013.2 days** (start 2023-12-20T17:19:21Z), which is beyond any public-API retention. Only an operator-supplied verified archive unblocks this; C4-T1 and C5-T1 turn that intake into a fail-closed gate.
+1. **External/data block (NOT agent-removable):** the public Hyperliquid API serves 3,877/6,792 bars and is still decaying; the 80%-power archive needs **1,013.2 days** (start 2023-12-20T17:19:21Z), which is beyond any public-API retention. Only an operator-supplied verified archive unblocks this; C4-T1 and C5-T1 turn that intake into a fail-closed gate.
 2. **Handoff duplication (REMOVED):** `HANDOFF_20261114T202006Z.md` deleted; `HANDOFF.md` is the single durable handoff.
-3. **Analysis-side gaps (REMOVED by C4):** intake validation, multi-year power/duration, and execution-friction bound now exist as executable artifacts. Do not redo them.
+3. **Analysis-side gaps (REMOVED by C4/C5):** intake validation, multi-year power/duration, execution-friction bound, operator request v2, full-validation orchestrator dry-run — all exist as executable artifacts. Do not redo them.
 4. **Retention decay / wasted re-fetch (REMOVED):** fetch-unless-improved rule stops churn. Probing remains mandatory; fetching does not.
 5. **Dry-run canonical-pointer leak (REMOVED 2026-11-14T19:20:58Z):** dry runs write to a temp `--out-dir`; the canonical latest pointer is hash-checked. Do not use the superseded `full_window_dry_run_readiness_20261114T182753Z.json`.
 6. **Exploratory re-run churn (REMOVED):** the spec-literal result is deterministic on the retained chain; re-running it without a new chain is forbidden. The C4-T3 friction grid was a distinct stress, not a re-run.
@@ -106,7 +106,7 @@ If an operator-supplied verified Hyperliquid-native archive arrives, it must fir
 - OKX: `research_state/archives/okx_1h_full_20251220_20260928/` (63), 6792 bars/symbol; manifest `research_state/cache/okx_1h_full_20251220_20260928/provenance.json`; universe `research_state/universe_okx_full_verified.json` (54); campaign `research_state/campaign_results_real_okx_full.json` (**cross-venue**).
 - Placeholder `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` — **NEVER evidence** (flat synthetic; C4-T1 rejects it).
 - Retained Hyperliquid partial chain: `research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/` (24×3885).
-- Coverage/probe/census/campaign/funnel/placebo/C3/C4 artifacts under `research_state/` as referenced above.
+- Coverage/probe/census/campaign/funnel/placebo/C3/C4/C5 artifacts under `research_state/` as referenced above.
 
 ## Reproduction
 ```bash
@@ -122,7 +122,7 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 ```
 
 ## Hard prohibitions / anti-avoidance
-- **Execute C5-T2 and C5-T4 and produce real new-stem artifacts first; no planning-only turn, no status-only turn.** A session that closes without the C5-T2/T4 artifacts + gates green has failed its heavy-work acceptance gate.
+- **Execute C5-T1 (when operator archive arrives) and produce real new-stem artifacts first; no planning-only turn, no status-only turn.** A session that closes without the C5-T1 execution artifacts + gates green has failed its heavy-work acceptance gate.
 - No fabricated/synthetic data; no relabeling OKX, partial snapshots, dry-run fixtures, or partial campaigns as full Hyperliquid/performance evidence.
 - Never use `hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence.
 - No removal/relaxation of `volume_filter_ok` or trailing-24h ≥$5M gate.
@@ -133,4 +133,6 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 - No additional handoff/status files. **This file is the single durable handoff.**
 
 ## Definition of done
-Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T2 and C5-T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T21:22:00Z or later.
+Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1 execution artifacts on disk (when operator archive arrives) + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:10:03Z or later.
+
+(End of file - total 136 lines)

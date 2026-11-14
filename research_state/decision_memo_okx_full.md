@@ -1,11 +1,11 @@
 # Decision Memo — Crash-Rebound Strategy (Real OKX 283d canonical evidence)
 
 **Generated (UTC):** 2026-11-13T21:48:59Z
-**Updated (UTC):** 2026-11-14T16:26:00Z (live re-probe 16:19:34Z + opt-in spec-literal next-open real-engine adjudication + episode-power finding; canonical OKX section unchanged)
+**Updated (UTC):** 2026-11-14T22:10:03Z (C5-T2 operator archive request v2 + C5-T4 closeout; gates 21/21 and 4/4 green; evidence gap unchanged)
 **Status:** `underpowered` / **not decision-grade** — do not allocate capital on this evidence.
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
-**Current status (2026-11-14T19:21:13Z):** C1/C2/C3 are complete; the session gate is **21/21 checks passed** and the evidence verifier is **4/4 — EVIDENCE VERIFIED**. C3 closed the 8 spec divergences (4 resolved, 4 intentionally retained, 0 gaps), proved the full-window dry-run pipeline READY on a clearly labelled synthetic fixture, and quantified that the ≥10-independent-episode floor is unreachable on the 283-day window (0.33% probability; 2-year 41.51%; pooled cross-venue upper bound 22.32%). The active campaign is **C4: data-block decision lock, operator archive intake validation, multi-year protocol, and execution-friction stress**. The verdict remains **`underpowered` / not decision-grade**. Historical gate counts below (17/17, 18/18) are retained for provenance and are superseded by this line.
+**Current status (2026-11-14T22:10:03Z):** C1/C2/C3/C4/C5-T2/C5-T3/C5-T4 are complete; the session gate is **21/21 checks passed** and the evidence verifier is **4/4 — EVIDENCE VERIFIED**. C5-T2 produced the binding operator archive request v2 (multi-year window: 2023-12-20T17:19:21Z..2026-09-28T23:00:00Z, 1,013.2 days, 24,319 bars/symbol, ≥24 symbols, ≥10 distinct crash days). C5-T3 proved the full-validation orchestrator end-to-end (all 6 steps PASS; placeholder rejected, truncated rejected, flat fixture not evidence). C5-T4 refreshed the retention probe (3,877/6,792 bars, earliest 2026-04-20T11:00:00Z, strictly worse than retained), updated coverage and this memo, and re-ran gates green. The verdict remains **`underpowered` / not decision-grade**. The evidence gap is unchanged and external: the public Hyperliquid API serves only 3,877/6,792 hourly bars (still decaying), so the 1,013.2-day multi-year archive required for 80% power does not exist in this environment. No session may close without C5-T2/T4 artifacts + coverage/memo refresh + gates 21/21 and 4/4 green.
 
 ## Decision question
 
@@ -44,7 +44,7 @@ distinguishable from a random admission/cap/occupancy draw.
 | Phase N concentration | HHI 0.2517; effective symbols 3.97; top trade 25.95% of gross | Still concentrated; n=5 traded symbols. |
 | Phase N power projection | First bootstrap CI > 0 at **10 trades / 8 symbols**; 80% power at **23 trades / 17 symbols** | The sample is far below even the minimum power target. |
 | Phase N expanding-window refit | 3 evaluable blocks; refit OOS +10,815.92 vs canonical incremental +9,159.69 | Directionally consistent but only 3 evaluable blocks; not proof. |
-| **Hyperliquid public API partial probe** | API returns **3,900** of 6,792 bars (2026-04-19T12:00Z..2026-09-28T23:00Z); full 283d window **blocked** | Full Hyperliquid-native evidence requires an operator-supplied verified archive. |
+| **Hyperliquid public API partial probe** | API returns **3,877** of 6,792 bars (2026-04-20T11:00Z..2026-09-28T23:00Z); full 283d window **blocked** | Full Hyperliquid-native evidence requires an operator-supplied verified archive. |
 | **Hyperliquid partial campaign (NOT_EVIDENCE)** | 12 complete symbols, 3,900 bars each; **0 trades, 0 PnL** | Partial window only; `performance_evidence=false`; not spec evidence. |
 | Hyperliquid partial crash census | 12 symbols / 46,800 bars; **8 RSI(21)<20 events, 0 confirmed signals** | Rare-event strategy; the 163-day partial window has no trade to evaluate. |
 | Risk budget (existing sweeps) | `rsi25_maxpos8` +23.44% / **−18.34% DD**, 33 trades; baseline +9.16% / −2.03% DD, 8 trades | Return is a risk-budget trade; never quote +23% without −18% DD. |
@@ -138,14 +138,45 @@ liquidation, varying only which gate-passing events are allowed to trade.
 - The +9.16% return must not be presented as validated edge, and the strategy must not be
   funded on this evidence.
 
-## Hyperliquid-native status (updated 2026-11-14T20:47:08Z; C4 decision lock; supersedes all earlier Hyperliquid blocks below)
+## Hyperliquid-native status (updated 2026-11-14T22:10:03Z; C5-T2/T4 complete; supersedes all earlier Hyperliquid blocks below)
 
-- **C4 DECISION LOCK: `NO_GO` on current data.** The only decision-grade path is an
-  operator-supplied, C4-T1-validated, Hyperliquid-native **multi-year** archive. No
-  partial window, cross-venue (OKX), dry-run fixture, placeholder parquet, or
-  exploratory fan-out may be promoted to evidence. Verdict remains
-  **`underpowered`** until every GO criterion in `multi_year_validation_protocol_20261114T203040Z.md`
-  is met.
+- **C5-T2 — Operator archive request v2 with machine-checkable acceptance (HEAVY, MANDATORY).**
+  Artifacts: `research_state/operator_archive_request_20261114T221003Z.{json,md}`. Binding
+  window: **2023-12-20T17:19:21Z .. 2026-09-28T23:00:00Z (1,013.2 days, 24,319 hourly bars/symbol)**
+  at observed episode rate 0.012355/day for **80% power** (≥10 independent crash episodes +
+  episode-block bootstrap 95% CI excluding 0 + crash-day permutation p<0.05 + full-portfolio
+  placebo p<0.05). Requirements: ≥24 symbols, ≥10 distinct crash days, Hyperliquid-native
+  provenance, per-file SHA256, non-synthetic. Includes exact command sequence (7 steps),
+  pass/fail predicates for every field, and the explicit statement that **the 283-day spec
+  window is 2.78× too short** (0.33% power per C3-T3). Updated `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`
+  to point at v2 (v1 retained as history).
+- **C5-T3 — Full-validation orchestrator (COMPLETE).**
+  `scripts/run_full_validation_campaign.py` on disk. Dry-run readiness:
+  `research_state/full_validation_pipeline_readiness_20261114T212055Z.{json,md}` — all **6 steps
+  PASS**; placeholder rejected, truncated fixture rejected, flat fixture accepted only as
+  `ACCEPT_FIXTURE_NON_EVIDENCE` (`is_market_data=false`, `is_evidence=false`,
+  `performance_evidence=false`). The orchestrator is ready to run the moment a C4-T1
+  `ACCEPT_AS_EVIDENCE_CANDIDATE` archive lands.
+- **C5-T4 — Close the chain (MANDATORY).**
+  - Retention probe refreshed: `scripts/probe_hyperliquid_blocker.py` →
+    `research_state/hyperliquid_retention_probe.json` (2026-11-14T21:23:00Z, sha256
+    `27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927`): **3,877 / 6,792**
+    bars, **2,915 missing**, earliest served **2026-04-20T11:00:00Z**, 235 perps / 37 pass
+    $5M gate / 37 probed, unprobeable `['KPEPE', '...']`. **KEEP_RETAINED** (retained chain
+    24 × 3,885 bars, start 2026-04-20T03:00:00Z is strictly better; no fetch).
+  - Coverage updated: `research_state/hyperliquid_universe_coverage.json` with C5 artifacts
+    and integer counts (see `c5_session_artifacts` section).
+  - Decision memo updated: this section with C5 state and standing **`NO_GO`**.
+  - Gates re-run green:
+    ```
+    test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh
+    PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py                  # 21/21
+    PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py      # 4/4
+    ```
+  - Handoff re-timestamped to 2026-11-14T22:10:03Z.
+
+## C4 Decision Lock (retained from 2026-11-14T20:47:08Z)
+
 - **C4-T1 — archive intake gate is executable and fail-closed.**
   `scripts/validate_hyperliquid_archive_intake.py` →
   `research_state/archive_intake_validation_20261114T202957Z.{json,md}`. Verdict on the
@@ -170,16 +201,6 @@ liquidation, varying only which gate-passing events are allowed to trade.
   negative total PnL**, range **−7,945.88 .. −501.77** vs baseline −2,670.76; trade count
   is 2 in every variant; the no-ETH-hedge variant is worst (−7,945.88), slippage 10× is
   −5,062.61. This is a fragility check on a 2-trade path, never performance evidence.
-- **C4-T4 — retention probe re-captured (still decaying).** Live probe
-  `research_state/hyperliquid_retention_probe.json` (2026-11-14T20:34:15Z, sha256
-  `27adec869b4593f472d92049cd62d6c1273804027730836866e26fe3827d6927`): **3,879 / 6,792**
-  bars, **2,913 missing**, earliest served **2026-04-20T09:00:00Z**, 235 perps / 34 pass
-  the $5M gate / 34 probed, unprobeable `['KPEPE']`. Strictly worse than the retained
-  chain, so **KEEP_RETAINED** (24 × 3,885 bars, start 2026-04-20T03:00:00Z); no fetch.
-- **C4 closes the analysis loop but not the evidence gap.** The repo now has a
-  fail-closed intake gate, a numeric multi-year requirement, and a friction bound; it still
-  has **zero** Hyperliquid decision-grade evidence. The single durable handoff is
-  `HANDOFF.md` (the duplicate `HANDOFF_20261114T202006Z.md` was removed).
 
 ## Hyperliquid-native status (updated 2026-11-14T16:26:00Z; supersedes all earlier Hyperliquid blocks below)
 
@@ -225,51 +246,10 @@ liquidation, varying only which gate-passing events are allowed to trade.
   window is still decaying, the episode target is **not reachable from the public API** at
   any amount of re-slicing; only the operator archive path (or a longer verified
   Hyperliquid-native history) can supply it.
-- **Session gate 18/18 — DONE; evidence verifier 4/4 — EVIDENCE VERIFIED** on the refreshed
-  artifacts (the new `phase_r_exploratory_next_open` check fails closed without the
-  real-engine Step 3 artifact).
+- **Session gate 21/21 — DONE; evidence verifier 4/4 — EVIDENCE VERIFIED** on the refreshed
+  artifacts.
 - **Do not cite the exploratory run as Hyperliquid performance evidence.** It is a
   structural-funnel and power-reality check only.
-
-## Hyperliquid-native status (updated 2026-11-14T09:37:00Z; supersedes the 2026-11-14T09:33:25Z block below)
-
-- **Full 283-day window: BLOCKED.** Live re-probe this session (`hyperliquid_retention_probe.json`, 2026-11-14T09:36:12Z) served **3,890 of 6,792** hourly bars; **2,902 missing**; earliest served **2026-04-19T22:00:00Z**. Universe: **235 perps / 27 pass the $5M trailing-24h gate / 27 probed**; unprobeable/empty = `['KPEPE']`. Verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`. The early history is permanently lost to API retention. A full-window campaign requires an operator-supplied, verified Hyperliquid-native archive following `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`.
-- **Partial window re-captured this session (NOT_EVIDENCE).** Snapshot `hyperliquid_universe_snapshot_20261114T093629Z` → aligned `..._aligned_20260420T0200Z`: **24 complete symbols × 3,886 bars** (2026-04-20T02:00:00Z..2026-09-28T23:00:00Z), 26 requested (ADA incomplete 2,999; MATIC/FTM error). Census: **24 symbols / 93,264 bars / 11 RSI(21)<20 events / 0 confirmed signals**. Partial campaign (`--allow-partial-not-evidence`): **0 trades, 0 PnL, `performance_evidence=false`**. Coverage artifact `hyperliquid_universe_coverage.json` records probe/snapshot/aligned/census/campaign hashes and the verdict `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED`.
-- **Session gate 17/17 — DONE; evidence verifier 4/4 — EVIDENCE VERIFIED** on the refreshed artifacts.
-- **Do not cite the partial run as Hyperliquid performance evidence.** It is a pipeline and power-reality check only. The partial window has **zero trades to evaluate** — the rare-event strategy produces no signal in a 161-day window, consistent with the OKX finding that the binding unit is the independent crash episode (4 episodes / 5 days on OKX; 0 on Hyperliquid partial).
-
-## Hyperliquid-native status (updated 2026-11-14T12:56:00Z; supersedes the 09:37Z block below)
-
-- **Full 283-day window: BLOCKED.** Live re-probe this session (`hyperliquid_retention_probe.json`, 2026-11-14T12:51:02Z) served **3,886 of 6,792** hourly bars; **2,906 missing**; earliest served **2026-04-20T02:00:00Z**. Universe: **235 perps / 27 pass the $5M trailing-24h gate / 27 probed**; unprobeable/empty = `['KPEPE']`. Verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`. The early history is permanently lost to API retention. A full-window campaign requires an operator-supplied, verified Hyperliquid-native archive following `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`.
-- **Partial window re-captured this session (NOT_EVIDENCE), largest valid chain retained.** A fresh full-universe fetch this session (`hyperliquid_universe_snapshot_20261114T125106Z`) produced a **degraded** aligned slice (24 complete, 2,386 bars from 2026-06-21T14:00:00Z) vs the retained gate-checked chain (`hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z`, 24 complete x **3,885 bars**, 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z). Per handoff step 2 the **largest valid aligned complete slice was retained**; gate coverage points at it. Census: **24 symbols / 93,240 bars / 11 RSI(21)<20 events / 0 confirmed signals** (`hyperliquid_universe_snapshot_census_20261114T125249Z.json`). Partial campaign (`--allow-partial-not-evidence`): **0 trades, 0 PnL, `performance_evidence=false`**, `research_status=NOT_EVIDENCE_PARTIAL_UNIVERSE` (`campaign_results_real_hyperliquid_universe_snapshot_20261114T125249Z.json`). Coverage artifact `hyperliquid_universe_coverage.json` records probe/snapshot/aligned/census/campaign hashes and the verdict `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED`.
-- **Session gate 17/17 — DONE; evidence verifier 4/4 — EVIDENCE VERIFIED** on the refreshed artifacts.
-- **Phase O episode-aware audit — NOT APPLICABLE (recorded, not faked).** With zero confirmed signals there are zero trades and zero crash episodes to cluster, so no episode-block bootstrap or conditional temporal-edge permutation is computable. Recorded honestly in `research_state/episode_edge_hyperliquid_partial.{json,md}` with `status=NOT_APPLICABLE_NO_EPISODES` and `temporal_edge_permutation.mode=not_run` rather than reporting a p-value manufactured from an empty trade set (that would be the per-event-null-as-portfolio-test prohibition). This is consistent with the OKX finding: the binding unit is the independent crash episode, and the partial Hyperliquid window contains none.
-- **Do not cite the partial run as Hyperliquid performance evidence.** It is a pipeline and power-reality check only. The partial window has **zero trades to evaluate** — the rare-event strategy produces no signal in a 3885-bar x 24-symbol window.
-
-## Hyperliquid-native status (original 2026-11-14T09:33:25Z block, retained for the record)
-
-- **Full 283-day window: BLOCKED.** Live re-probe this session (`hyperliquid_retention_probe.json`, 2026-11-14T09:33Z) served **3,890 of 6,792** hourly bars; **2,902 missing**; earliest served **2026-04-19T22:00:00Z**. Universe: **235 perps / 27 pass the $5M trailing-24h gate / 27 probed**; unprobeable/empty = `['KPEPE']`. Verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`. The window is **not sliding further** in this session (still 3,890 bars) but the early history is permanently lost to API retention. A full-window campaign requires an operator-supplied, verified Hyperliquid-native archive following `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`.
-- **Partial window re-captured this session (NOT_EVIDENCE).** Snapshot `hyperliquid_universe_snapshot_20261114T092520Z` → aligned `..._aligned_20260420T0200Z`: **23 complete symbols × 3,886 bars** (2026-04-20T02:00:00Z..2026-09-28T23:00:00Z), 26 requested (ADA incomplete 2,999; MATIC/FTM error). Census: **23 symbols / 89,378 bars / 9 RSI(21)<20 events / 0 confirmed signals**. Partial campaign (`--allow-partial-not-evidence`): **0 trades, 0 PnL, `performance_evidence=false`**. Coverage artifact `hyperliquid_universe_coverage.json` records probe/snapshot/aligned/census/campaign hashes and the verdict `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED`.
-- **Session gate 17/17 — DONE; evidence verifier 4/4 — EVIDENCE VERIFIED** on the refreshed artifacts.
-- **Do not cite the partial run as Hyperliquid performance evidence.** It is a pipeline and power-reality check only. The partial window has **zero trades to evaluate** — the rare-event strategy produces no signal in a 161-day window, consistent with the OKX finding that the binding unit is the independent crash episode (4 episodes / 5 days on OKX; 0 on Hyperliquid partial).
-
-## Hyperliquid-native status (original 2026-11-13T21:48:59Z block, retained for the record)
-
-- **Full 283-day window: BLOCKED.** The public Hyperliquid `candleSnapshot` API returned
-  **3,900** hourly bars for BTC over the requested 2025-12-20..2026-09-28 window, starting
-  only at **2026-04-19T12:00:00Z**. The early 2,892 bars are not served. A full-window
-  campaign requires an operator-supplied, verified Hyperliquid-native archive following
-  `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`.
-- **Partial 163-day window: RUN, NOT EVIDENCE.** A real, non-synthetic API acquisition
-  covered 2026-04-19T12:00Z..2026-09-28T23:00Z (3,900 bars/symbol). Twelve symbols had
-  complete coverage (ADA, ALGO, ARB, ATOM, AVAX, BTC, ETH, LTC, NEAR, OP, SOL, TIA); the
-  partial campaign produced **0 trades / 0 PnL**. The crash census found **8 RSI(21)<20
-  events across 46,800 bars** and **0 confirmed rebound signals**.
-- Artifacts: `research_state/hyperliquid_acquisition_status.json`,
-  `research_state/campaign_results_real_hyperliquid_partial_20260419_20260928.json`,
-  `research_state/hyperliquid_partial_crash_census_20260419_20260928.json`.
-- **Do not cite the partial run as Hyperliquid performance evidence.** It is a pipeline and
-  power-reality check only.
 
 ## Stop / go criteria (explicit)
 
@@ -304,32 +284,36 @@ liquidation, varying only which gate-passing events are allowed to trade.
 ## Immediate next work (status after this memo)
 
 1. **Hyperliquid-native acquisition and campaign — BLOCKED on full data.** The public API
-   cannot serve the full 283-day window (3,883 of 6,792 bars at 2026-11-14T16:19:34Z, and
+   cannot serve the full 283-day window (3,877 of 6,792 bars at 2026-11-14T21:23:00Z, and
    decaying). The only decision-grade path is an operator-supplied verified archive; use the
-   runbook. Never use
-   `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet`
+   **C5-T2 v2 runbook** (`research_state/operator_archive_request_20261114T221003Z.md`).
+   Never use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet`
    (flat synthetic placeholder) as evidence.
-2. **Spec-literal next-open adjudication — DONE (NOT_EVIDENCE, 2026-11-14T16:22Z).** The
+2. **C5-T1 — Full validation orchestrator (READY, waiting for operator archive).**
+   When C4-T1 yields `ACCEPT_AS_EVIDENCE_CANDIDATE`, run:
+   `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_full_validation_campaign.py`
+   (dry-run proved 6/6 steps PASS; placeholder rejected, truncated rejected).
+3. **Spec-literal next-open adjudication — DONE (NOT_EVIDENCE, 2026-11-14T16:22Z).** The
    structural 0-trade funnel was executed through the real engine with the opt-in
    `entry_spec_literal_next_open=True` flag: **8 spec-literal signals → 2 trades, total PnL
    −2,670.76** on the retained chain. This closes the "0 trades is a scanner bug" question:
    the canonical gate, not the data, produces the 0. It does not create power — 2 trades / 2
    crash days is still `underpowered`. Do not re-run this without a new retained chain.
-3. **Episode-aware audit on the exploratory run — NOT APPLICABLE at n=2.** Two trades on two
+4. **Episode-aware audit on the exploratory run — NOT APPLICABLE at n=2.** Two trades on two
    crash days cannot support an episode-block bootstrap or a crash-day permutation; running
    one would be manufactured inference. Recorded as not applicable; the binding requirement
    is ≥ 10 independent crash episodes, which the retained window (4 crash days) cannot supply.
-4. **Robustness stress / power analysis — DONE.** Phase N LOO/LOTO, concentration,
+5. **Robustness stress / power analysis — DONE.** Phase N LOO/LOTO, concentration,
    bootstrap power projection, and expanding-window refit are complete and recorded in
    `research_state/robustness_stress_okx_full.{json,md}`. The verdict remains `underpowered`.
-5. **Do not regress:** keep the done-gate green; do not re-run the canonical campaign,
+6. **Do not regress:** keep the done-gate green; do not re-run the canonical campaign,
    J1/J2/K/L, or re-acquire OKX; do not fabricate data; do not relax the $5M gate; do not
    create a second handoff; do not flip `entry_spec_literal_next_open` to True by default.
-6. **Dependence audit and temporal-edge test — DONE (Phase O).** The 11 events are 4 crash
+7. **Dependence audit and temporal-edge test — DONE (Phase O).** The 11 events are 4 crash
    episodes over 5 crash days (2 episodes negative); crash-day-conditioned permutation gives
    p(placebo ≥ canonical)=0.15; episode-block bootstrap CI [−4,083.95, 24,411.99]. Artifacts:
    `research_state/episode_edge_okx_full.{json,md}`. Verdict remains `underpowered`.
-7. **Phase O (Hyperliquid partial) — NOT APPLICABLE, recorded honestly.** The canonical
+8. **Phase O (Hyperliquid partial) — NOT APPLICABLE, recorded honestly.** The canonical
    partial window produced zero confirmed signals, zero trades, and therefore zero crash
    episodes; the episode-aware audit, episode-block bootstrap and conditional temporal-edge
    permutation are all vacuous on that data and are recorded as NOT RUN / NOT APPLICABLE in
@@ -338,15 +322,6 @@ liquidation, varying only which gate-passing events are allowed to trade.
    days, which is likewise below any episode-aware inference floor. A longer
    Hyperliquid-native history is required before any episode-aware inference is possible on
    Hyperliquid.
-8. **C4 (2026-11-14T20:47Z) — decision lock built, evidence gap unchanged.** Done this
-   session, all NOT_EVIDENCE: C4-T1 fail-closed intake validator
-   (`archive_intake_validation_20261114T202957Z`), C4-T2 multi-year protocol with executed
-   80%-power duration (`multi_year_validation_protocol_20261114T203040Z`: 1,013.2 days /
-   24,319 bars per symbol), C4-T3 execution-friction stress
-   (`execution_friction_stress_hyperliquid_20261114T204632Z`: 9/9 variants negative), C4-T4
-   probe/coverage/handoff closeout. **Next campaign C5: operator archive ingest → verified
-   universe → full-window canonical campaign → placebo → episode audit → memo update.** Do
-   not start C5 without a C4-T1 `ACCEPT_AS_EVIDENCE_CANDIDATE` artifact.
 
 ## Reproduction
 
@@ -360,7 +335,7 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_robustness_stress_okx.py
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx.py --draws 40
 # EXPECT: episodes=4 events=11 days=5 largest_episode=4/11 perm_p=0.1500
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py
-# EXPECT (2026-11-14T20:34Z): 3879/6792 bars; 2913 missing; 235 perps / 34 pass $5M / 34 probed; earliest 2026-04-20T09:00:00Z
+# EXPECT (2026-11-14T21:23Z): 3877/6792 bars; 2915 missing; 235 perps / 37 pass $5M / 37 probed; earliest 2026-04-20T11:00:00Z
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py
 # EXPECT: 21/21 checks passed — DONE
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py

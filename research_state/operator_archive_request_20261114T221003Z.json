@@ -1,0 +1,55 @@
+{
+  "request_version": 2,
+  "request_timestamp_utc": "2026-11-14T22:10:03Z",
+  "supersedes": "research_state/DATA_REQUEST_283D_HYPERLIQUID.md (v1, handoff 2026-11-13T12:29:00Z)",
+  "status": "OPEN",
+  "target_window": {
+    "start_utc": "2023-12-20T17:19:21Z",
+    "end_utc": "2026-09-28T23:00:00Z",
+    "duration_days": 1013.2,
+    "total_hourly_bars_per_symbol": 24319,
+    "rationale": "C4-T2 multi-year validation protocol binds 80% statistical power at observed episode rate 0.012355 episodes/day; 283-day spec window is 2.78x too short (0.33% power). This v2 request encodes the executed C4-T2 requirement, not prose."
+  },
+  "requirements": {
+    "min_symbols": 24,
+    "min_distinct_crash_days": 10,
+    "provenance": "Hyperliquid-native only (documented API source, extraction method, extraction time, no synthetic generation)",
+    "per_file_sha256": true,
+    "non_synthetic": true,
+    "volume_gate": "trailing 24h volume >= $5M USD (spec-compliant, point-in-time)",
+    "archive_format": "Parquet or CSV per symbol with columns: timestamp, open, high, low, close, volume",
+    "source_documentation": "SOURCES.md sidecar inside archive directory recording origin, extraction method, extraction timestamp, any transformations"
+  },
+  "acceptance_predicates": {
+    "archive_exists": "archive directory/file exists on disk at declared path",
+    "provenance_documented": "SOURCES.md sidecar present with Hyperliquid-native origin, extraction method, timestamp",
+    "full_window_coverage": "every required symbol has >= 24319 hourly bars covering 2023-12-20T17:19:21Z .. 2026-09-28T23:00:00Z inclusive",
+    "min_symbols_met": ">= 24 symbols with complete coverage",
+    "min_crash_days_met": ">= 10 distinct calendar days with RSI(21)<20 crash events across universe",
+    "non_synthetic": "no fabricated/synthetic/interpolated candles; provenance.fabricated_data == false",
+    "per_file_sha256_recorded": "SHA256 for each symbol file recorded in provenance manifest",
+    "volume_gate_satisfied": "all symbols pass trailing 24h >= $5M at decision points"
+  },
+  "machine_checkable_commands": {
+    "step1_verify_env": "test -x /tmp/crs-venv/bin/python && PYTHONPATH=. /tmp/crs-venv/bin/python -c \"import pytest,numpy,pandas,requests,pyarrow; print('env_ok')\"",
+    "step2_ingest_archive": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/fetch_hyperliquid_candles.py --source archive --input-archive <ARCHIVE_PATH> --symbols <SYMBOL_LIST> --start 2023-12-20T17:19:21Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_1h_full_20231220_20260928",
+    "step3_verify_provenance": "PYTHONPATH=. /tmp/crs-venv/bin/python -c \"import json,sys; p='research_state/cache/hyperliquid_1h_full_20231220_20260928/provenance.json'; m=json.load(open(p)); ok=m.get('summary',{}).get('all_complete') is True and m.get('summary',{}).get('ready_for_real_campaign') is True and m.get('fabricated_data') is not True; print('all_complete=',m.get('summary',{}).get('all_complete')); print('ready_for_real_campaign=',m.get('summary',{}).get('ready_for_real_campaign')); print('fabricated_data=',m.get('fabricated_data')); sys.exit(0 if ok else 1)\"",
+    "step4_derive_universe": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/hyperliquid_1h_full_20231220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20231220_20260928 --output research_state/universe_hyperliquid_full_verified.json",
+    "step5_run_campaign": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_real_campaign.py --manifest research_state/cache/hyperliquid_1h_full_20231220_20260928/provenance.json --cache-dir research_state/cache/hyperliquid_1h_full_20231220_20260928 --universe-file research_state/universe_hyperliquid_full_verified.json --output-prefix campaign_results_real_hyperliquid_full --apply-vault-fees",
+    "step6_verify_evidence": "PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q -rs && sha256sum research_state/campaign_results_real_hyperliquid_full*.json research_state/universe_hyperliquid_full_verified.json",
+    "step7_gates": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py && PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py"
+  },
+  "pass_fail_rules": {
+    "step1": "exit 0 && prints 'env_ok'",
+    "step2": "exit 0; completes without synthetic/unverified/temp-path rejection",
+    "step3": "prints all_complete=True, ready_for_real_campaign=True, fabricated_data=False (or absent/false); exit 0",
+    "step4": "exit 0; universe file lists only symbols with verified complete coverage and spec-compliant volume evidence; min_24h_volume_usd >= 5000000",
+    "step5": "exit 0; output states 'REAL run complete: ...'; script refuses incomplete/unverified/synthetic inputs (non-zero)",
+    "step6": "tests green; artifacts present and hash-recorded; conclusions cite Hyperliquid-native provenance",
+    "step7": "session_gate.py 21/21 checks passed; verify_campaign_evidence.py 4/4 evidence verified"
+  },
+  "critical_statement": "The 283-day spec window (2025-12-20..2026-09-28) provides only 0.33% probability of achieving >=10 independent crash episodes (C3-T3 power sensitivity). The multi-year window (1,013.2 days) is the binding 80%-power requirement — 283 days is 2.78x too short. No session may relabel the 283-day partial run or OKX cross-venue data as Hyperliquid performance evidence.",
+  "data_request_v1_reference": "research_state/DATA_REQUEST_283D_HYPERLIQUID.md",
+  "c4_t2_reference": "research_state/multi_year_validation_protocol_20261114T203040Z.{json,md}",
+  "c4_t1_reference": "research_state/archive_intake_validation_20261114T202957Z.{json,md}"
+}
