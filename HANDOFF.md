@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T20:48:30Z
+**Handoff updated (UTC):** 2026-11-14T21:08:39Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** The duplicate `HANDOFF_20261114T202006Z.md` was deleted this session; do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T20:48:30Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T21:08:39Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness), C3 (Spec-Comparison Hardening) and C4 (Data-Block Decision Lock, Operator Intake Validation & Multi-Year Protocol) are COMPLETE. Do not repeat C1–C4 work, do not re-run any deterministic campaign on the retained chain, and do not re-run the C4 friction grid.**
 
@@ -68,11 +68,11 @@ Canonical partial window audit is recorded NOT_APPLICABLE (`research_state/episo
 ### STEP 7 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE (v2 request in C5-T2)
 If an operator-supplied verified Hyperliquid-native archive arrives, it must first pass C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`) and then the C5-T1 orchestrator. Follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md`. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder; C4-T1 rejects it).
 
-**No session may close without: C5-T1..T4 artifacts on disk (new stems), C5-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T20:48:30Z or later.**
+**No session may close without: C5-T1..T4 artifacts on disk (new stems), C5-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T21:08:39Z or later.**
 
 ---
 
-## Verified state (as of 2026-11-14T20:48:30Z; retained/gate-checked chain unless noted)
+## Verified state (as of 2026-11-14T21:08:39Z; retained/gate-checked chain unless noted)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -141,4 +141,4 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 - No additional handoff/status files. **This file is the single durable handoff.**
 
 ## Definition of done
-Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1..T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T20:48:30Z or later.
+Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1..T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T21:08:39Z or later.
