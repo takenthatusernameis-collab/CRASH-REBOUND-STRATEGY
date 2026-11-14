@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T16:25:55Z",
+  "generated_at_utc": "2026-11-14T17:18:30Z",
   "run_type": "hyperliquid_universe_coverage",
   "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
-  "sliding_retention_finding": "Fresh probe 2026-11-14T16:19:34Z: earliest_served_start_utc 2026-04-20T05:00:00Z, max_bars_returned 3883/6792, missing_early_bars_vs_expected 2909, perps_total 235 / perps_passing_volume_gate 29 / probed 29, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1. The live probe is strictly worse than the retained chain (3883 bars from 05:00Z vs 3885 bars from 03:00Z), so no fresh full-universe fetch was run; that is the intentional bottleneck removal. Adopt-or-keep: KEEP retained chain 20261114T104210Z_aligned_20260420T0300Z (24 complete x 3885 bars, start 2026-04-20T03:00:00Z).",
+  "sliding_retention_finding": "Fresh probe 2026-11-14T16:48:40Z: earliest_served_start_utc 2026-04-20T06:00:00Z, max_bars_returned 3882/6792, missing_early_bars_vs_expected 2910, perps_total 235 / perps_passing_volume_gate 31 / probed 31, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1. The live probe is strictly worse than the retained chain (3882 bars from 06:00Z vs 3885 bars from 03:00Z), so no fresh full-universe fetch was run; that is the intentional bottleneck removal. Adopt-or-keep: KEEP retained chain 20261114T104210Z_aligned_20260420T0300Z (24 complete x 3885 bars, start 2026-04-20T03:00:00Z).",
   "spec_window": {
     "start": "2025-12-20T00:00:00Z",
     "end": "2026-09-28T23:00:00Z",
@@ -11,19 +11,19 @@
   },
   "api_retention_probe": {
     "artifact": "research_state/hyperliquid_retention_probe.json",
-    "artifact_sha256": "b6ea031bf4f02bec4ea62707124878e59b7c1fa44d17dbb389adef5398e10a43",
-    "generated_at_utc": "2026-11-14T16:19:34Z",
+    "artifact_sha256": "b072607f9e1dd2500da3c540741150f143967a608cdedf1e8720e2967b0f8e72",
+    "generated_at_utc": "2026-11-14T16:48:40Z",
     "perps_total": 235,
-    "perps_passing_volume_gate": 29,
-    "probed": 29,
+    "perps_passing_volume_gate": 31,
+    "probed": 31,
     "full_window_served": false,
-    "max_bars_returned": 3883,
-    "missing_early_bars_vs_expected": 2909,
-    "earliest_served_start_utc": "2026-04-20T05:00:00Z",
+    "max_bars_returned": 3882,
+    "missing_early_bars_vs_expected": 2910,
+    "earliest_served_start_utc": "2026-04-20T06:00:00Z",
     "symbols_empty_or_error": [
       "KPEPE"
     ],
-    "note": "Live probe re-captured 2026-11-14T16:19:34Z before heavy work; full 283-day window remains API-retention-blocked and the served window is now strictly worse (3883 bars from 05:00Z) than the retained chain."
+    "note": "Live probe re-captured 2026-11-14T16:48:40Z; full 283-day window remains API-retention-blocked and the served window continues to decay (3882 bars from 06:00Z vs 3885 bars from 03:00Z retained)."
   },
   "universe_snapshot": {
     "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z",
@@ -80,7 +80,7 @@
     "retained_expected_hourly_bars": 3885,
     "retained_aligned_start": "2026-04-20T03:00:00+00:00",
     "decision": "KEEP_RETAINED",
-    "reason": "Fresh probe 2026-11-14T16:19:34Z serves 3883 bars from 2026-04-20T05:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fresh full-universe fetch was run this session; degraded 145453Z (3881 bars) and 151710Z aligned (26x2127 bars) remain rejected.",
+    "reason": "Fresh probe 2026-11-14T16:48:40Z serves 3882 bars from 2026-04-20T06:00:00Z, strictly worse than retained (3885 bars, start 2026-04-20T03:00:00Z). No fresh full-universe fetch was run this session; degraded 145453Z (3881 bars) and 151710Z aligned (26x2127 bars) remain rejected.",
     "note_this_session": "Re-fetch skipped by design: the decaying public API cannot beat the retained chain; re-fetching only creates degraded slices."
   },
   "crash_census": {
