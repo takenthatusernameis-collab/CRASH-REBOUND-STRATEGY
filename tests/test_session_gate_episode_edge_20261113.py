@@ -202,7 +202,10 @@ def test_handoff_must_record_current_phase_o_timestamp(tmp_path, monkeypatch):
     assert "Phase O" in detail
 
     (tmp_path / "HANDOFF.md").write_text(
-        stale + f"\nPhase O artifact: {data['generated_at_utc']}\n"
+        stale
+        + f"\nPhase O artifact: {data['generated_at_utc']}\n"
+        + "Bootstrap: run scripts/probe_hyperliquid_blocker.py then "
+        "scripts/verify_campaign_evidence.py.\n"
     )
     ok, detail = session_gate.check_handoff()
     assert ok, detail

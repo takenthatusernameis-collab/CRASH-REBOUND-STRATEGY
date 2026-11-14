@@ -683,6 +683,103 @@ def check_runbook() -> Tuple[bool, str]:
     return True, "runbook present"
 
 
+def check_retention_probe() -> Tuple[bool, str]:
+    """Phase P: the Hyperliquid full-window block must be reproducible, not prose.
+
+    The handoff's central claim is that the public API cannot serve the 283-day
+    window. That claim is only trustworthy if it can be re-derived: this check
+    requires a live-probe artifact with derived counts (no hardcoded numbers), a
+    non-trivial missing-bar count, and a verdict consistent with a real block.
+    A probe that says 'served' without a genuine full campaign fails closed.
+    """
+    path = STATE / "hyperliquid_retention_probe.json"
+    if not path.exists():
+        return False, "missing hyperliquid_retention_probe.json (run scripts/probe_hyperliquid_blocker.py)"
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    for key in ("generated_at_utc", "target_window", "universe", "probe_summary", "verdict"):
+        if key not in data:
+            return False, f"missing {key!r}"
+
+    summary = data["probe_summary"]
+    if not isinstance(summary, dict):
+        return False, "probe_summary must be an object"
+    for key in ("full_window_served", "max_bars_returned",
+                "missing_early_bars_vs_expected", "expected_hourly_bars"):
+        if key not in summary:
+            return False, f"missing probe_summary.{key}"
+
+    try:
+        expected = int(summary["expected_hourly_bars"])
+        max_served = int(summary["max_bars_returned"])
+        missing = int(summary["missing_early_bars_vs_expected"])
+    except (TypeError, ValueError):
+        return False, "probe_summary counts must be integers"
+    if expected != 6792:
+        return False, f"expected_hourly_bars must be the 6792-bar spec window (got {expected})"
+    if max_served <= 0:
+        return False, "no bars were served; the probe did not actually run"
+    if max_served >= expected or missing <= 0:
+        return False, (
+            "the public API now serves the full window; a real full campaign artifact "
+            "is required instead of the blocker claim"
+        )
+    if summary.get("full_window_served") is not False:
+        return False, "full_window_served must be false when the window is incomplete"
+
+    universe = data["universe"]
+    if not isinstance(universe, dict):
+        return False, "universe must be an object"
+    try:
+        perps = int(universe.get("perps_total", 0))
+        passing = int(universe.get("perps_passing_volume_gate", 0))
+        probed = int(universe.get("probed", 0))
+    except (TypeError, ValueError):
+        return False, "universe counts must be integers"
+    if perps <= 0 or probed <= 0:
+        return False, "probe must record a non-empty live universe and probe set"
+    if passing < probed:
+        return False, "passing_gate must be >= probed symbols"
+
+    per_symbol = data.get("per_symbol")
+    if not isinstance(per_symbol, list) or len(per_symbol) != probed:
+        return False, "per_symbol must list every probed symbol"
+
+    if "BLOCKED" not in str(data.get("verdict", "")).upper():
+        return False, "verdict must record the full-window block"
+    return True, (f"API serves {max_served}/{expected} bars; {missing} missing; "
+                  f"universe {perps} perps / {passing} pass gate / {probed} probed")
+
+
+def check_evidence_verifier() -> Tuple[bool, str]:
+    """Phase P: the mechanical anti-avoidance verifier must pass on real artifacts.
+
+    session_gate proves the evidence chain is complete; this proves the chain is
+    *real* — canonical OKX reconciles, the Hyperliquid blocker is backed by the
+    probe, no artifact claims a validated verdict, and the placeholder archive is
+    still labeled non-evidence. It is narrative-independent.
+    """
+    try:
+        from scripts import verify_campaign_evidence as ver
+    except Exception as exc:  # noqa: BLE001
+        return False, f"cannot import verify_campaign_evidence: {exc}"
+    # The verifier reads STATE; keep it pointed at this gate's STATE.
+    original = ver.STATE
+    ver.STATE = STATE
+    try:
+        ok, rows = ver.verify()
+    finally:
+        ver.STATE = original
+    if not ok:
+        failed = [r["check"] for r in rows if not r["pass"]]
+        return False, f"evidence verification failed: {failed}"
+    return True, f"evidence verified ({len(rows)} checks)"
+
+
 def check_handoff() -> Tuple[bool, str]:
     path = REPO_ROOT / "HANDOFF.md"
     if not path.exists():
@@ -701,6 +798,12 @@ def check_handoff() -> Tuple[bool, str]:
         generated_at = ""
     if not generated_at or generated_at not in text:
         return False, "handoff must record the current Phase O artifact timestamp"
+    # The handoff is the single durable initial task message: it must tell the
+    # next session which gate to run and which evidence is binding, or a future
+    # agent can "read the handoff" and still do nothing verifiable.
+    for token in ("probe_hyperliquid_blocker.py", "verify_campaign_evidence.py"):
+        if token not in text:
+            return False, f"handoff must reference {token} in the initial task message"
     return True, f"{len(text)} bytes; Phase O {generated_at}"
 
 
@@ -718,6 +821,8 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_j3_hyperliquid_status", check_hyperliquid_status),
     ("phase_j3_hyperliquid_partial_campaign", check_hyperliquid_partial_campaign),
     ("phase_j3_acquisition_runbook", check_runbook),
+    ("phase_p_retention_probe", check_retention_probe),
+    ("phase_p_evidence_verifier", check_evidence_verifier),
     ("durable_handoff", check_handoff),
 ]
 
