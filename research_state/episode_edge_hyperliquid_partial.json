@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T12:56:00Z",
+  "run_type": "hyperliquid_partial_episode_edge_audit",
+  "provenance_caveat": "Hyperliquid public-API PARTIAL window (aligned 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z, 24 complete symbols x 3885 bars). NOT the 283-day spec window and NOT performance evidence.",
+  "status": "NOT_APPLICABLE_NO_EPISODES",
+  "basis": {
+    "census_artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json",
+    "census_symbols": 24,
+    "census_bars": 93240,
+    "census_rsi_crash_events": 11,
+    "census_confirmed_signals": 0,
+    "partial_campaign_artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T125249Z.json",
+    "partial_campaign_num_trades": 0,
+    "partial_campaign_total_pnl": 0.0,
+    "partial_campaign_performance_evidence": false
+  },
+  "episode_audit": {
+    "n_events": 0,
+    "n_symbols": 0,
+    "n_distinct_crash_days": 0,
+    "n_episodes": 0,
+    "link_hours": 98,
+    "finding": "The partial window produced zero confirmed rebound signals and therefore zero trades. There are no crash episodes to cluster, no distinct crash days, and no episode-level PnL to bootstrap. The episode-aware audit is vacuous on this data: it can neither support nor refute an edge."
+  },
+  "temporal_edge_permutation": {
+    "mode": "not_run",
+    "reason": "Permutation requires a canonical trade set to sit at a percentile of the null distribution. With zero trades there is no canonical PnL and no admissible draw. Running it would manufacture a p-value from an empty trade set, which is exactly the per-event-null-as-portfolio-test prohibition; it is recorded as NOT RUN rather than reported as a significant or non-significant result."
+  },
+  "episode_block_bootstrap": {
+    "mode": "not_run",
+    "ci_low_pnl_2p5": null,
+    "ci_high_pnl_97p5": null,
+    "reason": "No episodes to resample."
+  },
+  "go_criteria_check": {
+    "full_283d_hyperliquid_window_acquired": false,
+    "at_least_10_independent_crash_episodes_with_positive_episode_bootstrap_ci": false,
+    "trade_bootstrap_ci_excludes_0": false,
+    "episode_block_ci_excludes_0": false,
+    "crash_day_permutation_p_lt_0_05": false,
+    "full_portfolio_placebo_p_lt_0_05": false,
+    "worst_drawdown_within_mandate": "not_evaluable (0 trades)"
+  },
+  "verdict": "HYPERLIQUID_EPISODE_AUDIT_NOT_APPLICABLE; FULL_283D_BLOCKED_BY_API_RETENTION; STRATEGY_UNDERPOWERED",
+  "limitations": [
+    "Zero-signal partial window; the rare-event strategy simply did not fire in 3885 bars x 24 symbols.",
+    "The 11 RSI(21)<20 census events did not convert to confirmed signals under the spec gates (volume, bounce, regime/price, one-position-per-coin).",
+    "This is a pipeline and power-reality check, not evidence about strategy profitability on Hyperliquid.",
+    "A longer Hyperliquid-native history is required before any episode-aware inference is possible."
+  ]
+}

@@ -1,15 +1,15 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T12:48:54Z
+**Handoff updated (UTC):** 2026-11-14T12:56:00Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation). Priority: produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. OKX is cross-venue, underpowered, and **never** Hyperliquid performance evidence.
 
-**Branch/HEAD (session start):** `459e8b6` (2026-11-14T11:46Z). Working tree clean.
+**Branch/HEAD (session start):** `459e8b6` (2026-11-14T11:46Z). Working tree clean at session start; this session added new timestamped artifacts (see below) — commit only if explicitly requested.
 
-**Gate/evidence (re-verified this session 2026-11-14T12:48Z):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation.
+**Gate/evidence (re-verified this session 2026-11-14T12:56Z):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation.
 
-**Binding facts:** **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]** (canonical unchanged: 8 trades, net PnL 8141.29 / total PnL 9159.691934882958). **Latest live Hyperliquid probe (re-captured this session 2026-11-14T12:38:09Z):** earliest served **2026-04-20T01:00:00Z**, **3887/6792 bars** (2905 missing), **235 perps / 26 pass $5M gate / 26 probed**, unprobeable/empty **['KPEPE']**; full 283-day window **API-retention-blocked**. Retained largest valid gate-checked aligned chain (20261114T104210Z, 24 complete × 3885 bars, 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z). **Latest valid gate-checked aligned partial chain (non-evidence):** raw `hyperliquid_universe_snapshot_20261114T104210Z` → aligned `..._aligned_20260420T0300Z` — **24 complete symbols × 3885 bars / 93,240 bars**; census **11 RSI crashes / 0 confirmed signals**; partial campaign **0 trades, 0.0 PnL, `performance_evidence=false`, `real_market_data=true`, fabricated=false**. Partial window **decays continuously**. **Do not declare validated. Do not allocate capital.**
+**Binding facts:** **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]** (canonical unchanged: 8 trades, net PnL 8141.29 / total PnL 9159.691934882958). **Latest live Hyperliquid probe (this session 2026-11-14T12:51:02Z):** earliest served **2026-04-20T02:00:00Z**, **3886/6792 bars** (2906 missing), **235 perps / 27 pass $5M gate / 27 probed**, unprobeable/empty **['KPEPE']**; full 283-day window **API-retention-blocked**. **Fresh full-universe fetch this session (20261114T125106Z) produced a DEGRADED aligned slice (24 complete, 2386 bars from 2026-06-21T14:00:00Z)** — per handoff step 2 the **largest valid aligned complete slice was retained**: `20261114T104210Z_aligned_20260420T0300Z` (24 complete × 3885 bars, 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z). **Latest census (this session, over the retained chain):** 24 symbols / 93,240 bars / 11 RSI crashes / 0 confirmed signals (`hyperliquid_universe_snapshot_census_20261114T125249Z.json`). **Latest partial campaign (this session):** 0 trades, 0.0 PnL, `performance_evidence=false`, `real_market_data=true`, `NOT_EVIDENCE_PARTIAL_UNIVERSE` (`campaign_results_real_hyperliquid_universe_snapshot_20261114T125249Z.json`). **Phase O episode-aware audit on Hyperliquid: NOT APPLICABLE** — zero confirmed signals ⇒ zero trades ⇒ zero episodes; recorded honestly in `research_state/episode_edge_hyperliquid_partial.{json,md}` with `status=NOT_APPLICABLE_NO_EPISODES` and `temporal_edge_permutation.mode=not_run` (no p-value manufactured from an empty trade set). **Do not declare validated. Do not allocate capital.**
 
 ---
 
@@ -70,20 +70,21 @@ Refresh `research_state/hyperliquid_retention_probe.json`; record live `earliest
 
 ---
 
-## Verified state (2026-11-14T12:48Z)
+## Verified state (2026-11-14T12:56Z)
 
 | Check | Result | Evidence |
 |---|---|---|
 | Durable handoff | Single: `./HANDOFF.md` | repo root |
 | Env | `/tmp/crs-venv` present | `test -x` |
-| Session gate | **17/17 — DONE** (this session 2026-11-14T12:48Z) | `scripts/session_gate.py` |
-| Evidence verifier | **4/4 — EVIDENCE VERIFIED** (this session 2026-11-14T12:48Z) | `scripts/verify_campaign_evidence.py` |
-| Retention probe (this session) | 3887/6792 bars; 2905 missing; earliest 2026-04-20T01:00:00Z; 235 perps / 26 pass $5M / 26 probed; unprobeable/empty=['KPEPE']; 2026-11-14T12:38:09Z (**re-probe before next heavy work**) | `research_state/hyperliquid_retention_probe.json` |
+| Session gate | **17/17 — DONE** (this session 2026-11-14T12:56Z) | `scripts/session_gate.py` |
+| Evidence verifier | **4/4 — EVIDENCE VERIFIED** (this session 2026-11-14T12:56Z) | `scripts/verify_campaign_evidence.py` |
+| Retention probe (this session) | 3886/6792 bars; 2906 missing; earliest 2026-04-20T02:00:00Z; 235 perps / 27 pass $5M / 27 probed; unprobeable/empty=['KPEPE']; 2026-11-14T12:51:02Z (**re-probe before next heavy work**) | `research_state/hyperliquid_retention_probe.json` |
 | Latest raw snapshot (gate chain) | `hyperliquid_universe_snapshot_20261114T104210Z` (fetch-produced provenance) | cache snapshot |
 | Latest aligned slice (gate chain) | `hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z` — 24 complete × 3885 bars (2026-04-20T03:00:00Z..2026-09-28T23:00:00Z) | aligned provenance |
-| Latest aligned census (gate chain) | 24 symbols / 93,240 bars / 11 RSI crashes / 0 confirmed signals | `research_state/hyperliquid_universe_snapshot_census_20261114T122958Z.json` |
-| Latest partial campaign (gate chain) | `performance_evidence=false` / NOT_EVIDENCE, 0 trades, 0.0 PnL, real_market_data=true | `research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T122958Z.json` |
-| Gate-checked coverage | updated this session to reference probe (2026-11-14T12:38:09Z) + retained 20261114T104210Z chain; `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED` | `research_state/hyperliquid_universe_coverage.json` |
+| Latest aligned census (gate chain) | 24 symbols / 93,240 bars / 11 RSI crashes / 0 confirmed signals | `research_state/hyperliquid_universe_snapshot_census_20261114T125249Z.json` |
+| Latest partial campaign (gate chain) | `performance_evidence=false` / NOT_EVIDENCE_PARTIAL_UNIVERSE, 0 trades, 0.0 PnL, real_market_data=true | `research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T125249Z.json` |
+| Phase O Hyperliquid partial episode audit | NOT_APPLICABLE_NO_EPISODES (0 signals ⇒ 0 trades ⇒ 0 episodes); permutation/audit recorded not_run, no fabricated p-value | `research_state/episode_edge_hyperliquid_partial.{json,md}` |
+| Gate-checked coverage | updated this session to reference probe (2026-11-14T12:51:02Z) + retained 20261114T104210Z chain; `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED` | `research_state/hyperliquid_universe_coverage.json` |
 | Phase O (OKX, artifact 2026-11-13T23:38:47Z) | 4 episodes / 11 events / 5 crash days; p=0.1500; bootstrap CI [-4083.95,24411.99] | `research_state/episode_edge_okx_full.json` |
 | Canonical OKX baseline | 8 trades, total PnL **9159.691934882958** (unchanged, cross-venue) | `research_state/campaign_results_real_okx_full.json` |
 
