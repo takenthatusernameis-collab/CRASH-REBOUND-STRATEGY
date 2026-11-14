@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T20:26:01Z
+**Handoff updated (UTC):** 2026-11-14T20:27:50Z
 **Supersedes:** all earlier handoffs (including 2026-11-14T20:20:06Z, 19:42:25Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T20:26:01Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T20:27:50Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness) and C3 (Spec-Comparison Hardening) are COMPLETE. Do not repeat C1/C2/C3 work and do not re-run any deterministic campaign on the retained chain. Your first action is C4-T1 below.**
 
@@ -57,7 +57,7 @@ Coverage was refreshed 2026-11-14T19:34:05Z with C3 artifacts and the restored c
 ### STEP 7 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE
 If an operator-supplied verified Hyperliquid-native 283-day archive arrives, follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` and the C4-T1 validator. Then ingest, derive verified universe, run canonical full-window campaign, full-portfolio placebo, episode-aware audit, and update the decision memo. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder).
 
-**No session may close without: C4-T1..T4 artifacts on disk (new stems), C4-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T20:26:01Z or later.**
+**No session may close without: C4-T1..T4 artifacts on disk (new stems), C4-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T20:27:50Z or later.**
 
 ---
 
