@@ -5,6 +5,8 @@
 **Status:** `underpowered` / **not decision-grade** — do not allocate capital on this evidence.
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
+**Current status (2026-11-14T19:21:13Z):** C1/C2/C3 are complete; the session gate is **21/21 checks passed** and the evidence verifier is **4/4 — EVIDENCE VERIFIED**. C3 closed the 8 spec divergences (4 resolved, 4 intentionally retained, 0 gaps), proved the full-window dry-run pipeline READY on a clearly labelled synthetic fixture, and quantified that the ≥10-independent-episode floor is unreachable on the 283-day window (0.33% probability; 2-year 41.51%; pooled cross-venue upper bound 22.32%). The active campaign is **C4: data-block decision lock, operator archive intake validation, multi-year protocol, and execution-friction stress**. The verdict remains **`underpowered` / not decision-grade**. Historical gate counts below (17/17, 18/18) are retained for provenance and are superseded by this line.
+
 ## Decision question
 
 Is the canonical crash-rebound portfolio result distinguishable from noise, and is it

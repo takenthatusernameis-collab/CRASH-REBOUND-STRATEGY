@@ -146,6 +146,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--min-daily-volume-usd", type=float, default=5_000_000.0)
     ap.add_argument("--output-prefix", default=None,
                     help="Default: campaign_results_real_hyperliquid_exploratory_next_open_<TS>")
+    ap.add_argument("--out-dir", default="research_state",
+                    help="Artifact directory; use a temp dir for dry runs so the canonical latest pointer is never overwritten")
     ap.add_argument("--skip-funnel", action="store_true", help="Skip the (slow) funnel recount")
     args = ap.parse_args(argv)
 
@@ -209,7 +211,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     ))
 
     ts = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    out_dir = REPO_ROOT / "research_state"
+    out_dir = Path(args.out_dir)
+    if not out_dir.is_absolute():
+        out_dir = (REPO_ROOT / out_dir).resolve()
     out_dir.mkdir(parents=True, exist_ok=True)
     prefix = args.output_prefix or f"campaign_results_real_hyperliquid_exploratory_next_open_{ts}"
 

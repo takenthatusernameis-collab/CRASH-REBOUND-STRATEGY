@@ -112,15 +112,25 @@ def verify_scripts() -> Tuple[bool, Dict[str, Any]]:
             checks[script] = {"exists": False}
             ok = False
             continue
-        rc, out, err = run([PYTHON, str(path), "--help"], timeout=120)
-        text = out + err
-        present = {f: (f in text) for f in flags} if flags else {}
-        script_ok = rc == 0 and all(present.values())
+        source = path.read_text()
+        supports_help = "argparse" in source or "ArgumentParser" in source
+        if supports_help:
+            rc, out, err = run([PYTHON, str(path), "--help"], timeout=120)
+            text = out + err
+            present = {f: (f in text) for f in flags} if flags else {}
+            script_ok = rc == 0 and all(present.values())
+            detail = {"help_exit": rc, "flags_present": present}
+        else:
+            # Some audit scripts have no CLI; executing --help would run their
+            # main() and create a side-effect artifact. Verify existence/hash only.
+            present = {f: False for f in flags} if flags else {}
+            script_ok = not flags
+            detail = {"help_exit": None, "flags_present": present,
+                      "note": "no CLI; existence/hash check only"}
         checks[script] = {
             "exists": True,
-            "help_exit": rc,
             "sha256": sha256_file(path),
-            "flags_present": present,
+            **detail,
             "ok": script_ok,
         }
         ok = ok and script_ok
@@ -218,15 +228,23 @@ def main() -> int:
                {"exit": rc, "stdout_tail": out.strip()[-300:], "stderr_tail": err.strip()[-300:]})
 
         expl_prefix = f"dryrun_fixture_exploratory_{ts_compact}"
+        expl_out = root / "out"
+        expl_out.mkdir(parents=True, exist_ok=True)
+        latest = STATE / "hyperliquid_exploratory_next_open_latest.json"
+        latest_before = sha256_file(latest) if latest.exists() else None
         rc, out, err = run([
             PYTHON, str(SCRIPTS / "run_hyperliquid_exploratory_next_open.py"),
             "--cache-dir", str(cache),
+            "--out-dir", str(expl_out),
             "--output-prefix", expl_prefix, "--skip-funnel",
         ])
-        expl_json = STATE / f"{expl_prefix}.json"
+        expl_json = expl_out / f"{expl_prefix}.json"
         produced.append(expl_json)
+        latest_after = sha256_file(latest) if latest.exists() else None
         record("fixture_exploratory_next_open", rc == 0 and expl_json.exists(),
                {"exit": rc, "stdout_tail": out.strip()[-300:], "stderr_tail": err.strip()[-300:]})
+        record("fixture_canonical_latest_untouched", latest_before is not None and latest_before == latest_after,
+               {"sha256_before": latest_before, "sha256_after": latest_after})
 
         # Episode-aware audit wiring: clustering must import and run on fixture events.
         try:
