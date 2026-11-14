@@ -1,0 +1,93 @@
+{
+  "timestamp": "2026-11-14T05:40:35+00:00",
+  "run_type": "real_market_campaign_partial_not_evidence",
+  "research_status": "NOT_EVIDENCE_PARTIAL_UNIVERSE",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "partial_universe_not_evidence": true,
+  "evidence_warning": "PARTIAL VERIFIED-SUBSET ALIGNED RUN: NOT performance evidence and NOT a spec 283-day campaign result. Derived from fetch-produced Hyperliquid API cache (provenance present) for retained partial window 2026-04-19T21:00:00+00:00..2026-09-28T23:00:00+00:00; census found 0 confirmed rebound signals => 0 trades. Do not cite as campaign performance.",
+  "data_provenance": {
+    "manifest_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T044431Z_aligned_20260419T2100Z/provenance.json",
+    "manifest_sha256": "27c5a56bae6bb51bb7b9cbaeedcd5bbe14b6c981803f1392cb631d9d8712eb91",
+    "source_cache_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T044431Z",
+    "source_manifest_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T044431Z/provenance.json",
+    "source_manifest_raw_fetch_sha256": "83f074f28e2d8f2bff316bea6c424de2c6df86e295c69b54ab2095c4b4347543",
+    "source": {
+      "kind": "hyperliquid_api_aligned_slice",
+      "hl_url": "https://api.hyperliquid.xyz/info",
+      "input_archive": null,
+      "input_archives": []
+    },
+    "target_window": {
+      "start": "2026-04-19T21:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 3891
+    },
+    "symbols_complete": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ATOM",
+      "AVAX",
+      "BCH",
+      "BTC",
+      "DOGE",
+      "DOT",
+      "ETH",
+      "ICP",
+      "INJ",
+      "LINK",
+      "LTC",
+      "NEAR",
+      "OP",
+      "SEI",
+      "SOL",
+      "SUI",
+      "TIA",
+      "UNI",
+      "XRP"
+    ],
+    "symbols_loaded": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ATOM",
+      "AVAX",
+      "BCH",
+      "BTC",
+      "DOGE",
+      "DOT",
+      "ETH",
+      "ICP",
+      "INJ",
+      "LINK",
+      "LTC",
+      "NEAR",
+      "OP",
+      "SEI",
+      "SOL",
+      "SUI",
+      "TIA",
+      "UNI",
+      "XRP"
+    ]
+  },
+  "campaign_config": {
+    "initial_capital_usd": 100000,
+    "note": "Partial aligned snapshot; NOT_EVIDENCE."
+  },
+  "campaign_metrics": {
+    "initial_capital_usd": 100000,
+    "final_equity_usd": 100000,
+    "total_return_pct": 0,
+    "num_trades": 0,
+    "total_pnl": 0,
+    "winning_trades": 0,
+    "losing_trades": 0
+  },
+  "trade_log": [],
+  "equity_curve": []
+}
