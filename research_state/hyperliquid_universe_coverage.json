@@ -1,89 +1,90 @@
 {
- "schema_version": 1,
- "generated_at_utc": "2026-11-14T09:30:59Z",
- "run_type": "hyperliquid_universe_coverage",
- "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T02:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
- "sliding_retention_finding": "Fresh probe 2026-11-14T09:25Z: earliest_served_start_utc 2026-04-19T22:00:00Z, max_bars_returned 3890/6792, missing_early_bars_vs_expected 2902, perps_total 235 / perps_passing_volume_gate 27 / probed 27, symbols_empty_or_error ['KPEPE'], MATIC/FTM error in fetch snapshot; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1; served bars permanently lost as window slides. Partial snapshots must be re-captured promptly.",
- "spec_window": {
-  "start": "2025-12-20T00:00:00Z",
-  "end": "2026-09-28T23:00:00Z",
-  "expected_hourly_bars": 6792
- },
- "api_retention_probe": {
-  "artifact": "research_state/hyperliquid_retention_probe.json",
-  "artifact_sha256": "ba8dd47c867d4f1672753ddd33e133cb278327fcf71cad77e4dcc32d6722031b",
-  "generated_at_utc": "2026-11-14T09:25:15Z",
-  "perps_total": 235,
-  "perps_passing_volume_gate": 27,
-  "probed": 27,
-  "full_window_served": false,
-  "max_bars_returned": 3890,
-  "missing_early_bars_vs_expected": 2902,
-  "earliest_served_start_utc": "2026-04-19T22:00:00Z",
-  "symbols_empty_or_error": [
-   "KPEPE"
-  ],
-  "note": "Live probe re-captured this session before heavy work."
- },
- "universe_snapshot": {
-  "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T092520Z",
-  "manifest_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T092520Z/provenance.json",
-  "manifest_raw_fetch_sha256": "44a59282ba8700f056a463d9545beb1c71682fd567d1e7098335663fe8ae1699",
-  "cache_dir_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T092520Z_aligned_20260420T0200Z",
-  "manifest": "research_state/cache/hyperliquid_universe_snapshot_20261114T092520Z_aligned_20260420T0200Z/provenance.json",
-  "manifest_sha256": "087ec2de0eebe9d76b59831998e52800d430dc14dc18c4dfd601dd9bac8117c5",
-  "symbols_requested": 26,
-  "symbols_complete": 23,
-  "complete_symbols": [
-   "AAVE",
-   "ALGO",
-   "APT",
-   "ARB",
-   "ATOM",
-   "AVAX",
-   "BCH",
-   "BTC",
-   "DOGE",
-   "DOT",
-   "ETH",
-   "ICP",
-   "INJ",
-   "LINK",
-   "LTC",
-   "NEAR",
-   "OP",
-   "SEI",
-   "SOL",
-   "SUI",
-   "TIA",
-   "UNI",
-   "XRP"
-  ],
-  "aligned_window": "2026-04-20T02:00:00+00:00..2026-09-28T23:00:00+00:00",
-  "expected_hourly_bars": 3886,
-  "rejected_source_symbols": {
-   "ADA": "incomplete_own_window(2999/3889, gaps=0)",
-   "MATIC": "status=error",
-   "FTM": "status=error"
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T09:37:00Z",
+  "run_type": "hyperliquid_universe_coverage",
+  "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T02:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
+  "sliding_retention_finding": "Fresh probe 2026-11-14T09:36Z: earliest_served_start_utc 2026-04-19T22:00:00Z, max_bars_returned 3890/6792, missing_early_bars_vs_expected 2902, perps_total 235 / perps_passing_volume_gate 27 / probed 27, symbols_empty_or_error ['KPEPE'], MATIC/FTM error in fetch snapshot; verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1; served bars permanently lost as window slides. Partial snapshots must be re-captured promptly.",
+  "spec_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
   },
-  "caveat": "PARTIAL retained window (aligned); NOT the 283-day spec window and NOT performance evidence."
- },
- "crash_census": {
-  "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T092520Z.json",
-  "artifact_sha256": "8dd36f1638c92c44b12dfd0df1fc79c7ed3d5606b16eb3306c016152d097fc28",
-  "symbols": 23,
-  "bars": 89378,
-  "rsi_crash_events": 9,
-  "confirmed_signals": 0,
-  "caveat": "PARTIAL window only; NOT the 283-day spec window and NOT performance evidence."
- },
- "partial_campaign": {
-  "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T092520Z.json",
-  "artifact_sha256": "912743410d7aab2911a8e89d79668330f79630c41096e72c9256f2a4d0758f1f",
-  "performance_evidence": false,
-  "num_trades": 0,
-  "total_pnl": 0.0,
-  "caveat": "PARTIAL NOT_EVIDENCE run; must never be relabeled as performance evidence."
- },
- "verdict": "PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED"
+  "api_retention_probe": {
+    "artifact": "research_state/hyperliquid_retention_probe.json",
+    "artifact_sha256": "fe4429d99b1e1fcfd323354b1cd9a91425a1bde4e982e247d1f25e7a4c6a819d",
+    "generated_at_utc": "2026-11-14T09:36:12Z",
+    "perps_total": 235,
+    "perps_passing_volume_gate": 27,
+    "probed": 27,
+    "full_window_served": false,
+    "max_bars_returned": 3890,
+    "missing_early_bars_vs_expected": 2902,
+    "earliest_served_start_utc": "2026-04-19T22:00:00Z",
+    "symbols_empty_or_error": [
+     "KPEPE"
+    ],
+    "note": "Live probe re-captured this session before heavy work."
+  },
+  "universe_snapshot": {
+    "cache_dir_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T093629Z",
+    "manifest_raw_fetch": "research_state/cache/hyperliquid_universe_snapshot_20261114T093629Z/provenance.json",
+    "manifest_raw_fetch_sha256": "eeb9d1089f03feb6d481c204477507720215afbe22f4c2bd557f1e39d2ca51ab",
+    "cache_dir_aligned": "research_state/cache/hyperliquid_universe_snapshot_20261114T093629Z_aligned_20260420T0200Z",
+    "manifest": "research_state/cache/hyperliquid_universe_snapshot_20261114T093629Z_aligned_20260420T0200Z/provenance.json",
+    "manifest_sha256": "3d87620c5bc0d5add3d9607126e4b5157a99939069a6a8d3915d9de64878b464",
+    "symbols_requested": 26,
+    "symbols_complete": 24,
+    "complete_symbols": [
+     "AAVE",
+     "ADA",
+     "ALGO",
+     "APT",
+     "ARB",
+     "ATOM",
+     "AVAX",
+     "BCH",
+     "BTC",
+     "DOGE",
+     "DOT",
+     "ETH",
+     "ICP",
+     "INJ",
+     "LINK",
+     "LTC",
+     "NEAR",
+     "OP",
+     "SEI",
+     "SOL",
+     "SUI",
+     "TIA",
+     "UNI",
+     "XRP"
+    ],
+    "aligned_window": "2026-04-20T02:00:00+00:00..2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 3886,
+    "rejected_source_symbols": {
+     "ADA": "incomplete_own_window(2999/3889, gaps=0)",
+     "MATIC": "status=error",
+     "FTM": "status=error"
+    },
+    "caveat": "PARTIAL retained window (aligned); NOT the 283-day spec window and NOT performance evidence."
+  },
+  "crash_census": {
+    "artifact": "research_state/hyperliquid_universe_snapshot_census_20261114T093629Z.json",
+    "artifact_sha256": "136f9d44d519b13914c8886423c0b4f1e6e6ecd2f4455e5d88585b1bf046ca1d",
+    "symbols": 24,
+    "bars": 93264,
+    "rsi_crash_events": 11,
+    "confirmed_signals": 0,
+    "caveat": "PARTIAL window only; NOT the 283-day spec window and NOT performance evidence."
+  },
+  "partial_campaign": {
+    "artifact": "research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T093629Z.json",
+    "artifact_sha256": "70dcde8b2d2a2a3147940c4437d38ddeed1dfe1ca2e1703c3f4beb1477037416",
+    "performance_evidence": false,
+    "num_trades": 0,
+    "total_pnl": 0.0,
+    "caveat": "PARTIAL NOT_EVIDENCE run; must never be relabeled as performance evidence."
+  },
+  "verdict": "PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED"
 }
