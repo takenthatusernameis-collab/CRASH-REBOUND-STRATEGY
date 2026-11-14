@@ -1,17 +1,17 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T08:53:30Z
+**Handoff updated (UTC):** 2026-11-14T09:00:45Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
-**Branch/HEAD:** `main` @ `1dac654` (working tree includes fresh maintenance artifacts from this session).
-**Gate/evidence (re-verified THIS session, 2026-11-14T08:53:30Z, on FRESH artifacts):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation. **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** Binding constraint is **independent crash episodes**, not trades: 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. Latest Hyperliquid partial window (probe re-captured THIS session **2026-11-14T08:49:51Z**): **0 trades, 0 PnL, 0 confirmed signals** across **24 complete symbols / 93,288 bars** (aligned 2026-04-20T01:00:00Z..2026-09-28T23:00:00Z, 3887 bars/symbol). **Retention is a decaying public-API window (~1 bar / ~10 min observed); re-probe BEFORE any heavy work.** **Do not declare validated. Do not allocate capital.** Campaign = `NOT_RUN` for full Hyperliquid until an operator-supplied verified archive arrives or the data block is proven with live probe counts.
+**Branch/HEAD:** `main` @ `e6e30ea` (working tree includes fresh maintenance artifacts from this session).
+**Gate/evidence (re-verified THIS session, 2026-11-14T09:00:45Z, on FRESH artifacts):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation. **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** Binding constraint is **independent crash episodes**, not trades: 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. Latest Hyperliquid partial window (probe re-captured THIS session **2026-11-14T08:55:38Z**): **0 trades, 0 PnL, 0 confirmed signals** across **24 complete symbols / 93,288 bars** (aligned 2026-04-20T01:00:00Z..2026-09-28T23:00:00Z, 3887 bars/symbol). **Retention is a decaying public-API window (~1 bar / ~10 min observed); re-probe BEFORE any heavy work.** **Do not declare validated. Do not allocate capital.** Campaign = `NOT_RUN` for full Hyperliquid until an operator-supplied verified archive arrives or the data block is proven with live probe counts.
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T08:53:30Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T09:00:45Z)
 
-**Inferred priority (repo name `CRASH-REBOUND-STRATEGY`):** Produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** Binding constraint is **independent crash episodes**, not trades: 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. Latest Hyperliquid partial window (probe re-captured THIS session **2026-11-14T08:49:51Z**): **0 trades, 0 PnL, 0 confirmed signals** across **24 complete symbols / 93,288 bars** (aligned 2026-04-20T01:00:00Z..2026-09-28T23:00:00Z). **Full 283-day window is API-retention-blocked; re-probe NOW — served bars are permanently lost from the public path as the window slides.** **Do not declare validated. Do not allocate capital.**
+**Inferred priority (repo name `CRASH-REBOUND-STRATEGY`):** Produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** Binding constraint is **independent crash episodes**, not trades: 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. Latest Hyperliquid partial window (probe re-captured THIS session **2026-11-14T08:55:38Z**): **0 trades, 0 PnL, 0 confirmed signals** across **24 complete symbols / 93,288 bars** (aligned 2026-04-20T01:00:00Z..2026-09-28T23:00:00Z). **Full 283-day window is API-retention-blocked; re-probe NOW — served bars are permanently lost from the public path as the window slides.** **Do not declare validated. Do not allocate capital.**
 
 ### FIRST ACTION — EXECUTE IMMEDIATELY (time-critical; window slides)
 
@@ -65,21 +65,21 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --lim
 
 ---
 
-## Verified state (2026-11-14T08:53:30Z, artifacts produced THIS session)
+## Verified state (2026-11-14T09:00:45Z, artifacts produced THIS session)
 
 | Check | Result | Evidence |
 |---|---|---|
-| Git | `main` @ `1dac654`; fresh maintenance artifacts this session | `git rev-parse --short HEAD` |
+| Git | `main` @ `e6e30ea`; fresh maintenance artifacts this session | `git rev-parse --short HEAD` |
 | Durable handoff | Single: `./HANDOFF.md` | repo root |
 | Env | `/tmp/crs-venv` present | `test -x` |
 | Session gate | **17/17 — DONE** (re-verified THIS session) | `scripts/session_gate.py` |
 | Evidence verifier | **4/4 — EVIDENCE VERIFIED** (re-verified THIS session) | `scripts/verify_campaign_evidence.py` |
-| Retention probe (THIS session) | 3890/6792 bars; 2902 missing; earliest 2026-04-19T22:00:00Z; 235 perps / 28 pass $5M / 28 probed; `symbols_empty_or_error=[KPEPE]`; generated **2026-11-14T08:49:51Z** (**re-probe before next heavy work**) | `hyperliquid_retention_probe.json` (sha `4b85bfcd…`) |
-| Latest raw snapshot | fetch-produced provenance, 26 symbols (2 error: MATIC,FTM) | `cache/hyperliquid_universe_snapshot_20261114T084957Z/provenance.json` (sha `e84d4847…`) |
-| Latest aligned partial slice | 24 complete symbols × 3887 bars (2026-04-20T01:00:00Z..2026-09-28T23:00:00Z), synthetic checks ok | `..._aligned_20260420T0100Z/provenance.json` (sha `6906fa7e…`) |
-| Latest aligned census (full set) | 24 symbols / 93,288 bars / 11 RSI crashes / 0 confirmed signals | `hyperliquid_universe_snapshot_census_20261114T084957Z.json` (sha `61ae9c97…`) |
-| Latest partial campaign | `performance_evidence=false` / NOT_EVIDENCE, 0 trades, 0 PnL | `campaign_results_real_hyperliquid_universe_snapshot_20261114T084957Z.json` (sha `82727384…`) |
-| Gate-checked coverage | points to 08:49:57Z artifacts; `PARTIAL_WINDOW_DECAYING; FULL_283D_BLOCKED_BY_API_RETENTION; STRATEGY_UNDERPOWERED` | `hyperliquid_universe_coverage.json` |
+| Retention probe (THIS session) | 3890/6792 bars; 2902 missing; earliest 2026-04-19T22:00:00Z; 235 perps / 27 pass $5M / 27 probed; `symbols_empty_or_error=[KPEPE]`; generated **2026-11-14T08:55:38Z** (**re-probe before next heavy work**) | `hyperliquid_retention_probe.json` (sha `a30265ec…`) |
+| Latest raw snapshot | fetch-produced provenance, 26 symbols (2 error: MATIC,FTM) | `cache/hyperliquid_universe_snapshot_20261114T085551Z/provenance.json` (sha `b95d25cf…`) |
+| Latest aligned partial slice | 24 complete symbols × 3887 bars (2026-04-20T01:00:00Z..2026-09-28T23:00:00Z), synthetic checks ok | `..._aligned_20260420T0100Z/provenance.json` (sha `d274a92a…`) |
+| Latest aligned census (full set) | 24 symbols / 93,288 bars / 11 RSI crashes / 0 confirmed signals | `hyperliquid_universe_snapshot_census_20261114T085551Z.json` (sha `3303913b…`) |
+| Latest partial campaign | `performance_evidence=false` / NOT_EVIDENCE, 0 trades, 0 PnL | `campaign_results_real_hyperliquid_universe_snapshot_20261114T085551Z.json` (sha `25f65ad5…`) |
+| Gate-checked coverage | points to 08:55:51Z artifacts; `PARTIAL_WINDOW_DECAYING; FULL_283D_BLOCKED_BY_API_RETENTION; STRATEGY_UNDERPOWERED` | `hyperliquid_universe_coverage.json` |
 | Phase O (OKX) | 4 episodes / 11 events / 5 crash days; p=0.1500; bootstrap CI [-4083.95,24411.99] (2026-11-13T23:38:47Z) | `episode_edge_okx_full.json` |
 | Canonical OKX baseline | 8 trades, total PnL **9159.691934882958** (unchanged, cross-venue) | `campaign_results_real_okx_full.json` |
 
