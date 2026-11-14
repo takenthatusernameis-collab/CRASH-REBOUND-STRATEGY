@@ -859,6 +859,8 @@ def check_evidence_verifier() -> Tuple[bool, str]:
     probe, no artifact claims a validated verdict, and the placeholder archive is
     still labeled non-evidence. It is narrative-independent.
     """
+    # session_gate is in scripts/ so verify_campaign_evidence needs REPO in sys.path
+    sys.path.insert(0, str(REPO_ROOT))
     try:
         from scripts import verify_campaign_evidence as ver
     except Exception as exc:  # noqa: BLE001
