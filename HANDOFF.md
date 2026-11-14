@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T02:52:10Z
-**Supersedes:** 2026-11-14T02:48:11Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-14T02:53:13Z
+**Supersedes:** 2026-11-14T02:52:10Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main`, base HEAD `2cc587a`; evidence chain **17/17 green** (verified this session). **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T02:52:10Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T02:53:13Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** force a decision-grade Hyperliquid-native verdict, or prove the data block with a reproducible probe. The OKX evidence is **cross-venue, `underpowered`, and NOT Hyperliquid performance evidence**. Binding constraint is **independent crash episodes**, not trades: 11 gate-passing events = **4 crash episodes over 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
 >
@@ -35,7 +35,7 @@
 
 ---
 
-## 0. Verified state (2026-11-14T02:52:10Z)
+## 0. Verified state (2026-11-14T02:53:13Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -59,7 +59,7 @@
 - J1/J2/K/L, Phase M/N/O/P/Q artifacts unchanged unless noted in §5.
 - Placeholder `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` — **NEVER evidence**.
 
-## 2. Commands executed this session (recorded)
+## 2. Commands executed this session (recorded, 2026-11-14T02:53:13Z)
 
 - `test -x /tmp/crs-venv/bin/python` → present.
 - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` → **17/17 — DONE** (before/after work).
@@ -104,7 +104,7 @@ J1/J2/K/L/H/J3-status unchanged. Phase M/N/O/P complete. Phase Q complete (gate-
 
 **Key results:** sliding window advanced (earliest now 16:00Z, max 3896). Fresh 27-symbol census still shows **13 RSI crashes / 0 confirmed signals** — partial-window power remains zero-signal. OKX canonical/Phase M/O/N verdicts unchanged: **`underpowered` / not decision-grade**.
 
-## 6. Next focus campaign — status
+## 6. Next focus campaign — status (2026-11-14T02:53:13Z)
 
 **Phase M/N/O/P/Q COMPLETE (baseline).** Fresh recapture+census done this session. **Still missing / blocking decision-grade verdict:** (a) gate-checked `hyperliquid_universe_coverage.json` refreshed from a fetch-produced-provenance snapshot + verified NOT_EVIDENCE campaign for the *current* window, and/or (b) full 283-day Hyperliquid-native campaign (or documented operator-data block with exact probe counts) + full-portfolio placebo + episode-aware audit. Verdict remains **`underpowered` / not validated**.
 
