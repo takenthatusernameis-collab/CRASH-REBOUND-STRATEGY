@@ -1,19 +1,19 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T11:36:27Z
+**Handoff updated (UTC):** 2026-11-14T11:53:05Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation). Priority: produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. OKX is cross-venue, underpowered, and **never** Hyperliquid performance evidence.
 
-**Branch/HEAD:** check `git rev-parse --short HEAD` at session start (working tree includes this session's artifacts).
+**Branch/HEAD (session start):** `459e8b6` (2026-11-14T11:46Z).
 
-**Gate/evidence (re-verified this session 2026-11-14T11:33:30Z):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation.
+**Gate/evidence (re-verified this session 2026-11-14T11:52Z):** `scripts/session_gate.py` **17/17 checks passed — DONE**; `scripts/verify_campaign_evidence.py` **4/4 — EVIDENCE VERIFIED**. Green gate = evidence-chain completeness, **not** profitability/validation.
 
-**Binding facts:** **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]** (canonical unchanged: 8 trades, net PnL 8141.29 / total PnL 9159.691934882958). **Latest live Hyperliquid probe (re-captured this session 2026-11-14T11:31:18Z):** earliest served **2026-04-20T00:00:00Z**, **3888/6792 bars** (2904 missing), **235 perps / 27 pass $5M gate / 27 probed**, unprobeable/empty **['KPEPE']**; full 283-day window **API-retention-blocked**. Two fresh fetch attempts (20261114T113128Z, 20261114T113322Z) produced degraded aligned slices (23 complete, 2388 bars from 2026-06-21T12:00Z) due transient per-symbol completeness drift; retained latest valid gate-checked aligned chain (20261114T104210Z, 24 complete × 3885 bars). **Latest valid gate-checked aligned partial chain (this session, 20261114T104210Z, non-evidence):** raw `hyperliquid_universe_snapshot_20261114T104210Z` → aligned `..._aligned_20260420T0300Z` — **24 complete symbols × 3885 bars** (2026-04-20T03:00:00Z..2026-09-28T23:00:00Z); census **11 RSI crashes / 0 confirmed signals / 93,240 bars**; partial campaign **0 trades, 0.0 PnL, `performance_evidence=false`, `real_market_data=true`, fabricated=false**. Partial window **decays continuously**. **Do not declare validated. Do not allocate capital.**
+**Binding facts:** **OKX is cross-venue, `underpowered`, and NOT Hyperliquid performance evidence.** 11 gate-passing OKX events = **4 crash episodes / 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]** (canonical unchanged: 8 trades, net PnL 8141.29 / total PnL 9159.691934882958). **Latest live Hyperliquid probe (re-captured this session 2026-11-14T11:38:52Z):** earliest served **2026-04-20T00:00:00Z**, **3888/6792 bars** (2904 missing), **235 perps / 27 pass $5M gate / 27 probed**, unprobeable/empty **['KPEPE']**; full 283-day window **API-retention-blocked**. Two fresh fetch attempts this session (20261114T114636Z, 20261114T114950Z) produced degraded aligned slices (24 complete, 3884 bars from 2026-04-20T04:00:00Z) vs retained gate-checked chain — **retained largest valid gate-checked aligned chain (20261114T104210Z, 24 complete × 3885 bars, 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z)**. **Latest valid gate-checked aligned partial chain (non-evidence):** raw `hyperliquid_universe_snapshot_20261114T104210Z` → aligned `..._aligned_20260420T0300Z` — **24 complete symbols × 3885 bars / 93,240 bars**; census **11 RSI crashes / 0 confirmed signals**; partial campaign **0 trades, 0.0 PnL, `performance_evidence=false`, `real_market_data=true`, fabricated=false**. Partial window **decays continuously**. **Do not declare validated. Do not allocate capital.**
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T11:36:27Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T11:53:05Z)
 
 **Priority (repo `CRASH-REBOUND-STRATEGY`):** Produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or prove the data block with a reproducible live probe. OKX is cross-venue/underpowered and **never** Hyperliquid evidence. Full 283-day Hyperliquid is retention-blocked; partial window **decays continuously** and any NOT_EVIDENCE result is not validation.
 
@@ -30,7 +30,7 @@ Refresh `research_state/hyperliquid_retention_probe.json`; record live `earliest
 
 **External:** Full 283-day Hyperliquid window blocked by API retention — only an operator-supplied **verified Hyperliquid-native archive** can unblock (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`).
 **Statistical:** OKX underpowered (4 episodes, p=0.15, CI spans 0); no Hyperliquid-native performance evidence.
-**Maintenance:** partial public-API window decays; fresh fetches can yield degraded/incomplete aligned slices due transient per-symbol completeness drift — diagnose/retry to maintain the largest valid aligned chain and keep gate coverage current (this session retained 20261114T104210Z after two degraded attempts).
+**Maintenance:** partial public-API window decays; fresh fetches can yield degraded/incomplete aligned slices due transient per-symbol completeness drift — diagnose/retry to maintain the largest valid aligned chain and keep gate coverage current (this session: two degraded retries 3884-bar; retained 20261114T104210Z).
 
 1. **Probe retention NOW** (command above) → NEW `hyperliquid_retention_probe.json`.
 2. **Fetch full qualifying served universe (partial snapshot):** set `<live-earliest>` from probe; use a new timestamped cache. Prefer the largest valid aligned complete slice; do not let gate coverage point at a degraded/smaller chain.
@@ -70,27 +70,28 @@ Refresh `research_state/hyperliquid_retention_probe.json`; record live `earliest
 
 ---
 
-## Verified state (2026-11-14T11:33:30Z)
+## Verified state (2026-11-14T11:52Z)
 
 | Check | Result | Evidence |
 |---|---|---|
 | Durable handoff | Single: `./HANDOFF.md` | repo root |
 | Env | `/tmp/crs-venv` present | `test -x` |
-| Session gate | **17/17 — DONE** (this session 2026-11-14T11:27Z) | `scripts/session_gate.py` |
-| Evidence verifier | **4/4 — EVIDENCE VERIFIED** (this session 2026-11-14T11:27Z) | `scripts/verify_campaign_evidence.py` |
-| Retention probe (this session) | 3888/6792 bars; 2904 missing; earliest 2026-04-20T00:00:00Z; 235 perps / 27 pass $5M / 27 probed; unprobeable/empty=['KPEPE']; 2026-11-14T11:31:18Z (**re-probe before next heavy work**) | `research_state/hyperliquid_retention_probe.json` |
-| Latest raw snapshot (gate chain) | `hyperliquid_universe_snapshot_20261114T104210Z` (fetch-produced provenance; MATIC/FTM errors) | cache snapshot |
+| Session gate | **17/17 — DONE** (this session 2026-11-14T11:52Z) | `scripts/session_gate.py` |
+| Evidence verifier | **4/4 — EVIDENCE VERIFIED** (this session 2026-11-14T11:52Z) | `scripts/verify_campaign_evidence.py` |
+| Retention probe (this session) | 3888/6792 bars; 2904 missing; earliest 2026-04-20T00:00:00Z; 235 perps / 27 pass $5M / 27 probed; unprobeable/empty=['KPEPE']; 2026-11-14T11:38:52Z (**re-probe before next heavy work**) | `research_state/hyperliquid_retention_probe.json` |
+| Fresh fetch attempts (this session) | 20261114T114636Z, 20261114T114950Z → degraded aligned slices (24 complete, 3884 bars from 2026-04-20T04:00:00Z); retained largest valid chain | cache snapshots |
+| Latest raw snapshot (gate chain) | `hyperliquid_universe_snapshot_20261114T104210Z` (fetch-produced provenance) | cache snapshot |
 | Latest aligned slice (gate chain) | `hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z` — 24 complete × 3885 bars (2026-04-20T03:00:00Z..2026-09-28T23:00:00Z) | aligned provenance |
 | Latest aligned census (gate chain) | 24 symbols / 93,240 bars / 11 RSI crashes / 0 confirmed signals | `research_state/hyperliquid_universe_snapshot_census_20261114T104210Z.json` |
 | Latest partial campaign (gate chain) | `performance_evidence=false` / NOT_EVIDENCE, 0 trades, 0.0 PnL, real_market_data=true | `research_state/campaign_results_real_hyperliquid_universe_snapshot_20261114T104210Z.json` |
-| Gate-checked coverage | points to fresh probe + 20261114T104210Z valid chain; hashes/counts recorded (probe fields mapped from universe/probe_summary); `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED` | `research_state/hyperliquid_universe_coverage.json` |
+| Gate-checked coverage | updated this session to reference fresh probe (2026-11-14T11:38:52Z, sha 10c06a7e…) + retained 20261114T104210Z valid chain; hashes/counts recorded; `PARTIAL_WINDOW_DECAYING;FULL_283D_BLOCKED_BY_API_RETENTION;STRATEGY_UNDERPOWERED` | `research_state/hyperliquid_universe_coverage.json` |
 | Phase O (OKX, artifact 2026-11-13T23:38:47Z) | 4 episodes / 11 events / 5 crash days; p=0.1500; bootstrap CI [-4083.95,24411.99] | `research_state/episode_edge_okx_full.json` |
 | Canonical OKX baseline | 8 trades, total PnL **9159.691934882958** (unchanged, cross-venue) | `research_state/campaign_results_real_okx_full.json` |
 
 ## Bottlenecks (current)
 
 1. **External/data block:** Full 283-day Hyperliquid window API-blocked (retention-limited). Only operator-supplied verified Hyperliquid-native archive can provide missing early history.
-2. **Maintenance (decaying):** partial public-API window slides; re-probe and re-capture before heavy work each session. Fresh fetches can yield degraded aligned slices (e.g. ETH incompleteness) — must diagnose/retry to maintain largest valid chain.
+2. **Maintenance (decaying):** partial public-API window slides; re-probe and re-capture before heavy work each session. Fresh fetches can yield degraded aligned slices (e.g. 3884-bar slices losing earliest hour) — must diagnose/retry to maintain largest valid chain (this session retained 20261114T104210Z over two degraded fetches).
 3. **Statistical:** OKX evidence underpowered / few independent episodes; no Hyperliquid-native performance evidence yet.
 4. **Resolved traps (do not reintroduce):** census requires `--symbols`; campaign flag is `--allow-partial-not-evidence` (hyphens); `derive_hyperliquid_aligned_slice.py` removes manual aligned-slice bottleneck; gate coverage requires integer aggregate counts for census/campaign.
 
