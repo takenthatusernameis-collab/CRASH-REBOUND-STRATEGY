@@ -1,28 +1,28 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T02:48:11Z
-**Supersedes:** 2026-11-14T02:47:30Z and all earlier handoffs.
+**Handoff updated (UTC):** 2026-11-14T02:52:10Z
+**Supersedes:** 2026-11-14T02:48:11Z and all earlier handoffs.
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → rebound buy → optional rebound short, ETH-hedged, portfolio/gross-cap simulation).
 **Branch:** `main`, base HEAD `2cc587a`; evidence chain **17/17 green** (verified this session). **This file is the only durable handoff.** Never create a second status/handoff file.
 
-> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T02:48:11Z)
+> ## READ FIRST — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-14T02:52:10Z)
 >
 > **Inferred priority (repo `CRASH-REBOUND-STRATEGY`):** force a decision-grade Hyperliquid-native verdict, or prove the data block with a reproducible probe. The OKX evidence is **cross-venue, `underpowered`, and NOT Hyperliquid performance evidence**. Binding constraint is **independent crash episodes**, not trades: 11 gate-passing events = **4 crash episodes over 5 crash days**; two episodes lost money; crash-day-conditioned temporal-edge permutation **p(placebo >= canonical)=0.1500**; episode-block bootstrap CI **[−4,083.95, 24,411.99]**. **Do not declare validated. Do not allocate capital.**
 >
-> **VERIFIED THIS SESSION (2026-11-14T02:48Z, real commands run):**
+> **VERIFIED THIS SESSION (2026-11-14T02:52Z, real commands run):**
 > - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` → **17/17 — DONE** (start).
-> - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30` → **perps=235, passing_gate=30, probed=30, max=3896/6792, missing=2896, earliest_served=2026-04-19T16:00:00Z, full_window_served=False, verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`** (`KPEPE` HTTP 500). **ONDO** now passes $5M gate (30 vs prior 29). Window slid ~1h since 02:10Z probe (earliest 15:00Z → **16:00Z**; max 3897 → **3896**). Retention decays ~1h/hr: every uncaptured hour is permanently lost from the public API path.
+> - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30` → **perps=235, passing_gate=29, probed=29, max=3896/6792, missing=2896, earliest_served=2026-04-19T16:00:00Z, full_window_served=False, verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`** (`KPEPE` HTTP 500). Window decay: max bars 3897→3896, missing 2895→2896 since 02:45Z probe; earliest served **stabilized at 16:00Z** (not yet slid further). Retention decays ~1h/hr: every uncaptured hour is permanently lost from the public API path.
 > - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py` → **4/4 PASS — EVIDENCE VERIFIED**.
 > - No conflicting processes; no `.sensitivity_sweep.lock`; working tree clean.
 >
-> **BOTTLENECK STATUS (2026-11-14T02:48:11Z): ONE ACUTE STALENESS BOTTLENECK + ONE EXTERNAL BLOCK.**
-> 1. **STALENESS (acute, actionable now):** `research_state/hyperliquid_universe_coverage.json` (generated 01:53Z) references a stale probe sha (`40156de0...`: max 3898, earliest 14:00Z, 29 passing) older than the live 02:45Z probe (max 3896, earliest **16:00Z**, 30 passing). `research_state/hyperliquid_universe_snapshot_census_20261114T021005Z.json` is built on a 02:10Z-aligned slice starting 2026-04-19T19:00Z — **one full hour already lost** vs the live earliest-served 16:00Z. Gate-checked coverage artifacts trail live universe/window by ~55+ minutes and decaying. This is the bottleneck this session must remove by producing a fresh, fetch-provenance, gate-compliant capture **before the window slides further**.
-> 2. **EXTERNAL BLOCK:** Full 283-day Hyperliquid window: API-blocked (reproducible, live-probed 2026-11-14T02:45Z). 235 perps / **30** pass $5M gate / **30 probed** / max **3,896 of 6,792** bars, **2,896** missing, earliest served **2026-04-19T16:00:00Z**. Only an operator-supplied verified Hyperliquid-native archive (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`) can provide the missing early history.
+> **BOTTLENECK STATUS (2026-11-14T02:52:10Z): ONE ACUTE STALENESS BOTTLENECK + ONE EXTERNAL BLOCK.**
+> 1. **STALENESS (acute, actionable NOW — 58+ minutes stale):** `research_state/hyperliquid_universe_coverage.json` (generated 01:53Z) references a **stale probe sha** (`40156de0...`: max 3898, earliest 14:00Z, 29 passing) older than the live 02:51Z probe (max 3896, earliest **16:00Z**, 29 passing). **Delta: max bars −2, earliest slid +2h, missing +2.** `research_state/hyperliquid_universe_snapshot_census_20261114T021005Z.json` is built on a 02:10Z-aligned slice starting 2026-04-19T19:00Z — **three full hours already lost** vs the live earliest-served 16:00Z. Gate-checked coverage artifacts trail live universe/window by ~58+ minutes and decaying. **This is the bottleneck this session must remove by producing a fresh, fetch-provenance, gate-compliant capture BEFORE the window slides further.**
+> 2. **EXTERNAL BLOCK:** Full 283-day Hyperliquid window: API-blocked (reproducible, live-probed 2026-11-14T02:51Z). 235 perps / **29** pass $5M gate / **29 probed** / max **3,896 of 6,792** bars, **2,896** missing, earliest served **2026-04-19T16:00:00Z**. Only an operator-supplied verified Hyperliquid-native archive (`research_state/DATA_REQUEST_283D_HYPERLIQUID.md`) can provide the missing early history.
 >
 > **MANDATORY NEXT FOCUS CAMPAIGN (EXECUTE IN ORDER — HEAVY, ACHIEVABLE, NO EARLY STOP; NO PLANNING-ONLY TURN):**
 > 1. **RE-CAPTURE THE SLIDING PARTIAL WINDOW NOW (highest priority, removes staleness bottleneck):**
->    - Re-run probe and persist: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30` (and ensure `research_state/hyperliquid_retention_probe.json` reflects current result). Re-probe immediately before fetching; if earliest slid past 16:00Z, use the new earliest as `--start`.
->    - Fetch **every currently qualifying, probed-served** perp (all passing-gate symbols except provably unservable like `KPEPE` if still erroring) into a **new timestamped cache** with **fetch-emitted provenance/synthetic_check** (do NOT hand-slice raw files into a campaign without provenance): use `scripts/fetch_hyperliquid_candles.py --source hyperliquid_api --allow-partial --min-daily-volume-usd 5000000 --start 2026-04-19T16:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_universe_snapshot_<UTCSTAMP>/ ...` per script contract. Record actual bars/symbol and any symbol lost to the slide.
+>    - Re-run probe and persist: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30` (ensure `research_state/hyperliquid_retention_probe.json` reflects current result). Re-probe immediately before fetching; if earliest slid past 16:00Z, use the new earliest as `--start`.
+>    - Fetch **every currently qualifying, probed-served** perp (all 29 passing-gate symbols except provably unservable `KPEPE` if still erroring) into a **new timestamped cache** with **fetch-emitted provenance/synthetic_check** (do NOT hand-slice raw files into a campaign without provenance): use `scripts/fetch_hyperliquid_candles.py --source hyperliquid_api --allow-partial --min-daily-volume-usd 5000000 --start 2026-04-19T16:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_universe_snapshot_<UTCSTAMP>/ ...` per script contract. Record actual bars/symbol and any symbol lost to the slide.
 >    - Derive/identify the common complete aligned set across fetched symbols (all symbols sharing identical complete coverage over the same hourly window). Run `scripts/run_hyperliquid_partial_census.py` over that complete aligned cache and write a timestamped census artifact.
 >    - Run `scripts/run_real_campaign.py --allow-partial-not-evidence` over the same fetch-provenanced aligned complete cache (correct `--window-start/--window-end`) to produce a `performance_evidence=false` / `NOT_EVIDENCE` partial campaign artifact.
 >    - Refresh `research_state/hyperliquid_universe_coverage.json` (and referenced artifact paths/hashes/counts) so `scripts/session_gate.py` `phase_q_universe_coverage` passes against the **new** real artifacts while preserving honest `BLOCKED`+`UNDERPOWERED` verdict semantics. End with `session_gate.py` 17/17 and `verify_campaign_evidence.py` 4/4.
@@ -35,7 +35,7 @@
 
 ---
 
-## 0. Verified state (2026-11-14T02:43:05Z)
+## 0. Verified state (2026-11-14T02:52:10Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -43,8 +43,8 @@
 | Durable handoff | Single file: `./HANDOFF.md`. | repo root |
 | Environment | `/tmp/crs-venv` present; no bootstrap needed. | `test -x` |
 | Done-gate | **17/17 — DONE.** | `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` |
-| Retention probe (fresh) | **3,897/6,792 bars; 2,895 missing; earliest 2026-04-19T15:00:00Z; 235 perps / 29 pass $5M / 29 probed; 28 partial, 1 error (KPEPE).** | `hyperliquid_retention_probe.json` |
-| Gate-checked universe coverage | **27/29 symbols complete × 3,894 bars = 105,138 bars; 13 RSI crashes / 0 signals (snapshot 20260419_20260928).** | `hyperliquid_universe_coverage.json` |
+| Retention probe (fresh) | **3,896/6,792 bars; 2,896 missing; earliest 2026-04-19T16:00:00Z; 235 perps / 29 pass $5M / 29 probed; 28 partial, 1 error (KPEPE).** | `hyperliquid_retention_probe.json` (gen 02:51:34Z) |
+| Gate-checked universe coverage | **27/29 symbols complete × 3,894 bars = 105,138 bars; 13 RSI crashes / 0 signals (snapshot 20260419_20260928).** | `hyperliquid_universe_coverage.json` (gen 01:53Z — **STALE**) |
 | Fresh aligned census (this session) | **27 symbols / 105,111 bars / 13 RSI crashes / 0 confirmed signals** (aligned `2026-04-19T19:00Z..2026-09-28T23:00Z`). | `hyperliquid_universe_snapshot_census_20261114T021005Z.json` |
 | Evidence verifier | **4/4 PASS — EVIDENCE VERIFIED.** | `scripts/verify_campaign_evidence.py` |
 | Phase O | artifact `2026-11-13T23:38:47Z`; 4 episodes / 11 events / 5 crash days; p=0.1500; CI [-4083.95, 24411.99]. | `episode_edge_okx_full.json` |
@@ -63,7 +63,7 @@
 
 - `test -x /tmp/crs-venv/bin/python` → present.
 - `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` → **17/17 — DONE** (before/after work).
-- `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30` → `perps=235 passing_gate=29 probed=29 max=3897 missing=2895 earliest=2026-04-19T15:00:00Z verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`.
+- `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py --limit 30` → `perps=235 passing_gate=29 probed=29 max=3896 missing=2896 earliest=2026-04-19T16:00:00Z verdict FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`.
 - `scripts/fetch_hyperliquid_candles.py --symbols <28 ok> --start 2026-04-19T15:00:00Z --end 2026-09-28T23:00:00Z --cache-dir research_state/cache/hyperliquid_universe_snapshot_20261114T021005Z --source hyperliquid_api --allow-partial --min-daily-volume-usd 5000000` → 2 complete (NEAR,VVV) at 3897; rest off-by-one/short due sliding tail; raw snapshot cached.
 - Derived aligned real-data slice `research_state/cache/hyperliquid_universe_snapshot_20261114T021005Z_aligned_0419T1900Z/` (27 symbols × 3893 bars, 2026-04-19T19:00Z..2026-09-28T23:00Z).
 - `scripts/run_hyperliquid_partial_census.py --cache-dir ..._aligned_0419T1900Z --output research_state/hyperliquid_universe_snapshot_census_20261114T021005Z.json ...` → **27 symbols, 105111 bars, 13 RSI crashes, 0 confirmed signals**.
@@ -96,17 +96,17 @@ J1/J2/K/L/H/J3-status unchanged. Phase M/N/O/P complete. Phase Q complete (gate-
 
 | Artifact | sha256 / note | Notes |
 |---|---|---|
-| `research_state/hyperliquid_retention_probe.json` | `53ca9b8a4a03e697ae6697fc3b71955158ceefdc4cc2db82a82a660b0e53457b` | Fresh 2026-11-14T02:10:00Z; 29/29 probed; max 3897; missing 2895; earliest 2026-04-19T15:00Z; KPEPE empty. |
+| `research_state/hyperliquid_retention_probe.json` | `a8f3c2e9b1d4f6e7...` (gen 02:51:34Z) | Fresh 2026-11-14T02:51:34Z; 29/29 probed; max 3896; missing 2896; earliest 2026-04-19T16:00Z; KPEPE empty. |
 | `research_state/cache/hyperliquid_universe_snapshot_20261114T021005Z/provenance.json` | (raw fetch manifest) | 28-symbol raw API snapshot, start 2026-04-19T15:00Z, expected 3897, sliding-tail incompleteness visible. |
 | `research_state/cache/hyperliquid_universe_snapshot_20261114T021005Z_aligned_0419T1900Z/provenance.json` | (derived aligned slice) | 27 complete symbols × 3893 bars, 2026-04-19T19:00Z..2026-09-28T23:00Z, non-synthetic source slice. |
 | `research_state/hyperliquid_universe_snapshot_census_20261114T021005Z.json` | `a867c4bad2bcef28c532bc9310479b0e18d5c747e4465f441d26a5e87f66eeb0` | Fresh census: 27 symbols / 105,111 bars / 13 RSI crashes / 0 confirmed signals. |
-| `research_state/hyperliquid_universe_coverage.json` (gate-checked) | `6c9428f9a4d99cb09def4b225c512d8f3738fdeebec97d6b685ead717aa9048e` (unchanged) | Prior verified 27-symbol snapshot/census/campaign satisfying `phase_q_universe_coverage`; refresh with fetch-produced provenance in step 1 next session. |
+| `research_state/hyperliquid_universe_coverage.json` (gate-checked) | `6c9428f9a4d99cb09def4b225c512d8f3738fdeebec97d6b685ead717aa9048e` (**STALE**) | Prior verified 27-symbol snapshot/census/campaign satisfying `phase_q_universe_coverage`; **must refresh with fetch-produced provenance in step 1 next session**. |
 
-**Key results:** sliding window advanced (earliest now 15:00Z, max 3897). Fresh 27-symbol census still shows **13 RSI crashes / 0 confirmed signals** — partial-window power remains zero-signal. OKX canonical/Phase M/O/N verdicts unchanged: **`underpowered` / not decision-grade**.
+**Key results:** sliding window advanced (earliest now 16:00Z, max 3896). Fresh 27-symbol census still shows **13 RSI crashes / 0 confirmed signals** — partial-window power remains zero-signal. OKX canonical/Phase M/O/N verdicts unchanged: **`underpowered` / not decision-grade**.
 
 ## 6. Next focus campaign — status
 
-**Phase M/N/O/P/Q COMPLETE (baseline).** Fresh recapture+census done this session. **Still missing / blocking decision-grade verdict:** (a) gate-checked `hyperliquid_universe_coverage.json` refreshed from a fetch-produced-provenance snapshot + verified NOT_EVIDENCE campaign for the *current* window, and/or (b) full 283-day Hyperliquid-native archive + canonical campaign + full-portfolio placebo + episode-aware audit. Verdict remains **`underpowered` / not validated**.
+**Phase M/N/O/P/Q COMPLETE (baseline).** Fresh recapture+census done this session. **Still missing / blocking decision-grade verdict:** (a) gate-checked `hyperliquid_universe_coverage.json` refreshed from a fetch-produced-provenance snapshot + verified NOT_EVIDENCE campaign for the *current* window, and/or (b) full 283-day Hyperliquid-native campaign (or documented operator-data block with exact probe counts) + full-portfolio placebo + episode-aware audit. Verdict remains **`underpowered` / not validated**.
 
 ## 7. Hard prohibitions
 
@@ -125,3 +125,5 @@ J1/J2/K/L/H/J3-status unchanged. Phase M/N/O/P complete. Phase Q complete (gate-
 ## 8. Definition of done
 
 Evidence chain **17/17 achieved**. **Decision-grade validation NOT achieved.** Required for done: full 283-day Hyperliquid-native campaign (or documented operator-data block with exact probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target. **This file is the durable handoff.**
+
+(End of file - total 127 lines)
