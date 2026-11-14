@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T17:20:21Z
+**Handoff updated (UTC):** 2026-11-14T17:23:52Z
 **Supersedes:** all earlier handoffs (incl. 2026-11-14T16:42:01Z, 15:30:41Z, 15:24:40Z, 15:23:23Z, 14:52:02Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -10,7 +10,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T17:20:21Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T17:23:52Z)
 
 **You are continuing a Hyperliquid crash-rebound research program. The evidence chain is green (18/18 + 4/4) but the verdict is `underpowered` and must stay so. Two real blockers remain: (a) an external, decaying public-API retention window that cannot serve the 283-day spec window (three probes this session: earliest served moved 04:00Z → 05:00Z → 06:00Z; 3882–3884 of 6792 bars), and (b) statistical underpower: the retained chain holds only 4 distinct crash days and the spec-literal path produced only 2 trades. The structural 0-trade funnel is RESOLVED (canonical same-bar gate vs spec next-open adjudication is quantified and recorded); do NOT re-litigate it.**
 
