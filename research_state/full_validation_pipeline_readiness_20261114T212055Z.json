@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "run_type": "full_validation_pipeline_dry_run",
+  "generated_at_utc": "2026-11-14T21:20:56Z",
+  "mode": "dry_run_fixture",
+  "is_market_data": false,
+  "is_evidence": false,
+  "performance_evidence": false,
+  "fabricated_data": true,
+  "out_dir": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/tmp_c5_dryrun_20261114T212055Z",
+  "overall_ok": true,
+  "steps": [
+    {
+      "step": "dry_run_full_synthetic_fixture",
+      "status": "PASS",
+      "detail": "opt-in=ACCEPT_FIXTURE_NON_EVIDENCE is_market_data=False is_evidence=False perf_evidence=False no-optin=REJECT_NOT_EVIDENCE",
+      "utc": "2026-11-14T21:20:56Z",
+      "fixture": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/tmp_c5_dryrun_20261114T212055Z/fixture_full_synthetic",
+      "verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+      "is_market_data": false,
+      "is_evidence": false,
+      "performance_evidence": false
+    },
+    {
+      "step": "dry_run_truncated_fixture",
+      "status": "PASS",
+      "detail": "verdict=REJECT_NOT_EVIDENCE (must be REJECT_NOT_EVIDENCE)",
+      "utc": "2026-11-14T21:20:56Z",
+      "fixture": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/tmp_c5_dryrun_20261114T212055Z/fixture_truncated_synthetic",
+      "verdict": "REJECT_NOT_EVIDENCE"
+    },
+    {
+      "step": "dry_run_flat_synthetic_fixture",
+      "status": "PASS",
+      "detail": "no-optin=REJECT_NOT_EVIDENCE opt-in=ACCEPT_FIXTURE_NON_EVIDENCE perf_evidence=False",
+      "utc": "2026-11-14T21:20:56Z",
+      "fixture": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/tmp_c5_dryrun_20261114T212055Z/fixture_flat_full",
+      "verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+      "performance_evidence": false
+    },
+    {
+      "step": "dry_run_placeholder_parquet_negative",
+      "status": "PASS",
+      "detail": "placeholder_exists=True verdict=REJECT_NOT_EVIDENCE (must be REJECT_NOT_EVIDENCE even with --allow-synthetic-fixture)",
+      "utc": "2026-11-14T21:20:56Z",
+      "artifact": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+      "verdict": "REJECT_NOT_EVIDENCE"
+    },
+    {
+      "step": "dry_run_negative_test_rejects_bad_inputs",
+      "status": "PASS",
+      "detail": "truncated_rejected=True placeholder_rejected=True",
+      "utc": "2026-11-14T21:20:56Z",
+      "negative_test_passed": true
+    },
+    {
+      "step": "dry_run_canonical_pointer_protected",
+      "status": "PASS",
+      "detail": "hyperliquid_exploratory_next_open_latest.json not written by dry run",
+      "utc": "2026-11-14T21:20:56Z",
+      "pointer_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/hyperliquid_exploratory_next_open_latest.json",
+      "protected": true
+    }
+  ],
+  "all_steps_pass": true,
+  "negative_tests": {
+    "placeholder_parquet_rejected": true,
+    "truncated_fixture_rejected": true,
+    "flat_fixture_not_evidence": true
+  },
+  "canonical_pointer_protected": true,
+  "note": "Dry-run synthetic fixture: plumbing validation only. performance_evidence=false. NOT Hyperliquid market data, NOT evidence."
+}
