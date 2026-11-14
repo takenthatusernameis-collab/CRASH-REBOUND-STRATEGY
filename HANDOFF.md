@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T22:10:03Z
+**Handoff updated (UTC):** 2026-11-14T22:19:03Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** The duplicate `HANDOFF_20261114T202006Z.md` was deleted this session; do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T22:10:03Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T22:19:03Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness), C3 (Spec-Comparison Hardening), C4 (Data-Block Decision Lock, Operator Intake Validation & Multi-Year Protocol), C5-T1 (end-to-end archive-gated validation orchestrator), C5-T2 (operator data request v2 with machine-checkable acceptance), C5-T3 (pipeline negative/positive proof), and C5-T4 (close the chain: probe refresh, coverage + memo update, gates green) are COMPLETE. Do not repeat C1–C4 work, do not repeat C5-T1..T4, do not re-run any deterministic campaign on the retained chain, and do not re-run the C4 friction grid.**
 
@@ -20,7 +20,7 @@
 
 **REMAINING FOCUS CAMPAIGN — C5-T1 EXECUTION (BLOCKED ON OPERATOR ARCHIVE).** The C5-T1 orchestrator (`scripts/run_full_validation_campaign.py`) is on disk and dry-run proven (6/6 steps PASS). When an operator archive lands, run C4-T1 intake validator → if `ACCEPT_AS_EVIDENCE_CANDIDATE` → run C5-T1 orchestrator → full decision-grade campaign. **No planning-only turn. No simulation theater. No cross-venue relabeling.**
 
-**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:10:03Z or later.**
+**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:19:03Z or later.**
 
 ---
 
@@ -47,7 +47,7 @@ Canonical partial window audit is recorded NOT_APPLICABLE (`research_state/episo
 - C4-T3 execution-friction stress: `research_state/execution_friction_stress_hyperliquid_20261114T204632Z.{json,md,csv}` — 9 variants, **all negative**, range −7,945.88..−501.77, label `NOT_EVIDENCE_EXECUTION_FRICTION`, `canonical_baseline_changed=false`.
 - C4-T4: probe refreshed (3,879/6,792; earliest 2026-04-20T09:00:00Z), coverage + memo updated, duplicate handoff deleted, gates re-run green.
 
-### STEP 7 — C5 CLOSE-OUT (**COMPLETE 2026-11-14T22:10:03Z — do not re-run**)
+### STEP 7 — C5 CLOSE-OUT (**COMPLETE 2026-11-14T22:19:03Z — do not re-run**)
 - **C5-T1 validation orchestrator:** `scripts/run_full_validation_campaign.py` on disk — **COMPLETE**.
 - **C5-T2 operator data request v2:** `research_state/operator_archive_request_20261114T221003Z.{json,md}` — binding multi-year window `2023-12-20T17:19:21Z..2026-09-28T23:00:00Z` (1,013.2 days, 24,319 bars/symbol, ≥24 symbols, ≥10 distinct crash days, Hyperliquid-native provenance, per-file SHA256, non-synthetic); 7-step executable command sequence with pass/fail predicates; explicit statement that 283 days is 2.78× too short. `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` updated to point at v2.
 - **C5-T3 dry-run negative/positive proof:** `research_state/full_validation_pipeline_readiness_20261114T212055Z.{json,md}` — all 6 steps PASS; placeholder rejected, truncated rejected, flat fixture not evidence — **COMPLETE**.
@@ -56,11 +56,11 @@ Canonical partial window audit is recorded NOT_APPLICABLE (`research_state/episo
 ### STEP 8 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE (v2 request in C5-T2)
 If an operator-supplied verified Hyperliquid-native archive arrives, it must first pass C4-T1 (`ACCEPT_AS_EVIDENCE_CANDIDATE`) and then the C5-T1 orchestrator. Follow `research_state/operator_archive_request_20261114T221003Z.md`. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder; C4-T1 rejects it).
 
-**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:10:03Z or later.**
+**No session may close without: C5-T1 execution artifacts on disk (new stems) OR documented operator-data block with exact live probe counts + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:19:03Z or later.**
 
 ---
 
-## Verified state (as of 2026-11-14T22:10:03Z; retained/gate-checked chain unless noted)
+## Verified state (as of 2026-11-14T22:19:03Z; retained/gate-checked chain unless noted)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -133,6 +133,6 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 - No additional handoff/status files. **This file is the single durable handoff.**
 
 ## Definition of done
-Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1 execution artifacts on disk (when operator archive arrives) + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:10:03Z or later.
+Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C5-T1 execution artifacts on disk (when operator archive arrives) + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T22:19:03Z or later.
 
 (End of file - total 136 lines)
