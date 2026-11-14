@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T10:46:40.522618Z",
+  "generated_at_utc": "2026-11-14T11:34:54Z",
   "run_type": "hyperliquid_universe_coverage",
   "provenance_caveat": "Live Hyperliquid public API snapshot, non-synthetic fetch-produced provenance; PARTIAL retained window (aligned) 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z; NOT the 283-day spec window and NOT performance evidence.",
-  "sliding_retention_finding": "Fresh probe 2026-11-14T10:42:03Z (this session): earliest_served_start_utc 2026-04-19T23:00:00Z, max_bars_returned 3889/6792, missing_early_bars_vs_expected 2903, perps_total 235 / perps_passing_volume_gate 26 / probed 26, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION. Re-captured valid aligned partial chain (20261114T104210Z, 24 complete symbols x 3885 bars 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z); gate coverage updated to this chain.",
+  "sliding_retention_finding": "Fresh probe 2026-11-14T11:31:18Z (this session): earliest_served_start_utc 2026-04-20T00:00:00Z, max_bars_returned 3888/6792, missing_early_bars_vs_expected 2904, perps_total 235 / perps_passing_volume_gate 27 / probed 27, symbols_empty_or_error ['KPEPE']; verdict FULL_283D_BLOCKED_BY_API_RETENTION. Two fresh full-universe fetch attempts this session (20261114T113128Z, 20261114T113322Z) produced degraded aligned slices (23 complete, 2388 bars from 2026-06-21T12:00Z) due to transient per-symbol completeness drift; retained latest valid gate-checked aligned chain (20261114T104210Z, 24 complete symbols x 3885 bars 2026-04-20T03:00:00Z..2026-09-28T23:00:00Z). Gate coverage unchanged to largest valid chain.",
   "spec_window": {
     "start": "2025-12-20T00:00:00Z",
     "end": "2026-09-28T23:00:00Z",
@@ -11,15 +11,15 @@
   },
   "api_retention_probe": {
     "artifact": "research_state/hyperliquid_retention_probe.json",
-    "artifact_sha256": "e2da1fc60dfcbe96aff4bcdba94cc43268c9e92b16ff4e4f840b1bfcde8b6aa7",
-    "generated_at_utc": "2026-11-14T10:42:03Z",
+    "artifact_sha256": "6df4f0329ef3b5d7ecc600c90abba9a0ef049bca676b6fd3c30066a1d498618f",
+    "generated_at_utc": "2026-11-14T11:31:18Z",
     "perps_total": 235,
-    "perps_passing_volume_gate": 26,
-    "probed": 26,
+    "perps_passing_volume_gate": 27,
+    "probed": 27,
     "full_window_served": false,
-    "max_bars_returned": 3889,
-    "missing_early_bars_vs_expected": 2903,
-    "earliest_served_start_utc": "2026-04-19T23:00:00Z",
+    "max_bars_returned": 3888,
+    "missing_early_bars_vs_expected": 2904,
+    "earliest_served_start_utc": "2026-04-20T00:00:00Z",
     "symbols_empty_or_error": [
       "KPEPE"
     ],
