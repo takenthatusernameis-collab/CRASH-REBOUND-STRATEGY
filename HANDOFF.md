@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T19:41:37Z
-**Supersedes:** all earlier handoffs (including 2026-11-14T19:34:05Z, 19:21:13Z, 18:21:30Z, 17:55:20Z, 17:51:04Z, 17:23:52Z, 16:42:01Z, 15:30:41Z, 15:24:40Z, 15:23:23Z, 14:52:02Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
+**Handoff updated (UTC):** 2026-11-14T19:42:25Z
+**Supersedes:** all earlier handoffs (including 2026-11-14T19:41:37Z, 19:34:05Z, 19:21:13Z, 18:21:30Z, 17:55:20Z, 17:51:04Z, 17:23:52Z, 16:42:01Z, 15:30:41Z, 15:24:40Z, 15:23:23Z, 14:52:02Z). **This file is the only durable handoff.** Do not create a second status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from the repo name):** produce a **decision-grade Hyperliquid-native crash-rebound verdict**, or conclusively prove the data block with fresh reproducible artifacts. **OKX is cross-venue, underpowered, and NEVER Hyperliquid performance evidence.**
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T19:41:37Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T19:42:25Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1 (Episode Ledger & Power Closure), C2 (Placebo & Archive Readiness) and C3 (Spec-Comparison Hardening) are COMPLETE. Do not repeat C1/C2/C3 work and do not re-run any deterministic campaign on the retained chain. Your first action is C4-T1 below.**
 
@@ -54,7 +54,7 @@ Coverage was refreshed 2026-11-14T19:34:05Z with C3 artifacts and the restored c
 ### STEP 7 — ONLY PATH TO FULL EVIDENCE: OPERATOR ARCHIVE
 If an operator-supplied verified Hyperliquid-native 283-day archive arrives, follow `research_state/DATA_REQUEST_283D_HYPERLIQUID.md` and the C4-T1 validator. Then ingest, derive verified universe, run canonical full-window campaign, full-portfolio placebo, episode-aware audit, and update the decision memo. **Never** use `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` as evidence (flat synthetic placeholder).
 
-**No session may close without: C4-T1..T4 artifacts on disk (new stems), C4-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T19:41:37Z or later.**
+**No session may close without: C4-T1..T4 artifacts on disk (new stems), C4-T4 coverage refresh + gates green (21/21 and 4/4), and this handoff re-timestamped to 2026-11-14T19:42:25Z or later.**
 
 ---
 
@@ -125,4 +125,4 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/check_archive_readiness.py
 - No additional handoff/status files. **This file is the single durable handoff.**
 
 ## Definition of done
-Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C4-T1..T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T19:41:37Z or later.
+Evidence chain **21/21 achieved** (completeness). **Decision-grade validation NOT achieved.** Required for done/GO consideration: full multi-year Hyperliquid-native campaign (or documented operator-data block with exact live probe counts) + full-portfolio placebo + episode-aware audit + updated decision memo with stop/go criteria and power-based sample-size target (≥10 independent crash episodes with positive episode-level bootstrap CI excluding 0), with `underpowered` retained until every GO criterion is met. **Next session's done:** C4-T1..T4 artifacts on disk + coverage/decision memo refresh + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T19:42:25Z or later.
