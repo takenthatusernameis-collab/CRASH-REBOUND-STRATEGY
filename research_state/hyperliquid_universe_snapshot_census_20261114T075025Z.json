@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T07:51:55.625845+00:00",
+  "run_type": "hyperliquid_partial_crash_census",
+  "provenance_caveat": "Real Hyperliquid public API candles, non-synthetic; PARTIAL window 2026-04-19T12:00Z..2026-09-28T23:00Z; NOT the 283-day spec window and NOT performance evidence.",
+  "target_window": {
+    "start": "2026-04-19T12:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 3900
+  },
+  "config": {
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "min_daily_volume_usd": 5000000.0
+  },
+  "symbols": {
+    "AAVE": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "ADA": {
+      "bars": 3888,
+      "rsi_crash_events": 2,
+      "confirmed_signals": 0,
+      "crash_timestamps": [
+        "2026-06-05T02:00:00+00:00",
+        "2026-06-05T03:00:00+00:00"
+      ],
+      "signal_timestamps": []
+    },
+    "ALGO": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "APT": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "ARB": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "ATOM": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "BCH": {
+      "bars": 3888,
+      "rsi_crash_events": 2,
+      "confirmed_signals": 0,
+      "crash_timestamps": [
+        "2026-05-28T14:00:00+00:00",
+        "2026-05-28T15:00:00+00:00"
+      ],
+      "signal_timestamps": []
+    },
+    "BTC": {
+      "bars": 3888,
+      "rsi_crash_events": 6,
+      "confirmed_signals": 0,
+      "crash_timestamps": [
+        "2026-06-02T14:00:00+00:00",
+        "2026-06-02T15:00:00+00:00",
+        "2026-06-02T16:00:00+00:00",
+        "2026-06-02T18:00:00+00:00",
+        "2026-06-02T19:00:00+00:00",
+        "2026-06-02T22:00:00+00:00"
+      ],
+      "signal_timestamps": []
+    },
+    "DOGE": {
+      "bars": 3888,
+      "rsi_crash_events": 1,
+      "confirmed_signals": 0,
+      "crash_timestamps": [
+        "2026-06-24T17:00:00+00:00"
+      ],
+      "signal_timestamps": []
+    },
+    "DOT": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "ETH": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "ICP": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "INJ": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "LINK": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "LTC": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "NEAR": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "OP": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "SEI": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "SOL": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "SUI": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "TIA": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "UNI": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    },
+    "XRP": {
+      "bars": 3888,
+      "rsi_crash_events": 0,
+      "confirmed_signals": 0,
+      "crash_timestamps": [],
+      "signal_timestamps": []
+    }
+  },
+  "totals": {
+    "symbols": 23,
+    "bars": 89424,
+    "rsi_crash_events": 11,
+    "confirmed_signals": 0
+  }
+}
