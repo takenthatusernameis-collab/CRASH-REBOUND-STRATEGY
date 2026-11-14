@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-14T00:44:18Z",
+  "generated_at_utc": "2026-11-14T01:41:51Z",
   "run_type": "hyperliquid_api_retention_probe",
   "provenance_caveat": "Live Hyperliquid public API probe; non-synthetic; records only what the public candleSnapshot endpoint served. Not performance evidence.",
   "endpoint": {
@@ -44,7 +44,7 @@
       "bars_returned": 3896,
       "first_bar_utc": "2026-04-19T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 5150891447.14
+      "day_volume_usd": 5069221387.41
     },
     {
       "symbol": "ETH",
@@ -52,7 +52,7 @@
       "bars_returned": 3896,
       "first_bar_utc": "2026-04-19T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 1379935587.05
+      "day_volume_usd": 1363924639.8
     },
     {
       "symbol": "HYPE",
@@ -60,7 +60,7 @@
       "bars_returned": 3898,
       "first_bar_utc": "2026-04-19T14:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 591866685.76
+      "day_volume_usd": 583152289.46
     },
     {
       "symbol": "ZEC",
@@ -68,7 +68,7 @@
       "bars_returned": 3895,
       "first_bar_utc": "2026-04-19T17:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 519326911.55
+      "day_volume_usd": 516040512.42
     },
     {
       "symbol": "SOL",
@@ -76,7 +76,7 @@
       "bars_returned": 3896,
       "first_bar_utc": "2026-04-19T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 395232217.27
+      "day_volume_usd": 398482720.91
     },
     {
       "symbol": "XRP",
@@ -84,7 +84,7 @@
       "bars_returned": 3895,
       "first_bar_utc": "2026-04-19T17:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 84692441.05
+      "day_volume_usd": 84245244.11
     }
   ],
   "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION",
