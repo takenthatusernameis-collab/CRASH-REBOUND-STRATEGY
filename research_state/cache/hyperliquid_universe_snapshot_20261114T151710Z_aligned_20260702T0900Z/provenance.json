@@ -1,0 +1,1898 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T15:18:09.659076+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "derived_from_real_fetch_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z",
+  "alignment": {
+    "method": "max_first_served_across_complete_symbols",
+    "aligned_start": "2026-07-02T09:00:00+00:00",
+    "aligned_end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 2127,
+    "source_symbols_total": 26,
+    "aligned_symbols": 26,
+    "rejected_source_symbols": {},
+    "excluded_for_late_start": {}
+  },
+  "target_window": {
+    "start": "2026-07-02T09:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 2127
+  },
+  "source": {
+    "kind": "hyperliquid_api_aligned_slice",
+    "hl_url": "https://api.hyperliquid.xyz/info",
+    "input_archive": null,
+    "input_archives": []
+  },
+  "request_params": {
+    "interval": "1h",
+    "start_ms": 1776657600000,
+    "end_ms": 1790636400000,
+    "symbols": [
+      "BTC",
+      "ETH",
+      "HYPE",
+      "SOL",
+      "ZEC",
+      "XRP",
+      "NEAR",
+      "PUMP",
+      "LIT",
+      "XMR",
+      "ENA",
+      "UNI",
+      "AVAX",
+      "WLD",
+      "DOGE",
+      "SUI",
+      "BNB",
+      "ZRO",
+      "LINK",
+      "INJ",
+      "VVV",
+      "AAVE",
+      "GRAM",
+      "TAO",
+      "ADA",
+      "BERA"
+    ],
+    "min_daily_volume_usd_requested": 5000000.0,
+    "min_daily_volume_usd_effective": 5000000.0,
+    "spec_floor_enforced": false,
+    "spec_compliant_volume_floor_usd": 5000000.0,
+    "min_daily_volume_usd": 5000000.0
+  },
+  "symbols": {
+    "AAVE": {
+      "symbol": "AAVE",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "192ac2f73b031321d5187f045f161f8af1f8507e96caa752ba9ef126e8f4403b",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/AAVE.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/AAVE.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "91d9a9c641bc8356c00beb71fa7f4a5822f56bd55c38b1c9f02a9e8e3871ef41",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/ADA.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/ADA.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "5b16b6c2c1d99cac8d2ebc56a5e6b5ddaa0241bfd9e4f3a68fc1a7a181940d9b",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/AVAX.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/AVAX.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "BERA": {
+      "symbol": "BERA",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "38b735ebdea4f9fb77e7de85ecf5eb6d1a9acf04fe7babc7e7775035b0dec418",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/BERA.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/BERA.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "BNB": {
+      "symbol": "BNB",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "8422626924134549958366323900fad581553357093caaefe52ea3ef2909d13b",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/BNB.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/BNB.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "BTC": {
+      "symbol": "BTC",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "d5dff5bcca26f98ebcbfe1afdedc552979f4d14b907745b913bfde20948acddb",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/BTC.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/BTC.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "5a924e4050d69520c3fb388c39142830294afccd71b1c53cf70e54340d114bf1",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/DOGE.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/DOGE.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "ENA": {
+      "symbol": "ENA",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "b27cfd9d483869bbce1734a85846bd280b2098fb78864c29289a8f35970c99aa",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/ENA.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/ENA.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "cdf0cc9f33ad8bf41b33b678d70cca5c5cabd82b74a98256e8b8782f3466d3f2",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/ETH.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/ETH.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "GRAM": {
+      "symbol": "GRAM",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "3198ad45e0190a02792d9fb3bd612ce5666386845cbb48a067a849f9c86fb53c",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/GRAM.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/GRAM.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "HYPE": {
+      "symbol": "HYPE",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "d4e63846c75ee9ce07f0ea9ba2887bc946ff3abc722727a5a5220e557cf9c762",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/HYPE.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/HYPE.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "INJ": {
+      "symbol": "INJ",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "ebab3542f504a921211a68e962cfc5bfa13392babdf460c02fa19599fe3d9419",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/INJ.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/INJ.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "87237ef70761266f93419f92af203c54eb1cb915a685d5c5834587e6fddb8897",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/LINK.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/LINK.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "LIT": {
+      "symbol": "LIT",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "0d471fa1d38ade41b3894060304eafbde3c3c10fd6e5621a89fa2389bd33d3d0",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/LIT.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/LIT.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "NEAR": {
+      "symbol": "NEAR",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "b77d48b59fe4caf714c42ef652f8bf4f6a04b2c98c39fc0eac8d99ff541ac20d",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/NEAR.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/NEAR.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "PUMP": {
+      "symbol": "PUMP",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "2639ded62ec136985819273b650f8172acf2eca63c0681b0ee4c5ffbef405848",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/PUMP.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/PUMP.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "a2e14e55c2e2b9a1d61596062ad87f5d33242ea908f0db5704aac34c7a5559bd",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/SOL.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/SOL.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "SUI": {
+      "symbol": "SUI",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "93372b3150d694f9a8dc67636d58de3e29713eed025fea68ab1ecadd03d97bc4",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/SUI.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/SUI.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "TAO": {
+      "symbol": "TAO",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "92764b89c9cd50c053fbf28115c0d644f5723e214ba5a1b675a7931b1f753b11",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/TAO.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/TAO.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "87dceb0197c0b9f11087f1500c5f74b68df6262d806e786d9567454710bf6746",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/UNI.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/UNI.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "VVV": {
+      "symbol": "VVV",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "4d9ae7934f0cd1aa0ca19f22be7352a6c4eb66b5c642437e674a50d02288dd07",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/VVV.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/VVV.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "WLD": {
+      "symbol": "WLD",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "11226fc4034b2a892e36739ca45e6bf1aab739595d774b1bd836f701dd7643a9",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/WLD.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/WLD.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "XMR": {
+      "symbol": "XMR",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "51dcad8420d6da9ffd5c1d6f669bf441d5beb31101116e937a31fa1d011f3b4f",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/XMR.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/XMR.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "585633591306fb02dafa54e104348d2b1085f9aa3d015749ae56b8e645b2e537",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/XRP.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/XRP.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "6b00681426478b27b8f3e73db3da3df895cb8e7dac6f0afe99e1aa445cd91d1c",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/ZEC.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/ZEC.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    },
+    "ZRO": {
+      "symbol": "ZRO",
+      "status": "ok",
+      "source": "hyperliquid_info_api_derived_aligned_slice",
+      "url": "https://api.hyperliquid.xyz/info",
+      "request_count": 3,
+      "requests": [
+        {
+          "startTime": 1776657600000,
+          "endTime": 1782054000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1782057600000,
+          "endTime": 1787454000000,
+          "ok": true,
+          "error": null
+        },
+        {
+          "startTime": 1787457600000,
+          "endTime": 1790636400000,
+          "ok": true,
+          "error": null
+        }
+      ],
+      "requests_truncated": 0,
+      "last_error": null,
+      "normalized_count": 3881,
+      "note": "Public API may not serve full historical window; coverage/provenance gates real runs.",
+      "coverage": {
+        "expected_hourly_bars": 2127,
+        "observed_in_window_bars": 2127,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1782982800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2026-07-02T09:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2026-07-02T09:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 9356.352916,
+        "observed_max_24h_usd_volume": 3253440.496468,
+        "observed_mean_24h_usd_volume": 529903.863951,
+        "bars_checked": 3881,
+        "bars_passing": 0,
+        "volume_filter_ok": false,
+        "universe_membership_ok": false
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 2127,
+        "bars_checked": 2127,
+        "distinct_signature_ratio": 1.0
+      },
+      "sha256": "a18865c4956dc8b87834ae9ce5f75c9e6b0e6150da717b3038552a1f0a13d9da",
+      "cache_path": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z_aligned_20260702T0900Z/candles/ZRO.json",
+      "source_cache": "research_state/cache/hyperliquid_universe_snapshot_20261114T151710Z/candles/ZRO.json",
+      "source_provenance_sha256": "bef59f27b92ed74c049c96f8890b8fac484f7dd4335b097014bee629ed1e3b93",
+      "aligned_slice": true,
+      "aligned_start": "2026-07-02T09:00:00+00:00"
+    }
+  },
+  "summary": {
+    "symbols_total": 26,
+    "symbols_complete": 26,
+    "symbols_incomplete_or_error": 0,
+    "all_complete": true,
+    "ready_for_real_campaign": true,
+    "complete_symbols": [
+      "AAVE",
+      "ADA",
+      "AVAX",
+      "BERA",
+      "BNB",
+      "BTC",
+      "DOGE",
+      "ENA",
+      "ETH",
+      "GRAM",
+      "HYPE",
+      "INJ",
+      "LINK",
+      "LIT",
+      "NEAR",
+      "PUMP",
+      "SOL",
+      "SUI",
+      "TAO",
+      "UNI",
+      "VVV",
+      "WLD",
+      "XMR",
+      "XRP",
+      "ZEC",
+      "ZRO"
+    ]
+  }
+}
