@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-14T16:22:12.537931+00:00",
+  "run_type": "hyperliquid_signal_funnel_exploratory_next_open_real_engine",
+  "label": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "canonical_baseline_changed": false,
+  "cache_dir": "research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z",
+  "provenance_caveat": "Exploratory spec-literal next-open adjudication on the retained PARTIAL aligned Hyperliquid chain; real fetched candles, non-synthetic; NOT the 283-day spec window and NOT performance evidence. Never use for validation or capital allocation. Canonical baseline is unchanged.",
+  "counts": {
+    "symbols": 24,
+    "bars_total": 93240,
+    "rsi_crash_hours_no_volume_gate": 29,
+    "rsi_crash_hours_passing_trailing_24h_5m_volume": 11,
+    "same_bar_rebound_confirm_implementation": 0,
+    "next_bar_rebound_confirm_implementation": 5,
+    "generate_signal_canonical_same_bar_confirm": 0,
+    "generate_signal_spec_literal_next_open": 8
+  },
+  "per_symbol": {
+    "AAVE": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ADA": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ALGO": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "APT": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ARB": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ATOM": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "AVAX": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BCH": {
+      "rsi_crash_hours_no_volume_gate": 17,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 2
+    },
+    "BTC": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 6,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 6
+    },
+    "DOGE": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "DOT": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ETH": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ICP": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "INJ": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "LINK": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "LTC": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "NEAR": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "OP": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SEI": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SOL": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SUI": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "TIA": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "UNI": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "XRP": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    }
+  },
+  "campaign_artifact": "research_state/campaign_results_real_hyperliquid_exploratory_next_open_20261114T162212Z.json",
+  "campaign_num_trades": 2,
+  "campaign_total_pnl": -2670.7567875859345
+}

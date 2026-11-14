@@ -76,6 +76,18 @@ class StrategyConfig:
     crash_lookback: int = 5            # bars to scan for crash trigger
     min_daily_volume_usd: float = 5_000_000.0  # minimum 24h volume per spec
 
+    # Spec-literal entry adjudication (opt-in, default OFF).
+    # research_state/strategy_spec.md says the crash trigger is "21-hour RSI closes
+    # below 20" and "Buy at next hourly open" — there is NO same-bar rebound
+    # confirmation candle in the spec. The canonical implementation additionally
+    # requires confirm_rebound() on the signal bar, which produced a structural
+    # 0-trade funnel on the retained Hyperliquid window. When this flag is True,
+    # generate_signal bypasses ONLY the same-bar confirm_rebound gate; every other
+    # gate (RSI trigger, trailing-24h >= $5M volume, regime/price floor, sizing,
+    # 120% gross cap, ETH hedge, fees/funding/liquidation) is unchanged. Default
+    # False preserves the canonical baseline and every existing anchor/test.
+    entry_spec_literal_next_open: bool = False
+
     # Rebound confirmation
     rebound_lookback: int = 3
     rebound_min_body_ratio: float = 0.5  # close must be in upper half of range

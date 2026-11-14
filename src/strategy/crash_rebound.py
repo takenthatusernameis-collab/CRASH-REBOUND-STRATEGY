@@ -384,12 +384,17 @@ def generate_signal(
         cache=cache,
     ):
         return None
-    if not confirm_rebound(
-        candles,
-        lookback=config.rebound_lookback,
-        min_body_ratio=config.rebound_min_body_ratio,
-    ):
-        return None
+    # Spec-literal opt-in path: the spec's entry rule is "buy at next hourly
+    # open" after the RSI(21)<20 crash close, with no same-bar rebound candle.
+    # Bypass ONLY confirm_rebound when explicitly enabled; every other gate below
+    # (regime/price floor, volume floor already enforced in detect_crash) remains.
+    if not getattr(config, 'entry_spec_literal_next_open', False):
+        if not confirm_rebound(
+            candles,
+            lookback=config.rebound_lookback,
+            min_body_ratio=config.rebound_min_body_ratio,
+        ):
+            return None
     # Regime filter. The spec's PRIMARY crash trigger is "21-hour RSI closes below
     # 20 (last day almost all selling)" — i.e. the RSI trigger IS the downtrend
     # confirmation. The non-spec `avoid_downtrend` fast-MA filter (price must be

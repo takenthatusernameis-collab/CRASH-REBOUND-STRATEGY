@@ -683,6 +683,78 @@ def check_runbook() -> Tuple[bool, str]:
     return True, "runbook present"
 
 
+def check_exploratory_next_open() -> Tuple[bool, str]:
+    """Step 3 heavy-work gate: the spec-literal next-open path must be a real-engine run.
+
+    The structural 0-trade canonical funnel is only explained (not hand-waved) by
+    executing the spec's own entry rule ("buy at next hourly open", no same-bar
+    rebound candle) through the real portfolio engine on the retained chain. This
+    check fails closed unless a timestamped artifact exists that:
+      - is labeled NOT_EVIDENCE_EXPLORATORY_FANOUT with performance_evidence=false,
+      - was produced by the real engine on real candles (fabricated_data=false),
+      - reports integer num_trades and a numeric total_pnl,
+      - records the structural funnel counts that explain the canonical 0,
+      - confirms the canonical baseline was not changed.
+    A prose note or an upper-bound count alone is not acceptance.
+    """
+    path = STATE / "hyperliquid_exploratory_next_open_latest.json"
+    if not path.exists():
+        return False, (
+            "missing hyperliquid_exploratory_next_open_latest.json — run "
+            "scripts/run_hyperliquid_exploratory_next_open.py (Step 3 heavy work)"
+        )
+    try:
+        data = _read_json(path)
+    except json.JSONDecodeError as exc:
+        return False, f"invalid JSON: {exc}"
+    if not isinstance(data, dict):
+        return False, "top level must be an object"
+    if data.get("label") != "NOT_EVIDENCE_EXPLORATORY_FANOUT":
+        return False, "label must be NOT_EVIDENCE_EXPLORATORY_FANOUT"
+    if data.get("performance_evidence") is not False:
+        return False, "performance_evidence must be false (exploratory, not evidence)"
+    if data.get("fabricated_data") is not False:
+        return False, "fabricated_data must be false (real candles only)"
+    if data.get("real_market_data") is not True:
+        return False, "real_market_data must be true"
+    if data.get("canonical_baseline_changed") is not False:
+        return False, "canonical_baseline_changed must be false"
+    results = data.get("results")
+    if not isinstance(results, dict):
+        return False, "missing results"
+    try:
+        num_trades = int(results["num_trades"])
+        total_pnl = float(results["total_pnl"])
+    except (KeyError, TypeError, ValueError):
+        return False, "results.num_trades/total_pnl must be numeric"
+    if num_trades < 0:
+        return False, "results.num_trades must be >= 0"
+    funnel = data.get("funnel")
+    if not isinstance(funnel, dict) or not isinstance(funnel.get("totals"), dict):
+        return False, "missing funnel.totals"
+    totals = funnel["totals"]
+    for key in ("rsi_crash_hours_passing_trailing_24h_5m_volume",
+                "same_bar_rebound_confirm_implementation",
+                "generate_signal_canonical_same_bar_confirm",
+                "generate_signal_spec_literal_next_open"):
+        try:
+            if int(totals[key]) < 0:
+                raise ValueError
+        except (KeyError, TypeError, ValueError):
+            return False, f"funnel.totals.{key} must be a non-negative integer"
+    canonical = int(totals["generate_signal_canonical_same_bar_confirm"])
+    spec_literal = int(totals["generate_signal_spec_literal_next_open"])
+    if spec_literal <= canonical:
+        return False, (
+            "spec-literal signal count must exceed the canonical same-bar count; "
+            "the artifact does not demonstrate the structural funnel"
+        )
+    return True, (
+        f"exploratory real-engine run: {num_trades} trades, total_pnl={total_pnl}; "
+        f"funnel canonical={canonical} vs spec_literal={spec_literal}"
+    )
+
+
 def check_retention_probe() -> Tuple[bool, str]:
     """Phase P: the Hyperliquid full-window block must be reproducible, not prose.
 
@@ -921,6 +993,7 @@ CHECKS: List[Tuple[str, Callable[[], Tuple[bool, str]]]] = [
     ("phase_j3_acquisition_runbook", check_runbook),
     ("phase_p_retention_probe", check_retention_probe),
     ("phase_q_universe_coverage", check_universe_coverage),
+    ("phase_r_exploratory_next_open", check_exploratory_next_open),
     ("phase_p_evidence_verifier", check_evidence_verifier),
     ("durable_handoff", check_handoff),
 ]
