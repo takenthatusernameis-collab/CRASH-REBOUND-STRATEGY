@@ -111,9 +111,9 @@ def build_memo(inp: Dict[str, Any]) -> Tuple[Dict[Tuple[str, int], Any], List[Di
     ts_index: Dict[str, Dict[int, int]] = {}
     for sym, cs in candles.items():
         ts_index[sym] = {
-            int(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")): i
+            int(c.get("timestamp_ms") or c.get("time") or c.get("timestamp")): i
             for i, c in enumerate(cs)
-            if c.get("timestamp") is not None or c.get("timestamp_ms") is not None or c.get("time") is not None
+            if c.get("timestamp_ms") is not None or c.get("time") is not None or c.get("timestamp") is not None
         }
     memo: Dict[Tuple[str, int], Any] = {}
     rows: List[Dict[str, Any]] = []
@@ -378,12 +378,13 @@ def render_md(r):
     boot = r["episode_block_bootstrap"]
     perm = r["temporal_edge_permutation"]
     bt = boot["bootstrap_total_pnl"]
+    native_label = "Hyperliquid-native" if r.get("is_hyperliquid_evidence") else "Cross-venue"
     lines = [
-        "# C6-T3 — Crash-Episode Dependence Audit & Conditional Temporal-Edge Test (OKX Multi-Year, Cross-Venue)",
+        f"# C6-T3 — Crash-Episode Dependence Audit & Conditional Temporal-Edge Test ({native_label})",
         "",
         f"**Generated (UTC):** {r['generated_at_utc']}",
         f"**Provenance:** {r['provenance_caveat']}",
-        f"**Verdict:** `{r['verdict']}` (CROSS-VENUE; NOT Hyperliquid evidence)",
+        f"**Verdict:** `{r['verdict']}` ({'Hyperliquid-native evidence' if r.get('is_hyperliquid_evidence') else 'CROSS-VENUE; NOT Hyperliquid evidence'})",
         "",
         "## Inputs",
         f"- Canonical total PnL: **{r['inputs']['canonical_total_pnl']:.2f}** ({r['inputs']['canonical_num_trades']} trades)",
@@ -439,14 +440,16 @@ def run(draws, seed, out_stem):
     # keep honest: positive evidence only if CI excludes 0 and permutation significant - unlikely but don't hardcode
     bt = boot["bootstrap_total_pnl"]
     if bt["ci_low_pnl_2p5"] > 0 and perm["p_null_ge_canonical"] < 0.05:
-        verdict = "cross_venue_positive_not_hyperliquid"
+        verdict = "hyperliquid_native_positive" if is_native else "cross_venue_positive_not_hyperliquid"
+    is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
     result = {
         "schema_version": SCHEMA_VERSION,
         "generated_at_utc": iso_now(),
         "phase": "C6-T3",
         "provenance_caveat": PROVENANCE_CAVEAT,
-        "is_hyperliquid_evidence": False,
-        "cross_venue": True,
+        "is_hyperliquid_evidence": is_native,
+        "cross_venue": not is_native,
+        "venue_label": VENUE_LABEL,
         "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year " + VENUE_LABEL + " cache.",
         "seed": seed,
         "inputs": {
@@ -509,10 +512,17 @@ def main(argv=None):
     CENSUS_PATH = Path(args.census)
     CAMPAIGN_PATH = Path(args.campaign)
     VENUE_LABEL = str(args.venue_label)
-    PROVENANCE_CAVEAT = (
-        f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
-        "NOT Hyperliquid performance evidence."
-    )
+    is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
+    if is_native:
+        PROVENANCE_CAVEAT = (
+            f"Real {VENUE_LABEL} data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), "
+            "NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue)."
+        )
+    else:
+        PROVENANCE_CAVEAT = (
+            f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
+            "NOT Hyperliquid performance evidence."
+        )
     run(args.draws, args.seed, args.out)
     return 0
 
