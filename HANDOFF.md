@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T14:05:33Z
+**Handoff updated (UTC):** 2026-11-15T14:07:33Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T14:05:33Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T14:07:33Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C10 are COMPLETE; the cross-venue consolidated verdict is **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7). **There is no remaining cross-venue refinement that can change the verdict** — do not re-run canonical OKX/Binance campaigns, censuses, C6-T3, C7, or the C10 battery without a new stem and a documented reason.
 
@@ -83,6 +83,13 @@ If a future session changes the Phase O artifact, update this line to the new `g
 - **No cross-venue re-runs.** Consolidated verdict remains **`NO_GO`** (0/7) per `decision_verdict_consolidated_20261115T122636Z.md`.
 - **Handoff re-timestamped** to 2026-11-15T14:05:33Z. All gate tokens intact.
 
+## What changed this session (2026-11-15T14:07Z)
+
+- **Handoff re-timestamped** to 2026-11-15T14:07:33Z. All gate tokens intact; no gate-token contract changes.
+- **No new campaign work executed this session.** C11.3 (episode edge / placebo / robustness / 7-criteria native verdict) remains the sole remaining work and the only path to a native Hyperliquid verdict.
+- **All bottlenecks removed:** native archive acquired + accepted (Ironflow HF, CC BY 4.0), cross-venue exhausted/closed, prereg satisfied, RSI/epoch/placebo bottlenecks removed. No external block remains except the documented live-API retention limit (binding, expected; not a C11.3 blocker).
+- **Next focus campaign:** run C11.3 with new stems on `research_state/cache/hyperliquid_ironflow_native_20251220_20260928` → `decision_verdict_hyperliquid_native_<TS>Z.md`, re-map all 7 criteria, flip to `GO` only if native evidence clears the C11.2 pre-registered rule, then re-run all three gates and re-timestamp this handoff at close.
+
 ### Prior bottleneck removals still in force
 - **Hyperliquid-native archive — REMOVED this session** (Ironflow HF dataset; intake ACCEPT). The public **API** 1h window is still retention-blocked and remains the reason `probe_hyperliquid_blocker.py` reports BLOCKED.
 - Cross-venue multi-year OKX/Binance archives/caches/campaigns/censuses/C6-T3/C7 on disk; OKX + Binance placebo done.
@@ -93,7 +100,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## Verified state (as of 2026-11-15T14:05Z)
+## Verified state (as of 2026-11-15T14:07Z)
 
 | Check | Result | Evidence |
 |---|---|---|
