@@ -363,6 +363,24 @@ def build_parser():
     )
     ap.add_argument("--window-start", default=None, help="PARTIAL-NOT-EVIDENCE ONLY: override target window start for synthetic pipeline tests; ignored for real evidence runs.")
     ap.add_argument("--window-end", default=None, help="PARTIAL-NOT-EVIDENCE ONLY: override target window end for synthetic pipeline tests; ignored for real evidence runs.")
+    # C12 discovery-grid knobs (opt-in; default None preserves the canonical
+    # StrategyConfig baseline and every existing anchor/test). Each override is
+    # recorded verbatim in the exported "config" block for provenance so a
+    # parameter-sweep artifact is self-describing and reproducible.
+    ap.add_argument("--rsi-period", type=int, default=None,
+                    help="C12 grid: RSI lookback period (default: config default 21). Recorded in config export.")
+    ap.add_argument("--rsi-threshold", type=float, default=None,
+                    help="C12 grid: RSI crash trigger threshold, must be in (0,100] (default: config default 20.0).")
+    ap.add_argument("--target-pct", type=float, default=None,
+                    help="C12 grid: long +target%% take-profit (default: config default 9.0).")
+    ap.add_argument("--rebound-short-target-pct", type=float, default=None,
+                    help="C12 grid: rebound-short take-profit %% (default: config default 9.0).")
+    ap.add_argument("--rebound-short-time-exit-bars", type=int, default=None,
+                    help="C12 grid: rebound-short max bars before time exit (default: config default 48).")
+    ap.add_argument("--rebound-short-require-bounce-confirm", action="store_true", default=False,
+                    help="C12 grid: gate rebound-short entry behind spec bounce confirmation (default off).")
+    ap.add_argument("--entry-spec-literal-next-open", action="store_true", default=False,
+                    help="C12 grid: opt into spec-literal next-open entry (bypass same-bar confirm_rebound only). Default off.")
     return ap
 
 
@@ -488,13 +506,30 @@ def main(argv=None):
         print("BLOCKER: No verified symbol data passed coverage + volume validation.", file=sys.stderr)
         return 2
     eth = data.get("ETH")
-    config = StrategyConfig(
+    config_kwargs = dict(
         use_rsi_trigger=True,
         enable_rebound_short=True,
         enable_eth_hedge=True,
         enable_volume_based_sizing=True,
         min_daily_volume_usd=max(spec_min_daily_volume_usd, float(args.min_daily_volume_usd)) if not partial_mode else float(args.min_daily_volume_usd),
     )
+    # Opt-in C12 grid overrides; absent knobs (None) leave the canonical baseline
+    # untouched so existing anchors/tests are byte-for-byte reproducible.
+    if args.rsi_period is not None:
+        config_kwargs["rsi_period"] = int(args.rsi_period)
+    if args.rsi_threshold is not None:
+        config_kwargs["rsi_threshold"] = float(args.rsi_threshold)
+    if args.target_pct is not None:
+        config_kwargs["target_pct"] = float(args.target_pct)
+    if args.rebound_short_target_pct is not None:
+        config_kwargs["rebound_short_target_pct"] = float(args.rebound_short_target_pct)
+    if args.rebound_short_time_exit_bars is not None:
+        config_kwargs["rebound_short_time_exit_bars"] = int(args.rebound_short_time_exit_bars)
+    if args.rebound_short_require_bounce_confirm:
+        config_kwargs["rebound_short_require_bounce_confirm"] = True
+    if args.entry_spec_literal_next_open:
+        config_kwargs["entry_spec_literal_next_open"] = True
+    config = StrategyConfig(**config_kwargs)
     results = run_portfolio_simulation(data, config=config, capital=args.capital,
                                        eth_candles={"ETH": eth} if eth else None,
                                        require_eth_hedge=bool(getattr(config, 'enable_eth_hedge', True)))
@@ -542,6 +577,11 @@ def main(argv=None):
             "use_rsi_trigger": config.use_rsi_trigger,
             "rsi_period": config.rsi_period,
             "rsi_threshold": config.rsi_threshold,
+            "target_pct": getattr(config, "target_pct", None),
+            "rebound_short_target_pct": getattr(config, "rebound_short_target_pct", None),
+            "rebound_short_time_exit_bars": getattr(config, "rebound_short_time_exit_bars", None),
+            "rebound_short_require_bounce_confirm": bool(getattr(config, "rebound_short_require_bounce_confirm", False)),
+            "entry_spec_literal_next_open": bool(getattr(config, "entry_spec_literal_next_open", False)),
             "enable_rebound_short": config.enable_rebound_short,
             "enable_eth_hedge": config.enable_eth_hedge,
             "enable_volume_based_sizing": config.enable_volume_based_sizing,
