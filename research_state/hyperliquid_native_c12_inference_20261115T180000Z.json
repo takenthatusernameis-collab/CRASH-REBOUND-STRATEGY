@@ -1,0 +1,2220 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T18:15:00Z",
+  "campaign": "C12",
+  "label": "HYPERLIQUID_NATIVE_C12_INFERENCE",
+  "real_market_data": true,
+  "is_hyperliquid_venue_data": true,
+  "fabricated_data": false,
+  "provenance_caveat": "Real Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot. Real fetched/archived candles, non-synthetic. 283d window 2025-12-20T00:00:00Z\u20132026-09-28T23:00:00Z.",
+  "inputs": {
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928",
+    "universe_file": "research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json",
+    "prereg": [
+      "research_state/hyperliquid_native_c12_prereg_20261115T180000Z.json",
+      "research_state/hyperliquid_native_c12_prereg_20261115T180000Z.md"
+    ]
+  },
+  "method": {
+    "episode_clustering": "single-linkage on trade entry timestamps with 98h link (50h long + 48h rebound-short horizon), matching project episode definition",
+    "bootstrap": "episode-block bootstrap (resample episode PnL blocks with replacement, n_episodes draws) for spot/hedge/rebound/total; 20000 resamples, seed 20261115",
+    "temporal_permutation_and_portfolio_placebo": "canonical anchor reuses existing C11.3 episode-edge/placebo artifacts; for non-anchor C12 configs, existing parameterized runners hardcode canonical StrategyConfig so full engine permutation/placebo reruns were not executed in this pass\u2014census alignment + episode-block bootstrap CIs provided with explicit underpowered caveat",
+    "honest_power": "all configs labeled underpowered given 283d native window and observed episode/trade counts"
+  },
+  "grid_results": [
+    {
+      "name": "anchor_20_9",
+      "rsi_threshold": 20.0,
+      "target_pct": 9.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json",
+      "census": "research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json",
+      "metrics": {
+        "trades": 6,
+        "total_pnl": 4292.5031215663475,
+        "spot_pnl": -3968.8043560765964,
+        "hedge_pnl": 8261.307477642944,
+        "rebound_pnl": 0.0
+      },
+      "census_reconciliation": {
+        "events_total": 43,
+        "volume_gate_pass": 43,
+        "signal_gate_pass": 7,
+        "trades_in_campaign": 6,
+        "blocking_reason_counts": {
+          "trade_opened": 6,
+          "bounce_not_confirmed": 36,
+          "one_position_per_coin": 1
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 3,
+        "n_trade_crash_days": 4,
+        "trade_crash_days": [
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-25",
+          "2026-01-31"
+        ],
+        "episode_sizes": [
+          2,
+          1,
+          3
+        ],
+        "episodes": [
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-20T20:00:00Z",
+            "spot_pnl": -10802.923306542847,
+            "hedge_pnl": 14249.395622731934,
+            "rebound_pnl": 0.0,
+            "total_pnl": 3446.472316189087
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-25"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "SOL"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-25T21:00:00Z",
+            "spot_pnl": 8749.105272222012,
+            "hedge_pnl": -9130.324263627168,
+            "rebound_pnl": 0.0,
+            "total_pnl": -381.218991405156
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-01-31"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-01-31T21:00:00Z",
+            "spot_pnl": -1914.9863217557613,
+            "hedge_pnl": 3142.236118538178,
+            "rebound_pnl": 0.0,
+            "total_pnl": 1227.2497967824165
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 3,
+          "observed": -3968.8043560765964,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -3907.0328358353845,
+          "median": -3968.8043560765964,
+          "ci_low_2p5": -32408.76991962854,
+          "ci_high_97p5": 26247.315816666036,
+          "p05": -23520.832934841455,
+          "p95": 15583.224222688263,
+          "prob_gt_0": 0.3708
+        },
+        "hedge_pnl": {
+          "n_episodes": 3,
+          "observed": 8261.307477642944,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 8183.848711333079,
+          "median": 8261.307477642944,
+          "ci_low_2p5": -27390.972790881504,
+          "ci_high_97p5": 42748.1868681958,
+          "p05": -15118.412408716158,
+          "p95": 31641.027364002046,
+          "prob_gt_0": 0.6292
+        },
+        "rebound_pnl": {
+          "n_episodes": 3,
+          "observed": 0.0,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 0.0,
+          "median": 0.0,
+          "ci_low_2p5": 0.0,
+          "ci_high_97p5": 0.0,
+          "p05": 0.0,
+          "p95": 0.0,
+          "prob_gt_0": 0.0
+        },
+        "total_pnl": {
+          "n_episodes": 3,
+          "observed": 4292.5031215663475,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 4276.815875497696,
+          "median": 4292.5031215663475,
+          "ci_low_2p5": -1143.656974215468,
+          "ci_high_97p5": 10339.416948567261,
+          "p05": 464.8118139721046,
+          "p95": 8120.1944291605905,
+          "prob_gt_0": 0.9624
+        }
+      },
+      "existing_inference_refs": {
+        "episode_edge": {
+          "path": "research_state/episode_edge_hyperliquid_native_20261115T155318Z.json",
+          "permutation_p": null,
+          "bootstrap_ci_total": {
+            "mean": 4276.815875497696,
+            "median": 4292.5031215663475,
+            "p05": 464.8118139721046,
+            "p95": 8120.1944291605905,
+            "ci_low_pnl_2p5": -1143.656974215468,
+            "ci_high_pnl_97p5": 10339.416948567261,
+            "prob_total_pnl_gt_0": 0.9624
+          },
+          "n_episodes": 3
+        },
+        "placebo": {
+          "path": "research_state/placebo_portfolio_hyperliquid_native_20261115T155625Z.json",
+          "p_ge_canonical": 0.7142857142857143,
+          "runs": 7
+        },
+        "robustness": {
+          "path": "research_state/multiyear_robustness_battery_hyperliquid_native_20261115T155522Z.json"
+        }
+      },
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade.",
+        "HEDGE_MASKED_TOTAL: spot coin PnL negative while total positive (ETH hedge/rebound drive headline); no spot-alpha claim.",
+        "CANONICAL_ANCHOR: reuse C11.3 inference artifacts; canonical verdict remains NO_GO/FRAGILE_NOT_DECISION_GRADE (0/7)."
+      ]
+    },
+    {
+      "name": "c12_20_5",
+      "rsi_threshold": 20.0,
+      "target_pct": 5.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi20_t5_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi20_t5_20261115T180000Z.json",
+      "metrics": {
+        "trades": 6,
+        "total_pnl": 7596.3990261973095,
+        "spot_pnl": -12104.265700329202,
+        "hedge_pnl": 17304.31989000382,
+        "rebound_pnl": -2709.9966946861205
+      },
+      "census_reconciliation": {
+        "events_total": 43,
+        "volume_gate_pass": 43,
+        "signal_gate_pass": 7,
+        "trades_in_campaign": 6,
+        "blocking_reason_counts": {
+          "trade_opened": 6,
+          "bounce_not_confirmed": 36,
+          "one_position_per_coin": 1
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 3,
+        "n_trade_crash_days": 4,
+        "trade_crash_days": [
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-25",
+          "2026-01-31"
+        ],
+        "episode_sizes": [
+          2,
+          1,
+          3
+        ],
+        "episodes": [
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-20T20:00:00Z",
+            "spot_pnl": -10802.923306542847,
+            "hedge_pnl": 14249.395622731934,
+            "rebound_pnl": 0.0,
+            "total_pnl": 3446.472316189087
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-25"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "SOL"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-25T21:00:00Z",
+            "spot_pnl": 613.6439279694059,
+            "hedge_pnl": -87.31185126629225,
+            "rebound_pnl": -2709.9966946861205,
+            "total_pnl": 2922.676913225806
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-01-31"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-01-31T21:00:00Z",
+            "spot_pnl": -1914.9863217557613,
+            "hedge_pnl": 3142.236118538178,
+            "rebound_pnl": 0.0,
+            "total_pnl": 1227.2497967824165
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 3,
+          "observed": -12104.265700329202,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -12040.460314751928,
+          "median": -12104.265700329202,
+          "ci_low_2p5": -32408.76991962854,
+          "ci_high_97p5": 1840.9317839082178,
+          "p05": -23520.832934841455,
+          "p95": -687.6984658169495,
+          "prob_gt_0": 0.0376
+        },
+        "hedge_pnl": {
+          "n_episodes": 3,
+          "observed": 17304.31989000382,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 17224.600370590866,
+          "median": 17304.31989000382,
+          "ci_low_2p5": -261.93555379887675,
+          "ci_high_97p5": 42748.1868681958,
+          "p05": 2967.6124160055933,
+          "p95": 31641.027364002046,
+          "prob_gt_0": 0.9624
+        },
+        "rebound_pnl": {
+          "n_episodes": 3,
+          "observed": -2709.9966946861205,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -2709.319195512449,
+          "median": -2709.9966946861205,
+          "ci_low_2p5": -8129.990084058361,
+          "ci_high_97p5": 0.0,
+          "p05": -5419.993389372241,
+          "p95": 0.0,
+          "prob_gt_0": 0.0
+        },
+        "total_pnl": {
+          "n_episodes": 3,
+          "observed": 7596.3990261973095,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 7579.885806152501,
+          "median": 7596.3990261973095,
+          "ci_low_2p5": 3681.7493903472496,
+          "ci_high_97p5": 10339.416948567261,
+          "p05": 5377.176506790639,
+          "p95": 9815.621545603979,
+          "prob_gt_0": 1.0
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade.",
+        "HEDGE_MASKED_TOTAL: spot coin PnL negative while total positive (ETH hedge/rebound drive headline); no spot-alpha claim."
+      ]
+    },
+    {
+      "name": "c12_22_9",
+      "rsi_threshold": 22.0,
+      "target_pct": 9.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi22_t9_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi22_t9_20261115T180000Z.json",
+      "metrics": {
+        "trades": 6,
+        "total_pnl": 4292.5031215663475,
+        "spot_pnl": -3968.8043560765964,
+        "hedge_pnl": 8261.307477642944,
+        "rebound_pnl": 0.0
+      },
+      "census_reconciliation": {
+        "events_total": 76,
+        "volume_gate_pass": 76,
+        "signal_gate_pass": 7,
+        "trades_in_campaign": 6,
+        "blocking_reason_counts": {
+          "trade_opened": 6,
+          "bounce_not_confirmed": 69,
+          "one_position_per_coin": 1
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 3,
+        "n_trade_crash_days": 4,
+        "trade_crash_days": [
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-25",
+          "2026-01-31"
+        ],
+        "episode_sizes": [
+          2,
+          1,
+          3
+        ],
+        "episodes": [
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-20T20:00:00Z",
+            "spot_pnl": -10802.923306542847,
+            "hedge_pnl": 14249.395622731934,
+            "rebound_pnl": 0.0,
+            "total_pnl": 3446.472316189087
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-25"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "SOL"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-25T21:00:00Z",
+            "spot_pnl": 8749.105272222012,
+            "hedge_pnl": -9130.324263627168,
+            "rebound_pnl": 0.0,
+            "total_pnl": -381.218991405156
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-01-31"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-01-31T21:00:00Z",
+            "spot_pnl": -1914.9863217557613,
+            "hedge_pnl": 3142.236118538178,
+            "rebound_pnl": 0.0,
+            "total_pnl": 1227.2497967824165
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 3,
+          "observed": -3968.8043560765964,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -3907.0328358353845,
+          "median": -3968.8043560765964,
+          "ci_low_2p5": -32408.76991962854,
+          "ci_high_97p5": 26247.315816666036,
+          "p05": -23520.832934841455,
+          "p95": 15583.224222688263,
+          "prob_gt_0": 0.3708
+        },
+        "hedge_pnl": {
+          "n_episodes": 3,
+          "observed": 8261.307477642944,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 8183.848711333079,
+          "median": 8261.307477642944,
+          "ci_low_2p5": -27390.972790881504,
+          "ci_high_97p5": 42748.1868681958,
+          "p05": -15118.412408716158,
+          "p95": 31641.027364002046,
+          "prob_gt_0": 0.6292
+        },
+        "rebound_pnl": {
+          "n_episodes": 3,
+          "observed": 0.0,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 0.0,
+          "median": 0.0,
+          "ci_low_2p5": 0.0,
+          "ci_high_97p5": 0.0,
+          "p05": 0.0,
+          "p95": 0.0,
+          "prob_gt_0": 0.0
+        },
+        "total_pnl": {
+          "n_episodes": 3,
+          "observed": 4292.5031215663475,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 4276.815875497696,
+          "median": 4292.5031215663475,
+          "ci_low_2p5": -1143.656974215468,
+          "ci_high_97p5": 10339.416948567261,
+          "p05": 464.8118139721046,
+          "p95": 8120.1944291605905,
+          "prob_gt_0": 0.9624
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade.",
+        "HEDGE_MASKED_TOTAL: spot coin PnL negative while total positive (ETH hedge/rebound drive headline); no spot-alpha claim."
+      ]
+    },
+    {
+      "name": "c12_22_5",
+      "rsi_threshold": 22.0,
+      "target_pct": 5.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi22_t5_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi22_t5_20261115T180000Z.json",
+      "metrics": {
+        "trades": 6,
+        "total_pnl": 7596.3990261973095,
+        "spot_pnl": -12104.265700329202,
+        "hedge_pnl": 17304.31989000382,
+        "rebound_pnl": -2709.9966946861205
+      },
+      "census_reconciliation": {
+        "events_total": 76,
+        "volume_gate_pass": 76,
+        "signal_gate_pass": 7,
+        "trades_in_campaign": 6,
+        "blocking_reason_counts": {
+          "trade_opened": 6,
+          "bounce_not_confirmed": 69,
+          "one_position_per_coin": 1
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 3,
+        "n_trade_crash_days": 4,
+        "trade_crash_days": [
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-25",
+          "2026-01-31"
+        ],
+        "episode_sizes": [
+          2,
+          1,
+          3
+        ],
+        "episodes": [
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-20T20:00:00Z",
+            "spot_pnl": -10802.923306542847,
+            "hedge_pnl": 14249.395622731934,
+            "rebound_pnl": 0.0,
+            "total_pnl": 3446.472316189087
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-25"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "SOL"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-25T21:00:00Z",
+            "spot_pnl": 613.6439279694059,
+            "hedge_pnl": -87.31185126629225,
+            "rebound_pnl": -2709.9966946861205,
+            "total_pnl": 2922.676913225806
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-01-31"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-01-31T21:00:00Z",
+            "spot_pnl": -1914.9863217557613,
+            "hedge_pnl": 3142.236118538178,
+            "rebound_pnl": 0.0,
+            "total_pnl": 1227.2497967824165
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 3,
+          "observed": -12104.265700329202,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -12040.460314751928,
+          "median": -12104.265700329202,
+          "ci_low_2p5": -32408.76991962854,
+          "ci_high_97p5": 1840.9317839082178,
+          "p05": -23520.832934841455,
+          "p95": -687.6984658169495,
+          "prob_gt_0": 0.0376
+        },
+        "hedge_pnl": {
+          "n_episodes": 3,
+          "observed": 17304.31989000382,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 17224.600370590866,
+          "median": 17304.31989000382,
+          "ci_low_2p5": -261.93555379887675,
+          "ci_high_97p5": 42748.1868681958,
+          "p05": 2967.6124160055933,
+          "p95": 31641.027364002046,
+          "prob_gt_0": 0.9624
+        },
+        "rebound_pnl": {
+          "n_episodes": 3,
+          "observed": -2709.9966946861205,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -2709.319195512449,
+          "median": -2709.9966946861205,
+          "ci_low_2p5": -8129.990084058361,
+          "ci_high_97p5": 0.0,
+          "p05": -5419.993389372241,
+          "p95": 0.0,
+          "prob_gt_0": 0.0
+        },
+        "total_pnl": {
+          "n_episodes": 3,
+          "observed": 7596.3990261973095,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 7579.885806152501,
+          "median": 7596.3990261973095,
+          "ci_low_2p5": 3681.7493903472496,
+          "ci_high_97p5": 10339.416948567261,
+          "p05": 5377.176506790639,
+          "p95": 9815.621545603979,
+          "prob_gt_0": 1.0
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade.",
+        "HEDGE_MASKED_TOTAL: spot coin PnL negative while total positive (ETH hedge/rebound drive headline); no spot-alpha claim."
+      ]
+    },
+    {
+      "name": "c12_25_9",
+      "rsi_threshold": 25.0,
+      "target_pct": 9.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json",
+      "metrics": {
+        "trades": 17,
+        "total_pnl": 23244.22403498305,
+        "spot_pnl": 6836.437969488709,
+        "hedge_pnl": 4762.242769852556,
+        "rebound_pnl": 11904.320581045524
+      },
+      "census_reconciliation": {
+        "events_total": 202,
+        "volume_gate_pass": 202,
+        "signal_gate_pass": 33,
+        "trades_in_campaign": 17,
+        "blocking_reason_counts": {
+          "trade_opened": 17,
+          "bounce_not_confirmed": 169,
+          "one_position_per_coin": 16
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 10,
+        "n_trade_crash_days": 11,
+        "trade_crash_days": [
+          "2026-01-08",
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-25",
+          "2026-01-31",
+          "2026-02-05",
+          "2026-02-23",
+          "2026-03-27",
+          "2026-05-18",
+          "2026-06-02",
+          "2026-07-17"
+        ],
+        "episode_sizes": [
+          1,
+          2,
+          3,
+          4,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "episodes": [
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-08"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-01-08T12:00:00Z",
+            "end": "2026-01-08T12:00:00Z",
+            "spot_pnl": 11911.483841962192,
+            "hedge_pnl": 586.5498767952603,
+            "rebound_pnl": 12183.066159734011,
+            "total_pnl": 23455.216036529273
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-20T20:00:00Z",
+            "spot_pnl": -10802.923306542847,
+            "hedge_pnl": 14249.395622731934,
+            "rebound_pnl": 0.0,
+            "total_pnl": 3446.472316189087
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-01-25"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-25T22:00:00Z",
+            "spot_pnl": 13495.4346647826,
+            "hedge_pnl": -15862.763890266866,
+            "rebound_pnl": -3287.6904465463613,
+            "total_pnl": -2805.731294996101
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-01-31"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-01-31T21:00:00Z",
+            "spot_pnl": 3043.099999849398,
+            "hedge_pnl": 5915.820347201551,
+            "rebound_pnl": 3008.9448678578733,
+            "total_pnl": 10085.683394432748
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-02-05"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC"
+            ],
+            "start": "2026-02-05T23:00:00Z",
+            "end": "2026-02-05T23:00:00Z",
+            "spot_pnl": -8929.854922550383,
+            "hedge_pnl": -75.95294181368664,
+            "rebound_pnl": 0.0,
+            "total_pnl": -9005.80786436407
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-02-23"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-02-23T03:00:00Z",
+            "end": "2026-02-23T06:00:00Z",
+            "spot_pnl": 5087.654280322754,
+            "hedge_pnl": -3073.9323629073874,
+            "rebound_pnl": 0.0,
+            "total_pnl": 2013.7219174153665
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-03-27"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC"
+            ],
+            "start": "2026-03-27T15:00:00Z",
+            "end": "2026-03-27T15:00:00Z",
+            "spot_pnl": -211.97163734705572,
+            "hedge_pnl": -26.283899789699035,
+            "rebound_pnl": 0.0,
+            "total_pnl": -238.25553713675475
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-05-18"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH"
+            ],
+            "start": "2026-05-18T02:00:00Z",
+            "end": "2026-05-18T02:00:00Z",
+            "spot_pnl": -1055.192458584341,
+            "hedge_pnl": 812.3925996976361,
+            "rebound_pnl": 0.0,
+            "total_pnl": -242.7998588867049
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-06-02"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC"
+            ],
+            "start": "2026-06-02T21:00:00Z",
+            "end": "2026-06-02T21:00:00Z",
+            "spot_pnl": -9195.379605047341,
+            "hedge_pnl": 5248.380703278516,
+            "rebound_pnl": 0.0,
+            "total_pnl": -3946.998901768825
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-07-17"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "HYPE"
+            ],
+            "start": "2026-07-17T07:00:00Z",
+            "end": "2026-07-17T07:00:00Z",
+            "spot_pnl": 3494.0871126437323,
+            "hedge_pnl": -3011.3632850747017,
+            "rebound_pnl": 0.0,
+            "total_pnl": 482.7238275690306
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 10,
+          "observed": 6836.437969488709,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 6837.715640043112,
+          "median": 6935.561790182445,
+          "ci_low_2p5": -42838.859503218824,
+          "ci_high_97p5": 56387.037680913665,
+          "p05": -35476.547022204235,
+          "p95": 48098.882019620665,
+          "prob_gt_0": 0.6068
+        },
+        "hedge_pnl": {
+          "n_episodes": 10,
+          "observed": 4762.242769852557,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 4773.970140122905,
+          "median": 5360.745223503387,
+          "ci_low_2p5": -41961.95858210766,
+          "ci_high_97p5": 48905.29521786512,
+          "p05": -33760.63926070914,
+          "p95": 41957.375271050485,
+          "prob_gt_0": 0.59215
+        },
+        "rebound_pnl": {
+          "n_episodes": 10,
+          "observed": 11904.320581045524,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 11922.285049150887,
+          "median": 11904.320581045524,
+          "ci_low_2p5": -6854.12647178121,
+          "ci_high_97p5": 39558.14334705991,
+          "p05": -6575.3808930927225,
+          "p95": 33392.96692304165,
+          "prob_gt_0": 0.7748
+        },
+        "total_pnl": {
+          "n_episodes": 10,
+          "observed": 23244.22403498305,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 23254.480183087522,
+          "median": 21441.078090122894,
+          "ci_low_2p5": -22799.52262496636,
+          "ci_high_97p5": 79978.90703829474,
+          "p05": -17485.680017494273,
+          "p95": 69957.48491625424,
+          "prob_gt_0": 0.80295
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade.",
+        "POSITIVE_SPOT_IN_SAMPLE: spot coin PnL positive in this sample; requires dependence-aware validation and is not GO by itself."
+      ]
+    },
+    {
+      "name": "c12_25_5",
+      "rsi_threshold": 25.0,
+      "target_pct": 5.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t5_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi25_t5_20261115T180000Z.json",
+      "metrics": {
+        "trades": 17,
+        "total_pnl": -3596.4428032578176,
+        "spot_pnl": -17462.388411323976,
+        "hedge_pnl": 17159.134448960875,
+        "rebound_pnl": -15138.926610003082
+      },
+      "census_reconciliation": {
+        "events_total": 202,
+        "volume_gate_pass": 202,
+        "signal_gate_pass": 33,
+        "trades_in_campaign": 17,
+        "blocking_reason_counts": {
+          "trade_opened": 17,
+          "bounce_not_confirmed": 169,
+          "one_position_per_coin": 16
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 10,
+        "n_trade_crash_days": 11,
+        "trade_crash_days": [
+          "2026-01-08",
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-25",
+          "2026-01-31",
+          "2026-02-05",
+          "2026-02-23",
+          "2026-03-27",
+          "2026-05-18",
+          "2026-06-02",
+          "2026-07-17"
+        ],
+        "episode_sizes": [
+          1,
+          2,
+          3,
+          4,
+          1,
+          2,
+          1,
+          1,
+          1,
+          1
+        ],
+        "episodes": [
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-08"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-01-08T12:00:00Z",
+            "end": "2026-01-08T12:00:00Z",
+            "spot_pnl": 7113.88384196219,
+            "hedge_pnl": 4849.151618702377,
+            "rebound_pnl": -8887.527397214504,
+            "total_pnl": 1849.6242214878694
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-20T20:00:00Z",
+            "spot_pnl": -10802.923306542847,
+            "hedge_pnl": 14249.395622731934,
+            "rebound_pnl": 0.0,
+            "total_pnl": 3446.472316189087
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-01-25"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-25T22:00:00Z",
+            "spot_pnl": 439.12773530512027,
+            "hedge_pnl": -6557.539424702456,
+            "rebound_pnl": -2362.939861134523,
+            "total_pnl": 1459.006173341261
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-01-31"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-01-31T21:00:00Z",
+            "spot_pnl": -1394.569470919058,
+            "hedge_pnl": -1523.5596729838605,
+            "rebound_pnl": 994.8989497997279,
+            "total_pnl": -495.1425438108113
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-02-05"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC"
+            ],
+            "start": "2026-02-05T23:00:00Z",
+            "end": "2026-02-05T23:00:00Z",
+            "spot_pnl": -8929.854922550383,
+            "hedge_pnl": -75.95294181368664,
+            "rebound_pnl": 0.0,
+            "total_pnl": -9005.80786436407
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-02-23"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-02-23T03:00:00Z",
+            "end": "2026-02-23T06:00:00Z",
+            "spot_pnl": 3080.404299756006,
+            "hedge_pnl": 3194.5131289148167,
+            "rebound_pnl": -4883.358301453782,
+            "total_pnl": 3094.7353641220993
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-03-27"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC"
+            ],
+            "start": "2026-03-27T15:00:00Z",
+            "end": "2026-03-27T15:00:00Z",
+            "spot_pnl": -211.97163734705572,
+            "hedge_pnl": -26.283899789699035,
+            "rebound_pnl": 0.0,
+            "total_pnl": -238.25553713675475
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-05-18"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH"
+            ],
+            "start": "2026-05-18T02:00:00Z",
+            "end": "2026-05-18T02:00:00Z",
+            "spot_pnl": -1055.192458584341,
+            "hedge_pnl": 812.3925996976361,
+            "rebound_pnl": 0.0,
+            "total_pnl": -242.7998588867049
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-06-02"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC"
+            ],
+            "start": "2026-06-02T21:00:00Z",
+            "end": "2026-06-02T21:00:00Z",
+            "spot_pnl": -9195.379605047341,
+            "hedge_pnl": 5248.380703278516,
+            "rebound_pnl": 0.0,
+            "total_pnl": -3946.998901768825
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-07-17"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "HYPE"
+            ],
+            "start": "2026-07-17T07:00:00Z",
+            "end": "2026-07-17T07:00:00Z",
+            "spot_pnl": 3494.0871126437323,
+            "hedge_pnl": -3011.3632850747017,
+            "rebound_pnl": 0.0,
+            "total_pnl": 482.7238275690306
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 10,
+          "observed": -17462.388411323976,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -17403.47728992698,
+          "median": -17045.396802614257,
+          "ci_low_2p5": -53443.53657093769,
+          "ci_high_97p5": 16112.881717041371,
+          "p05": -47728.854468005884,
+          "p95": 11480.953883427603,
+          "prob_gt_0": 0.16825
+        },
+        "hedge_pnl": {
+          "n_episodes": 10,
+          "observed": 17159.134448960875,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 17104.37703364696,
+          "median": 16349.766003950994,
+          "ci_low_2p5": -13608.381407301165,
+          "ci_high_97p5": 52602.1551346509,
+          "p05": -9448.465351061368,
+          "p95": 46622.96843658436,
+          "prob_gt_0": 0.84275
+        },
+        "rebound_pnl": {
+          "n_episodes": 10,
+          "observed": -15138.926610003082,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -15124.915122982473,
+          "median": -14144.027660203354,
+          "ci_low_2p5": -34797.39810896324,
+          "ci_high_97p5": 621.7569882646605,
+          "p05": -31430.230748990627,
+          "p95": -1368.0409113347953,
+          "prob_gt_0": 0.02715
+        },
+        "total_pnl": {
+          "n_episodes": 10,
+          "observed": -3596.4428032578176,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -3624.1629552308054,
+          "median": -2856.5019233127114,
+          "ci_low_2p5": -27390.23197699487,
+          "ci_high_97p5": 15394.832354435977,
+          "p05": -23118.448923586577,
+          "p95": 13069.29229773127,
+          "prob_gt_0": 0.398
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade."
+      ]
+    },
+    {
+      "name": "c12_30_9",
+      "rsi_threshold": 30.0,
+      "target_pct": 9.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi30_t9_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi30_t9_20261115T180000Z.json",
+      "metrics": {
+        "trades": 57,
+        "total_pnl": -11453.310293268345,
+        "spot_pnl": -65465.79004953461,
+        "hedge_pnl": 25822.091828419696,
+        "rebound_pnl": -6896.947858471382
+      },
+      "census_reconciliation": {
+        "events_total": 671,
+        "volume_gate_pass": 671,
+        "signal_gate_pass": 148,
+        "trades_in_campaign": 57,
+        "blocking_reason_counts": {
+          "trade_opened": 57,
+          "bounce_not_confirmed": 523,
+          "one_position_per_coin": 79,
+          "portfolio_admission": 12
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 19,
+        "n_trade_crash_days": 31,
+        "trade_crash_days": [
+          "2026-01-08",
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-21",
+          "2026-01-25",
+          "2026-01-29",
+          "2026-01-31",
+          "2026-02-02",
+          "2026-02-05",
+          "2026-02-06",
+          "2026-02-23",
+          "2026-02-27",
+          "2026-02-28",
+          "2026-03-26",
+          "2026-03-27",
+          "2026-04-19",
+          "2026-04-29",
+          "2026-05-16",
+          "2026-05-23",
+          "2026-05-28",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-05",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-07-16",
+          "2026-07-24",
+          "2026-07-25",
+          "2026-08-01",
+          "2026-08-10",
+          "2026-08-11"
+        ],
+        "episode_sizes": [
+          1,
+          6,
+          7,
+          5,
+          4,
+          5,
+          2,
+          3,
+          1,
+          1,
+          2,
+          4,
+          2,
+          4,
+          3,
+          1,
+          2,
+          2,
+          2
+        ],
+        "episodes": [
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-01-08"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-01-08T12:00:00Z",
+            "end": "2026-01-08T12:00:00Z",
+            "spot_pnl": 11911.483841962192,
+            "hedge_pnl": 586.5498767952603,
+            "rebound_pnl": 12183.066159734011,
+            "total_pnl": 23455.216036529273
+          },
+          {
+            "n_trades": 6,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20",
+              "2026-01-21"
+            ],
+            "n_crash_days": 3,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "HYPE",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-21T01:00:00Z",
+            "spot_pnl": -13624.762741996043,
+            "hedge_pnl": 14498.667004420178,
+            "rebound_pnl": 0.0,
+            "total_pnl": 873.9042624241358
+          },
+          {
+            "n_trades": 7,
+            "crash_days": [
+              "2026-01-25",
+              "2026-01-29"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-29T20:00:00Z",
+            "spot_pnl": -2945.409200875698,
+            "hedge_pnl": -814.2815866469568,
+            "rebound_pnl": -2466.51611030977,
+            "total_pnl": -4088.740190056539
+          },
+          {
+            "n_trades": 5,
+            "crash_days": [
+              "2026-01-31",
+              "2026-02-02"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-02-02T05:00:00Z",
+            "spot_pnl": 3362.6723813201556,
+            "hedge_pnl": 5532.417999934673,
+            "rebound_pnl": 3008.9448678578733,
+            "total_pnl": 10021.853428636627
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-02-05",
+              "2026-02-06"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-02-05T15:00:00Z",
+            "end": "2026-02-06T01:00:00Z",
+            "spot_pnl": -11580.876663961395,
+            "hedge_pnl": 9168.738086968435,
+            "rebound_pnl": -3182.3144325238063,
+            "total_pnl": 1653.153870048093
+          },
+          {
+            "n_trades": 5,
+            "crash_days": [
+              "2026-02-23"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "HYPE",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-02-23T03:00:00Z",
+            "end": "2026-02-23T06:00:00Z",
+            "spot_pnl": 931.4784403564438,
+            "hedge_pnl": -3243.919039780587,
+            "rebound_pnl": 0.0,
+            "total_pnl": -2312.4405994241433
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-02-27",
+              "2026-02-28"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-02-27T21:00:00Z",
+            "end": "2026-02-28T08:00:00Z",
+            "spot_pnl": -15474.745081146892,
+            "hedge_pnl": -9643.660028907434,
+            "rebound_pnl": 3608.0145386114145,
+            "total_pnl": -3708.177045121178
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-03-26",
+              "2026-03-27"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-03-26T20:00:00Z",
+            "end": "2026-03-27T12:00:00Z",
+            "spot_pnl": -4736.028207200787,
+            "hedge_pnl": 3291.8876485000405,
+            "rebound_pnl": 0.0,
+            "total_pnl": -1444.1405587007462
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-04-19"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "HYPE"
+            ],
+            "start": "2026-04-19T20:00:00Z",
+            "end": "2026-04-19T20:00:00Z",
+            "spot_pnl": -8548.349210906385,
+            "hedge_pnl": -280.4142977746184,
+            "rebound_pnl": 0.0,
+            "total_pnl": -8828.763508681002
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-04-29"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-04-29T17:00:00Z",
+            "end": "2026-04-29T17:00:00Z",
+            "spot_pnl": 11657.693683573321,
+            "hedge_pnl": 5681.17999823171,
+            "rebound_pnl": -11679.381112667816,
+            "total_pnl": 4423.398885563881
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-05-16"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-05-16T11:00:00Z",
+            "end": "2026-05-16T13:00:00Z",
+            "spot_pnl": -3917.532645443205,
+            "hedge_pnl": 4317.939269421491,
+            "rebound_pnl": 0.0,
+            "total_pnl": 400.40662397828646
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-05-23"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-05-23T01:00:00Z",
+            "end": "2026-05-23T11:00:00Z",
+            "spot_pnl": 2799.862006767626,
+            "hedge_pnl": -13661.017696568613,
+            "rebound_pnl": -8368.761769173288,
+            "total_pnl": -6985.709440307201
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-05-28"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH"
+            ],
+            "start": "2026-05-28T05:00:00Z",
+            "end": "2026-05-28T07:00:00Z",
+            "spot_pnl": 1307.723740237999,
+            "hedge_pnl": -2126.952762713614,
+            "rebound_pnl": 0.0,
+            "total_pnl": -819.2290224756148
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-06-02",
+              "2026-06-03",
+              "2026-06-05"
+            ],
+            "n_crash_days": 3,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "ZEC"
+            ],
+            "start": "2026-06-02T08:00:00Z",
+            "end": "2026-06-05T10:00:00Z",
+            "spot_pnl": -25793.97240019034,
+            "hedge_pnl": 10082.842598237961,
+            "rebound_pnl": 0.0,
+            "total_pnl": -15711.12980195238
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-06-23",
+              "2026-06-24"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-06-23T10:00:00Z",
+            "end": "2026-06-24T19:00:00Z",
+            "spot_pnl": -9148.786580305217,
+            "hedge_pnl": 8083.132876922558,
+            "rebound_pnl": 0.0,
+            "total_pnl": -1065.6537033826594
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-07-16"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "HYPE"
+            ],
+            "start": "2026-07-16T19:00:00Z",
+            "end": "2026-07-16T19:00:00Z",
+            "spot_pnl": -8568.656037165536,
+            "hedge_pnl": 4507.65792307978,
+            "rebound_pnl": 0.0,
+            "total_pnl": -4060.9981140857562
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-07-24",
+              "2026-07-25"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-07-24T18:00:00Z",
+            "end": "2026-07-25T07:00:00Z",
+            "spot_pnl": 3582.7222191349374,
+            "hedge_pnl": -8172.529337763277,
+            "rebound_pnl": 0.0,
+            "total_pnl": -4589.80711862834
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-08-01"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-08-01T20:00:00Z",
+            "end": "2026-08-01T20:00:00Z",
+            "spot_pnl": 2213.7505918239794,
+            "hedge_pnl": -1238.7585935243346,
+            "rebound_pnl": 0.0,
+            "total_pnl": 974.9919982996448
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "ZEC"
+            ],
+            "start": "2026-08-10T18:00:00Z",
+            "end": "2026-08-11T18:00:00Z",
+            "spot_pnl": 1105.9418144802294,
+            "hedge_pnl": -747.3881104129558,
+            "rebound_pnl": 0.0,
+            "total_pnl": 358.55370406727366
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 19,
+          "observed": -65465.79004953461,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -65499.43342926889,
+          "median": -64930.11869702653,
+          "ci_low_2p5": -146015.95523975702,
+          "ci_high_97p5": 12312.498628517507,
+          "p05": -131938.9614077143,
+          "p95": -514.7695064101729,
+          "prob_gt_0": 0.0487
+        },
+        "hedge_pnl": {
+          "n_episodes": 19,
+          "observed": 25822.091828419696,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 26076.83984808285,
+          "median": 26649.064161730435,
+          "ci_low_2p5": -34584.85352982739,
+          "ci_high_97p5": 84557.71357053242,
+          "p05": -24390.396397616903,
+          "p95": 75094.2250732289,
+          "prob_gt_0": 0.80605
+        },
+        "rebound_pnl": {
+          "n_episodes": 19,
+          "observed": -6896.947858471382,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -6748.345168626195,
+          "median": -6858.204147989474,
+          "ci_low_2p5": -45957.459516550065,
+          "ci_high_97p5": 32578.61728459962,
+          "p05": -39425.55209516338,
+          "p95": 25959.413730220695,
+          "prob_gt_0": 0.36145
+        },
+        "total_pnl": {
+          "n_episodes": 19,
+          "observed": -11453.310293268345,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -11212.14167493428,
+          "median": -13055.638284572888,
+          "ci_low_2p5": -71682.79444071728,
+          "ci_high_97p5": 59746.04023938766,
+          "p05": -62573.21928990346,
+          "p95": 46847.29655917474,
+          "prob_gt_0": 0.35355
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade."
+      ]
+    },
+    {
+      "name": "c12_30_5",
+      "rsi_threshold": 30.0,
+      "target_pct": 5.0,
+      "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi30_t5_20261115T180000Z.json",
+      "census": "research_state/crash_event_census_hyperliquid_native_c12_rsi30_t5_20261115T180000Z.json",
+      "metrics": {
+        "trades": 58,
+        "total_pnl": -32741.08226867258,
+        "spot_pnl": -86408.9625703945,
+        "hedge_pnl": 47863.20340050077,
+        "rebound_pnl": -33838.59752179826
+      },
+      "census_reconciliation": {
+        "events_total": 671,
+        "volume_gate_pass": 671,
+        "signal_gate_pass": 148,
+        "trades_in_campaign": 58,
+        "blocking_reason_counts": {
+          "trade_opened": 58,
+          "bounce_not_confirmed": 523,
+          "one_position_per_coin": 80,
+          "portfolio_admission": 10
+        }
+      },
+      "episodes": {
+        "n_trade_episodes": 19,
+        "n_trade_crash_days": 32,
+        "trade_crash_days": [
+          "2026-01-08",
+          "2026-01-10",
+          "2026-01-19",
+          "2026-01-20",
+          "2026-01-21",
+          "2026-01-25",
+          "2026-01-29",
+          "2026-01-31",
+          "2026-02-02",
+          "2026-02-05",
+          "2026-02-06",
+          "2026-02-23",
+          "2026-02-27",
+          "2026-02-28",
+          "2026-03-26",
+          "2026-03-27",
+          "2026-04-19",
+          "2026-04-29",
+          "2026-05-16",
+          "2026-05-23",
+          "2026-05-28",
+          "2026-06-02",
+          "2026-06-03",
+          "2026-06-05",
+          "2026-06-23",
+          "2026-06-24",
+          "2026-07-16",
+          "2026-07-24",
+          "2026-07-25",
+          "2026-08-01",
+          "2026-08-10",
+          "2026-08-11"
+        ],
+        "episode_sizes": [
+          2,
+          6,
+          7,
+          5,
+          4,
+          5,
+          2,
+          3,
+          1,
+          1,
+          2,
+          4,
+          2,
+          4,
+          3,
+          1,
+          2,
+          2,
+          2
+        ],
+        "episodes": [
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-01-08",
+              "2026-01-10"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "HYPE",
+              "ZEC"
+            ],
+            "start": "2026-01-08T12:00:00Z",
+            "end": "2026-01-10T07:00:00Z",
+            "spot_pnl": 7207.776778108658,
+            "hedge_pnl": 3607.5743998005673,
+            "rebound_pnl": -8887.527397214504,
+            "total_pnl": 701.9399387325273
+          },
+          {
+            "n_trades": 6,
+            "crash_days": [
+              "2026-01-19",
+              "2026-01-20",
+              "2026-01-21"
+            ],
+            "n_crash_days": 3,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "HYPE",
+              "SOL"
+            ],
+            "start": "2026-01-19T04:00:00Z",
+            "end": "2026-01-21T01:00:00Z",
+            "spot_pnl": -13624.762741996043,
+            "hedge_pnl": 14498.667004420178,
+            "rebound_pnl": 0.0,
+            "total_pnl": 873.9042624241358
+          },
+          {
+            "n_trades": 7,
+            "crash_days": [
+              "2026-01-25",
+              "2026-01-29"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-25T21:00:00Z",
+            "end": "2026-01-29T20:00:00Z",
+            "spot_pnl": -10300.317292412015,
+            "hedge_pnl": 4073.17382732502,
+            "rebound_pnl": -1355.016213014707,
+            "total_pnl": -1691.1593952640608
+          },
+          {
+            "n_trades": 5,
+            "crash_days": [
+              "2026-01-31",
+              "2026-02-02"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-01-31T21:00:00Z",
+            "end": "2026-02-02T05:00:00Z",
+            "spot_pnl": -1121.5770304045816,
+            "hedge_pnl": -5636.014225543916,
+            "rebound_pnl": 3902.8203165266004,
+            "total_pnl": -246.42572964398755
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-02-05",
+              "2026-02-06"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-02-05T15:00:00Z",
+            "end": "2026-02-06T01:00:00Z",
+            "spot_pnl": -12900.62960511032,
+            "hedge_pnl": 14169.847212619785,
+            "rebound_pnl": -9713.05562389788,
+            "total_pnl": -4542.078195674637
+          },
+          {
+            "n_trades": 5,
+            "crash_days": [
+              "2026-02-23"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "HYPE",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-02-23T03:00:00Z",
+            "end": "2026-02-23T06:00:00Z",
+            "spot_pnl": 724.1471088400988,
+            "hedge_pnl": 1144.2734799437603,
+            "rebound_pnl": -590.2032789874243,
+            "total_pnl": 2859.585175459928
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-02-27",
+              "2026-02-28"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-02-27T21:00:00Z",
+            "end": "2026-02-28T08:00:00Z",
+            "spot_pnl": -13044.434813304659,
+            "hedge_pnl": 6258.118561515448,
+            "rebound_pnl": -9442.87663840003,
+            "total_pnl": -5582.889631709732
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-03-26",
+              "2026-03-27"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-03-26T20:00:00Z",
+            "end": "2026-03-27T12:00:00Z",
+            "spot_pnl": -4736.028207200787,
+            "hedge_pnl": 3291.8876485000405,
+            "rebound_pnl": 0.0,
+            "total_pnl": -1444.1405587007462
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-04-19"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "HYPE"
+            ],
+            "start": "2026-04-19T20:00:00Z",
+            "end": "2026-04-19T20:00:00Z",
+            "spot_pnl": -8548.349210906385,
+            "hedge_pnl": -280.4142977746184,
+            "rebound_pnl": 0.0,
+            "total_pnl": -8828.763508681002
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-04-29"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ZEC"
+            ],
+            "start": "2026-04-29T17:00:00Z",
+            "end": "2026-04-29T17:00:00Z",
+            "spot_pnl": 8342.988985243093,
+            "hedge_pnl": 1262.9778931750911,
+            "rebound_pnl": -8231.755145331601,
+            "total_pnl": -1152.7772521564839
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-05-16"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-05-16T11:00:00Z",
+            "end": "2026-05-16T13:00:00Z",
+            "spot_pnl": -3917.532645443205,
+            "hedge_pnl": 4317.939269421491,
+            "rebound_pnl": 0.0,
+            "total_pnl": 400.40662397828646
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-05-23"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-05-23T01:00:00Z",
+            "end": "2026-05-23T11:00:00Z",
+            "spot_pnl": 5532.89716122668,
+            "hedge_pnl": 6563.185071848342,
+            "rebound_pnl": -11086.241431375407,
+            "total_pnl": 6513.457696246365
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-05-28"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "BTC",
+              "ETH"
+            ],
+            "start": "2026-05-28T05:00:00Z",
+            "end": "2026-05-28T07:00:00Z",
+            "spot_pnl": 1307.723740237999,
+            "hedge_pnl": -2126.952762713614,
+            "rebound_pnl": 0.0,
+            "total_pnl": -819.2290224756148
+          },
+          {
+            "n_trades": 4,
+            "crash_days": [
+              "2026-06-02",
+              "2026-06-03",
+              "2026-06-05"
+            ],
+            "n_crash_days": 3,
+            "symbols": [
+              "BTC",
+              "ETH",
+              "ZEC"
+            ],
+            "start": "2026-06-02T08:00:00Z",
+            "end": "2026-06-05T10:00:00Z",
+            "spot_pnl": -25793.97240019034,
+            "hedge_pnl": 10082.842598237961,
+            "rebound_pnl": 0.0,
+            "total_pnl": -15711.12980195238
+          },
+          {
+            "n_trades": 3,
+            "crash_days": [
+              "2026-06-23",
+              "2026-06-24"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-06-23T10:00:00Z",
+            "end": "2026-06-24T19:00:00Z",
+            "spot_pnl": -8177.533126995106,
+            "hedge_pnl": -3121.891024590175,
+            "rebound_pnl": 5902.410950640419,
+            "total_pnl": 240.68852668085583
+          },
+          {
+            "n_trades": 1,
+            "crash_days": [
+              "2026-07-16"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "HYPE"
+            ],
+            "start": "2026-07-16T19:00:00Z",
+            "end": "2026-07-16T19:00:00Z",
+            "spot_pnl": -8568.656037165536,
+            "hedge_pnl": 4507.65792307978,
+            "rebound_pnl": 0.0,
+            "total_pnl": -4060.9981140857562
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-07-24",
+              "2026-07-25"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "SOL",
+              "ZEC"
+            ],
+            "start": "2026-07-24T18:00:00Z",
+            "end": "2026-07-25T07:00:00Z",
+            "spot_pnl": -954.0941157259495,
+            "hedge_pnl": -8134.5975529473635,
+            "rebound_pnl": 4246.299182006537,
+            "total_pnl": 203.8927777268559
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-08-01"
+            ],
+            "n_crash_days": 1,
+            "symbols": [
+              "ETH",
+              "SOL"
+            ],
+            "start": "2026-08-01T20:00:00Z",
+            "end": "2026-08-01T20:00:00Z",
+            "spot_pnl": 2213.7505918239794,
+            "hedge_pnl": -1238.7585935243346,
+            "rebound_pnl": 0.0,
+            "total_pnl": 974.9919982996448
+          },
+          {
+            "n_trades": 2,
+            "crash_days": [
+              "2026-08-10",
+              "2026-08-11"
+            ],
+            "n_crash_days": 2,
+            "symbols": [
+              "ETH",
+              "ZEC"
+            ],
+            "start": "2026-08-10T18:00:00Z",
+            "end": "2026-08-11T18:00:00Z",
+            "spot_pnl": -50.3597090200841,
+            "hedge_pnl": -5376.31303229267,
+            "rebound_pnl": 1416.5477572497325,
+            "total_pnl": -1430.3580578767778
+          }
+        ]
+      },
+      "episode_block_bootstrap": {
+        "spot_pnl": {
+          "n_episodes": 19,
+          "observed": -86408.9625703945,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -86501.08763596245,
+          "median": -85716.77396105236,
+          "ci_low_2p5": -159892.91356997957,
+          "ci_high_97p5": -17185.698912491644,
+          "p05": -147282.20394366077,
+          "p95": -27889.01668083732,
+          "prob_gt_0": 0.00745
+        },
+        "hedge_pnl": {
+          "n_episodes": 19,
+          "observed": 47863.20340050077,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": 47709.36026430345,
+          "median": 47513.27643879176,
+          "ci_low_2p5": -3451.9660465433694,
+          "ci_high_97p5": 100085.17853056788,
+          "p05": 4604.262546568121,
+          "p95": 91497.4238576035,
+          "prob_gt_0": 0.9661
+        },
+        "rebound_pnl": {
+          "n_episodes": 19,
+          "observed": -33838.59752179826,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -33631.59780607804,
+          "median": -32951.060717910994,
+          "ci_low_2p5": -78335.50528629316,
+          "ci_high_97p5": 7181.808669335618,
+          "p05": -70644.83970317371,
+          "p95": 1119.7244026074845,
+          "prob_gt_0": 0.0573
+        },
+        "total_pnl": {
+          "n_episodes": 19,
+          "observed": -32741.08226867258,
+          "resamples": 20000,
+          "seed": 20261115,
+          "mean": -32739.2016237051,
+          "median": -31588.836023344506,
+          "ci_low_2p5": -75299.74180321608,
+          "ci_high_97p5": 3361.776913453238,
+          "p05": -67096.2900190365,
+          "p95": -1729.3089562318248,
+          "prob_gt_0": 0.0396
+        }
+      },
+      "existing_inference_refs": {},
+      "underpowered": true,
+      "notes": [
+        "UNDERPOWERED/FRAGILE: dependence-aware inference limited by small episode/trade count on 283d native window; CIs/permutation/placebo (where available) should be interpreted as non-decision-grade."
+      ]
+    }
+  ],
+  "lead_config_assessment": {
+    "best_total_in_sample": "c12_25_9 (rsi 25, target 9) total +23244.22 but driven by positive spot (+6836.44) + rebound (+11904.32) + small hedge (+4762.24) across 17 trades / 10 episodes / 11 crash days; episode-block bootstrap CIs must be consulted\u2014discovery/hypothesis-generating, not validated GO.",
+    "hedge_masked_configs": "c12_20_5/c12_22_5 totals positive but spot deeply negative and rebound negative (hedge-masked).",
+    "negative_configs": "c12_25_5 and all rsi30 configs negative total with large negative spot.",
+    "canonical": "anchor_20_9 remains NO_GO/FRAGILE_NOT_DECISION_GRADE (0/7) per C11.3 refs."
+  }
+}

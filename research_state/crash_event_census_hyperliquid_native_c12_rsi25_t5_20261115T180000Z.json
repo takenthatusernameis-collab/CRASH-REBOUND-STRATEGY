@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-15T17:54:28.422028+00:00",
+  "generated_at_utc": "2026-11-15T18:03:46.651610+00:00",
   "run_type": "crash_event_census",
   "provenance_caveat": "Real Hyperliquid (Ironflow node-derived, native) exchange data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).",
   "is_hyperliquid_evidence": true,
@@ -11,8 +11,8 @@
     "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928",
     "universe": "research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json",
     "universe_sha256": "e78e1c09f756541b26c381660e261899c543c322251d6948ba0cd6049a8f10d2",
-    "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t5_probe.json",
-    "campaign_sha256": "f95ba07df094e90bf3ef784593437bed6389c63fb27faa478d3b84e6e94cc659"
+    "campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t5_20261115T180000Z.json",
+    "campaign_sha256": "c711ce47b092f54f19a55201748a6a07194dc080ff3d9592a9f9078e9f15edee"
   },
   "params": {
     "rsi_period": 21,

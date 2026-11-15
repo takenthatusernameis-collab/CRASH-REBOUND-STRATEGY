@@ -1,0 +1,2065 @@
+{
+  "timestamp": "2026-11-15T18:01:04.164050+00:00",
+  "run_type": "real_market_campaign",
+  "research_status": "REAL_MARKET_RUN",
+  "real_market_data": true,
+  "performance_evidence": true,
+  "fabricated_data": false,
+  "partial_universe_not_evidence": false,
+  "evidence_warning": null,
+  "data_provenance": {
+    "manifest_path": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928/provenance.json",
+    "manifest_sha256": "754b8336a2af25edb231e676d56d2601eb284fe56d3bf32d7754c73e60e581df",
+    "source": {
+      "kind": "archive",
+      "hl_url": null,
+      "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928",
+      "input_archives": []
+    },
+    "target_window": {
+      "start": "2025-12-20T00:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 6792
+    },
+    "symbols_complete": [
+      "BTC",
+      "ETH",
+      "HYPE",
+      "SOL",
+      "ZEC"
+    ],
+    "symbols_loaded": [
+      "BTC",
+      "ETH",
+      "HYPE",
+      "SOL",
+      "ZEC"
+    ],
+    "coverage_summary": {
+      "BTC": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "ETH": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "HYPE": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "SOL": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "ZEC": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      }
+    },
+    "universe_filter": {
+      "source": "research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json",
+      "symbols": [
+        "BTC",
+        "ETH",
+        "HYPE",
+        "SOL",
+        "ZEC"
+      ]
+    },
+    "universe_filter_policy": {
+      "min_daily_volume_usd": 5000000.0,
+      "applied_in": [
+        "src.strategy.crash_rebound.filter_universe",
+        "src.data.loader.load_multi_coin_data",
+        "scripts.run_portfolio.run_portfolio_simulation"
+      ],
+      "spec_min_daily_volume_usd": 5000000.0,
+      "note": "Real-universe membership must be justified by verified per-symbol data/provenance for the target window."
+    },
+    "partial_mode": false
+  },
+  "execution_realism": {
+    "execution_model": "hourly_bar_simplified",
+    "order_slicing_simulated": false,
+    "order_book_impact_model": "slippage_proxy",
+    "spread_bps_assumed": 0.0,
+    "slippage_pct": 0.0005,
+    "funding_rate_pct_per_hour": 0.01,
+    "enable_liquidation_checks": true,
+    "liquidation_maint_margin_pct": 5.0,
+    "limitation_note": "Hourly bar simulation only. Per spec the strategy uses 20s order slicing and order-book-aware impact; this implementation does NOT simulate sub-hourly 20s slicing, explicit spread, or live L2 order-book impact. Fees/funding/hourly worst-price liquidation checks and slippage proxy may be modeled, but results must not be interpreted as evidence that 20s slicing/market impact were reproduced."
+  },
+  "config": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 30.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "rebound_short_require_bounce_confirm": false,
+    "entry_spec_literal_next_open": false,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "execution_model": "hourly_bar_simplified",
+    "order_slicing_simulated": false,
+    "order_book_impact_model": "slippage_proxy",
+    "spread_bps_assumed": 0.0,
+    "slippage_pct": 0.0005,
+    "funding_rate_pct_per_hour": 0.01,
+    "enable_liquidation_checks": true
+  },
+  "results": {
+    "total_pnl": -11453.310293268341,
+    "num_trades": 57,
+    "final_open_positions": 0,
+    "final_gross_exposure": 0.0,
+    "trades": [
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 11911.483841962192,
+        "total_pnl": 23455.216036529273,
+        "entry_price": 396.45912999999996,
+        "hedge_pnl": 586.5498767952603,
+        "max_live_coin_notional": 130667.23320000002,
+        "shares": 302.67937075884726,
+        "entry_timestamp": "2026-01-08T12:00:00+00:00",
+        "exit_timestamp": "2026-01-10T03:00:00+00:00",
+        "r_multiple": 0.30323059929400153,
+        "bars_held": 40,
+        "leg": "short",
+        "rebound_short_pnl": 12183.066159734011,
+        "rebound_hedge_pnl": -639.3339651669322,
+        "hedge_side": "short",
+        "hedge_size": 100.36402931042807
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "liquidated",
+        "pnl": -4712.9288874574495,
+        "total_pnl": 1782.0289770820182,
+        "entry_price": 133.91915583333332,
+        "hedge_pnl": 6494.957864539468,
+        "max_live_coin_notional": 60000.0,
+        "shares": 448.0314980081858,
+        "entry_timestamp": "2026-01-19T04:00:00+00:00",
+        "exit_timestamp": "2026-01-20T22:00:00+00:00",
+        "r_multiple": -0.6949339112204213,
+        "bars_held": 43,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 23.95458570981366
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "stopped",
+        "pnl": -3208.576349446574,
+        "total_pnl": 578.3827930866246,
+        "entry_price": 92729.8857,
+        "hedge_pnl": 3786.9591425331987,
+        "max_live_coin_notional": 60000.0,
+        "shares": 0.6470405904964898,
+        "entry_timestamp": "2026-01-19T04:00:00+00:00",
+        "exit_timestamp": "2026-01-20T22:00:00+00:00",
+        "r_multiple": -1.098437470861058,
+        "bars_held": 43,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 13.970075126941413
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -2922.49625504493,
+        "total_pnl": -709.8246991156602,
+        "entry_price": 3123.3619000000003,
+        "hedge_pnl": 2212.6715559292697,
+        "max_live_coin_notional": 40000.0,
+        "shares": 12.806713176593464,
+        "entry_timestamp": "2026-01-20T08:00:00+00:00",
+        "exit_timestamp": "2026-01-20T22:00:00+00:00",
+        "r_multiple": -1.2777711291408522,
+        "bars_held": 15,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 12.813120635530783
+      },
+      {
+        "symbol": "HYPE",
+        "exit_reason": "liquidated",
+        "pnl": -2329.8117744345395,
+        "total_pnl": -929.0140315212063,
+        "entry_price": 22.096042,
+        "hedge_pnl": 1400.7977429133332,
+        "max_live_coin_notional": 30000.0,
+        "shares": 1357.7092223123036,
+        "entry_timestamp": "2026-01-20T15:00:00+00:00",
+        "exit_timestamp": "2026-01-21T10:00:00+00:00",
+        "r_multiple": -0.5587610021613203,
+        "bars_held": 20,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 16.23902061519545
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -529.088000840773,
+        "total_pnl": -122.89288596039034,
+        "entry_price": 2961.0808,
+        "hedge_pnl": 406.1951148803827,
+        "max_live_coin_notional": 60000.0,
+        "shares": 20.26287158391625,
+        "entry_timestamp": "2026-01-21T01:00:00+00:00",
+        "exit_timestamp": "2026-01-23T02:00:00+00:00",
+        "r_multiple": -0.09462277432062328,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 20.273009866198137
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": 78.13852522822322,
+        "total_pnl": 275.22410885274996,
+        "entry_price": 88950.45453258484,
+        "hedge_pnl": 197.08558362452672,
+        "max_live_coin_notional": 40000.0,
+        "shares": 0.44968853965042943,
+        "entry_timestamp": "2026-01-21T01:00:00+00:00",
+        "exit_timestamp": "2026-01-23T02:00:00+00:00",
+        "r_multiple": 0.029810148984593957,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 9.887712469825813
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 4373.529336744504,
+        "total_pnl": -192.6352950690807,
+        "entry_price": 118.28108033333334,
+        "hedge_pnl": -4566.1646318135845,
+        "max_live_coin_notional": 60000.0,
+        "shares": 507.26624943660687,
+        "entry_timestamp": "2026-01-25T21:00:00+00:00",
+        "exit_timestamp": "2026-01-27T22:00:00+00:00",
+        "r_multiple": 0.8464737729204829,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 22.845692081673146
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": 1427.276974938531,
+        "total_pnl": -1491.00400924129,
+        "entry_price": 86674.75883333334,
+        "hedge_pnl": -2918.280984179821,
+        "max_live_coin_notional": 60000.0,
+        "shares": 0.6922430567747392,
+        "entry_timestamp": "2026-01-25T21:00:00+00:00",
+        "exit_timestamp": "2026-01-27T22:00:00+00:00",
+        "r_multiple": 0.5079740304766376,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.597285926495333
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 2723.9451797300794,
+        "total_pnl": -87.55061833865057,
+        "entry_price": 2818.2094,
+        "hedge_pnl": -2811.49579806873,
+        "max_live_coin_notional": 40000.0,
+        "shares": 14.193409474824687,
+        "entry_timestamp": "2026-01-25T22:00:00+00:00",
+        "exit_timestamp": "2026-01-27T23:00:00+00:00",
+        "r_multiple": 0.9368320057629568,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.20051121840386
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 494.1832922241142,
+        "total_pnl": -1723.0196533180342,
+        "entry_price": 329.68575999999996,
+        "hedge_pnl": -1888.153543008264,
+        "max_live_coin_notional": 32665.308675,
+        "shares": 90.99574091401462,
+        "entry_timestamp": "2026-01-25T22:00:00+00:00",
+        "exit_timestamp": "2026-01-27T07:00:00+00:00",
+        "r_multiple": -0.21468212172717324,
+        "bars_held": 34,
+        "leg": "short",
+        "rebound_short_pnl": -2466.51611030977,
+        "rebound_hedge_pnl": 249.31316476762152,
+        "hedge_side": "short",
+        "hedge_size": 20.77644488272967
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -4262.063402219368,
+        "total_pnl": -2376.9482233425374,
+        "entry_price": 2836.2646466666665,
+        "hedge_pnl": 1885.1151788768307,
+        "max_live_coin_notional": 60000.00000000001,
+        "shares": 21.15458445336379,
+        "entry_timestamp": "2026-01-29T17:00:00+00:00",
+        "exit_timestamp": "2026-01-30T01:00:00+00:00",
+        "r_multiple": -1.0177191875390241,
+        "bars_held": 9,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 21.165514321998025
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "liquidated",
+        "pnl": -4325.68735915194,
+        "total_pnl": 1068.7279444896058,
+        "entry_price": 85312.05513333334,
+        "hedge_pnl": 5394.4153036415455,
+        "max_live_coin_notional": 60000.0,
+        "shares": 0.7033003706946998,
+        "entry_timestamp": "2026-01-29T17:00:00+00:00",
+        "exit_timestamp": "2026-01-31T16:00:00+00:00",
+        "r_multiple": -1.2653339543706594,
+        "bars_held": 48,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.79109967376928
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "liquidated",
+        "pnl": -3376.5932231416186,
+        "total_pnl": 713.689664763448,
+        "entry_price": 116.83939000000001,
+        "hedge_pnl": 4090.2828879050667,
+        "max_live_coin_notional": 40000.0,
+        "shares": 342.3502981314777,
+        "entry_timestamp": "2026-01-29T20:00:00+00:00",
+        "exit_timestamp": "2026-01-31T14:00:00+00:00",
+        "r_multiple": -0.8634444374115408,
+        "bars_held": 43,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 15.18159375853233
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -2288.1891700598862,
+        "total_pnl": -819.7913788797166,
+        "entry_price": 2382.269866666667,
+        "hedge_pnl": 1468.3977911801696,
+        "max_live_coin_notional": 30000.0,
+        "shares": 12.593031721455121,
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-01T23:00:00+00:00",
+        "r_multiple": -0.3534149836162712,
+        "bars_held": 27,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 12.5997480050399
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 730.3601484622457,
+        "total_pnl": 1276.6977289416059,
+        "entry_price": 101.88430933333333,
+        "hedge_pnl": 546.3375804793602,
+        "max_live_coin_notional": 30000.0,
+        "shares": 294.45162063031177,
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-02T22:00:00+00:00",
+        "r_multiple": 0.10818547331008274,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 13.395855839472139
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": 120.09720097095982,
+        "total_pnl": 460.53574321506744,
+        "entry_price": 78019.58826666667,
+        "hedge_pnl": 340.4385422441076,
+        "max_live_coin_notional": 30000.0,
+        "shares": 0.384518819779741,
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-02T22:00:00+00:00",
+        "r_multiple": 0.03318465753031136,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 8.365799936693035
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 4480.831820476079,
+        "total_pnl": 9168.241301155791,
+        "entry_price": 289.71443200000004,
+        "hedge_pnl": 3560.646433297914,
+        "max_live_coin_notional": 32665.308675000004,
+        "shares": 103.55024357226358,
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-03T01:00:00+00:00",
+        "r_multiple": 0.6634637564512691,
+        "bars_held": 53,
+        "leg": "short",
+        "rebound_short_pnl": 3008.9448678578733,
+        "rebound_hedge_pnl": 1678.46461282184,
+        "hedge_side": "short",
+        "hedge_size": 20.12434739954459
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 319.57238147075725,
+        "total_pnl": -63.82996579612097,
+        "entry_price": 2240.3206,
+        "hedge_pnl": -383.4023472668782,
+        "max_live_coin_notional": 30000.0,
+        "shares": 13.39094056448885,
+        "entry_timestamp": "2026-02-02T05:00:00+00:00",
+        "exit_timestamp": "2026-02-04T06:00:00+00:00",
+        "r_multiple": 0.049735424004657046,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 13.39764201500536
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "liquidated",
+        "pnl": -7956.710715021853,
+        "total_pnl": -211.02103378417632,
+        "entry_price": 225.45367000000002,
+        "hedge_pnl": 7745.689681237676,
+        "max_live_coin_notional": 120000.0,
+        "shares": 532.2601313165583,
+        "entry_timestamp": "2026-02-05T15:00:00+00:00",
+        "exit_timestamp": "2026-02-05T18:00:00+00:00",
+        "r_multiple": -0.2570233214124842,
+        "bars_held": 4,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 80.51990015050785
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "liquidated",
+        "pnl": -4135.547873177389,
+        "total_pnl": -2495.430076859474,
+        "entry_price": 66352.1605,
+        "hedge_pnl": 1640.1177963179155,
+        "max_live_coin_notional": 60000.0,
+        "shares": 0.904265958302895,
+        "entry_timestamp": "2026-02-05T19:00:00+00:00",
+        "exit_timestamp": "2026-02-05T20:00:00+00:00",
+        "r_multiple": -0.4620687238287082,
+        "bars_held": 2,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 20.791258086590172
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "liquidated",
+        "pnl": -2782.611196197314,
+        "total_pnl": -1207.1324633413308,
+        "entry_price": 82.92244,
+        "hedge_pnl": 1575.478732855983,
+        "max_live_coin_notional": 40000.0,
+        "shares": 482.3784731853043,
+        "entry_timestamp": "2026-02-05T19:00:00+00:00",
+        "exit_timestamp": "2026-02-05T20:00:00+00:00",
+        "r_multiple": -0.3188064933781076,
+        "bars_held": 2,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 19.972847074759084
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 3293.9931204351606,
+        "total_pnl": 5566.737444033074,
+        "entry_price": 63522.746499999994,
+        "hedge_pnl": -1792.54812344314,
+        "max_live_coin_notional": 130667.2332,
+        "shares": 1.889087084734285,
+        "entry_timestamp": "2026-02-06T01:00:00+00:00",
+        "exit_timestamp": "2026-02-08T15:00:00+00:00",
+        "r_multiple": 0.0959944797785691,
+        "bars_held": 63,
+        "leg": "short",
+        "rebound_short_pnl": -3182.3144325238063,
+        "rebound_hedge_pnl": 5455.05875612172,
+        "hedge_side": "short",
+        "hedge_size": 44.32601579809214
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 691.6936605851345,
+        "total_pnl": -85.50829381138499,
+        "entry_price": 1862.6773925,
+        "hedge_pnl": -777.2019543965195,
+        "max_live_coin_notional": 40000.0,
+        "shares": 21.47446474685229,
+        "entry_timestamp": "2026-02-23T03:00:00+00:00",
+        "exit_timestamp": "2026-02-25T04:00:00+00:00",
+        "r_multiple": 0.22839746610609124,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 21.485738840844387
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": 173.94634344659062,
+        "total_pnl": -467.22261695117834,
+        "entry_price": 64786.995324999996,
+        "hedge_pnl": -641.168960397769,
+        "max_live_coin_notional": 40000.0,
+        "shares": 0.6174078578477432,
+        "entry_timestamp": "2026-02-23T03:00:00+00:00",
+        "exit_timestamp": "2026-02-25T04:00:00+00:00",
+        "r_multiple": 0.07094407750785447,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 17.71538168680896
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "time_exit",
+        "pnl": 435.92659402200866,
+        "total_pnl": -1045.3905448975684,
+        "entry_price": 235.31347474999998,
+        "hedge_pnl": -1481.317138919577,
+        "max_live_coin_notional": 40000.0,
+        "shares": 169.9860156435857,
+        "entry_timestamp": "2026-02-23T03:00:00+00:00",
+        "exit_timestamp": "2026-02-25T04:00:00+00:00",
+        "r_multiple": 0.10246580896208664,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 41.001340498893335
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 1503.2868718308453,
+        "total_pnl": 1129.116121971931,
+        "entry_price": 77.7988795,
+        "hedge_pnl": -374.1707498589142,
+        "max_live_coin_notional": 30000.0,
+        "shares": 385.60966678189754,
+        "entry_timestamp": "2026-02-23T06:00:00+00:00",
+        "exit_timestamp": "2026-02-25T07:00:00+00:00",
+        "r_multiple": 0.5417351163209996,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 18.10086481819317
+      },
+      {
+        "symbol": "HYPE",
+        "exit_reason": "liquidated",
+        "pnl": -1873.3750295281352,
+        "total_pnl": -1843.4352657359427,
+        "entry_price": 27.578782,
+        "hedge_pnl": 29.939763792192537,
+        "max_live_coin_notional": 24000.0,
+        "shares": 870.2342257174374,
+        "entry_timestamp": "2026-02-23T06:00:00+00:00",
+        "exit_timestamp": "2026-02-23T17:00:00+00:00",
+        "r_multiple": -0.7335768110514248,
+        "bars_held": 12,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 18.0204799859904
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "liquidated",
+        "pnl": -8178.131554825157,
+        "total_pnl": 418.6709224606875,
+        "entry_price": 217.919905,
+        "hedge_pnl": 8596.802477285844,
+        "max_live_coin_notional": 120000.0,
+        "shares": 550.6610330065994,
+        "entry_timestamp": "2026-02-27T21:00:00+00:00",
+        "exit_timestamp": "2026-02-28T06:00:00+00:00",
+        "r_multiple": -0.5268051472690667,
+        "bars_held": 10,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 107.16470291836673
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": -7296.613526321735,
+        "total_pnl": -4126.847967581865,
+        "entry_price": 208.53521500000002,
+        "hedge_pnl": -18240.46250619328,
+        "max_live_coin_notional": 130667.23319999999,
+        "shares": 575.4423779216378,
+        "entry_timestamp": "2026-02-28T08:00:00+00:00",
+        "exit_timestamp": "2026-03-03T01:00:00+00:00",
+        "r_multiple": -0.11797006390342751,
+        "bars_held": 66,
+        "leg": "short",
+        "rebound_short_pnl": 3608.0145386114145,
+        "rebound_hedge_pnl": -438.24897987154566,
+        "hedge_side": "short",
+        "hedge_size": 107.7454654760828
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -3015.3526252923625,
+        "total_pnl": -239.85858223017703,
+        "entry_price": 2049.2251,
+        "hedge_pnl": 2775.4940430621855,
+        "max_live_coin_notional": 120000.0,
+        "shares": 58.55872056222618,
+        "entry_timestamp": "2026-03-26T20:00:00+00:00",
+        "exit_timestamp": "2026-03-28T21:00:00+00:00",
+        "r_multiple": -0.3498506685330321,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 58.588028512840545
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": -1400.5834473841498,
+        "total_pnl": -1057.1084019151674,
+        "entry_price": 83.354656,
+        "hedge_pnl": 343.4750454689824,
+        "max_live_coin_notional": 60000.0,
+        "shares": 719.8158192866874,
+        "entry_timestamp": "2026-03-27T12:00:00+00:00",
+        "exit_timestamp": "2026-03-29T13:00:00+00:00",
+        "r_multiple": -0.29088365183103093,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 28.64992000521583
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": -320.0921345242743,
+        "total_pnl": -147.17357455540179,
+        "entry_price": 66708.33946343175,
+        "hedge_pnl": 172.9185599688725,
+        "max_live_coin_notional": 40000.0,
+        "shares": 0.5996251791266254,
+        "entry_timestamp": "2026-03-27T12:00:00+00:00",
+        "exit_timestamp": "2026-03-29T13:00:00+00:00",
+        "r_multiple": -0.12931378652098793,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.506036067387852
+      },
+      {
+        "symbol": "HYPE",
+        "exit_reason": "liquidated",
+        "pnl": -8548.349210906385,
+        "total_pnl": -8828.763508681002,
+        "entry_price": 41.573775999999995,
+        "hedge_pnl": -280.4142977746184,
+        "max_live_coin_notional": 120000.0,
+        "shares": 2886.4349488004173,
+        "entry_timestamp": "2026-04-19T20:00:00+00:00",
+        "exit_timestamp": "2026-04-21T18:00:00+00:00",
+        "r_multiple": -0.8377351288122791,
+        "bars_held": 47,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 66.18459478661124
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 11657.693683573321,
+        "total_pnl": 4423.398885563881,
+        "entry_price": 320.44113999999996,
+        "hedge_pnl": 5681.17999823171,
+        "max_live_coin_notional": 130667.23319999999,
+        "shares": 374.4837507443645,
+        "entry_timestamp": "2026-04-29T17:00:00+00:00",
+        "exit_timestamp": "2026-05-01T16:00:00+00:00",
+        "r_multiple": 0.21913412198351298,
+        "bars_held": 48,
+        "leg": "short",
+        "rebound_short_pnl": -11679.381112667816,
+        "rebound_hedge_pnl": 4445.086314658375,
+        "hedge_side": "short",
+        "hedge_size": 115.42725278093648
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -1989.9169415398533,
+        "total_pnl": -241.3949361553464,
+        "entry_price": 2173.98745,
+        "hedge_pnl": 1748.5220053845069,
+        "max_live_coin_notional": 120000.0,
+        "shares": 55.1981107342639,
+        "entry_timestamp": "2026-05-16T11:00:00+00:00",
+        "exit_timestamp": "2026-05-18T12:00:00+00:00",
+        "r_multiple": -0.3993920761356899,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 55.22573519259975
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": -1927.615703903352,
+        "total_pnl": 641.8015601336328,
+        "entry_price": 86.2430995,
+        "hedge_pnl": 2569.4172640369848,
+        "max_live_coin_notional": 60000.00000000001,
+        "shares": 695.7078345728983,
+        "entry_timestamp": "2026-05-16T13:00:00+00:00",
+        "exit_timestamp": "2026-05-18T14:00:00+00:00",
+        "r_multiple": -0.5726523799213948,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 34.22586703170126
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": -1750.6080186670606,
+        "total_pnl": -6896.270469276309,
+        "entry_price": 586.5841449999999,
+        "hedge_pnl": -9021.108700103036,
+        "max_live_coin_notional": 130667.2332,
+        "shares": 204.5742303518961,
+        "entry_timestamp": "2026-05-23T01:00:00+00:00",
+        "exit_timestamp": "2026-05-24T16:00:00+00:00",
+        "r_multiple": -0.18577312138963886,
+        "bars_held": 40,
+        "leg": "short",
+        "rebound_short_pnl": -8368.761769173288,
+        "rebound_hedge_pnl": 3223.09931856404,
+        "hedge_side": "short",
+        "hedge_size": 153.25839482819293
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": 1933.2640557733948,
+        "total_pnl": 202.11984576434384,
+        "entry_price": 74680.32394236758,
+        "hedge_pnl": -1731.144210009051,
+        "max_live_coin_notional": 60000.0,
+        "shares": 0.8034244742471028,
+        "entry_timestamp": "2026-05-23T09:00:00+00:00",
+        "exit_timestamp": "2026-05-25T10:00:00+00:00",
+        "r_multiple": 0.840451578311751,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 21.962545995139813
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 1468.2241918146983,
+        "total_pnl": -85.67108069306482,
+        "entry_price": 2030.31565,
+        "hedge_pnl": -1553.8952725077631,
+        "max_live_coin_notional": 40000.0,
+        "shares": 19.701370080066123,
+        "entry_timestamp": "2026-05-23T09:00:00+00:00",
+        "exit_timestamp": "2026-05-25T10:00:00+00:00",
+        "r_multiple": 0.6113254945734179,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 19.711230473562313
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 1148.9817778465936,
+        "total_pnl": -205.8877361021705,
+        "entry_price": 82.224091,
+        "hedge_pnl": -1354.869513948764,
+        "max_live_coin_notional": 30000.0,
+        "shares": 364.85657226663653,
+        "entry_timestamp": "2026-05-23T11:00:00+00:00",
+        "exit_timestamp": "2026-05-25T12:00:00+00:00",
+        "r_multiple": 0.6608587344471691,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 17.33843158557049
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 1409.0161367420362,
+        "total_pnl": -246.50374387984743,
+        "entry_price": 1982.0915499999999,
+        "hedge_pnl": -1655.5198806218837,
+        "max_live_coin_notional": 120000.0,
+        "shares": 60.542107653907316,
+        "entry_timestamp": "2026-05-28T05:00:00+00:00",
+        "exit_timestamp": "2026-05-30T06:00:00+00:00",
+        "r_multiple": 0.1572465972174532,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 60.57240926757862
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "time_exit",
+        "pnl": -101.29239650403724,
+        "total_pnl": -572.7252785957673,
+        "entry_price": 73207.58746914692,
+        "hedge_pnl": -471.4328820917301,
+        "max_live_coin_notional": 60000.0,
+        "shares": 0.8195871776991256,
+        "entry_timestamp": "2026-05-28T07:00:00+00:00",
+        "exit_timestamp": "2026-05-30T08:00:00+00:00",
+        "r_multiple": -0.03217295085490791,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 21.157972647630945
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "stopped",
+        "pnl": -6392.917261505177,
+        "total_pnl": -3373.397604995425,
+        "entry_price": 70131.0493019968,
+        "hedge_pnl": 3019.5196565097517,
+        "max_live_coin_notional": 120000.0,
+        "shares": 1.7110823407654805,
+        "entry_timestamp": "2026-06-02T08:00:00+00:00",
+        "exit_timestamp": "2026-06-02T19:00:00+00:00",
+        "r_multiple": -1.0326125144925054,
+        "bars_held": 12,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 42.962035331371595
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -4127.70564036931,
+        "total_pnl": -576.142831786854,
+        "entry_price": 1867.5644099999997,
+        "hedge_pnl": 3551.5628085824555,
+        "max_live_coin_notional": 60000.0,
+        "shares": 32.1274059832828,
+        "entry_timestamp": "2026-06-03T01:00:00+00:00",
+        "exit_timestamp": "2026-06-04T01:00:00+00:00",
+        "r_multiple": -0.6106057960675351,
+        "bars_held": 25,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 32.14400514304082
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "liquidated",
+        "pnl": -4831.5354587156335,
+        "total_pnl": -2235.978787084953,
+        "entry_price": 66931.56345,
+        "hedge_pnl": 2595.5566716306803,
+        "max_live_coin_notional": 59999.99999999999,
+        "shares": 0.8964380466746739,
+        "entry_timestamp": "2026-06-03T01:00:00+00:00",
+        "exit_timestamp": "2026-06-04T01:00:00+00:00",
+        "r_multiple": -0.9127353536669811,
+        "bars_held": 25,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 23.496389716151555
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "liquidated",
+        "pnl": -10441.814039600222,
+        "total_pnl": -9525.610578085149,
+        "entry_price": 351.226525,
+        "hedge_pnl": 916.2034615150736,
+        "max_live_coin_notional": 120000.0,
+        "shares": 341.6598447398015,
+        "entry_timestamp": "2026-06-05T10:00:00+00:00",
+        "exit_timestamp": "2026-06-05T10:00:00+00:00",
+        "r_multiple": -0.10917337348934851,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 214.069096747339
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -4132.5808179432215,
+        "total_pnl": -695.171835133186,
+        "entry_price": 1650.6523966666666,
+        "hedge_pnl": 3437.4089828100355,
+        "max_live_coin_notional": 60000.0,
+        "shares": 36.34926415831959,
+        "entry_timestamp": "2026-06-23T10:00:00+00:00",
+        "exit_timestamp": "2026-06-24T17:00:00+00:00",
+        "r_multiple": -0.9452055429428468,
+        "bars_held": 32,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 36.36804461146806
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "liquidated",
+        "pnl": -4211.250581426171,
+        "total_pnl": -127.28661411185976,
+        "entry_price": 68.8855725,
+        "hedge_pnl": 4083.9639673143115,
+        "max_live_coin_notional": 60000.0,
+        "shares": 871.0096733245558,
+        "entry_timestamp": "2026-06-23T10:00:00+00:00",
+        "exit_timestamp": "2026-06-24T17:00:00+00:00",
+        "r_multiple": -0.7923304056179984,
+        "bars_held": 32,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 43.20466065816925
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -804.9551809358247,
+        "total_pnl": -243.1952541376137,
+        "entry_price": 1571.7865,
+        "hedge_pnl": 561.759926798211,
+        "max_live_coin_notional": 120000.0,
+        "shares": 76.34624677079235,
+        "entry_timestamp": "2026-06-24T19:00:00+00:00",
+        "exit_timestamp": "2026-06-26T20:00:00+00:00",
+        "r_multiple": -0.06388155615871872,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 76.38446849140675
+      },
+      {
+        "symbol": "HYPE",
+        "exit_reason": "liquidated",
+        "pnl": -8568.656037165536,
+        "total_pnl": -4060.9981140857562,
+        "entry_price": 62.855411499999995,
+        "hedge_pnl": 4507.65792307978,
+        "max_live_coin_notional": 120000.0,
+        "shares": 1909.1434951467943,
+        "entry_timestamp": "2026-07-16T19:00:00+00:00",
+        "exit_timestamp": "2026-07-17T05:00:00+00:00",
+        "r_multiple": -0.7674358061273169,
+        "bars_held": 11,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 85.38926938093341
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 1364.691148667675,
+        "total_pnl": -947.0056488892483,
+        "entry_price": 74.048005,
+        "hedge_pnl": -2311.6967975569232,
+        "max_live_coin_notional": 120000.00000000001,
+        "shares": 1620.5703313681443,
+        "entry_timestamp": "2026-07-24T18:00:00+00:00",
+        "exit_timestamp": "2026-07-26T19:00:00+00:00",
+        "r_multiple": 0.2277818173866969,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 57.65003290719674
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "time_exit",
+        "pnl": 2218.0310704672625,
+        "total_pnl": -3642.8014697390913,
+        "entry_price": 477.82979499999993,
+        "hedge_pnl": -5860.832540206354,
+        "max_live_coin_notional": 60000.0,
+        "shares": 125.56772438185862,
+        "entry_timestamp": "2026-07-25T07:00:00+00:00",
+        "exit_timestamp": "2026-07-27T08:00:00+00:00",
+        "r_multiple": 0.49812927285918374,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 58.807424651454006
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 1710.7273500175022,
+        "total_pnl": 1100.4282818975053,
+        "entry_price": 71.26280009999999,
+        "hedge_pnl": -610.299068119997,
+        "max_live_coin_notional": 60000.0,
+        "shares": 841.9540056776411,
+        "entry_timestamp": "2026-08-01T20:00:00+00:00",
+        "exit_timestamp": "2026-08-03T21:00:00+00:00",
+        "r_multiple": 0.7292097218054903,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 31.727192724872857
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 503.02324180647724,
+        "total_pnl": -125.43628359786044,
+        "entry_price": 1837.2487549999998,
+        "hedge_pnl": -628.4595254043377,
+        "max_live_coin_notional": 60000.0,
+        "shares": 32.65752655252174,
+        "entry_timestamp": "2026-08-01T20:00:00+00:00",
+        "exit_timestamp": "2026-08-03T21:00:00+00:00",
+        "r_multiple": 0.26338803860514975,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 32.674399607907205
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -324.09278283383844,
+        "total_pnl": -243.9049920616627,
+        "entry_price": 1873.5373,
+        "hedge_pnl": 80.18779077217573,
+        "max_live_coin_notional": 120000.0,
+        "shares": 64.0499658053245,
+        "entry_timestamp": "2026-08-10T18:00:00+00:00",
+        "exit_timestamp": "2026-08-12T19:00:00+00:00",
+        "r_multiple": -0.06184135160052426,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 64.08202499198975
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "time_exit",
+        "pnl": 1430.034597314068,
+        "total_pnl": 602.4586961289364,
+        "entry_price": 471.086425,
+        "hedge_pnl": -827.5759011851316,
+        "max_live_coin_notional": 60000.0,
+        "shares": 127.36516447061703,
+        "entry_timestamp": "2026-08-11T18:00:00+00:00",
+        "exit_timestamp": "2026-08-13T19:00:00+00:00",
+        "r_multiple": 0.29521204886901214,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 57.09654171362025
+      }
+    ],
+    "equity_curve": [
+      {
+        "timestamp": "2025-12-20T21:00:00+00:00",
+        "equity": 100000.0,
+        "pnl": 0.0
+      },
+      {
+        "timestamp": "2026-01-10T03:00:00+00:00",
+        "equity": 123455.21603652928,
+        "pnl": 23455.216036529273
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 125237.24501361129,
+        "pnl": 1782.0289770820182
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 125815.62780669791,
+        "pnl": 578.3827930866246
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 125105.80310758225,
+        "pnl": -709.8246991156602
+      },
+      {
+        "timestamp": "2026-01-21T10:00:00+00:00",
+        "equity": 124176.78907606105,
+        "pnl": -929.0140315212063
+      },
+      {
+        "timestamp": "2026-01-23T02:00:00+00:00",
+        "equity": 124053.89619010066,
+        "pnl": -122.89288596039034
+      },
+      {
+        "timestamp": "2026-01-23T02:00:00+00:00",
+        "equity": 124329.1202989534,
+        "pnl": 275.22410885274996
+      },
+      {
+        "timestamp": "2026-01-27T22:00:00+00:00",
+        "equity": 124136.48500388433,
+        "pnl": -192.6352950690807
+      },
+      {
+        "timestamp": "2026-01-27T22:00:00+00:00",
+        "equity": 122645.48099464303,
+        "pnl": -1491.00400924129
+      },
+      {
+        "timestamp": "2026-01-27T23:00:00+00:00",
+        "equity": 122557.93037630439,
+        "pnl": -87.55061833865057
+      },
+      {
+        "timestamp": "2026-01-27T07:00:00+00:00",
+        "equity": 120834.91072298636,
+        "pnl": -1723.0196533180342
+      },
+      {
+        "timestamp": "2026-01-30T01:00:00+00:00",
+        "equity": 118457.96249964382,
+        "pnl": -2376.9482233425374
+      },
+      {
+        "timestamp": "2026-01-31T16:00:00+00:00",
+        "equity": 119526.69044413342,
+        "pnl": 1068.7279444896058
+      },
+      {
+        "timestamp": "2026-01-31T14:00:00+00:00",
+        "equity": 120240.38010889688,
+        "pnl": 713.689664763448
+      },
+      {
+        "timestamp": "2026-02-01T23:00:00+00:00",
+        "equity": 119420.58873001716,
+        "pnl": -819.7913788797166
+      },
+      {
+        "timestamp": "2026-02-02T22:00:00+00:00",
+        "equity": 120697.28645895876,
+        "pnl": 1276.6977289416059
+      },
+      {
+        "timestamp": "2026-02-02T22:00:00+00:00",
+        "equity": 121157.82220217383,
+        "pnl": 460.53574321506744
+      },
+      {
+        "timestamp": "2026-02-03T01:00:00+00:00",
+        "equity": 130326.06350332961,
+        "pnl": 9168.241301155791
+      },
+      {
+        "timestamp": "2026-02-04T06:00:00+00:00",
+        "equity": 130262.2335375335,
+        "pnl": -63.82996579612097
+      },
+      {
+        "timestamp": "2026-02-05T18:00:00+00:00",
+        "equity": 130051.21250374932,
+        "pnl": -211.02103378417632
+      },
+      {
+        "timestamp": "2026-02-05T20:00:00+00:00",
+        "equity": 127555.78242688985,
+        "pnl": -2495.430076859474
+      },
+      {
+        "timestamp": "2026-02-05T20:00:00+00:00",
+        "equity": 126348.64996354852,
+        "pnl": -1207.1324633413308
+      },
+      {
+        "timestamp": "2026-02-08T15:00:00+00:00",
+        "equity": 131915.38740758158,
+        "pnl": 5566.737444033074
+      },
+      {
+        "timestamp": "2026-02-25T04:00:00+00:00",
+        "equity": 131829.8791137702,
+        "pnl": -85.50829381138499
+      },
+      {
+        "timestamp": "2026-02-25T04:00:00+00:00",
+        "equity": 131362.65649681902,
+        "pnl": -467.22261695117834
+      },
+      {
+        "timestamp": "2026-02-25T04:00:00+00:00",
+        "equity": 130317.26595192146,
+        "pnl": -1045.3905448975684
+      },
+      {
+        "timestamp": "2026-02-25T07:00:00+00:00",
+        "equity": 131446.3820738934,
+        "pnl": 1129.116121971931
+      },
+      {
+        "timestamp": "2026-02-23T17:00:00+00:00",
+        "equity": 129602.94680815746,
+        "pnl": -1843.4352657359427
+      },
+      {
+        "timestamp": "2026-02-28T06:00:00+00:00",
+        "equity": 130021.61773061813,
+        "pnl": 418.6709224606875
+      },
+      {
+        "timestamp": "2026-03-03T01:00:00+00:00",
+        "equity": 125894.76976303628,
+        "pnl": -4126.847967581865
+      },
+      {
+        "timestamp": "2026-03-28T21:00:00+00:00",
+        "equity": 125654.9111808061,
+        "pnl": -239.85858223017703
+      },
+      {
+        "timestamp": "2026-03-29T13:00:00+00:00",
+        "equity": 124597.80277889094,
+        "pnl": -1057.1084019151674
+      },
+      {
+        "timestamp": "2026-03-29T13:00:00+00:00",
+        "equity": 124450.62920433554,
+        "pnl": -147.17357455540179
+      },
+      {
+        "timestamp": "2026-04-21T18:00:00+00:00",
+        "equity": 115621.86569565453,
+        "pnl": -8828.763508681002
+      },
+      {
+        "timestamp": "2026-05-01T16:00:00+00:00",
+        "equity": 120045.2645812184,
+        "pnl": 4423.398885563881
+      },
+      {
+        "timestamp": "2026-05-18T12:00:00+00:00",
+        "equity": 119803.86964506307,
+        "pnl": -241.3949361553464
+      },
+      {
+        "timestamp": "2026-05-18T14:00:00+00:00",
+        "equity": 120445.67120519669,
+        "pnl": 641.8015601336328
+      },
+      {
+        "timestamp": "2026-05-24T16:00:00+00:00",
+        "equity": 113549.40073592038,
+        "pnl": -6896.270469276309
+      },
+      {
+        "timestamp": "2026-05-25T10:00:00+00:00",
+        "equity": 113751.52058168473,
+        "pnl": 202.11984576434384
+      },
+      {
+        "timestamp": "2026-05-25T10:00:00+00:00",
+        "equity": 113665.84950099167,
+        "pnl": -85.67108069306482
+      },
+      {
+        "timestamp": "2026-05-25T12:00:00+00:00",
+        "equity": 113459.9617648895,
+        "pnl": -205.8877361021705
+      },
+      {
+        "timestamp": "2026-05-30T06:00:00+00:00",
+        "equity": 113213.45802100965,
+        "pnl": -246.50374387984743
+      },
+      {
+        "timestamp": "2026-05-30T08:00:00+00:00",
+        "equity": 112640.73274241388,
+        "pnl": -572.7252785957673
+      },
+      {
+        "timestamp": "2026-06-02T19:00:00+00:00",
+        "equity": 109267.33513741846,
+        "pnl": -3373.397604995425
+      },
+      {
+        "timestamp": "2026-06-04T01:00:00+00:00",
+        "equity": 108691.1923056316,
+        "pnl": -576.142831786854
+      },
+      {
+        "timestamp": "2026-06-04T01:00:00+00:00",
+        "equity": 106455.21351854665,
+        "pnl": -2235.978787084953
+      },
+      {
+        "timestamp": "2026-06-05T10:00:00+00:00",
+        "equity": 96929.6029404615,
+        "pnl": -9525.610578085149
+      },
+      {
+        "timestamp": "2026-06-24T17:00:00+00:00",
+        "equity": 96234.43110532832,
+        "pnl": -695.171835133186
+      },
+      {
+        "timestamp": "2026-06-24T17:00:00+00:00",
+        "equity": 96107.14449121644,
+        "pnl": -127.28661411185976
+      },
+      {
+        "timestamp": "2026-06-26T20:00:00+00:00",
+        "equity": 95863.94923707884,
+        "pnl": -243.1952541376137
+      },
+      {
+        "timestamp": "2026-07-17T05:00:00+00:00",
+        "equity": 91802.95112299308,
+        "pnl": -4060.9981140857562
+      },
+      {
+        "timestamp": "2026-07-26T19:00:00+00:00",
+        "equity": 90855.94547410384,
+        "pnl": -947.0056488892483
+      },
+      {
+        "timestamp": "2026-07-27T08:00:00+00:00",
+        "equity": 87213.14400436475,
+        "pnl": -3642.8014697390913
+      },
+      {
+        "timestamp": "2026-08-03T21:00:00+00:00",
+        "equity": 88313.57228626225,
+        "pnl": 1100.4282818975053
+      },
+      {
+        "timestamp": "2026-08-03T21:00:00+00:00",
+        "equity": 88188.13600266438,
+        "pnl": -125.43628359786044
+      },
+      {
+        "timestamp": "2026-08-12T19:00:00+00:00",
+        "equity": 87944.23101060273,
+        "pnl": -243.9049920616627
+      },
+      {
+        "timestamp": "2026-08-13T19:00:00+00:00",
+        "equity": 88546.68970673166,
+        "pnl": 602.4586961289364
+      }
+    ],
+    "equity_curve_points": 58
+  },
+  "metrics": {
+    "sharpe_ratio": -0.04793969128117255,
+    "sortino_ratio": -0.07236962427443808,
+    "max_drawdown": -44702.24340321685,
+    "max_drawdown_timestamp": "2026-07-27T08:00:00+00:00",
+    "max_drawdown_series": [
+      {
+        "timestamp": "2025-12-20T21:00:00+00:00",
+        "equity": 100000.0,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-01-10T03:00:00+00:00",
+        "equity": 123455.21603652928,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 125237.24501361129,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 125815.62780669791,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 125105.80310758225,
+        "drawdown": -0.005641784820294596
+      },
+      {
+        "timestamp": "2026-01-21T10:00:00+00:00",
+        "equity": 124176.78907606105,
+        "drawdown": -0.013025716750821812
+      },
+      {
+        "timestamp": "2026-01-23T02:00:00+00:00",
+        "equity": 124053.89619010066,
+        "drawdown": -0.014002486394647004
+      },
+      {
+        "timestamp": "2026-01-23T02:00:00+00:00",
+        "equity": 124329.1202989534,
+        "drawdown": -0.011814967136104625
+      },
+      {
+        "timestamp": "2026-01-27T22:00:00+00:00",
+        "equity": 124136.48500388433,
+        "drawdown": -0.013346059087297217
+      },
+      {
+        "timestamp": "2026-01-27T22:00:00+00:00",
+        "equity": 122645.48099464303,
+        "drawdown": -0.0251967650388032
+      },
+      {
+        "timestamp": "2026-01-27T23:00:00+00:00",
+        "equity": 122557.93037630439,
+        "drawdown": -0.02589262945457481
+      },
+      {
+        "timestamp": "2026-01-27T07:00:00+00:00",
+        "equity": 120834.91072298636,
+        "drawdown": -0.039587427814324366
+      },
+      {
+        "timestamp": "2026-01-30T01:00:00+00:00",
+        "equity": 118457.96249964382,
+        "drawdown": -0.05847974083440849
+      },
+      {
+        "timestamp": "2026-01-31T16:00:00+00:00",
+        "equity": 119526.69044413342,
+        "drawdown": -0.04998534341239998
+      },
+      {
+        "timestamp": "2026-01-31T14:00:00+00:00",
+        "equity": 120240.38010889688,
+        "drawdown": -0.04431283931092251
+      },
+      {
+        "timestamp": "2026-02-01T23:00:00+00:00",
+        "equity": 119420.58873001716,
+        "drawdown": -0.05082865450153807
+      },
+      {
+        "timestamp": "2026-02-02T22:00:00+00:00",
+        "equity": 120697.28645895876,
+        "drawdown": -0.04068128448719372
+      },
+      {
+        "timestamp": "2026-02-02T22:00:00+00:00",
+        "equity": 121157.82220217383,
+        "drawdown": -0.037020882745029855
+      },
+      {
+        "timestamp": "2026-02-03T01:00:00+00:00",
+        "equity": 130326.06350332961,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-02-04T06:00:00+00:00",
+        "equity": 130262.2335375335,
+        "drawdown": -0.0004897713019198738
+      },
+      {
+        "timestamp": "2026-02-05T18:00:00+00:00",
+        "equity": 130051.21250374932,
+        "drawdown": -0.0021089488333488012
+      },
+      {
+        "timestamp": "2026-02-05T20:00:00+00:00",
+        "equity": 127555.78242688985,
+        "drawdown": -0.021256539190788817
+      },
+      {
+        "timestamp": "2026-02-05T20:00:00+00:00",
+        "equity": 126348.64996354852,
+        "drawdown": -0.03051894174398564
+      },
+      {
+        "timestamp": "2026-02-08T15:00:00+00:00",
+        "equity": 131915.38740758158,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-02-25T04:00:00+00:00",
+        "equity": 131829.8791137702,
+        "drawdown": -0.0006482056073351072
+      },
+      {
+        "timestamp": "2026-02-25T04:00:00+00:00",
+        "equity": 131362.65649681902,
+        "drawdown": -0.004190041219791735
+      },
+      {
+        "timestamp": "2026-02-25T04:00:00+00:00",
+        "equity": 130317.26595192146,
+        "drawdown": -0.012114746331467545
+      },
+      {
+        "timestamp": "2026-02-25T07:00:00+00:00",
+        "equity": 131446.3820738934,
+        "drawdown": -0.003555349704876372
+      },
+      {
+        "timestamp": "2026-02-23T17:00:00+00:00",
+        "equity": 129602.94680815746,
+        "drawdown": -0.017529726022630938
+      },
+      {
+        "timestamp": "2026-02-28T06:00:00+00:00",
+        "equity": 130021.61773061813,
+        "drawdown": -0.014355942200376002
+      },
+      {
+        "timestamp": "2026-03-03T01:00:00+00:00",
+        "equity": 125894.76976303628,
+        "drawdown": -0.04563999517314292
+      },
+      {
+        "timestamp": "2026-03-28T21:00:00+00:00",
+        "equity": 125654.9111808061,
+        "drawdown": -0.04745827116765664
+      },
+      {
+        "timestamp": "2026-03-29T13:00:00+00:00",
+        "equity": 124597.80277889094,
+        "drawdown": -0.05547180486292595
+      },
+      {
+        "timestamp": "2026-03-29T13:00:00+00:00",
+        "equity": 124450.62920433554,
+        "drawdown": -0.05658747133252952
+      },
+      {
+        "timestamp": "2026-04-21T18:00:00+00:00",
+        "equity": 115621.86569565453,
+        "drawdown": -0.12351494417845764
+      },
+      {
+        "timestamp": "2026-05-01T16:00:00+00:00",
+        "equity": 120045.2645812184,
+        "drawdown": -0.08998285233918789
+      },
+      {
+        "timestamp": "2026-05-18T12:00:00+00:00",
+        "equity": 119803.86964506307,
+        "drawdown": -0.09181277484405455
+      },
+      {
+        "timestamp": "2026-05-18T14:00:00+00:00",
+        "equity": 120445.67120519669,
+        "drawdown": -0.08694752316457734
+      },
+      {
+        "timestamp": "2026-05-24T16:00:00+00:00",
+        "equity": 113549.40073592038,
+        "drawdown": -0.13922550683883034
+      },
+      {
+        "timestamp": "2026-05-25T10:00:00+00:00",
+        "equity": 113751.52058168473,
+        "drawdown": -0.13769331374341945
+      },
+      {
+        "timestamp": "2026-05-25T10:00:00+00:00",
+        "equity": 113665.84950099167,
+        "drawdown": -0.13834275337572227
+      },
+      {
+        "timestamp": "2026-05-25T12:00:00+00:00",
+        "equity": 113459.9617648895,
+        "drawdown": -0.13990350940387264
+      },
+      {
+        "timestamp": "2026-05-30T06:00:00+00:00",
+        "equity": 113213.45802100965,
+        "drawdown": -0.14177215982232774
+      },
+      {
+        "timestamp": "2026-05-30T08:00:00+00:00",
+        "equity": 112640.73274241388,
+        "drawdown": -0.14611377068252412
+      },
+      {
+        "timestamp": "2026-06-02T19:00:00+00:00",
+        "equity": 109267.33513741846,
+        "drawdown": -0.17168620518989944
+      },
+      {
+        "timestamp": "2026-06-04T01:00:00+00:00",
+        "equity": 108691.1923056316,
+        "drawdown": -0.17605372321118026
+      },
+      {
+        "timestamp": "2026-06-04T01:00:00+00:00",
+        "equity": 106455.21351854665,
+        "drawdown": -0.19300382153577075
+      },
+      {
+        "timestamp": "2026-06-05T10:00:00+00:00",
+        "equity": 96929.6029404615,
+        "drawdown": -0.26521382497269874
+      },
+      {
+        "timestamp": "2026-06-24T17:00:00+00:00",
+        "equity": 96234.43110532832,
+        "drawdown": -0.27048365625466503
+      },
+      {
+        "timestamp": "2026-06-24T17:00:00+00:00",
+        "equity": 96107.14449121644,
+        "drawdown": -0.271448567298125
+      },
+      {
+        "timestamp": "2026-06-26T20:00:00+00:00",
+        "equity": 95863.94923707884,
+        "drawdown": -0.27329213732370666
+      },
+      {
+        "timestamp": "2026-07-17T05:00:00+00:00",
+        "equity": 91802.95112299308,
+        "drawdown": -0.3040770077917621
+      },
+      {
+        "timestamp": "2026-07-26T19:00:00+00:00",
+        "equity": 90855.94547410384,
+        "drawdown": -0.31125589470935316
+      },
+      {
+        "timestamp": "2026-07-27T08:00:00+00:00",
+        "equity": 87213.14400436475,
+        "drawdown": -0.33887057667578563
+      },
+      {
+        "timestamp": "2026-08-03T21:00:00+00:00",
+        "equity": 88313.57228626225,
+        "drawdown": -0.33052865157119193
+      },
+      {
+        "timestamp": "2026-08-03T21:00:00+00:00",
+        "equity": 88188.13600266438,
+        "drawdown": -0.33147953596809937
+      },
+      {
+        "timestamp": "2026-08-12T19:00:00+00:00",
+        "equity": 87944.23101060273,
+        "drawdown": -0.3333284862449011
+      },
+      {
+        "timestamp": "2026-08-13T19:00:00+00:00",
+        "equity": 88546.68970673166,
+        "drawdown": -0.32876147774067327
+      }
+    ],
+    "calmar_ratio": -0.2562133222254377,
+    "win_rate": 0.2982456140350877,
+    "profit_factor": 0.821923467521226,
+    "monthly_breakdown": {
+      "2026-01": 20240.380108896872,
+      "2026-02": 9781.237621721264,
+      "2026-03": -5570.988526282612,
+      "2026-04": -8828.763508681002,
+      "2026-05": -2981.132953240648,
+      "2026-06": -16776.78350533504,
+      "2026-07": -8650.805232714096,
+      "2026-08": 1333.5457023669185
+    },
+    "weekly_breakdown": {
+      "2026-W02": 23455.216036529273,
+      "2026-W04": 873.9042624241358,
+      "2026-W05": -4908.531568936255,
+      "2026-W06": 12494.798677564435,
+      "2026-W09": -1893.7696769634558,
+      "2026-W10": -4126.847967581865,
+      "2026-W13": -1444.1405587007462,
+      "2026-W17": -8828.763508681002,
+      "2026-W18": 4423.398885563881,
+      "2026-W21": -6495.863845298023,
+      "2026-W22": -908.6679935065063,
+      "2026-W23": -15711.12980195238,
+      "2026-W26": -1065.6537033826594,
+      "2026-W29": -4060.9981140857562,
+      "2026-W30": -947.0056488892483,
+      "2026-W31": -3642.8014697390913,
+      "2026-W32": 974.9919982996448,
+      "2026-W33": 358.55370406727366
+    },
+    "annual_breakdown": {
+      "2026": -11453.310293268341
+    },
+    "annual_trade_counts": {
+      "2026": 57
+    },
+    "positive_months": 3,
+    "negative_months": 5,
+    "flat_months": 0,
+    "total_months": 8,
+    "trade_attribution": [
+      {
+        "symbol": "ZEC",
+        "pnl": 10897.024125156377,
+        "trades": 12,
+        "coin_pnl": -2995.6929543969823,
+        "hedge_pnl": -10232.378401252163
+      },
+      {
+        "symbol": "SOL",
+        "pnl": 2906.7061753612843,
+        "trades": 12,
+        "coin_pnl": -7580.00640594069,
+        "hedge_pnl": 10486.712581301972
+      },
+      {
+        "symbol": "BTC",
+        "pnl": -2631.2040688420234,
+        "trades": 13,
+        "coin_pnl": -16288.932612232165,
+        "hedge_pnl": 9592.436096349087
+      },
+      {
+        "symbol": "ETH",
+        "pnl": -6963.625604920072,
+        "trades": 16,
+        "coin_pnl": -17280.96602493018,
+        "hedge_pnl": 10317.34042001011
+      },
+      {
+        "symbol": "HYPE",
+        "pnl": -15662.210920023907,
+        "trades": 4,
+        "coin_pnl": -21320.192052034596,
+        "hedge_pnl": 5657.981132010687
+      }
+    ],
+    "trade_attribution_by_leg": [
+      {
+        "leg": "buy",
+        "pnl": -18529.80165669209,
+        "trades": 57
+      },
+      {
+        "leg": "short",
+        "pnl": 7076.491363423738,
+        "trades": 7
+      }
+    ],
+    "leg_breakdown": [
+      {
+        "leg": "buy",
+        "trades": 57,
+        "wins": 18,
+        "losses": 39,
+        "win_rate": 0.3157894736842105,
+        "gross_profit": 42088.068147459024,
+        "gross_loss": 60617.86980415111,
+        "profit_factor": 0.6943178353749546,
+        "total_pnl": -18529.801656692085,
+        "avg_r_multiple": -0.19382400808785163,
+        "pnl_share_pct": 161.78555528686698
+      },
+      {
+        "leg": "short",
+        "trades": 7,
+        "wins": 4,
+        "losses": 3,
+        "win_rate": 0.5714285714285714,
+        "gross_profit": 21673.651557584573,
+        "gross_loss": 14597.160194160837,
+        "profit_factor": 1.484785483566487,
+        "total_pnl": 7076.491363423737,
+        "avg_r_multiple": 0.10905680721244472,
+        "pnl_share_pct": -61.78555528686695
+      }
+    ],
+    "exposure_metrics": {
+      "total_trades": 57,
+      "gross_profit": 52863.476056070176,
+      "gross_loss": 64316.78634933852,
+      "total_pnl": -11453.310293268345,
+      "avg_pnl_per_trade": -200.93526830295343,
+      "winning_trades": 17,
+      "losing_trades": 40
+    },
+    "equity_start": 100000.0,
+    "equity_final": 88546.68970673166,
+    "equity_points": 58,
+    "equity_period_returns": [
+      0.2345521603652928,
+      0.014434618757256257,
+      0.004618297001213686,
+      -0.005641784820294596,
+      -0.007425826847714791,
+      -0.0009896606835687828,
+      0.0022185849643206468,
+      -0.0015493980380934102,
+      -0.012011005541156106,
+      -0.0007138511556122487,
+      -0.014058818128109971,
+      -0.01967103885061564,
+      0.009022001745917342,
+      0.005970964828956208,
+      -0.006817937352969642,
+      0.01069076733349489,
+      0.003815626322068771,
+      0.07567188923103045,
+      -0.0004897713019198738,
+      -0.0016199709467085693,
+      -0.01918805698783875,
+      -0.009463565197706456,
+      0.04405854313155748,
+      -0.0006482056073351072,
+      -0.003544132939301024,
+      -0.007958049667813097,
+      0.008664363188746542,
+      -0.014024237386006017,
+      0.003230412060617767,
+      -0.03173970636276772,
+      -0.0019052307151572181,
+      -0.008412790172555027,
+      -0.0011811891644395603,
+      -0.07094189531324148,
+      0.03825745985804587,
+      -0.0020108659595815988,
+      0.005357102087228537,
+      -0.05725627496838395,
+      0.001780016842487913,
+      -0.0007531422899225678,
+      -0.0018113420786106647,
+      -0.002172605560987661,
+      -0.005058809161093589,
+      -0.029948292441506805,
+      -0.005272781944048313,
+      -0.02057184892035729,
+      -0.0894799818932832,
+      -0.007171924923288769,
+      -0.001322672276958308,
+      -0.0025304596804437886,
+      -0.042362099062313814,
+      -0.010315634054296278,
+      -0.040094255260129094,
+      0.012617688474141367,
+      -0.0014203511459289094,
+      -0.0027657347475207278,
+      0.006850462949142143
+    ],
+    "equity_sharpe_ratio": -0.035782713290047674,
+    "equity_sortino_ratio": -0.057701740180380316,
+    "equity_max_drawdown_pct": -33.88705766757856,
+    "annual_return_pct": {
+      "2026": -11.453310293268341
+    },
+    "equity_total_return_pct": -11.453310293268338,
+    "equity_annualized_return_pct": -17.154804390802315,
+    "equity_horizon_years": 0.6463470319634703,
+    "equity_annualized_calmar_ratio": -0.5062346975971056,
+    "aum_fee_total": 15.370088032724897,
+    "profit_share_total": 3535.688924128849,
+    "vault_fee_total": 3551.059012161574,
+    "gross_total_pnl": -11453.31029326834,
+    "net_total_pnl": -15004.369305429915,
+    "gross_final_equity": 88546.68970673166,
+    "net_final_equity": 88546.48754533964,
+    "vault_hwm_final": 131821.20031715964,
+    "fee_hours_per_step": 1.0,
+    "fee_time_base_hours_per_year": 8760.0,
+    "timestamp": "2026-11-15T18:01:04.163881"
+  }
+}

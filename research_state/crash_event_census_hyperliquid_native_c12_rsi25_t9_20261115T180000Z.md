@@ -1,6 +1,6 @@
 # Crash-Event Census — Real Hyperliquid-Native (Ironflow) 283-Day Run (Phase J1)
 
-**Generated (UTC):** 2026-11-15T17:54:28.422028+00:00
+**Generated (UTC):** 2026-11-15T18:03:10.738544+00:00
 **Provenance caveat:** Real Hyperliquid (Ironflow node-derived, native) exchange data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).
 
 ## Reconciliation

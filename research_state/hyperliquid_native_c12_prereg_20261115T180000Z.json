@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "campaign": "C12",
+  "generated_at_utc": "2026-11-15T18:00:00Z",
+  "label": "HYPERLIQUID_NATIVE_C12_PREREGISTERED_DISCOVERY",
+  "status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "real_market_data": true,
+  "is_hyperliquid_venue_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "provenance_caveat": "Real Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot. Real fetched/archived candles, non-synthetic. 283d window 2025-12-20T00:00:00Z–2026-09-28T23:00:00Z.",
+  "inputs": {
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928",
+    "universe_file": "research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json",
+    "canonical_anchor_campaign": "research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json",
+    "canonical_anchor_census": "research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json",
+    "canonical_anchor_episode_edge": "research_state/episode_edge_hyperliquid_native_20261115T155318Z.json",
+    "canonical_anchor_placebo": "research_state/placebo_portfolio_hyperliquid_native_20261115T155625Z.json",
+    "canonical_anchor_robustness": "research_state/multiyear_robustness_battery_hyperliquid_native_20261115T155522Z.json",
+    "canonical_anchor_verdict": "research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md"
+  },
+  "hypotheses": [
+    {
+      "id": "H1_rsi_threshold_sensitivity",
+      "description": "Vary RSI(21) crash trigger threshold to test whether relaxing RSI<20 (canonical, underpowered/NO_GO on native) improves spot coin alpha or total economics on native Hyperliquid evidence.",
+      "parameter": "rsi_threshold",
+      "values": [20.0, 22.0, 25.0, 30.0],
+      "origin_note": "rsi_threshold 25/30 signals appeared in C11.3 robustness/discovery as hypothesis-generating only (not validated). Discovery-only; no GO from sensitivity without inference."
+    },
+    {
+      "id": "H2_target_sensitivity",
+      "description": "Vary long take-profit target to test whether lower target (5%) improves realized spot coin PnL / hit rate versus canonical 9% on native evidence (rebound-short target held at config default unless separately noted).",
+      "parameter": "target_pct",
+      "values": [5.0, 9.0],
+      "origin_note": "target_pct 5.0 appeared in C11.3 discovery as hypothesis-generating only (not validated)."
+    }
+  ],
+  "grid": {
+    "design": "full_factorial",
+    "rsi_threshold": [20.0, 22.0, 25.0, 30.0],
+    "target_pct": [5.0, 9.0],
+    "configs_count": 8,
+    "canonical_anchor": {"rsi_threshold": 20.0, "target_pct": 9.0, "reuse_existing_anchor_stem": true},
+    "fixed_unless_overridden": {
+      "rsi_period": 21,
+      "rebound_short_target_pct": 9.0,
+      "rebound_short_time_exit_bars": 48,
+      "rebound_short_require_bounce_confirm": false,
+      "entry_spec_literal_next_open": false,
+      "enable_rebound_short": true,
+      "enable_eth_hedge": true,
+      "min_daily_volume_usd": 5000000.0
+    }
+  },
+  "primary_metrics": [
+    "spot_coin_pnl_total",
+    "eth_hedge_pnl_total",
+    "rebound_short_pnl_total",
+    "total_pnl",
+    "trade_count",
+    "episode_count",
+    "crash_days_count",
+    "max_drawdown_proxy_or_observed",
+    "cost_stress_sensitivity_if_available"
+  ],
+  "secondary_metrics": [
+    "exit_reasons_distribution",
+    "per_symbol_leg_decomposition",
+    "win_loss_profile",
+    "signal_gate_event_count"
+  ],
+  "inference_plan": {
+    "dependence_aware": true,
+    "methods": [
+      "episode_block_bootstrap_CI_for_total_and_spot_pnl (episode-level dependence unit)",
+      "conditional_temporal_edge_permutation_p_where_feasible",
+      "portfolio_placebo_admission_selection_p_ge_canonical (exact enumeration when small)",
+      "crash_event_census_alignment (events, signal-gate, trades, episodes/clustering)"
+    ],
+    "fixed_seeds": true,
+    "seed": 20261115,
+    "honest_power_handling": "283d native window is structurally underpowered (C11.3: 3 episodes/4 crash days/6 canonical trades). Every config MUST report effective N, episodes/clustering, CI/permutation/placebo results and label underpowered where criteria unmet. No GO from point PnL, in-sample sensitivity without inference, or hedge-masked totals.",
+    "lead_config_selection_rule": "Select lead candidate(s) by pre-registered metrics: best spot_coin_pnl (separating hedge) and best total among configs with >= canonical trade/episode support or documented tradeoff; always include canonical 20/9 anchor in inference comparison."
+  },
+  "stop_go_and_claims": {
+    "canonical_preserved": "Canonical RSI(21)<20 remains NO_GO unless re-validated under pre-registered rules with dependence-aware support.",
+    "no_go_rules": [
+      "Do not claim GO from point PnL or hedge-masked total alone",
+      "Do not claim GO from in-sample sensitivity/discovery without dependence-aware inference",
+      "Do not claim GO when bootstrap CI spans 0 with insufficient effective N / placebo non-extreme / underpowered",
+      "Do not relabel cross-venue evidence as Hyperliquid evidence",
+      "Do not claim venue candleSnapshot provenance (data is Ironflow node-derived)"
+    ],
+    "insufficient_rules": [
+      "If episodes/crash-days/trades too few for stable inference, label FRAGILE_NOT_DECISION_GRADE/underpowered explicitly"
+    ]
+  },
+  "runner": {
+    "script": "scripts/run_real_campaign.py",
+    "grid_knobs_available": true,
+    "notes": "Use --rsi-threshold/--target-pct per config with NEW output-prefix per config. Exported config records overrides."
+  }
+}

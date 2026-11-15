@@ -1,0 +1,151 @@
+{
+  "sharpe_ratio": 0.4635197773898718,
+  "sortino_ratio": 1.0656826673310622,
+  "max_drawdown": -1594.5794345647234,
+  "max_drawdown_timestamp": "2026-02-01T23:00:00+00:00",
+  "max_drawdown_series": [
+    {
+      "timestamp": "2025-12-20T21:00:00+00:00",
+      "equity": 100000.0,
+      "drawdown": 0.0
+    },
+    {
+      "timestamp": "2026-01-20T22:00:00+00:00",
+      "equity": 103568.088811376,
+      "drawdown": 0.0
+    },
+    {
+      "timestamp": "2026-01-22T21:00:00+00:00",
+      "equity": 103446.47231618909,
+      "drawdown": -0.001174266094727391
+    },
+    {
+      "timestamp": "2026-01-27T22:00:00+00:00",
+      "equity": 103065.25332478393,
+      "drawdown": -0.004855119876817098
+    },
+    {
+      "timestamp": "2026-02-01T23:00:00+00:00",
+      "equity": 101973.50937681129,
+      "drawdown": -0.015396435841051898
+    },
+    {
+      "timestamp": "2026-02-02T22:00:00+00:00",
+      "equity": 103677.11762824388,
+      "drawdown": 0.0
+    },
+    {
+      "timestamp": "2026-02-02T22:00:00+00:00",
+      "equity": 104292.50312156635,
+      "drawdown": 0.0
+    }
+  ],
+  "calmar_ratio": 2.6919343298429554,
+  "win_rate": 0.5,
+  "profit_factor": 3.6919343298429554,
+  "monthly_breakdown": {
+    "2026-01": 3065.253324783931,
+    "2026-02": 1227.2497967824165
+  },
+  "weekly_breakdown": {
+    "2026-W04": 3446.472316189087,
+    "2026-W05": -1472.9629393778057,
+    "2026-W06": 2318.9937447550665
+  },
+  "annual_breakdown": {
+    "2026": 4292.5031215663475
+  },
+  "annual_trade_counts": {
+    "2026": 6
+  },
+  "positive_months": 2,
+  "negative_months": 0,
+  "flat_months": 0,
+  "total_months": 2,
+  "trade_attribution": [
+    {
+      "symbol": "SOL",
+      "pnl": 4890.478071403448,
+      "trades": 3,
+      "coin_pnl": 299.7638653125466,
+      "hedge_pnl": 4590.714206090901
+    },
+    {
+      "symbol": "ETH",
+      "pnl": -1213.3604431595675,
+      "trades": 2,
+      "coin_pnl": -4429.367325052796,
+      "hedge_pnl": 3216.006881893229
+    },
+    {
+      "symbol": "BTC",
+      "pnl": 615.3854933224673,
+      "trades": 1,
+      "coin_pnl": 160.79910366365368,
+      "hedge_pnl": 454.5863896588135
+    }
+  ],
+  "trade_attribution_by_leg": [
+    {
+      "leg": "buy",
+      "pnl": 4292.5031215663475,
+      "trades": 6
+    }
+  ],
+  "leg_breakdown": [
+    {
+      "leg": "buy",
+      "trades": 6,
+      "wins": 3,
+      "losses": 3,
+      "win_rate": 0.5,
+      "gross_profit": 5887.082556131071,
+      "gross_loss": 1594.5794345647234,
+      "profit_factor": 3.6919343298429554,
+      "total_pnl": 4292.5031215663475,
+      "avg_r_multiple": -0.05464251661972633,
+      "pnl_share_pct": 100.0
+    }
+  ],
+  "exposure_metrics": {
+    "total_trades": 6,
+    "gross_profit": 5887.082556131071,
+    "gross_loss": 1594.5794345647234,
+    "total_pnl": 4292.5031215663475,
+    "avg_pnl_per_trade": 715.4171869277246,
+    "winning_trades": 3,
+    "losing_trades": 3
+  },
+  "equity_start": 100000.0,
+  "equity_final": 104292.50312156635,
+  "equity_points": 7,
+  "equity_period_returns": [
+    0.03568088811376001,
+    -0.001174266094727391,
+    -0.003685181165385146,
+    -0.01059274501108819,
+    0.016706380528078567,
+    0.005935596083304118
+  ],
+  "equity_sharpe_ratio": 0.46637526822825426,
+  "equity_sortino_ratio": 1.0974498059040805,
+  "equity_max_drawdown_pct": -1.5396435841051899,
+  "annual_return_pct": {
+    "2026": 4.292503121566347
+  },
+  "equity_total_return_pct": 4.292503121566349,
+  "equity_annualized_return_pct": 41.6688716868683,
+  "equity_horizon_years": 0.120662100456621,
+  "equity_annualized_calmar_ratio": 27.063972543415247,
+  "aum_fee_total": 1.6438880013218504,
+  "profit_share_total": 469.79833168030456,
+  "vault_fee_total": 471.4422196816264,
+  "gross_total_pnl": 4292.5031215663475,
+  "net_total_pnl": 3821.0609018847213,
+  "gross_final_equity": 104292.50312156635,
+  "net_final_equity": 104228.18498512275,
+  "vault_hwm_final": 104228.18498512275,
+  "fee_hours_per_step": 1.0,
+  "fee_time_base_hours_per_year": 8760.0,
+  "timestamp": "2026-11-15T18:00:48.601907"
+}
