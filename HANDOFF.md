@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T17:49:03Z — no state change vs 17:01Z; re-timestamped with the clear initial task message below for the next session.
+**Handoff updated (UTC):** 2026-11-15T17:50:21Z — re-timestamped; no state change vs 17:49:03Z. C12 initial task message intact below.
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -16,7 +16,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T17:49:03Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T17:50:21Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program (repo `CRASH-REBOUND-STRATEGY`).** C1–C11.3 are COMPLETE. Canonical `RSI(21)<20` is **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE (underpowered)`** on Hyperliquid-native evidence (0/7 stop/go criteria; spot coin PnL −3,968.80 masked by ETH hedge +8,261.31; rebound-short 0). **Do not re-litigate C11.3 or re-run cross-venue canonical campaigns/censuses/C6-T3/C7/C10 without a NEW artifact stem and a documented reason.**
 
