@@ -1,0 +1,629 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T06:47:38Z",
+  "phase": "C10.1",
+  "script": "scripts/cross_venue_paired_agreement.py",
+  "provenance_caveat": "Real OKX/Binance UM exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; NOT Hyperliquid performance evidence. Paired comparison across independent venues only.",
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "inputs": {
+    "okx_campaign": "research_state/campaign_results_real_okx_multiyear.json",
+    "binance_campaign": "research_state/campaign_results_real_binance_um_multiyear.json",
+    "okx_campaign_sha256": "7d32720119597124f152b437012e8cdb88636bf0dedd72f25d4a69806676cdd1",
+    "binance_campaign_sha256": "4e65dfbff1abb6ac1e0f49d69dc6b668654ae73acd856b70cff8140b17cef38e",
+    "okx_trades": 42,
+    "binance_trades": 42
+  },
+  "pairing": {
+    "key": [
+      "symbol",
+      "entry_date_utc",
+      "leg"
+    ],
+    "matched_pairs": 32,
+    "ambiguous_pairs_excluded": 0,
+    "ambiguous": [],
+    "okx_only_keys": [
+      [
+        "AAVE",
+        "2025-09-22",
+        "buy"
+      ],
+      [
+        "APT",
+        "2025-02-03",
+        "short"
+      ],
+      [
+        "ATOM",
+        "2023-06-10",
+        "buy"
+      ],
+      [
+        "AVAX",
+        "2023-06-10",
+        "buy"
+      ],
+      [
+        "AVAX",
+        "2026-01-31",
+        "buy"
+      ],
+      [
+        "BCH",
+        "2024-07-05",
+        "short"
+      ],
+      [
+        "LINK",
+        "2025-09-22",
+        "buy"
+      ],
+      [
+        "LINK",
+        "2025-10-10",
+        "short"
+      ],
+      [
+        "LINK",
+        "2026-01-25",
+        "buy"
+      ],
+      [
+        "LTC",
+        "2023-06-10",
+        "buy"
+      ]
+    ],
+    "binance_only_keys": [
+      [
+        "AAVE",
+        "2023-06-10",
+        "buy"
+      ],
+      [
+        "ATOM",
+        "2023-06-10",
+        "short"
+      ],
+      [
+        "COMP",
+        "2025-10-11",
+        "short"
+      ],
+      [
+        "COMP",
+        "2026-01-31",
+        "buy"
+      ],
+      [
+        "COMP",
+        "2026-05-23",
+        "buy"
+      ],
+      [
+        "KSM",
+        "2024-07-05",
+        "short"
+      ],
+      [
+        "KSM",
+        "2025-10-11",
+        "short"
+      ],
+      [
+        "SOL",
+        "2023-06-10",
+        "short"
+      ],
+      [
+        "SOL",
+        "2025-10-11",
+        "buy"
+      ],
+      [
+        "UNI",
+        "2024-08-28",
+        "buy"
+      ]
+    ]
+  },
+  "overall": {
+    "n_pairs": 32,
+    "same_sign_count": 32,
+    "same_sign_rate": 1.0,
+    "both_positive": 15,
+    "both_nonpositive": 17,
+    "okx_pos_binance_nonpos": 0,
+    "okx_nonpos_binance_pos": 0,
+    "okx_positive_rate": 0.46875,
+    "binance_positive_rate": 0.46875,
+    "sign_test_on_paired_diff": {
+      "n_nonzero_diffs": 32,
+      "n_okx_gt_binance": 18,
+      "n_binance_gt_okx": 14,
+      "two_sided_p": 0.5966148958541402
+    },
+    "paired_bootstrap_pnl_diff": {
+      "n_pairs": 32,
+      "n_boot": 10000,
+      "seed": 20261115,
+      "observed_mean_diff_okx_minus_binance": -454.029695200266,
+      "observed_median_diff_okx_minus_binance": 17.39760096926389,
+      "mean_ci_95": [
+        -1057.0904098857395,
+        11.001007796665794
+      ],
+      "median_ci_95": [
+        -13.780117689163166,
+        63.94612152444677
+      ],
+      "bootstrap_p_mean_diff_ne_0_two_sided": 0.0802,
+      "mean_diff_ci_excludes_zero": false
+    }
+  },
+  "by_leg": {
+    "buy": {
+      "n_pairs": 23,
+      "same_sign_count": 23,
+      "same_sign_rate": 1.0,
+      "both_positive": 7,
+      "both_nonpositive": 16,
+      "okx_pos_binance_nonpos": 0,
+      "okx_nonpos_binance_pos": 0,
+      "okx_positive_rate": 0.30434782608695654,
+      "binance_positive_rate": 0.30434782608695654,
+      "sign_test_on_paired_diff": {
+        "n_nonzero_diffs": 23,
+        "n_okx_gt_binance": 13,
+        "n_binance_gt_okx": 10,
+        "two_sided_p": 0.6776394844055216
+      },
+      "paired_bootstrap_pnl_diff": {
+        "n_pairs": 23,
+        "n_boot": 10000,
+        "seed": 20288617,
+        "observed_mean_diff_okx_minus_binance": -207.52268368674112,
+        "observed_median_diff_okx_minus_binance": 13.543979420648213,
+        "mean_ci_95": [
+          -669.6208407222064,
+          76.3254309548274
+        ],
+        "median_ci_95": [
+          -21.136802112737996,
+          72.55726895104817
+        ],
+        "bootstrap_p_mean_diff_ne_0_two_sided": 0.3096,
+        "mean_diff_ci_excludes_zero": false
+      }
+    },
+    "short": {
+      "n_pairs": 9,
+      "same_sign_count": 9,
+      "same_sign_rate": 1.0,
+      "both_positive": 8,
+      "both_nonpositive": 1,
+      "okx_pos_binance_nonpos": 0,
+      "okx_nonpos_binance_pos": 0,
+      "okx_positive_rate": 0.8888888888888888,
+      "binance_positive_rate": 0.8888888888888888,
+      "sign_test_on_paired_diff": {
+        "n_nonzero_diffs": 9,
+        "n_okx_gt_binance": 5,
+        "n_binance_gt_okx": 4,
+        "two_sided_p": 0.9999999999999973
+      },
+      "paired_bootstrap_pnl_diff": {
+        "n_pairs": 9,
+        "n_boot": 10000,
+        "seed": 20295442,
+        "observed_mean_diff_okx_minus_binance": -1083.9920579570519,
+        "observed_median_diff_okx_minus_binance": 28.781430600645763,
+        "mean_ci_95": [
+          -2681.1109841968787,
+          151.10698072242175
+        ],
+        "median_ci_95": [
+          -4610.145558556933,
+          283.6542017804643
+        ],
+        "bootstrap_p_mean_diff_ne_0_two_sided": 0.1946,
+        "mean_diff_ci_excludes_zero": false
+      }
+    }
+  },
+  "paired_examples": [
+    {
+      "key": [
+        "AAVE",
+        "2025-10-10",
+        "short"
+      ],
+      "okx_pnl": 5855.678337021115,
+      "binance_pnl": 11764.191896250593,
+      "diff_okx_minus_binance": -5908.513559229478,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "APT",
+        "2023-08-15",
+        "buy"
+      ],
+      "okx_pnl": -10728.246749992448,
+      "binance_pnl": -10800.804018943496,
+      "diff_okx_minus_binance": 72.55726895104817,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "APT",
+        "2024-07-05",
+        "short"
+      ],
+      "okx_pnl": 1210.2709551670857,
+      "binance_pnl": 980.0088757781919,
+      "diff_okx_minus_binance": 230.26207938889388,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "ATOM",
+        "2024-04-12",
+        "buy"
+      ],
+      "okx_pnl": -2431.8846635842315,
+      "binance_pnl": -2472.2102017161383,
+      "diff_okx_minus_binance": 40.3255381319068,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "AVAX",
+        "2024-04-12",
+        "buy"
+      ],
+      "okx_pnl": -2276.791436566967,
+      "binance_pnl": -2327.3654987619675,
+      "diff_okx_minus_binance": 50.57406219500035,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "AVAX",
+        "2025-10-11",
+        "short"
+      ],
+      "okx_pnl": 3909.5284830085657,
+      "binance_pnl": 3880.74705240792,
+      "diff_okx_minus_binance": 28.781430600645763,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "BCH",
+        "2023-08-17",
+        "buy"
+      ],
+      "okx_pnl": 3147.3921971706227,
+      "binance_pnl": 3063.5802486278326,
+      "diff_okx_minus_binance": 83.8119485427901,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "BCH",
+        "2026-01-31",
+        "short"
+      ],
+      "okx_pnl": 4625.085978311805,
+      "binance_pnl": 9235.231536868738,
+      "diff_okx_minus_binance": -4610.145558556933,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "BCH",
+        "2026-05-18",
+        "buy"
+      ],
+      "okx_pnl": -26.439700914914795,
+      "binance_pnl": -39.98368033556301,
+      "diff_okx_minus_binance": 13.543979420648213,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "DOT",
+        "2024-07-05",
+        "short"
+      ],
+      "okx_pnl": 2253.6888388148254,
+      "binance_pnl": 2176.8195597246845,
+      "diff_okx_minus_binance": 76.86927909014094,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "ETC",
+        "2023-06-05",
+        "buy"
+      ],
+      "okx_pnl": 134.20118655776565,
+      "binance_pnl": 262.7418058936463,
+      "diff_okx_minus_binance": -128.54061933588065,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "ETC",
+        "2023-06-10",
+        "buy"
+      ],
+      "okx_pnl": 1297.874223555433,
+      "binance_pnl": 1311.710535322974,
+      "diff_okx_minus_binance": -13.83631176754102,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "ETC",
+        "2024-04-12",
+        "buy"
+      ],
+      "okx_pnl": -3403.054121209742,
+      "binance_pnl": -3591.5607034777886,
+      "diff_okx_minus_binance": 188.5065822680467,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "ETH",
+        "2023-08-17",
+        "buy"
+      ],
+      "okx_pnl": -19393.1212256227,
+      "binance_pnl": -17823.062776118302,
+      "diff_okx_minus_binance": -1570.0584495043986,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "ETH",
+        "2024-08-05",
+        "buy"
+      ],
+      "okx_pnl": -5076.391554867054,
+      "binance_pnl": -5075.224971924502,
+      "diff_okx_minus_binance": -1.1665829425519405,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "ETH",
+        "2024-08-28",
+        "buy"
+      ],
+      "okx_pnl": 2924.0974671930685,
+      "binance_pnl": 2925.1441654143828,
+      "diff_okx_minus_binance": -1.0466982213142728,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "ETH",
+        "2025-02-03",
+        "short"
+      ],
+      "okx_pnl": -330.0428556657653,
+      "binance_pnl": -651.1350061519752,
+      "diff_okx_minus_binance": 321.0921504862099,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "ETH",
+        "2026-01-20",
+        "buy"
+      ],
+      "okx_pnl": -1367.5715424022053,
+      "binance_pnl": -1367.8486584313985,
+      "diff_okx_minus_binance": 0.27711602919316647,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "FIL",
+        "2024-04-12",
+        "buy"
+      ],
+      "okx_pnl": -1927.9489911131432,
+      "binance_pnl": -1949.2002136310227,
+      "diff_okx_minus_binance": 21.25122251787957,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "LINK",
+        "2023-06-10",
+        "buy"
+      ],
+      "okx_pnl": 86.00899687284021,
+      "binance_pnl": 114.4248446445745,
+      "diff_okx_minus_binance": -28.415847771734292,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "LINK",
+        "2024-04-12",
+        "buy"
+      ],
+      "okx_pnl": -2760.1554753551354,
+      "binance_pnl": -3065.260718123277,
+      "diff_okx_minus_binance": 305.1052427681416,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "LTC",
+        "2023-03-10",
+        "buy"
+      ],
+      "okx_pnl": -8356.688511860943,
+      "binance_pnl": -8482.732471593714,
+      "diff_okx_minus_binance": 126.04395973277133,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "LTC",
+        "2024-01-03",
+        "buy"
+      ],
+      "okx_pnl": -945.4974317679191,
+      "binance_pnl": -1000.8324058657645,
+      "diff_okx_minus_binance": 55.33497409784536,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "LTC",
+        "2024-07-05",
+        "short"
+      ],
+      "okx_pnl": 1486.4981690503364,
+      "binance_pnl": 1202.843967269872,
+      "diff_okx_minus_binance": 283.6542017804643,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "LTC",
+        "2025-04-07",
+        "buy"
+      ],
+      "okx_pnl": -13704.779802909947,
+      "binance_pnl": -13617.469015647848,
+      "diff_okx_minus_binance": -87.31078726209853,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "SOL",
+        "2023-09-10",
+        "buy"
+      ],
+      "okx_pnl": -3482.844137610639,
+      "binance_pnl": -3452.1934325535694,
+      "diff_okx_minus_binance": -30.650705057069445,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "SOL",
+        "2026-01-19",
+        "buy"
+      ],
+      "okx_pnl": -9454.96982559438,
+      "binance_pnl": -9756.290756515296,
+      "diff_okx_minus_binance": 301.320930920916,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "SOL",
+        "2026-01-25",
+        "buy"
+      ],
+      "okx_pnl": 4333.6693099801505,
+      "binance_pnl": 8747.503620452799,
+      "diff_okx_minus_binance": -4413.834310472648,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "SOL",
+        "2026-01-31",
+        "buy"
+      ],
+      "okx_pnl": 949.8155432428568,
+      "binance_pnl": 970.9523453555948,
+      "diff_okx_minus_binance": -21.136802112737996,
+      "okx_exit": "time_exit",
+      "binance_exit": "time_exit"
+    },
+    {
+      "key": [
+        "UNI",
+        "2024-07-05",
+        "short"
+      ],
+      "okx_pnl": 1492.0500356839536,
+      "binance_pnl": 1663.558029339385,
+      "diff_okx_minus_binance": -171.5079936554314,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    },
+    {
+      "key": [
+        "UNI",
+        "2024-08-05",
+        "buy"
+      ],
+      "okx_pnl": -6565.775255767811,
+      "binance_pnl": -6830.097819844553,
+      "diff_okx_minus_binance": 264.3225640767414,
+      "okx_exit": "liquidated",
+      "binance_exit": "liquidated"
+    },
+    {
+      "key": [
+        "UNI",
+        "2025-01-27",
+        "short"
+      ],
+      "okx_pnl": 7886.857466372906,
+      "binance_pnl": 7893.278017890885,
+      "diff_okx_minus_binance": -6.42055151797922,
+      "okx_exit": "target_rebound_short",
+      "binance_exit": "target_rebound_short"
+    }
+  ],
+  "verdict": "DIRECTION_REPLICATES_MAJORITY",
+  "verdict_detail": "n_pairs=32, same_sign_rate=1.0000, mean_diff_okx-bin=-454.029695200266, mean_diff_95CI=[-1057.0904098857395, 11.001007796665794], okx_pos_rate=0.46875, bin_pos_rate=0.46875",
+  "limitations": [
+    "Pairs matched on (symbol, entry_date_utc, leg); same calendar-day entry is a proxy for same crash episode, not identical bar identity.",
+    "Unpaired trades reflect venue-specific signal/admission differences and are reported but excluded from paired stats.",
+    "CROSS-VENUE (OKX/Binance UM), is_hyperliquid_venue_data=false; NOT Hyperliquid performance evidence.",
+    "Bootstrap on paired differences (seeded, >=10k) without scipy; sign test exact binomial two-sided."
+  ]
+}

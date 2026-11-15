@@ -1,0 +1,593 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T06:47:38Z",
+  "phase": "C10.3",
+  "script": "scripts/pooled_episode_meta_okx_binance.py",
+  "provenance_caveat": "Real OKX/Binance UM exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; NOT Hyperliquid performance evidence. Pooling is across independent venues only.",
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "independence_assumption": "OKX and Binance UM are independent venues with distinct matching engines, liquidity, and microstructure; their per-episode PnL paths are treated as independent draws. Pooling combines episode blocks across these independent venues only \u2014 NO same-venue duplicates pooled. Crash episodes may be temporally aligned across venues (common market shocks) while per-trade execution/PnL remains venue-specific; this is stated, not hidden.",
+  "inputs": {
+    "okx_episode_edge": "research_state/episode_edge_okx_multiyear.json",
+    "binance_episode_edge": "research_state/episode_edge_binance_um_multiyear.json",
+    "okx_sha256": "8ff3b033f128eed2b268d72f47135e6e0bd5da41544de92ab415793b9809d0cb",
+    "binance_sha256": "318ed43a32cf4bf59b10775f8a2ac046e3f0bdc399da49c11e3ce05066ca7189"
+  },
+  "by_venue": {
+    "okx": {
+      "episodes": 19,
+      "total_pnl": 18220.855824294897,
+      "mean_episode_pnl": 958.9924118049945,
+      "median_episode_pnl": -72.00374714750825,
+      "positive_episodes": 9,
+      "negative_episodes": 10
+    },
+    "binance_um": {
+      "episodes": 19,
+      "total_pnl": 21994.064360948094,
+      "mean_episode_pnl": 1157.5823347867417,
+      "median_episode_pnl": -1156.3083679948377,
+      "positive_episodes": 7,
+      "negative_episodes": 12
+    }
+  },
+  "pooled_episode_count": 38,
+  "pooled_episodes": [
+    {
+      "venue": "okx",
+      "episode_id": "0",
+      "episode_key": "okx:0",
+      "observed_total_pnl": -12052.171473193033,
+      "trade_count": 1,
+      "start": "2023-03-10T11:00:00Z",
+      "end": "2023-03-10T11:00:00Z",
+      "symbols": [
+        "LTC"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "1",
+      "episode_key": "okx:1",
+      "observed_total_pnl": -1157.8757115739686,
+      "trade_count": 1,
+      "start": "2023-06-05T17:00:00Z",
+      "end": "2023-06-05T18:00:00Z",
+      "symbols": [
+        "ETC"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "2",
+      "episode_key": "okx:2",
+      "observed_total_pnl": 2062.8583217821083,
+      "trade_count": 5,
+      "start": "2023-06-10T07:00:00Z",
+      "end": "2023-06-10T10:00:00Z",
+      "symbols": [
+        "APT",
+        "ATOM",
+        "AVAX",
+        "ETC",
+        "LINK",
+        "LTC",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "3",
+      "episode_key": "okx:3",
+      "observed_total_pnl": -10451.561571449049,
+      "trade_count": 3,
+      "start": "2023-08-15T21:00:00Z",
+      "end": "2023-08-17T22:00:00Z",
+      "symbols": [
+        "APT",
+        "BCH",
+        "ETH"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "4",
+      "episode_key": "okx:4",
+      "observed_total_pnl": 3604.3204955265005,
+      "trade_count": 1,
+      "start": "2023-09-10T05:00:00Z",
+      "end": "2023-09-10T05:00:00Z",
+      "symbols": [
+        "SOL"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "5",
+      "episode_key": "okx:5",
+      "observed_total_pnl": -1594.5786595229097,
+      "trade_count": 1,
+      "start": "2024-01-03T14:00:00Z",
+      "end": "2024-01-03T14:00:00Z",
+      "symbols": [
+        "LTC"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "6",
+      "episode_key": "okx:6",
+      "observed_total_pnl": -9372.242091931756,
+      "trade_count": 5,
+      "start": "2024-04-12T19:00:00Z",
+      "end": "2024-04-12T20:00:00Z",
+      "symbols": [
+        "ATOM",
+        "AVAX",
+        "ETC",
+        "FIL",
+        "LINK"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "7",
+      "episode_key": "okx:7",
+      "observed_total_pnl": 3786.70236466575,
+      "trade_count": 5,
+      "start": "2024-07-05T03:00:00Z",
+      "end": "2024-07-05T07:00:00Z",
+      "symbols": [
+        "APT",
+        "ATOM",
+        "BCH",
+        "DOT",
+        "ETC",
+        "LTC",
+        "UNI"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "8",
+      "episode_key": "okx:8",
+      "observed_total_pnl": -8145.90889839113,
+      "trade_count": 2,
+      "start": "2024-08-05T02:00:00Z",
+      "end": "2024-08-05T02:00:00Z",
+      "symbols": [
+        "ETH",
+        "UNI"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "9",
+      "episode_key": "okx:9",
+      "observed_total_pnl": -248.76685484085692,
+      "trade_count": 1,
+      "start": "2024-08-28T01:00:00Z",
+      "end": "2024-08-28T01:00:00Z",
+      "symbols": [
+        "ETH"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "10",
+      "episode_key": "okx:10",
+      "observed_total_pnl": 7047.919839983017,
+      "trade_count": 1,
+      "start": "2025-01-27T07:00:00Z",
+      "end": "2025-01-27T07:00:00Z",
+      "symbols": [
+        "UNI"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "11",
+      "episode_key": "okx:11",
+      "observed_total_pnl": 2728.2588264220876,
+      "trade_count": 2,
+      "start": "2025-02-03T03:00:00Z",
+      "end": "2025-02-03T03:00:00Z",
+      "symbols": [
+        "APT",
+        "ETH"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "12",
+      "episode_key": "okx:12",
+      "observed_total_pnl": -1233.8497057053446,
+      "trade_count": 1,
+      "start": "2025-04-06T23:00:00Z",
+      "end": "2025-04-06T23:00:00Z",
+      "symbols": [
+        "LTC"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "13",
+      "episode_key": "okx:13",
+      "observed_total_pnl": 4581.6690168595105,
+      "trade_count": 2,
+      "start": "2025-09-22T08:00:00Z",
+      "end": "2025-09-22T08:00:00Z",
+      "symbols": [
+        "AAVE",
+        "LINK"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "14",
+      "episode_key": "okx:14",
+      "observed_total_pnl": 29506.389990781012,
+      "trade_count": 3,
+      "start": "2025-10-10T22:00:00Z",
+      "end": "2025-10-11T00:00:00Z",
+      "symbols": [
+        "AAVE",
+        "AVAX",
+        "LINK"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "15",
+      "episode_key": "okx:15",
+      "observed_total_pnl": 3040.3355176980076,
+      "trade_count": 2,
+      "start": "2026-01-19T02:00:00Z",
+      "end": "2026-01-20T19:00:00Z",
+      "symbols": [
+        "ETH",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "16",
+      "episode_key": "okx:16",
+      "observed_total_pnl": -1969.9715492964642,
+      "trade_count": 2,
+      "start": "2026-01-25T20:00:00Z",
+      "end": "2026-01-25T20:00:00Z",
+      "symbols": [
+        "LINK",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "17",
+      "episode_key": "okx:17",
+      "observed_total_pnl": 8161.3317136289215,
+      "trade_count": 3,
+      "start": "2026-01-31T18:00:00Z",
+      "end": "2026-01-31T21:00:00Z",
+      "symbols": [
+        "AVAX",
+        "BCH",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "okx",
+      "episode_id": "18",
+      "episode_key": "okx:18",
+      "observed_total_pnl": -72.00374714750825,
+      "trade_count": 1,
+      "start": "2026-05-18T08:00:00Z",
+      "end": "2026-05-18T08:00:00Z",
+      "symbols": [
+        "BCH"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "0",
+      "episode_key": "binance_um:0",
+      "observed_total_pnl": -12117.67886470174,
+      "trade_count": 1,
+      "start": "2023-03-10T11:00:00Z",
+      "end": "2023-03-10T11:00:00Z",
+      "symbols": [
+        "LTC"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "1",
+      "episode_key": "binance_um:1",
+      "observed_total_pnl": -1868.135249071162,
+      "trade_count": 1,
+      "start": "2023-06-05T17:00:00Z",
+      "end": "2023-06-05T18:00:00Z",
+      "symbols": [
+        "ETC"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "2",
+      "episode_key": "binance_um:2",
+      "observed_total_pnl": 4112.640224562638,
+      "trade_count": 5,
+      "start": "2023-06-10T07:00:00Z",
+      "end": "2023-06-10T13:00:00Z",
+      "symbols": [
+        "AAVE",
+        "APT",
+        "ATOM",
+        "AVAX",
+        "COMP",
+        "ETC",
+        "KSM",
+        "LINK",
+        "LTC",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "3",
+      "episode_key": "binance_um:3",
+      "observed_total_pnl": -9080.849711495684,
+      "trade_count": 3,
+      "start": "2023-08-15T21:00:00Z",
+      "end": "2023-08-17T22:00:00Z",
+      "symbols": [
+        "APT",
+        "BCH",
+        "ETH"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "4",
+      "episode_key": "binance_um:4",
+      "observed_total_pnl": 3566.0321656624837,
+      "trade_count": 1,
+      "start": "2023-09-10T05:00:00Z",
+      "end": "2023-09-10T05:00:00Z",
+      "symbols": [
+        "SOL"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "5",
+      "episode_key": "binance_um:5",
+      "observed_total_pnl": -1624.5265179978646,
+      "trade_count": 1,
+      "start": "2024-01-03T14:00:00Z",
+      "end": "2024-01-03T14:00:00Z",
+      "symbols": [
+        "LTC"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "6",
+      "episode_key": "binance_um:6",
+      "observed_total_pnl": -9992.460836336442,
+      "trade_count": 5,
+      "start": "2024-04-12T19:00:00Z",
+      "end": "2024-04-12T20:00:00Z",
+      "symbols": [
+        "ATOM",
+        "AVAX",
+        "ETC",
+        "FIL",
+        "LINK"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "7",
+      "episode_key": "binance_um:7",
+      "observed_total_pnl": 4189.058750486272,
+      "trade_count": 5,
+      "start": "2024-07-05T03:00:00Z",
+      "end": "2024-07-05T07:00:00Z",
+      "symbols": [
+        "APT",
+        "ATOM",
+        "BCH",
+        "DOT",
+        "ETC",
+        "KSM",
+        "LTC",
+        "UNI"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "8",
+      "episode_key": "binance_um:8",
+      "observed_total_pnl": -8438.449719464192,
+      "trade_count": 2,
+      "start": "2024-08-05T02:00:00Z",
+      "end": "2024-08-05T02:00:00Z",
+      "symbols": [
+        "ETH",
+        "UNI"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "9",
+      "episode_key": "binance_um:9",
+      "observed_total_pnl": -1156.3083679948377,
+      "trade_count": 2,
+      "start": "2024-08-28T01:00:00Z",
+      "end": "2024-08-28T02:00:00Z",
+      "symbols": [
+        "ETH",
+        "UNI"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "10",
+      "episode_key": "binance_um:10",
+      "observed_total_pnl": 7015.804505868181,
+      "trade_count": 1,
+      "start": "2025-01-27T07:00:00Z",
+      "end": "2025-01-27T07:00:00Z",
+      "symbols": [
+        "UNI"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "11",
+      "episode_key": "binance_um:11",
+      "observed_total_pnl": -2932.5249406576213,
+      "trade_count": 1,
+      "start": "2025-02-03T03:00:00Z",
+      "end": "2025-02-03T03:00:00Z",
+      "symbols": [
+        "ETH"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "12",
+      "episode_key": "binance_um:12",
+      "observed_total_pnl": -1174.6806110974048,
+      "trade_count": 1,
+      "start": "2025-04-06T23:00:00Z",
+      "end": "2025-04-06T23:00:00Z",
+      "symbols": [
+        "LTC"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "13",
+      "episode_key": "binance_um:13",
+      "observed_total_pnl": 39545.4051501238,
+      "trade_count": 5,
+      "start": "2025-10-10T22:00:00Z",
+      "end": "2025-10-11T00:00:00Z",
+      "symbols": [
+        "AAVE",
+        "AVAX",
+        "COMP",
+        "KSM",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "14",
+      "episode_key": "binance_um:14",
+      "observed_total_pnl": 2767.187933412679,
+      "trade_count": 2,
+      "start": "2026-01-19T02:00:00Z",
+      "end": "2026-01-20T19:00:00Z",
+      "symbols": [
+        "ETH",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "15",
+      "episode_key": "binance_um:15",
+      "observed_total_pnl": -312.2262537028455,
+      "trade_count": 1,
+      "start": "2026-01-25T20:00:00Z",
+      "end": "2026-01-25T20:00:00Z",
+      "symbols": [
+        "SOL"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "16",
+      "episode_key": "binance_um:16",
+      "observed_total_pnl": 11134.772909697927,
+      "trade_count": 3,
+      "start": "2026-01-31T18:00:00Z",
+      "end": "2026-01-31T21:00:00Z",
+      "symbols": [
+        "BCH",
+        "COMP",
+        "SOL"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "17",
+      "episode_key": "binance_um:17",
+      "observed_total_pnl": -117.93719652306186,
+      "trade_count": 1,
+      "start": "2026-05-18T08:00:00Z",
+      "end": "2026-05-18T08:00:00Z",
+      "symbols": [
+        "BCH"
+      ]
+    },
+    {
+      "venue": "binance_um",
+      "episode_id": "18",
+      "episode_key": "binance_um:18",
+      "observed_total_pnl": -1521.05900982303,
+      "trade_count": 1,
+      "start": "2026-05-23T00:00:00Z",
+      "end": "2026-05-23T00:00:00Z",
+      "symbols": [
+        "COMP"
+      ]
+    }
+  ],
+  "episode_block_bootstrap": {
+    "resamples": 20000,
+    "seed": 20261115,
+    "episode_blocks": 38,
+    "observed_total_pnl": 40214.92018524299,
+    "observed_mean_episode_pnl": 1058.287373295868,
+    "observed_median_episode_pnl": -280.4965542718512,
+    "bootstrap_total_pnl": {
+      "mean": 40397.76189491981,
+      "median": 37189.06289796386,
+      "stdev": 60375.21843668892,
+      "p05": -53128.36551422262,
+      "p95": 144749.8931417672,
+      "ci_low_pnl_2p5": -69065.03419003497,
+      "ci_high_pnl_97p5": 168946.86943342557,
+      "prob_total_pnl_gt_0": 0.74095
+    },
+    "ci_excludes_zero": false,
+    "approx_episode_blocks_needed_for_ci_excludes_zero": 327
+  },
+  "permutation_null": {
+    "method": "episode_sign_flip_permutation",
+    "draws": 20000,
+    "seed": 20261116,
+    "episode_blocks": 38,
+    "observed_total_pnl": 40214.92018524299,
+    "null_mean": 154.45898361260038,
+    "null_stdev": 61012.22331300668,
+    "null_p05": -99784.04364837527,
+    "null_p95": 100969.73955464539,
+    "p_null_ge_canonical_one_sided": 0.26955,
+    "p_null_abs_ge_abs_canonical_two_sided": 0.5356,
+    "canonical_percentile_le": 0.73045
+  },
+  "verdict": "underpowered",
+  "verdict_detail": "pooled_episodes=38, observed_total=40214.9202, bootstrap_95CI=[-69065.0342,168946.8694], P(total>0)=0.74095, perm_p_null_ge_canonical=0.26955, perm_p_two_sided_abs=0.53560",
+  "limitations": [
+    "Pooling is across independent venues (OKX, Binance UM) only; no same-venue duplicates. Cross-venue episodes may be temporally correlated via common market shocks though PnL paths differ.",
+    "Episode totals are taken from prior C6-T3 dependence-aware artifacts (98h linkage) as the unit of inference; no re-simulation performed.",
+    "Sign-flip permutation tests directional edge of episode totals, not the full temporal-admission null; interpret alongside per-venue temporal permutation p-values.",
+    "CROSS-VENUE, is_hyperliquid_venue_data=false; NOT Hyperliquid performance evidence."
+  ]
+}
