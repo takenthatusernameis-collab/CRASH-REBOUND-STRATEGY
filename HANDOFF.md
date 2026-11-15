@@ -1,17 +1,18 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T20:00:28Z — C13 prereg staged (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`, prereg validation PASS); C13 heavy compute + native C13 verdict **NOT run**. Hardened gate `scripts/verify_c13_focus_campaign.py` enforces ≥100 draws/subsets, prereg seed/SHA binding, max-compute selection, and verdict traceability. `scripts/build_c13_prereg.py` available (use `--force` only with documented reason). Canonical remains **NO_GO**.
+**Handoff updated (UTC):** 2026-11-15T20:37:34Z — C13 **COMPLETE**: prereg staged + heavy compute (200/200 draws) + native verdict `UNDERPOWERED` written. Gate `scripts/verify_c13_focus_campaign.py` → **C13 ACCEPTANCE: PASS**. Canonical remains **NO_GO**.
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from repo name):** produce a **decision-grade crash-rebound verdict** — validate or falsify the edge on **Hyperliquid-native** evidence with honest dependence-aware inference. Canonical and C12 discovery are complete; the **single blocking priority is C13** (pre-registered validation of the only positive-spot lead `rsi_threshold 25, target_pct 9`). Any session that does not advance C13 heavy work is off-priority unless it unblocks C13.
 
-**Baseline (revalidated 2026-11-15T19:58Z):** branch `main`; env `/tmp/crs-venv` ready. **C1–C12 COMPLETE.** Gates (record stems/results each session): `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**, `scripts/verify_c13_focus_campaign.py` **FAIL (expected pre-C13: prereg PASS, compute/verdict missing)**.
+**Baseline (revalidated 2026-11-15T20:37Z):** branch `main`; env `/tmp/crs-venv` ready. **C1–C13 COMPLETE.** Gates (record stems/results each session): `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**, `scripts/verify_c13_focus_campaign.py` **PASS (C13 ACCEPTANCE: PASS — config-matched native C13 artifacts complete)**.
 
 **Verdict state:**
 - Cross-venue consolidated: **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7). `is_hyperliquid_venue_data=false` for OKX/Binance.
 - Native canonical (C11.3): **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE` (underpowered), 0/7** (`research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md`; consolidated native `research_state/decision_verdict_consolidated_20261115T155318Z.md`). 6 trades, spot −3,968.80, hedge +8,261.31, rebound 0, total +4,292.50.
-- **Native C12 (2026-11-15T18:00Z stem family): `NO_DECISION_GRADE_GO` / discovery only** (`research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`). Best in-sample: `c12_25_9` (RSI 25, target 9%) total +23,244.22 (spot +6,836.44, hedge +4,762.24, rebound +11,904.32; 17 trades / 10 episodes / 11 crash days) but episode-block bootstrap CI95 spans 0 (spot [−26,795, +36,129], total [−36,650, +74,463], P(total>0)=0.770) — **underpowered, not validated GO**. `c12_20_5/22_5` totals positive but **hedge-masked** (spot deeply negative). `c12_25_5` and all RSI 30 configs negative total with large negative spot. **Canonical RSI(21)<20 preserved as NO_GO.**
+- Native C12 (2026-11-15T18:00Z stem family): **`NO_DECISION_GRADE_GO` / discovery only** (`research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`). Best in-sample: `c12_25_9` (RSI 25, target 9%) total +23,244.22 (spot +6,836.44, hedge +4,762.24, rebound +11,904.32; 17 trades / 10 episodes / 11 crash days) but episode-block bootstrap CI95 spans 0 (spot [−26,795, +36,129], total [−36,650, +74,463], P(total>0)=0.770) — **underpowered, not validated GO**. `c12_20_5/22_5` totals positive but **hedge-masked** (spot deeply negative). `c12_25_5` and all RSI 30 configs negative total with large negative spot. **Canonical RSI(21)<20 preserved as NO_GO.**
+- **Native C13 (2026-11-15T20:37Z): `UNDERPOWERED`** (`research_state/decision_verdict_hyperliquid_native_c13_20261115T203734Z.md`). Pre-registered validation of `rsi_threshold 25, target_pct 9` with 200 episode-edge draws + 200 placebo subsets (seed 20261115, SHA-bound to C12 lead). Results: bootstrap CI95 [−22,799, +79,979] spans 0; permutation p(null≥canon)=0.085; placebo p_ge_canon=0.32; spot leg −3,968.80 (negative), total +23,244.22 hedge-masked. Effective N: 17 trades / 10 episodes / 12 crash days / 5 symbols. **No GO criterion met. Canonical NO_GO preserved.**
 
 ---
 
@@ -165,20 +166,14 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (2026-11-15T19:54Z)
+## What changed this session (2026-11-15T20:37Z)
 
-- **C13 prereg remains staged (prereg-before-compute satisfied):** `scripts/build_c13_prereg.py` wrote and validated `research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}` (`prereg validation: PASS`). It fixes lead `rsi 25 / target 9`, seed `20261115`, floor `100` draws/subsets, planned `200/200`, GO/NO_GO/UNDERPOWERED rules, power targets, provenance caveat, and exact commands.
-- **C13 gate hardened against thin/avoidant runs:** `scripts/verify_c13_focus_campaign.py` now requires:
-  - **≥100** episode-edge permutation draws and **≥100** placebo subsets (`MIN_DRAWS`);
-  - effective sample **≥10 trades / ≥5 episodes**;
-  - artifacts **seed-bound to the prereg** and **SHA-bound to the C12 lead campaign/census**;
-  - selection of the **max-compute** eligible artifact (a stale thin artifact cannot shadow or substitute);
-  - verdict **traceability** to the prereg and both artifact filenames, plus effective-sample and dependence-aware evidence.
-  Unit-tested in an isolated temp state: 2-draw artifacts **FAIL** (`evaluated only 2 ... need >= 100`); 100-draw seed/SHA-bound artifacts **PASS**; wrong-seed artifacts are ignored.
-- **C13 runners smoke-validated (artifacts deleted; NOT evidence):** episode-edge rsi25/t9 (`--draws 2`) reproduced C12 `c12_25_9` exactly — 33 signal-gate events, 10 episodes, 17 trades, +23,244.22, bootstrap CI [−22,799.52, 79,978.91], permutation p=0.0000, verdict `underpowered` (1.8s). Placebo rsi25/t9 (`--draws 2`) replayed 17 trades / +23,244.224 and evaluated 2 seeded subsets (p_ge_canon=0.50). These smoke artifacts were deleted and must not be cited.
-- **Gate status:** `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `verify_next_focus_campaign.py` **PASS**, `verify_c13_focus_campaign.py` **FAIL** with `c13_prereg_before_compute: PASS`, `c13_config_matched_inference: FAIL` (compute not run), `c13_native_verdict: FAIL` (verdict not written). This is the expected pre-C13 state.
+- **C13 heavy compute EXECUTED (200/200 draws):** `scripts/run_episode_edge_okx_multiyear.py` → `episode_edge_hyperliquid_native_c13_20261115T200200Z.json` (200 draws, seed 20261115, config-matched canonical replay 17 trades / +23,244.22, 10 episodes, bootstrap CI95 [−22,799, +79,979], permutation p=0.085, verdict `underpowered`). `scripts/run_portfolio_placebo_okx.py` → `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.json` (200 runs, seed 20261115, canonical 17 trades / +23,244.22, placebo mean +16,174.90, p_ge_canon=0.32).
+- **C13 native verdict WRITTEN:** `research_state/decision_verdict_hyperliquid_native_c13_20261115T203734Z.md` — verdict token `UNDERPOWERED`, cites prereg + both artifacts + effective N + dependence-aware evidence (bootstrap/permutation/placebo/CI95), leg separation, no GO claim from hedge-masked totals.
+- **C13 gate now PASSES:** `verify_c13_focus_campaign.py` → **C13 ACCEPTANCE: PASS** (prereg PASS, config-matched inference PASS, native verdict PASS, handoff references PASS).
+- **Gate status:** `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `verify_next_focus_campaign.py` **PASS**, `verify_c13_focus_campaign.py` **PASS**.
 
-## Verified state (as of 2026-11-15T19:54Z)
+## Verified state (as of 2026-11-15T20:37Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -187,8 +182,11 @@ If a future session changes the Phase O artifact, update this line to the new `g
 | Session gate | **21/21 checks passed — DONE** | `scripts/session_gate.py` |
 | Evidence verifier | **4/4 — EVIDENCE VERIFIED** | `scripts/verify_campaign_evidence.py` |
 | C6 acceptance gate | **PASS** | `scripts/verify_next_focus_campaign.py` |
-| **C13 acceptance gate** | **FAIL (expected — compute/verdict pending)** | `scripts/verify_c13_focus_campaign.py` |
+| **C13 acceptance gate** | **PASS** | `scripts/verify_c13_focus_campaign.py` |
 | C13 prereg | **PASS** (staged 2026-11-15T18:57:21Z) | `research_state/hyperliquid_native_c13_prereg_20261115T185721Z.json` |
+| C13 episode-edge | **200 draws, seed 20261115, config-matched** | `episode_edge_hyperliquid_native_c13_20261115T200200Z.json` |
+| C13 placebo | **200 runs, seed 20261115, config-matched** | `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.json` |
+| C13 native verdict | **`UNDERPOWERED`** | `decision_verdict_hyperliquid_native_c13_20261115T203734Z.md` |
 | Cross-venue consolidated verdict | **`NO_GO`** (0/7) | `decision_verdict_consolidated_20261115T122636Z.md` |
 | Native canonical verdict (C11.3) | **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE`, 0/7** | `decision_verdict_hyperliquid_native_20261115T155318Z.md` |
 | C12 verdict | **`NO_DECISION_GRADE_GO`** (lead in-sample, not validated) | `decision_verdict_hyperliquid_native_c12_20261115T181500Z.md` |
@@ -198,18 +196,17 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ## Bottlenecks (current)
 
-1. **C13 decision-grade compute — NOT YET RUN (PRIMARY).** The prereg is staged and the runners are config-matched and smoke-validated. Run the two commands in C13.1, then write the verdict. Do not stop at handoff/gates; `verify_c13_focus_campaign.py` must reach PASS.
-2. **Statistical power — structural.** 283d native window; C12 lead shows 17 trades / 10 episodes / 11 crash days with wide CIs. C13 must report effective N and honestly label underpowered results. Note: the episode-edge artifact reports **12 distinct signal-event days** (all crash bars), while C12 inference reports **11 trade crash days**; this is a counting-unit difference, not a contradiction.
-3. **Canonical/native economics context.** Canonical spot alpha negative; some C12 totals hedge-masked. Separate legs in every claim.
-4. **Live Hyperliquid API 1h retention — external, expected (non-blocking).** Full-window evidence comes from the accepted Ironflow archive, not the API.
-5. **Cross-venue evidence — exhausted/CLOSED.** OKX/Binance remain `is_hyperliquid_venue_data=false`. Do not re-acquire or re-run.
+1. **Statistical power — structural.** 283d native window; C12/C13 lead shows 17 trades / 10 episodes / 12 crash days with wide CIs. C13 honestly labeled `UNDERPOWERED` (bootstrap CI95 spans 0, permutation p=0.085, placebo p_ge=0.32). Note: the episode-edge artifact reports **12 distinct signal-event days** (all crash bars), while C12 inference reports **11 trade crash days**; this is a counting-unit difference, not a contradiction.
+2. **Canonical/native economics context.** Canonical spot alpha negative; some C12 totals hedge-masked. Separate legs in every claim.
+3. **Live Hyperliquid API 1h retention — external, expected (non-blocking).** Full-window evidence comes from the accepted Ironflow archive, not the API.
+4. **Cross-venue evidence — exhausted/CLOSED.** OKX/Binance remain `is_hyperliquid_venue_data=false`. Do not re-acquire or re-run.
 
 ## Canonical artifacts (do not re-acquire/re-run/overwrite)
 
 - Cross-venue multi-year/canonical artifacts under `research_state/` (`campaign_results_real_okx_multiyear*`, `campaign_results_real_binance_um_multiyear*`, C6-T3/C7/C10 stems, `decision_verdict_consolidated_20261115T122636Z.md`, Phase O `episode_edge_okx_full.json` timestamp **2026-11-13T23:38:47Z**).
 - **C11 native:** `archives/hyperliquid_ironflow_1h_20251220_20260928/*`, `archive_intake_validation_20261115T140420Z.*`, `cache/hyperliquid_ironflow_native_20251220_20260928/`, `universe_hyperliquid_ironflow_native_20251220_20260928.json`, `campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json`, C11.3 census/episode/placebo/robustness/verdict stems, `hyperliquid_native_power_prereg_20261115T123859Z.*`.
 - **C12:** `hyperliquid_native_c12_prereg_20261115T180000Z.*`, `campaign_results_real_hyperliquid_native_c12_rsi{20,22,25,30}_t{5,9}_20261115T180000Z*`, `crash_event_census_hyperliquid_native_c12_rsi{20,22,25,30}_t{5,9}_20261115T180000Z.*`, `hyperliquid_native_c12_inference_20261115T180000Z.*`, `decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`.
-- **C13 prereg (this session):** `hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}` — do not overwrite without `--force` and a documented reason.
+- **C13 (this session):** `hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`, `episode_edge_hyperliquid_native_c13_20261115T200200Z.{json,md}`, `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.{json,md}`, `decision_verdict_hyperliquid_native_c13_20261115T203734Z.md` — do not overwrite without new stem and documented reason.
 - Placeholder `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` — NEVER evidence.
 
 ## Reproduction
