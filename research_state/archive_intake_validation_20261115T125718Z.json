@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "run_type": "hyperliquid_archive_intake_validation",
+  "archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+  "archive_sha256": "e0e783f64f0ee18aabc8b490da56d2750396b21b3d99d55d63baf000f757c28c",
+  "archive_layout": "parquet_file",
+  "requested_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "min_symbols_required": 2,
+  "min_volume_usd_required": 5000000.0,
+  "allow_synthetic_fixture": false,
+  "symbols": [
+    "BTC",
+    "ETH"
+  ],
+  "symbol_count": 2,
+  "checks": [
+    {
+      "check": "archive_present",
+      "status": "pass",
+      "detail": "2 symbol(s) loaded, layout=parquet_file",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "placeholder_not_evidence",
+      "status": "fail",
+      "detail": "known placeholder parquet detected; never evidence",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "source_provenance",
+      "status": "pass",
+      "detail": "provenance documents=1; declares_hyperliquid=True; declares_fixture_or_synthetic=False",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "symbol_universe",
+      "status": "pass",
+      "detail": "2 symbol(s) >= min_symbols 2: ['BTC', 'ETH']",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "window_coverage",
+      "status": "pass",
+      "detail": "all symbols cover the full hourly window with no gaps",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "synthetic_free",
+      "status": "fail",
+      "detail": "BTC: flat_series_all_bars_identical (1/6792); ETH: flat_series_all_bars_identical (1/6792)",
+      "fixture_tolerable": true
+    },
+    {
+      "check": "volume_floor",
+      "status": "pass",
+      "detail": "all symbols >= $5,000,000 trailing-24h USD volume",
+      "fixture_tolerable": true
+    },
+    {
+      "check": "checksum_integrity",
+      "status": "pass",
+      "detail": "checksums verified",
+      "fixture_tolerable": true
+    }
+  ],
+  "synthetic_detail": {
+    "BTC": {
+      "is_synthetic": true,
+      "reason": "flat_series_all_bars_identical",
+      "distinct_signatures": 1,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 0.000147
+    },
+    "ETH": {
+      "is_synthetic": true,
+      "reason": "flat_series_all_bars_identical",
+      "distinct_signatures": 1,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 0.000147
+    }
+  },
+  "min_rolling_24h_volume_usd": {
+    "BTC": 2880000000000000.0,
+    "ETH": 72000000000000.0
+  },
+  "verdict": "REJECT_NOT_EVIDENCE",
+  "is_market_data": false,
+  "is_evidence": false,
+  "performance_evidence": false,
+  "provenance_caveat": "Intake validation only: proves the archive is structurally usable as evidence input, NOT that the strategy is profitable. Never relabel OKX, partial snapshots, dry-run fixtures, or the placeholder parquet as Hyperliquid evidence.",
+  "no_new_data_fabricated": true,
+  "generated_at_utc": "2026-11-15T12:57:18Z",
+  "selftest": {
+    "cases": [
+      {
+        "case": "flat_full_window_fixture_without_optin",
+        "allow_synthetic_fixture": false,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "synthetic_free",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "flat_full_window_fixture_with_optin",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+        "actual_verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "synthetic_free",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "truncated_varying_fixture_with_optin",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "window_coverage",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "committed_placeholder_parquet",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "placeholder_not_evidence",
+          "synthetic_free"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      }
+    ],
+    "all_expectations_met": true,
+    "case_count": 4
+  }
+}
