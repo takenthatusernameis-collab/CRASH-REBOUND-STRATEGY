@@ -1,7 +1,7 @@
 # Decision Memo — Crash-Rebound Strategy (Real OKX 283d canonical evidence)
 
 **Generated (UTC):** 2026-11-13T21:48:59Z
-**Updated (UTC):** 2026-11-14T22:10:03Z (C5-T2 operator archive request v2 + C5-T4 closeout; gates 21/21 and 4/4 green; evidence gap unchanged)
+**Updated (UTC):** 2026-11-15T00:40:25Z (C6-T3 dependence-aware inference on the multi-year cross-venue campaign; gates 21/21 and 4/4 green; evidence gap unchanged)
 **Status:** `underpowered` / **not decision-grade** — do not allocate capital on this evidence.
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
@@ -16,6 +16,48 @@ investable under the spec's gates, sizing and risk limits?
 outcome of a gate-passing event pool. The exact full-portfolio placebo places it at the
 **45th percentile** of all gate-preserving 8-of-11 admission subsets. The result is not
 distinguishable from a random admission/cap/occupancy draw.
+
+## C6 — Multi-year cross-venue dependence-aware inference (2026-11-15T00:36:05Z)
+
+C6-T1/T2 acquired a real, gap-free, non-synthetic **34-symbol × 32,808-bar OKX multi-year
+archive (2023-01-01..2026-09-28)** and ran it through the real portfolio engine. C6-T3 applies
+the Phase O dependence-aware battery to that campaign. **This is CROSS-VENUE evidence, NOT
+Hyperliquid performance evidence.** The canonical OKX 283d section above is retained as-is.
+
+### C6 canonical campaign metrics
+- Window: 2023-01-01T00:00:00Z .. 2026-09-28T23:00:00Z (3.38 years), 34 symbols.
+- Census: **1,182 RSI(21)<20 events → 782 volume-pass → 55 signal-gate → 42 trades matched**.
+- Power: **19 signal-gate crash episodes over 23 distinct crash days** (largest episode 9 events, 16.4%). Far above the ≥10-episode floor.
+- Total PnL: **+18,220.86**; **+18.22% total**; **+5.07%/yr** over 3.38y; max DD **−33.57%**; Sharpe **0.10**; win rate **50%**; profit factor **1.33**; 17 positive / 14 negative months.
+- Artifact: `research_state/campaign_results_real_okx_multiyear.json` (sha256 `7d32720119597124f152b437012e8cdb88636bf0dedd72f25d4a69806676cdd1`).
+
+### C6-T3 dependence-aware battery
+1. **Episode-block bootstrap (98h single-linkage, 19 blocks, 20,000 resamples, seed 20261114):**
+   95% CI total PnL **[−50,660.49, +99,295.03]**; mean 18,156.53; median 15,844.59;
+   **P(total PnL > 0) = 0.6649**. The interval spans zero. The effective independent sample is
+   19 crash episodes, not 42 trades.
+2. **Crash-day conditional temporal-edge permutation (20 seeded draws, seed 20261114):**
+   event bars redrawn from the real 1,182-bar RSI(21)<20 census, per-symbol multiplicity
+   preserved, real engine per draw. Null mean 6,324.41; canonical at the **90.00th percentile**;
+   **p(placebo ≥ canonical) = 0.1000** (2/20). Exact enumeration infeasible; deterministic seeded
+   subset, seed and count documented.
+3. **Exact/conditioned full-portfolio placebo (55 signal-gate pool, choose 42, 20 runs, seed 20261114):**
+   mean 13,260.48; median 14,765.05; p05 −5,670.99; p95 +36,069.88; canonical at the
+   **60.00th percentile**; **p(placebo ≥ canonical) = 0.4000**; P(placebo > 0) = 0.9000.
+   C(55,42) infeasible to enumerate exactly; deterministic seeded subset documented.
+- Artifacts: `research_state/episode_edge_okx_multiyear.{json,md}` (generated 2026-11-15T00:35:31Z),
+  `research_state/placebo_portfolio_okx_multiyear.{json,md}` (generated 2026-11-15T00:35:50Z).
+
+### C6 verdict
+**`underpowered` / not decision-grade.** The +18.22% point estimate does **not** clear any of
+the three stop/go criteria: the episode-block bootstrap 95% CI spans zero (P(>0)=0.66), the
+crash-day permutation p = 0.10, and the portfolio placebo p = 0.40. None is below 0.05. The
+multi-year window supplies **power for a cross-venue verdict** (19 episodes ≫ 10 floor), and the
+honest answer is that the strategy's edge is **not established** on this evidence: the result is
+inside both the episode-block and the admission-placebo distributions. **Do not quote +5.07%/yr
+as validated edge; do not allocate capital.** The binding constraint remains that this is
+cross-venue OKX, not Hyperliquid-native performance evidence. Hyperliquid-native validation is
+still external and requires an operator-supplied verified archive.
 
 ## Canonical result (fixed; do not re-run or overwrite)
 
