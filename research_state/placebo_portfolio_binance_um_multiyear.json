@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T12:26:21.844233+00:00",
+  "phase": "C10.2",
+  "provenance_caveat": "Real Binance UM exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "is_hyperliquid_evidence": false,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "venue_label": "Binance UM",
+  "method": "Deterministic seeded full-portfolio placebo: random gate-passing event subsets of fixed size run through real portfolio engine; preserves gates/sizing/cap/occupancy/hedge/fees/funding/liquidation.",
+  "mode": "deterministic_seeded_draws:200_choose_42_of_64",
+  "seed": 20261114,
+  "execution": {
+    "jobs": 4,
+    "parallel_start_method": "fork"
+  },
+  "inputs": {
+    "cache_dir": "research_state/cache/binance_um_1h_multiyear_20230101_20260928",
+    "universe": "research_state/universe_binance_um_multiyear_verified.json",
+    "campaign": "research_state/campaign_results_real_binance_um_multiyear.json",
+    "census": "research_state/crash_event_census_real_binance_um_multiyear.json",
+    "campaign_sha256": "4e65dfbff1abb6ac1e0f49d69dc6b668654ae73acd856b70cff8140b17cef38e",
+    "census_sha256": "dede38d6582cc0c0b545a345fc025dc1a75e579da7f67c2c2269693e2e514375",
+    "missing_symbols": []
+  },
+  "canonical": {
+    "trades": 42,
+    "total_pnl": 21994.064360948094,
+    "replay": {
+      "num_trades": 42,
+      "total_pnl": 21994.064360948094,
+      "symbols": [
+        "AAVE",
+        "APT",
+        "ATOM",
+        "AVAX",
+        "BCH",
+        "COMP",
+        "DOT",
+        "ETC",
+        "ETH",
+        "FIL",
+        "KSM",
+        "LINK",
+        "LTC",
+        "SOL",
+        "UNI"
+      ]
+    },
+    "admitted_keys_count": 42
+  },
+  "pool": {
+    "signal_gate_events": 64,
+    "choose_k": 42,
+    "exact_combinations_infeasible": true
+  },
+  "placebo": {
+    "runs": 200,
+    "summary": {
+      "n": 200,
+      "mean": 18950.05162848314,
+      "median": 19201.18493240197,
+      "stdev": 13497.065934860793,
+      "min": -11220.302847588555,
+      "max": 55169.8683337086,
+      "p05": -2969.556332457289,
+      "p25": 9417.442937875245,
+      "p75": 28495.346663015327,
+      "p95": 40497.29172125985
+    },
+    "p_ge_canonical": 0.415,
+    "canonical_percentile_le": 0.585,
+    "prob_total_pnl_positive": 0.935,
+    "ci_low_pnl_2p5": -7123.597313029638,
+    "ci_high_pnl_97p5": 46117.88683894486
+  },
+  "verdict": "underpowered",
+  "wall_seconds": 7474.383081912994,
+  "repro_cmd": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_binance_um_multiyear.py --draws 200 --seed 20261114 --out placebo_portfolio_binance_um_multiyear",
+  "limitations": [
+    "Exact enumeration infeasible; used deterministic seeded subset (seed/count documented).",
+    "Tests admission/cap/occupancy selection on observed pool, not temporal crash timing.",
+    "CROSS-VENUE Binance UM; NOT Hyperliquid performance evidence."
+  ]
+}
