@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T18:57:43Z — session prepared C13 for immediate execution: the C13 prereg is **already staged** (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`), the C13 acceptance gate was **hardened** (minimum 100 permutation draws / 100 placebo subsets, seed + campaign/census SHA binding, max-compute artifact selection, verdict traceability), and a one-command prereg builder was added (`scripts/build_c13_prereg.py`). C13 compute is **not yet run**; canonical remains **NO_GO**.
+**Handoff updated (UTC):** 2026-11-15T19:49:32Z — C13 prereg remains staged; C13 compute **not yet run**; canonical remains **NO_GO**. The prereg (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`) and hardened gate (`verify_c13_focus_campaign.py` requiring ≥100 draws, seed/SHA binding, max-compute selection, verdict traceability) are in place. `scripts/build_c13_prereg.py` exists for regeneration if needed (use --force with documented reason).
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -104,9 +104,9 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (2026-11-15T18:57Z)
+## What changed this session (2026-11-15T19:49Z)
 
-- **C13 prereg staged (prereg-before-compute satisfied):** `scripts/build_c13_prereg.py` wrote and validated `research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}` (`prereg validation: PASS`). It fixes lead `rsi 25 / target 9`, seed `20261115`, floor `100` draws/subsets, planned `200/200`, GO/NO_GO/UNDERPOWERED rules, power targets, provenance caveat, and exact commands.
+- **C13 prereg remains staged (prereg-before-compute satisfied):** `scripts/build_c13_prereg.py` wrote and validated `research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}` (`prereg validation: PASS`). It fixes lead `rsi 25 / target 9`, seed `20261115`, floor `100` draws/subsets, planned `200/200`, GO/NO_GO/UNDERPOWERED rules, power targets, provenance caveat, and exact commands.
 - **C13 gate hardened against thin/avoidant runs:** `scripts/verify_c13_focus_campaign.py` now requires:
   - **≥100** episode-edge permutation draws and **≥100** placebo subsets (`MIN_DRAWS`);
   - effective sample **≥10 trades / ≥5 episodes**;
@@ -117,7 +117,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 - **C13 runners smoke-validated (artifacts deleted; NOT evidence):** episode-edge rsi25/t9 (`--draws 2`) reproduced C12 `c12_25_9` exactly — 33 signal-gate events, 10 episodes, 17 trades, +23,244.22, bootstrap CI [−22,799.52, 79,978.91], permutation p=0.0000, verdict `underpowered` (1.8s). Placebo rsi25/t9 (`--draws 2`) replayed 17 trades / +23,244.224 and evaluated 2 seeded subsets (p_ge_canon=0.50). These smoke artifacts were deleted and must not be cited.
 - **Gate status:** `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `verify_next_focus_campaign.py` **PASS**, `verify_c13_focus_campaign.py` **FAIL** with `c13_prereg_before_compute: PASS`, `c13_config_matched_inference: FAIL` (compute not run), `c13_native_verdict: FAIL` (verdict not written). This is the expected pre-C13 state.
 
-## Verified state (as of 2026-11-15T18:57Z)
+## Verified state (as of 2026-11-15T19:49Z)
 
 | Check | Result | Evidence |
 |---|---|---|
