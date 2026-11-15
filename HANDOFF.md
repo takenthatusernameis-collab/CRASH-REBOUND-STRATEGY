@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T19:54:32Z — C13 prereg remains staged; C13 compute **not yet run**; canonical remains **NO_GO**. The prereg (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`) and hardened gate (`verify_c13_focus_campaign.py` requiring ≥100 draws, seed/SHA binding, max-compute selection, verdict traceability) are in place. `scripts/build_c13_prereg.py` exists for regeneration if needed (use --force with documented reason).
+**Handoff updated (UTC):** 2026-11-15T19:56:20Z — C13 prereg remains staged; C13 compute **not yet run**; canonical remains **NO_GO**. The prereg (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`) and hardened gate (`verify_c13_focus_campaign.py` requiring ≥100 draws, seed/SHA binding, max-compute selection, verdict traceability) are in place. `scripts/build_c13_prereg.py` exists for regeneration if needed (use --force with documented reason).
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
