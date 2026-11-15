@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T17:47:18Z
+**Handoff updated (UTC):** 2026-11-15T17:49:03Z — no state change vs 17:01Z; re-timestamped with the clear initial task message below for the next session.
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -16,11 +16,11 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T17:47:18Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T17:49:03Z)
 
-**You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C11.3 are COMPLETE. Canonical `RSI(21)<20` is **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE` (underpowered)** on Hyperliquid-native evidence (0/7 criteria; spot alpha negative; hedge-masked headline). **Do not re-litigate C11.3 or re-run cross-venue canonical campaigns/censuses/C6-T3/C7/C10 without a NEW artifact stem and a documented reason.**
+**You are the next agentic session continuing the Hyperliquid crash-rebound research program (repo `CRASH-REBOUND-STRATEGY`).** C1–C11.3 are COMPLETE. Canonical `RSI(21)<20` is **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE (underpowered)`** on Hyperliquid-native evidence (0/7 stop/go criteria; spot coin PnL −3,968.80 masked by ETH hedge +8,261.31; rebound-short 0). **Do not re-litigate C11.3 or re-run cross-venue canonical campaigns/censuses/C6-T3/C7/C10 without a NEW artifact stem and a documented reason.**
 
-**PRIMARY MISSION — C12: execute a pre-registered, real-engine Hyperliquid-native discovery/robustness battery targeting the only evidence-backed native signals, and write a native C12 verdict.** The prior session (17:01–17:37Z) removed the C12 tooling bottleneck (grid knobs in `scripts/run_real_campaign.py`) but did **not** run C12 compute or produce a C12 verdict, so C12 remains the **binding** next work. This is heavy compute on real data; a session that only edits handoff/status or reruns gates without producing C12 artifacts has failed. **The tooling bottleneck is already removed — the runner accepts the grid knobs below; a future session has no excuse to avoid running them.**
+**PRIMARY MISSION — C12: execute a pre-registered, real-engine Hyperliquid-native discovery/robustness battery targeting the only evidence-backed native signals, and write a native C12 verdict.** The prior session (17:01–17:37Z) removed the C12 tooling bottleneck (grid knobs in `scripts/run_real_campaign.py`) but did **not** run C12 compute or produce a C12 verdict, so C12 remains the **binding** next work. This is heavy compute on real data; a session that only edits this handoff or only reruns gates without producing C12 artifacts has failed. **The tooling bottleneck is already removed — `scripts/run_real_campaign.py` accepts `--rsi-threshold`/`--target-pct` etc.; a future session has no excuse to avoid running them.**
 
 ### 0) Mandatory gate + readiness (every session, record stems/verdicts)
 ```bash
@@ -28,9 +28,9 @@ test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py                 # 21/21 checks passed — DONE
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py     # 4/4 EVIDENCE VERIFIED
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_next_focus_campaign.py   # C6 PASS
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py    # C11.0 read-only (record stem); API retention block expected
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py    # C11.0 read-only (record stem)
 ```
-Native inputs (fixed, do not replace): cache `research_state/cache/hyperliquid_ironflow_native_20251220_20260928/`, universe `research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json`, canonical native campaign/census/verdict/prereg/battery stems under `research_state/*hyperliquid*20261115T155*` and `*_20251220_20260928*` as applicable. **Provenance caveat (binding in every artifact):** real Hyperliquid-native, **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**; `is_hyperliquid_venue_data=true` for this native cache but not exchange-snapshot provenance — state it explicitly.
+Native inputs (fixed, do not replace): cache `research_state/cache/hyperliquid_ironflow_native_20251220_20260928/`, universe `research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json`, canonical native stems under `research_state/*hyperliquid*20261115T155*` and `*_20251220_20260928*`. **Provenance caveat (binding in every artifact):** real Hyperliquid-native, **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**; `is_hyperliquid_venue_data=true` for this native cache — state it explicitly.
 
 ### 1) C12.0 — Pre-register C12 (REQUIRED before compute)
 Write `research_state/hyperliquid_native_c12_prereg_<TS>Z.{json,md}` (design-only, new stem) specifying: hypotheses (a) `rsi_threshold` in `[20,22,25,30]` and (b) `target_pct` in `[5.0,9.0]` / rebound-short behavior on native Hyperliquid; primary/secondary metrics (spot coin PnL, hedge PnL, rebound-short PnL, total, trade count, episode count/crash days, max DD, cost-stress); dependence-aware inference plan (episode-block bootstrap CI + conditional temporal-edge permutation where feasible; honest power/underpowered handling given 283d/3-episode native window); and explicit NO-GO/insufficient criteria (do **not** claim GO from point PnL, in-sample sensitivity without inference, or hedge-masked totals). Treat `rsi_threshold_25`/`target_pct_5` signals from C11.3 as discovery only (originating from robustness sweep), not validated edge.
