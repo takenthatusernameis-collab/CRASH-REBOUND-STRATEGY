@@ -1,0 +1,291 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T14:04:34.670675+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "target_window": {
+    "start": "2025-12-20T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  },
+  "source": {
+    "kind": "archive",
+    "hl_url": null,
+    "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928",
+    "input_archives": []
+  },
+  "request_params": {
+    "interval": "1h",
+    "start_ms": 1766188800000,
+    "end_ms": 1790636400000,
+    "symbols": [
+      "BTC",
+      "ETH",
+      "HYPE",
+      "SOL",
+      "ZEC"
+    ],
+    "min_daily_volume_usd_requested": 5000000.0,
+    "min_daily_volume_usd_effective": 5000000.0,
+    "spec_floor_enforced": false,
+    "spec_compliant_volume_floor_usd": 5000000.0,
+    "min_daily_volume_usd": 5000000.0
+  },
+  "symbols": {
+    "BTC": {
+      "symbol": "BTC",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928/hyperliquid_native_1h_20251220_20260928.parquet",
+      "normalized_count": 6792,
+      "sha256": "05bb69d1df71a29e339a376c5cf479dde5a4a1b5f7571c559f0777dd6439a0b3",
+      "archive_kind": "multi_symbol_container",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 5,
+      "row_groups": 1,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 47968251.017502,
+        "observed_max_24h_usd_volume": 13239641644.308289,
+        "observed_mean_24h_usd_volume": 2517931021.643564,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928/candles/BTC.json"
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928/hyperliquid_native_1h_20251220_20260928.parquet",
+      "normalized_count": 6792,
+      "sha256": "0d89979f96fe175b79e4313c50431d883e5cc9dc1b278dfc8745fce2e8bbd329",
+      "archive_kind": "multi_symbol_container",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 5,
+      "row_groups": 1,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 27724212.05763,
+        "observed_max_24h_usd_volume": 4844498941.310309,
+        "observed_mean_24h_usd_volume": 1088866964.864632,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928/candles/ETH.json"
+    },
+    "HYPE": {
+      "symbol": "HYPE",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928/hyperliquid_native_1h_20251220_20260928.parquet",
+      "normalized_count": 6792,
+      "sha256": "16a8a3689220e6611578b34b5b7e847ba69fecd0aa5ace397eaa0811d7d40a3b",
+      "archive_kind": "multi_symbol_container",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 5,
+      "row_groups": 1,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 3158071.17351,
+        "observed_max_24h_usd_volume": 2226827441.263126,
+        "observed_mean_24h_usd_volume": 411594744.403831,
+        "bars_checked": 6792,
+        "bars_passing": 6791,
+        "volume_filter_ok": false,
+        "universe_membership_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928/candles/HYPE.json"
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928/hyperliquid_native_1h_20251220_20260928.parquet",
+      "normalized_count": 6792,
+      "sha256": "2f1cc776e58c263b19b2ba8435f33f95101c316a62d7a3d8d2de7c2df848bcd1",
+      "archive_kind": "multi_symbol_container",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 5,
+      "row_groups": 1,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 14025936.0864,
+        "observed_max_24h_usd_volume": 2014680780.52199,
+        "observed_mean_24h_usd_volume": 282688731.45129,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928/candles/SOL.json"
+    },
+    "ZEC": {
+      "symbol": "ZEC",
+      "status": "ok",
+      "source": "user_supplied_archive",
+      "archive_path": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928/hyperliquid_native_1h_20251220_20260928.parquet",
+      "normalized_count": 6792,
+      "sha256": "f20df49a2574f665305abf1c797c2f3656afb886874809680d89bafa91b40f93",
+      "archive_kind": "multi_symbol_container",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 6792,
+        "bars_checked": 6792,
+        "distinct_signature_ratio": 1.0
+      },
+      "format": "parquet",
+      "multi_symbol_container": true,
+      "symbol_column": "symbol",
+      "distinct_symbols_seen": 5,
+      "row_groups": 1,
+      "rows_scanned": 6792,
+      "coverage": {
+        "expected_hourly_bars": 6792,
+        "observed_in_window_bars": 6792,
+        "coverage_pct": 100.0,
+        "first_timestamp_ms": 1766188800000,
+        "last_timestamp_ms": 1790636400000,
+        "first_timestamp": "2025-12-20T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "gap_count": 0,
+        "gaps": [],
+        "gaps_truncated": 0,
+        "complete_for_target_window": true,
+        "start": "2025-12-20T00:00:00+00:00",
+        "end": "2026-09-28T23:00:00+00:00"
+      },
+      "volume_coverage": {
+        "min_daily_volume_usd": 5000000.0,
+        "observed_min_24h_usd_volume": 5516254.9026,
+        "observed_max_24h_usd_volume": 1854356226.594207,
+        "observed_mean_24h_usd_volume": 158322036.58014,
+        "bars_checked": 6792,
+        "bars_passing": 6792,
+        "volume_filter_ok": true,
+        "universe_membership_ok": true
+      },
+      "cache_path": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928/candles/ZEC.json"
+    }
+  },
+  "summary": {
+    "symbols_requested": 5,
+    "symbols_complete": 5,
+    "symbols_incomplete_or_error": 0,
+    "all_complete": true,
+    "ready_for_real_campaign": true,
+    "complete_symbols": [
+      "BTC",
+      "ETH",
+      "HYPE",
+      "SOL",
+      "ZEC"
+    ]
+  }
+}

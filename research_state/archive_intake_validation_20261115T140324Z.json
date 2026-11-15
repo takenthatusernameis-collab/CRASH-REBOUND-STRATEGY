@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "run_type": "hyperliquid_archive_intake_validation",
+  "archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_1h_20251220_20260928/hyperliquid_native_1h_20251220_20260928.parquet",
+  "archive_sha256": "9e24c8d7e50df2e302955bf57a362d52b2b567b9858de7c090f1eb09bd56d306",
+  "archive_layout": "parquet_file",
+  "requested_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "min_symbols_required": 2,
+  "min_volume_usd_required": 5000000.0,
+  "allow_synthetic_fixture": false,
+  "symbols": [
+    "BTC",
+    "ETH",
+    "HYPE",
+    "SOL",
+    "ZEC"
+  ],
+  "symbol_count": 5,
+  "checks": [
+    {
+      "check": "archive_present",
+      "status": "pass",
+      "detail": "5 symbol(s) loaded, layout=parquet_file",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "placeholder_not_evidence",
+      "status": "pass",
+      "detail": "not the committed placeholder parquet",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "source_provenance",
+      "status": "pass",
+      "detail": "provenance documents=1; declares_hyperliquid=True; declares_fixture_or_synthetic=False",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "symbol_universe",
+      "status": "pass",
+      "detail": "5 symbol(s) >= min_symbols 2: ['BTC', 'ETH', 'HYPE', 'SOL', 'ZEC']",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "window_coverage",
+      "status": "fail",
+      "detail": "BTC: non-hourly gap/duplicate step of 4s; ETH: non-hourly gap/duplicate step of 4s; HYPE: non-hourly gap/duplicate step of 4s; SOL: non-hourly gap/duplicate step of 4s; ZEC: non-hourly gap/duplicate step of 4s",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "synthetic_free",
+      "status": "pass",
+      "detail": "no flat/constant-close series detected",
+      "fixture_tolerable": true
+    },
+    {
+      "check": "volume_floor",
+      "status": "pass",
+      "detail": "all symbols >= $5,000,000 trailing-24h USD volume",
+      "fixture_tolerable": true
+    },
+    {
+      "check": "checksum_integrity",
+      "status": "pass",
+      "detail": "checksums verified",
+      "fixture_tolerable": true
+    }
+  ],
+  "synthetic_detail": {
+    "BTC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ETH": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "HYPE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SOL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZEC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    }
+  },
+  "min_rolling_24h_volume_usd": {
+    "BTC": 233701308.17440873,
+    "ETH": 135949718.89985508,
+    "HYPE": 59498757.75544001,
+    "SOL": 21399874.77824127,
+    "ZEC": 8466405.774599629
+  },
+  "verdict": "REJECT_NOT_EVIDENCE",
+  "is_market_data": false,
+  "is_evidence": false,
+  "performance_evidence": false,
+  "provenance_caveat": "Intake validation only: proves the archive is structurally usable as evidence input, NOT that the strategy is profitable. Never relabel OKX, partial snapshots, dry-run fixtures, or the placeholder parquet as Hyperliquid evidence.",
+  "no_new_data_fabricated": true,
+  "generated_at_utc": "2026-11-15T14:03:24Z",
+  "selftest": {
+    "cases": [
+      {
+        "case": "flat_full_window_fixture_without_optin",
+        "allow_synthetic_fixture": false,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "synthetic_free",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "flat_full_window_fixture_with_optin",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+        "actual_verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "synthetic_free",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "truncated_varying_fixture_with_optin",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "window_coverage",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "committed_placeholder_parquet",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "placeholder_not_evidence",
+          "synthetic_free"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      }
+    ],
+    "all_expectations_met": true,
+    "case_count": 4
+  }
+}
