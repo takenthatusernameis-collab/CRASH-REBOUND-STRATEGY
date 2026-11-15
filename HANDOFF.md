@@ -1,16 +1,16 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T13:05:00Z
+**Handoff updated (UTC):** 2026-11-15T13:19:08Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from the repo name):** produce a **decision-grade crash-rebound verdict** — either validate the strategy's edge on **Hyperliquid-native** data with enough independent crash episodes, or conclusively show it does not survive honest dependence-aware inference.
 
-**Baseline (this session, 2026-11-15T13:05Z):** branch `main`; **C1–C10 COMPLETE, C11.0 executed, C11.2 pre-registration artifact present.** Gates green: `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS**. Consolidated verdict remains **`NO_GO`** (0/7; cross-venue exhausted). Hyperliquid probe **2026-11-15T13:04:04Z**: 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` (KPEPE HTTP 500; INIT now probes). Intake **2026-11-15T13:03:39Z** `archive_intake_validation_20261115T130339Z.{json,md}`: **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series). C11.2 design artifact: `research_state/hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` (N80 not found in 20..400, power 0.598 at N=400, GO/NO-GO pre-registered; **`is_hyperliquid_venue_data=false`, `performance_evidence=false`**, NOT a verdict). **This is the single durable handoff. Do not rewrite it for its own sake — execute remaining C11 (C11.1/C11.3 if a real archive becomes available).**
+**Baseline (this session, 2026-11-15T13:19Z):** branch `main`; **C1–C10 COMPLETE, C11.0 executed, C11.2 pre-registration artifact present.** Gates green: `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS**. Consolidated verdict remains **`NO_GO`** (0/7; cross-venue exhausted). Hyperliquid probe **2026-11-15T13:04:04Z**: 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` (KPEPE HTTP 500; INIT now probes). Intake **2026-11-15T13:19:07Z** `archive_intake_validation_20261115T131907Z.{json,md}`: **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series). C11.2 design artifact: `research_state/hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` (N80 not found in 20..400, power 0.5978 at N=400, GO/NO-GO pre-registered; **`is_hyperliquid_venue_data=false`, `performance_evidence=false`**, NOT a verdict). **This is the single durable handoff. Do not rewrite it for its own sake — execute remaining C11 (C11.1/C11.3 if a real archive becomes available).**
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T13:05:00Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T13:19:08Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C10 are COMPLETE. All cross-venue work is finished and exhausted; the consolidated verdict is **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7 criteria). **There is no remaining cross-venue refinement that can change the verdict** — do not re-run canonical OKX/Binance campaigns, censuses, C6-T3, C7, or the C10 battery without a new stem and a documented reason.
 
@@ -22,7 +22,7 @@ Run and record stems/verdicts (these are binding; a session that does not run th
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/validate_hyperliquid_archive_intake.py
 ```
-Current baseline (this session): probe **2026-11-15T13:04:04Z** → 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` (KPEPE HTTP 500; INIT now probes); intake **2026-11-15T13:03:39Z** `archive_intake_validation_20261115T130339Z.{json,md}` → `REJECT_NOT_EVIDENCE` (placeholder parquet NOT evidence; BTC/ETH flat series). Re-run and record a new stem; if still blocked/REJECT, C11.2 is satisfied by existing prereg and you must attempt C11.1 only if a real archive is plausibly obtainable, else keep gates green and re-timestamp this handoff.
+Current baseline (this session): probe **2026-11-15T13:04:04Z** → 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` (KPEPE HTTP 500; INIT now probes); intake **2026-11-15T13:19:07Z** `archive_intake_validation_20261115T131907Z.{json,md}` → `REJECT_NOT_EVIDENCE` (placeholder parquet NOT evidence; BTC/ETH flat series). Re-run and record a new stem; if still blocked/REJECT, C11.2 is satisfied by existing prereg and you must attempt C11.1 only if a real archive is plausibly obtainable, else keep gates green and re-timestamp this handoff.
 
 ### C11.1 — Acquisition attempt (heavy, real; only if a real archive is plausibly obtainable)
 Attempt a genuine Hyperliquid-native archive acquisition with the existing tooling, then validate intake:
@@ -69,27 +69,28 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (C11 gate-run — 2026-11-15T13:05Z)
+## What changed this session (C11 gate-run — 2026-11-15T13:19Z)
 
-- **Mandatory gates executed and green:** `session_gate.py` 21/21, `verify_campaign_evidence.py` 4/4, `verify_next_focus_campaign.py` PASS.
-- **Hyperliquid readiness re-probed (C11.0):** new retention probe `hyperliquid_retention_probe.json` @ **2026-11-15T13:04:04Z** → 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` (KPEPE HTTP 500; INIT now probes). New intake validation `archive_intake_validation_20261115T130339Z.{json,md}` @ **2026-11-15T13:03:39Z** → **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series all bars identical).
-- **C11.1 not actionable:** no new verified Hyperliquid-native archive present; public API remains retention-blocked. No fabrication/interpolation/relabeling performed.
+- **Mandatory gates executed and green:** `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS**.
+- **Hyperliquid readiness re-probed (C11.0):** retention probe `hyperliquid_retention_probe.json` @ **2026-11-15T13:04:04Z** → 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` (KPEPE HTTP 500; INIT now probes). Intake validation re-run @ **2026-11-15T13:19:07Z** → `archive_intake_validation_20261115T131907Z.{json,md}` **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series all bars identical).
+- **C11.1 not actionable:** no new verified Hyperliquid-native archive present; public API remains retention-blocked. No acquisition yielded accepted evidence. No fabrication/interpolation/relabeling performed.
 - **C11.2 already satisfied (no input change):** `research_state/hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` present — real Monte-Carlo (4000 sims/N, N=20..400), N80 not found (power 0.5978 at N=400), GO/NO-GO pre-registered; `is_hyperliquid_venue_data=false`, `performance_evidence=false` (design artifact, not verdict). No re-run required.
+- **C11.3 not executable:** intake not `ACCEPT_AS_EVIDENCE_CANDIDATE`; no native battery run.
 - **No cross-venue re-runs.** C10 complete/exhausted; consolidated verdict remains **`NO_GO`** (0/7) per `decision_verdict_consolidated_20261115T122636Z.md`.
-- **Handoff re-timestamped** to 2026-11-15T13:05Z with C11.0 executed, C11.2 confirmed, and C11.1/C11.3 stated as blocked on a real archive. All gate tokens intact.
+- **Handoff re-timestamped** to 2026-11-15T13:19:08Z with executed gate/probe/intake stems and current blocker status. All gate tokens intact.
 
 ### Prior bottleneck removals still in force
 - Cross-venue multi-year OKX/Binance archives/caches/campaigns/censuses/C6-T3/C7 on disk; OKX + Binance placebo done.
 - RSI incremental cache (O(1)/bar) and epoch timestamp parsing fix — do not revert.
 - Placebo runner now fork-parallel (`--jobs`, default 4) — ~2.1h for 200 draws vs ~5h serial; keep.
-- Hyperliquid public API retention ~3,869/6,792 bars (decaying tail) — full 283d native archive not on disk; external/operator-only.
+- Hyperliquid public API retention ~3,862/6,792 bars (decaying tail) — full 283d native archive not on disk; external/operator-only.
 - Handoff duplication removed: this file is the only durable handoff.
 - Retention decay / wasted re-fetch rule: do not re-fetch a degraded chain.
 - Gate citation drift fixed (C9): `C6-T1` token and Phase O timestamp `2026-11-13T23:38:47Z` intact.
 
 ---
 
-## Verified state (as of 2026-11-15T13:05Z)
+## Verified state (as of 2026-11-15T13:19Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -107,14 +108,14 @@ If a future session changes the Phase O artifact, update this line to the new `g
 | **C10.2 Binance placebo** | **`underpowered`** (200 draws, p(placebo≥canon)=0.4150, P(>0)=0.9350, canon +21,994.06) | `placebo_portfolio_binance_um_multiyear.{json,md}` (12:26:21Z) |
 | **C10.3 pooled meta** | **`underpowered`** (38 eps, +40,214.92, CI [−69,065.03,+168,946.87], P(>0)=0.74095, perm p=0.26955) | `pooled_episode_meta_okx_binance_20261115T064738Z.{json,md}` |
 | **Consolidated verdict (C10 final)** | **`NO_GO`** (0/7) | `decision_verdict_consolidated_20261115T122636Z.md` (cites `20261115T063642Z.md`, `20261115T064738Z.md`) |
-| Hyperliquid readiness (C11.0) | 3,862/6,792 bars; earliest `2026-04-21T02:00:00Z`; missing 2,930; `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`; intake `REJECT_NOT_EVIDENCE` | `hyperliquid_retention_probe.json` (13:04:04Z), `archive_intake_validation_20261115T130339Z.{json,md}` (13:03:39Z) |
+| Hyperliquid readiness (C11.0, this session) | 3,862/6,792 bars; earliest `2026-04-21T02:00:00Z`; missing 2,930; `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`; intake `REJECT_NOT_EVIDENCE` | `hyperliquid_retention_probe.json` (13:04:04Z), `archive_intake_validation_20261115T131907Z.{json,md}` (13:19:07Z) |
 | C11.2 prereg | N80 not found (power 0.5978 @ N=400); GO/NO-GO pre-registered; design-only, not evidence | `hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` |
 
 ---
 
 ## Bottlenecks (current)
 
-1. **Hyperliquid-native archive — EXTERNAL, NOT agent-removable.** Public API serves ~3,862/6,792 bars (2026-11-15T13:04:04Z, earliest `2026-04-21T02:00:00Z`); placeholder parquet rejects `REJECT_NOT_EVIDENCE`. C11.1/C11.3 remain blocked pending an operator-supplied verified archive.
+1. **Hyperliquid-native archive — EXTERNAL, NOT agent-removable.** Public API serves ~3,862/6,792 bars (2026-11-15T13:04:04Z, earliest `2026-04-21T02:00:00Z`); placeholder parquet rejects `REJECT_NOT_EVIDENCE` (this session: `archive_intake_validation_20261115T131907Z.{json,md}`). C11.1/C11.3 remain blocked pending an operator-supplied verified archive.
 2. **Cross-venue evidence exhausted — CLOSED.** C10 complete; further cross-venue work cannot change the verdict (do not re-run).
 3. **C11.2 prereg done — no further blocked-path compute required.** `hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` satisfies the blocked-state DoD (N80 not found 20..400; GO/NO-GO pre-registered). Re-run only if priors/inputs change.
 4. **RSI O(n²) bottleneck — REMOVED.** Incremental cache; do not revert.
@@ -132,7 +133,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 - C10: `cross_venue_paired_agreement_20261115T064738Z.{json,md}`, `pooled_episode_meta_okx_binance_20261115T064738Z.{json,md}`, `placebo_portfolio_binance_um_multiyear.{json,md}` (12:26:21Z), `decision_verdict_consolidated_20261115T122636Z.md`, scripts `scripts/cross_venue_paired_agreement.py`, `scripts/pooled_episode_meta_okx_binance.py`, `scripts/run_portfolio_placebo_binance_um_multiyear.py`.
 - Canonical verdicts: C8 `decision_verdict_consolidated_20261115T063642Z.md` (**`NO_GO`**), C10 final `decision_verdict_consolidated_20261115T122636Z.md` (**`NO_GO`**).
 - Canonical OKX 283d: `campaign_results_real_okx_full.json`, `episode_edge_okx_full.json` (Phase O `2026-11-13T23:38:47Z`).
-- **C11 artifacts (this session):** `hyperliquid_retention_probe.json` (2026-11-15T13:04:04Z), `archive_intake_validation_20261115T130339Z.{json,md}` (REJECT_NOT_EVIDENCE), `hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` (design-only; `is_hyperliquid_venue_data=false`, `performance_evidence=false`, NOT a verdict).
+- **C11 artifacts (this session):** `hyperliquid_retention_probe.json` (2026-11-15T13:04:04Z), `archive_intake_validation_20261115T131907Z.{json,md}` (REJECT_NOT_EVIDENCE), `hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` (design-only; `is_hyperliquid_venue_data=false`, `performance_evidence=false`, NOT a verdict).
 - Placeholder `research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet` — NEVER evidence.
 - Retained Hyperliquid partial chain: `research_state/cache/hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/` (24×3885).
 
@@ -158,8 +159,8 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/validate_hyperliquid_archive_intak
 # C10.3: research_state/pooled_episode_meta_okx_binance_20261115T064738Z.{json,md}
 
 # C11 (next focus): see INITIAL TASK MESSAGE. Default (blocked) path:
-#   build scripts/build_hyperliquid_native_power_prereg.py ->
-#   research_state/hyperliquid_native_power_prereg_<TS>Z.{json,md}
+#   C11.2 satisfied by research_state/hyperliquid_native_power_prereg_20261115T123859Z.{json,md}
+#   C11.1/C11.3 only if a verified Hyperliquid-native 283d archive is supplied and intake accepts it.
 ```
 
 ---
@@ -181,6 +182,6 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/validate_hyperliquid_archive_intak
 
 ## Definition of done
 
-Evidence-chain completeness **21/21** achieved. **C8 `NO_GO`** (0/7 stop/go). **C9 external-block confirmed.** **C10 COMPLETE:** C10.1 `DIRECTION_REPLICATES_MAJORITY`; C10.2 `underpowered` (p(placebo≥canon)=0.4150); C10.3 `underpowered`; C10 final consolidated `decision_verdict_consolidated_20261115T122636Z.md` (**`NO_GO`**, 0/7). **C11.0 executed (2026-11-15T13:04Z):** probe blocked (3,862/6,792, missing 2,930, unprobeable KPEPE), intake `REJECT_NOT_EVIDENCE`. **C11.2 satisfied:** `hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` (N80 not found 20..400, power 0.5978 @ N=400, GO/NO-GO pre-registered; design-only). **Next: C11.1/C11.3** — only if an operator-supplied verified Hyperliquid-native 283d archive becomes available; run intake → if `ACCEPT_AS_EVIDENCE_CANDIDATE` execute native battery and write `decision_verdict_hyperliquid_native_<TS>Z.md`. Otherwise keep gates green and handoff re-timestamped; Hyperliquid-native validation remains externally blocked and is the only path to a potential `GO`.
+Evidence-chain completeness **21/21** achieved. **C8 `NO_GO`** (0/7 stop/go). **C9 external-block confirmed.** **C10 COMPLETE:** C10.1 `DIRECTION_REPLICATES_MAJORITY`; C10.2 `underpowered` (p(placebo≥canon)=0.4150); C10.3 `underpowered`; C10 final consolidated `decision_verdict_consolidated_20261115T122636Z.md` (**`NO_GO`**, 0/7). **C11.0 executed (2026-11-15T13:04Z probe, 2026-11-15T13:19:07Z intake):** probe blocked (3,862/6,792, missing 2,930, unprobeable KPEPE), intake `REJECT_NOT_EVIDENCE` (`archive_intake_validation_20261115T131907Z.{json,md}`). **C11.2 satisfied:** `hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` (N80 not found 20..400, power 0.5978 @ N=400, GO/NO-GO pre-registered; design-only). **Next: C11.1/C11.3** — only if an operator-supplied verified Hyperliquid-native 283d archive becomes available; run intake → if `ACCEPT_AS_EVIDENCE_CANDIDATE` execute native battery and write `decision_verdict_hyperliquid_native_<TS>Z.md`. Otherwise keep gates green and handoff re-timestamped; Hyperliquid-native validation remains externally blocked and is the only path to a potential `GO`.
 
 (End of file)
