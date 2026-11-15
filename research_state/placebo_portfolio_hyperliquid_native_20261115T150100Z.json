@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T17:12:45.546034+00:00",
+  "phase": "C6-T3",
+  "provenance_caveat": "Real OKX exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "method": "Deterministic seeded full-portfolio placebo: random gate-passing event subsets of fixed size run through real portfolio engine; preserves gates/sizing/cap/occupancy/hedge/fees.",
+  "mode": "deterministic_seeded_draws:200_choose_42_of_55",
+  "seed": 20261115,
+  "inputs": {
+    "campaign_sha256": "7d32720119597124f152b437012e8cdb88636bf0dedd72f25d4a69806676cdd1",
+    "census_sha256": "128d3ab32c53dca4e54e179ce870ada9d13e050e63cbffaf58dcca8dac8e52ba"
+  },
+  "canonical": {
+    "trades": 42,
+    "total_pnl": 18220.85582429489,
+    "replay": {
+      "num_trades": 42,
+      "total_pnl": 18220.85582429489,
+      "symbols": [
+        "AAVE",
+        "APT",
+        "ATOM",
+        "AVAX",
+        "BCH",
+        "DOT",
+        "ETC",
+        "ETH",
+        "FIL",
+        "LINK",
+        "LTC",
+        "SOL",
+        "UNI"
+      ]
+    },
+    "admitted_keys_count": 42
+  },
+  "pool": {
+    "signal_gate_events": 55,
+    "choose_k": 42,
+    "exact_combinations_infeasible": true
+  },
+  "placebo": {
+    "runs": 200,
+    "summary": {
+      "n": 200,
+      "mean": 16162.671627050666,
+      "median": 15736.048326776969,
+      "stdev": 10854.184505998432,
+      "min": -10829.220749319084,
+      "max": 44667.779299165246,
+      "p05": -1736.9201908307216,
+      "p25": 9063.722143467168,
+      "p75": 22950.55997531795,
+      "p95": 37251.47813043351
+    },
+    "p_ge_canonical": 0.385,
+    "canonical_percentile_le": 0.615,
+    "prob_total_pnl_positive": 0.93,
+    "ci_low_pnl_2p5": -4483.382091122829,
+    "ci_high_pnl_97p5": 39288.26876932394
+  },
+  "verdict": "underpowered",
+  "wall_seconds": 6968.271645307541,
+  "limitations": [
+    "C(55,42)-class exact enumeration infeasible; used deterministic seeded subset (seed/count documented).",
+    "Tests admission/cap/occupancy selection on observed pool, not temporal crash timing.",
+    "CROSS-VENUE OKX; NOT Hyperliquid performance evidence."
+  ]
+}

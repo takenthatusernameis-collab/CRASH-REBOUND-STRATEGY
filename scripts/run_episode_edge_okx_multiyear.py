@@ -299,9 +299,10 @@ def block_bootstrap(trade_rows, episodes, times, resamples, seed, n_grid):
     }
 
 
-def conditional_permutation_null(inp, memo, rows, keys, canonical_pnl, draws, seed):
-    # Eligible crash bars: real RSI(21)<20 census bars
-    eligible = sorted({(str(r["symbol"]).upper(), int(r["bar_index"])) for r in rows if r.get("bar_index") is not None and r.get("rsi") is not None and float(r.get("rsi")) < 20.0})
+def conditional_permutation_null(inp, memo, rows, keys, canonical_pnl, draws, seed, rsi_threshold=20.0):
+    # Eligible crash bars: real RSI(21)<rsi_threshold census bars. Threshold is the
+    # campaign's configured RSI trigger (canonical 20.0 unless overridden via CLI).
+    eligible = sorted({(str(r["symbol"]).upper(), int(r["bar_index"])) for r in rows if r.get("bar_index") is not None and r.get("rsi") is not None and float(r.get("rsi")) < float(rsi_threshold)})
     by_symbol = {}
     for sym, idx in eligible:
         by_symbol.setdefault(sym, []).append((sym, idx))
@@ -422,7 +423,7 @@ def render_md(r):
     return "\n".join(lines)
 
 
-def run(draws, seed, out_stem):
+def run(draws, seed, out_stem, rsi_threshold=20.0):
     t0 = time.time()
     inp = load_inputs()
     memo, rows, meta = build_memo(inp)
@@ -437,7 +438,7 @@ def run(draws, seed, out_stem):
     distinct_days = sorted({times[k][:10] for k in keys if k in times})
     ts = trade_summary(canonical)
     boot = block_bootstrap(ts["trades"], episodes, times, 20000, seed, list(range(2, 41)))
-    perm = conditional_permutation_null(inp, memo, rows, keys, canonical_pnl, draws, seed)
+    perm = conditional_permutation_null(inp, memo, rows, keys, canonical_pnl, draws, seed, rsi_threshold)
     verdict = "underpowered"
     is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
     # keep honest: positive evidence only if CI excludes 0 and permutation significant - unlikely but don't hardcode
@@ -452,6 +453,7 @@ def run(draws, seed, out_stem):
         f"--census {CENSUS_PATH.relative_to(REPO) if CENSUS_PATH.is_relative_to(REPO) else CENSUS_PATH} "
         f"--campaign {CAMPAIGN_PATH.relative_to(REPO) if CAMPAIGN_PATH.is_relative_to(REPO) else CAMPAIGN_PATH} "
         f"--venue-label {VENUE_LABEL!r} --out {out_stem}"
+        + (f" --rsi-threshold {rsi_threshold:g}" if rsi_threshold != 20.0 else "")
     )
     result = {
         "schema_version": SCHEMA_VERSION,
@@ -518,6 +520,9 @@ def main(argv=None):
     ap.add_argument("--census", default=str(CENSUS_PATH), help="Crash-event census JSON (default: canonical OKX multi-year)")
     ap.add_argument("--campaign", default=str(CAMPAIGN_PATH), help="Campaign results JSON (default: canonical OKX multi-year)")
     ap.add_argument("--venue-label", default="OKX", help="Venue label used in provenance strings (e.g. 'Binance UM')")
+    ap.add_argument("--rsi-threshold", type=float, default=20.0,
+                    help="RSI trigger threshold for the conditional-permutation null's eligible crash-bar set "
+                         "(default 20.0 = canonical; non-canonical C12 discovery thresholds require a matching census).")
     args = ap.parse_args(argv)
     CACHE_DIR = Path(args.cache_dir)
     UNIVERSE_PATH = Path(args.universe)
@@ -535,7 +540,7 @@ def main(argv=None):
             f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
             "NOT Hyperliquid performance evidence."
         )
-    run(args.draws, args.seed, args.out)
+    run(args.draws, args.seed, args.out, float(args.rsi_threshold))
     return 0
 
 if __name__ == "__main__":
