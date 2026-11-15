@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T15:56:38.337353+00:00",
+  "phase": "C10.2",
+  "provenance_caveat": "Real Hyperliquid (Ironflow node-derived, native) data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).",
+  "is_hyperliquid_evidence": true,
+  "is_hyperliquid_venue_data": true,
+  "cross_venue": false,
+  "venue_label": "Hyperliquid (Ironflow node-derived, native)",
+  "method": "Deterministic full-portfolio placebo: gate-passing event subsets of fixed size run through real portfolio engine; preserves gates/sizing/cap/occupancy/hedge/fees/funding/liquidation.",
+  "mode": "exact_enumeration:7_choose_6_of_7",
+  "seed": 20261115,
+  "execution": {
+    "jobs": 4,
+    "parallel_start_method": "fork"
+  },
+  "inputs": {
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928",
+    "universe": "research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json",
+    "campaign": "research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json",
+    "census": "research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json",
+    "campaign_sha256": "f90d18eed27263b1edf918346865b6fb1f4be849e5a8ba39750d1971c7470665",
+    "census_sha256": "47bb04b9ebb0bc54440d90bd007892a99675dd6f72be79e3a721e29c7b074b73",
+    "missing_symbols": []
+  },
+  "canonical": {
+    "trades": 6,
+    "total_pnl": 4292.5031215663475,
+    "replay": {
+      "num_trades": 6,
+      "total_pnl": 4292.5031215663475,
+      "symbols": [
+        "BTC",
+        "ETH",
+        "SOL"
+      ]
+    },
+    "admitted_keys_count": 6
+  },
+  "pool": {
+    "signal_gate_events": 7,
+    "choose_k": 6,
+    "exact_combinations": 7
+  },
+  "placebo": {
+    "runs": 7,
+    "summary": {
+      "n": 7,
+      "mean": 4211.379902443784,
+      "median": 4414.119616753265,
+      "stdev": 811.8892949954678,
+      "min": 2588.647935987566,
+      "max": 5385.467696505,
+      "p05": 2915.2861585050077,
+      "p25": 3984.9725663060262,
+      "p75": 4560.7394676243,
+      "p95": 5171.9440214449505
+    },
+    "p_ge_canonical": 0.7142857142857143,
+    "canonical_percentile_le": 0.42857142857142855,
+    "prob_total_pnl_positive": 1.0,
+    "ci_low_pnl_2p5": 2751.9670472462867,
+    "ci_high_pnl_97p5": 5278.705858974975
+  },
+  "verdict": "underpowered",
+  "wall_seconds": 1.3933236598968506,
+  "repro_cmd": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_binance_um_multiyear.py --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json --census research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json --campaign research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json --venue-label 'Hyperliquid (Ironflow node-derived, native)' --draws 200 --seed 20261115 --jobs 4 --out placebo_portfolio_hyperliquid_native_20261115T155625Z",
+  "limitations": [
+    "Exact enumeration over all 7 subsets; no Monte Carlo error.",
+    "Tests admission/cap/occupancy selection on observed pool, not temporal crash timing.",
+    "Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue."
+  ]
+}

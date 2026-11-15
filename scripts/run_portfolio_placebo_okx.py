@@ -62,6 +62,7 @@ if str(REPO) not in sys.path:
 from src.data.provenance import load_provenance  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from src.strategy.crash_rebound import generate_signal as real_generate_signal  # noqa: E402
+from scripts.build_crash_event_census import parse_timestamp_ms  # noqa: E402
 import scripts.run_portfolio as portfolio_mod  # noqa: E402
 
 PROVENANCE_CAVEAT = (
@@ -172,11 +173,9 @@ def build_memo(inp: Dict[str, Any]) -> Tuple[Dict[Tuple[str, int], Any], List[Di
     ts_index: Dict[str, Dict[int, int]] = {}
     for sym, cs in candles.items():
         ts_index[sym] = {
-            int(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")): i
+            parse_timestamp_ms(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")): i
             for i, c in enumerate(cs)
-            if c.get("timestamp") is not None
-            or c.get("timestamp_ms") is not None
-            or c.get("time") is not None
+            if parse_timestamp_ms(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")) is not None
         }
 
     memo: Dict[Tuple[str, int], Any] = {}

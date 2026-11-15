@@ -96,6 +96,25 @@ def _ts_ms(candle: Dict[str, Any]) -> Optional[int]:
     return None
 
 
+def parse_timestamp_ms(v: Any) -> Optional[int]:
+    if v is None:
+        return None
+    if isinstance(v, (int, float)):
+        return int(v)
+    s = str(v).strip()
+    if not s:
+        return None
+    if s.lstrip("-").isdigit():
+        return int(s)
+    if s.endswith("Z"):
+        s = s[:-1] + "+00:00"
+    try:
+        dt_obj = datetime.fromisoformat(s).astimezone(timezone.utc)
+        return int(dt_obj.timestamp() * 1000.0)
+    except (TypeError, ValueError):
+        return None
+
+
 def _load_json(path: Path) -> Any:
     with open(path, "r") as f:
         return json.load(f)
@@ -156,12 +175,22 @@ def build_census(manifest_path: Path, cache_dir: Path, universe_path: Path,
     for t in trades:
         trades_by_symbol.setdefault(str(t.get("symbol", "")).upper(), []).append(t)
 
+    is_native = (
+        "hyperliquid" in str(cache_dir).lower()
+        or "hyperliquid" in str(campaign_path).lower()
+        or bool((campaign.get("data_provenance") or {}).get("source", {}).get("input_archive"))
+        and "hyperliquid" in str((campaign.get("data_provenance") or {}).get("source", {}).get("input_archive", "")).lower()
+    )
+    provenance_caveat = (
+        "Real Hyperliquid (Ironflow node-derived, native) exchange data, non-synthetic; "
+        "node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; "
+        "Hyperliquid-native evidence (not cross-venue)."
+        if is_native
+        else PROVENANCE_CAVEAT
+    )
+
     def trade_ts(t: Dict[str, Any], key: str) -> Optional[int]:
-        v = t.get(key)
-        try:
-            return int(v) if v is not None else None
-        except (TypeError, ValueError):
-            return None
+        return parse_timestamp_ms(t.get(key))
 
     events: List[Dict[str, Any]] = []
     per_symbol: List[Dict[str, Any]] = []
@@ -323,7 +352,9 @@ def build_census(manifest_path: Path, cache_dir: Path, universe_path: Path,
         "schema_version": 1,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "run_type": "crash_event_census",
-        "provenance_caveat": PROVENANCE_CAVEAT,
+        "provenance_caveat": provenance_caveat,
+        "is_hyperliquid_evidence": is_native,
+        "is_hyperliquid_venue_data": is_native,
         "inputs": {
             "manifest": str(manifest_path),
             "manifest_sha256": sha256_file(manifest_path),
@@ -381,8 +412,10 @@ def _iso(ms: Optional[int]) -> Optional[str]:
 
 def render_markdown(report: Dict[str, Any]) -> str:
     rec = report["reconciliation"]
+    is_native = bool(report.get("is_hyperliquid_evidence"))
+    venue_str = "Hyperliquid-Native (Ironflow)" if is_native else "OKX"
     lines: List[str] = []
-    lines.append("# Crash-Event Census — Real OKX 283-Day Run (Phase J1)")
+    lines.append(f"# Crash-Event Census — Real {venue_str} 283-Day Run (Phase J1)")
     lines.append("")
     lines.append(f"**Generated (UTC):** {report['generated_at_utc']}  ")
     lines.append(f"**Provenance caveat:** {report['provenance_caveat']}")
@@ -424,10 +457,10 @@ def render_markdown(report: Dict[str, Any]) -> str:
             f"{r['bounce_confirmed']} | {r['signal_gate_pass']} | {r['trades_opened']} |"
         )
     lines.append("")
-    lines.append("## Trade-frequency gap (8 vs 85 spec)")
+    lines.append("## Trade-frequency gap (vs 85 spec)")
     lines.append("")
     lines.append(
-        f"The OKX run opened {rec['trades_in_campaign']} trades from "
+        f"The {venue_str} run opened {rec['trades_in_campaign']} trades from "
         f"{rec['signal_gate_pass']} signal-gate-passing events; "
         f"{rec['volume_gate_pass']}/{rec['events_total']} events cleared the $5M volume gate and "
         f"{rec['bounce_confirmed']} cleared bounce confirmation. The gap to the spec's 85 trades "

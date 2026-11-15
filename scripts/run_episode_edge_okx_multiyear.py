@@ -27,6 +27,7 @@ if str(REPO) not in sys.path:
 from src.data.provenance import load_provenance  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from src.strategy.crash_rebound import generate_signal as real_generate_signal  # noqa: E402
+from scripts.build_crash_event_census import parse_timestamp_ms  # noqa: E402
 import scripts.run_portfolio as portfolio_mod  # noqa: E402
 
 SCHEMA_VERSION = 1
@@ -244,9 +245,12 @@ def _q(vals, p):
 
 def block_bootstrap(trade_rows, episodes, times, resamples, seed, n_grid):
     ep_bounds = [(e["episode_id"], parse_utc(e["start"]), parse_utc(e["end"])) for e in episodes]
-    def assign(entry_ms):
+    def assign(entry_ts):
+        ms = parse_timestamp_ms(entry_ts)
+        if ms is None:
+            return ep_bounds[0][0] if ep_bounds else 0
         try:
-            moment = dt.datetime.fromtimestamp(int(entry_ms) / 1000.0, dt.timezone.utc)
+            moment = dt.datetime.fromtimestamp(ms / 1000.0, dt.timezone.utc)
         except Exception:
             return ep_bounds[0][0] if ep_bounds else 0
         best, best_gap = (ep_bounds[0][0] if ep_bounds else 0), None
@@ -275,8 +279,6 @@ def block_bootstrap(trade_rows, episodes, times, resamples, seed, n_grid):
             continue
         draws = []
         for _ in range(4000):
-            picks = [pool[rng2.randrange(len(pool))] for _ in range(min(n, max(1, len(pool)*10)))]
-            # resample n episode totals with replacement from observed pool
             draws.append(sum(pool[rng2.randrange(len(pool))] for _ in range(n)))
         lo, hi = _q(draws, 0.025), _q(draws, 0.975)
         grid.append({"n_episodes": n, "ci_low": lo, "ci_high": hi, "excludes_zero": (lo > 0 or hi < 0), "mean": statistics.fmean(draws) if draws else 0.0, "within_observed": n <= len(pool)})
@@ -416,7 +418,7 @@ def render_md(r):
     ]
     if perm.get("limitation"):
         lines.append(f"- Limitation: {perm['limitation']}")
-    lines += ["", "## Reproduction", "", "```bash", "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py --draws 200 --seed 20261114", "```", ""]
+    lines += ["", "## Reproduction", "", "```bash", r.get("repro_cmd", "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py"), "```", ""]
     return "\n".join(lines)
 
 
@@ -437,11 +439,20 @@ def run(draws, seed, out_stem):
     boot = block_bootstrap(ts["trades"], episodes, times, 20000, seed, list(range(2, 41)))
     perm = conditional_permutation_null(inp, memo, rows, keys, canonical_pnl, draws, seed)
     verdict = "underpowered"
+    is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
     # keep honest: positive evidence only if CI excludes 0 and permutation significant - unlikely but don't hardcode
     bt = boot["bootstrap_total_pnl"]
     if bt["ci_low_pnl_2p5"] > 0 and perm["p_null_ge_canonical"] < 0.05:
         verdict = "hyperliquid_native_positive" if is_native else "cross_venue_positive_not_hyperliquid"
-    is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
+    repro_cmd = (
+        f"PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py "
+        f"--draws {draws} --seed {seed} "
+        f"--cache-dir {CACHE_DIR.relative_to(REPO) if CACHE_DIR.is_relative_to(REPO) else CACHE_DIR} "
+        f"--universe {UNIVERSE_PATH.relative_to(REPO) if UNIVERSE_PATH.is_relative_to(REPO) else UNIVERSE_PATH} "
+        f"--census {CENSUS_PATH.relative_to(REPO) if CENSUS_PATH.is_relative_to(REPO) else CENSUS_PATH} "
+        f"--campaign {CAMPAIGN_PATH.relative_to(REPO) if CAMPAIGN_PATH.is_relative_to(REPO) else CAMPAIGN_PATH} "
+        f"--venue-label {VENUE_LABEL!r} --out {out_stem}"
+    )
     result = {
         "schema_version": SCHEMA_VERSION,
         "generated_at_utc": iso_now(),
@@ -452,6 +463,7 @@ def run(draws, seed, out_stem):
         "venue_label": VENUE_LABEL,
         "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year " + VENUE_LABEL + " cache.",
         "seed": seed,
+        "repro_cmd": repro_cmd,
         "inputs": {
             "census_events": meta["census_events"],
             "signal_gate_events": meta["signal_gate_events"],
@@ -482,7 +494,7 @@ def run(draws, seed, out_stem):
         "verdict": verdict,
         "wall_seconds": time.time() - t0,
         "limitations": [
-            "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence.",
+            ("Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue." if is_native else "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence."),
             "Permutation preserves observed per-symbol multiplicity and conditions on real RSI<20 crash bars; it tests timing, not detector existence.",
             "Episode clustering uses 98h holding horizon; different link changes counts but not dependence fact.",
             "Power extrapolation is based on observed episode distribution only.",

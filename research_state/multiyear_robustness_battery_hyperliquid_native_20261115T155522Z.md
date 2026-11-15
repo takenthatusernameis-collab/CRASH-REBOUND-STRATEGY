@@ -1,9 +1,9 @@
-# C11-NATIVE — Multi-Year Cross-Venue Robustness, Fragility & Achievable-Power Battery
+# C7-HYPERLIQUID-NATIVE — Multi-Year Robustness, Fragility & Achievable-Power Battery (Hyperliquid-native)
 
-**Generated (UTC):** 2026-11-15T15:16:28Z
-**Venue:** Hyperliquid (Ironflow node-derived, native) (CROSS-VENUE; NOT Hyperliquid evidence)
-**Provenance:** Real Hyperliquid (Ironflow node-derived, native) exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; NOT Hyperliquid performance evidence.
-**Verdict:** `FRAGILE_NOT_DECISION_GRADE` (CROSS-VENUE; NOT Hyperliquid evidence)
+**Generated (UTC):** 2026-11-15T15:56:49Z
+**Venue:** Hyperliquid (Ironflow node-derived, native) (Hyperliquid-native)
+**Provenance:** Real Hyperliquid (Ironflow node-derived, native) data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).
+**Verdict:** `FRAGILE_NOT_DECISION_GRADE` (Hyperliquid-native)
 
 ## Headline
 - Canonical total PnL: **4292.50** (6 trades)
@@ -50,7 +50,7 @@
 - t-stat vs zero: **1.579** (crit 1.96)
 - Episodes needed for 95% CI to exclude zero: **4.6**
 - Power at n: {'19': 0.978, '30': 0.9988, '50': 1.0, '100': 1.0, '200': 1.0, '324': 1.0}
-- At the observed per-episode mean/SD, ~n episodes are required for the 95% CI of total PnL to exclude zero. The multi-year OKX universe yields ~19 episodes over 3.38y; realistic crash-day counts (~30-50) are far below this, so the cross-venue edge is inherently underpowered on achievable data.
+- At the observed per-episode mean/SD, ~n episodes are required for the 95% CI of total PnL to exclude zero across achievable multi-year crash-day counts.
 
 ## B — Engine re-runs (real portfolio engine, modified config)
 | Variant | Trades | Total PnL | Buy leg | Short leg | Wall s |
@@ -59,7 +59,6 @@
 | slippage_2x | 6 | 3425.05 | 3425.05 | 0.00 | 0.4 |
 | slippage_5x | 6 | -891.35 | -891.35 | 0.00 | 0.4 |
 | funding_2x | 6 | 4423.81 | 4423.81 | 0.00 | 0.4 |
-| entry_spec_literal_next_open | 9 | -22340.73 | -28886.68 | 6545.95 | 0.4 |
 | rsi_threshold_15 | 1 | -3266.48 | -3266.48 | 0.00 | 0.4 |
 | rsi_threshold_25 | 17 | 23244.22 | -7084.54 | 30328.77 | 0.4 |
 | target_pct_5 | 6 | 7596.40 | 4673.72 | 2922.68 | 0.4 |
@@ -68,9 +67,9 @@
 | time_exit_72 | 6 | 1260.18 | 1260.18 | 0.00 | 0.4 |
 
 ## Interpretation
-The multi-year cross-venue headline of 4292.50 is NOT a decision-grade edge: the episode-mean t-stat (1.579) cannot reject zero; ~4.6 independent episodes would be required for a 95% CI excluding zero, far beyond achievable crash-day counts. The honest cross-venue verdict remains that the strategy's temporal edge is not established; this battery shows it is fragile and not robust to leg decomposition, sub-period, cost, or power limits. CROSS-VENUE Hyperliquid (Ironflow node-derived, native) data only — NOT Hyperliquid performance evidence.
+The multi-year headline of 4292.50 (Hyperliquid-native) is NOT a decision-grade edge: spot coin leg is negative (-3968.80) and total is positive (+8261.31 ETH hedge pnl masks the spot loss); the episode-mean t-stat (1.579) cannot reject zero; ~4.6 independent episodes would be required for a 95% CI excluding zero, far beyond achievable crash-day counts. The honest verdict remains that the strategy's temporal edge is not established; this battery shows it is fragile and not robust to leg decomposition, sub-period, cost, or power limits.
 
 ## Reproduction
 ```bash
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_multiyear_robustness_battery.py --phases A --out multiyear_robustness_battery
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_multiyear_robustness_battery.py --phases A B --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json --campaign research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json --census research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json --episode-edge research_state/episode_edge_hyperliquid_native_20261115T155318Z.json --venue-label 'Hyperliquid (Ironflow node-derived, native)' --phase-label 'C7-HYPERLIQUID-NATIVE' --out multiyear_robustness_battery_hyperliquid_native_20261115T155522Z
 ```

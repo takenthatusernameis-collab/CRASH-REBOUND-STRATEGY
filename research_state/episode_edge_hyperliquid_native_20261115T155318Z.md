@@ -1,6 +1,6 @@
 # C6-T3 — Crash-Episode Dependence Audit & Conditional Temporal-Edge Test (Hyperliquid-native)
 
-**Generated (UTC):** 2026-11-15T15:03:26Z
+**Generated (UTC):** 2026-11-15T15:53:54Z
 **Provenance:** Real Hyperliquid (Ironflow node-derived, native) data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).
 **Verdict:** `underpowered` (Hyperliquid-native evidence)
 
@@ -21,9 +21,9 @@
 
 ## Episode-block bootstrap (resample crash episodes, not trades)
 - Blocks: **3**, resamples: **20000**, seed: 20261115
-- 95% CI total PnL: **[0.00, 12877.51]**
-- Mean: **4261.38**, Median: **4292.50**, P(total PnL>0): **0.6992**
-- First grid size excluding zero: **10**
+- 95% CI total PnL: **[-1143.66, 10339.42]**
+- Mean: **4276.82**, Median: **4292.50**, P(total PnL>0): **0.9624**
+- First grid size excluding zero: **4**
 
 ## Conditional temporal-edge permutation (crash-day conditioned, real engine)
 - Mode: `deterministic_seeded_draws:200_seed:20261115`
@@ -35,5 +35,5 @@
 ## Reproduction
 
 ```bash
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py --draws 200 --seed 20261114
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py --draws 200 --seed 20261115 --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json --census research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json --campaign research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json --venue-label 'Hyperliquid (Ironflow node-derived, native)' --out episode_edge_hyperliquid_native_20261115T155318Z
 ```

@@ -104,14 +104,16 @@ def _entry_ms(ts: Any) -> int:
     """Normalize a trade entry_timestamp to epoch milliseconds.
 
     Accepts either an integer/numeric millisecond timestamp (canonical OKX
-    campaign) or an ISO-8601 string (native Hyperliquid campaign). Returns the
-    epoch ms; raises ValueError if unparseable.
+    campaign), a digit-string millisecond timestamp (Hyperliquid parquet), or
+    an ISO-8601 string (native Hyperliquid campaign JSON). Returns the epoch ms.
     """
     if ts is None:
         raise ValueError("entry_timestamp is None")
     if isinstance(ts, (int, float)):
         return int(ts)
     s = str(ts).strip()
+    if s.lstrip("-").isdigit():
+        return int(float(s))
     if s.endswith("Z"):
         s = s[:-1] + "+00:00"
     try:
@@ -324,10 +326,8 @@ def phase_a(trades: List[Dict[str, Any]], episodes: Sequence[Dict[str, Any]]) ->
             "t_crit_5pct_two_sided": 1.96,
             "episodes_needed_for_ci_excludes_zero": (round(n_needed, 1) if math.isfinite(n_needed) else None),
             "power_at": {str(nc): round(_power(nc), 4) for nc in (19, 30, 50, 100, 200, 324)},
-            "note": ("At the observed per-episode mean/SD, ~n episodes are required for the 95% CI of "
-                     "total PnL to exclude zero. The multi-year OKX universe yields ~19 episodes over "
-                     "3.38y; realistic crash-day counts (~30-50) are far below this, so the cross-venue "
-                     "edge is inherently underpowered on achievable data."),
+             "note": ("At the observed per-episode mean/SD, ~n episodes are required for the 95% CI of "
+                      "total PnL to exclude zero across achievable multi-year crash-day counts."),
         }
     else:
         out["A6_achievable_power"] = {"note": "insufficient episodes"}
@@ -418,13 +418,15 @@ def phase_b(symbols: Sequence[str], seed_note: str, variant_names: Optional[Sequ
 
 def render_md(result: Dict[str, Any]) -> str:
     a = result.get("A", {})
+    is_native = bool(result.get("is_hyperliquid_evidence", False))
+    venue_kind = "Hyperliquid-native" if is_native else "CROSS-VENUE (NOT Hyperliquid evidence)"
     lines = [
-        f"# {PHASE_LABEL} — Multi-Year Cross-Venue Robustness, Fragility & Achievable-Power Battery",
+        f"# {PHASE_LABEL} — Multi-Year Robustness, Fragility & Achievable-Power Battery ({venue_kind})",
         "",
         f"**Generated (UTC):** {result['generated_at_utc']}",
-        f"**Venue:** {VENUE_LABEL} (CROSS-VENUE; NOT Hyperliquid evidence)",
+        f"**Venue:** {VENUE_LABEL} ({venue_kind})",
         f"**Provenance:** {result['provenance_caveat']}",
-        f"**Verdict:** `{result['verdict']}` (CROSS-VENUE; NOT Hyperliquid evidence)",
+        f"**Verdict:** `{result['verdict']}` ({venue_kind})",
         "",
         "## Headline",
         f"- Canonical total PnL: **{a.get('total_pnl', 0):.2f}** ({a.get('num_trades', 0)} trades)",
@@ -449,7 +451,6 @@ def render_md(result: Dict[str, Any]) -> str:
         lines.append(f"| {r} | {s['n']} | {s['sum']:.2f} |")
     lines += ["", "## A3 — Sub-period stability (by calendar year)", "| Year | Trades | Total PnL | Win rate |", "|---|---:|---:|---:|"]
     for y, s in (a.get("A3_sub_period", {}).get("year") or {}).items():
-        wr = (sum(1 for t in [] ) )  # win rate not in summary; approximate from n/mean not available
         lines.append(f"| {y} | {s['n']} | {s['sum']:.2f} | — |")
     lines += ["", "## A4 — Concentration across episodes"]
     c4 = a.get("A4_concentration") or {}
@@ -485,19 +486,24 @@ def render_md(result: Dict[str, Any]) -> str:
         "",
         "## Reproduction",
         "```bash",
-        "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_multiyear_robustness_battery.py --phases A --out multiyear_robustness_battery",
+        result.get("repro_cmd", "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_multiyear_robustness_battery.py --phases A"),
         "```",
         "",
     ]
     return "\n".join(lines)
 
 
-def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]]) -> Tuple[str, str]:
+def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]], is_hyperliquid_evidence: bool = False) -> Tuple[str, str]:
     """Return (verdict_code, interpretation)."""
     total = a.get("total_pnl", 0.0)
     legs = a.get("A1_per_leg") or {}
     buy = legs.get("buy", {}).get("sum", 0.0)
     short = legs.get("short", {}).get("sum", 0.0)
+    comp = a.get("A1_components") or {}
+    coin_pnl = float(comp.get("coin_pnl", 0.0) or 0.0)
+    hedge_pnl = float(comp.get("hedge_pnl", 0.0) or 0.0)
+    rebound_short_pnl = float(comp.get("rebound_short_pnl", 0.0) or 0.0)
+    rebound_hedge_pnl = float(comp.get("rebound_hedge_pnl", 0.0) or 0.0)
     years = (a.get("A3_sub_period", {}) or {}).get("year") or {}
     pos_years = [y for y, s in years.items() if s.get("sum", 0) > 0]
     neg_years = [y for y, s in years.items() if s.get("sum", 0) <= 0]
@@ -505,6 +511,8 @@ def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]]) -> Tuple[str, 
     reasons = []
     if buy < 0 and total > 0:
         reasons.append("the core buy leg loses money while the headline total is positive")
+    if coin_pnl < 0 and total > 0:
+        reasons.append(f"spot coin leg is negative ({coin_pnl:.2f}) and total is positive (+{hedge_pnl:.2f} ETH hedge pnl masks the spot loss)")
     if short > 0 and abs(short) > abs(total):
         reasons.append("the entire positive total is carried by the optional rebound-short leg")
     if neg_years and pos_years:
@@ -513,7 +521,6 @@ def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]]) -> Tuple[str, 
         reasons.append(f"the episode-mean t-stat ({ap.get('t_stat_vs_zero')}) cannot reject zero")
     if ap.get("episodes_needed_for_ci_excludes_zero"):
         reasons.append(f"~{ap.get('episodes_needed_for_ci_excludes_zero')} independent episodes would be required for a 95% CI excluding zero, far beyond achievable crash-day counts")
-    # cost stress verdict
     if b and b.get("runs"):
         base = b["runs"].get("baseline", {}).get("total_pnl", total)
         stressed = [b["runs"].get(k, {}).get("total_pnl", base) for k in ("slippage_2x", "slippage_5x", "funding_2x")]
@@ -525,15 +532,18 @@ def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]]) -> Tuple[str, 
         verdict = "UNDERPOWERED"
     else:
         verdict = "STABLE"
-    interp = (
-        f"The multi-year cross-venue headline of {total:.2f} is NOT a decision-grade edge: "
-        + "; ".join(reasons)
-        + f". The honest cross-venue verdict remains that the strategy's temporal edge is not established; "
-          "this battery shows it is fragile and not robust to leg decomposition, sub-period, cost, or power limits. "
-          f"CROSS-VENUE {VENUE_LABEL} data only — NOT Hyperliquid performance evidence."
-        if reasons else
-        f"The multi-year cross-venue edge survives this battery (total {total:.2f}); it remains CROSS-VENUE and NOT Hyperliquid evidence."
-    )
+    venue_tag = "Hyperliquid-native" if is_hyperliquid_evidence else f"CROSS-VENUE {VENUE_LABEL} (NOT Hyperliquid evidence)"
+    if reasons:
+        interp = (
+            f"The multi-year headline of {total:.2f} ({venue_tag}) is NOT a decision-grade edge: "
+            + "; ".join(reasons)
+            + f". The honest verdict remains that the strategy's temporal edge is not established; "
+              "this battery shows it is fragile and not robust to leg decomposition, sub-period, cost, or power limits."
+        )
+    else:
+        interp = (
+            f"The multi-year edge survives this battery (total {total:.2f}, {venue_tag})."
+        )
     return verdict, interp
 
 
@@ -560,10 +570,17 @@ def main(argv: Optional[List[str]] = None) -> int:
     EPISODE_EDGE_PATH = Path(args.episode_edge)
     VENUE_LABEL = str(args.venue_label)
     PHASE_LABEL = str(args.phase_label)
-    PROVENANCE_CAVEAT = (
-        f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
-        "NOT Hyperliquid performance evidence."
-    )
+    is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
+    if is_native:
+        PROVENANCE_CAVEAT = (
+            f"Real {VENUE_LABEL} data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), "
+            "NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue)."
+        )
+    else:
+        PROVENANCE_CAVEAT = (
+            f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
+            "NOT Hyperliquid performance evidence."
+        )
 
     t0 = time.time()
     campaign = load_campaign()
@@ -577,18 +594,29 @@ def main(argv: Optional[List[str]] = None) -> int:
         symbols = [str(s).upper() for s in (universe.get("selected_symbols") or universe.get("symbols") or [])]
         b = phase_b(symbols, args.seed_note, args.variants)
 
-    verdict, interp = build_verdict(a, b)
+    verdict, interp = build_verdict(a, b, is_hyperliquid_evidence=is_native)
+    repro_cmd = (
+        f"PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_multiyear_robustness_battery.py "
+        f"--phases {' '.join(args.phases)} "
+        f"--cache-dir {CACHE_DIR.relative_to(REPO) if CACHE_DIR.is_relative_to(REPO) else CACHE_DIR} "
+        f"--universe {UNIVERSE_PATH.relative_to(REPO) if UNIVERSE_PATH.is_relative_to(REPO) else UNIVERSE_PATH} "
+        f"--campaign {CAMPAIGN_PATH.relative_to(REPO) if CAMPAIGN_PATH.is_relative_to(REPO) else CAMPAIGN_PATH} "
+        f"--census {CENSUS_PATH.relative_to(REPO) if CENSUS_PATH.is_relative_to(REPO) else CENSUS_PATH} "
+        f"--episode-edge {EPISODE_EDGE_PATH.relative_to(REPO) if EPISODE_EDGE_PATH.is_relative_to(REPO) else EPISODE_EDGE_PATH} "
+        f"--venue-label {VENUE_LABEL!r} --phase-label {PHASE_LABEL!r} --out {args.out}"
+    )
     result = {
         "schema_version": 1,
         "generated_at_utc": iso_now(),
         "phase": PHASE_LABEL,
         "provenance_caveat": PROVENANCE_CAVEAT,
-        "is_hyperliquid_evidence": False,
-        "cross_venue": True,
+        "is_hyperliquid_evidence": is_native,
+        "cross_venue": not is_native,
         "venue_label": VENUE_LABEL,
         "method": ("Per-leg attribution, exit-reason decomposition, sub-period stability, episode concentration, "
                    "leave-one-out fragility, and achievable-power bound on the existing multi-year " + VENUE_LABEL + " campaign; "
                    "optional real-engine re-runs under modified config."),
+        "repro_cmd": repro_cmd,
         "inputs": {
             "campaign_sha256": sha256_file(CAMPAIGN_PATH),
             "census_sha256": sha256_file(CENSUS_PATH) if CENSUS_PATH.exists() else None,
@@ -602,7 +630,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "phases_run": args.phases,
         "wall_seconds": round(time.time() - t0, 1),
         "limitations": [
-            "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence.",
+            ("Hyperliquid-native (Ironflow node-derived) multi-year cache; NOT cross-venue." if is_native else "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence."),
             "Phase A leave-one-out is analytical (total minus subset); it ignores second-order portfolio interactions (cap/occupancy), which Phase B memo-free re-runs would capture.",
             "Phase B re-runs use the real portfolio engine with modified config; each is deterministic.",
         ],

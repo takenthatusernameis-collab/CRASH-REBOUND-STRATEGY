@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import itertools
 import json
 import math
 import multiprocessing as mp
@@ -28,6 +29,7 @@ if str(REPO) not in sys.path:
 from src.data.provenance import load_provenance  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from src.strategy.crash_rebound import generate_signal as real_generate_signal  # noqa: E402
+from scripts.build_crash_event_census import parse_timestamp_ms  # noqa: E402
 import scripts.run_portfolio as portfolio_mod  # noqa: E402
 
 PROVENANCE_CAVEAT = (
@@ -80,8 +82,8 @@ def build_memo(inp):
     candles = inp["candles"]; cfg = inp["cfg"]
     ts_index = {}
     for sym, cs in candles.items():
-        ts_index[sym] = {int(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")): i for i, c in enumerate(cs)
-                         if c.get("timestamp") is not None or c.get("timestamp_ms") is not None or c.get("time") is not None}
+        ts_index[sym] = {parse_timestamp_ms(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")): i for i, c in enumerate(cs)
+                         if parse_timestamp_ms(c.get("timestamp") or c.get("timestamp_ms") or c.get("time")) is not None}
     memo = {}; rows = []
     for e in inp["census"]["events"]:
         sym = str(e.get("symbol", "")).upper()
@@ -145,20 +147,22 @@ def _run_placebo_draw(sub):
 
 def render_md(result, venue_label):
     pl = result["placebo"]; can = result["canonical"]; s = pl["summary"]
+    is_native = bool(result.get("is_hyperliquid_evidence", False))
+    venue_kind = "Hyperliquid-native" if is_native else "Cross-Venue (NOT Hyperliquid evidence)"
     lines = [
-        f"# C10.2 — Full-Portfolio Placebo ({venue_label} Multi-Year, Cross-Venue)",
+        f"# C10.2 — Full-Portfolio Placebo ({venue_label} Multi-Year, {venue_kind})",
         "", f"**Generated (UTC):** {result['generated_at_utc']}", f"**Provenance:** {result['provenance_caveat']}",
         f"**Mode:** `{result['mode']}` (exact enumeration infeasible; deterministic seeded subset)", f"**Verdict:** `{result['verdict']}`",
-        f"**is_hyperliquid_venue_data:** false",
+        f"**is_hyperliquid_venue_data:** {str(is_native).lower()}",
         "", "## Canonical", f"- Trades: **{can['trades']}**, total PnL: **{can['total_pnl']:.6f}**", f"- Replay: {can['replay']['num_trades']} trades, {can['replay']['total_pnl']:.6f}",
         "", "## Placebo", f"- Pool signal-gate events: **{result['pool']['signal_gate_events']}**, choose_k (canonical admitted): **{result['pool']['choose_k']}**",
         f"- Runs: **{pl['runs']}**, seed: {result['seed']}",
         f"- Mean: **{s['mean']:.2f}**, median: **{s['median']:.2f}**, p05: **{s['p05']:.2f}**, p95: **{s['p95']:.2f}**",
         f"- Canonical percentile: **{pl['canonical_percentile_le']:.4f}**, p(placebo>=canonical): **{pl['p_ge_canonical']:.4f}**",
         f"- P(placebo>0): **{pl['prob_total_pnl_positive']:.4f}**",
-        "", "## Limitation", "- Exact enumeration infeasible; deterministic seeded random subsets used (documented seed and count).",
+        "", "## Limitation", (f"- Exact enumeration over all {pl['runs']} subsets; no Monte Carlo error." if pl['runs'] == result['pool'].get('exact_combinations') else "- Deterministic seeded random subsets used (seed/count documented)."),
         "- Tests admission/cap/occupancy selection within the observed gate-passing pool, not temporal crash timing.",
-        f"- CROSS-VENUE {venue_label}; NOT Hyperliquid performance evidence.",
+        (f"- Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue." if is_native else f"- CROSS-VENUE {venue_label}; NOT Hyperliquid performance evidence."),
         "", "## Reproduction", "```bash", result.get("repro_cmd", ""), "```", ""
     ]
     return "\n".join(lines)
@@ -201,7 +205,15 @@ def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws
         replay_summary = canon_summary
 
     rng = random.Random(seed)
-    subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(draws)]
+    exact_comb = math.comb(len(keys), choose_k) if 0 <= choose_k <= len(keys) else 0
+    if 0 < exact_comb <= draws:
+        all_subs = [tuple(sorted(c)) for c in itertools.combinations(keys, choose_k)]
+        rng.shuffle(all_subs)
+        subsets = all_subs
+        subset_mode = f"exact_enumeration:{exact_comb}_choose_{choose_k}_of_{len(keys)}"
+    else:
+        subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(draws)]
+        subset_mode = f"deterministic_seeded_draws:{draws}_choose_{choose_k}_of_{len(keys)}"
     if jobs > 1 and "fork" in mp.get_all_start_methods():
         ctx = mp.get_context("fork")
         with ctx.Pool(
@@ -225,19 +237,31 @@ def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws
         "prob_total_pnl_positive": sum(1 for x in pnls if x > 0) / len(results) if results else None,
         "ci_low_pnl_2p5": quantile(sorted(pnls), 0.025), "ci_high_pnl_97p5": quantile(sorted(pnls), 0.975),
     }
+    is_native = "native" in venue_label.lower() or "hyperliquid" in venue_label.lower()
     verdict = "underpowered"
     if pl["summary"]["p05"] > 0 and pl["p_ge_canonical"] < 0.05:
-        verdict = "cross_venue_positive_not_hyperliquid"
+        verdict = "hyperliquid_native_positive" if is_native else "cross_venue_positive_not_hyperliquid"
+    provenance_caveat = (
+        f"Real {venue_label} data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), "
+        "NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue)."
+        if is_native else
+        f"Real {venue_label} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
+        "NOT Hyperliquid performance evidence."
+    )
     repro = (
         f"PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_binance_um_multiyear.py "
-        f"--draws {draws} --seed {seed} --out {out_stem}"
+        f"--cache-dir {cache_dir.relative_to(REPO) if cache_dir.is_relative_to(REPO) else cache_dir} "
+        f"--universe {universe_path.relative_to(REPO) if universe_path.is_relative_to(REPO) else universe_path} "
+        f"--census {census_path.relative_to(REPO) if census_path.is_relative_to(REPO) else census_path} "
+        f"--campaign {campaign_path.relative_to(REPO) if campaign_path.is_relative_to(REPO) else campaign_path} "
+        f"--venue-label {venue_label!r} --draws {draws} --seed {seed} --jobs {jobs} --out {out_stem}"
     )
     result = {
         "schema_version": 1, "generated_at_utc": iso_now(), "phase": "C10.2",
-        "provenance_caveat": PROVENANCE_CAVEAT, "is_hyperliquid_evidence": False, "is_hyperliquid_venue_data": False, "cross_venue": True,
+        "provenance_caveat": provenance_caveat, "is_hyperliquid_evidence": is_native, "is_hyperliquid_venue_data": is_native, "cross_venue": not is_native,
         "venue_label": venue_label,
-        "method": "Deterministic seeded full-portfolio placebo: random gate-passing event subsets of fixed size run through real portfolio engine; preserves gates/sizing/cap/occupancy/hedge/fees/funding/liquidation.",
-        "mode": f"deterministic_seeded_draws:{len(results)}_choose_{choose_k}_of_{len(keys)}",
+        "method": "Deterministic full-portfolio placebo: gate-passing event subsets of fixed size run through real portfolio engine; preserves gates/sizing/cap/occupancy/hedge/fees/funding/liquidation.",
+        "mode": subset_mode,
         "seed": seed,
         "execution": {"jobs": jobs, "parallel_start_method": "fork" if jobs > 1 and "fork" in mp.get_all_start_methods() else "serial"},
         "inputs": {
@@ -249,15 +273,15 @@ def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws
             "missing_symbols": missing,
         },
         "canonical": {"trades": canon_summary["num_trades"], "total_pnl": canon_summary["total_pnl"], "replay": replay_summary, "admitted_keys_count": len(admitted)},
-        "pool": {"signal_gate_events": len(keys), "choose_k": choose_k, "exact_combinations_infeasible": True},
+        "pool": {"signal_gate_events": len(keys), "choose_k": choose_k, "exact_combinations": exact_comb},
         "placebo": pl,
         "verdict": verdict,
         "wall_seconds": time.time() - t0,
         "repro_cmd": repro,
         "limitations": [
-            "Exact enumeration infeasible; used deterministic seeded subset (seed/count documented).",
+            (f"Exact enumeration over all {len(results)} subsets; no Monte Carlo error." if len(results) == exact_comb else "Deterministic seeded subset used (seed/count documented)."),
             "Tests admission/cap/occupancy selection on observed pool, not temporal crash timing.",
-            f"CROSS-VENUE {venue_label}; NOT Hyperliquid performance evidence.",
+            (f"Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue." if is_native else f"CROSS-VENUE {venue_label}; NOT Hyperliquid performance evidence."),
         ],
     }
     out_base = REPO / "research_state" / out_stem

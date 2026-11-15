@@ -6,6 +6,7 @@ from scripts.build_crash_event_census import (
     REASON_ORDER,
     _rsi_series,
     build_census,
+    parse_timestamp_ms,
 )
 from src.strategy.crash_rebound import _rsi
 
@@ -84,6 +85,41 @@ def test_census_baseline_funnel_is_locked() -> None:
         "regime_min_price": 17,
         "one_position_per_coin": 3,
         "trade_opened": 8,
+    }
+
+
+def test_parse_timestamp_ms_supports_epoch_and_iso8601() -> None:
+    assert parse_timestamp_ms(1768791600000) == 1768791600000
+    assert parse_timestamp_ms("1768791600000") == 1768791600000
+    assert parse_timestamp_ms("2026-01-19T04:00:00+00:00") == 1768795200000
+    assert parse_timestamp_ms("2026-01-19T04:00:00Z") == 1768795200000
+    assert parse_timestamp_ms(None) is None
+    assert parse_timestamp_ms("not_a_ts") is None
+
+
+def test_census_native_hyperliquid_reconciles_all_six_trades() -> None:
+    report = build_census(
+        STATE / "cache/hyperliquid_ironflow_native_20251220_20260928/provenance.json",
+        STATE / "cache/hyperliquid_ironflow_native_20251220_20260928",
+        STATE / "universe_hyperliquid_ironflow_native_20251220_20260928.json",
+        STATE / "campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json",
+        21,
+        20.0,
+        5_000_000.0,
+    )
+    rec = report["reconciliation"]
+    assert report["missing_symbols"] == []
+    assert report["hash_mismatches"] == []
+    assert rec["events_total"] == 43
+    assert rec["signal_gate_pass"] == 7
+    assert rec["trades_in_campaign"] == 6
+    assert rec["trades_matched_to_events"] == 6
+    assert rec["unmatched_campaign_trades"] == []
+    assert rec["unexplained_signal_gate_events"] == 0
+    assert rec["blocking_reason_counts"] == {
+        "bounce_not_confirmed": 36,
+        "one_position_per_coin": 1,
+        "trade_opened": 6,
     }
 
 
