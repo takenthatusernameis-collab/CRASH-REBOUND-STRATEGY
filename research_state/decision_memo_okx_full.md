@@ -1,8 +1,8 @@
 # Decision Memo — Crash-Rebound Strategy (Real OKX 283d canonical evidence)
 
 **Generated (UTC):** 2026-11-13T21:48:59Z
-**Updated (UTC):** 2026-11-15T00:40:25Z (C6-T3 dependence-aware inference on the multi-year cross-venue campaign; gates 21/21 and 4/4 green; evidence gap unchanged)
-**Status:** `underpowered` / **not decision-grade** — do not allocate capital on this evidence.
+**Updated (UTC):** 2026-11-15T01:31:34Z (C7 robustness/fragility/achievable-power battery on the multi-year cross-venue campaign; gates 21/21 and 4/4 green; cross-venue evidence gap unchanged)
+**Status:** `underpowered` / **`FRAGILE_NOT_DECISION_GRADE`** — do not allocate capital on this evidence.
 **Provenance caveat:** Real OKX exchange data, non-synthetic; cross-venue vs Hyperliquid spec; NOT Hyperliquid performance evidence.
 
 **Current status (2026-11-14T22:10:03Z):** C1/C2/C3/C4/C5-T2/C5-T3/C5-T4 are complete; the session gate is **21/21 checks passed** and the evidence verifier is **4/4 — EVIDENCE VERIFIED**. C5-T2 produced the binding operator archive request v2 (multi-year window: 2023-12-20T17:19:21Z..2026-09-28T23:00:00Z, 1,013.2 days, 24,319 bars/symbol, ≥24 symbols, ≥10 distinct crash days). C5-T3 proved the full-validation orchestrator end-to-end (all 6 steps PASS; placeholder rejected, truncated rejected, flat fixture not evidence). C5-T4 refreshed the retention probe (3,877/6,792 bars, earliest 2026-04-20T11:00:00Z, strictly worse than retained), updated coverage and this memo, and re-ran gates green. The verdict remains **`underpowered` / not decision-grade**. The evidence gap is unchanged and external: the public Hyperliquid API serves only 3,877/6,792 hourly bars (still decaying), so the 1,013.2-day multi-year archive required for 80% power does not exist in this environment. No session may close without C5-T2/T4 artifacts + coverage/memo refresh + gates 21/21 and 4/4 green.
@@ -58,6 +58,68 @@ inside both the episode-block and the admission-placebo distributions. **Do not 
 as validated edge; do not allocate capital.** The binding constraint remains that this is
 cross-venue OKX, not Hyperliquid-native performance evidence. Hyperliquid-native validation is
 still external and requires an operator-supplied verified archive.
+
+## C7 — Robustness, fragility & achievable-power battery (2026-11-15T01:19:15Z)
+
+C7 runs entirely on the existing, already-verified multi-year OKX cache + campaign + census +
+episode-edge artifacts. It does NOT acquire new data and does NOT fabricate anything. **CROSS-VENUE
+OKX data: NOT Hyperliquid performance evidence.** It converts the C6 `underpowered` verdict into a
+decision-grade fragility verdict by decomposing *where* the +18,220.86 point estimate comes from and
+whether it is stable.
+
+### C7 headline: the point estimate is an artifact of one leg and one episode
+- **Per-leg attribution (A1):** the **core buy leg loses −27,836.64** across 30 trades; the
+  **optional rebound-short leg makes +46,057.50** across 12 trades. The entire positive headline is
+  carried by the short leg, which is a secondary/optional feature.
+- **Component split:** coin (spot) PnL **−28,557.90**; ETH hedge PnL **+59,980.18**; rebound-short
+  PnL **−25,157.11**; rebound-hedge PnL **+30,426.71**. The buy leg's losses are masked by the hedge,
+  not by the coin direction.
+- **Exit-reason (A2):** `liquidated` **−44,947.31** (12 trades) vs `time_exit` +17,110.67 (18) vs
+  `target_rebound_short` +46,057.50 (12). Liquidation drag dominates the buy leg.
+- **Sub-period (A3):** 2023 **−17,994.43**; 2024 **−15,574.79**; 2025 **+42,630.39**; 2026
+  **+9,159.69**. The edge is not stable across years.
+- **Leave-one-out (A5):** dropping **2025 alone flips the total to −24,409.53**; dropping **episode 14
+  (2025-10-10 crash, +29,506.39) alone flips the total to −11,285.53**. One year and one episode
+  carry the entire result.
+- **Concentration (A4):** 9 positive vs 10 negative episodes; gross positive +64,519.79 vs gross
+  negative −46,298.93; HHI of |episode contribution| 0.12.
+
+### C7 achievable-power bound (A6)
+At the observed per-episode mean PnL 958.99 and SD 8,756.16, the episode-mean **t-stat vs zero is
+0.477** (crit 1.96). **~320 independent episodes** would be required for the 95% CI of total PnL to
+exclude zero; power at n=19 is **7.6%**, at n=50 is **12.1%**, at n=100 is **19.5%**. The multi-year
+universe yields only 19 episodes over 3.38y and realistic crash-day counts (~30–50) are far below the
+requirement — **the cross-venue edge is inherently underpowered on achievable data.**
+
+### C7 engine re-runs (Phase B; real portfolio engine, modified config)
+| Variant | Trades | Total PnL | Buy leg | Short leg |
+|---|---:|---:|---:|---:|
+| baseline | 42 | +18,220.86 | **−27,836.64** | +46,057.50 |
+| slippage 2× (0.10%/side) | 42 | +8,846.58 | **−34,418.94** | +43,265.52 |
+| slippage 5× (0.25%/side) | 42 | **−13,976.73** | −48,879.97 | +34,903.23 |
+| funding 2× (0.02%/h) | 42 | +21,266.94 | **−24,411.98** | +45,678.92 |
+| **entry spec-literal next open** | 113 | **−55,057.45** | **−111,579.62** | +56,522.18 |
+| RSI threshold 15 | 6 | **−8,703.37** | **−17,009.54** | +8,306.17 |
+| RSI threshold 25 | 142 | +14,608.93 | **−56,353.63** | +70,962.56 |
+| target 5% | 42 | +5,983.67 | **−23,317.99** | +29,301.66 |
+| target 12% | 42 | +12,449.16 | **−23,693.17** | +36,142.33 |
+| time exit 24h | 42 | +2,182.33 | **−35,705.28** | +37,887.61 |
+| time exit 72h | 42 | +20,827.22 | **−26,443.89** | +47,271.11 |
+
+**The core buy leg is negative in every one of the 11 configurations.** The positive total is always
+carried by the optional rebound-short leg. 5× slippage flips the total negative; the PDF-literal spec
+entry path is catastrophic (113 trades, −55,057.45, buy leg −111,579.62); RSI-15 (6 trades) is negative
+overall. Artifacts: `research_state/multiyear_robustness_battery_full_20261115T011700Z.{json,md}` and
+`research_state/multiyear_robustness_grid_20261115T013200Z.{json,md}`.
+
+### C7 verdict
+**`FRAGILE_NOT_DECISION_GRADE`.** The +18.22% / +5.07%/yr headline is **not** a decision-grade edge:
+the core buy leg loses money (in every config), the positive total is carried by the optional
+rebound-short leg, profit is concentrated in 2025 and a single episode (dropping either flips the total
+negative), 5× slippage flips the total negative, the PDF-literal entry path loses −55k, and the
+achievable-power bound shows the effect cannot be distinguished from zero on any realistic sample. This
+strengthens (does not replace) the C6 `underpowered` verdict: the strategy's edge is **not established
+and is fragile**. **Do not quote +5.07%/yr as validated edge; do not allocate capital.**
 
 ## Canonical result (fixed; do not re-run or overwrite)
 
@@ -325,6 +387,14 @@ liquidation, varying only which gate-passing events are allowed to trade.
 
 ## Immediate next work (status after this memo)
 
+0. **C7 robustness/fragility/achievable-power battery — DONE (2026-11-15T01:31:34Z).** The
+   multi-year cross-venue headline is **`FRAGILE_NOT_DECISION_GRADE`**: the core buy leg loses
+   money in every config, the positive total is carried by the optional rebound-short leg,
+   profit is concentrated in 2025 and one episode (either drop flips the total negative), 5×
+   slippage flips the total negative, the PDF-literal spec entry loses −55,057, and ~320
+   episodes would be needed for a 95% CI excluding zero (only 19 exist). Artifact:
+   `research_state/multiyear_robustness_battery_full_20261115T011700Z.{json,md}`. **Do not
+   re-run without a new stem and a documented reason; do not quote +5.07%/yr.**
 1. **Hyperliquid-native acquisition and campaign — BLOCKED on full data.** The public API
    cannot serve the full 283-day window (3,877 of 6,792 bars at 2026-11-14T21:23:00Z, and
    decaying). The only decision-grade path is an operator-supplied verified archive; use the
