@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-14T23:42:36Z
+**Handoff updated (UTC):** 2026-11-15T00:36:05Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-14T23:42:36Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T00:36:05Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1–C5 are COMPLETE. C6-T1/T2 are COMPLETE: the multi-year cross-venue archive, census, power reassessment, and real campaign are on disk. Do not repeat C1–C5, do not re-acquire the OKX multi-year archive, do not re-run the 42-trade campaign, and do not re-run any deterministic campaign on the retained chain.**
 
@@ -32,7 +32,7 @@
 - **No unnecessary re-acquisition/reruns.** The multi-year archive and campaign are canonical for the cross-venue track. Do not re-run them without a new artifact stem and a documented reason.
 - **No relaxing the $5M volume floor or the spec-literal opt-in default.** The canonical strategy path remains default; spec-literal next-open remains opt-in.
 
-**Definition of done for the next session:** C6-T3 artifacts on disk (`episode_edge_okx_multiyear.{json,md}`, `placebo_portfolio_okx_multiyear.{json,md}` or equivalent new stems), decision memo updated with the C6 section, `verify_next_focus_campaign.py` passing, `session_gate.py` 21/21 and `verify_campaign_evidence.py` 4/4 still green, and this handoff re-timestamped to 2026-11-14T23:42:36Z or later.
+**Definition of done for the next session:** C6-T3 artifacts on disk (`episode_edge_okx_multiyear.{json,md}`, `placebo_portfolio_okx_multiyear.{json,md}` or equivalent new stems), decision memo updated with the C6 section, `verify_next_focus_campaign.py` passing, `session_gate.py` 21/21 and `verify_campaign_evidence.py` 4/4 still green, and this handoff re-timestamped to 2026-11-15T00:36:05Z or later.
 
 ---
 
@@ -149,6 +149,6 @@ PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest -q \
 
 Evidence-chain completeness **21/21** remains achieved. Decision-grade **cross-venue** validation requires: C6-T3 episode-block bootstrap CI, crash-day permutation p, portfolio placebo p, and a decision memo update with an explicit verdict. **Hyperliquid-native** validation remains blocked on an operator archive and is not a substitute. Retain `underpowered` / `no edge` until the C6-T3 inference actually excludes zero; do not promote the +18.22% point estimate to evidence on its own.
 
-**Next session's done:** C6-T3 inference artifacts on disk + decision memo C6 section + `verify_next_focus_campaign.py` PASS + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-14T23:42:36Z or later.
+**Next session's done:** C6-T3 inference artifacts on disk + decision memo C6 section + `verify_next_focus_campaign.py` PASS + gates 21/21 and 4/4 green + this handoff re-timestamped to 2026-11-15T00:36:05Z or later.
 
 (End of file - total 152 lines)
