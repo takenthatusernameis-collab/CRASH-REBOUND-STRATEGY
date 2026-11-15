@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T17:37:01Z
+**Handoff updated (UTC):** 2026-11-15T17:47:18Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -16,11 +16,11 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T17:01:24Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T17:47:18Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C11.3 are COMPLETE. Canonical `RSI(21)<20` is **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE` (underpowered)** on Hyperliquid-native evidence (0/7 criteria; spot alpha negative; hedge-masked headline). **Do not re-litigate C11.3 or re-run cross-venue canonical campaigns/censuses/C6-T3/C7/C10 without a NEW artifact stem and a documented reason.**
 
-**PRIMARY MISSION — C12: execute a pre-registered, real-engine Hyperliquid-native discovery/robustness battery targeting the only evidence-backed native signals, and write a native C12 verdict.** This is heavy compute on real data; a session that only edits handoff/status or reruns gates without producing C12 artifacts has failed. **The tooling bottleneck is already removed — the runner accepts the grid knobs below; a future session has no excuse to avoid running them.**
+**PRIMARY MISSION — C12: execute a pre-registered, real-engine Hyperliquid-native discovery/robustness battery targeting the only evidence-backed native signals, and write a native C12 verdict.** The prior session (17:01–17:37Z) removed the C12 tooling bottleneck (grid knobs in `scripts/run_real_campaign.py`) but did **not** run C12 compute or produce a C12 verdict, so C12 remains the **binding** next work. This is heavy compute on real data; a session that only edits handoff/status or reruns gates without producing C12 artifacts has failed. **The tooling bottleneck is already removed — the runner accepts the grid knobs below; a future session has no excuse to avoid running them.**
 
 ### 0) Mandatory gate + readiness (every session, record stems/verdicts)
 ```bash
