@@ -1,12 +1,12 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T12:26:36Z
+**Handoff updated (UTC):** 2026-11-15T12:29:07Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from the repo name):** produce a **decision-grade crash-rebound verdict** — either validate the strategy's edge on **Hyperliquid-native** data with enough independent crash episodes, or conclusively show it does not survive honest dependence-aware inference.
 
-**Baseline (this session, 2026-11-15T12:26Z):** branch `main`; **C1–C10 COMPLETE.** All gates green: `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS**. Consolidated verdict is **`NO_GO`** (0/7 stop/go criteria; edge not established/fragile; Hyperliquid-native evidence absent). **This is the single durable handoff. Do not rewrite it for its own sake — execute C11 below.**
+**Baseline (this session, 2026-11-15T12:29Z):** branch `main`; **C1–C10 COMPLETE.** All gates green: `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS**. Consolidated verdict is **`NO_GO`** (0/7 stop/go criteria; edge not established/fragile; Hyperliquid-native evidence absent). **This is the single durable handoff. Do not rewrite it for its own sake — execute C11 below.**
 
 ---
 
@@ -22,7 +22,7 @@ Run and record stems/verdicts (these are binding; a session that does not run th
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/validate_hyperliquid_archive_intake.py
 ```
-Current baseline: probe 2026-11-15T06:44Z → 3,869/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2`; intake 2026-11-15T06:44Z → `REJECT_NOT_EVIDENCE` (placeholder parquet is NOT evidence). Re-run and record the new stem; if it still reports blocked/REJECT, go to C11.2.
+Current baseline: probe **2026-11-15T12:29:04Z** → 3,863/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`; intake **2026-11-15T12:29:07Z** → `REJECT_NOT_EVIDENCE` (placeholder parquet is NOT evidence; BTC/ETH flat series all bars identical). Re-run and record the new stem; if it still reports blocked/REJECT, go to C11.2.
 
 ### C11.1 — Acquisition attempt (heavy, real; only if a real archive is plausibly obtainable)
 Attempt a genuine Hyperliquid-native archive acquisition with the existing tooling, then validate intake:
@@ -74,12 +74,13 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (C10 completion — 2026-11-15T10:14Z–12:26Z)
+## What changed this session (C11 gate-run — 2026-11-15T12:29Z)
 
-- **Bottleneck removed (C10.2 was the blocker for two prior sessions):** the Binance UM full-portfolio placebo was finally executed to completion — 200 draws, seed 20261114, 4-way fork-parallel (`--jobs 4`), 7,474 s wall. Artifacts written: `research_state/placebo_portfolio_binance_um_multiyear.{json,md}` (`generated_at_utc` 2026-11-15T12:26:21Z). Verdict **`underpowered`**: canonical +21,994.06 (42 trades), placebo mean 18,950.05 / median 19,201.18, p05 −2,969.56, p95 40,497.29, **p(placebo≥canonical)=0.4150**, canonical percentile 0.5850, P(placebo>0)=0.9350, `is_hyperliquid_venue_data=false`. Symmetric with OKX (p=0.4000): canonical is not separable from the gate-passing pool.
-- **C10.4 finalized (new stem):** `research_state/decision_verdict_consolidated_20261115T122636Z.md` integrates C10.1/C10.2/C10.3 and re-maps all 7 criteria (0/7 pass). Overall verdict **`NO_GO`** unchanged. Prior stems `20261115T063642Z.md` and `20261115T064738Z.md` cited, not overwritten.
-- **Handoff re-timestamped** to 2026-11-15T12:26:36Z with C10 closed and CAMPAIGN C11 defined as the next focus (Hyperliquid-native decision campaign). All gate tokens intact.
-- **C11 is now the mandated next campaign** (see INITIAL TASK MESSAGE): native acquisition → native end-to-end battery if accepted → pre-registered native power/decision protocol if still blocked.
+- **Mandatory gates executed and green:** `session_gate.py` 21/21, `verify_campaign_evidence.py` 4/4, `verify_next_focus_campaign.py` PASS.
+- **Hyperliquid readiness re-probed (C11.0):** new retention probe stem `hyperliquid_retention_probe.json` @ **2026-11-15T12:29:04Z** (3,863/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` — KPEPE error); new intake validation stem `archive_intake_validation_20261115T122907Z.{json,md}` → **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series all bars identical).
+- **No cross-venue re-runs** — C10 remains complete and exhausted; the `NO_GO` verdict (0/7) stands per `decision_verdict_consolidated_20261115T122636Z.md`.
+- **Handoff re-timestamped** to 2026-11-15T12:29:07Z with C11.0 executed and CAMPAIGN C11 defined as the next focus (Hyperliquid-native decision campaign). All gate tokens intact.
+- **C11 is the mandated next campaign** (see INITIAL TASK MESSAGE): native acquisition (C11.1) → native end-to-end battery (C11.3) if accepted, else pre-registered native power/decision protocol (C11.2).
 
 ### Prior bottleneck removals still in force
 - Cross-venue multi-year OKX/Binance archives/caches/campaigns/censuses/C6-T3/C7 on disk; OKX + Binance placebo done.
@@ -92,7 +93,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## Verified state (as of 2026-11-15T12:26Z)
+## Verified state (as of 2026-11-15T12:29Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -110,7 +111,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 | **C10.2 Binance placebo** | **`underpowered`** (200 draws, p(placebo≥canon)=0.4150, P(>0)=0.9350, canon +21,994.06) | `placebo_portfolio_binance_um_multiyear.{json,md}` (12:26:21Z) |
 | **C10.3 pooled meta** | **`underpowered`** (38 eps, +40,214.92, CI [−69,065.03,+168,946.87], P(>0)=0.74095, perm p=0.26955) | `pooled_episode_meta_okx_binance_20261115T064738Z.{json,md}` |
 | **Consolidated verdict (C10 final)** | **`NO_GO`** (0/7) | `decision_verdict_consolidated_20261115T122636Z.md` (cites `20261115T063642Z.md`, `20261115T064738Z.md`) |
-| Hyperliquid readiness | 3,869/6,792 bars; `FULL_283D_BLOCKED_BY_API_RETENTION`; intake `REJECT_NOT_EVIDENCE` | `hyperliquid_retention_probe.json`, `archive_intake_validation_20261115T064406Z.{json,md}` |
+| Hyperliquid readiness | 3,863/6,792 bars; `FULL_283D_BLOCKED_BY_API_RETENTION`; intake `REJECT_NOT_EVIDENCE` | `hyperliquid_retention_probe.json` (12:29:04Z), `archive_intake_validation_20261115T122907Z.{json,md}` (12:29:07Z) |
 
 ---
 
