@@ -1,0 +1,311 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T15:16:28Z",
+  "phase": "C11-NATIVE",
+  "provenance_caveat": "Real Hyperliquid (Ironflow node-derived, native) exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; NOT Hyperliquid performance evidence.",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "venue_label": "Hyperliquid (Ironflow node-derived, native)",
+  "method": "Per-leg attribution, exit-reason decomposition, sub-period stability, episode concentration, leave-one-out fragility, and achievable-power bound on the existing multi-year Hyperliquid (Ironflow node-derived, native) campaign; optional real-engine re-runs under modified config.",
+  "inputs": {
+    "campaign_sha256": "f90d18eed27263b1edf918346865b6fb1f4be849e5a8ba39750d1971c7470665",
+    "census_sha256": "72d1afe04074eae4d222173022090036e0b2bdc6141509417f0f3e7d10a58ed7",
+    "episode_edge_sha256": "13648a4d487bfe15a9e87e5638fefc69ecbb899a14bae5f16e8fa788b73c0dc6",
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928"
+  },
+  "A": {
+    "total_pnl": 4292.5031215663475,
+    "num_trades": 6,
+    "A1_per_leg": {
+      "buy": {
+        "n": 6,
+        "sum": 4292.5031215663475,
+        "mean": 715.4171869277246,
+        "median": 246.88449906777475,
+        "stdev": 1543.4447931355019,
+        "min": -1091.7439479726497,
+        "max": 3568.0888113760047,
+        "p05": -914.1127088307762,
+        "p95": 3101.9686713901533
+      }
+    },
+    "A1_components": {
+      "coin_pnl": -3968.8043560765964,
+      "hedge_pnl": 8261.307477642944,
+      "rebound_short_pnl": 0.0,
+      "rebound_hedge_pnl": 0.0
+    },
+    "A2_exit_reason": {
+      "liquidated": {
+        "n": 2,
+        "sum": 2476.344863403355,
+        "mean": 1238.1724317016774,
+        "median": 1238.1724317016774,
+        "stdev": 2329.9163796743273,
+        "min": -1091.7439479726497,
+        "max": 3568.0888113760047,
+        "p05": -858.7523100052169,
+        "p95": 3335.0971734085715
+      },
+      "time_exit": {
+        "n": 4,
+        "sum": 1816.1582581629925,
+        "mean": 454.03956454074813,
+        "median": 246.88449906777475,
+        "stdev": 808.7785800787938,
+        "min": -381.218991405156,
+        "max": 1703.608251432599,
+        "p05": -342.27861697242025,
+        "p95": 1540.374837716079
+      }
+    },
+    "A3_sub_period": {
+      "year": {
+        "2026": {
+          "n": 6,
+          "sum": 4292.5031215663475,
+          "mean": 715.4171869277246,
+          "median": 246.88449906777475,
+          "stdev": 1543.4447931355019,
+          "min": -1091.7439479726497,
+          "max": 3568.0888113760047,
+          "p05": -914.1127088307762,
+          "p95": 3101.9686713901533
+        }
+      },
+      "half": {
+        "2026-H1": {
+          "n": 6,
+          "sum": 4292.5031215663475,
+          "mean": 715.4171869277246,
+          "median": 246.88449906777475,
+          "stdev": 1543.4447931355019,
+          "min": -1091.7439479726497,
+          "max": 3568.0888113760047,
+          "p05": -914.1127088307762,
+          "p95": 3101.9686713901533
+        }
+      },
+      "quarter": {
+        "2026-Q1": {
+          "n": 6,
+          "sum": 4292.5031215663475,
+          "mean": 715.4171869277246,
+          "median": 246.88449906777475,
+          "stdev": 1543.4447931355019,
+          "min": -1091.7439479726497,
+          "max": 3568.0888113760047,
+          "p05": -914.1127088307762,
+          "p95": 3101.9686713901533
+        }
+      }
+    },
+    "A3_rolling_12m": [
+      {
+        "window_start": "2026-01-19",
+        "trailing_12m_pnl": 4292.5
+      }
+    ],
+    "A4_concentration": {
+      "n_episodes_with_trades": 3,
+      "episode_totals_desc": [
+        3446.47,
+        1227.25,
+        -381.22
+      ],
+      "gross_positive_episode_pnl": 4673.72,
+      "gross_negative_episode_pnl": -381.22,
+      "n_positive_episodes": 2,
+      "n_negative_episodes": 1,
+      "top1_share_of_total": 0.8029050226832354,
+      "top3_sum": 4292.5,
+      "top3_share_of_total": 1.0,
+      "hhi_abs_episode_contrib": 0.5295
+    },
+    "A5_leave_one_out": {
+      "by_year": {
+        "2026": {
+          "dropped_pnl": 4292.5,
+          "remaining_total_pnl": 0,
+          "sign_flipped_from_positive": true
+        }
+      },
+      "by_episode": {
+        "0": {
+          "episode_pnl": 3446.47,
+          "remaining_total_pnl": 846.03,
+          "sign_flipped_from_positive": false
+        },
+        "1": {
+          "episode_pnl": -381.22,
+          "remaining_total_pnl": 4673.72,
+          "sign_flipped_from_positive": false
+        },
+        "2": {
+          "episode_pnl": 1227.25,
+          "remaining_total_pnl": 3065.25,
+          "sign_flipped_from_positive": false
+        }
+      }
+    },
+    "A6_achievable_power": {
+      "n_episodes": 3,
+      "mean_episode_pnl": 1430.83,
+      "sd_episode_pnl": 1569.27,
+      "se_mean": 906.02,
+      "t_stat_vs_zero": 1.579,
+      "t_crit_5pct_two_sided": 1.96,
+      "episodes_needed_for_ci_excludes_zero": 4.6,
+      "power_at": {
+        "19": 0.978,
+        "30": 0.9988,
+        "50": 1.0,
+        "100": 1.0,
+        "200": 1.0,
+        "324": 1.0
+      },
+      "note": "At the observed per-episode mean/SD, ~n episodes are required for the 95% CI of total PnL to exclude zero. The multi-year OKX universe yields ~19 episodes over 3.38y; realistic crash-day counts (~30-50) are far below this, so the cross-venue edge is inherently underpowered on achievable data."
+    }
+  },
+  "B": {
+    "runs": {
+      "baseline": {
+        "total_pnl": 4292.5031215663475,
+        "num_trades": 6,
+        "win_rate": 0.5,
+        "buy_leg_pnl": 4292.5,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "slippage_2x": {
+        "total_pnl": 3425.0484215409897,
+        "num_trades": 6,
+        "win_rate": 0.5,
+        "buy_leg_pnl": 3425.05,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "slippage_5x": {
+        "total_pnl": -891.3529157576045,
+        "num_trades": 6,
+        "win_rate": 0.3333333333333333,
+        "buy_leg_pnl": -891.35,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "funding_2x": {
+        "total_pnl": 4423.810510672468,
+        "num_trades": 6,
+        "win_rate": 0.5,
+        "buy_leg_pnl": 4423.81,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "entry_spec_literal_next_open": {
+        "total_pnl": -22340.733191115603,
+        "num_trades": 9,
+        "win_rate": 0.3333333333333333,
+        "buy_leg_pnl": -28886.68,
+        "short_leg_pnl": 6545.95,
+        "n_buy": 8,
+        "n_short": 1,
+        "wall_seconds": 0.4
+      },
+      "rsi_threshold_15": {
+        "total_pnl": -3266.480358810838,
+        "num_trades": 1,
+        "win_rate": 0.0,
+        "buy_leg_pnl": -3266.48,
+        "short_leg_pnl": 0,
+        "n_buy": 1,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "rsi_threshold_25": {
+        "total_pnl": 23244.224034983046,
+        "num_trades": 17,
+        "win_rate": 0.4117647058823529,
+        "buy_leg_pnl": -7084.54,
+        "short_leg_pnl": 30328.77,
+        "n_buy": 14,
+        "n_short": 3,
+        "wall_seconds": 0.4
+      },
+      "target_pct_5": {
+        "total_pnl": 7596.3990261973095,
+        "num_trades": 6,
+        "win_rate": 0.6666666666666666,
+        "buy_leg_pnl": 4673.72,
+        "short_leg_pnl": 2922.68,
+        "n_buy": 5,
+        "n_short": 1,
+        "wall_seconds": 0.4
+      },
+      "target_pct_12": {
+        "total_pnl": 4292.5031215663475,
+        "num_trades": 6,
+        "win_rate": 0.5,
+        "buy_leg_pnl": 4292.5,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "time_exit_24": {
+        "total_pnl": 3083.40909840097,
+        "num_trades": 6,
+        "win_rate": 0.6666666666666666,
+        "buy_leg_pnl": 3083.41,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      },
+      "time_exit_72": {
+        "total_pnl": 1260.1827631016483,
+        "num_trades": 6,
+        "win_rate": 0.5,
+        "buy_leg_pnl": 1260.18,
+        "short_leg_pnl": 0,
+        "n_buy": 6,
+        "n_short": 0,
+        "wall_seconds": 0.4
+      }
+    },
+    "missing_symbols": [],
+    "seed_note": "deterministic; no randomness in Phase A; Phase B is deterministic given config",
+    "variants_requested": [
+      "baseline",
+      "slippage_2x",
+      "slippage_5x",
+      "funding_2x",
+      "entry_spec_literal_next_open",
+      "rsi_threshold_15",
+      "rsi_threshold_25",
+      "target_pct_5",
+      "target_pct_12",
+      "time_exit_24",
+      "time_exit_72"
+    ]
+  },
+  "verdict": "FRAGILE_NOT_DECISION_GRADE",
+  "interpretation": "The multi-year cross-venue headline of 4292.50 is NOT a decision-grade edge: the episode-mean t-stat (1.579) cannot reject zero; ~4.6 independent episodes would be required for a 95% CI excluding zero, far beyond achievable crash-day counts. The honest cross-venue verdict remains that the strategy's temporal edge is not established; this battery shows it is fragile and not robust to leg decomposition, sub-period, cost, or power limits. CROSS-VENUE Hyperliquid (Ironflow node-derived, native) data only \u2014 NOT Hyperliquid performance evidence.",
+  "phases_run": [
+    "A",
+    "B"
+  ],
+  "wall_seconds": 4.1,
+  "limitations": [
+    "CROSS-VENUE Hyperliquid (Ironflow node-derived, native) multi-year cache; NOT Hyperliquid performance evidence.",
+    "Phase A leave-one-out is analytical (total minus subset); it ignores second-order portfolio interactions (cap/occupancy), which Phase B memo-free re-runs would capture.",
+    "Phase B re-runs use the real portfolio engine with modified config; each is deterministic."
+  ]
+}

@@ -100,6 +100,29 @@ def _ms_to_dt(ms: int) -> dt.datetime:
     return dt.datetime.fromtimestamp(int(ms) / 1000.0, dt.timezone.utc)
 
 
+def _entry_ms(ts: Any) -> int:
+    """Normalize a trade entry_timestamp to epoch milliseconds.
+
+    Accepts either an integer/numeric millisecond timestamp (canonical OKX
+    campaign) or an ISO-8601 string (native Hyperliquid campaign). Returns the
+    epoch ms; raises ValueError if unparseable.
+    """
+    if ts is None:
+        raise ValueError("entry_timestamp is None")
+    if isinstance(ts, (int, float)):
+        return int(ts)
+    s = str(ts).strip()
+    if s.endswith("Z"):
+        s = s[:-1] + "+00:00"
+    try:
+        dt_obj = dt.datetime.fromisoformat(s)
+    except Exception:
+        return int(float(s))
+    if dt_obj.tzinfo is None:
+        dt_obj = dt_obj.replace(tzinfo=dt.timezone.utc)
+    return int(dt_obj.timestamp() * 1000.0)
+
+
 def _q(vals: Sequence[float], p: float) -> float:
     if not vals:
         return float("nan")
@@ -190,7 +213,7 @@ def phase_a(trades: List[Dict[str, Any]], episodes: Sequence[Dict[str, Any]]) ->
         ts = t.get("entry_timestamp")
         if ts is None:
             return "unknown"
-        d = _ms_to_dt(int(ts))
+        d = _ms_to_dt(_entry_ms(ts))
         if mode == "year":
             return str(d.year)
         if mode == "half":
@@ -207,8 +230,8 @@ def phase_a(trades: List[Dict[str, Any]], episodes: Sequence[Dict[str, Any]]) ->
         sub[mode] = {k: _summ(v) for k, v in sorted(groups.items())}
     out["A3_sub_period"] = sub
     # rolling 12-month PnL (sum trades with entry in each trailing 365d window)
-    entries = sorted((int(t["entry_timestamp"]), float(t.get("total_pnl", 0.0) or 0.0))
-                     for t in trades if t.get("entry_timestamp") is not None)
+    entries = sorted((_entry_ms(t["entry_timestamp"]), float(t.get("total_pnl", 0.0) or 0.0))
+                      for t in trades if t.get("entry_timestamp") is not None)
     if entries:
         first_ms, last_ms = entries[0][0], entries[-1][0]
         step = 30 * 24 * 3600 * 1000
@@ -225,7 +248,7 @@ def phase_a(trades: List[Dict[str, Any]], episodes: Sequence[Dict[str, Any]]) ->
     # A4 concentration across episodes
     ep_pnl: Dict[int, List[float]] = {}
     for t in trades:
-        eid = assign_trade_to_episode(int(t["entry_timestamp"]), episodes) if t.get("entry_timestamp") else -1
+        eid = assign_trade_to_episode(_entry_ms(t["entry_timestamp"]), episodes) if t.get("entry_timestamp") else -1
         ep_pnl.setdefault(eid, []).append(float(t.get("total_pnl", 0.0) or 0.0))
     ep_totals = {eid: sum(v) for eid, v in ep_pnl.items()}
     sorted_totals = sorted(ep_totals.values(), reverse=True)
@@ -262,7 +285,7 @@ def phase_a(trades: List[Dict[str, Any]], episodes: Sequence[Dict[str, Any]]) ->
     loo_ep = {}
     for eid in sorted(ep_totals):
         kept = [float(t.get("total_pnl", 0.0) or 0.0) for t in trades
-                if not (t.get("entry_timestamp") and assign_trade_to_episode(int(t["entry_timestamp"]), episodes) == eid)]
+                if not (t.get("entry_timestamp") and assign_trade_to_episode(_entry_ms(t["entry_timestamp"]), episodes) == eid)]
         loo_ep[str(eid)] = {"episode_pnl": round(ep_totals[eid], 2),
                             "remaining_total_pnl": round(sum(kept), 2),
                             "sign_flipped_from_positive": (sum(kept) <= 0 < total_pnl)}

@@ -1,0 +1,553 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T15:03:26Z",
+  "phase": "C6-T3",
+  "provenance_caveat": "Real Hyperliquid (Ironflow node-derived, native) data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).",
+  "is_hyperliquid_evidence": true,
+  "cross_venue": false,
+  "venue_label": "Hyperliquid (Ironflow node-derived, native)",
+  "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year Hyperliquid (Ironflow node-derived, native) cache.",
+  "seed": 20261115,
+  "inputs": {
+    "census_events": 43,
+    "signal_gate_events": 7,
+    "memo_signals": 7,
+    "memo_matches_signal_gate": true,
+    "canonical_total_pnl": 4292.5031215663475,
+    "canonical_num_trades": 6,
+    "campaign_sha256": "f90d18eed27263b1edf918346865b6fb1f4be849e5a8ba39750d1971c7470665",
+    "census_sha256": "72d1afe04074eae4d222173022090036e0b2bdc6141509417f0f3e7d10a58ed7",
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928"
+  },
+  "episode_audit": {
+    "link_hours": 98.0,
+    "n_events": 7,
+    "n_episodes": 3,
+    "n_symbols": 3,
+    "n_distinct_crash_days": 4,
+    "distinct_crash_days": [
+      "2026-01-19",
+      "2026-01-20",
+      "2026-01-25",
+      "2026-01-31"
+    ],
+    "largest_episode_events": 3,
+    "largest_episode_share": 0.42857142857142855,
+    "mean_episode_size": 2.3333333333333335,
+    "episodes": [
+      {
+        "start": "2026-01-19T03:00:00Z",
+        "end": "2026-01-20T19:00:00Z",
+        "keys": [
+          [
+            "SOL",
+            723
+          ],
+          [
+            "SOL",
+            727
+          ],
+          [
+            "ETH",
+            763
+          ]
+        ],
+        "episode_id": 0,
+        "size": 3,
+        "events": 3,
+        "symbols": [
+          "ETH",
+          "SOL"
+        ],
+        "distinct_days": 2
+      },
+      {
+        "start": "2026-01-25T20:00:00Z",
+        "end": "2026-01-25T20:00:00Z",
+        "keys": [
+          [
+            "SOL",
+            884
+          ]
+        ],
+        "episode_id": 1,
+        "size": 1,
+        "events": 1,
+        "symbols": [
+          "SOL"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-01-31T20:00:00Z",
+        "end": "2026-01-31T20:00:00Z",
+        "keys": [
+          [
+            "BTC",
+            1028
+          ],
+          [
+            "ETH",
+            1028
+          ],
+          [
+            "SOL",
+            1028
+          ]
+        ],
+        "episode_id": 2,
+        "size": 3,
+        "events": 3,
+        "symbols": [
+          "BTC",
+          "ETH",
+          "SOL"
+        ],
+        "distinct_days": 1
+      }
+    ],
+    "effective_independent_sample": {
+      "trades": 6,
+      "symbols": 3,
+      "episodes": 3,
+      "distinct_crash_days": 4
+    }
+  },
+  "episode_block_bootstrap": {
+    "resamples": 20000,
+    "seed": 20261115,
+    "episode_blocks": 3,
+    "episode_trade_counts": {
+      "0": 6,
+      "1": 0,
+      "2": 0
+    },
+    "observed_total_pnl": 4292.5031215663475,
+    "observed_episode_totals": {
+      "0": 4292.5031215663475,
+      "1": 0,
+      "2": 0
+    },
+    "bootstrap_total_pnl": {
+      "mean": 4261.382473934992,
+      "median": 4292.5031215663475,
+      "p05": 0.0,
+      "p95": 8585.006243132695,
+      "ci_low_pnl_2p5": 0.0,
+      "ci_high_pnl_97p5": 12877.509364699043,
+      "prob_total_pnl_gt_0": 0.69915
+    },
+    "n_needed_for_ci_excludes_zero": {
+      "grid": [
+        {
+          "n_episodes": 2,
+          "ci_low": 0.0,
+          "ci_high": 8585.006243132695,
+          "excludes_zero": false,
+          "mean": 2893.147103935718,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 3,
+          "ci_low": 0.0,
+          "ci_high": 12877.509364699043,
+          "excludes_zero": false,
+          "mean": 4347.2325363663185,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 4,
+          "ci_low": 0.0,
+          "ci_high": 12877.509364699043,
+          "excludes_zero": false,
+          "mean": 5585.619686938209,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 5,
+          "ci_low": 0.0,
+          "ci_high": 17170.01248626539,
+          "excludes_zero": false,
+          "mean": 7071.898892780558,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 6,
+          "ci_low": 0.0,
+          "ci_high": 17170.01248626539,
+          "excludes_zero": false,
+          "mean": 8567.83623064643,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 7,
+          "ci_low": 0.0,
+          "ci_high": 21462.515607831738,
+          "excludes_zero": false,
+          "mean": 9983.289134982932,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 8,
+          "ci_low": 0.0,
+          "ci_high": 21462.515607831738,
+          "excludes_zero": false,
+          "mean": 11403.034542441002,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 9,
+          "ci_low": 0.0,
+          "ci_high": 25755.018729398085,
+          "excludes_zero": false,
+          "mean": 12835.65745926377,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 10,
+          "ci_low": 4292.5031215663475,
+          "ci_high": 25755.018729398085,
+          "excludes_zero": true,
+          "mean": 14358.422941639432,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 11,
+          "ci_low": 4292.5031215663475,
+          "ci_high": 30047.521850964433,
+          "excludes_zero": true,
+          "mean": 15758.852085050452,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 12,
+          "ci_low": 4292.5031215663475,
+          "ci_high": 30047.521850964433,
+          "excludes_zero": true,
+          "mean": 17112.063694124245,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 13,
+          "ci_low": 4292.5031215663475,
+          "ci_high": 34340.02497253078,
+          "excludes_zero": true,
+          "mean": 18611.22040933129,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 14,
+          "ci_low": 4292.5031215663475,
+          "ci_high": 34340.02497253078,
+          "excludes_zero": true,
+          "mean": 20039.550823032496,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 15,
+          "ci_low": 8585.006243132695,
+          "ci_high": 38632.52809409713,
+          "excludes_zero": true,
+          "mean": 21581.632569455203,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 16,
+          "ci_low": 8585.006243132695,
+          "ci_high": 38632.52809409713,
+          "excludes_zero": true,
+          "mean": 22861.87162546237,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 17,
+          "ci_low": 8585.006243132695,
+          "ci_high": 42925.031215663475,
+          "excludes_zero": true,
+          "mean": 24231.180121242032,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 18,
+          "ci_low": 8585.006243132695,
+          "ci_high": 42925.031215663475,
+          "excludes_zero": true,
+          "mean": 25659.510534943234,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 19,
+          "ci_low": 12877.509364699043,
+          "ci_high": 43032.343793703025,
+          "excludes_zero": true,
+          "mean": 27586.844436526524,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 20,
+          "ci_low": 12877.509364699043,
+          "ci_high": 47217.53433722982,
+          "excludes_zero": true,
+          "mean": 28577.33953182796,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 21,
+          "ci_low": 12877.509364699043,
+          "ci_high": 47217.53433722982,
+          "excludes_zero": true,
+          "mean": 30181.662573513382,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 22,
+          "ci_low": 12877.509364699043,
+          "ci_high": 51510.03745879617,
+          "excludes_zero": true,
+          "mean": 31302.005888242194,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 23,
+          "ci_low": 12877.509364699043,
+          "ci_high": 51510.03745879617,
+          "excludes_zero": true,
+          "mean": 32847.30701200608,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 24,
+          "ci_low": 17170.01248626539,
+          "ci_high": 55802.54058036252,
+          "excludes_zero": true,
+          "mean": 34433.386915424846,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 25,
+          "ci_low": 17170.01248626539,
+          "ci_high": 55802.54058036252,
+          "excludes_zero": true,
+          "mean": 35801.62228542412,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 26,
+          "ci_low": 17170.01248626539,
+          "ci_high": 60095.043701928866,
+          "excludes_zero": true,
+          "mean": 36843.627418184355,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 27,
+          "ci_low": 17170.01248626539,
+          "ci_high": 60095.043701928866,
+          "excludes_zero": true,
+          "mean": 38665.794993289266,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 28,
+          "ci_low": 21462.515607831738,
+          "ci_high": 64387.54682349521,
+          "excludes_zero": true,
+          "mean": 40452.54941764126,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 29,
+          "ci_low": 21462.515607831738,
+          "ci_high": 64387.54682349521,
+          "excludes_zero": true,
+          "mean": 41560.01522300538,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 30,
+          "ci_low": 21462.515607831738,
+          "ci_high": 64387.54682349521,
+          "excludes_zero": true,
+          "mean": 42998.0037687301,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 31,
+          "ci_low": 21462.515607831738,
+          "ci_high": 68680.04994506156,
+          "excludes_zero": true,
+          "mean": 44254.634057568655,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 32,
+          "ci_low": 25755.018729398085,
+          "ci_high": 68680.04994506156,
+          "excludes_zero": true,
+          "mean": 45853.59147035211,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 33,
+          "ci_low": 25755.018729398085,
+          "ci_high": 68680.04994506156,
+          "excludes_zero": true,
+          "mean": 47067.296727975,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 34,
+          "ci_low": 25755.018729398085,
+          "ci_high": 72972.55306662791,
+          "excludes_zero": true,
+          "mean": 48752.10420318979,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 35,
+          "ci_low": 25755.018729398085,
+          "ci_high": 72972.55306662791,
+          "excludes_zero": true,
+          "mean": 50016.246372491085,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 36,
+          "ci_low": 30047.521850964433,
+          "ci_high": 77265.05618819426,
+          "excludes_zero": true,
+          "mean": 51785.83078435681,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 37,
+          "ci_low": 30047.521850964433,
+          "ci_high": 77265.05618819426,
+          "excludes_zero": true,
+          "mean": 53044.607324756136,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 38,
+          "ci_low": 30047.521850964433,
+          "ci_high": 77372.3687662338,
+          "excludes_zero": true,
+          "mean": 54465.4258579946,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 39,
+          "ci_low": 34340.02497253078,
+          "ci_high": 81557.5593097606,
+          "excludes_zero": true,
+          "mean": 56172.76897459762,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 40,
+          "ci_low": 34340.02497253078,
+          "ci_high": 81557.5593097606,
+          "excludes_zero": true,
+          "mean": 57132.1434222677,
+          "within_observed": false
+        }
+      ],
+      "observed_episodes": 3,
+      "first_size_excluding_zero": 10,
+      "extrapolation_basis": "observed episode-total PnL resampled with replacement"
+    }
+  },
+  "temporal_edge_permutation": {
+    "method": "conditional permutation: event bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; real portfolio engine",
+    "mode": "deterministic_seeded_draws:200_seed:20261115",
+    "eligible_crash_bars": 43,
+    "observed_event_slots": 7,
+    "observed_per_symbol": {
+      "BTC": 1,
+      "ETH": 2,
+      "SOL": 4
+    },
+    "distinct_possible_draws": 1201200,
+    "draws_evaluated": 200,
+    "seed": 20261115,
+    "canonical_total_pnl": 4292.5031215663475,
+    "null_total_pnl": {
+      "mean": 1882.1917735513014,
+      "median": 1838.7210055228522,
+      "stdev": 1984.0895150948913,
+      "min": -1473.5345285329863,
+      "max": 5427.846735476358,
+      "p05": -1092.3155371278303,
+      "p95": 5272.5930347656085,
+      "ci_low_pnl_2p5": -1473.5345285329863,
+      "ci_high_pnl_97p5": 5427.846735476358,
+      "prob_total_pnl_gt_0": 0.675
+    },
+    "canonical_percentile_le": 0.92,
+    "p_null_ge_canonical": 0.08,
+    "n_null_ge_canonical": 16,
+    "wall_seconds": 34.45204830169678,
+    "limitation": "Exact enumeration infeasible (astronomical distinct draws); used deterministic seeded subset and reported seed/count."
+  },
+  "canonical_replay": {
+    "trades": [
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-01-19T04:00:00+00:00",
+        "exit_timestamp": "2026-01-20T22:00:00+00:00",
+        "total_pnl": 3568.0888113760047,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-01-20T20:00:00+00:00",
+        "exit_timestamp": "2026-01-22T21:00:00+00:00",
+        "total_pnl": -121.61649518691775,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-01-25T21:00:00+00:00",
+        "exit_timestamp": "2026-01-27T22:00:00+00:00",
+        "total_pnl": -381.218991405156,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-01T23:00:00+00:00",
+        "total_pnl": -1091.7439479726497,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-02T22:00:00+00:00",
+        "total_pnl": 1703.608251432599,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BTC",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-02T22:00:00+00:00",
+        "total_pnl": 615.3854933224673,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      }
+    ],
+    "num_trades": 6
+  },
+  "verdict": "underpowered",
+  "wall_seconds": 36.007715940475464,
+  "limitations": [
+    "CROSS-VENUE Hyperliquid (Ironflow node-derived, native) multi-year cache; NOT Hyperliquid performance evidence.",
+    "Permutation preserves observed per-symbol multiplicity and conditions on real RSI<20 crash bars; it tests timing, not detector existence.",
+    "Episode clustering uses 98h holding horizon; different link changes counts but not dependence fact.",
+    "Power extrapolation is based on observed episode distribution only."
+  ]
+}
