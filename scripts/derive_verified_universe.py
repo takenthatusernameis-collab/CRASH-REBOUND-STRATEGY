@@ -18,7 +18,7 @@ import json
 import sys
 from datetime import datetime, timezone, timedelta
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Set
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(REPO_ROOT) not in sys.path:
@@ -122,6 +122,11 @@ def main():
     ap.add_argument("--output", default=str(REPO_ROOT / "research_state" / "universe_verified.json"))
     ap.add_argument("--require-complete-manifest", action="store_true", help="Fail unless manifest is fully complete/verified for real run")
     ap.add_argument("--min-symbols", type=int, default=1)
+    ap.add_argument("--universe-file", default=None,
+                    help="Optional JSON of candidate symbols to scope completeness "
+                         "gating to. Out-of-scope symbols are never required to be "
+                         "complete (a wide archive legitimately contains short-lived "
+                         "perps); only in-scope symbols gate the verdict.")
     ap.add_argument("--verify-cache-sha256", action="store_true",
                     help="Verify each cache file's sha256 against manifest before use; refuses tampered/corrupted caches. Backward compatible no-op when manifest sha256 absent.")
     args = ap.parse_args()
@@ -141,6 +146,10 @@ def main():
     spec_compliant_volume_threshold = effective_min >= SPEC_MIN_DAILY_VOLUME_USD
 
     manifest = load_provenance(args.manifest)
+    scope = None
+    if args.universe_file and Path(args.universe_file).exists():
+        u = json.loads(Path(args.universe_file).read_text())
+        scope = u.get("symbols") if isinstance(u, dict) else u
     if args.require_complete_manifest:
         from src.data.provenance import validate_provenance
         ok, errs = validate_provenance(
@@ -152,6 +161,7 @@ def main():
             # (peak rolling-24h >= floor). Do not fail here on peak-vs-floor; only
             # fail-closed on sub-spec intent, missing volume_coverage, or no evidence.
             admit_peak_membership=True,
+            symbols=scope,
         )
         if not ok:
             raise SystemExit("Manifest not complete/verified:\n- " + "\n- ".join(errs))
@@ -271,8 +281,16 @@ def main():
         if (tw_start and tw_end)
         else expected_hourly_bars(TARGET_START, TARGET_END)
     )
-    actual_complete: List[str] = []
+    # Scope is the campaign universe: either the caller-supplied candidate list
+    # or, failing that, every symbol in the manifest. Completeness is only
+    # required for in-scope symbols; a wide archive legitimately contains
+    # short-lived perps that are not part of this campaign's universe.
+    scope_set = {str(s).upper() for s in (scope or [])}
+    universe_syms = sorted(scope_set) if scope_set else sorted(symbols.keys())
+    complete_set: Set[str] = set()
     for sym, info in (symbols.items() if isinstance(symbols, dict) else []):
+        if scope_set and str(sym).upper() not in scope_set:
+            continue
         if not isinstance(info, dict):
             continue
         cov = info.get("coverage") or {}
@@ -294,8 +312,9 @@ def main():
             continue
         if rt and rt.get("is_synthetic"):
             continue
-        actual_complete.append(sym)
-    computed_all_complete = bool(symbols) and len(actual_complete) == len(symbols)
+        complete_set.add(str(sym).upper())
+    actual_complete = sorted(complete_set)
+    computed_all_complete = bool(universe_syms) and len(actual_complete) == len(universe_syms)
 
     summary_all_complete = bool(summary.get("all_complete"))
     summary_ready = bool(summary.get("ready_for_real_campaign"))

@@ -1,0 +1,1914 @@
+{
+  "schema_version": 1,
+  "run_type": "hyperliquid_archive_intake_validation",
+  "archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z",
+  "archive_sha256": null,
+  "archive_layout": "dir_parquet",
+  "requested_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "min_symbols_required": 24,
+  "min_volume_usd_required": 5000000.0,
+  "allow_synthetic_fixture": false,
+  "symbols": [
+    "0G",
+    "2Z",
+    "AAVE",
+    "ACE",
+    "ADA",
+    "AERO",
+    "AIXBT",
+    "ALGO",
+    "ALT",
+    "ANIME",
+    "APE",
+    "APEX",
+    "APT",
+    "AR",
+    "ARB",
+    "ARK",
+    "ASTER",
+    "ATOM",
+    "AVAX",
+    "AVNT",
+    "AXS",
+    "AZTEC",
+    "BABY",
+    "BANANA",
+    "BCH",
+    "BERA",
+    "BIGTIME",
+    "BIO",
+    "BLAST",
+    "BLUR",
+    "BNB",
+    "BOME",
+    "BRETT",
+    "BSV",
+    "BTC",
+    "CAKE",
+    "CASHCAT",
+    "CC",
+    "CELO",
+    "CFX",
+    "CHILLGUY",
+    "CHIP",
+    "COMP",
+    "CRV",
+    "DASH",
+    "DOGE",
+    "DOOD",
+    "DOT",
+    "DYDX",
+    "DYM",
+    "EIGEN",
+    "ENA",
+    "ENS",
+    "ETC",
+    "ETH",
+    "ETHFI",
+    "FARTCOIN",
+    "FET",
+    "FIL",
+    "FOGO",
+    "FTT",
+    "FXS",
+    "GALA",
+    "GAS",
+    "GMT",
+    "GMX",
+    "GOAT",
+    "GRAM",
+    "GRASS",
+    "GRIFFAIN",
+    "HBAR",
+    "HEMI",
+    "HMSTR",
+    "HYPE",
+    "HYPER",
+    "ICP",
+    "IMX",
+    "INIT",
+    "INJ",
+    "IO",
+    "IOTA",
+    "IP",
+    "JTO",
+    "JUP",
+    "KAITO",
+    "KAS",
+    "KBONK",
+    "KFLOKI",
+    "KLUNC",
+    "KNEIRO",
+    "KPEPE",
+    "KSHIB",
+    "LAYER",
+    "LDO",
+    "LINEA",
+    "LINK",
+    "LIT",
+    "LTC",
+    "MANTA",
+    "MAV",
+    "MAVIA",
+    "ME",
+    "MEGA",
+    "MELANIA",
+    "MEME",
+    "MERL",
+    "MET",
+    "MEW",
+    "MINA",
+    "MNT",
+    "MON",
+    "MOODENG",
+    "MORPHO",
+    "MOVE",
+    "NEAR",
+    "NEO",
+    "NIL",
+    "NOT",
+    "NXPC",
+    "OM",
+    "ONDO",
+    "OP",
+    "ORDI",
+    "PAXG",
+    "PENDLE",
+    "PENGU",
+    "PEOPLE",
+    "PNUT",
+    "POL",
+    "POLYX",
+    "PONS",
+    "POPCAT",
+    "PROMPT",
+    "PROVE",
+    "PUMP",
+    "PURR",
+    "PYTH",
+    "RENDER",
+    "RESOLV",
+    "REZ",
+    "RSR",
+    "RUNE",
+    "S",
+    "SAGA",
+    "SAND",
+    "SCR",
+    "SEI",
+    "SKR",
+    "SKY",
+    "SNX",
+    "SOL",
+    "SOPH",
+    "SPX",
+    "STABLE",
+    "STBL",
+    "STRK",
+    "STX",
+    "SUI",
+    "SUPER",
+    "SUSHI",
+    "SYRUP",
+    "TAO",
+    "TIA",
+    "TNSR",
+    "TON",
+    "TRB",
+    "TRUMP",
+    "TRX",
+    "TST",
+    "TURBO",
+    "UMA",
+    "UNI",
+    "USELESS",
+    "USTC",
+    "USUAL",
+    "VINE",
+    "VIRTUAL",
+    "VVV",
+    "W",
+    "WCT",
+    "WIF",
+    "WLD",
+    "WLFI",
+    "XAI",
+    "XLM",
+    "XMR",
+    "XPL",
+    "XRP",
+    "YGG",
+    "YZY",
+    "ZEC",
+    "ZEN",
+    "ZEREBRO",
+    "ZETA",
+    "ZK",
+    "ZORA",
+    "ZRO"
+  ],
+  "symbol_count": 197,
+  "checks": [
+    {
+      "check": "archive_present",
+      "status": "pass",
+      "detail": "197 symbol(s) loaded, layout=dir_parquet",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "placeholder_not_evidence",
+      "status": "pass",
+      "detail": "not the committed placeholder parquet",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "source_provenance",
+      "status": "pass",
+      "detail": "provenance documents=2; declares_hyperliquid=True; declares_fixture_or_synthetic=True",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "symbol_universe",
+      "status": "pass",
+      "detail": "197 symbol(s) >= min_symbols 24: ['0G', '2Z', 'AAVE', 'ACE', 'ADA', 'AERO', 'AIXBT', 'ALGO', 'ALT', 'ANIME', 'APE', 'APEX', 'APT', 'AR', 'ARB', 'ARK', 'ASTER', 'ATOM', 'AVAX', 'AVNT', 'AXS', 'AZTEC', 'BABY', 'BANANA', 'BCH', 'BERA', 'BIGTIME', 'BIO', 'BLAST', 'BLUR', 'BNB', 'BOME', 'BRETT', 'BSV', 'BTC', 'CAKE', 'CASHCAT', 'CC', 'CELO', 'CFX', 'CHILLGUY', 'CHIP', 'COMP', 'CRV', 'DASH', 'DOGE', 'DOOD', 'DOT', 'DYDX', 'DYM', 'EIGEN', 'ENA', 'ENS', 'ETC', 'ETH', 'ETHFI', 'FARTCOIN', 'FET', 'FIL', 'FOGO', 'FTT', 'FXS', 'GALA', 'GAS', 'GMT', 'GMX', 'GOAT', 'GRAM', 'GRASS', 'GRIFFAIN', 'HBAR', 'HEMI', 'HMSTR', 'HYPE', 'HYPER', 'ICP', 'IMX', 'INIT', 'INJ', 'IO', 'IOTA', 'IP', 'JTO', 'JUP', 'KAITO', 'KAS', 'KBONK', 'KFLOKI', 'KLUNC', 'KNEIRO', 'KPEPE', 'KSHIB', 'LAYER', 'LDO', 'LINEA', 'LINK', 'LIT', 'LTC', 'MANTA', 'MAV', 'MAVIA', 'ME', 'MEGA', 'MELANIA', 'MEME', 'MERL', 'MET', 'MEW', 'MINA', 'MNT', 'MON', 'MOODENG', 'MORPHO', 'MOVE', 'NEAR', 'NEO', 'NIL', 'NOT', 'NXPC', 'OM', 'ONDO', 'OP', 'ORDI', 'PAXG', 'PENDLE', 'PENGU', 'PEOPLE', 'PNUT', 'POL', 'POLYX', 'PONS', 'POPCAT', 'PROMPT', 'PROVE', 'PUMP', 'PURR', 'PYTH', 'RENDER', 'RESOLV', 'REZ', 'RSR', 'RUNE', 'S', 'SAGA', 'SAND', 'SCR', 'SEI', 'SKR', 'SKY', 'SNX', 'SOL', 'SOPH', 'SPX', 'STABLE', 'STBL', 'STRK', 'STX', 'SUI', 'SUPER', 'SUSHI', 'SYRUP', 'TAO', 'TIA', 'TNSR', 'TON', 'TRB', 'TRUMP', 'TRX', 'TST', 'TURBO', 'UMA', 'UNI', 'USELESS', 'USTC', 'USUAL', 'VINE', 'VIRTUAL', 'VVV', 'W', 'WCT', 'WIF', 'WLD', 'WLFI', 'XAI', 'XLM', 'XMR', 'XPL', 'XRP', 'YGG', 'YZY', 'ZEC', 'ZEN', 'ZEREBRO', 'ZETA', 'ZK', 'ZORA', 'ZRO']",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "window_coverage",
+      "status": "fail",
+      "detail": "ARK: non-hourly gap/duplicate step of 10800s; AXS: starts late: 2026-01-18T03:00:00Z > 2025-12-20T00:00:00Z; AZTEC: starts late: 2026-02-12T08:00:00Z > 2025-12-20T00:00:00Z; BLAST: non-hourly gap/duplicate step of 7200s; BOME: non-hourly gap/duplicate step of 10800s; CASHCAT: starts late: 2026-07-11T04:00:00Z > 2025-12-20T00:00:00Z; CHILLGUY: ends early: 2026-05-25T09:00:00Z < 2026-09-28T23:00:00Z; CHIP: starts late: 2026-04-22T02:00:00Z > 2025-12-20T00:00:00Z",
+      "fixture_tolerable": false
+    },
+    {
+      "check": "synthetic_free",
+      "status": "pass",
+      "detail": "no flat/constant-close series detected",
+      "fixture_tolerable": true
+    },
+    {
+      "check": "volume_floor",
+      "status": "fail",
+      "detail": "below floor: 0G: 28233.134649996668, 2Z: 50244.965682998896, AAVE: 931248.0785999465, ACE: 16356.309960998064, ADA: 934525.9361399824, AERO: 112301.01370999907, AIXBT: 58271.20882399581, ALGO: 72833.52756000066",
+      "fixture_tolerable": true
+    },
+    {
+      "check": "checksum_integrity",
+      "status": "pass",
+      "detail": "checksums verified",
+      "fixture_tolerable": true
+    }
+  ],
+  "synthetic_detail": {
+    "0G": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "2Z": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AAVE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ACE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ADA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AERO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AIXBT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ALGO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ALT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ANIME": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "APE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "APEX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "APT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ARB": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ARK": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 4495,
+      "bars_checked": 4495,
+      "distinct_signature_ratio": 1.0
+    },
+    "ASTER": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ATOM": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AVAX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AVNT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "AXS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6093,
+      "bars_checked": 6093,
+      "distinct_signature_ratio": 1.0
+    },
+    "AZTEC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 5488,
+      "bars_checked": 5488,
+      "distinct_signature_ratio": 1.0
+    },
+    "BABY": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BANANA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BCH": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BERA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BIGTIME": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BIO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BLAST": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3635,
+      "bars_checked": 3635,
+      "distinct_signature_ratio": 1.0
+    },
+    "BLUR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BNB": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BOME": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6512,
+      "bars_checked": 6514,
+      "distinct_signature_ratio": 0.999693
+    },
+    "BRETT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BSV": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "BTC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "CAKE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "CASHCAT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 1916,
+      "bars_checked": 1916,
+      "distinct_signature_ratio": 1.0
+    },
+    "CC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "CELO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "CFX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "CHILLGUY": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3754,
+      "bars_checked": 3754,
+      "distinct_signature_ratio": 1.0
+    },
+    "CHIP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3838,
+      "bars_checked": 3838,
+      "distinct_signature_ratio": 1.0
+    },
+    "COMP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "CRV": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "DASH": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6093,
+      "bars_checked": 6093,
+      "distinct_signature_ratio": 1.0
+    },
+    "DOGE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "DOOD": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 4498,
+      "bars_checked": 4498,
+      "distinct_signature_ratio": 1.0
+    },
+    "DOT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "DYDX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6790,
+      "bars_checked": 6790,
+      "distinct_signature_ratio": 1.0
+    },
+    "DYM": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6790,
+      "bars_checked": 6790,
+      "distinct_signature_ratio": 1.0
+    },
+    "EIGEN": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ENA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ENS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ETC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ETH": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ETHFI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "FARTCOIN": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "FET": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "FIL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "FOGO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6746,
+      "bars_checked": 6746,
+      "distinct_signature_ratio": 1.0
+    },
+    "FTT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3493,
+      "bars_checked": 3493,
+      "distinct_signature_ratio": 1.0
+    },
+    "FXS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 417,
+      "bars_checked": 417,
+      "distinct_signature_ratio": 1.0
+    },
+    "GALA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "GAS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "GMT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "GMX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "GOAT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "GRAM": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 2127,
+      "bars_checked": 2127,
+      "distinct_signature_ratio": 1.0
+    },
+    "GRASS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "GRIFFAIN": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "HBAR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "HEMI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6773,
+      "bars_checked": 6773,
+      "distinct_signature_ratio": 1.0
+    },
+    "HMSTR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6398,
+      "bars_checked": 6437,
+      "distinct_signature_ratio": 0.993941
+    },
+    "HYPE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "HYPER": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ICP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "IMX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "INIT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "INJ": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "IO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "IOTA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6774,
+      "bars_checked": 6774,
+      "distinct_signature_ratio": 1.0
+    },
+    "IP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 4595,
+      "bars_checked": 4595,
+      "distinct_signature_ratio": 1.0
+    },
+    "JTO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "JUP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KAITO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KAS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KBONK": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KFLOKI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KLUNC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KNEIRO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KPEPE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "KSHIB": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "LAYER": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "LDO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "LINEA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "LINK": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "LIT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6729,
+      "bars_checked": 6729,
+      "distinct_signature_ratio": 1.0
+    },
+    "LTC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MANTA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MAV": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3269,
+      "bars_checked": 3269,
+      "distinct_signature_ratio": 1.0
+    },
+    "MAVIA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3109,
+      "bars_checked": 3109,
+      "distinct_signature_ratio": 1.0
+    },
+    "ME": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MEGA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6750,
+      "bars_checked": 6750,
+      "distinct_signature_ratio": 1.0
+    },
+    "MELANIA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MEME": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6713,
+      "bars_checked": 6713,
+      "distinct_signature_ratio": 1.0
+    },
+    "MERL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MET": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MEW": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3149,
+      "bars_checked": 3149,
+      "distinct_signature_ratio": 1.0
+    },
+    "MINA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MNT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MON": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MOODENG": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MORPHO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "MOVE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "NEAR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "NEO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "NIL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "NOT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6225,
+      "bars_checked": 6235,
+      "distinct_signature_ratio": 0.998396
+    },
+    "NXPC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "OM": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 1569,
+      "bars_checked": 1569,
+      "distinct_signature_ratio": 1.0
+    },
+    "ONDO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "OP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ORDI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PAXG": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PENDLE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PENGU": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PEOPLE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PNUT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "POL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "POLYX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6785,
+      "bars_checked": 6785,
+      "distinct_signature_ratio": 1.0
+    },
+    "PONS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 693,
+      "bars_checked": 693,
+      "distinct_signature_ratio": 1.0
+    },
+    "POPCAT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PROMPT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3274,
+      "bars_checked": 3274,
+      "distinct_signature_ratio": 1.0
+    },
+    "PROVE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PUMP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "PURR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6786,
+      "bars_checked": 6786,
+      "distinct_signature_ratio": 1.0
+    },
+    "PYTH": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "RENDER": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "RESOLV": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "REZ": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "RSR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6649,
+      "bars_checked": 6649,
+      "distinct_signature_ratio": 1.0
+    },
+    "RUNE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "S": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SAGA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6766,
+      "bars_checked": 6766,
+      "distinct_signature_ratio": 1.0
+    },
+    "SAND": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SCR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3268,
+      "bars_checked": 3268,
+      "distinct_signature_ratio": 1.0
+    },
+    "SEI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SKR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 5998,
+      "bars_checked": 5998,
+      "distinct_signature_ratio": 1.0
+    },
+    "SKY": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SNX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SOL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SOPH": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SPX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "STABLE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "STBL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "STRK": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "STX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SUI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SUPER": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SUSHI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "SYRUP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "TAO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "TIA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "TNSR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6420,
+      "bars_checked": 6420,
+      "distinct_signature_ratio": 1.0
+    },
+    "TON": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 4258,
+      "bars_checked": 4258,
+      "distinct_signature_ratio": 1.0
+    },
+    "TRB": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "TRUMP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "TRX": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "TST": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3688,
+      "bars_checked": 3688,
+      "distinct_signature_ratio": 1.0
+    },
+    "TURBO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6791,
+      "bars_checked": 6791,
+      "distinct_signature_ratio": 1.0
+    },
+    "UMA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6789,
+      "bars_checked": 6789,
+      "distinct_signature_ratio": 1.0
+    },
+    "UNI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "USELESS": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 488,
+      "bars_checked": 488,
+      "distinct_signature_ratio": 1.0
+    },
+    "USTC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3263,
+      "bars_checked": 3263,
+      "distinct_signature_ratio": 1.0
+    },
+    "USUAL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6783,
+      "bars_checked": 6783,
+      "distinct_signature_ratio": 1.0
+    },
+    "VINE": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 5986,
+      "bars_checked": 5986,
+      "distinct_signature_ratio": 1.0
+    },
+    "VIRTUAL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "VVV": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "W": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "WCT": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "WIF": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "WLD": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "WLFI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "XAI": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6756,
+      "bars_checked": 6756,
+      "distinct_signature_ratio": 1.0
+    },
+    "XLM": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "XMR": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6160,
+      "bars_checked": 6160,
+      "distinct_signature_ratio": 1.0
+    },
+    "XPL": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "XRP": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "YGG": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "YZY": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 2877,
+      "bars_checked": 2877,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZEC": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZEN": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZEREBRO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 3269,
+      "bars_checked": 3269,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZETA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZK": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZORA": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    },
+    "ZRO": {
+      "is_synthetic": false,
+      "reason": "varied_series_ok",
+      "distinct_signatures": 6792,
+      "bars_checked": 6792,
+      "distinct_signature_ratio": 1.0
+    }
+  },
+  "min_rolling_24h_volume_usd": {
+    "0G": 28233.134649996668,
+    "2Z": 50244.965682998896,
+    "AAVE": 931248.0785999465,
+    "ACE": 16356.309960998064,
+    "ADA": 934525.9361399824,
+    "AERO": 112301.01370999907,
+    "AIXBT": 58271.20882399581,
+    "ALGO": 72833.52756000066,
+    "ALT": 39765.52704399898,
+    "ANIME": 36191.35336000792,
+    "APE": 27048.593898999003,
+    "APEX": 40151.47960999995,
+    "APT": 306410.5497849842,
+    "AR": 71163.36150700206,
+    "ARB": 511706.5491979979,
+    "ARK": 23395.61989999953,
+    "ASTER": 215907.31578000754,
+    "ATOM": 137593.95718399927,
+    "AVAX": 885537.5043800516,
+    "AVNT": 71873.94387001148,
+    "AXS": 62392.907920996266,
+    "AZTEC": 22103.688071990156,
+    "BABY": 36598.63444500324,
+    "BANANA": 13233.507840003338,
+    "BCH": 342439.08443999704,
+    "BERA": 83046.54337402065,
+    "BIGTIME": 40418.93407999969,
+    "BIO": 38033.680901001426,
+    "BLAST": 4734.087514999762,
+    "BLUR": 42145.793602000915,
+    "BNB": 1015862.8038700137,
+    "BOME": 4603.508200000355,
+    "BRETT": 52310.874361003014,
+    "BSV": 45029.01071999999,
+    "BTC": 233701308.17440873,
+    "CAKE": 62494.58122000444,
+    "CASHCAT": 1601579.1957170414,
+    "CC": 101086.64977998582,
+    "CELO": 43165.29419499667,
+    "CFX": 37384.45526500142,
+    "CHILLGUY": 24106.0146319995,
+    "CHIP": 150010.68615997687,
+    "COMP": 30886.281569999734,
+    "CRV": 594931.2794760194,
+    "DASH": 88477.20347998546,
+    "DOGE": 1322269.101889108,
+    "DOOD": 18380.465944000174,
+    "DOT": 224657.24918999983,
+    "DYDX": 71342.08979899288,
+    "DYM": 26501.279206000014,
+    "EIGEN": 71285.4693009781,
+    "ENA": 869147.326430003,
+    "ENS": 36830.51151900042,
+    "ETC": 99462.88534999987,
+    "ETH": 135949718.89985508,
+    "ETHFI": 96687.15261899987,
+    "FARTCOIN": 2141647.1841678536,
+    "FET": 151844.6689800041,
+    "FIL": 146738.12301300393,
+    "FOGO": 21325.385485000003,
+    "FTT": 4896.87583399975,
+    "FXS": 46932.12468300027,
+    "GALA": 51510.71455799924,
+    "GAS": 35914.12786,
+    "GMT": 36238.99217500163,
+    "GMX": 35591.892991000066,
+    "GOAT": 39087.38545400036,
+    "GRAM": 128688.5347999828,
+    "GRASS": 60973.81874999996,
+    "GRIFFAIN": 17280.537374998206,
+    "HBAR": 180944.23502800398,
+    "HEMI": 18291.468952996387,
+    "HMSTR": 3014.1336030002835,
+    "HYPE": 59498757.75544001,
+    "HYPER": 22464.71562000041,
+    "ICP": 139123.7860099997,
+    "IMX": 44819.77418899853,
+    "INIT": 57465.77673899602,
+    "INJ": 142002.94365999955,
+    "IO": 56466.588680000925,
+    "IOTA": 4686.691157000447,
+    "IP": 84636.8698669778,
+    "JTO": 56204.39338999924,
+    "JUP": 259119.46042000264,
+    "KAITO": 57250.476019992435,
+    "KAS": 53990.901517000566,
+    "KBONK": 182657.74832104048,
+    "KFLOKI": 39312.2366369975,
+    "KLUNC": 30672.649648997925,
+    "KNEIRO": 24088.297604002724,
+    "KPEPE": 600723.0974470789,
+    "KSHIB": 156355.77729800294,
+    "LAYER": 19490.44394399912,
+    "LDO": 170517.58234200993,
+    "LINEA": 49206.15076099746,
+    "LINK": 795293.7107100526,
+    "LIT": 1191318.8316201745,
+    "LTC": 609207.4624900214,
+    "MANTA": 30765.036928999794,
+    "MAV": 15579.12964599976,
+    "MAVIA": 4621.1898550005235,
+    "ME": 32844.53831999236,
+    "MEGA": 9079.948649996591,
+    "MELANIA": 66776.5347769978,
+    "MEME": 6722.350401999513,
+    "MERL": 51335.309538000045,
+    "MET": 85229.21273999714,
+    "MEW": 3739.4177950001385,
+    "MINA": 24487.029960000193,
+    "MNT": 87396.02058700233,
+    "MON": 323633.42750700196,
+    "MOODENG": 54612.82906800146,
+    "MORPHO": 58258.656750000024,
+    "MOVE": 50797.80910000343,
+    "NEAR": 482754.3705799957,
+    "NEO": 32335.790661999185,
+    "NIL": 27753.724229999807,
+    "NOT": 3506.9580829996003,
+    "NXPC": 27275.86291000037,
+    "OM": 54017.380749000564,
+    "ONDO": 220790.2790999973,
+    "OP": 157556.8713040033,
+    "ORDI": 22994.703682000014,
+    "PAXG": 328865.7923001163,
+    "PENDLE": 162389.5236000009,
+    "PENGU": 333453.87497898523,
+    "PEOPLE": 26240.517013999633,
+    "PNUT": 50426.81474099509,
+    "POL": 150552.65648,
+    "POLYX": 9923.802797999018,
+    "PONS": 11329067.714760067,
+    "POPCAT": 63034.447222998155,
+    "PROMPT": 33374.5953050011,
+    "PROVE": 23096.58129000223,
+    "PUMP": 1544194.9241020202,
+    "PURR": 29835.244214002232,
+    "PYTH": 78339.7412229955,
+    "RENDER": 101265.66004000005,
+    "RESOLV": 42207.2703959911,
+    "REZ": 17820.26457299998,
+    "RSR": 4137.68862500005,
+    "RUNE": 53907.23281299962,
+    "S": 57067.016205000924,
+    "SAGA": 7762.180625995193,
+    "SAND": 40267.78938500069,
+    "SCR": 16834.124362000817,
+    "SEI": 127110.72506599738,
+    "SKR": 12573.617793007421,
+    "SKY": 79163.30695999991,
+    "SNX": 45216.86256100145,
+    "SOL": 21399874.77824127,
+    "SOPH": 19347.279626004623,
+    "SPX": 190391.2596690058,
+    "STABLE": 54733.13363201256,
+    "STBL": 63467.222599999186,
+    "STRK": 135663.25524100458,
+    "STX": 72013.41083899618,
+    "SUI": 1915029.6868620468,
+    "SUPER": 27234.541259999256,
+    "SUSHI": 47843.41959399938,
+    "SYRUP": 32179.189419997925,
+    "TAO": 1366454.5325698478,
+    "TIA": 111376.10969499579,
+    "TNSR": 4331.456210002152,
+    "TON": 276745.7724300149,
+    "TRB": 29917.137460000464,
+    "TRUMP": 400834.16733993404,
+    "TRX": 490481.78160000365,
+    "TST": 8364.332533001556,
+    "TURBO": 16908.24685999986,
+    "UMA": 11726.284602000602,
+    "UNI": 427818.6523299708,
+    "USELESS": 3437298.8980100006,
+    "USTC": 11828.264019998654,
+    "USUAL": 15022.449369000115,
+    "VINE": 15745.11775200137,
+    "VIRTUAL": 277237.70801496285,
+    "VVV": 181586.23197399997,
+    "W": 68524.72927099993,
+    "WCT": 18541.40905899764,
+    "WIF": 104352.60260999514,
+    "WLD": 364446.96299898723,
+    "WLFI": 202469.25041798694,
+    "XAI": 7662.211711999853,
+    "XLM": 171617.1981400026,
+    "XMR": 1267398.4273999478,
+    "XPL": 1082601.3270879327,
+    "XRP": 4997260.611100307,
+    "YGG": 43738.22466299854,
+    "YZY": 5095.9726200002115,
+    "ZEC": 8466405.774599629,
+    "ZEN": 52139.11667499592,
+    "ZEREBRO": 20854.602932003574,
+    "ZETA": 22379.57641299742,
+    "ZK": 60937.04985299711,
+    "ZORA": 38402.107873994544,
+    "ZRO": 123753.09087999942
+  },
+  "verdict": "REJECT_NOT_EVIDENCE",
+  "is_market_data": false,
+  "is_evidence": false,
+  "performance_evidence": false,
+  "provenance_caveat": "Intake validation only: proves the archive is structurally usable as evidence input, NOT that the strategy is profitable. Never relabel OKX, partial snapshots, dry-run fixtures, or the placeholder parquet as Hyperliquid evidence.",
+  "no_new_data_fabricated": true,
+  "generated_at_utc": "2026-11-15T22:42:54Z",
+  "selftest": {
+    "cases": [
+      {
+        "case": "flat_full_window_fixture_without_optin",
+        "allow_synthetic_fixture": false,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "synthetic_free",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "flat_full_window_fixture_with_optin",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+        "actual_verdict": "ACCEPT_FIXTURE_NON_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "synthetic_free",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "truncated_varying_fixture_with_optin",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "window_coverage",
+          "checksum_integrity"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      },
+      {
+        "case": "committed_placeholder_parquet",
+        "allow_synthetic_fixture": true,
+        "expected_verdict": "REJECT_NOT_EVIDENCE",
+        "actual_verdict": "REJECT_NOT_EVIDENCE",
+        "pass": true,
+        "failed_checks": [
+          "placeholder_not_evidence",
+          "synthetic_free"
+        ],
+        "is_market_data": false,
+        "is_evidence": false,
+        "performance_evidence": false
+      }
+    ],
+    "all_expectations_met": true,
+    "case_count": 4
+  }
+}

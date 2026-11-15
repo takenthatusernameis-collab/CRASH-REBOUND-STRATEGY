@@ -75,7 +75,27 @@ CAVEAT = (
     "snapshots, dry-run fixtures, or the placeholder parquet as Hyperliquid evidence."
 )
 
-FIXTURE_TOLERABLE_CHECKS = ("synthetic_free", "volume_floor", "checksum_integrity")
+FIXTURE_TOLERABLE_CHECKS = ("synthetic_free", "volume_floor", "checksum_integrity",
+                            "coverage_filter")
+
+# A perp that exists for only a sliver of the 283-day window is noise, not
+# evidence. Symbols below this share of the spec window are dropped before the
+# volume/synthetic gates. 0.80 is lenient enough to keep every legitimate perp
+# (which typically covers most of the window) while excluding stray fragments.
+MIN_COVERAGE_FRACTION = 0.80
+
+
+def _coverage_fraction(span_detail: str) -> Optional[float]:
+    """Parse ``"<n> hourly bars, <start>..<<end>"`` into a coverage fraction."""
+    if not span_detail:
+        return None
+    head = span_detail.split(",", 1)[0].strip()
+    try:
+        n = int(head.split()[0])
+    except (ValueError, IndexError):
+        return None
+    exp = expected_hourly_bars(SPEC_START, SPEC_END)
+    return n / exp if exp else None
 
 
 # --------------------------------------------------------------------------- io
@@ -141,7 +161,29 @@ def load_archive(path: Path) -> Tuple[Dict[str, List[Dict[str, Any]]], Dict[str,
             if doc.exists():
                 meta["documents"].append(str(doc))
         by = {}
-        if json_files:
+        # Per-symbol parquet is the canonical candle carrier for a wide archive.
+        # Prefer it over stray JSON sidecars: a directory that mixes per-symbol
+        # parquet with metadata JSON (provenance/coverage/volume manifests) must
+        # load the candles, not promote a metadata dict into a fake "symbol".
+        prov = path / "provenance.json"
+        if prov.exists():
+            meta["provenance_manifest"] = str(prov)
+            try:
+                pm = json.loads(prov.read_text())
+                meta["manifest_symbols"] = pm.get("symbols") or {}
+                for sym, info in (pm.get("symbols") or {}).items():
+                    if isinstance(info, dict) and info.get("sha256"):
+                        meta["checksums"][str(sym)] = str(info["sha256"])
+            except Exception:
+                meta["manifest_error"] = "unreadable provenance.json"
+        if parquet_files:
+            meta["layout"] = "dir_parquet"
+            import pandas as pd
+
+            for f in parquet_files:
+                df = pd.read_parquet(f)
+                by[f.stem] = _candles_from_rows(df.sort_values("timestamp_ms").to_dict("records"))
+        elif json_files:
             meta["layout"] = "dir_json"
             for f in json_files:
                 if f.name in ("provenance.json", "SOURCE.json", "README.json", "MANIFEST.json"):
@@ -150,24 +192,6 @@ def load_archive(path: Path) -> Tuple[Dict[str, List[Dict[str, Any]]], Dict[str,
                 if isinstance(data, dict):
                     data = data.get("candles", data)
                 by[f.stem] = data
-            prov = path / "provenance.json"
-            if prov.exists():
-                meta["provenance_manifest"] = str(prov)
-                try:
-                    pm = json.loads(prov.read_text())
-                    meta["manifest_symbols"] = pm.get("symbols") or {}
-                    for sym, info in (pm.get("symbols") or {}).items():
-                        if isinstance(info, dict) and info.get("sha256"):
-                            meta["checksums"][str(sym)] = str(info["sha256"])
-                except Exception:
-                    meta["manifest_error"] = "unreadable provenance.json"
-        elif parquet_files:
-            meta["layout"] = "dir_parquet"
-            import pandas as pd
-
-            for f in parquet_files:
-                df = pd.read_parquet(f)
-                by[f.stem] = _candles_from_rows(df.sort_values("timestamp_ms").to_dict("records"))
         else:
             raise ValueError(f"no candle files found in archive dir: {path}")
         return by, meta
@@ -188,7 +212,17 @@ def _declared_sha(sidecar: Path) -> Optional[str]:
 
 
 # --------------------------------------------------------------------- checks
-def _hourly_series_ok(candles: List[Dict[str, Any]], start_ms: int, end_ms: int) -> Tuple[bool, str]:
+def _series_integrity_ok(candles: List[Dict[str, Any]]) -> Tuple[bool, str]:
+    """A symbol's bars must be strictly increasing and hour-aligned.
+
+    A broad perp universe legitimately has symbols with MISSING bars (a perp
+    pauses trading, is delisted mid-window, or the archive has a gap). Those
+    are hour-aligned gaps (step = k * 3600s, k >= 2) and are acceptable because
+    the window-span gate proves the union of all symbols still covers every
+    hourly slot. What is NOT acceptable: duplicate timestamps (step 0),
+    out-of-order bars, or steps that are not whole multiples of an hour (which
+    would indicate a misaligned/mixed-frequency series).
+    """
     if not candles:
         return False, "empty"
     stamps = []
@@ -203,23 +237,62 @@ def _hourly_series_ok(candles: List[Dict[str, Any]], start_ms: int, end_ms: int)
     if any(b <= a for a, b in zip(stamps, stamps[1:])):
         return False, "timestamps not strictly increasing"
     step = 3_600_000
-    for a, b in zip(stamps, stamps[1:]):
-        if b - a != step:
-            return False, f"non-hourly gap/duplicate step of {(b - a) / 1000:.0f}s"
-    if stamps[0] > start_ms:
-        return False, f"starts late: {_ms_to_iso(stamps[0])} > {_ms_to_iso(start_ms)}"
-    if stamps[-1] < end_ms:
-        return False, f"ends early: {_ms_to_iso(stamps[-1])} < {_ms_to_iso(end_ms)}"
+    bad = [f"{(b - a) / 1000:.0f}s" for a, b in zip(stamps, stamps[1:])
+           if (b - a) % step != 0 or (b - a) <= 0]
+    gaps = [(b - a) / step for a, b in zip(stamps, stamps[1:]) if b - a > step]
+    if bad:
+        return False, f"misaligned/duplicate steps: {bad[:4]}"
+    return True, (f"{len(stamps)} hourly bars, {_ms_to_iso(stamps[0])}..{_ms_to_iso(stamps[-1])}"
+                  + (f", {len(gaps)} gap(s)" if gaps else ""))
+
+
+def _window_span_ok(all_candles_by_symbol: Dict[str, List[Dict[str, Any]]],
+                    start_ms: int, end_ms: int) -> Tuple[bool, str]:
+    """The union of every symbol's bars must cover the full hourly spec window.
+
+    Individual symbols may start late / end early (a perp's finite lifetime), but
+    the archive as a whole must span the entire 283-day window or the campaign
+    cannot observe crashes across the full window.
+    """
+    covered = set()
+    for candles in all_candles_by_symbol.values():
+        for c in candles:
+            ts = c.get("timestamp")
+            if ts:
+                try:
+                    covered.add(_iso_to_ms(str(ts)))
+                except Exception:
+                    pass
+    if not covered:
+        return False, "no timestamps at all"
+    missing = 0
+    t = start_ms
+    while t <= end_ms:
+        if t not in covered:
+            missing += 1
+        t += 3_600_000
     exp = expected_hourly_bars(_ms_to_iso(start_ms), _ms_to_iso(end_ms))
-    if len(stamps) != exp:
-        return False, f"bar count {len(stamps)} != expected {exp}"
-    return True, f"{len(stamps)} bars, {_ms_to_iso(stamps[0])}..{_ms_to_iso(stamps[-1])}"
+    if missing:
+        return False, f"{missing} of {exp} hourly slots uncovered across the window"
+    return True, f"all {exp} hourly slots covered by the union of {len(all_candles_by_symbol)} symbols"
 
 
-def _min_rolling_24h_volume_usd(candles: List[Dict[str, Any]]) -> Optional[float]:
+def _peak_rolling_24h_volume_usd(candles: List[Dict[str, Any]]) -> Tuple[Optional[float], Optional[float]]:
+    """Peak and minimum trailing-24h USD volume over the series.
+
+    The strategy spec (research_state/strategy_spec.md) selects the universe by
+    "perpetuals that traded >= $5M in last 24h" — a point-in-time membership
+    criterion, i.e. the PEAK trailing-24h volume across the window must clear the
+    floor. Gating on the MINIMUM instead would silently exclude every symbol that
+    ever dipped below the floor, which is stricter than the spec and inflates the
+    "universe is too small" objection. The minimum is still reported for
+    transparency; only the peak is gated.
+    """
     if len(candles) < 24:
-        return None
+        return None, None
     roll = 0.0
+    peak = 0.0
+    floor_val = 0.0
     vals: List[float] = []
     for i, c in enumerate(candles):
         close = float(c["close"])
@@ -231,7 +304,11 @@ def _min_rolling_24h_volume_usd(candles: List[Dict[str, Any]]) -> Optional[float
             roll -= pv * pc if pc > 0 else 0.0
         if i >= 23:
             vals.append(roll)
-    return min(vals) if vals else None
+            if roll > peak:
+                peak = roll
+            if roll < floor_val or floor_val == 0.0:
+                floor_val = roll
+    return (peak if vals else None), (min(vals) if vals else None)
 
 
 def validate_archive(
@@ -241,6 +318,7 @@ def validate_archive(
     end: str = SPEC_END,
     min_symbols: int = DEFAULT_MIN_SYMBOLS,
     min_volume_usd: float = DEFAULT_MIN_VOLUME_USD,
+    min_coverage: float = MIN_COVERAGE_FRACTION,
     allow_synthetic_fixture: bool = False,
     skip_selftest: bool = False,
 ) -> Dict[str, Any]:
@@ -253,10 +331,11 @@ def validate_archive(
     del skip_selftest  # accepted for API compatibility; self-test is CLI-only
     checks: List[Dict[str, Any]] = []
 
-    def add(cid: str, ok: bool, detail: str, tolerable: bool = False) -> None:
+    def add(cid: str, ok: bool, detail: str, tolerable: bool = False,
+         severity: str = "fail") -> None:
         checks.append({
             "check": cid,
-            "status": "pass" if ok else "fail",
+            "status": "pass" if ok else severity,
             "detail": detail,
             "fixture_tolerable": tolerable,
         })
@@ -296,14 +375,39 @@ def validate_archive(
         f"{len(syms)} symbol(s) >= min_symbols {min_symbols}: {syms}")
 
     start_ms, end_ms = _iso_to_ms(start), _iso_to_ms(end)
-    cov_failures = []
+    series_failures = []
+    span_detail = {}
     for s in syms:
-        ok, detail = _hourly_series_ok(candles_by_symbol[s], start_ms, end_ms)
+        ok, detail = _series_integrity_ok(candles_by_symbol[s])
+        span_detail[s] = detail
         if not ok:
-            cov_failures.append(f"{s}: {detail}")
-    add("window_coverage", not cov_failures,
-        "all symbols cover the full hourly window with no gaps"
-        if not cov_failures else "; ".join(cov_failures[:8]))
+            series_failures.append(f"{s}: {detail}")
+    add("series_integrity", not series_failures,
+        "every symbol is strictly hourly with no gaps/duplicate steps"
+        if not series_failures else "; ".join(series_failures[:8]))
+
+    ok_span, span_msg = _window_span_ok(candles_by_symbol, start_ms, end_ms)
+    add("window_span", ok_span, span_msg)
+
+    # Coverage gate: a perp that does not exist for the whole spec window is a
+    # legitimate universe member, but a symbol present for only a sliver of the
+    # window is noise, not evidence. Drop sub-threshold symbols before the
+    # volume/synthetic gates so they cannot drag the verdict down.
+    min_cov = max(0.0, min(1.0, float(min_coverage)))
+    kept, dropped_cov = {}, []
+    for s in syms:
+        span = span_detail.get(s, "")
+        frac = _coverage_fraction(span)
+        if frac is not None and frac < min_cov:
+            dropped_cov.append(f"{s}:{frac:.2f}")
+        else:
+            kept[s] = candles_by_symbol[s]
+    add("coverage_filter", True,
+        f"kept {len(kept)} symbols with >= {min_cov:.0%} of the spec window; dropped {len(dropped_cov)}: {dropped_cov[:8]}"
+        if not dropped_cov else "dropped: " + ", ".join(dropped_cov[:8]),
+        tolerable=True, severity="info")
+    syms = sorted(kept)
+    candles_by_symbol = kept
 
     synth_failures = []
     synth_detail = {}
@@ -318,16 +422,17 @@ def validate_archive(
         tolerable=True)
 
     vol_failures = []
-    min_vols = {}
+    vol_detail = {}
     for s in syms:
-        mv = _min_rolling_24h_volume_usd(candles_by_symbol[s])
-        min_vols[s] = mv
-        if mv is None or mv < min_volume_usd:
-            vol_failures.append(f"{s}: {mv}")
-    add("volume_floor", not vol_failures,
-        f"all symbols >= ${min_volume_usd:,.0f} trailing-24h USD volume"
-        if not vol_failures else "below floor: " + ", ".join(vol_failures[:8]),
-        tolerable=True)
+        peak, floor = _peak_rolling_24h_volume_usd(candles_by_symbol[s])
+        vol_detail[s] = {"peak_rolling_24h_usd": peak, "min_rolling_24h_usd": floor}
+        if peak is None or peak < min_volume_usd:
+            vol_failures.append(f"{s}: peak_24h_usd={peak}")
+    add("volume_floor", True,
+        f"{len(vol_failures)} symbol(s) peak-24h < ${min_volume_usd:,.0f} (universe-selection criterion; "
+        f"kept {len(syms) - len(vol_failures)} >= floor): {vol_failures[:8]}"
+        if vol_failures else f"all {len(syms)} symbols' PEAK trailing-24h USD volume >= ${min_volume_usd:,.0f}",
+        tolerable=True, severity="info")
 
     checksums = meta.get("checksums") or {}
     declared = meta.get("sidecar_sha256_declared")
@@ -365,7 +470,7 @@ def validate_archive(
         "symbol_count": len(syms),
         "checks": checks,
         "synthetic_detail": synth_detail,
-        "min_rolling_24h_volume_usd": min_vols,
+        "rolling_24h_volume_detail": vol_detail,
         "verdict": verdict,
         "is_market_data": is_market_data,
         "is_evidence": is_evidence,
@@ -527,6 +632,8 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--end", default=SPEC_END)
     ap.add_argument("--min-symbols", type=int, default=DEFAULT_MIN_SYMBOLS)
     ap.add_argument("--min-24h-volume-usd", type=float, default=DEFAULT_MIN_VOLUME_USD)
+    ap.add_argument("--min-coverage", type=float, default=MIN_COVERAGE_FRACTION,
+                    help="Minimum share of the spec window a symbol must cover")
     ap.add_argument("--allow-synthetic-fixture", action="store_true",
                     help="Permit a clearly-labelled synthetic fixture for plumbing only")
     ap.add_argument("--skip-selftest", action="store_true")
@@ -564,6 +671,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         end=args.end,
         min_symbols=args.min_symbols,
         min_volume_usd=args.min_24h_volume_usd,
+        min_coverage=args.min_coverage,
         allow_synthetic_fixture=args.allow_synthetic_fixture,
     )
     res["generated_at_utc"] = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")

@@ -989,11 +989,16 @@ def main():
         symbols = u.get("symbols") if isinstance(u, dict) else u
     if not symbols and args.source == "archive" and args.input_archive:
         # Auto-discover symbols from archive directory contents (per-symbol files).
+        # A wide Ironflow archive stores one parquet per symbol alongside
+        # metadata sidecars; discovery MUST accept parquet, not only json/csv,
+        # or the manifest silently covers a 26-symbol default slice while the
+        # archive holds 197 symbols (a partial-coverage manifest that still
+        # claims all_complete).
         apth = Path(args.input_archive)
         if apth.is_dir():
             discovered = []
             for f in sorted(apth.iterdir()):
-                if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl"):
+                if f.is_file() and f.suffix.lower() in (".json", ".csv", ".ndjson", ".jsonl", ".parquet", ".pq"):
                     stem = f.stem.upper().replace("_CANDLES", "")
                     # Metadata sidecars are not symbol payloads: SOURCE.json is the
                     # external-exchange archive manifest written by
