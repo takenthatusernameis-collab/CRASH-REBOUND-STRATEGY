@@ -12,6 +12,8 @@ import argparse
 import hashlib
 import json
 import math
+import multiprocessing as mp
+import os
 import random
 import statistics
 import sys
@@ -124,6 +126,23 @@ def trade_summary(result):
             "symbols": sorted({str(t.get("symbol")) for t in trades})}
 
 
+_WORKER_STATE = {}
+
+
+def _init_placebo_worker(candles_active, memo, cfg):
+    _WORKER_STATE["candles"] = candles_active
+    _WORKER_STATE["memo"] = memo
+    _WORKER_STATE["cfg"] = cfg
+
+
+def _run_placebo_draw(sub):
+    memo = _WORKER_STATE["memo"]
+    res = run_memo_portfolio(
+        _WORKER_STATE["candles"], _WORKER_STATE["cfg"], {k: memo[k] for k in sub if k in memo}
+    )
+    return {"num_trades": int(res.get("num_trades", 0)), "total_pnl": float(res.get("total_pnl", 0.0))}
+
+
 def render_md(result, venue_label):
     pl = result["placebo"]; can = result["canonical"]; s = pl["summary"]
     lines = [
@@ -145,7 +164,7 @@ def render_md(result, venue_label):
     return "\n".join(lines)
 
 
-def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws, seed, out_stem):
+def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws, seed, out_stem, jobs=1):
     t0 = time.time()
     manifest = load_provenance(str(cache_dir / "provenance.json"))
     universe = json.loads(universe_path.read_text())
@@ -182,11 +201,20 @@ def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws
         replay_summary = canon_summary
 
     rng = random.Random(seed)
-    results = []
-    for _ in range(draws):
-        sub = tuple(sorted(rng.sample(keys, choose_k)))
-        res = run_memo_portfolio(candles_active, inp["cfg"], {k: memo[k] for k in sub if k in memo})
-        results.append({"num_trades": int(res.get("num_trades", 0)), "total_pnl": float(res.get("total_pnl", 0.0))})
+    subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(draws)]
+    if jobs > 1 and "fork" in mp.get_all_start_methods():
+        ctx = mp.get_context("fork")
+        with ctx.Pool(
+            processes=jobs,
+            initializer=_init_placebo_worker,
+            initargs=(candles_active, memo, inp["cfg"]),
+        ) as pool:
+            results = pool.map(_run_placebo_draw, subsets, chunksize=1)
+    else:
+        results = []
+        for sub in subsets:
+            res = run_memo_portfolio(candles_active, inp["cfg"], {k: memo[k] for k in sub if k in memo})
+            results.append({"num_trades": int(res.get("num_trades", 0)), "total_pnl": float(res.get("total_pnl", 0.0))})
     pnls = [r["total_pnl"] for r in results]
     ge = sum(1 for x in pnls if x >= canon_summary["total_pnl"])
     le = sum(1 for x in pnls if x <= canon_summary["total_pnl"])
@@ -211,6 +239,7 @@ def run(cache_dir, universe_path, census_path, campaign_path, venue_label, draws
         "method": "Deterministic seeded full-portfolio placebo: random gate-passing event subsets of fixed size run through real portfolio engine; preserves gates/sizing/cap/occupancy/hedge/fees/funding/liquidation.",
         "mode": f"deterministic_seeded_draws:{len(results)}_choose_{choose_k}_of_{len(keys)}",
         "seed": seed,
+        "execution": {"jobs": jobs, "parallel_start_method": "fork" if jobs > 1 and "fork" in mp.get_all_start_methods() else "serial"},
         "inputs": {
             "cache_dir": str(cache_dir.relative_to(REPO)) if cache_dir.is_relative_to(REPO) else str(cache_dir),
             "universe": str(universe_path.relative_to(REPO)) if universe_path.is_relative_to(REPO) else str(universe_path),
@@ -247,10 +276,11 @@ def main(argv=None):
     ap.add_argument("--venue-label", default="Binance UM")
     ap.add_argument("--draws", type=int, default=200)
     ap.add_argument("--seed", type=int, default=20261114)
+    ap.add_argument("--jobs", type=int, default=min(4, os.cpu_count() or 1))
     ap.add_argument("--out", default="placebo_portfolio_binance_um_multiyear")
     args = ap.parse_args(argv)
     run(REPO / args.cache_dir, REPO / args.universe, REPO / args.census, REPO / args.campaign,
-        args.venue_label, args.draws, args.seed, args.out)
+        args.venue_label, args.draws, args.seed, args.out, args.jobs)
     return 0
 
 
