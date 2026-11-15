@@ -1,0 +1,69 @@
+{
+  "generated_at_utc": "2026-11-15T20:49:33Z",
+  "scope": "C1-C13 final consolidation",
+  "final_verdict_token": "NO_GO",
+  "research_program_complete": true,
+  "referenced_verdict_stems": [
+    "research_state/decision_verdict_consolidated_20261115T122636Z.md",
+    "research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md",
+    "research_state/decision_verdict_consolidated_20261115T155318Z.md",
+    "research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md",
+    "research_state/decision_verdict_hyperliquid_native_c13_203734Z.md"
+  ],
+  "referenced_c13_supporting_artifacts": [
+    "research_state/hyperliquid_native_c13_prereg_20261115T185721Z.json",
+    "research_state/hyperliquid_native_c13_prereg_20261115T185721Z.md",
+    "research_state/episode_edge_hyperliquid_native_c13_20261115T200200Z.json",
+    "research_state/episode_edge_hyperliquid_native_c13_20261115T200200Z.md",
+    "research_state/placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.json",
+    "research_state/placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.md"
+  ],
+  "campaign_verdicts": {
+    "cross_venue_c10_final": {
+      "token": "NO_GO",
+      "criteria_pass": "0/7",
+      "is_hyperliquid_venue_data": false,
+      "pooled_episode_bootstrap_ci95_total": [-69065.03, 168946.87],
+      "pooled_p_total_gt_0": 0.74095,
+      "pooled_permutation_p_one_sided": 0.26955,
+      "placebo_p_ge_canonical_okx": 0.4,
+      "placebo_p_ge_canonical_binance": 0.415
+    },
+    "native_c11_3_canonical_rsi21_lt_20": {
+      "token": "NO_GO_FRAGILE_NOT_DECISION_GRADE_UNDERPOWERED",
+      "criteria_pass": "0/7",
+      "episode_bootstrap_ci95_total": [-1143.66, 10339.42],
+      "temporal_permutation_p_null_ge_canonical": 0.08,
+      "placebo_exact_p_ge_canonical": 0.7143,
+      "legs": {"spot": -3968.8, "eth_hedge": 8261.31, "rebound_short": 0.0, "total": 4292.5},
+      "effective_n": {"trades": 6, "episodes": 3, "crash_days": 4}
+    },
+    "native_c12_discovery": {
+      "token": "NO_DECISION_GRADE_GO",
+      "lead_config": "c12_25_9_rsi25_target9",
+      "lead_total": 23244.22,
+      "lead_episode_bootstrap_ci95_total": [-36650, 74463],
+      "lead_p_total_gt_0": 0.77,
+      "validated": false
+    },
+    "native_c13_preregistered_validation": {
+      "token": "UNDERPOWERED",
+      "lead_config": "rsi25_target9",
+      "bootstrap_ci95_total": [-22799.52, 79978.91],
+      "bootstrap_p_total_gt_0": 0.803,
+      "temporal_permutation_p_null_ge_canonical": 0.085,
+      "placebo_p_ge_canonical": 0.32,
+      "placebo_canonical_percentile_le": 0.68,
+      "legs": {"spot": -3968.8, "eth_hedge": 8261.31, "rebound_short": 11904.32, "total": 23244.22},
+      "effective_n": {"trades": 17, "episodes": 10, "crash_days_distinct_signal_events": 12, "symbols": 5},
+      "seed": 20261115,
+      "go_criteria_met": false
+    }
+  },
+  "structural_power_note": "283-day native window; effective N insufficient for dependence-aware decision-grade positive inference across campaigns. C13 CI excludes 0 only near ~37+ episodes (far beyond observed 10). C12 reports 11 trade crash days vs C13 12 distinct signal-event days (counting-unit difference, not contradiction).",
+  "provenance": {
+    "native": "Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot REST; is_hyperliquid_venue_data=true for native artifacts only",
+    "cross_venue": "OKX/Binance UM real exchange data, non-synthetic; is_hyperliquid_venue_data=false",
+    "no_fabrication": true
+  }
+}
