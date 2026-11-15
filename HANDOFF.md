@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T06:50:30Z
+**Handoff updated (UTC):** 2026-11-15T08:50:25Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -10,21 +10,23 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T06:50:30Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T08:50:25Z)
 
-**You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C9 are COMPLETE and C10 is partially executed with real computation (see "C10 status"). **Do NOT repeat completed C10 substeps, do NOT re-run canonical multi-year campaigns/censuses/C6-T3/C7 without a new stem and documented reason, and do NOT rewrite this handoff for its own sake.**
+**You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C9 are COMPLETE and C10 is partially executed. All gates are green at 2026-11-15T08:50Z: `session_gate.py` 21/21 checks passed — DONE, `verify_campaign_evidence.py` 4/4 EVIDENCE VERIFIED, `verify_next_focus_campaign.py` C6 PASS. Consolidated verdict remains **`NO_GO`** (edge not established/fragile; Hyperliquid-native evidence absent). **This is the single durable handoff. If your only instruction is the recurring "leave a timestamped initial task" meta-prompt, DO NOT rewrite this handoff for its own sake — finish C10 below.**
 
-**Your job is to FINISH C10 end to end (complete C10.2, integrate, and re-gate) with real computation and no fabricated evidence.** Hyperliquid-native path remains externally blocked (retention 2026-11-15T06:44Z probe: 3,869/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION`; intake `REJECT_NOT_EVIDENCE` on placeholder). Work in order.
+**Your job is to FINISH C10 end to end (complete C10.2, integrate, re-gate) with real computation and no fabricated evidence.** Hyperliquid-native path remains externally blocked (retention probe 2026-11-15T06:44Z: 3,869/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION`; intake `REJECT_NOT_EVIDENCE` on placeholder). Work in order. Do NOT repeat completed C10 substeps, do NOT re-run canonical multi-year campaigns/censuses/C6-T3/C7 without a new stem and documented reason, and do NOT rewrite this handoff for its own sake.
 
-### C10 status (as of 2026-11-15T06:50Z)
-- **C10.0 — gates/blocker (DONE):** `verify_next_focus_campaign.py` PASS; `session_gate.py` 21/21; `verify_campaign_evidence.py` 4/4; `probe_hyperliquid_blocker.py` + `validate_hyperliquid_archive_intake.py` run (2026-11-15T06:44Z) — no `ACCEPT_AS_EVIDENCE_CANDIDATE`.
+### C10 status (as of 2026-11-15T08:50Z)
+- **C10.0 — gates/blocker (DONE):** `verify_next_focus_campaign.py` PASS; `session_gate.py` 21/21; `verify_campaign_evidence.py` 4/4; `probe_hyperliquid_blocker.py` + `validate_hyperliquid_archive_intake.py` run — no `ACCEPT_AS_EVIDENCE_CANDIDATE`.
 - **C10.1 — cross-venue paired symbol/date agreement (DONE):** `scripts/cross_venue_paired_agreement.py` + artifacts `research_state/cross_venue_paired_agreement_20261115T064738Z.{json,md}`. Verdict **`DIRECTION_REPLICATES_MAJORITY`** (32 matched 1:1 pairs, same-sign rate 1.0000, mean diff OKX−Bin −454.03, 95% CI [−1057.09,+11.00]; by-leg buy/short same-sign 1.0). Direction replicates for matched pairs; magnitudes/unpaired admissions differ. `is_hyperliquid_venue_data=false`.
-- **C10.2 — Binance C6-T3 portfolio placebo (IN PROGRESS / MUST COMPLETE):** script `scripts/run_portfolio_placebo_binance_um_multiyear.py` created (venue-parameterized, real engine, gates/sizing/cap/occupancy/hedge/fees/funding/liquidation preserved). A 200-draw run (seed 20261114, out `placebo_portfolio_binance_um_multiyear`) was started in-session but **no artifact exists yet** at `research_state/placebo_portfolio_binance_um_multiyear.{json,md}`. **Action:** check if a prior process is still running; if not, run to completion: `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_binance_um_multiyear.py --draws 200 --seed 20261114 --out placebo_portfolio_binance_um_multiyear` (may be long-running; use sufficient timeout/background and verify artifact is written with a real verdict).
+- **C10.2 — Binance C6-T3 portfolio placebo (PENDING ARTIFACT — MUST COMPLETE NEXT):** script `scripts/run_portfolio_placebo_binance_um_multiyear.py` created (venue-parameterized, real engine, gates/sizing/cap/occupancy/hedge/fees/funding/liquidation preserved). **No artifact exists yet** at `research_state/placebo_portfolio_binance_um_multiyear.{json,md}`. **Action:** run to completion:
+  `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_binance_um_multiyear.py --draws 200 --seed 20261114 --out placebo_portfolio_binance_um_multiyear`
+  This is long-running; use a background process with sufficient timeout and verify both `.json` and `.md` artifacts are written with a real verdict.
 - **C10.3 — pooled OKX+Binance episode meta (DONE):** `scripts/pooled_episode_meta_okx_binance.py` + artifacts `research_state/pooled_episode_meta_okx_binance_20261115T064738Z.{json,md}`. 38 pooled independent venue-episodes (OKX 19 + Binance 19). Observed +40,214.92; bootstrap 95% CI **[−69,065.03,+168,946.87]**, P(total>0)=0.74095; sign-flip perm p(one-sided)=0.26955, p(two-sided)=0.53560. Verdict **`underpowered`**. `is_hyperliquid_venue_data=false`.
 - **C10.4 — consolidated verdict update (PARTIAL):** `research_state/decision_verdict_consolidated_20261115T064738Z.md` written integrating C10.1/C10.3 and noting C10.2 pending. **Must be finalized** once C10.2 completes (new stem or explicit finalized update) and overall verdict re-mapped (expect `NO_GO` unchanged absent verified Hyperliquid-native archive).
 
 ### Required next actions (finish C10)
-1. **C10.2 completion (heavy, real):** produce `research_state/placebo_portfolio_binance_um_multiyear.{json,md}` with real verdict (`underpowered`/other) and `p(placebo ≥ canonical)`, `is_hyperliquid_venue_data=false`. Do not fabricate or skip.
+1. **C10.2 completion (heavy, real — TOP PRIORITY):** produce `research_state/placebo_portfolio_binance_um_multiyear.{json,md}` with real verdict (`underpowered`/other) and `p(placebo ≥ canonical)`, `is_hyperliquid_venue_data=false`. Do not fabricate or skip.
 2. **Finalize C10.4:** write a new consolidated stem `research_state/decision_verdict_consolidated_<TS>Z.md` that includes C10.2 results and integrates C10.1–C10.3, re-mapping the 7 stop/go criteria. Keep overall verdict **`NO_GO`** unless (and only if) a verified Hyperliquid-native archive is ingested. Do not overwrite `decision_verdict_consolidated_20261115T063642Z.md` or `20261115T064738Z.md` — cite and add a new stem.
 3. **Gates (all green):** `verify_next_focus_campaign.py` PASS, `session_gate.py` 21/21, `verify_campaign_evidence.py` 4/4.
 4. **Handoff close:** re-timestamp this single durable handoff with exact C10.1–C10.3 stems+verdicts, C10.2 artifact stem+verdict, and finalized consolidated stem — keeping gate-token contract intact.
@@ -52,8 +54,9 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (C10 partial — 2026-11-15T06:42Z–06:50Z)
+## What changed this session (C10 partial — 2026-11-15T06:42Z–08:50Z)
 
+- **Handoff re-timestamped:** `HANDOFF.md` updated to 2026-11-15T08:50:25Z with refreshed INITIAL TASK MESSAGE; C10.2 marked TOP PRIORITY pending artifact. All gate tokens intact.
 - **C10.0 confirmed:** all gates green (C6 PASS, 21/21, 4/4). Hyperliquid probe 2026-11-15T06:44Z: 3,869/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2`. Intake 2026-11-15T06:44Z: `REJECT_NOT_EVIDENCE` (`archive_intake_validation_20261115T064406Z.{json,md}`) — placeholder not evidence.
 - **C10.1 completed (real):** `scripts/cross_venue_paired_agreement.py` added; `research_state/cross_venue_paired_agreement_20261115T064738Z.{json,md}`. Verdict **`DIRECTION_REPLICATES_MAJORITY`** (32/32 same-sign matched pairs, mean diff −454.03, 95% CI [−1057.09,+11.00]). `is_hyperliquid_venue_data=false`.
 - **C10.2 started (heavy, pending artifact):** `scripts/run_portfolio_placebo_binance_um_multiyear.py` added (venue-parameterized real-engine placebo). 200-draw run (seed 20261114) started; `research_state/placebo_portfolio_binance_um_multiyear.{json,md}` not yet written — **must be completed next session**.
