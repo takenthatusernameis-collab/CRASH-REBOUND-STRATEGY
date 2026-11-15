@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T12:58:30Z
+**Handoff updated (UTC):** 2026-11-15T13:00:47Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -10,7 +10,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T12:58:30Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T13:00:47Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C10 are COMPLETE. All cross-venue work is finished and exhausted; the consolidated verdict is **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7 criteria). **There is no remaining cross-venue refinement that can change the verdict** — do not re-run canonical OKX/Binance campaigns, censuses, C6-T3, C7, or the C10 battery without a new stem and a documented reason.
 
@@ -69,14 +69,14 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (C11 gate-run — 2026-11-15T12:58Z)
+## What changed this session (C11 gate-run — 2026-11-15T13:00Z)
 
 - **Mandatory gates executed and green:** `session_gate.py` 21/21, `verify_campaign_evidence.py` 4/4, `verify_next_focus_campaign.py` PASS.
 - **Hyperliquid readiness re-probed (C11.0):** new retention probe `hyperliquid_retention_probe.json` @ **2026-11-15T12:57:54Z** → 3,862/6,792 bars, earliest `2026-04-21T02:00:00Z`, missing 2,930, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:2` (KPEPE HTTP 500, INIT HTTP 429). New intake validation `archive_intake_validation_20261115T125718Z.{json,md}` @ **2026-11-15T12:57:18Z** → **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series all bars identical).
 - **C11.1 not actionable:** no new verified Hyperliquid-native archive present; public API remains retention-blocked. No fabrication/interpolation/relabeling performed.
 - **C11.2 already satisfied (no input change):** `research_state/hyperliquid_native_power_prereg_20261115T123859Z.{json,md}` present — real Monte-Carlo (4000 sims/N, N=20..400), N80 not found (power 0.5978 at N=400), GO/NO-GO pre-registered; `is_hyperliquid_venue_data=false`, `performance_evidence=false` (design artifact, not verdict). No re-run required.
 - **No cross-venue re-runs.** C10 complete/exhausted; consolidated verdict remains **`NO_GO`** (0/7) per `decision_verdict_consolidated_20261115T122636Z.md`.
-- **Handoff re-timestamped** to 2026-11-15T12:58Z with C11.0 executed, C11.2 confirmed, and C11.1/C11.3 stated as blocked on a real archive. All gate tokens intact.
+- **Handoff re-timestamped** to 2026-11-15T13:00Z with C11.0 executed, C11.2 confirmed, and C11.1/C11.3 stated as blocked on a real archive. All gate tokens intact.
 
 ### Prior bottleneck removals still in force
 - Cross-venue multi-year OKX/Binance archives/caches/campaigns/censuses/C6-T3/C7 on disk; OKX + Binance placebo done.
