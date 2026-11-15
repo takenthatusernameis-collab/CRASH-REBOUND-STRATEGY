@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T00:40:25Z
+**Handoff updated (UTC):** 2026-11-15T01:13:03Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T00:40:25Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T01:13:03Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program. C1–C6 are COMPLETE. C6-T1/T2/T3 are COMPLETE: the multi-year cross-venue archive, census, power reassessment, real campaign, and dependence-aware inference are all on disk and the gates are green. Do not repeat C1–C6, do not re-acquire the OKX multi-year archive, do not re-run the 42-trade campaign, do not re-run the C6-T3 inference battery, and do not re-run any deterministic campaign on the retained chain.**
 
@@ -62,7 +62,7 @@ OKX public REST v5 `history-candles` serves real, gap-free hourly OHLCV back to 
 
 ---
 
-## Verified state (as of 2026-11-15T00:40:25Z)
+## Verified state (as of 2026-11-15T01:13:03Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -81,7 +81,7 @@ OKX public REST v5 `history-candles` serves real, gap-free hourly OHLCV back to 
 | **C6-T3 episode edge** | 19 episodes / 23 crash days / 13 symbols; bootstrap 95% CI [−50,660.49, +99,295.03] P(>0)=0.6649; permutation p=0.1000 (90th pct); verdict `underpowered` | `episode_edge_okx_multiyear.{json,md}` (2026-11-15T00:35:31Z) |
 | **C6-T3 portfolio placebo** | 55-event pool, choose 42, 20 runs; mean 13,260.48; canonical 60th pct; p(placebo≥canonical)=0.4000; verdict `underpowered` | `placebo_portfolio_okx_multiyear.{json,md}` (2026-11-15T00:35:50Z) |
 | **Decision memo C6** | C6 section added: campaign metrics, power counts, bootstrap CI, permutation p, placebo p, explicit `underpowered` verdict | `research_state/decision_memo_okx_full.md` |
-| Latest live retention probe | 2026-11-14T23:20:00Z; 3,876/6,792 bars; earliest 2026-04-20T12:00:00Z | `research_state/hyperliquid_retention_probe.json` |
+| Latest live retention probe | **2026-11-15T00:42:24Z** (this session); **3,874/6,792 bars** max; earliest 2026-04-20T14:00:00Z; 37/38 probed symbols partial, 1 empty/error (KPEPE); verdict `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` | `research_state/hyperliquid_retention_probe.json` |
 | Retained Hyperliquid chain | 24 × 3,885 bars; 11 RSI crashes / 0 confirmed signals; 4 crash days | `.../hyperliquid_universe_snapshot_20261114T104210Z_aligned_20260420T0300Z/provenance.json` |
 | Canonical OKX 283d (cross-venue) | 8 trades; +9,159.69 PnL; 4 crash episodes / 5 days; `underpowered` | `campaign_results_real_okx_full.json`, `episode_edge_okx_full.json` (2026-11-13T23:38:47Z) |
 | OKX (cross-venue, NOT HL evidence) | 4 episodes / 11 events / 5 crash days; p=0.1500; bootstrap CI [−4083.95, 24411.99] | `episode_edge_okx_full.json` (2026-11-13T23:38:47Z) |
