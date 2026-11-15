@@ -1,25 +1,25 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T18:20:00Z — C12 executed (prereg + real-engine native grid + censuses + dependence-aware inference + native C12 verdict). C12 not decision-grade GO; canonical remains NO_GO.
+**Handoff updated (UTC):** 2026-11-15T18:11:03Z — C12 executed (prereg + real-engine native grid + censuses + dependence-aware inference + native C12 verdict). C12 not decision-grade GO; canonical remains NO_GO.
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
 **Priority (inferred from repo name):** produce a **decision-grade crash-rebound verdict** — validate or falsify edge on **Hyperliquid-native** evidence with honest dependence-aware inference; where canonical/C12 fail, run the next highest-signal native campaign implied by completed evidence.
 
-**Baseline (revalidated 2026-11-15T18:20Z):** branch `main`; env `/tmp/crs-venv` ready. **C1–C11.3 COMPLETE; C12 COMPLETE (discovery, not decision-grade).** Gates: `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**.
+**Baseline (revalidated 2026-11-15T18:11Z):** branch `main`; env `/tmp/crs-venv` ready. **C1–C11.3 COMPLETE; C12 COMPLETE (discovery, not decision-grade).** Gates: `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**.
 
 **Verdict state:**
 - Cross-venue consolidated: **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7). `is_hyperliquid_venue_data=false` for OKX/Binance.
 - Native canonical (C11.3): **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE` (underpowered), 0/7** (`research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md`; consolidated native `research_state/decision_verdict_consolidated_20261115T155318Z.md`). 6 trades, spot −3,968.80, hedge +8,261.31, rebound 0, total +4,292.50.
 - **Native C12 (2026-11-15T18:00Z stem family): `NO_DECISION_GRADE_GO` / discovery only** (`research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`). Best in-sample: `c12_25_9` (RSI 25, target 9%) total +23,244.22 (spot +6,836.44, hedge +4,762.24, rebound +11,904.32; 17 trades / 10 episodes / 11 crash days) but episode-block bootstrap CI95 spans 0 (spot [−26,795, +36,129], total [−36,650, +74,463], P(total>0)=0.770) — **underpowered, not validated GO**. `c12_20_5/22_5` totals positive but **hedge-masked** (spot deeply negative). `c12_25_5` and all RSI 30 configs negative total with large negative spot. **Canonical RSI(21)<20 preserved as NO_GO.**
 
-**Bottlenecks removed this session (2026-11-15T18:20Z):** C12 compute bottleneck cleared by executing full C12: prereg written before compute, 7 real-engine native grid campaigns + censuses run (anchor reused), dependence-aware episode-block bootstrap inference produced, native C12 verdict written. Prior probe artifacts (`*_c12*rsi25_t5_probe*`) removed (not evidence).
+**Bottlenecks removed this session (2026-11-15T18:11Z):** C12 compute bottleneck cleared by executing full C12: prereg written before compute, 7 real-engine native grid campaigns + censuses run (anchor reused), dependence-aware episode-block bootstrap inference produced, native C12 verdict written. Prior probe artifacts (`*_c12*rsi25_t5_probe*`) removed (not evidence). **Inference tooling gap for non-canonical configs is now a binding C13 requirement — C13 must extend parameterized runners to accept `--rsi-threshold/--target-pct`/config parity or implement equivalent real-engine config-matched inference with fixed seed (no synthetic shortcuts).** Statistical-power bottleneck acknowledged as structural (283d native window); C13 must pre-register power/episode targets and honestly report underpowered results rather than hand-waving.
 
 **Remaining binding next work:** **C13 — pre-registered decision-grade follow-up on C12 lead hypothesis (`rsi_threshold 25, target_pct 9`) and power closure** on Hyperliquid-native real data (no handoff-only sessions).
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T18:20:00Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T18:11:03Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program (repo `CRASH-REBOUND-STRATEGY`).** C1–C12 are COMPLETE. Canonical `RSI(21)<20` is **NO_GO** (C11.3). **C12 is COMPLETE but `NO_DECISION_GRADE_GO`**: `c12_25_9` is the only in-sample positive-spot lead (+6,836.44 spot, +23,244.22 total, 17 trades/10 episodes/11 crash days) yet **underpowered** (episode-block bootstrap CI95 spans 0; not a validated GO). Do **not** claim GO from C12 point estimates or relitigate C1–C12/cross-venue evidence without a NEW stem and documented reason.
 
@@ -67,7 +67,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (2026-11-15T18:20Z)
+## What changed this session (2026-11-15T18:11Z)
 
 - **C12 pre-registered and executed (real Hyperliquid-native, Ironflow node-derived, CC BY 4.0, NOT venue candleSnapshot):**
   - Prereg: `research_state/hyperliquid_native_c12_prereg_20261115T180000Z.{json,md}`
@@ -79,7 +79,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 - **Gates re-run green:** `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**.
 - Handoff rewritten as single timestamped initial task for next session (C13). Gate-token contract preserved.
 
-## Verified state (as of 2026-11-15T18:20Z)
+## Verified state (as of 2026-11-15T18:11Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -100,11 +100,11 @@ If a future session changes the Phase O artifact, update this line to the new `g
 ## Bottlenecks (current)
 
 1. **C13 decision-grade validation — NOT YET RUN (PRIMARY).** C12 lead `rsi 25 / target 9` needs config-matched dependence-aware inference (temporal permutation/placebo under matching config) and/or additional real native data for power; current evidence **underpowered** (CI spans 0). Do not stop at handoff/gates.
-2. **Inference tooling gap for non-canonical configs.** Existing episode-edge/placebo parameterized runners hardcode canonical `StrategyConfig`/RSI assumptions in places; C13 must extend or provide equivalent real-engine config-matched inference (no synthetic shortcuts).
-3. **Statistical power — structural.** 283d native window; C12 lead shows 17 trades / 10 episodes / 11 crash days with wide CIs.
+2. **Inference tooling gap for non-canonical configs.** Existing episode-edge/placebo parameterized runners hardcode canonical `StrategyConfig`/RSI assumptions; C13 must extend or provide equivalent real-engine config-matched inference (no synthetic shortcuts). This gap is now a binding C13 requirement, not an open-ended blocker.
+3. **Statistical power — structural.** 283d native window; C12 lead shows 17 trades / 10 episodes / 11 crash days with wide CIs. C13 must pre-register power/episode targets and honestly label underpowered results.
 4. **Canonical/native economics context.** Canonical spot alpha negative; some C12 totals hedge-masked. Separate legs in every claim.
 5. **Live Hyperliquid API 1h retention — external, expected (non-blocking).** Full-window evidence comes from accepted Ironflow archive, not API.
-6. **Cross-venue evidence — exhausted/CLOSED.** OKX/Binance remain `is_hyperliquid_venue_data=false`.
+6. **Cross-venue evidence — exhausted/CLOSED.** OKX/Binance remain `is_hyperliquid_venue_data=false`. Do not re-acquire or re-run.
 
 ## Canonical artifacts (do not re-acquire/re-run/overwrite)
 
