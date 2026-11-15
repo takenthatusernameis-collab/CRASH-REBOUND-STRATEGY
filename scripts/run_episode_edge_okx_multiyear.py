@@ -72,7 +72,7 @@ def load_candles(path: Path) -> List[Dict[str, Any]]:
     return data
 
 
-def load_inputs() -> Dict[str, Any]:
+def load_inputs(rsi_threshold: float = 20.0, target_pct: Optional[float] = None) -> Dict[str, Any]:
     manifest = load_provenance(str(CACHE_DIR / "provenance.json"))
     universe = json.loads(UNIVERSE_PATH.read_text())
     symbols = [str(s).upper() for s in (universe.get("selected_symbols") or universe.get("symbols") or [])]
@@ -86,13 +86,20 @@ def load_inputs() -> Dict[str, Any]:
             missing.append(sym)
             continue
         candles[sym] = load_candles(path)
-    cfg = StrategyConfig(
+    # Config-matched real engine: the observed replay AND the permutation null must
+    # both run under the campaign's configured RSI trigger / target. None keeps the
+    # StrategyConfig default (canonical 20.0 / 9.0).
+    cfg_kwargs: Dict[str, Any] = dict(
         use_rsi_trigger=True,
         enable_rebound_short=True,
         enable_eth_hedge=True,
         enable_volume_based_sizing=True,
         min_daily_volume_usd=5_000_000.0,
+        rsi_threshold=float(rsi_threshold),
     )
+    if target_pct is not None:
+        cfg_kwargs["target_pct"] = float(target_pct)
+    cfg = StrategyConfig(**cfg_kwargs)
     return {
         "cache_dir": CACHE_DIR,
         "manifest": manifest,
@@ -349,7 +356,7 @@ def conditional_permutation_null(inp, memo, rows, keys, canonical_pnl, draws, se
     pnls = [r["total_pnl"] for r in results]
     ge = sum(1 for p in pnls if p >= canonical_pnl)
     return {
-        "method": "conditional permutation: event bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; real portfolio engine",
+        "method": (f"conditional permutation: event bars redrawn from the real RSI(21)<{rsi_threshold:g} census with observed per-symbol multiplicity preserved; real portfolio engine"),
         "mode": f"exact_enumeration:{len(results)}_draws" if exact else f"deterministic_seeded_draws:{len(results)}_seed:{seed}",
         "eligible_crash_bars": len(eligible),
         "observed_event_slots": len(keys),
@@ -381,6 +388,10 @@ def render_md(r):
     boot = r["episode_block_bootstrap"]
     perm = r["temporal_edge_permutation"]
     bt = boot["bootstrap_total_pnl"]
+    cfg = r.get("config") or {}
+    rsi_threshold = cfg.get("rsi_threshold", 20.0)
+    target_pct = cfg.get("target_pct")
+    target_label = f"{target_pct:g}%" if target_pct is not None else "default"
     native_label = "Hyperliquid-native" if r.get("is_hyperliquid_evidence") else "Cross-venue"
     lines = [
         f"# C6-T3 — Crash-Episode Dependence Audit & Conditional Temporal-Edge Test ({native_label})",
@@ -388,10 +399,11 @@ def render_md(r):
         f"**Generated (UTC):** {r['generated_at_utc']}",
         f"**Provenance:** {r['provenance_caveat']}",
         f"**Verdict:** `{r['verdict']}` ({'Hyperliquid-native evidence' if r.get('is_hyperliquid_evidence') else 'CROSS-VENUE; NOT Hyperliquid evidence'})",
+        f"**Config (config-matched real engine):** RSI<{rsi_threshold:g}, target {target_label}, rebound target {cfg.get('rebound_short_target_pct', 9.0):g}%",
         "",
         "## Inputs",
         f"- Canonical total PnL: **{r['inputs']['canonical_total_pnl']:.2f}** ({r['inputs']['canonical_num_trades']} trades)",
-        f"- Signal-gate events: **{r['inputs']['signal_gate_events']}** (RSI<20 census {r['inputs']['census_events']})",
+        f"- Signal-gate events: **{r['inputs']['signal_gate_events']}** (RSI<{rsi_threshold:g} census {r['inputs']['census_events']})",
         f"- Campaign: `{r['inputs']['campaign_sha256']}`",
         "",
         "## Episode clustering (98h holding-horizon link)",
@@ -413,7 +425,7 @@ def render_md(r):
         "",
         "## Conditional temporal-edge permutation (crash-day conditioned, real engine)",
         f"- Mode: `{perm['mode']}`",
-        f"- Eligible real RSI<20 bars: **{perm['eligible_crash_bars']}**, draws evaluated: **{perm['draws_evaluated']}**",
+        f"- Eligible real RSI<{rsi_threshold:g} bars: **{perm['eligible_crash_bars']}**, draws evaluated: **{perm['draws_evaluated']}**",
         f"- Null mean: **{perm['null_total_pnl']['mean']:.2f}**, median: **{perm['null_total_pnl']['median']:.2f}**",
         f"- Canonical percentile: **{perm['canonical_percentile_le']:.2%}**, p(placebo>=canonical): **{perm['p_null_ge_canonical']:.4f}** ({perm['n_null_ge_canonical']}/{perm['draws_evaluated']})",
     ]
@@ -423,9 +435,9 @@ def render_md(r):
     return "\n".join(lines)
 
 
-def run(draws, seed, out_stem, rsi_threshold=20.0):
+def run(draws, seed, out_stem, rsi_threshold=20.0, target_pct=None):
     t0 = time.time()
-    inp = load_inputs()
+    inp = load_inputs(rsi_threshold, target_pct)
     memo, rows, meta = build_memo(inp)
     keys = event_keys(memo, rows)
     times = _bar_time(rows)
@@ -454,7 +466,9 @@ def run(draws, seed, out_stem, rsi_threshold=20.0):
         f"--campaign {CAMPAIGN_PATH.relative_to(REPO) if CAMPAIGN_PATH.is_relative_to(REPO) else CAMPAIGN_PATH} "
         f"--venue-label {VENUE_LABEL!r} --out {out_stem}"
         + (f" --rsi-threshold {rsi_threshold:g}" if rsi_threshold != 20.0 else "")
+        + (f" --target-pct {target_pct:g}" if target_pct is not None and float(target_pct) != 9.0 else "")
     )
+    eff_cfg = inp["cfg"]
     result = {
         "schema_version": SCHEMA_VERSION,
         "generated_at_utc": iso_now(),
@@ -463,6 +477,12 @@ def run(draws, seed, out_stem, rsi_threshold=20.0):
         "is_hyperliquid_evidence": is_native,
         "cross_venue": not is_native,
         "venue_label": VENUE_LABEL,
+        "config": {
+            "rsi_threshold": float(eff_cfg.rsi_threshold),
+            "target_pct": float(eff_cfg.target_pct) if eff_cfg.target_pct is not None else None,
+            "rebound_short_target_pct": float(getattr(eff_cfg, "rebound_short_target_pct", 9.0)),
+            "config_matched": True,
+        },
         "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year " + VENUE_LABEL + " cache.",
         "seed": seed,
         "repro_cmd": repro_cmd,
@@ -497,7 +517,7 @@ def run(draws, seed, out_stem, rsi_threshold=20.0):
         "wall_seconds": time.time() - t0,
         "limitations": [
             ("Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue." if is_native else "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence."),
-            "Permutation preserves observed per-symbol multiplicity and conditions on real RSI<20 crash bars; it tests timing, not detector existence.",
+            (f"Permutation preserves observed per-symbol multiplicity and conditions on real RSI<{rsi_threshold:g} crash bars; it tests timing, not detector existence."),
             "Episode clustering uses 98h holding horizon; different link changes counts but not dependence fact.",
             "Power extrapolation is based on observed episode distribution only.",
         ],
@@ -522,7 +542,11 @@ def main(argv=None):
     ap.add_argument("--venue-label", default="OKX", help="Venue label used in provenance strings (e.g. 'Binance UM')")
     ap.add_argument("--rsi-threshold", type=float, default=20.0,
                     help="RSI trigger threshold for the conditional-permutation null's eligible crash-bar set "
-                         "(default 20.0 = canonical; non-canonical C12 discovery thresholds require a matching census).")
+                         "AND the real-engine StrategyConfig (default 20.0 = canonical; non-canonical C12 discovery "
+                         "thresholds require a matching census).")
+    ap.add_argument("--target-pct", type=float, default=None,
+                    help="Profit-target percent for the real-engine StrategyConfig (default None = canonical 9.0). "
+                         "Required for config-matched inference on non-canonical targets (e.g. C12 lead 25/9).")
     args = ap.parse_args(argv)
     CACHE_DIR = Path(args.cache_dir)
     UNIVERSE_PATH = Path(args.universe)
@@ -540,7 +564,8 @@ def main(argv=None):
             f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
             "NOT Hyperliquid performance evidence."
         )
-    run(args.draws, args.seed, args.out, float(args.rsi_threshold))
+    run(args.draws, args.seed, args.out, float(args.rsi_threshold),
+        float(args.target_pct) if args.target_pct is not None else None)
     return 0
 
 if __name__ == "__main__":

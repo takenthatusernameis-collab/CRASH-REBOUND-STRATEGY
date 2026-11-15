@@ -70,6 +70,7 @@ PROVENANCE_CAVEAT = (
     "NOT Hyperliquid performance evidence."
 )
 SEED = 20261113
+VENUE_LABEL = "OKX"
 CANONICAL_PNL = 9159.691934882958
 CANONICAL_TRADES = 8
 EXPECTED_SIGNAL_GATE_EVENTS = 11
@@ -124,13 +125,18 @@ def summarize(vals: Sequence[float]) -> Dict[str, Any]:
     }
 
 
-def load_inputs(repo: Path) -> Dict[str, Any]:
-    cache_dir = repo / "research_state/cache/okx_1h_full_20251220_20260928"
+def load_inputs(repo: Path, cache_dir: Optional[Path] = None, universe_path: Optional[Path] = None,
+                census_path: Optional[Path] = None, campaign_path: Optional[Path] = None,
+                rsi_threshold: float = 20.0, target_pct: Optional[float] = None) -> Dict[str, Any]:
+    cache_dir = cache_dir or (repo / "research_state/cache/okx_1h_full_20251220_20260928")
+    universe_path = universe_path or (repo / "research_state/universe_okx_full_verified.json")
+    census_path = census_path or (repo / "research_state/crash_event_census_real_okx_full.json")
+    campaign_path = campaign_path or (repo / "research_state/campaign_results_real_okx_full.json")
     manifest = load_provenance(str(cache_dir / "provenance.json"))
-    universe = json.loads((repo / "research_state/universe_okx_full_verified.json").read_text())
+    universe = json.loads(universe_path.read_text())
     symbols = [str(s).upper() for s in (universe.get("selected_symbols") or universe.get("symbols") or [])]
-    census = json.loads((repo / "research_state/crash_event_census_real_okx_full.json").read_text())
-    campaign = json.loads((repo / "research_state/campaign_results_real_okx_full.json").read_text())
+    census = json.loads(census_path.read_text())
+    campaign = json.loads(campaign_path.read_text())
 
     candles: Dict[str, List[Dict[str, Any]]] = {}
     missing: List[str] = []
@@ -141,15 +147,25 @@ def load_inputs(repo: Path) -> Dict[str, Any]:
             continue
         candles[sym] = load_candles(path)
 
-    cfg = StrategyConfig(
+    # Config-matched real engine: memo signals AND every placebo portfolio run use
+    # the campaign's configured RSI trigger / target. None keeps StrategyConfig
+    # defaults (canonical 20.0 / 9.0).
+    cfg_kwargs: Dict[str, Any] = dict(
         use_rsi_trigger=True,
         enable_rebound_short=True,
         enable_eth_hedge=True,
         enable_volume_based_sizing=True,
         min_daily_volume_usd=5_000_000.0,
+        rsi_threshold=float(rsi_threshold),
     )
+    if target_pct is not None:
+        cfg_kwargs["target_pct"] = float(target_pct)
+    cfg = StrategyConfig(**cfg_kwargs)
     return {
         "cache_dir": cache_dir,
+        "universe_path": universe_path,
+        "census_path": census_path,
+        "campaign_path": campaign_path,
         "manifest": manifest,
         "universe": universe,
         "symbols": symbols,
@@ -335,11 +351,14 @@ def choose_subsets(keys: List[Tuple[str, int]], k: int, draws: Optional[int], se
     return selected, f"random_draws:{draws}_seed:{seed}"
 
 
-def load_per_event_reconciliation() -> Dict[str, Any]:
+def load_per_event_reconciliation(canon_pnl: float,
+                                  per_event_path: Optional[Path] = None) -> Dict[str, Any]:
     """Summarize why the per-event null is not comparable to the portfolio result."""
-    path = REPO / "research_state/placebo_okx_full.json"
-    if not path.exists():
+    path = per_event_path or (REPO / "research_state/placebo_okx_full.json")
+    if per_event_path is None and not path.exists():
         return {"available": False, "reason": "per-event placebo artifact missing"}
+    if not path.exists():
+        return {"available": False, "reason": f"per-event placebo artifact missing: {path}"}
     try:
         data = json.loads(path.read_text())
     except Exception as exc:
@@ -355,10 +374,10 @@ def load_per_event_reconciliation() -> Dict[str, Any]:
     bc = mean_of("null_bounce_confirmed_matched_k8")
     return {
         "available": True,
-        "artifact": "research_state/placebo_okx_full.json",
+        "artifact": str(path),
         "volume_pass_null_mean_total_pnl": vp,
         "bounce_confirmed_null_mean_total_pnl": bc,
-        "canonical_total_pnl": CANONICAL_PNL,
+        "canonical_total_pnl": canon_pnl,
         "why_not_comparable": (
             "Per-event sims size each trade at 1.25% of 24h volume with no portfolio gross cap "
             "(desired notionals up to $7.29M); the canonical portfolio caps gross at $120k and "
@@ -370,14 +389,15 @@ def load_per_event_reconciliation() -> Dict[str, Any]:
 
 def run_placebo(inp: Dict[str, Any], memo: Dict[Tuple[str, int], Any], rows: List[Dict[str, Any]],
                 canonical: Dict[str, Any], draws: Optional[int], seed: int,
-                shard_id: int, shards: int) -> Dict[str, Any]:
+                shard_id: int, shards: int,
+                canon_trades: int, canon_pnl: float) -> Dict[str, Any]:
     t0 = time.time()
     keys = event_keys(memo, rows)
     canon_keys = canonical_keys(memo, rows)
-    if len(keys) < CANONICAL_TRADES:
-        raise SystemExit(f"only {len(keys)} signal-gate events; need >= {CANONICAL_TRADES}")
-    if len(canon_keys) != CANONICAL_TRADES:
-        raise SystemExit(f"canonical admitted keys={len(canon_keys)}, expected {CANONICAL_TRADES}")
+    if len(keys) < canon_trades:
+        raise SystemExit(f"only {len(keys)} signal-gate events; need >= {canon_trades}")
+    if len(canon_keys) != canon_trades:
+        raise SystemExit(f"canonical admitted keys={len(canon_keys)}, expected {canon_trades}")
 
     active_symbols = sorted({s for s, _ in memo} | {"ETH"})
     candles = {s: inp["candles"][s] for s in active_symbols if s in inp["candles"]}
@@ -388,14 +408,14 @@ def run_placebo(inp: Dict[str, Any], memo: Dict[Tuple[str, int], Any], rows: Lis
     # the canonical campaign exactly (same trades and PnL).
     canon_run = run_memo_portfolio(candles, inp["cfg"], {k: memo[k] for k in canon_keys})
     canon_summary = trade_summary(canon_run)
-    if canon_summary["num_trades"] != CANONICAL_TRADES or abs(canon_summary["total_pnl"] - CANONICAL_PNL) > 1e-9:
+    if canon_summary["num_trades"] != canon_trades or abs(canon_summary["total_pnl"] - canon_pnl) > 1e-9:
         raise SystemExit(
             "canonical replay mismatch: "
             f"trades={canon_summary['num_trades']} pnl={canon_summary['total_pnl']!r} "
-            f"expected {CANONICAL_TRADES}/{CANONICAL_PNL!r}"
+            f"expected {canon_trades}/{canon_pnl!r}"
         )
 
-    subsets, mode = choose_subsets(keys, CANONICAL_TRADES, draws, seed, shard_id, shards)
+    subsets, mode = choose_subsets(keys, canon_trades, draws, seed, shard_id, shards)
     results: List[Dict[str, Any]] = []
     for sub in subsets:
         sub_set = set(sub)
@@ -417,9 +437,9 @@ def run_placebo(inp: Dict[str, Any], memo: Dict[Tuple[str, int], Any], rows: Lis
 
     pnls = [r["total_pnl"] for r in results]
     summary = summarize(pnls)
-    ge = sum(1 for x in pnls if x >= CANONICAL_PNL)
-    gt = sum(1 for x in pnls if x > CANONICAL_PNL)
-    le = sum(1 for x in pnls if x <= CANONICAL_PNL)
+    ge = sum(1 for x in pnls if x >= canon_pnl)
+    gt = sum(1 for x in pnls if x > canon_pnl)
+    le = sum(1 for x in pnls if x <= canon_pnl)
     trade_counts: Dict[str, int] = {}
     for r in results:
         trade_counts[str(r["num_trades"])] = trade_counts.get(str(r["num_trades"]), 0) + 1
@@ -429,16 +449,23 @@ def run_placebo(inp: Dict[str, Any], memo: Dict[Tuple[str, int], Any], rows: Lis
             symbol_counts[s] = symbol_counts.get(s, 0) + 1
     canonical_subset_result = next((r for r in results if r["is_canonical_subset"]), None)
     if canonical_subset_result is not None:
-        if (canonical_subset_result["num_trades"] != CANONICAL_TRADES
-                or abs(canonical_subset_result["total_pnl"] - CANONICAL_PNL) > 1e-9):
+        if (canonical_subset_result["num_trades"] != canon_trades
+                or abs(canonical_subset_result["total_pnl"] - canon_pnl) > 1e-9):
             raise SystemExit("canonical subset did not reproduce canonical result")
 
     return {
         "schema_version": 1,
         "generated_at_utc": iso_now(),
         "provenance_caveat": PROVENANCE_CAVEAT,
+        "venue_label": VENUE_LABEL,
+        "config": {
+            "rsi_threshold": float(inp["cfg"].rsi_threshold),
+            "target_pct": float(inp["cfg"].target_pct) if inp["cfg"].target_pct is not None else None,
+            "rebound_short_target_pct": float(getattr(inp["cfg"], "rebound_short_target_pct", 9.0)),
+            "config_matched": True,
+        },
         "method": (
-            "Exact full-portfolio placebo: every 8-of-11 gate-passing crash-rebound event subset "
+            f"Full-portfolio placebo: every {canon_trades}-of-{len(keys)} gate-passing crash-rebound event subset "
             "is run through the real portfolio engine with all other signals masked. The memoized "
             "generate_signal is exact and reproduces the canonical campaign to the cent."
         ),
@@ -446,16 +473,16 @@ def run_placebo(inp: Dict[str, Any], memo: Dict[Tuple[str, int], Any], rows: Lis
         "seed": seed,
         "shard": {"shard_id": shard_id, "shards": shards},
         "canonical": {
-            "trades": CANONICAL_TRADES,
-            "total_pnl": CANONICAL_PNL,
-            "sha256": sha256_file(REPO / "research_state/campaign_results_real_okx_full.json"),
+            "trades": canon_trades,
+            "total_pnl": canon_pnl,
+            "sha256": sha256_file(inp["campaign_path"]),
             "admitted_keys": [f"{s}:{i}" for s, i in sorted(canon_keys)],
             "replay": canon_summary,
         },
         "pool": {
             "signal_gate_events": len(keys),
-            "choose_k": CANONICAL_TRADES,
-            "exact_combinations": math.comb(len(keys), CANONICAL_TRADES) if len(keys) >= CANONICAL_TRADES else 0,
+            "choose_k": canon_trades,
+            "exact_combinations": math.comb(len(keys), canon_trades) if len(keys) >= canon_trades else 0,
             "event_keys": [f"{s}:{i}" for s, i in keys],
         },
         "placebo": {
@@ -472,14 +499,15 @@ def run_placebo(inp: Dict[str, Any], memo: Dict[Tuple[str, int], Any], rows: Lis
             "canonical_subset_result": canonical_subset_result,
         },
         "runs": results,
-        "per_event_null_reconciliation": load_per_event_reconciliation(),
+        "per_event_null_reconciliation": load_per_event_reconciliation(canon_pnl),
         "verdict": "underpowered",
         "wall_seconds": time.time() - t0,
         "limitations": [
-            "Conditions on the observed 11 signal-gate events and 8 canonical trades; it tests admission/cap/occupancy selection, not the temporal crash-rebound edge versus random event times.",
-            "Only 5 traded symbols and 11 gate-passing events remain; the placebo cannot create statistical power that the sample does not contain.",
-            "Memoized generate_signal is exact for the canonical config/data (verified by exact canonical replay) but is not a general accelerator for other configs.",
-            "Cross-venue OKX cache; NOT Hyperliquid performance evidence.",
+            (f"Conditions on the observed {len(keys)} signal-gate events and {canon_trades} canonical trades; "
+             "it tests admission/cap/occupancy selection, not the temporal crash-rebound edge versus random event times."),
+            (f"Only {len({s for s, _ in canon_keys})} traded symbols and {len(keys)} gate-passing events remain; "
+             "the placebo cannot create statistical power that the sample does not contain."),
+            "Memoized generate_signal is exact for the run config/data (verified by exact canonical replay) but is not a general accelerator for other configs.",
         ],
     }
 
@@ -489,19 +517,24 @@ def render_md(result: Dict[str, Any]) -> str:
     pool = result["pool"]
     pl = result["placebo"]
     s = pl["summary"]
+    venue = result.get("venue_label", "OKX")
+    n_events = pool["signal_gate_events"]
+    k = pool["choose_k"]
+    cfg = result.get("config") or {}
     lines = [
-        "# Full-Portfolio Crash-Rebound Placebo — Real OKX 283d",
+        f"# Full-Portfolio Crash-Rebound Placebo — Real {venue}",
         "",
         f"**Generated (UTC):** {result['generated_at_utc']}  ",
         f"**Seed:** {result['seed']}  ",
         f"**Mode:** {result['mode']}  ",
+        f"**Config (config-matched real engine):** RSI<{cfg.get('rsi_threshold', 20.0):g}, target {cfg.get('target_pct') if cfg.get('target_pct') is not None else 'default'}  ",
         f"**Provenance caveat:** {result['provenance_caveat']}",
         "",
         "## What this fixes",
         "",
         "The per-event null sizes each trade at 1.25% of 24h volume with **no portfolio gross cap** "
         "(desired notionals up to $7.29M), while the canonical portfolio caps gross exposure at "
-        "**$120k** (120% of $100k). Comparing the 8-trade portfolio PnL to that uncapped per-event "
+        "**$120k** (120% of $100k). Comparing the portfolio PnL to that uncapped per-event "
         "null is a sizing artifact, not evidence. This placebo runs the **real portfolio engine** "
         "with the same gates, sizing, cap, occupancy, hedge, fees, funding and liquidation.",
         "",
@@ -514,19 +547,20 @@ def render_md(result: Dict[str, Any]) -> str:
         "",
         "## Placebo design (gate-preserving)",
         "",
-        "All 11 signal-gate-passing events are the only bars where a spec-compliant trade can open. "
-        "The canonical run admitted 8; 3 were blocked by one-position-per-coin. Every 8-of-11 subset "
+        f"All {n_events} signal-gate-passing events are the only bars where a spec-compliant trade can open. "
+        f"The canonical run admitted {k}. Every {k}-of-{n_events} subset "
         "is run with the other signals masked, preserving the $5M trailing-24h volume gate, bounce/"
         "regime gates, 1.25% volume sizing, 120% gross cap, equal-share cuts, max positions, ETH hedge, "
-        "fees, funding and liquidation. With n=11 and k=8 there are C(11,8)=165 subsets, so this is an "
-        "**exact enumeration**, not a Monte Carlo estimate.",
+        f"fees, funding and liquidation. This is an "
+        f"**{'exact enumeration' if pool['exact_combinations'] and pool['exact_combinations'] <= MAX_EXACT_COMBINATIONS else 'seeded Monte Carlo'}**"
+        + (f" over C({n_events},{k})={pool['exact_combinations']} subsets." if pool.get("exact_combinations") else "."),
         "",
         "## Result",
         "",
         f"- Placebo runs: **{pl['runs']}**",
         f"- Placebo total PnL: mean **{s['mean']:.2f}**, median **{s['median']:.2f}**, "
         f"p05 **{s['p05']:.2f}**, p95 **{s['p95']:.2f}**, min **{s['min']:.2f}**, max **{s['max']:.2f}**",
-        f"- Canonical 9159.69 percentile: **{pl['canonical_percentile_le']:.4f}** "
+        f"- Canonical {can['total_pnl']:.2f} percentile: **{pl['canonical_percentile_le']:.4f}** "
         f"(P(placebo >= canonical) = **{pl['p_ge_canonical']:.4f}**, P(>) = {pl['p_gt_canonical']:.4f})",
         f"- P(placebo total PnL > 0): **{pl['prob_total_pnl_positive']:.4f}**",
         f"- 95% placebo interval: [{pl['ci_low_pnl_2p5']:.2f}, {pl['ci_high_pnl_97p5']:.2f}]",
@@ -537,16 +571,19 @@ def render_md(result: Dict[str, Any]) -> str:
         "",
         "The per-event null is **not** a portfolio null. It sizes each trade at 1.25% of 24h volume "
         "with no gross cap (desired notionals up to $7.29M), while the canonical portfolio caps gross "
-        "at $120k. Its mean (~$232k) is a sizing artifact; the exact full-portfolio placebo above is "
+        "at $120k. Its mean is a sizing artifact; the exact full-portfolio placebo above is "
         "the valid comparison.",
         "",
         "## Interpretation",
         "",
-        "The canonical 8-trade portfolio result sits near the middle of the exact full-portfolio "
-        "placebo distribution. It is **not distinguishable from the admission/cap/occupancy outcome "
-        "of a random 8-of-11 gate-passing subset**. This is consistent with the per-event null and "
-        "the symbol-block bootstrap: the sample remains **`underpowered` / not decision-grade**. "
-        "The +9.16% return must not be presented as validated edge.",
+        (f"The canonical {can['trades']}-trade portfolio result sits at percentile "
+         f"**{pl['canonical_percentile_le']:.4f}** of the full-portfolio placebo distribution "
+         f"(P(placebo >= canonical) = **{pl['p_ge_canonical']:.4f}**). "
+         + ("It is **not distinguishable** from the admission/cap/occupancy outcome of a random "
+            f"{k}-of-{n_events} gate-passing subset; the sample remains **`underpowered` / not decision-grade**."
+            if pl["p_ge_canonical"] is not None and pl["p_ge_canonical"] >= 0.05 else
+            "It clears the p<0.05 placebo bar; interpret jointly with the episode bootstrap CI and power before any GO claim.")
+        ),
         "",
         "## Limitations",
         "",
@@ -563,6 +600,7 @@ def write_json(path: Path, obj: Any) -> None:
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    global PROVENANCE_CAVEAT, VENUE_LABEL
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--draws", type=int, default=None,
                         help="random subsets instead of exact enumeration (default: exact when <=500 combinations)")
@@ -570,32 +608,72 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--shard-id", type=int, default=0)
     parser.add_argument("--shards", type=int, default=1)
     parser.add_argument("--out", default="research_state/placebo_portfolio_okx_full")
+    parser.add_argument("--cache-dir", default=None, help="Verified cache dir (default: canonical OKX 283d full cache)")
+    parser.add_argument("--universe", default=None, help="Universe JSON (default: canonical OKX full)")
+    parser.add_argument("--census", default=None, help="Crash-event census JSON (default: canonical OKX full)")
+    parser.add_argument("--campaign", default=None, help="Campaign results JSON (default: canonical OKX full)")
+    parser.add_argument("--venue-label", default="OKX", help="Venue label used in provenance strings (e.g. 'Hyperliquid-native')")
+    parser.add_argument("--rsi-threshold", type=float, default=20.0,
+                        help="RSI trigger threshold for the real-engine StrategyConfig (default 20.0 = canonical; "
+                             "non-canonical discovery thresholds require a matching census).")
+    parser.add_argument("--target-pct", type=float, default=None,
+                        help="Profit-target percent for the real-engine StrategyConfig (default None = canonical 9.0). "
+                             "Required for config-matched inference on non-canonical targets (e.g. C12 lead 25/9).")
     args = parser.parse_args(argv)
     if args.shard_id < 0 or args.shards < 1 or args.shard_id >= args.shards:
         parser.error("require 0 <= shard-id < shards")
 
-    inp = load_inputs(REPO)
+    VENUE_LABEL = str(args.venue_label)
+    is_native = "native" in VENUE_LABEL.lower() or "hyperliquid" in VENUE_LABEL.lower()
+    if is_native:
+        PROVENANCE_CAVEAT = (
+            f"Real {VENUE_LABEL} data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), "
+            "NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue)."
+        )
+    else:
+        PROVENANCE_CAVEAT = (
+            f"Real {VENUE_LABEL} exchange data, non-synthetic; cross-venue vs Hyperliquid spec; "
+            "NOT Hyperliquid performance evidence."
+        )
+
+    cache_dir = Path(args.cache_dir) if args.cache_dir else None
+    universe_path = Path(args.universe) if args.universe else None
+    census_path = Path(args.census) if args.census else None
+    campaign_path = Path(args.campaign) if args.campaign else None
+    canonical_inputs = all(p is None for p in (cache_dir, universe_path, census_path, campaign_path))
+
+    inp = load_inputs(REPO, cache_dir, universe_path, census_path, campaign_path,
+                      float(args.rsi_threshold),
+                      float(args.target_pct) if args.target_pct is not None else None)
     memo, rows, memo_meta = build_memo(inp)
     campaign = inp["campaign"]["results"]
-    if int(campaign.get("num_trades", 0)) != CANONICAL_TRADES:
-        raise SystemExit(f"canonical campaign trades={campaign.get('num_trades')}, expected {CANONICAL_TRADES}")
-    if abs(float(campaign.get("total_pnl", 0.0)) - CANONICAL_PNL) > 1e-9:
-        raise SystemExit(f"canonical campaign pnl={campaign.get('total_pnl')!r}, expected {CANONICAL_PNL!r}")
-    if memo_meta["memo_signals"] != EXPECTED_SIGNAL_GATE_EVENTS:
-        raise SystemExit(
-            f"memo signals={memo_meta['memo_signals']}, expected {EXPECTED_SIGNAL_GATE_EVENTS}; "
-            "census/config changed — do not silently proceed"
-        )
+    canon_trades = int(campaign.get("num_trades", 0))
+    canon_pnl = float(campaign.get("total_pnl", 0.0))
+    if canon_trades <= 0:
+        raise SystemExit(f"campaign trades={campaign.get('num_trades')}; need > 0")
+    if canonical_inputs:
+        # Canonical artifact contract: the memoized engine must reproduce the
+        # canonical campaign constants exactly (hard failure, not a warning).
+        if canon_trades != CANONICAL_TRADES:
+            raise SystemExit(f"canonical campaign trades={campaign.get('num_trades')}, expected {CANONICAL_TRADES}")
+        if abs(canon_pnl - CANONICAL_PNL) > 1e-9:
+            raise SystemExit(f"canonical campaign pnl={campaign.get('total_pnl')!r}, expected {CANONICAL_PNL!r}")
+        if memo_meta["memo_signals"] != EXPECTED_SIGNAL_GATE_EVENTS:
+            raise SystemExit(
+                f"memo signals={memo_meta['memo_signals']}, expected {EXPECTED_SIGNAL_GATE_EVENTS}; "
+                "census/config changed — do not silently proceed"
+            )
     if not memo_meta["memo_matches_signal_gate"]:
         raise SystemExit("memo signals do not match census signal_gate_pass count")
 
-    result = run_placebo(inp, memo, rows, campaign, args.draws, args.seed, args.shard_id, args.shards)
+    result = run_placebo(inp, memo, rows, campaign, args.draws, args.seed, args.shard_id, args.shards,
+                         canon_trades, canon_pnl)
     result["memo_meta"] = memo_meta
     result["inputs"] = {
         "cache_dir": str(inp["cache_dir"]),
-        "universe_sha256": sha256_file(REPO / "research_state/universe_okx_full_verified.json"),
-        "census_sha256": sha256_file(REPO / "research_state/crash_event_census_real_okx_full.json"),
-        "campaign_sha256": sha256_file(REPO / "research_state/campaign_results_real_okx_full.json"),
+        "universe_sha256": sha256_file(inp["universe_path"]),
+        "census_sha256": sha256_file(inp["census_path"]),
+        "campaign_sha256": sha256_file(inp["campaign_path"]),
     }
     result["event_rows"] = rows
 
