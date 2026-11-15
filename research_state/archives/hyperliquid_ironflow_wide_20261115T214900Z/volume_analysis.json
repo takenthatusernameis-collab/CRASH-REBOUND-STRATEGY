@@ -1,0 +1,893 @@
+{
+  "min_daily_volume_usd": 5000000.0,
+  "symbols": [
+    {
+      "symbol": "LAYER.",
+      "min_24h_usd": 1835.72886,
+      "max_24h_usd": 6271435.68915,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "NEO.",
+      "min_24h_usd": 1941.1741980000002,
+      "max_24h_usd": 3220293.417130994,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BABY.",
+      "min_24h_usd": 2493.273936,
+      "max_24h_usd": 7153453.810662,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BANANA.",
+      "min_24h_usd": 2610.1647000000003,
+      "max_24h_usd": 6908967.055230012,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "TRB.",
+      "min_24h_usd": 2656.298300000001,
+      "max_24h_usd": 2893993.14033003,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SNX.",
+      "min_24h_usd": 2757.3428079999994,
+      "max_24h_usd": 3973546.5090899956,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MORPHO.",
+      "min_24h_usd": 3062.4588000000003,
+      "max_24h_usd": 20258544.991139963,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BIGTIME.",
+      "min_24h_usd": 3396.08357,
+      "max_24h_usd": 762030.226085,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "S.",
+      "min_24h_usd": 3513.1221640000003,
+      "max_24h_usd": 7774641.0617619995,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KNEIRO.",
+      "min_24h_usd": 3561.187783999999,
+      "max_24h_usd": 4389671.074197002,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "AERO.",
+      "min_24h_usd": 3734.5016800000003,
+      "max_24h_usd": 24246968.1824,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BSV.",
+      "min_24h_usd": 3830.3744,
+      "max_24h_usd": 3445571.0812999946,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SUPER.",
+      "min_24h_usd": 4242.99889,
+      "max_24h_usd": 7727465.43672,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MINA.",
+      "min_24h_usd": 4561.162002,
+      "max_24h_usd": 2727621.546329,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "CAKE.",
+      "min_24h_usd": 4841.732700000001,
+      "max_24h_usd": 6419098.164629983,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MANTA.",
+      "min_24h_usd": 5035.229628000001,
+      "max_24h_usd": 8507300.472454991,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "OP.",
+      "min_24h_usd": 5080.4063609999985,
+      "max_24h_usd": 8369187.126672,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SAND.",
+      "min_24h_usd": 5342.8505000000005,
+      "max_24h_usd": 5808628.92668,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PNUT.",
+      "min_24h_usd": 5517.060864000003,
+      "max_24h_usd": 8294776.114324003,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GRASS.",
+      "min_24h_usd": 5634.840660000001,
+      "max_24h_usd": 13572269.825024989,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SKY.",
+      "min_24h_usd": 5891.886956,
+      "max_24h_usd": 9994963.103244,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ALGO.",
+      "min_24h_usd": 6384.85068,
+      "max_24h_usd": 13174768.047407,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BLUR.",
+      "min_24h_usd": 6440.898014,
+      "max_24h_usd": 11846740.927643001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "IO.",
+      "min_24h_usd": 7187.780599999999,
+      "max_24h_usd": 6690112.29786,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ETHFI.",
+      "min_24h_usd": 7188.202034999998,
+      "max_24h_usd": 27155382.858559955,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "HYPER.",
+      "min_24h_usd": 7290.62382,
+      "max_24h_usd": 5700970.798323,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PYTH.",
+      "min_24h_usd": 7310.337173999999,
+      "max_24h_usd": 11698606.695346,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "IMX.",
+      "min_24h_usd": 7348.809131999998,
+      "max_24h_usd": 2582638.527614,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "CELO.",
+      "min_24h_usd": 7768.99608,
+      "max_24h_usd": 2678082.4176999996,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MET.",
+      "min_24h_usd": 7788.299,
+      "max_24h_usd": 16265129.22313,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "INIT.",
+      "min_24h_usd": 7808.967119,
+      "max_24h_usd": 18184489.868016,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SPX.",
+      "min_24h_usd": 8184.614582999997,
+      "max_24h_usd": 16412616.944259988,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "COMP.",
+      "min_24h_usd": 8650.703530000003,
+      "max_24h_usd": 4340677.444450005,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "AR.",
+      "min_24h_usd": 9009.023749999995,
+      "max_24h_usd": 9710360.654111993,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KAS.",
+      "min_24h_usd": 9218.7801,
+      "max_24h_usd": 1974760.866781,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SUSHI.",
+      "min_24h_usd": 9278.752999999995,
+      "max_24h_usd": 3574790.4979149993,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GALA.",
+      "min_24h_usd": 9383.42528,
+      "max_24h_usd": 1391010.9480179998,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ETC.",
+      "min_24h_usd": 9921.17672,
+      "max_24h_usd": 5959630.493781998,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KAITO.",
+      "min_24h_usd": 10111.65675,
+      "max_24h_usd": 29788069.65349,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "NXPC.",
+      "min_24h_usd": 10691.92475,
+      "max_24h_usd": 2413059.98872,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "RUNE.",
+      "min_24h_usd": 10807.023058,
+      "max_24h_usd": 6054009.274261985,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ENS.",
+      "min_24h_usd": 11657.270789999999,
+      "max_24h_usd": 2555877.8807849973,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "YGG.",
+      "min_24h_usd": 11886.817293,
+      "max_24h_usd": 5742057.277587,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ICP.",
+      "min_24h_usd": 11930.135999999999,
+      "max_24h_usd": 14588520.470330007,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "W.",
+      "min_24h_usd": 12297.015768999998,
+      "max_24h_usd": 7901188.053498997,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "FET.",
+      "min_24h_usd": 12677.9136,
+      "max_24h_usd": 13298892.801380001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "AIXBT.",
+      "min_24h_usd": 12960.508968,
+      "max_24h_usd": 5363345.295837,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ZK.",
+      "min_24h_usd": 13408.3573,
+      "max_24h_usd": 16091526.780821,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "0G.",
+      "min_24h_usd": 13627.87392,
+      "max_24h_usd": 14906178.1668,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "INJ.",
+      "min_24h_usd": 13909.11335,
+      "max_24h_usd": 30556124.93585967,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ORDI.",
+      "min_24h_usd": 15095.818481999997,
+      "max_24h_usd": 48494301.17649904,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ATOM.",
+      "min_24h_usd": 15402.643260000013,
+      "max_24h_usd": 3715951.572046001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ZRO.",
+      "min_24h_usd": 15750.66393000001,
+      "max_24h_usd": 127471705.05469988,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "JTO.",
+      "min_24h_usd": 16013.01208,
+      "max_24h_usd": 31393803.42712,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ZETA.",
+      "min_24h_usd": 16264.940119999996,
+      "max_24h_usd": 4366805.149104004,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ACE.",
+      "min_24h_usd": 16356.309961000115,
+      "max_24h_usd": 15880763.25282002,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GMT.",
+      "min_24h_usd": 16414.4786,
+      "max_24h_usd": 15731703.733213,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "REZ.",
+      "min_24h_usd": 16971.434805,
+      "max_24h_usd": 6136570.035441,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "FIL.",
+      "min_24h_usd": 17034.834079999993,
+      "max_24h_usd": 14459605.559391001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "CFX.",
+      "min_24h_usd": 17037.296130000002,
+      "max_24h_usd": 8598344.780305002,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GRIFFAIN.",
+      "min_24h_usd": 17280.537375,
+      "max_24h_usd": 4448021.47612,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "RENDER.",
+      "min_24h_usd": 17655.342099999994,
+      "max_24h_usd": 11633937.851189993,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ALT.",
+      "min_24h_usd": 17747.912538,
+      "max_24h_usd": 3342617.7528359997,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "2Z.",
+      "min_24h_usd": 18068.639,
+      "max_24h_usd": 4864490.803992,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PEOPLE.",
+      "min_24h_usd": 18268.504891999997,
+      "max_24h_usd": 6054540.830163999,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "WCT.",
+      "min_24h_usd": 18541.409059,
+      "max_24h_usd": 3484302.5040060002,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GAS.",
+      "min_24h_usd": 19057.57166999999,
+      "max_24h_usd": 2729542.8490000083,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ZEN.",
+      "min_24h_usd": 19078.62962600002,
+      "max_24h_usd": 9727472.514080001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SOPH.",
+      "min_24h_usd": 19347.279626,
+      "max_24h_usd": 20155334.129156,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "NEAR.",
+      "min_24h_usd": 19459.64112,
+      "max_24h_usd": 460166095.42940974,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GMX.",
+      "min_24h_usd": 19588.043280000016,
+      "max_24h_usd": 1139396.801951999,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "POL.",
+      "min_24h_usd": 20790.50358,
+      "max_24h_usd": 19057704.16752,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "APE.",
+      "min_24h_usd": 21184.929083999996,
+      "max_24h_usd": 75814507.90681867,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "STBL.",
+      "min_24h_usd": 22627.55253,
+      "max_24h_usd": 3647865.727266,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KLUNC.",
+      "min_24h_usd": 22817.77776,
+      "max_24h_usd": 4122120.18786,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PROVE.",
+      "min_24h_usd": 23096.581290000016,
+      "max_24h_usd": 8140249.51585,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "DOT.",
+      "min_24h_usd": 23636.57325,
+      "max_24h_usd": 43169587.27148004,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BIO.",
+      "min_24h_usd": 23950.007628,
+      "max_24h_usd": 20790110.366071,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MERL.",
+      "min_24h_usd": 24709.579400000002,
+      "max_24h_usd": 2631501.54629,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "LDO.",
+      "min_24h_usd": 25367.310270000016,
+      "max_24h_usd": 36783260.37201809,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "STX.",
+      "min_24h_usd": 26120.711934000014,
+      "max_24h_usd": 8011986.259056008,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "NIL.",
+      "min_24h_usd": 27753.724230000087,
+      "max_24h_usd": 33981780.68483,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "WLFI.",
+      "min_24h_usd": 28142.780000000002,
+      "max_24h_usd": 28620270.909130003,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PENDLE.",
+      "min_24h_usd": 28165.168,
+      "max_24h_usd": 34706394.9621,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "STRK.",
+      "min_24h_usd": 29890.055424000006,
+      "max_24h_usd": 27647686.328373965,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MOVE.",
+      "min_24h_usd": 31033.461436,
+      "max_24h_usd": 4569212.018938,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SYRUP.",
+      "min_24h_usd": 32179.189420000002,
+      "max_24h_usd": 3579579.01953,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ME.",
+      "min_24h_usd": 32844.53832,
+      "max_24h_usd": 7735453.646491005,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MNT.",
+      "min_24h_usd": 34012.03179999997,
+      "max_24h_usd": 6512746.428239999,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "JUP.",
+      "min_24h_usd": 34096.87898,
+      "max_24h_usd": 38101194.59024,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "CC.",
+      "min_24h_usd": 35301.434349999996,
+      "max_24h_usd": 12579468.98928,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ANIME.",
+      "min_24h_usd": 36191.353360000234,
+      "max_24h_usd": 9345669.530992001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "CRV.",
+      "min_24h_usd": 36313.72851999999,
+      "max_24h_usd": 38042462.826704964,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ZORA.",
+      "min_24h_usd": 38402.10787399977,
+      "max_24h_usd": 10955776.579082001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "AVNT.",
+      "min_24h_usd": 38539.65152,
+      "max_24h_usd": 20311400.19691,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "GOAT.",
+      "min_24h_usd": 39087.385454,
+      "max_24h_usd": 4647902.756467001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KFLOKI.",
+      "min_24h_usd": 39312.236637,
+      "max_24h_usd": 4143307.073082,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "APEX.",
+      "min_24h_usd": 40151.47961,
+      "max_24h_usd": 3656625.9674600004,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "RESOLV.",
+      "min_24h_usd": 42207.270395999076,
+      "max_24h_usd": 22415860.522658996,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KBONK.",
+      "min_24h_usd": 43003.395511999996,
+      "max_24h_usd": 45720785.647656,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "XLM.",
+      "min_24h_usd": 45007.714739999996,
+      "max_24h_usd": 62374234.33331,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "WIF.",
+      "min_24h_usd": 45349.88153,
+      "max_24h_usd": 18559481.46148,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "LTC.",
+      "min_24h_usd": 46095.80888000002,
+      "max_24h_usd": 80900974.70360969,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PENGU.",
+      "min_24h_usd": 48826.048134,
+      "max_24h_usd": 34120023.749165,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "LINEA.",
+      "min_24h_usd": 49206.150761,
+      "max_24h_usd": 2989032.0159,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KSHIB.",
+      "min_24h_usd": 51397.12825,
+      "max_24h_usd": 54786530.41363101,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BRETT.",
+      "min_24h_usd": 52310.87436099994,
+      "max_24h_usd": 2234084.0193200004,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SEI.",
+      "min_24h_usd": 53062.29027,
+      "max_24h_usd": 9540085.920020001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MOODENG.",
+      "min_24h_usd": 54612.82906799994,
+      "max_24h_usd": 6060230.5587450005,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "STABLE.",
+      "min_24h_usd": 54733.133632000114,
+      "max_24h_usd": 14321712.715679001,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ARB.",
+      "min_24h_usd": 57028.03931000003,
+      "max_24h_usd": 107437518.94324121,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ONDO.",
+      "min_24h_usd": 59108.44692,
+      "max_24h_usd": 180847690.95185,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MELANIA.",
+      "min_24h_usd": 63004.422789999975,
+      "max_24h_usd": 5659847.676436008,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "POPCAT.",
+      "min_24h_usd": 63034.44722300047,
+      "max_24h_usd": 5375843.448102,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PAXG.",
+      "min_24h_usd": 66019.0392000001,
+      "max_24h_usd": 154571204.27229875,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "APT.",
+      "min_24h_usd": 67274.05730400002,
+      "max_24h_usd": 8399995.325952007,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "TRX.",
+      "min_24h_usd": 68184.27616,
+      "max_24h_usd": 19563165.310739998,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "EIGEN.",
+      "min_24h_usd": 71285.469301,
+      "max_24h_usd": 22734208.679105837,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "TIA.",
+      "min_24h_usd": 72298.38329999994,
+      "max_24h_usd": 7416617.7294719955,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BERA.",
+      "min_24h_usd": 83046.54337400006,
+      "max_24h_usd": 93188687.12266281,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "TAO.",
+      "min_24h_usd": 87991.42568999999,
+      "max_24h_usd": 260249591.711469,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "HBAR.",
+      "min_24h_usd": 88342.62375,
+      "max_24h_usd": 46141833.952125,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ENA.",
+      "min_24h_usd": 90674.4993,
+      "max_24h_usd": 174064816.70887,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ADA.",
+      "min_24h_usd": 92674.4172,
+      "max_24h_usd": 46090094.3271,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "LINK.",
+      "min_24h_usd": 93616.99740000001,
+      "max_24h_usd": 80637831.32870038,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "UNI.",
+      "min_24h_usd": 99061.15039999985,
+      "max_24h_usd": 182978280.8748903,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BNB.",
+      "min_24h_usd": 102098.09129000016,
+      "max_24h_usd": 74804382.36884996,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "MON.",
+      "min_24h_usd": 102806.60371200001,
+      "max_24h_usd": 42703259.852356,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "DOGE.",
+      "min_24h_usd": 122791.16248000001,
+      "max_24h_usd": 175168905.447293,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "TRUMP.",
+      "min_24h_usd": 130542.92325000007,
+      "max_24h_usd": 270359594.1916896,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "VIRTUAL.",
+      "min_24h_usd": 134662.88545299982,
+      "max_24h_usd": 22212443.41372,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "WLD.",
+      "min_24h_usd": 146461.97710400005,
+      "max_24h_usd": 215064412.59536585,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "VVV.",
+      "min_24h_usd": 166530.13988399986,
+      "max_24h_usd": 164434177.60561973,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ASTER.",
+      "min_24h_usd": 184166.10510000002,
+      "max_24h_usd": 69304594.28454,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "KPEPE.",
+      "min_24h_usd": 236777.10400900003,
+      "max_24h_usd": 163154581.713577,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "SUI.",
+      "min_24h_usd": 260431.9305100002,
+      "max_24h_usd": 167780727.3504504,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "BCH.",
+      "min_24h_usd": 268802.37599999993,
+      "max_24h_usd": 68118156.54889987,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "AAVE.",
+      "min_24h_usd": 276818.7014999994,
+      "max_24h_usd": 203271171.3230704,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "AVAX.",
+      "min_24h_usd": 290485.44155000005,
+      "max_24h_usd": 90018279.85101013,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "FARTCOIN.",
+      "min_24h_usd": 473413.67679199984,
+      "max_24h_usd": 256821352.92651132,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "XPL.",
+      "min_24h_usd": 561936.6576,
+      "max_24h_usd": 141991544.19230002,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "PUMP.",
+      "min_24h_usd": 564388.135652,
+      "max_24h_usd": 278789808.285651,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "XRP.",
+      "min_24h_usd": 927387.1719999999,
+      "max_24h_usd": 763637208.2967999,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "HYPE.",
+      "min_24h_usd": 3158071.173509988,
+      "max_24h_usd": 2226827441.2631264,
+      "all_bars_ge_5M": false
+    },
+    {
+      "symbol": "ZEC.",
+      "min_24h_usd": 5516254.9025999885,
+      "max_24h_usd": 1854356226.5942068,
+      "all_bars_ge_5M": true
+    },
+    {
+      "symbol": "SOL.",
+      "min_24h_usd": 14025936.086400004,
+      "max_24h_usd": 2014680780.5219898,
+      "all_bars_ge_5M": true
+    },
+    {
+      "symbol": "ETH.",
+      "min_24h_usd": 27724212.057629824,
+      "max_24h_usd": 4844498941.310309,
+      "all_bars_ge_5M": true
+    },
+    {
+      "symbol": "BTC.",
+      "min_24h_usd": 47968251.0175017,
+      "max_24h_usd": 13239641644.308292,
+      "all_bars_ge_5M": true
+    }
+  ]
+}

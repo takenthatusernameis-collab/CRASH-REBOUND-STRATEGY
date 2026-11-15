@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "campaign": "C14",
+  "generated_at_utc": "2026-11-15T21:49:00.106982+00:00",
+  "dataset": "ironflow/hyperliquid-candles-1h",
+  "license": "CC-BY-4.0",
+  "source_url_base": "https://huggingface.co/datasets/ironflow/hyperliquid-candles-1h/resolve/main/data",
+  "months": [
+    "2025-12",
+    "2026-01",
+    "2026-02",
+    "2026-03",
+    "2026-04",
+    "2026-05",
+    "2026-06",
+    "2026-07",
+    "2026-08",
+    "2026-09"
+  ],
+  "files": {
+    "2025-12": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2025-12.parquet",
+      "sha256": "3eb12fc5312276df6a1a8508b162dbf8e6a4b505713ccb1a372e954fe5b713db",
+      "bytes": 6703282,
+      "download_seconds": 0.58
+    },
+    "2026-01": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-01.parquet",
+      "sha256": "a42260c697b59853b9321061ee03e146ac461708ead63a10c249839fca05b6ed",
+      "bytes": 7474426,
+      "download_seconds": 0.53
+    },
+    "2026-02": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-02.parquet",
+      "sha256": "94e1bbbd3791b5b9770c5d9708974386aa1cb854c5e18d4eb25ca809113fe091",
+      "bytes": 7609656,
+      "download_seconds": 0.63
+    },
+    "2026-03": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-03.parquet",
+      "sha256": "6a34df24c25e4ecc147bc70e8d72df811df9ca1542cab4c523320f62616adf5b",
+      "bytes": 8571239,
+      "download_seconds": 0.79
+    },
+    "2026-04": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-04.parquet",
+      "sha256": "6cab3cc3d6d3d8418d0c0dbbcff85c76d504008357a1695b39e12c57e2578180",
+      "bytes": 8547316,
+      "download_seconds": 0.56
+    },
+    "2026-05": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-05.parquet",
+      "sha256": "f8f0e158bdd4b47a3a522115297364194c56ef0ab5953b5f70b4f524ffb33a82",
+      "bytes": 9003922,
+      "download_seconds": 0.55
+    },
+    "2026-06": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-06.parquet",
+      "sha256": "1aabd11fdad5eadb7db7c7779c859ec6294d7c69e97b1f0782175b035036d4af",
+      "bytes": 8644712,
+      "download_seconds": 0.53
+    },
+    "2026-07": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-07.parquet",
+      "sha256": "7b90e976c56a325875c86aeb8b5558a182d264c1e89e64d73356afafcda417b7",
+      "bytes": 8212116,
+      "download_seconds": 0.58
+    },
+    "2026-08": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-08.parquet",
+      "sha256": "3a48dfe803ffe46a30e598952d5e1c25557c7a6eb6bb7391c2cd2d5adea68759",
+      "bytes": 8861874,
+      "download_seconds": 0.54
+    },
+    "2026-09": {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z/2026-09.parquet",
+      "sha256": "36ef6d8a476a526c2f8c12c3376405b7fab48939467d3bc40c0c673078541e59",
+      "bytes": 9020876,
+      "download_seconds": 0.52
+    }
+  }
+}

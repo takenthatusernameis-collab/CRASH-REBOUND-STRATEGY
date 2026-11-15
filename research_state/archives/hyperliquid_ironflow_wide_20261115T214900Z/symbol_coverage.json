@@ -1,0 +1,1341 @@
+{
+  "0G": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "2Z": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AAVE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ACE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ADA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AERO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AIXBT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ALGO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ALT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ANIME": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "APE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "APEX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "APT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AR": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ARB": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ARK": {
+    "rows": 4495,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1782378000000,
+    "complete": false
+  },
+  "ASTER": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ATOM": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AVAX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AVNT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "AXS": {
+    "rows": 6093,
+    "first_ts_ms": 1768705200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "AZTEC": {
+    "rows": 5488,
+    "first_ts_ms": 1770883200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "BABY": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BANANA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BCH": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BERA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BIGTIME": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BIO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BLAST": {
+    "rows": 3635,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1779699600000,
+    "complete": false
+  },
+  "BLUR": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BNB": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BOME": {
+    "rows": 6514,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "BRETT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BSV": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "BTC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "CAKE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "CASHCAT": {
+    "rows": 1916,
+    "first_ts_ms": 1783742400000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "CC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "CELO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "CFX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "CHILLGUY": {
+    "rows": 3754,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1779699600000,
+    "complete": false
+  },
+  "CHIP": {
+    "rows": 3838,
+    "first_ts_ms": 1776823200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "COMP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "CRV": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "DASH": {
+    "rows": 6093,
+    "first_ts_ms": 1768705200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "DOGE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "DOOD": {
+    "rows": 4498,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1782378000000,
+    "complete": false
+  },
+  "DOT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "DYDX": {
+    "rows": 6790,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "DYM": {
+    "rows": 6790,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "EIGEN": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ENA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ENS": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ETC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ETH": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ETHFI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "FARTCOIN": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "FET": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "FIL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "FOGO": {
+    "rows": 6746,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "FTT": {
+    "rows": 3493,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1779699600000,
+    "complete": false
+  },
+  "FXS": {
+    "rows": 417,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1767686400000,
+    "complete": false
+  },
+  "GALA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "GAS": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "GMT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "GMX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "GOAT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "GRAM": {
+    "rows": 2127,
+    "first_ts_ms": 1782982800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "GRASS": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "GRIFFAIN": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "HBAR": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "HEMI": {
+    "rows": 6773,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "HMSTR": {
+    "rows": 6437,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "HYPE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "HYPER": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ICP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "IMX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "INIT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "INJ": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "IO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "IOTA": {
+    "rows": 6774,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "IP": {
+    "rows": 4595,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1782727200000,
+    "complete": false
+  },
+  "JTO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "JUP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KAITO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KAS": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KBONK": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KFLOKI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KLUNC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KNEIRO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KPEPE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "KSHIB": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "LAYER": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "LDO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "LINEA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "LINK": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "LIT": {
+    "rows": 6729,
+    "first_ts_ms": 1766415600000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "LTC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MANTA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MAV": {
+    "rows": 3269,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "MAVIA": {
+    "rows": 3109,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "ME": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MEGA": {
+    "rows": 6750,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "MELANIA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MEME": {
+    "rows": 6713,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "MERL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MET": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MEW": {
+    "rows": 3149,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "MINA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MNT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MON": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MOODENG": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MORPHO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "MOVE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "NEAR": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "NEO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "NIL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "NOT": {
+    "rows": 6235,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "NXPC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "OM": {
+    "rows": 1569,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1771833600000,
+    "complete": false
+  },
+  "ONDO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "OP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ORDI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PAXG": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PENDLE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PENGU": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PEOPLE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PNUT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "POL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "POLYX": {
+    "rows": 6785,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "PONS": {
+    "rows": 693,
+    "first_ts_ms": 1788145200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "POPCAT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PROMPT": {
+    "rows": 3274,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "PROVE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PUMP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "PURR": {
+    "rows": 6786,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "PYTH": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "RENDER": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "RESOLV": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "REZ": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "RSR": {
+    "rows": 6649,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "RUNE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "S": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SAGA": {
+    "rows": 6766,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "SAND": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SCR": {
+    "rows": 3268,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "SEI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SKR": {
+    "rows": 5998,
+    "first_ts_ms": 1769047200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "SKY": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SNX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SOL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SOPH": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SPX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "STABLE": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "STBL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "STRK": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "STX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SUI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SUPER": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SUSHI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "SYRUP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "TAO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "TIA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "TNSR": {
+    "rows": 6420,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "TON": {
+    "rows": 4258,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1781514000000,
+    "complete": false
+  },
+  "TRB": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "TRUMP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "TRX": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "TST": {
+    "rows": 3688,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1779699600000,
+    "complete": false
+  },
+  "TURBO": {
+    "rows": 6791,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "UMA": {
+    "rows": 6789,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "UNI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "USELESS": {
+    "rows": 488,
+    "first_ts_ms": 1788883200000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "USTC": {
+    "rows": 3263,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "USUAL": {
+    "rows": 6783,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "VINE": {
+    "rows": 5986,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1787738400000,
+    "complete": false
+  },
+  "VIRTUAL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "VVV": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "W": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "WCT": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "WIF": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "WLD": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "WLFI": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "XAI": {
+    "rows": 6756,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "XLM": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "XMR": {
+    "rows": 6160,
+    "first_ts_ms": 1768464000000,
+    "last_ts_ms": 1790636400000,
+    "complete": false
+  },
+  "XPL": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "XRP": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "YGG": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "YZY": {
+    "rows": 2877,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "ZEC": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ZEN": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ZEREBRO": {
+    "rows": 3269,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1777971600000,
+    "complete": false
+  },
+  "ZETA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ZK": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ZORA": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "ZRO": {
+    "rows": 6792,
+    "first_ts_ms": 1766188800000,
+    "last_ts_ms": 1790636400000,
+    "complete": true
+  },
+  "_summary": {
+    "native_perp_symbols_in_window": 197,
+    "complete_symbols": 148,
+    "complete_symbol_list": [
+      "0G",
+      "2Z",
+      "AAVE",
+      "ACE",
+      "ADA",
+      "AERO",
+      "AIXBT",
+      "ALGO",
+      "ALT",
+      "ANIME",
+      "APE",
+      "APEX",
+      "APT",
+      "AR",
+      "ARB",
+      "ASTER",
+      "ATOM",
+      "AVAX",
+      "AVNT",
+      "BABY",
+      "BANANA",
+      "BCH",
+      "BERA",
+      "BIGTIME",
+      "BIO",
+      "BLUR",
+      "BNB",
+      "BRETT",
+      "BSV",
+      "BTC",
+      "CAKE",
+      "CC",
+      "CELO",
+      "CFX",
+      "COMP",
+      "CRV",
+      "DOGE",
+      "DOT",
+      "EIGEN",
+      "ENA",
+      "ENS",
+      "ETC",
+      "ETH",
+      "ETHFI",
+      "FARTCOIN",
+      "FET",
+      "FIL",
+      "GALA",
+      "GAS",
+      "GMT",
+      "GMX",
+      "GOAT",
+      "GRASS",
+      "GRIFFAIN",
+      "HBAR",
+      "HYPE",
+      "HYPER",
+      "ICP",
+      "IMX",
+      "INIT",
+      "INJ",
+      "IO",
+      "JTO",
+      "JUP",
+      "KAITO",
+      "KAS",
+      "KBONK",
+      "KFLOKI",
+      "KLUNC",
+      "KNEIRO",
+      "KPEPE",
+      "KSHIB",
+      "LAYER",
+      "LDO",
+      "LINEA",
+      "LINK",
+      "LTC",
+      "MANTA",
+      "ME",
+      "MELANIA",
+      "MERL",
+      "MET",
+      "MINA",
+      "MNT",
+      "MON",
+      "MOODENG",
+      "MORPHO",
+      "MOVE",
+      "NEAR",
+      "NEO",
+      "NIL",
+      "NXPC",
+      "ONDO",
+      "OP",
+      "ORDI",
+      "PAXG",
+      "PENDLE",
+      "PENGU",
+      "PEOPLE",
+      "PNUT",
+      "POL",
+      "POPCAT",
+      "PROVE",
+      "PUMP",
+      "PYTH",
+      "RENDER",
+      "RESOLV",
+      "REZ",
+      "RUNE",
+      "S",
+      "SAND",
+      "SEI",
+      "SKY",
+      "SNX",
+      "SOL",
+      "SOPH",
+      "SPX",
+      "STABLE",
+      "STBL",
+      "STRK",
+      "STX",
+      "SUI",
+      "SUPER",
+      "SUSHI",
+      "SYRUP",
+      "TAO",
+      "TIA",
+      "TRB",
+      "TRUMP",
+      "TRX",
+      "UNI",
+      "VIRTUAL",
+      "VVV",
+      "W",
+      "WCT",
+      "WIF",
+      "WLD",
+      "WLFI",
+      "XLM",
+      "XPL",
+      "XRP",
+      "YGG",
+      "ZEC",
+      "ZEN",
+      "ZETA",
+      "ZK",
+      "ZORA",
+      "ZRO"
+    ],
+    "spec_window_start_utc": "2025-12-20 00:00:00+00:00",
+    "spec_window_end_utc": "2026-09-28 23:00:00+00:00",
+    "expected_hourly_bars": 6792
+  }
+}
