@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T19:58:15Z — C13 prereg staged (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`, prereg validation PASS); C13 heavy compute + native C13 verdict **NOT run**. Hardened gate `scripts/verify_c13_focus_campaign.py` enforces ≥100 draws/subsets, prereg seed/SHA binding, max-compute selection, and verdict traceability. `scripts/build_c13_prereg.py` available (use `--force` only with documented reason). Canonical remains **NO_GO**.
+**Handoff updated (UTC):** 2026-11-15T20:00:28Z — C13 prereg staged (`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`, prereg validation PASS); C13 heavy compute + native C13 verdict **NOT run**. Hardened gate `scripts/verify_c13_focus_campaign.py` enforces ≥100 draws/subsets, prereg seed/SHA binding, max-compute selection, and verdict traceability. `scripts/build_c13_prereg.py` available (use `--force` only with documented reason). Canonical remains **NO_GO**.
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -15,7 +15,7 @@
 
 ---
 
-## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-15T19:58:15Z)
+## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-15T20:00:28Z)
 
 **You are the next agentic session continuing `CRASH-REBOUND-STRATEGY` (branch `main`).** C1–C12 COMPLETE. Canonical `RSI(21)<20` is **NO_GO**. C12 is **discovery only** (`c12_25_9` positive-spot lead, underpowered). **Do not** claim GO from C12, do not relitigate C1–C12/cross-venue without a NEW stem + documented reason, and do **not** redo staged C13 prereg/gate work unless you are regenerating prereg *before compute* with `--force` and a written reason.
 
