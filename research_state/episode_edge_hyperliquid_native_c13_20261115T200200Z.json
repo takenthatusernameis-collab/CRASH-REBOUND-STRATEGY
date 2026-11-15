@@ -1,0 +1,871 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T20:03:03Z",
+  "phase": "C6-T3",
+  "provenance_caveat": "Real Hyperliquid (Ironflow node-derived, native) data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).",
+  "is_hyperliquid_evidence": true,
+  "cross_venue": false,
+  "venue_label": "Hyperliquid (Ironflow node-derived, native)",
+  "config": {
+    "rsi_threshold": 25.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "config_matched": true
+  },
+  "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year Hyperliquid (Ironflow node-derived, native) cache.",
+  "seed": 20261115,
+  "repro_cmd": "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py --draws 200 --seed 20261115 --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json --census research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json --campaign research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json --venue-label 'Hyperliquid (Ironflow node-derived, native)' --out episode_edge_hyperliquid_native_c13_20261115T200200ZZ --rsi-threshold 25",
+  "inputs": {
+    "census_events": 202,
+    "signal_gate_events": 33,
+    "memo_signals": 33,
+    "memo_matches_signal_gate": true,
+    "canonical_total_pnl": 23244.224034983046,
+    "canonical_num_trades": 17,
+    "campaign_sha256": "72d98f0d1664ed4c53020ac37ec34ded2cd13257e4b3489c4eec43db56caf9a5",
+    "census_sha256": "3e03b6909614c17163b754d3e66c7b894dd6c0adf07db73070a6ed62e3a83c6e",
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928"
+  },
+  "episode_audit": {
+    "link_hours": 98.0,
+    "n_events": 33,
+    "n_episodes": 10,
+    "n_symbols": 5,
+    "n_distinct_crash_days": 12,
+    "distinct_crash_days": [
+      "2026-01-08",
+      "2026-01-19",
+      "2026-01-20",
+      "2026-01-21",
+      "2026-01-25",
+      "2026-01-31",
+      "2026-02-05",
+      "2026-02-23",
+      "2026-03-27",
+      "2026-05-18",
+      "2026-06-02",
+      "2026-07-17"
+    ],
+    "largest_episode_events": 9,
+    "largest_episode_share": 0.2727272727272727,
+    "mean_episode_size": 3.3,
+    "episodes": [
+      {
+        "start": "2026-01-08T11:00:00Z",
+        "end": "2026-01-08T12:00:00Z",
+        "keys": [
+          [
+            "ZEC",
+            467
+          ],
+          [
+            "ZEC",
+            468
+          ]
+        ],
+        "episode_id": 0,
+        "size": 2,
+        "events": 2,
+        "symbols": [
+          "ZEC"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-01-19T03:00:00Z",
+        "end": "2026-01-21T01:00:00Z",
+        "keys": [
+          [
+            "SOL",
+            723
+          ],
+          [
+            "SOL",
+            727
+          ],
+          [
+            "SOL",
+            728
+          ],
+          [
+            "SOL",
+            730
+          ],
+          [
+            "ETH",
+            763
+          ],
+          [
+            "SOL",
+            763
+          ],
+          [
+            "ETH",
+            764
+          ],
+          [
+            "ETH",
+            768
+          ],
+          [
+            "ETH",
+            769
+          ]
+        ],
+        "episode_id": 1,
+        "size": 9,
+        "events": 9,
+        "symbols": [
+          "ETH",
+          "SOL"
+        ],
+        "distinct_days": 3
+      },
+      {
+        "start": "2026-01-25T20:00:00Z",
+        "end": "2026-01-25T23:00:00Z",
+        "keys": [
+          [
+            "SOL",
+            884
+          ],
+          [
+            "ETH",
+            885
+          ],
+          [
+            "SOL",
+            885
+          ],
+          [
+            "ZEC",
+            885
+          ],
+          [
+            "SOL",
+            887
+          ]
+        ],
+        "episode_id": 2,
+        "size": 5,
+        "events": 5,
+        "symbols": [
+          "ETH",
+          "SOL",
+          "ZEC"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-01-31T20:00:00Z",
+        "end": "2026-01-31T22:00:00Z",
+        "keys": [
+          [
+            "BTC",
+            1028
+          ],
+          [
+            "ETH",
+            1028
+          ],
+          [
+            "SOL",
+            1028
+          ],
+          [
+            "ZEC",
+            1028
+          ],
+          [
+            "BTC",
+            1029
+          ],
+          [
+            "ETH",
+            1029
+          ],
+          [
+            "SOL",
+            1029
+          ],
+          [
+            "ETH",
+            1030
+          ]
+        ],
+        "episode_id": 3,
+        "size": 8,
+        "events": 8,
+        "symbols": [
+          "BTC",
+          "ETH",
+          "SOL",
+          "ZEC"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-02-05T22:00:00Z",
+        "end": "2026-02-05T22:00:00Z",
+        "keys": [
+          [
+            "BTC",
+            1150
+          ]
+        ],
+        "episode_id": 4,
+        "size": 1,
+        "events": 1,
+        "symbols": [
+          "BTC"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-02-23T02:00:00Z",
+        "end": "2026-02-23T05:00:00Z",
+        "keys": [
+          [
+            "ETH",
+            1562
+          ],
+          [
+            "SOL",
+            1565
+          ]
+        ],
+        "episode_id": 5,
+        "size": 2,
+        "events": 2,
+        "symbols": [
+          "ETH",
+          "SOL"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-03-27T14:00:00Z",
+        "end": "2026-03-27T18:00:00Z",
+        "keys": [
+          [
+            "BTC",
+            2342
+          ],
+          [
+            "BTC",
+            2346
+          ]
+        ],
+        "episode_id": 6,
+        "size": 2,
+        "events": 2,
+        "symbols": [
+          "BTC"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-05-18T01:00:00Z",
+        "end": "2026-05-18T01:00:00Z",
+        "keys": [
+          [
+            "ETH",
+            3577
+          ]
+        ],
+        "episode_id": 7,
+        "size": 1,
+        "events": 1,
+        "symbols": [
+          "ETH"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-06-02T20:00:00Z",
+        "end": "2026-06-02T23:00:00Z",
+        "keys": [
+          [
+            "BTC",
+            3956
+          ],
+          [
+            "BTC",
+            3959
+          ]
+        ],
+        "episode_id": 8,
+        "size": 2,
+        "events": 2,
+        "symbols": [
+          "BTC"
+        ],
+        "distinct_days": 1
+      },
+      {
+        "start": "2026-07-17T06:00:00Z",
+        "end": "2026-07-17T06:00:00Z",
+        "keys": [
+          [
+            "HYPE",
+            5022
+          ]
+        ],
+        "episode_id": 9,
+        "size": 1,
+        "events": 1,
+        "symbols": [
+          "HYPE"
+        ],
+        "distinct_days": 1
+      }
+    ],
+    "effective_independent_sample": {
+      "trades": 17,
+      "symbols": 5,
+      "episodes": 10,
+      "distinct_crash_days": 12
+    }
+  },
+  "episode_block_bootstrap": {
+    "resamples": 20000,
+    "seed": 20261115,
+    "episode_blocks": 10,
+    "episode_trade_counts": {
+      "0": 1,
+      "1": 2,
+      "2": 3,
+      "3": 4,
+      "4": 1,
+      "5": 2,
+      "6": 1,
+      "7": 1,
+      "8": 1,
+      "9": 1
+    },
+    "observed_total_pnl": 23244.22403498305,
+    "observed_episode_totals": {
+      "0": 23455.216036529273,
+      "1": 3446.472316189087,
+      "2": -2805.731294996101,
+      "3": 10085.683394432748,
+      "4": -9005.80786436407,
+      "5": 2013.7219174153665,
+      "6": -238.25553713675475,
+      "7": -242.7998588867049,
+      "8": -3946.998901768825,
+      "9": 482.7238275690306
+    },
+    "bootstrap_total_pnl": {
+      "mean": 23254.480183087522,
+      "median": 21441.078090122894,
+      "p05": -17485.680017494273,
+      "p95": 69957.48491625424,
+      "ci_low_pnl_2p5": -22799.52262496636,
+      "ci_high_pnl_97p5": 79978.90703829474,
+      "prob_total_pnl_gt_0": 0.80295
+    },
+    "n_needed_for_ci_excludes_zero": {
+      "grid": [
+        {
+          "n_episodes": 2,
+          "ci_low": -12952.806766132893,
+          "ci_high": 33540.89943096202,
+          "excludes_zero": false,
+          "mean": 5127.755379408054,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 3,
+          "ci_low": -15758.538061128995,
+          "ci_high": 43626.58282539477,
+          "excludes_zero": false,
+          "mean": 6929.026094659234,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 4,
+          "ci_low": -17138.174813082223,
+          "ci_high": 47551.173094251535,
+          "excludes_zero": false,
+          "mean": 9234.48589751517,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 5,
+          "ci_low": -18320.901278739842,
+          "ci_high": 53947.58431360849,
+          "excludes_zero": false,
+          "mean": 11137.07482120146,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 6,
+          "ci_low": -20260.804187983675,
+          "ci_high": 56979.031120812055,
+          "excludes_zero": false,
+          "mean": 13702.994792961576,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 7,
+          "ci_low": -20736.12429779809,
+          "ci_high": 67083.46729346961,
+          "excludes_zero": false,
+          "mean": 16715.213854508766,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 8,
+          "ci_low": -22515.470112059193,
+          "ci_high": 68851.53790673544,
+          "excludes_zero": false,
+          "mean": 18510.594553542305,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 9,
+          "ci_low": -22643.06542472539,
+          "ci_high": 76020.78401900243,
+          "excludes_zero": false,
+          "mean": 20679.442265130863,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 10,
+          "ci_low": -22829.20954311362,
+          "ci_high": 79760.5531182611,
+          "excludes_zero": false,
+          "mean": 22815.39991898002,
+          "within_observed": true
+        },
+        {
+          "n_episodes": 11,
+          "ci_low": -24259.332156209435,
+          "ci_high": 86554.51378431718,
+          "excludes_zero": false,
+          "mean": 25428.57675029326,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 12,
+          "ci_low": -23837.267543879363,
+          "ci_high": 90529.4492788773,
+          "excludes_zero": false,
+          "mean": 28189.03506634943,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 13,
+          "ci_low": -22398.2747471292,
+          "ci_high": 96562.9785356571,
+          "excludes_zero": false,
+          "mean": 30939.496815074,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 14,
+          "ci_low": -22723.217392485323,
+          "ci_high": 100335.53681634445,
+          "excludes_zero": false,
+          "mean": 32748.75906631082,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 15,
+          "ci_low": -25170.58906567355,
+          "ci_high": 105538.98372629286,
+          "excludes_zero": false,
+          "mean": 35129.85419968506,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 16,
+          "ci_low": -23657.276441113452,
+          "ci_high": 108714.84635958236,
+          "excludes_zero": false,
+          "mean": 36327.9720894837,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 17,
+          "ci_low": -23441.394922259195,
+          "ci_high": 113436.44062111121,
+          "excludes_zero": false,
+          "mean": 38880.54941939416,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 18,
+          "ci_low": -23311.42024853549,
+          "ci_high": 119116.43106451041,
+          "excludes_zero": false,
+          "mean": 41649.411496938206,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 19,
+          "ci_low": -22825.073834269493,
+          "ci_high": 120187.71384185544,
+          "excludes_zero": false,
+          "mean": 42913.0106759191,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 20,
+          "ci_low": -20413.29116655576,
+          "ci_high": 126449.72978405035,
+          "excludes_zero": false,
+          "mean": 46442.60990063007,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 21,
+          "ci_low": -22008.650256069297,
+          "ci_high": 127308.87938957202,
+          "excludes_zero": false,
+          "mean": 47905.81188257171,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 22,
+          "ci_low": -18671.471029252545,
+          "ci_high": 133111.61721590746,
+          "excludes_zero": false,
+          "mean": 50990.8802973055,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 23,
+          "ci_low": -21307.375346141,
+          "ci_high": 139058.03555926392,
+          "excludes_zero": false,
+          "mean": 53944.65022758238,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 24,
+          "ci_low": -18240.85952848233,
+          "ci_high": 144233.9752535046,
+          "excludes_zero": false,
+          "mean": 57212.33480694712,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 25,
+          "ci_low": -20378.402244210727,
+          "ci_high": 146862.48198108005,
+          "excludes_zero": false,
+          "mean": 58821.25325136606,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 26,
+          "ci_low": -21083.30419888328,
+          "ci_high": 149467.47669362987,
+          "excludes_zero": false,
+          "mean": 59723.22700281156,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 27,
+          "ci_low": -17887.11000733847,
+          "ci_high": 159183.80378401195,
+          "excludes_zero": false,
+          "mean": 63032.39149985955,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 28,
+          "ci_low": -16509.165292729176,
+          "ci_high": 156961.57686604967,
+          "excludes_zero": false,
+          "mean": 63921.8076228695,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 29,
+          "ci_low": -14962.834366033527,
+          "ci_high": 160614.69327734312,
+          "excludes_zero": false,
+          "mean": 67723.5972921813,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 30,
+          "ci_low": -17450.81850181023,
+          "ci_high": 161778.50585363092,
+          "excludes_zero": false,
+          "mean": 68310.74592509613,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 31,
+          "ci_low": -17496.177747788126,
+          "ci_high": 168835.1554804647,
+          "excludes_zero": false,
+          "mean": 71296.5803081277,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 32,
+          "ci_low": -17704.224555327677,
+          "ci_high": 176728.84091874267,
+          "excludes_zero": false,
+          "mean": 74127.29638207136,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 33,
+          "ci_low": -14466.823028644802,
+          "ci_high": 179486.98246788263,
+          "excludes_zero": false,
+          "mean": 76831.86450612523,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 34,
+          "ci_low": -12746.866375708558,
+          "ci_high": 179483.23907041267,
+          "excludes_zero": false,
+          "mean": 78238.18966298354,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 35,
+          "ci_low": -11740.287322360888,
+          "ci_high": 188964.55301462905,
+          "excludes_zero": false,
+          "mean": 81476.3100816118,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 36,
+          "ci_low": -5601.334512040017,
+          "ci_high": 190350.83546790067,
+          "excludes_zero": false,
+          "mean": 85353.87431789449,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 37,
+          "ci_low": -9925.723104923583,
+          "ci_high": 191509.69003296466,
+          "excludes_zero": false,
+          "mean": 85746.71938107154,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 38,
+          "ci_low": -4597.052523620335,
+          "ci_high": 196247.8355588672,
+          "excludes_zero": false,
+          "mean": 88023.5493235946,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 39,
+          "ci_low": -10336.594704786998,
+          "ci_high": 201219.34948855403,
+          "excludes_zero": false,
+          "mean": 91118.73674363762,
+          "within_observed": false
+        },
+        {
+          "n_episodes": 40,
+          "ci_low": -4212.939552456126,
+          "ci_high": 202765.918581644,
+          "excludes_zero": false,
+          "mean": 94523.37025363928,
+          "within_observed": false
+        }
+      ],
+      "observed_episodes": 10,
+      "first_size_excluding_zero": null,
+      "extrapolation_basis": "observed episode-total PnL resampled with replacement"
+    }
+  },
+  "temporal_edge_permutation": {
+    "method": "conditional permutation: event bars redrawn from the real RSI(21)<25 census with observed per-symbol multiplicity preserved; real portfolio engine",
+    "mode": "deterministic_seeded_draws:200_seed:20261115",
+    "eligible_crash_bars": 202,
+    "observed_event_slots": 33,
+    "observed_per_symbol": {
+      "BTC": 7,
+      "ETH": 10,
+      "HYPE": 1,
+      "SOL": 11,
+      "ZEC": 4
+    },
+    "distinct_possible_draws": "astronomical",
+    "draws_evaluated": 200,
+    "seed": 20261115,
+    "canonical_total_pnl": 23244.224034983046,
+    "null_total_pnl": {
+      "mean": 5726.365476915031,
+      "median": 3322.940762151382,
+      "stdev": 10028.674331788145,
+      "min": -18348.095288352037,
+      "max": 31823.77788663923,
+      "p05": -8585.281451875564,
+      "p95": 26495.750099398723,
+      "ci_low_pnl_2p5": -9271.157016075238,
+      "ci_high_pnl_97p5": 27794.052175945842,
+      "prob_total_pnl_gt_0": 0.695
+    },
+    "canonical_percentile_le": 0.915,
+    "p_null_ge_canonical": 0.085,
+    "n_null_ge_canonical": 17,
+    "wall_seconds": 62.218077659606934,
+    "limitation": "Exact enumeration infeasible (astronomical distinct draws); used deterministic seeded subset and reported seed/count."
+  },
+  "canonical_replay": {
+    "trades": [
+      {
+        "symbol": "ZEC",
+        "entry_timestamp": "2026-01-08T12:00:00+00:00",
+        "exit_timestamp": "2026-01-10T03:00:00+00:00",
+        "total_pnl": 23455.216036529273,
+        "exit_reason": "target_rebound_short",
+        "leg": "short"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-01-19T04:00:00+00:00",
+        "exit_timestamp": "2026-01-20T22:00:00+00:00",
+        "total_pnl": 3568.0888113760047,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-01-20T20:00:00+00:00",
+        "exit_timestamp": "2026-01-22T21:00:00+00:00",
+        "total_pnl": -121.61649518691775,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-01-25T21:00:00+00:00",
+        "exit_timestamp": "2026-01-27T22:00:00+00:00",
+        "total_pnl": -381.218991405156,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-01-25T22:00:00+00:00",
+        "exit_timestamp": "2026-01-27T23:00:00+00:00",
+        "total_pnl": -129.8234275079867,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ZEC",
+        "entry_timestamp": "2026-01-25T22:00:00+00:00",
+        "exit_timestamp": "2026-01-27T07:00:00+00:00",
+        "total_pnl": -2294.6888760829584,
+        "exit_reason": "target_rebound_short",
+        "leg": "short"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-01T23:00:00+00:00",
+        "total_pnl": -819.7913788797166,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-02T22:00:00+00:00",
+        "total_pnl": 1276.6977289416059,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BTC",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-02T22:00:00+00:00",
+        "total_pnl": 460.53574321506744,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ZEC",
+        "entry_timestamp": "2026-01-31T21:00:00+00:00",
+        "exit_timestamp": "2026-02-03T01:00:00+00:00",
+        "total_pnl": 9168.241301155791,
+        "exit_reason": "target_rebound_short",
+        "leg": "short"
+      },
+      {
+        "symbol": "BTC",
+        "entry_timestamp": "2026-02-05T23:00:00+00:00",
+        "exit_timestamp": "2026-02-06T00:00:00+00:00",
+        "total_pnl": -9005.80786436407,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-02-23T03:00:00+00:00",
+        "exit_timestamp": "2026-02-25T04:00:00+00:00",
+        "total_pnl": -247.5153265284962,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "2026-02-23T06:00:00+00:00",
+        "exit_timestamp": "2026-02-25T07:00:00+00:00",
+        "total_pnl": 2261.2372439438627,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BTC",
+        "entry_timestamp": "2026-03-27T15:00:00+00:00",
+        "exit_timestamp": "2026-03-29T16:00:00+00:00",
+        "total_pnl": -238.25553713675475,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "2026-05-18T02:00:00+00:00",
+        "exit_timestamp": "2026-05-20T03:00:00+00:00",
+        "total_pnl": -242.7998588867049,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BTC",
+        "entry_timestamp": "2026-06-02T21:00:00+00:00",
+        "exit_timestamp": "2026-06-04T00:00:00+00:00",
+        "total_pnl": -3946.998901768825,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "HYPE",
+        "entry_timestamp": "2026-07-17T07:00:00+00:00",
+        "exit_timestamp": "2026-07-19T08:00:00+00:00",
+        "total_pnl": 482.7238275690306,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      }
+    ],
+    "num_trades": 17
+  },
+  "verdict": "underpowered",
+  "wall_seconds": 63.455288887023926,
+  "limitations": [
+    "Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue.",
+    "Permutation preserves observed per-symbol multiplicity and conditions on real RSI<25 crash bars; it tests timing, not detector existence.",
+    "Episode clustering uses 98h holding horizon; different link changes counts but not dependence fact.",
+    "Power extrapolation is based on observed episode distribution only."
+  ]
+}
