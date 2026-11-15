@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T12:31:13Z
+**Handoff updated (UTC):** 2026-11-15T12:38:59Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).

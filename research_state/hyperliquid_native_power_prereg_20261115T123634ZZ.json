@@ -1,0 +1,544 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-15T12:36:34Z",
+  "run_type": "hyperliquid_native_power_preregistration",
+  "phase": "C11.2",
+  "verdict": "PRE_REGISTRATION_DESIGN_ARTIFACT_NOT_VERDICT",
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "provenance_caveat": "Cross-venue effect-size priors from OKX + Binance multi-year caches (is_hyperliquid_venue_data=false). Hyperliquid partial-chain crash rate from retained public-API partial window (not the 283-day spec window). This is a design/power pre-registration artifact, NOT performance evidence, NOT a verdict.",
+  "seed": 20261115,
+  "method": {
+    "episode_block_bootstrap_power_grid": true,
+    "alpha": 0.05,
+    "power_target": 0.8,
+    "simulations_per_n": 4000,
+    "n_grid_min": 20,
+    "n_grid_max": 400,
+    "n_grid_step": 10,
+    "ci_method": "normal_approximation_mean_pm_1_96_se",
+    "mde_method": "binary_search_effect_size_multiplier"
+  },
+  "inputs": {
+    "hyperliquid_partial_chain": {
+      "source": "research_state/hyperliquid_partial_crash_census_20260419_20260928.json",
+      "sha256": "8b0f9d9e5421ed142442c1ab64b44441796cfcf330e4e5f9da900d6fbda77c14",
+      "window_start": "2026-04-19T12:00:00+00:00",
+      "window_end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 3900,
+      "days_observed": 162.45833333333334,
+      "symbols": 12,
+      "bars": 46800,
+      "rsi_crash_events": 8,
+      "confirmed_signals": 0,
+      "crash_events_per_day": 0.04924339574249807,
+      "signals_per_day": 0.0
+    },
+    "cross_venue_priors": {
+      "OKX": {
+        "source": "research_state/episode_edge_okx_multiyear.json",
+        "sha256": "8ff3b033f128eed2b268d72f47135e6e0bd5da41544de92ab415793b9809d0cb",
+        "generated_at_utc": "2026-11-15T00:35:31Z",
+        "n_episodes": 19,
+        "n_distinct_crash_days": 23,
+        "canonical_total_pnl": 18220.85582429489,
+        "canonical_num_trades": 42,
+        "verdict": "underpowered",
+        "episode_totals": [
+          -12052.171473193033,
+          -1157.8757115739686,
+          2062.8583217821083,
+          -10451.561571449049,
+          3604.3204955265005,
+          -1594.5786595229097,
+          -9372.242091931756,
+          3786.70236466575,
+          -8145.90889839113,
+          -248.76685484085692,
+          7047.919839983017,
+          2728.2588264220876,
+          -1233.8497057053446,
+          4581.6690168595105,
+          29506.389990781012,
+          3040.3355176980076,
+          -1969.9715492964642,
+          8161.3317136289215,
+          -72.00374714750825
+        ]
+      },
+      "Binance": {
+        "source": "research_state/episode_edge_binance_um_multiyear.json",
+        "sha256": "318ed43a32cf4bf59b10775f8a2ac046e3f0bdc399da49c11e3ce05066ca7189",
+        "generated_at_utc": "2026-11-15T06:05:21Z",
+        "n_episodes": 19,
+        "n_distinct_crash_days": 23,
+        "canonical_total_pnl": 21994.064360948094,
+        "canonical_num_trades": 42,
+        "verdict": "underpowered",
+        "episode_totals": [
+          -12117.67886470174,
+          -1868.135249071162,
+          4112.640224562638,
+          -9080.849711495684,
+          3566.0321656624837,
+          -1624.5265179978646,
+          -9992.460836336442,
+          4189.058750486272,
+          -8438.449719464192,
+          -1156.3083679948377,
+          7015.804505868181,
+          -2932.5249406576213,
+          -1174.6806110974048,
+          39545.4051501238,
+          2767.187933412679,
+          -312.2262537028455,
+          11134.772909697927,
+          -117.93719652306186,
+          -1521.05900982303
+        ]
+      }
+    },
+    "pooled_episode_totals_count": 38
+  },
+  "power_grid": {
+    "grid": [
+      {
+        "n_episodes": 20,
+        "simulations": 4000,
+        "power": 0.06725,
+        "ci_excludes_zero_count": 269,
+        "mean_ci_low": -2871.6789796671274,
+        "mean_ci_high": 5120.861931532065,
+        "mean_total_pnl": 1124.5914759324687,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 30,
+        "simulations": 4000,
+        "power": 0.0675,
+        "ci_excludes_zero_count": 270,
+        "mean_ci_low": -2301.4298808666385,
+        "mean_ci_high": 4340.227918582298,
+        "mean_total_pnl": 1019.3990188578298,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 40,
+        "simulations": 4000,
+        "power": 0.076,
+        "ci_excludes_zero_count": 304,
+        "mean_ci_low": -1871.411314941357,
+        "mean_ci_high": 3961.3021578303947,
+        "mean_total_pnl": 1044.945421444519,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 50,
+        "simulations": 4000,
+        "power": 0.082,
+        "ci_excludes_zero_count": 328,
+        "mean_ci_low": -1586.6116295118275,
+        "mean_ci_high": 3677.7512981504387,
+        "mean_total_pnl": 1045.5698343193058,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 60,
+        "simulations": 4000,
+        "power": 0.10475,
+        "ci_excludes_zero_count": 419,
+        "mean_ci_low": -1341.1961420998111,
+        "mean_ci_high": 3510.239932770806,
+        "mean_total_pnl": 1084.5218953354974,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 70,
+        "simulations": 4000,
+        "power": 0.11575,
+        "ci_excludes_zero_count": 463,
+        "mean_ci_low": -1183.4951351143145,
+        "mean_ci_high": 3293.076752797438,
+        "mean_total_pnl": 1054.790808841562,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 80,
+        "simulations": 4000,
+        "power": 0.1215,
+        "ci_excludes_zero_count": 486,
+        "mean_ci_low": -1050.8382897724105,
+        "mean_ci_high": 3146.8151921918625,
+        "mean_total_pnl": 1047.988451209726,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 90,
+        "simulations": 4000,
+        "power": 0.1405,
+        "ci_excludes_zero_count": 562,
+        "mean_ci_low": -919.6348185362241,
+        "mean_ci_high": 3076.2622379725335,
+        "mean_total_pnl": 1078.3137097181548,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 100,
+        "simulations": 4000,
+        "power": 0.16175,
+        "ci_excludes_zero_count": 647,
+        "mean_ci_low": -830.0417925168744,
+        "mean_ci_high": 2950.094977356605,
+        "mean_total_pnl": 1060.0265924198652,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 110,
+        "simulations": 4000,
+        "power": 0.16875,
+        "ci_excludes_zero_count": 675,
+        "mean_ci_low": -745.1817162041713,
+        "mean_ci_high": 2859.407228578876,
+        "mean_total_pnl": 1057.1127561873525,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 120,
+        "simulations": 4000,
+        "power": 0.18775,
+        "ci_excludes_zero_count": 751,
+        "mean_ci_low": -662.5542044973427,
+        "mean_ci_high": 2804.2835581560676,
+        "mean_total_pnl": 1070.8646768293625,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 130,
+        "simulations": 4000,
+        "power": 0.20175,
+        "ci_excludes_zero_count": 807,
+        "mean_ci_low": -593.9705105837056,
+        "mean_ci_high": 2736.06497409419,
+        "mean_total_pnl": 1071.047231755242,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 140,
+        "simulations": 4000,
+        "power": 0.21275,
+        "ci_excludes_zero_count": 851,
+        "mean_ci_low": -549.1949698643621,
+        "mean_ci_high": 2665.4286570700797,
+        "mean_total_pnl": 1058.116843602859,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 150,
+        "simulations": 4000,
+        "power": 0.24625,
+        "ci_excludes_zero_count": 985,
+        "mean_ci_low": -465.3040605004645,
+        "mean_ci_high": 2645.942183371027,
+        "mean_total_pnl": 1090.3190614352811,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 160,
+        "simulations": 4000,
+        "power": 0.23225,
+        "ci_excludes_zero_count": 929,
+        "mean_ci_low": -461.39389875979697,
+        "mean_ci_high": 2543.243760001249,
+        "mean_total_pnl": 1040.9249306207262,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 170,
+        "simulations": 4000,
+        "power": 0.26025,
+        "ci_excludes_zero_count": 1041,
+        "mean_ci_low": -410.66345209059864,
+        "mean_ci_high": 2506.790040138078,
+        "mean_total_pnl": 1048.0632940237397,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 180,
+        "simulations": 4000,
+        "power": 0.27825,
+        "ci_excludes_zero_count": 1113,
+        "mean_ci_low": -366.4400285338899,
+        "mean_ci_high": 2463.584244320322,
+        "mean_total_pnl": 1048.5721078932158,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 190,
+        "simulations": 4000,
+        "power": 0.29575,
+        "ci_excludes_zero_count": 1183,
+        "mean_ci_low": -322.8250866458025,
+        "mean_ci_high": 2440.859343262781,
+        "mean_total_pnl": 1059.0171283084892,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 200,
+        "simulations": 4000,
+        "power": 0.31675,
+        "ci_excludes_zero_count": 1267,
+        "mean_ci_low": -277.8009669391756,
+        "mean_ci_high": 2413.2396734979397,
+        "mean_total_pnl": 1067.7193532793822,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 210,
+        "simulations": 4000,
+        "power": 0.33,
+        "ci_excludes_zero_count": 1320,
+        "mean_ci_low": -247.88949433333033,
+        "mean_ci_high": 2385.4412070138937,
+        "mean_total_pnl": 1068.775856340282,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 220,
+        "simulations": 4000,
+        "power": 0.3355,
+        "ci_excludes_zero_count": 1342,
+        "mean_ci_low": -238.68949153307338,
+        "mean_ci_high": 2333.6628716169016,
+        "mean_total_pnl": 1047.4866900419142,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 230,
+        "simulations": 4000,
+        "power": 0.36,
+        "ci_excludes_zero_count": 1440,
+        "mean_ci_low": -205.684234050342,
+        "mean_ci_high": 2306.860770364336,
+        "mean_total_pnl": 1050.5882681569972,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 240,
+        "simulations": 4000,
+        "power": 0.37725,
+        "ci_excludes_zero_count": 1509,
+        "mean_ci_low": -173.08421509798686,
+        "mean_ci_high": 2290.7476332358046,
+        "mean_total_pnl": 1058.831709068909,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 250,
+        "simulations": 4000,
+        "power": 0.398,
+        "ci_excludes_zero_count": 1592,
+        "mean_ci_low": -141.10438798579574,
+        "mean_ci_high": 2270.604459282709,
+        "mean_total_pnl": 1064.7500356484566,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 260,
+        "simulations": 4000,
+        "power": 0.39275,
+        "ci_excludes_zero_count": 1571,
+        "mean_ci_low": -132.237458733615,
+        "mean_ci_high": 2232.5400799642625,
+        "mean_total_pnl": 1050.1513106153236,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 270,
+        "simulations": 4000,
+        "power": 0.4185,
+        "ci_excludes_zero_count": 1674,
+        "mean_ci_low": -91.52482394496495,
+        "mean_ci_high": 2236.31777651762,
+        "mean_total_pnl": 1072.3964762863277,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 280,
+        "simulations": 4000,
+        "power": 0.43525,
+        "ci_excludes_zero_count": 1741,
+        "mean_ci_low": -74.32101851316105,
+        "mean_ci_high": 2208.767253218549,
+        "mean_total_pnl": 1067.223117352694,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 290,
+        "simulations": 4000,
+        "power": 0.4395,
+        "ci_excludes_zero_count": 1758,
+        "mean_ci_low": -64.62273923196973,
+        "mean_ci_high": 2176.4759183055007,
+        "mean_total_pnl": 1055.9265895367655,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 300,
+        "simulations": 4000,
+        "power": 0.464,
+        "ci_excludes_zero_count": 1856,
+        "mean_ci_low": -36.09357855917429,
+        "mean_ci_high": 2173.374795223665,
+        "mean_total_pnl": 1068.6406083322454,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 310,
+        "simulations": 4000,
+        "power": 0.47125,
+        "ci_excludes_zero_count": 1885,
+        "mean_ci_low": -28.375650070132487,
+        "mean_ci_high": 2140.475969591293,
+        "mean_total_pnl": 1056.05015976058,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 320,
+        "simulations": 4000,
+        "power": 0.49,
+        "ci_excludes_zero_count": 1960,
+        "mean_ci_low": -5.02482737256862,
+        "mean_ci_high": 2131.1534469549506,
+        "mean_total_pnl": 1063.064309791191,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 330,
+        "simulations": 4000,
+        "power": 0.51075,
+        "ci_excludes_zero_count": 2043,
+        "mean_ci_low": 23.701572415607956,
+        "mean_ci_high": 2128.503148572697,
+        "mean_total_pnl": 1076.1023604941524,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 340,
+        "simulations": 4000,
+        "power": 0.52225,
+        "ci_excludes_zero_count": 2089,
+        "mean_ci_low": 37.27136709979159,
+        "mean_ci_high": 2113.1084968020955,
+        "mean_total_pnl": 1075.1899319509432,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 350,
+        "simulations": 4000,
+        "power": 0.5255,
+        "ci_excludes_zero_count": 2102,
+        "mean_ci_low": 33.84446300277764,
+        "mean_ci_high": 2077.3382856191556,
+        "mean_total_pnl": 1055.5913743109666,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 360,
+        "simulations": 4000,
+        "power": 0.54175,
+        "ci_excludes_zero_count": 2167,
+        "mean_ci_low": 53.539854622054385,
+        "mean_ci_high": 2067.5502982997455,
+        "mean_total_pnl": 1060.5450764609,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 370,
+        "simulations": 4000,
+        "power": 0.548,
+        "ci_excludes_zero_count": 2192,
+        "mean_ci_low": 60.82625795742431,
+        "mean_ci_high": 2052.5346102141884,
+        "mean_total_pnl": 1056.6804340858064,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 380,
+        "simulations": 4000,
+        "power": 0.55625,
+        "ci_excludes_zero_count": 2225,
+        "mean_ci_low": 71.04899094746992,
+        "mean_ci_high": 2032.8747140693274,
+        "mean_total_pnl": 1051.9618525083988,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 390,
+        "simulations": 4000,
+        "power": 0.57075,
+        "ci_excludes_zero_count": 2283,
+        "mean_ci_low": 94.08313951408063,
+        "mean_ci_high": 2033.704189886604,
+        "mean_total_pnl": 1063.8936647003422,
+        "reaches_80pct_power": false
+      },
+      {
+        "n_episodes": 400,
+        "simulations": 4000,
+        "power": 0.59775,
+        "ci_excludes_zero_count": 2391,
+        "mean_ci_low": 107.3624764739102,
+        "mean_ci_high": 2021.7199211477337,
+        "mean_total_pnl": 1064.541198810822,
+        "reaches_80pct_power": false
+      }
+    ],
+    "n80": null,
+    "power_at_max_n": 0.59775,
+    "n_grid_tested": 39
+  },
+  "mde": {
+    "mde_mean_episode_pnl": null,
+    "n80": null,
+    "method": "N80 not found; MDE not computable"
+  },
+  "decision_rule": {
+    "alpha": 0.05,
+    "power_target": 0.8,
+    "n80_required_episodes": null,
+    "expected_hl_episodes_over_283d": 13.933829186971016,
+    "episodes_gap": null,
+    "mde_mean_episode_pnl": null,
+    "decision_rule": {
+      "go_requires": [
+        "is_hyperliquid_venue_data == true",
+        "performance_evidence == true",
+        "native archive covers full 283-day spec window (2025-12-20 .. 2026-09-28)",
+        "C6-T3 episode-edge test: bootstrap 95% CI of total PnL excludes zero at alpha=0.05",
+        "episode count >= N80 (>= 80% power)",
+        "conditional permutation p(null >= canonical) < 0.05",
+        "placebo portfolio: canonical PnL exceeds placebo distribution at alpha=0.05",
+        "volume_filter_ok gate holds (trailing-24h >= $5M)"
+      ],
+      "no_go_if": [
+        "any GO requirement fails",
+        "native archive not obtained (REJECT_NOT_EVIDENCE persists)",
+        "N < N80 (underpowered)",
+        "CI includes zero",
+        "permutation p >= 0.05"
+      ],
+      "flips_to_go_only_if": "Hyperliquid-native evidence clears every pre-registered requirement above"
+    },
+    "caveat": "This pre-registration is a design artifact. It does not constitute evidence, performance, or a verdict."
+  },
+  "contract": {
+    "is_design_artifact": true,
+    "is_performance_evidence": false,
+    "is_verdict": false,
+    "blocks_fake_native_claims": true,
+    "must_be_run_before_c11_3": true
+  }
+}
