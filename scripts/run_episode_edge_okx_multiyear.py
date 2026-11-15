@@ -31,6 +31,7 @@ import scripts.run_portfolio as portfolio_mod  # noqa: E402
 
 SCHEMA_VERSION = 1
 EPISODE_LINK_HOURS = 98.0
+VENUE_LABEL = "OKX"
 PROVENANCE_CAVEAT = (
     "Real OKX exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
     "NOT Hyperliquid performance evidence."
@@ -446,7 +447,7 @@ def run(draws, seed, out_stem):
         "provenance_caveat": PROVENANCE_CAVEAT,
         "is_hyperliquid_evidence": False,
         "cross_venue": True,
-        "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year OKX cache.",
+        "method": "Crash-episode dependence audit (98h single-linkage) + conditional temporal-edge permutation + episode-block bootstrap. Real portfolio engine, real multi-year " + VENUE_LABEL + " cache.",
         "seed": seed,
         "inputs": {
             "census_events": meta["census_events"],
@@ -478,7 +479,7 @@ def run(draws, seed, out_stem):
         "verdict": verdict,
         "wall_seconds": time.time() - t0,
         "limitations": [
-            "CROSS-VENUE OKX multi-year cache; NOT Hyperliquid performance evidence.",
+            "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence.",
             "Permutation preserves observed per-symbol multiplicity and conditions on real RSI<20 crash bars; it tests timing, not detector existence.",
             "Episode clustering uses 98h holding horizon; different link changes counts but not dependence fact.",
             "Power extrapolation is based on observed episode distribution only.",
@@ -492,11 +493,26 @@ def run(draws, seed, out_stem):
 
 
 def main(argv=None):
+    global CACHE_DIR, UNIVERSE_PATH, CENSUS_PATH, CAMPAIGN_PATH, PROVENANCE_CAVEAT, VENUE_LABEL
     ap = argparse.ArgumentParser()
     ap.add_argument("--draws", type=int, default=200)
     ap.add_argument("--seed", type=int, default=20261114)
     ap.add_argument("--out", default="episode_edge_okx_multiyear")
+    ap.add_argument("--cache-dir", default=str(CACHE_DIR), help="Verified cache dir (default: canonical OKX multi-year)")
+    ap.add_argument("--universe", default=str(UNIVERSE_PATH), help="Universe JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--census", default=str(CENSUS_PATH), help="Crash-event census JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--campaign", default=str(CAMPAIGN_PATH), help="Campaign results JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--venue-label", default="OKX", help="Venue label used in provenance strings (e.g. 'Binance UM')")
     args = ap.parse_args(argv)
+    CACHE_DIR = Path(args.cache_dir)
+    UNIVERSE_PATH = Path(args.universe)
+    CENSUS_PATH = Path(args.census)
+    CAMPAIGN_PATH = Path(args.campaign)
+    VENUE_LABEL = str(args.venue_label)
+    PROVENANCE_CAVEAT = (
+        f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
+        "NOT Hyperliquid performance evidence."
+    )
     run(args.draws, args.seed, args.out)
     return 0
 

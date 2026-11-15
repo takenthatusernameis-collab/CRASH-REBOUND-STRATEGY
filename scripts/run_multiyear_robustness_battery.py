@@ -54,6 +54,7 @@ from src.data.provenance import load_provenance  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
 
+VENUE_LABEL = "OKX"
 PROVENANCE_CAVEAT = (
     "Real OKX exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
     "NOT Hyperliquid performance evidence."
@@ -64,6 +65,7 @@ UNIVERSE_PATH = REPO / "research_state/universe_okx_multiyear_verified.json"
 CENSUS_PATH = REPO / "research_state/crash_event_census_real_okx_multiyear.json"
 CAMPAIGN_PATH = REPO / "research_state/campaign_results_real_okx_multiyear.json"
 EPISODE_EDGE_PATH = REPO / "research_state/episode_edge_okx_multiyear.json"
+PHASE_LABEL = "C7"
 
 
 def iso_now() -> str:
@@ -394,9 +396,10 @@ def phase_b(symbols: Sequence[str], seed_note: str, variant_names: Optional[Sequ
 def render_md(result: Dict[str, Any]) -> str:
     a = result.get("A", {})
     lines = [
-        "# C7 — Multi-Year Cross-Venue Robustness, Fragility & Achievable-Power Battery",
+        f"# {PHASE_LABEL} — Multi-Year Cross-Venue Robustness, Fragility & Achievable-Power Battery",
         "",
         f"**Generated (UTC):** {result['generated_at_utc']}",
+        f"**Venue:** {VENUE_LABEL} (CROSS-VENUE; NOT Hyperliquid evidence)",
         f"**Provenance:** {result['provenance_caveat']}",
         f"**Verdict:** `{result['verdict']}` (CROSS-VENUE; NOT Hyperliquid evidence)",
         "",
@@ -502,9 +505,9 @@ def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]]) -> Tuple[str, 
     interp = (
         f"The multi-year cross-venue headline of {total:.2f} is NOT a decision-grade edge: "
         + "; ".join(reasons)
-        + ". The honest cross-venue verdict remains that the strategy's temporal edge is not established; "
+        + f". The honest cross-venue verdict remains that the strategy's temporal edge is not established; "
           "this battery shows it is fragile and not robust to leg decomposition, sub-period, cost, or power limits. "
-          "CROSS-VENUE OKX data only — NOT Hyperliquid performance evidence."
+          f"CROSS-VENUE {VENUE_LABEL} data only — NOT Hyperliquid performance evidence."
         if reasons else
         f"The multi-year cross-venue edge survives this battery (total {total:.2f}); it remains CROSS-VENUE and NOT Hyperliquid evidence."
     )
@@ -512,12 +515,32 @@ def build_verdict(a: Dict[str, Any], b: Optional[Dict[str, Any]]) -> Tuple[str, 
 
 
 def main(argv: Optional[List[str]] = None) -> int:
+    global CACHE_DIR, UNIVERSE_PATH, CAMPAIGN_PATH, CENSUS_PATH, EPISODE_EDGE_PATH, PROVENANCE_CAVEAT, VENUE_LABEL, PHASE_LABEL
     ap = argparse.ArgumentParser()
     ap.add_argument("--phases", nargs="+", default=["A"], choices=["A", "B"])
     ap.add_argument("--variants", nargs="*", default=None, help="Phase B variant names (default: all)")
     ap.add_argument("--out", default="multiyear_robustness_battery")
     ap.add_argument("--seed-note", default="deterministic; no randomness in Phase A; Phase B is deterministic given config")
+    ap.add_argument("--cache-dir", default=str(CACHE_DIR), help="Verified cache dir (default: canonical OKX multi-year)")
+    ap.add_argument("--universe", default=str(UNIVERSE_PATH), help="Universe JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--campaign", default=str(CAMPAIGN_PATH), help="Campaign results JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--census", default=str(CENSUS_PATH), help="Crash-event census JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--episode-edge", default=str(EPISODE_EDGE_PATH), help="Episode-edge JSON (default: canonical OKX multi-year)")
+    ap.add_argument("--venue-label", default="OKX", help="Venue label used in provenance strings (e.g. 'Binance UM')")
+    ap.add_argument("--phase-label", default="C7", help="Artifact phase label (e.g. 'C8-BINANCE')")
     args = ap.parse_args(argv)
+
+    CACHE_DIR = Path(args.cache_dir)
+    UNIVERSE_PATH = Path(args.universe)
+    CAMPAIGN_PATH = Path(args.campaign)
+    CENSUS_PATH = Path(args.census)
+    EPISODE_EDGE_PATH = Path(args.episode_edge)
+    VENUE_LABEL = str(args.venue_label)
+    PHASE_LABEL = str(args.phase_label)
+    PROVENANCE_CAVEAT = (
+        f"Real {VENUE_LABEL} exchange data, non-synthetic; CROSS-VENUE vs Hyperliquid spec; "
+        "NOT Hyperliquid performance evidence."
+    )
 
     t0 = time.time()
     campaign = load_campaign()
@@ -535,12 +558,13 @@ def main(argv: Optional[List[str]] = None) -> int:
     result = {
         "schema_version": 1,
         "generated_at_utc": iso_now(),
-        "phase": "C7",
+        "phase": PHASE_LABEL,
         "provenance_caveat": PROVENANCE_CAVEAT,
         "is_hyperliquid_evidence": False,
         "cross_venue": True,
+        "venue_label": VENUE_LABEL,
         "method": ("Per-leg attribution, exit-reason decomposition, sub-period stability, episode concentration, "
-                   "leave-one-out fragility, and achievable-power bound on the existing multi-year OKX campaign; "
+                   "leave-one-out fragility, and achievable-power bound on the existing multi-year " + VENUE_LABEL + " campaign; "
                    "optional real-engine re-runs under modified config."),
         "inputs": {
             "campaign_sha256": sha256_file(CAMPAIGN_PATH),
@@ -555,7 +579,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         "phases_run": args.phases,
         "wall_seconds": round(time.time() - t0, 1),
         "limitations": [
-            "CROSS-VENUE OKX multi-year cache; NOT Hyperliquid performance evidence.",
+            "CROSS-VENUE " + VENUE_LABEL + " multi-year cache; NOT Hyperliquid performance evidence.",
             "Phase A leave-one-out is analytical (total minus subset); it ignores second-order portfolio interactions (cap/occupancy), which Phase B memo-free re-runs would capture.",
             "Phase B re-runs use the real portfolio engine with modified config; each is deterministic.",
         ],

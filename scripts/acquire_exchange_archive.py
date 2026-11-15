@@ -28,12 +28,31 @@ DATA SOURCE (default): OKX ``GET /api/v5/market/history-candles``
   - ``confirm == "1"`` marks a closed candle (we require this; partial last bar is dropped).
   - No API key required.
 
+DATA SOURCE (``--venues binance_vision_um``): Binance Vision public data dump
+  (USDT-M futures / ``um`` monthly klines).
+  https://developers.binance.com/docs/binance-vision
+  - ``https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip``
+  - Each ZIP holds one month of real, exchange-published hourly OHLCV as CSV
+    (header: open_time,open,high,low,close,volume,close_time,quote_volume,count,
+    taker_buy_volume,taker_buy_quote_volume,ignore).
+  - Static files: no API key; missing months return HTTP 404 (recorded, never fabricated).
+  - Symbols that trade under a 1000x multiplier on Binance futures (e.g. SHIB ->
+    1000SHIB) are resolved automatically by probing the plain name first.
+  - The public Binance REST API (``fapi.binance.com``) is geo-blocked in this
+    environment (HTTP 451), so the Vision dump is the accessible real-data source.
+
 USAGE
 -----
     PYTHONPATH=. python scripts/acquire_exchange_archive.py \
         --venues okx --symbols BTC ETH SOL \
         --start 2025-12-20T00:00:00Z --end 2026-09-28T23:00:00Z \
         --out research_state/archives/okx_1h_20251220_20260928
+
+    PYTHONPATH=. python scripts/acquire_exchange_archive.py \
+        --venues binance_vision_um --symbols BTC ETH SOL SHIB \
+        --start 2023-01-01T00:00:00Z --end 2026-09-28T23:00:00Z \
+        --out research_state/archives/binance_um_1h_multiyear_20230101_20260928 \
+        --allow-incomplete --force
 
     # then verify + ingest through the provenance gate:
     PYTHONPATH=. python scripts/fetch_hyperliquid_candles.py \
@@ -166,11 +185,149 @@ def okx_fetch_range(symbol: str, quote: str, start_ms: int, end_ms: int,
     return ordered, meta
 
 
+def _ms_to_dt(ms: int) -> datetime:
+    return datetime.fromtimestamp(ms / 1000, tz=timezone.utc)
+
+
+def _binance_vision_months(start_ms: int, end_ms: int) -> List[str]:
+    first, last = _ms_to_dt(start_ms), _ms_to_dt(end_ms)
+    months: List[str] = []
+    y, m = first.year, first.month
+    while (y, m) <= (last.year, last.month):
+        months.append(f"{y:04d}-{m:02d}")
+        m += 1
+        if m > 12:
+            m, y = 1, y + 1
+    return months
+
+
+def _binance_vision_parse_csv(text: str) -> List[Dict[str, Any]]:
+    rows: List[Dict[str, Any]] = []
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line.startswith("open_time"):
+            continue
+        parts = line.split(",")
+        if len(parts) < 6:
+            continue
+        try:
+            ts_raw = int(parts[0])
+            # Binance switched some kline open_time fields to microseconds; normalize.
+            ts = ts_raw // 1000 if ts_raw > 10**14 else ts_raw
+            o, h, l, c, v = (float(parts[1]), float(parts[2]), float(parts[3]),
+                             float(parts[4]), float(parts[5]))
+        except (TypeError, ValueError):
+            continue
+        if not (h >= max(o, c) and l <= min(o, c) and h >= l and min(o, h, l, c) > 0):
+            continue
+        rows.append({"timestamp": ts, "open": o, "high": h, "low": l, "close": c, "volume": v})
+    return rows
+
+
+def binance_vision_um_fetch_range(symbol: str, quote: str, start_ms: int, end_ms: int,
+                                  session, timeout: int, page_limit: int = 300,
+                                  max_pages: int = 400) -> Tuple[List[Dict[str, Any]], Dict[str, Any]]:
+    """Fetch USDT-M futures 1h klines from the Binance Vision public data dump.
+
+    Downloads one monthly ZIP per month in the window (concurrently), parses the
+    CSV, and returns candles filtered to the target window. Missing months (404,
+    e.g. pre-listing) are recorded, never fabricated.
+    """
+    import concurrent.futures as cf
+    import io
+    import zipfile
+
+    base = "https://data.binance.vision/data/futures/um/monthly/klines"
+
+    def _url(sym: str, month: str) -> str:
+        return f"{base}/{sym}{quote}/1h/{sym}{quote}-1h-{month}.zip"
+
+    months = _binance_vision_months(start_ms, end_ms)[:max_pages]
+    if not months:
+        raise RuntimeError(f"Binance Vision: empty month range for {symbol}-{quote}")
+
+    # Resolve instrument name: plain first, then 1000x multiplier prefix. Probe
+    # both the first and last month so late-listed symbols (e.g. MINA, listed
+    # mid-2023) resolve instead of failing on an empty first month.
+    resolved: Optional[str] = None
+    for cand in (symbol, f"1000{symbol}"):
+        for probe_month in (months[0], months[-1]):
+            try:
+                resp = session.get(_url(cand, probe_month), timeout=timeout, stream=True)
+                ok = resp.status_code == 200
+                resp.close()
+            except Exception:  # noqa: BLE001
+                ok = False
+            if ok:
+                resolved = cand
+                break
+        if resolved is not None:
+            break
+    if resolved is None:
+        raise RuntimeError(
+            f"Binance Vision: no data for {symbol}{quote} (plain or 1000-prefix) at {months[0]}"
+        )
+
+    def _fetch_month(month: str) -> Tuple[str, Optional[bytes], str]:
+        url = _url(resolved, month)
+        try:
+            resp = session.get(url, timeout=timeout)
+        except Exception as exc:  # noqa: BLE001
+            return month, None, f"error:{type(exc).__name__}"
+        if resp.status_code == 404:
+            return month, None, "missing_404"
+        if resp.status_code != 200:
+            return month, None, f"http_{resp.status_code}"
+        return month, resp.content, "ok"
+
+    candles: Dict[int, Dict[str, Any]] = {}
+    missing_months: List[Dict[str, str]] = []
+    downloaded = 0
+    with cf.ThreadPoolExecutor(max_workers=8) as pool:
+        for month, content, status in pool.map(_fetch_month, months):
+            if content is None:
+                missing_months.append({"month": month, "status": status})
+                continue
+            downloaded += 1
+            try:
+                zf = zipfile.ZipFile(io.BytesIO(content))
+                name = zf.namelist()[0]
+                text = zf.read(name).decode("utf-8")
+            except Exception:  # noqa: BLE001
+                missing_months.append({"month": month, "status": "zip_error"})
+                continue
+            for row in _binance_vision_parse_csv(text):
+                ts = int(row["timestamp"])
+                if ts < start_ms or ts > end_ms or ts in candles:
+                    continue
+                candles[ts] = row
+    ordered = [candles[k] for k in sorted(candles)]
+    meta = {
+        "venue": "binance_vision_um",
+        "instrument": f"{resolved}{quote}",
+        "endpoint": (f"GET {base}/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip "
+                     "(Binance Vision public data dump; USDT-M futures)"),
+        "bar": "1H",
+        "pages_fetched": downloaded,
+        "missing_months": missing_months,
+        "rows_deduped": len(ordered),
+        "pagination": "monthly static ZIP archives; 404 months recorded as missing",
+        "symbol_resolution": (f"probed plain '{symbol}' (404) -> 1000x '{resolved}'"
+                              if resolved != symbol else f"plain '{symbol}'"),
+    }
+    return ordered, meta
+
+
 VENUES = {
     "okx": {
         "fetch_range": okx_fetch_range,
         "default_quote": "USDT",
         "source_label": "okx_public_rest_v5_history_candles",
+    },
+    "binance_vision_um": {
+        "fetch_range": binance_vision_um_fetch_range,
+        "default_quote": "USDT",
+        "source_label": "binance_vision_public_data_dump_um_futures_1h",
     },
 }
 
