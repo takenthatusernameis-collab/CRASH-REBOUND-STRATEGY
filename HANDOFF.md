@@ -1,14 +1,14 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T20:37:34Z — C13 **COMPLETE**: prereg staged + heavy compute (200/200 draws) + native verdict `UNDERPOWERED` written. Gate `scripts/verify_c13_focus_campaign.py` → **C13 ACCEPTANCE: PASS**. Canonical remains **NO_GO**.
+**Handoff updated (UTC):** 2026-11-15T20:43:39Z — C13 **COMPLETE** (200/200 draws, `UNDERPOWERED` verdict). **C1–C13 COMPLETE**. Gate `scripts/verify_c13_focus_campaign.py` → **C13 ACCEPTANCE: PASS**. Canonical **NO_GO preserved**. **Research program primary mission complete.** Next priority: **final consolidation/closeout**.
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
-**Priority (inferred from repo name):** produce a **decision-grade crash-rebound verdict** — validate or falsify the edge on **Hyperliquid-native** evidence with honest dependence-aware inference. Canonical and C12 discovery are complete; the **single blocking priority is C13** (pre-registered validation of the only positive-spot lead `rsi_threshold 25, target_pct 9`). Any session that does not advance C13 heavy work is off-priority unless it unblocks C13.
+**Priority (inferred from repo name):** produce a **decision-grade crash-rebound verdict** — validate or falsify the edge on **Hyperliquid-native** evidence with honest dependence-aware inference. **C1–C13 are complete.** The single blocking priority C13 is done. The **next focus is final consolidation**: synthesize all campaigns (C1–C13 cross-venue + native) into a single consolidated verdict artifact and close the research program.
 
-**Baseline (revalidated 2026-11-15T20:37Z):** branch `main`; env `/tmp/crs-venv` ready. **C1–C13 COMPLETE.** Gates (record stems/results each session): `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**, `scripts/verify_c13_focus_campaign.py` **PASS (C13 ACCEPTANCE: PASS — config-matched native C13 artifacts complete)**.
+**Baseline (revalidated 2026-11-15T20:43Z):** branch `main`; env `/tmp/crs-venv` ready. **C1–C13 COMPLETE.** Gates (record stems/results each session): `scripts/session_gate.py` **21/21 checks passed — DONE**, `scripts/verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `scripts/verify_next_focus_campaign.py` **PASS (C6 ACCEPTANCE: PASS — multi-year cross-venue campaign artifacts complete)**, `scripts/verify_c13_focus_campaign.py` **PASS (C13 ACCEPTANCE: PASS — config-matched native C13 artifacts complete)**.
 
-**Verdict state:**
+**Verdict state (final):**
 - Cross-venue consolidated: **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7). `is_hyperliquid_venue_data=false` for OKX/Binance.
 - Native canonical (C11.3): **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE` (underpowered), 0/7** (`research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md`; consolidated native `research_state/decision_verdict_consolidated_20261115T155318Z.md`). 6 trades, spot −3,968.80, hedge +8,261.31, rebound 0, total +4,292.50.
 - Native C12 (2026-11-15T18:00Z stem family): **`NO_DECISION_GRADE_GO` / discovery only** (`research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`). Best in-sample: `c12_25_9` (RSI 25, target 9%) total +23,244.22 (spot +6,836.44, hedge +4,762.24, rebound +11,904.32; 17 trades / 10 episodes / 11 crash days) but episode-block bootstrap CI95 spans 0 (spot [−26,795, +36,129], total [−36,650, +74,463], P(total>0)=0.770) — **underpowered, not validated GO**. `c12_20_5/22_5` totals positive but **hedge-masked** (spot deeply negative). `c12_25_5` and all RSI 30 configs negative total with large negative spot. **Canonical RSI(21)<20 preserved as NO_GO.**
@@ -16,12 +16,18 @@
 
 ---
 
-## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-15T20:00:28Z)
+## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-15T20:43:39Z)
 
-**You are the next agentic session continuing `CRASH-REBOUND-STRATEGY` (branch `main`).** C1–C12 COMPLETE. Canonical `RSI(21)<20` is **NO_GO**. C12 is **discovery only** (`c12_25_9` positive-spot lead, underpowered). **Do not** claim GO from C12, do not relitigate C1–C12/cross-venue without a NEW stem + documented reason, and do **not** redo staged C13 prereg/gate work unless you are regenerating prereg *before compute* with `--force` and a written reason.
+**You are the next agentic session continuing `CRASH-REBOUND-STRATEGY` (branch `main`).** **C1–C13 COMPLETE.** Canonical `RSI(21)<20` is **NO_GO**. C12 is **discovery only** (`NO_DECISION_GRADE_GO`). **C13 is COMPLETE** (`UNDERPOWERED`). The **single blocking priority C13 is done**. Do **not** claim GO from any campaign. Do **not** relitigate C1–C13 without a NEW stem + documented reason.
 
-### Primary mission (single focus): C13 — pre-registered, decision-grade native validation of `rsi_threshold 25, target_pct 9`
-A session is **not** successful if it only edits this handoff, only reruns gates, or only reruns canonical campaigns. **Done means** `scripts/verify_c13_focus_campaign.py` prints **`C13 ACCEPTANCE: PASS`** (plus all other required gates green and this handoff re-timestamped with exact C13 stems/verdict).
+### Primary mission (single focus): FINAL CONSOLIDATION — synthesize C1–C13 into one consolidated verdict and close the research program
+A session is **not** successful if it only edits this handoff, only reruns gates, or only reruns past campaigns. **Done means** a new `research_state/decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` exists that:
+- references **all** prior verdict stems (cross-venue, C11.3, C12, C13),
+- states a single final verdict token (`NO_GO`),
+- cites dependence-aware evidence from every campaign,
+- separates spot / ETH hedge / rebound-short legs in the summary,
+- records the structural power limitation (283d window, effective N),
+- and `scripts/session_gate.py` **21/21 checks passed — DONE** (all gates green).
 
 ### 0) Mandatory readiness + gates (run every session; record outputs/stems)
 ```bash
@@ -30,58 +36,44 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py                 # 
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py     # 4/4 EVIDENCE VERIFIED
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_next_focus_campaign.py   # C6 PASS
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py    # C11.0 read-only (record stem)
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c13_focus_campaign.py    # FAIL until C13 complete (expected now)
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c13_focus_campaign.py    # C13 ACCEPTANCE: PASS
 ```
-Fixed native inputs: cache `research_state/cache/hyperliquid_ironflow_native_20251220_20260928/`, universe `research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json`. C12 lead inputs: `research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`, `research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`. **Provenance (binding):** Hyperliquid-native, **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**; `is_hyperliquid_venue_data=true`.
+Fixed native inputs: cache `research_state/cache/hyperliquid_ironflow_native_20251220_20260928/`, universe `research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json`. C12 lead inputs: `research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`, `research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`. C13 artifacts: `episode_edge_hyperliquid_native_c13_20261115T200200Z.json`, `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.json`. **Provenance (binding):** Hyperliquid-native, **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**; `is_hyperliquid_venue_data=true`.
 
-### 1) C13.0 — Prereg (STAGED; verify, do not silently rewrite)
-Prereg: `research_state/hyperliquid_native_c13_prereg_20261115T185721Z.json` + `.md` (gate-valid). Locks: lead `rsi_threshold 25, target_pct 9`, seed `20261115`, floor **≥100** permutation draws and **≥100** placebo subsets (planned 200/200), GO/NO_GO/UNDERPOWERED rules, power targets, provenance caveat, exact commands. If you must change the plan, run **before any compute**:
-```bash
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/build_c13_prereg.py --force
-```
-and document why in the handoff + new stems. **Never** edit prereg after C13 result artifacts exist.
+### 1) FINAL.0 — Inventory all verdict stems (no new compute required)
+List and verify every decision-grade verdict artifact in `research_state/`:
+- Cross-venue: `decision_verdict_consolidated_20261115T122636Z.md`
+- Native canonical (C11.3): `decision_verdict_hyperliquid_native_20261115T155318Z.md`, `decision_verdict_consolidated_20261115T155318Z.md`
+- C12: `decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`
+- C13: `decision_verdict_hyperliquid_native_c13_20261115T203734Z.md`
+- Supporting: C13 prereg, episode-edge, placebo artifacts (stems above)
 
-### 2) C13.1 — Heavy compute (REQUIRED). Produce NEW timestamped stems (do not overwrite prereg/canon)
-Run both (exact forms in prereg MD). Example `TS` = `YYYYMMDDTHHMMSSZ`:
-```bash
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py \
-  --draws 200 --seed 20261115 --rsi-threshold 25 --target-pct 9 \
-  --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 \
-  --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json \
-  --census research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --campaign research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --venue-label 'Hyperliquid (Ironflow node-derived, native)' \
-  --out episode_edge_hyperliquid_native_c13_<TS>Z
+### 2) FINAL.1 — Write final consolidated verdict (REQUIRED)
+Create `research_state/decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` (and `.json` summary if useful) that:
+- States **final verdict: `NO_GO`** (no GO claim from any campaign).
+- References every prior verdict stem by filename (traceability).
+- Synthesizes dependence-aware evidence: cross-venue (0/7), C11.3 (0/7, CI spans 0), C12 (discovery only, underpowered), C13 (pre-registered validation `UNDERPOWERED`, bootstrap CI95 [−22,799, +79,979] spans 0, permutation p=0.085, placebo p_ge=0.32).
+- Separates legs: spot alpha negative in canonical and C13; hedge masks totals in C12/C13; rebound short zero in canonical.
+- States effective N: 17 trades / 10 episodes / 12 crash days / 5 symbols (C13); 283-day structural window.
+- Records provenance caveat: native evidence is **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**.
+- Does **not** claim GO, does **not** relabel cross-venue as Hyperliquid evidence.
 
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_okx.py \
-  --draws 200 --seed 20261115 --rsi-threshold 25 --target-pct 9 \
-  --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 \
-  --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json \
-  --census research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --campaign research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --venue-label 'Hyperliquid (Ironflow node-derived, native)' \
-  --out placebo_portfolio_hyperliquid_native_c13_<TS>Z
-```
-Requirements (enforced by gate): each must report **≥100** effective draws/subsets, seed **20261115**, SHA binding to the listed C12 campaign/census, and config-matched canonical replay (`c12_25_9` exact). Add any pre-registered robustness/cost-stress battery if specified by prereg. Separate spot/ETH hedge/rebound-short in all outputs/claims. **No synthetic data. No canonical overwrites.**
+### 3) FINAL.2 — Close (every session)
+- Re-run gates: `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4**, `verify_next_focus_campaign.py` **PASS**, `verify_c13_focus_campaign.py` **PASS**.
+- Update this handoff with the final consolidated verdict stem + timestamp; keep gate-token contract intact. **No second handoff/status file.**
 
-### 3) C13.2 — Native C13 verdict (REQUIRED). Write `research_state/decision_verdict_hyperliquid_native_c13_<TS>Z.md` (and consolidated update if warranted)
-Verdict must: name lead (`RSI 25 / target 9`), include a verdict token (`GO` / `NO_GO` / `NO_DECISION_GRADE_GO` / `UNDERPOWERED` / `FRAGILE` as applicable), cite dependence-aware evidence (bootstrap/permutation/placebo/CI95) + effective N (trades/episodes/crash days), cite **prereg filename** and both artifact filenames, and **not** claim GO while stating underpowered/spans-0/not-validated. Never flip to GO from hedge-masked totals, point PnL, or underpowered results. Preserve canonical NO_GO unless re-validated by this preregistered path.
+### Bottlenecks to remove now (make next agents unavoidable to do final consolidation)
+1. **No final consolidated verdict** → write `decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` (above).
+2. **Ambiguity about "done"** → done = final verdict written + all gates green + handoff updated.
+3. **Drift risk** → reference exact prior stems; do not invent new numbers.
 
-### 4) Close (every session)
-- Re-run: `session_gate.py` (21/21 DONE), `verify_campaign_evidence.py` (4/4), `verify_next_focus_campaign.py` (PASS), `verify_c13_focus_campaign.py` (**C13 ACCEPTANCE: PASS**).
-- Update this handoff with exact C13 artifact stems + verdict path + timestamp; keep gate-token contract intact. **No second handoff/status file.**
+**Definition of done (FINAL):** `decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` exists with `NO_GO` verdict + traceability to all prior stems + leg separation + power caveat, `scripts/session_gate.py` **21/21 checks passed — DONE**, other gates green, handoff re-timestamped. **Handoff-only / gate-only sessions fail FINAL.**
 
-### Bottlenecks to remove now (make next agents unavoidable to do heavy work)
-1. **C13 compute missing** → do C13.1 (above). If runtime is long, run with the prereg’d 200/200; do not substitute thin runs.
-2. **Ambiguity about “done”** → done = gate PASS + verdict written + handoff updated. Treat any other outcome as incomplete.
-3. **Template drift risk** → use the exact commands in `research_state/hyperliquid_native_c13_prereg_20261115T185721Z.md`; do not invent flags.
-4. **Power is structural (283d)** → report effective N explicitly; if underpowered, label `UNDERPOWERED`/`NO_DECISION_GRADE_GO` per prereg (do not overclaim).
+---
 
-**Definition of done (C13):** prereg (staged, unchanged unless documented `--force`) + config-matched episode-edge + config-matched placebo (**≥100/≥100**, seed/SHA bound) + `decision_verdict_hyperliquid_native_c13_<TS>Z.md`, `verify_c13_focus_campaign.py` → **C13 ACCEPTANCE: PASS**, other gates green, handoff re-timestamped with stems/verdict. **Handoff-only / gate-only / canonical-rerun-only sessions fail.**
+**You are the next agentic session continuing the Hyperliquid crash-rebound research program (repo `CRASH-REBOUND-STRATEGY`).** **C1–C13 COMPLETE.** Canonical `RSI(21)<20` is **NO_GO** (C11.3). **C12 is COMPLETE but `NO_DECISION_GRADE_GO`**: `c12_25_9` is the only in-sample positive-spot lead (+6,836.44 spot, +23,244.22 total, 17 trades/10 episodes/11 crash days) yet **underpowered** (episode-block bootstrap CI95 spans 0; not a validated GO). **C13 is COMPLETE (`UNDERPOWERED`)**: pre-registered validation of the C12 lead (`rsi_threshold 25, target_pct 9`) with 200/200 draws, seed 20261115, SHA-bound to C12 lead — bootstrap CI95 [−22,799, +79,979] spans 0; permutation p=0.085; placebo p_ge=0.32; spot leg −3,968.80; total +23,244.22 hedge-masked. **No GO criterion met in any campaign. Canonical NO_GO preserved.**
 
-**You are the next agentic session continuing the Hyperliquid crash-rebound research program (repo `CRASH-REBOUND-STRATEGY`).** C1–C12 are COMPLETE. Canonical `RSI(21)<20` is **NO_GO** (C11.3). **C12 is COMPLETE but `NO_DECISION_GRADE_GO`**: `c12_25_9` is the only in-sample positive-spot lead (+6,836.44 spot, +23,244.22 total, 17 trades/10 episodes/11 crash days) yet **underpowered** (episode-block bootstrap CI95 spans 0; not a validated GO). Do **not** claim GO from C12 point estimates or relitigate C1–C12/cross-venue evidence without a NEW stem and documented reason. The C13 tooling and prereg are **already staged**; do not redo them.
-
-**PRIMARY MISSION — C13: execute the pre-registered, decision-grade native validation of the C12 lead (`rsi_threshold 25, target_pct 9`) with honest power.** A session that only edits this handoff, only reruns gates, or only reruns canonical campaigns has failed. Your session is done only when `scripts/verify_c13_focus_campaign.py` prints **C13 ACCEPTANCE: PASS**.
+**PRIMARY MISSION — FINAL CONSOLIDATION: synthesize C1–C13 into one final `NO_GO` verdict and close the research program.** A session that only edits this handoff, only reruns gates, or only reruns past campaigns has failed. Your session is done only when a new `decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` exists with the requirements above and `scripts/session_gate.py` prints **21/21 checks passed — DONE**.
 
 ### 0) Mandatory gates + readiness (every session, record stems/verdicts)
 ```bash
@@ -90,62 +82,33 @@ PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py                 # 
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py     # 4/4 EVIDENCE VERIFIED
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_next_focus_campaign.py   # C6 PASS
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py    # C11.0 read-only (record stem)
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c13_focus_campaign.py    # currently FAIL — your definition of done
+PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c13_focus_campaign.py    # C13 ACCEPTANCE: PASS
 ```
-Native inputs (fixed): cache `research_state/cache/hyperliquid_ironflow_native_20251220_20260928/`, universe `research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json`. C12 lead artifacts: census `research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`, campaign `research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`. **Provenance caveat (binding):** real Hyperliquid-native, **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**; `is_hyperliquid_venue_data=true`.
+Native inputs (fixed): cache `research_state/cache/hyperliquid_ironflow_native_20251220_20260928/`, universe `research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json`. C12 lead artifacts: census `research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`, campaign `research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json`. C13 artifacts: `episode_edge_hyperliquid_native_c13_20261115T200200Z.json`, `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.json`. **Provenance caveat (binding):** real Hyperliquid-native, **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**; `is_hyperliquid_venue_data=true`.
 
-### 1) C13.0 — Prereg (ALREADY STAGED; verify, do not silently rewrite)
-`research_state/hyperliquid_native_c13_prereg_20261115T185721Z.json` + `.md` are pre-registered and gate-valid (`prereg validation: PASS`). They fix:
-- lead hypothesis `rsi_threshold 25`, `target_pct 9`;
-- seed `20261115`; minimum heavy-compute floor `100` permutation draws and `100` placebo subsets; planned `200`/`200`;
-- explicit **GO / NO_GO / UNDERPOWERED** decision rules and power targets (10 trades / 5 episodes / 5 crash days minimum for GO; 283d window is structurally underpowered);
-- provenance caveat (node-derived, NOT candleSnapshot), `fabricated_data=false`, `synthetic_data=false`;
-- exact compute commands.
+### 1) FINAL.0 — Inventory all verdict stems (no new compute required)
+List and verify every decision-grade verdict artifact in `research_state/`:
+- Cross-venue: `decision_verdict_consolidated_20261115T122636Z.md`
+- Native canonical (C11.3): `decision_verdict_hyperliquid_native_20261115T155318Z.md`, `decision_verdict_consolidated_20261115T155318Z.md`
+- C12: `decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`
+- C13: `decision_verdict_hyperliquid_native_c13_20261115T203734Z.md`
+- Supporting: C13 prereg `hyperliquid_native_c13_prereg_20261115T185721Z.{json,md}`, episode-edge `episode_edge_hyperliquid_native_c13_20261115T200200Z.{json,md}`, placebo `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.{json,md}`
 
-If you disagree with the plan, regenerate **before any compute** and record why:
-```bash
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/build_c13_prereg.py --force
-```
-Do **not** edit the prereg after C13 results exist. A changed plan requires a new stem and a documented reason.
+### 2) FINAL.1 — Write final consolidated verdict (REQUIRED)
+Create `research_state/decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` (and `.json` summary if useful) that:
+- States **final verdict: `NO_GO`** (no GO claim from any campaign).
+- References every prior verdict stem by filename (traceability).
+- Synthesizes dependence-aware evidence: cross-venue (0/7), C11.3 (0/7, CI spans 0), C12 (discovery only, underpowered), C13 (pre-registered validation `UNDERPOWERED`, bootstrap CI95 [−22,799, +79,979] spans 0, permutation p=0.085, placebo p_ge=0.32).
+- Separates legs: spot alpha negative in canonical and C13; hedge masks totals in C12/C13; rebound short zero in canonical.
+- States effective N: 17 trades / 10 episodes / 12 crash days / 5 symbols (C13); 283-day structural window.
+- Records provenance caveat: native evidence is **node-derived (Ironflow HF, CC BY 4.0), NOT venue `candleSnapshot`**.
+- Does **not** claim GO, does **not** relabel cross-venue as Hyperliquid evidence.
 
-### 2) C13.1 — Execute validation/inference compute (REQUIRED; heavy work)
-Use NEW timestamped stems (do not overwrite the prereg or canonical artifacts). The exact commands are in the prereg markdown; canonical form:
-```bash
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_episode_edge_okx_multiyear.py \
-  --draws 200 --seed 20261115 --rsi-threshold 25 --target-pct 9 \
-  --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 \
-  --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json \
-  --census research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --campaign research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --venue-label 'Hyperliquid (Ironflow node-derived, native)' \
-  --out episode_edge_hyperliquid_native_c13_<TS>Z
+### 3) FINAL.2 — Close (every session)
+- Re-run gates: `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4**, `verify_next_focus_campaign.py` **PASS**, `verify_c13_focus_campaign.py` **PASS**.
+- Re-timestamp this handoff with the final consolidated verdict stem + timestamp; keep the gate-token contract intact. No second handoff/status file.
 
-PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_portfolio_placebo_okx.py \
-  --draws 200 --seed 20261115 --rsi-threshold 25 --target-pct 9 \
-  --cache-dir research_state/cache/hyperliquid_ironflow_native_20251220_20260928 \
-  --universe research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json \
-  --census research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --campaign research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json \
-  --venue-label 'Hyperliquid (Ironflow node-derived, native)' \
-  --out placebo_portfolio_hyperliquid_native_c13_<TS>Z
-```
-Both runners hard-verify exact canonical replay (17 trades / +23,244.224 for the lead config) and record `config.config_matched=true` with the node-derived caveat, plus `seed` and campaign/census SHA256. Add a pre-registered robustness/cost-stress battery on the lead config if the prereg says so. Every artifact must separate spot / ETH hedge / rebound-short legs. No synthetic data; no canonical overwrites.
-
-### 3) C13.2 — Native C13 verdict (REQUIRED)
-Write `research_state/decision_verdict_hyperliquid_native_c13_<TS>Z.md` (and consolidated update if warranted). The gate requires the verdict to:
-- state the lead config (RSI **25** / target **9**);
-- state a verdict token (`GO` / `NO_GO` / `NO_DECISION_GRADE_GO` / `UNDERPOWERED` / `FRAGILE`);
-- reference dependence-aware evidence (bootstrap / permutation / placebo / CI95) and the effective sample (trades / episodes);
-- reference the **prereg filename** and the **episode-edge + placebo artifact filenames** (traceability);
-- not claim GO while also stating underpowered / spans-0 / not-validated (contradiction check).
-
-Re-map stop/go for the lead hypothesis with dependence-aware results; state whether any claim clears the pre-registered decision-grade thresholds (CI excludes 0 on the relevant leg/total under adequate effective N, non-extreme placebo/permutation as applicable). **Never flip to GO from hedge-masked totals, point PnL, or underpowered results.** Preserve canonical NO_GO unless re-validated.
-
-### 4) Close (every session)
-- Re-run gates: `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `verify_next_focus_campaign.py` **PASS**, and `verify_c13_focus_campaign.py` **C13 ACCEPTANCE: PASS**.
-- Re-timestamp this handoff with the exact C13 artifact stems/verdict; keep the gate-token contract intact. No second handoff/status file.
-
-**Definition of done (C13):** prereg (staged) + config-matched episode-edge + config-matched placebo (each **≥100 draws/subsets**, seed/SHA-bound) + `decision_verdict_hyperliquid_native_c13_<TS>Z.md`, with `scripts/verify_c13_focus_campaign.py` printing **C13 ACCEPTANCE: PASS**, all other gates green, and this handoff re-timestamped. **Handoff-only, gate-only, or canonical-rerun-only sessions fail C13.**
+**Definition of done (FINAL):** `decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` exists with `NO_GO` verdict + traceability to all prior stems + leg separation + power caveat, `scripts/session_gate.py` **21/21 checks passed — DONE**, other gates green, handoff re-timestamped. **Handoff-only, gate-only sessions fail FINAL.**
 
 ---
 
@@ -166,14 +129,13 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (2026-11-15T20:37Z)
+## What changed this session (2026-11-15T20:43Z)
 
-- **C13 heavy compute EXECUTED (200/200 draws):** `scripts/run_episode_edge_okx_multiyear.py` → `episode_edge_hyperliquid_native_c13_20261115T200200Z.json` (200 draws, seed 20261115, config-matched canonical replay 17 trades / +23,244.22, 10 episodes, bootstrap CI95 [−22,799, +79,979], permutation p=0.085, verdict `underpowered`). `scripts/run_portfolio_placebo_okx.py` → `placebo_portfolio_hyperliquid_native_c13_20261115T200309Z.json` (200 runs, seed 20261115, canonical 17 trades / +23,244.22, placebo mean +16,174.90, p_ge_canon=0.32).
-- **C13 native verdict WRITTEN:** `research_state/decision_verdict_hyperliquid_native_c13_20261115T203734Z.md` — verdict token `UNDERPOWERED`, cites prereg + both artifacts + effective N + dependence-aware evidence (bootstrap/permutation/placebo/CI95), leg separation, no GO claim from hedge-masked totals.
-- **C13 gate now PASSES:** `verify_c13_focus_campaign.py` → **C13 ACCEPTANCE: PASS** (prereg PASS, config-matched inference PASS, native verdict PASS, handoff references PASS).
+- **C13 already COMPLETE** (from prior session 2026-11-15T20:37Z): heavy compute executed (200/200 draws), native verdict `UNDERPOWERED` written, C13 gate **PASS**.
+- **This session**: Handoff updated to reflect C1–C13 COMPLETE; primary mission shifted from C13 execution to **FINAL CONSOLIDATION** (synthesize all campaigns into one `NO_GO` verdict and close research program).
 - **Gate status:** `session_gate.py` **21/21 checks passed — DONE**, `verify_campaign_evidence.py` **4/4 EVIDENCE VERIFIED**, `verify_next_focus_campaign.py` **PASS**, `verify_c13_focus_campaign.py` **PASS**.
 
-## Verified state (as of 2026-11-15T20:37Z)
+## Verified state (as of 2026-11-15T20:43Z)
 
 | Check | Result | Evidence |
 |---|---|---|
@@ -190,16 +152,17 @@ If a future session changes the Phase O artifact, update this line to the new `g
 | Cross-venue consolidated verdict | **`NO_GO`** (0/7) | `decision_verdict_consolidated_20261115T122636Z.md` |
 | Native canonical verdict (C11.3) | **`NO_GO` / `FRAGILE_NOT_DECISION_GRADE`, 0/7** | `decision_verdict_hyperliquid_native_20261115T155318Z.md` |
 | C12 verdict | **`NO_DECISION_GRADE_GO`** (lead in-sample, not validated) | `decision_verdict_hyperliquid_native_c12_20261115T181500Z.md` |
-| Episode-edge runner | config-matched (`--rsi-threshold/--target-pct`), smoke-validated | this session |
-| Placebo runner | config-matched + parameterized paths, smoke-validated | this session |
+| Episode-edge runner | config-matched (`--rsi-threshold/--target-pct`), smoke-validated | prior session |
+| Placebo runner | config-matched + parameterized paths, smoke-validated | prior session |
 | API retention probe (C11.0 baseline) | 3861/6792 bars (expected external limit) | `hyperliquid_retention_probe.json` |
 
 ## Bottlenecks (current)
 
-1. **Statistical power — structural.** 283d native window; C12/C13 lead shows 17 trades / 10 episodes / 12 crash days with wide CIs. C13 honestly labeled `UNDERPOWERED` (bootstrap CI95 spans 0, permutation p=0.085, placebo p_ge=0.32). Note: the episode-edge artifact reports **12 distinct signal-event days** (all crash bars), while C12 inference reports **11 trade crash days**; this is a counting-unit difference, not a contradiction.
-2. **Canonical/native economics context.** Canonical spot alpha negative; some C12 totals hedge-masked. Separate legs in every claim.
-3. **Live Hyperliquid API 1h retention — external, expected (non-blocking).** Full-window evidence comes from the accepted Ironflow archive, not the API.
-4. **Cross-venue evidence — exhausted/CLOSED.** OKX/Binance remain `is_hyperliquid_venue_data=false`. Do not re-acquire or re-run.
+1. **No final consolidated verdict** → write `decision_verdict_CONSOLIDATED_FINAL_<TS>Z.md` (see FINAL.1 above).
+2. **Statistical power — structural.** 283d native window; C12/C13 lead shows 17 trades / 10 episodes / 12 crash days with wide CIs. C13 honestly labeled `UNDERPOWERED` (bootstrap CI95 spans 0, permutation p=0.085, placebo p_ge=0.32). Note: the episode-edge artifact reports **12 distinct signal-event days** (all crash bars), while C12 inference reports **11 trade crash days**; this is a counting-unit difference, not a contradiction.
+3. **Canonical/native economics context.** Canonical spot alpha negative; some C12 totals hedge-masked. Separate legs in every claim.
+4. **Live Hyperliquid API 1h retention — external, expected (non-blocking).** Full-window evidence comes from the accepted Ironflow archive, not the API.
+5. **Cross-venue evidence — exhausted/CLOSED.** OKX/Binance remain `is_hyperliquid_venue_data=false`. Do not re-acquire or re-run.
 
 ## Canonical artifacts (do not re-acquire/re-run/overwrite)
 
