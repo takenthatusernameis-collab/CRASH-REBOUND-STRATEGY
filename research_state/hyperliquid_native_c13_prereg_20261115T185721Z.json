@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "campaign": "C13",
+  "generated_at_utc": "2026-11-15T18:57:21Z",
+  "label": "HYPERLIQUID_NATIVE_C13_PREREGISTERED_DECISION_GRADE_VALIDATION",
+  "status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "real_market_data": true,
+  "is_hyperliquid_venue_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "provenance_caveat": "Real Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot. Real fetched/archived candles, non-synthetic. 283d window 2025-12-20T00:00:00Z\u20132026-09-28T23:00:00Z.",
+  "inputs": {
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_native_20251220_20260928",
+    "universe_file": "research_state/universe_hyperliquid_ironflow_native_20251220_20260928.json",
+    "lead_census": "research_state/crash_event_census_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json",
+    "lead_campaign": "research_state/campaign_results_real_hyperliquid_native_c12_rsi25_t9_20261115T180000Z.json",
+    "canonical_anchor_campaign": "research_state/campaign_results_real_hyperliquid_ironflow_native_20251220_20260928.json",
+    "canonical_anchor_census": "research_state/crash_event_census_hyperliquid_ironflow_native_20261115T155226Z.json",
+    "canonical_anchor_episode_edge": "research_state/episode_edge_hyperliquid_native_20261115T155318Z.json",
+    "canonical_anchor_placebo": "research_state/placebo_portfolio_hyperliquid_native_20261115T155625Z.json",
+    "canonical_anchor_verdict": "research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md"
+  },
+  "hypotheses": [
+    {
+      "id": "H1_c12_lead_rsi25_target9",
+      "description": "Validate or falsify the C12 in-sample lead (RSI(21) crash threshold 25, long target 9%) on Hyperliquid-native evidence with dependence-aware inference.",
+      "rsi_threshold": 25.0,
+      "target_pct": 9.0,
+      "origin_note": "C12 discovery only (c12_25_9: 17 trades / 10 episodes / 11 crash days, total +23,244.22; episode-block bootstrap CI95 spans 0). Hypothesis-generating, NOT a validated GO."
+    }
+  ],
+  "grid": {
+    "design": "single_preregistered_lead_config",
+    "rsi_threshold": 25.0,
+    "target_pct": 9.0,
+    "canonical_anchor": {
+      "rsi_threshold": 20.0,
+      "target_pct": 9.0,
+      "reuse_existing_anchor_stem": true
+    },
+    "fixed_unless_overridden": {
+      "rsi_period": 21,
+      "rebound_short_target_pct": 9.0,
+      "rebound_short_time_exit_bars": 48,
+      "rebound_short_require_bounce_confirm": false,
+      "entry_spec_literal_next_open": false,
+      "enable_rebound_short": true,
+      "enable_eth_hedge": true,
+      "min_daily_volume_usd": 5000000.0
+    }
+  },
+  "primary_metrics": [
+    "spot_coin_pnl_total",
+    "eth_hedge_pnl_total",
+    "rebound_short_pnl_total",
+    "total_pnl",
+    "trade_count",
+    "episode_count",
+    "crash_days_count",
+    "max_drawdown_or_observed",
+    "cost_stress_sensitivity_if_available"
+  ],
+  "secondary_metrics": [
+    "exit_reasons_distribution",
+    "per_symbol_leg_decomposition",
+    "win_loss_profile",
+    "signal_gate_event_count"
+  ],
+  "inference_plan": {
+    "dependence_aware": true,
+    "seed": 20261115,
+    "min_draws": 100,
+    "draws": 200,
+    "placebo_draws": 200,
+    "methods": [
+      "episode_block_bootstrap_CI_for_spot_hedge_rebound_total (episode-level dependence unit)",
+      "conditional_temporal_edge_permutation_p (real-engine, config-matched)",
+      "portfolio_placebo_admission_selection_p_ge_canonical (real-engine, config-matched)",
+      "crash_event_census_alignment (events, signal-gate, trades, episodes/clustering)"
+    ],
+    "power": "Minimum heavy-compute floor: 100 permutation draws and 100 placebo subsets. Minimum effective sample for any GO claim: 10 trades, 5 episodes, 5 distinct crash days. The C12 lead has 17 trades / 10 episodes / 11 crash days on a 283d native window, which is structurally underpowered.",
+    "honest_power_handling": "Report effective N, episodes, crash days, CI95, permutation p and placebo p for every claim. Label underpowered when criteria are unmet. Never claim GO from point PnL, hedge-masked totals, in-sample discovery, or a CI that spans 0.",
+    "lead_config_selection_rule": "The lead is fixed by this prereg (rsi 25 / target 9). Do not switch configs after seeing C13 results; a new config requires a new prereg and a new stem."
+  },
+  "decision_rules": {
+    "go": "GO only if the pre-registered dependence-aware criteria all hold: episode-block bootstrap CI95 for spot or total excludes 0 with effective N >= 10 trades / 5 episodes / 5 crash days, AND config-matched permutation p < 0.05, AND config-matched placebo p_ge_canonical < 0.05, AND the result is not hedge-masked (spot leg reported separately).",
+    "no_go": [
+      "CI95 spans 0 for spot and total",
+      "permutation p >= 0.05 or placebo p_ge_canonical >= 0.05",
+      "positive total is entirely hedge/rebound-masked with negative spot",
+      "effective sample below the pre-registered floor"
+    ],
+    "insufficient": [
+      "Effective sample below floor: label UNDERPOWERED / FRAGILE_NOT_DECISION_GRADE",
+      "Artifacts missing seed/SHA binding or generated before this prereg"
+    ],
+    "stop_go": "Canonical RSI(21)<20 stays NO_GO unless re-validated under a new prereg. A C13 NO_GO/UNDERPOWERED result preserves canonical NO_GO."
+  },
+  "power_targets": {
+    "min_episode_block_bootstrap_draws": 100,
+    "min_permutation_draws": 200,
+    "min_placebo_subsets": 200,
+    "min_effective_trades_for_go": 10,
+    "min_effective_episodes_for_go": 5,
+    "min_distinct_crash_days_for_go": 5,
+    "alpha": 0.05,
+    "ci": "95% episode-block bootstrap"
+  },
+  "runner": {
+    "episode_edge": "scripts/run_episode_edge_okx_multiyear.py",
+    "placebo": "scripts/run_portfolio_placebo_okx.py",
+    "notes": "Both runners must be invoked with --rsi-threshold 25 --target-pct 9 and the C12 lead census/campaign paths. Each writes a config block with config_matched=true and records seed + campaign/census SHA256. Do not overwrite canonical artifacts."
+  }
+}
