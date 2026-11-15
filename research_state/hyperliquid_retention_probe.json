@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-15T14:00:05Z",
+  "generated_at_utc": "2026-11-15T17:57:16Z",
   "run_type": "hyperliquid_api_retention_probe",
   "provenance_caveat": "Live Hyperliquid public API probe; non-synthetic; records only what the public candleSnapshot endpoint served. Not performance evidence.",
   "endpoint": {
@@ -15,8 +15,8 @@
   "spec_min_daily_volume_usd": 5000000.0,
   "universe": {
     "perps_total": 235,
-    "perps_passing_volume_gate": 40,
-    "probed": 40,
+    "perps_passing_volume_gate": 37,
+    "probed": 37,
     "requested_not_in_live_universe": [],
     "probe_limit": null
   },
@@ -38,279 +38,260 @@
       "AVAX",
       "ENA",
       "DOGE",
-      "BNB",
       "VVV",
-      "SUI",
       "AAVE",
+      "BNB",
+      "SUI",
       "ZRO",
-      "WLD",
-      "LINK",
-      "XPL",
       "ASTER",
+      "XPL",
+      "LINK",
+      "WLD",
       "TAO",
       "FARTCOIN",
       "ADA",
       "INJ",
-      "GRAM",
-      "ARB",
       "USELESS",
-      "ONDO",
-      "JUP",
+      "ARB",
       "TRUMP",
-      "CRV",
-      "LTC",
-      "DOT",
+      "JUP",
       "INIT",
-      "XLM",
-      "SOPH"
+      "GRAM",
+      "CRV",
+      "ONDO",
+      "LTC"
     ],
     "symbols_empty_or_error": [
       "KPEPE"
     ],
-    "max_bars_returned": 3861,
+    "max_bars_returned": 3857,
     "expected_hourly_bars": 6792,
-    "missing_early_bars_vs_expected": 2931,
-    "earliest_served_start_utc": "2026-04-21T03:00:00Z"
+    "missing_early_bars_vs_expected": 2935,
+    "earliest_served_start_utc": "2026-04-21T07:00:00Z"
   },
   "per_symbol": [
     {
       "symbol": "BTC",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 7830562549.96
+      "day_volume_usd": 6841036165.44
     },
     {
       "symbol": "ETH",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 2428125830.23
+      "day_volume_usd": 1903213872.41
     },
     {
       "symbol": "HYPE",
       "status": "ok",
-      "bars_returned": 3858,
-      "first_bar_utc": "2026-04-21T06:00:00Z",
+      "bars_returned": 3854,
+      "first_bar_utc": "2026-04-21T10:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 1213553613.37
+      "day_volume_usd": 1000475534.88
     },
     {
       "symbol": "SOL",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 673776513.81
+      "day_volume_usd": 598611075.18
     },
     {
       "symbol": "ZEC",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 546628178.23
+      "day_volume_usd": 478950904.77
     },
     {
       "symbol": "XRP",
       "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 178171782.43
+      "day_volume_usd": 157521597.23
     },
     {
       "symbol": "NEAR",
       "status": "ok",
-      "bars_returned": 3861,
-      "first_bar_utc": "2026-04-21T03:00:00Z",
+      "bars_returned": 3857,
+      "first_bar_utc": "2026-04-21T07:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 105465098.03
+      "day_volume_usd": 84362003.28
     },
     {
       "symbol": "XMR",
       "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 66396774.82
+      "day_volume_usd": 60557735.99
     },
     {
       "symbol": "LIT",
       "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 61379838.18
+      "day_volume_usd": 50117827.68
     },
     {
       "symbol": "PUMP",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 55993246.63
+      "day_volume_usd": 43936959.58
+    },
+    {
+      "symbol": "UNI",
+      "status": "ok",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 27403525.35
+    },
+    {
+      "symbol": "AVAX",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 26637661.5
+    },
+    {
+      "symbol": "ENA",
+      "status": "ok",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 25470720.71
+    },
+    {
+      "symbol": "DOGE",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 23831906.69
+    },
+    {
+      "symbol": "VVV",
+      "status": "ok",
+      "bars_returned": 3857,
+      "first_bar_utc": "2026-04-21T07:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 22315260.07
     },
     {
       "symbol": "KPEPE",
       "status": "error",
       "error": "Hyperliquid info request failed after 3 attempts: HTTP Error 500: Internal Server Error",
       "bars_returned": 0,
-      "day_volume_usd": 43423796.53
-    },
-    {
-      "symbol": "UNI",
-      "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 35976463.66
-    },
-    {
-      "symbol": "AVAX",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 33985432.01
-    },
-    {
-      "symbol": "ENA",
-      "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 31442040.7
-    },
-    {
-      "symbol": "DOGE",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 26974466.53
-    },
-    {
-      "symbol": "BNB",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 24039258.71
-    },
-    {
-      "symbol": "VVV",
-      "status": "ok",
-      "bars_returned": 3861,
-      "first_bar_utc": "2026-04-21T03:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 23563892.43
-    },
-    {
-      "symbol": "SUI",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 22709632.51
+      "day_volume_usd": 21833538.64
     },
     {
       "symbol": "AAVE",
       "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 22011320.34
+      "day_volume_usd": 20635384.65
+    },
+    {
+      "symbol": "BNB",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 19201111.22
+    },
+    {
+      "symbol": "SUI",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 17995686.36
     },
     {
       "symbol": "ZRO",
       "status": "ok",
-      "bars_returned": 3858,
-      "first_bar_utc": "2026-04-21T06:00:00Z",
+      "bars_returned": 3854,
+      "first_bar_utc": "2026-04-21T10:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 20306231.02
-    },
-    {
-      "symbol": "WLD",
-      "status": "ok",
-      "bars_returned": 3859,
-      "first_bar_utc": "2026-04-21T05:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 18479066.59
-    },
-    {
-      "symbol": "LINK",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 17873568.2
-    },
-    {
-      "symbol": "XPL",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 17301279.98
+      "day_volume_usd": 17704294.71
     },
     {
       "symbol": "ASTER",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 15840636.22
+      "day_volume_usd": 16040277.79
+    },
+    {
+      "symbol": "XPL",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 14185078.19
+    },
+    {
+      "symbol": "LINK",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 12633170.69
+    },
+    {
+      "symbol": "WLD",
+      "status": "ok",
+      "bars_returned": 3855,
+      "first_bar_utc": "2026-04-21T09:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 12204337.51
     },
     {
       "symbol": "TAO",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 14290701.76
+      "day_volume_usd": 11870470.37
     },
     {
       "symbol": "FARTCOIN",
       "status": "ok",
-      "bars_returned": 3858,
-      "first_bar_utc": "2026-04-21T06:00:00Z",
+      "bars_returned": 3854,
+      "first_bar_utc": "2026-04-21T10:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 14159188.89
+      "day_volume_usd": 9578808.6
     },
     {
       "symbol": "ADA",
       "status": "ok",
-      "bars_returned": 3858,
-      "first_bar_utc": "2026-04-21T06:00:00Z",
+      "bars_returned": 3854,
+      "first_bar_utc": "2026-04-21T10:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 12049514.16
+      "day_volume_usd": 9482795.89
     },
     {
       "symbol": "INJ",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 11197970.32
-    },
-    {
-      "symbol": "GRAM",
-      "status": "ok",
-      "bars_returned": 2127,
-      "first_bar_utc": "2026-07-02T09:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 10486496.66
-    },
-    {
-      "symbol": "ARB",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 10272713.49
+      "day_volume_usd": 8463431.34
     },
     {
       "symbol": "USELESS",
@@ -318,79 +299,71 @@
       "bars_returned": 488,
       "first_bar_utc": "2026-09-08T16:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 9884866.54
+      "day_volume_usd": 8070837.96
     },
     {
-      "symbol": "ONDO",
+      "symbol": "ARB",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 8798767.75
-    },
-    {
-      "symbol": "JUP",
-      "status": "ok",
-      "bars_returned": 3861,
-      "first_bar_utc": "2026-04-21T03:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 8325605.01
+      "day_volume_usd": 7903261.08
     },
     {
       "symbol": "TRUMP",
       "status": "ok",
-      "bars_returned": 3861,
-      "first_bar_utc": "2026-04-21T03:00:00Z",
+      "bars_returned": 3857,
+      "first_bar_utc": "2026-04-21T07:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 8303878.11
+      "day_volume_usd": 7003572.39
     },
     {
-      "symbol": "CRV",
+      "symbol": "JUP",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3857,
+      "first_bar_utc": "2026-04-21T07:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 7924665.65
-    },
-    {
-      "symbol": "LTC",
-      "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 7664501.2
-    },
-    {
-      "symbol": "DOT",
-      "status": "ok",
-      "bars_returned": 3858,
-      "first_bar_utc": "2026-04-21T06:00:00Z",
-      "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 5820174.99
+      "day_volume_usd": 6813205.67
     },
     {
       "symbol": "INIT",
       "status": "ok",
-      "bars_returned": 3861,
-      "first_bar_utc": "2026-04-21T03:00:00Z",
+      "bars_returned": 3857,
+      "first_bar_utc": "2026-04-21T07:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 5754555.99
+      "day_volume_usd": 6474561.86
     },
     {
-      "symbol": "XLM",
+      "symbol": "GRAM",
       "status": "ok",
-      "bars_returned": 3858,
-      "first_bar_utc": "2026-04-21T06:00:00Z",
+      "bars_returned": 2127,
+      "first_bar_utc": "2026-07-02T09:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 5320836.66
+      "day_volume_usd": 6469171.36
     },
     {
-      "symbol": "SOPH",
+      "symbol": "CRV",
       "status": "ok",
-      "bars_returned": 3860,
-      "first_bar_utc": "2026-04-21T04:00:00Z",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
       "last_bar_utc": "2026-09-28T23:00:00Z",
-      "day_volume_usd": 5308276.95
+      "day_volume_usd": 6269800.68
+    },
+    {
+      "symbol": "ONDO",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 6081789.04
+    },
+    {
+      "symbol": "LTC",
+      "status": "ok",
+      "bars_returned": 3856,
+      "first_bar_utc": "2026-04-21T08:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 5698101.75
     }
   ],
   "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1",
