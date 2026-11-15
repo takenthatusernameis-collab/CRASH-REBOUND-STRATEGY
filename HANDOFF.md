@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T12:29:07Z
+**Handoff updated (UTC):** 2026-11-15T12:31:13Z
 **Supersedes:** all earlier handoffs. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -10,7 +10,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T12:26:36Z)
+## INITIAL TASK MESSAGE FOR NEXT AGENTIC WORK SESSION (2026-11-15T12:31:13Z)
 
 **You are the next agentic session continuing the Hyperliquid crash-rebound research program.** C1–C10 are COMPLETE. All cross-venue work is finished and exhausted; the consolidated verdict is **`NO_GO`** (`research_state/decision_verdict_consolidated_20261115T122636Z.md`, 0/7 criteria). **There is no remaining cross-venue refinement that can change the verdict** — do not re-run canonical OKX/Binance campaigns, censuses, C6-T3, C7, or the C10 battery without a new stem and a documented reason.
 
@@ -22,7 +22,7 @@ Run and record stems/verdicts (these are binding; a session that does not run th
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py
 PYTHONPATH=. /tmp/crs-venv/bin/python scripts/validate_hyperliquid_archive_intake.py
 ```
-Current baseline: probe **2026-11-15T12:29:04Z** → 3,863/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`; intake **2026-11-15T12:29:07Z** → `REJECT_NOT_EVIDENCE` (placeholder parquet is NOT evidence; BTC/ETH flat series all bars identical). Re-run and record the new stem; if it still reports blocked/REJECT, go to C11.2.
+Current baseline: probe **2026-11-15T12:31:13Z** → 3,863/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1`; intake **2026-11-15T12:31:36Z** → `REJECT_NOT_EVIDENCE` (placeholder parquet is NOT evidence; BTC/ETH flat series all bars identical). Re-run and record the new stem; if it still reports blocked/REJECT, go to C11.2.
 
 ### C11.1 — Acquisition attempt (heavy, real; only if a real archive is plausibly obtainable)
 Attempt a genuine Hyperliquid-native archive acquisition with the existing tooling, then validate intake:
@@ -74,12 +74,12 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (C11 gate-run — 2026-11-15T12:29Z)
+## What changed this session (C11 gate-run — 2026-11-15T12:31:13Z)
 
 - **Mandatory gates executed and green:** `session_gate.py` 21/21, `verify_campaign_evidence.py` 4/4, `verify_next_focus_campaign.py` PASS.
-- **Hyperliquid readiness re-probed (C11.0):** new retention probe stem `hyperliquid_retention_probe.json` @ **2026-11-15T12:29:04Z** (3,863/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` — KPEPE error); new intake validation stem `archive_intake_validation_20261115T122907Z.{json,md}` → **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series all bars identical).
+- **Hyperliquid readiness re-probed (C11.0):** new retention probe stem `hyperliquid_retention_probe.json` @ **2026-11-15T12:31:13Z** (3,863/6,792 bars, `FULL_283D_BLOCKED_BY_API_RETENTION;UNPROBEABLE_SYMBOLS:1` — KPEPE error); new intake validation stem `archive_intake_validation_20261115T123136Z.{json,md}` → **`REJECT_NOT_EVIDENCE`** (placeholder parquet; BTC/ETH flat series all bars identical).
 - **No cross-venue re-runs** — C10 remains complete and exhausted; the `NO_GO` verdict (0/7) stands per `decision_verdict_consolidated_20261115T122636Z.md`.
-- **Handoff re-timestamped** to 2026-11-15T12:29:07Z with C11.0 executed and CAMPAIGN C11 defined as the next focus (Hyperliquid-native decision campaign). All gate tokens intact.
+- **Handoff re-timestamped** to 2026-11-15T12:31:13Z with C11.0 executed and CAMPAIGN C11 defined as the next focus (Hyperliquid-native decision campaign). All gate tokens intact.
 - **C11 is the mandated next campaign** (see INITIAL TASK MESSAGE): native acquisition (C11.1) → native end-to-end battery (C11.3) if accepted, else pre-registered native power/decision protocol (C11.2).
 
 ### Prior bottleneck removals still in force
@@ -111,7 +111,7 @@ If a future session changes the Phase O artifact, update this line to the new `g
 | **C10.2 Binance placebo** | **`underpowered`** (200 draws, p(placebo≥canon)=0.4150, P(>0)=0.9350, canon +21,994.06) | `placebo_portfolio_binance_um_multiyear.{json,md}` (12:26:21Z) |
 | **C10.3 pooled meta** | **`underpowered`** (38 eps, +40,214.92, CI [−69,065.03,+168,946.87], P(>0)=0.74095, perm p=0.26955) | `pooled_episode_meta_okx_binance_20261115T064738Z.{json,md}` |
 | **Consolidated verdict (C10 final)** | **`NO_GO`** (0/7) | `decision_verdict_consolidated_20261115T122636Z.md` (cites `20261115T063642Z.md`, `20261115T064738Z.md`) |
-| Hyperliquid readiness | 3,863/6,792 bars; `FULL_283D_BLOCKED_BY_API_RETENTION`; intake `REJECT_NOT_EVIDENCE` | `hyperliquid_retention_probe.json` (12:29:04Z), `archive_intake_validation_20261115T122907Z.{json,md}` (12:29:07Z) |
+| Hyperliquid readiness | 3,863/6,792 bars; `FULL_283D_BLOCKED_BY_API_RETENTION`; intake `REJECT_NOT_EVIDENCE` | `hyperliquid_retention_probe.json` (12:31:13Z), `archive_intake_validation_20261115T123136Z.{json,md}` (12:31:36Z) |
 
 ---
 
