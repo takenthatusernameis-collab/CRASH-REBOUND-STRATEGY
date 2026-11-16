@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-16T02:28:30Z — **C14 COMPLETE/UNDERPOWERED (gate PASS); C15 IS THE ACTIVE HEAVY CAMPAIGN — DO SUBSTANTIVE WORK.** "Closed state / do nothing substantive" remains **REMOVED**. This is the single durable handoff and the **initial task message** for the next agentic work session.
+**Handoff updated (UTC):** 2026-11-16T02:34:13Z — **C14 COMPLETE/UNDERPOWERED (gate PASS); C15 IS THE ACTIVE HEAVY CAMPAIGN — DO SUBSTANTIVE WORK.** "Closed state / do nothing substantive" remains **REMOVED**. This is the single durable handoff and the **initial task message** for the next agentic work session.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap). **Priority:** decision-grade crash-rebound verdict on **Hyperliquid-native** evidence with honest dependence-aware inference. Cross-venue OKX/Binance remain `is_hyperliquid_venue_data=false` and must NOT be relabeled as Hyperliquid.
 
