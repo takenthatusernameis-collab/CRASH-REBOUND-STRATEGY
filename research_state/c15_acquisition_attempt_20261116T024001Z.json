@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T02:40:01Z",
+  "run_type": "c15_hyperliquid_native_window_extension_acquisition_attempt",
+  "campaign": "C15",
+  "goal": "Extend verified Hyperliquid-native 1h evidence beyond 2025-12-20 toward >=2023-01-01 to reach n>=4+ independent crash episodes (CI-excluding-zero feasible) with $5M/spec defaults unchanged.",
+  "attempts": [
+    {
+      "id": "T1_hf_ironflow_probe",
+      "source": "HuggingFace dataset ironflow/hyperliquid-candles-1h (CC BY 4.0, node-derived Hyperliquid-native perps; publisher compares hour-by-hour with Hyperliquid candleSnapshot)",
+      "method": "Python: datasets.load_dataset('ironflow/hyperliquid-candles-1h', split='train') + huggingface_hub.HfApi().list_datasets(author='ironflow')",
+      "executed_utc": "2026-11-16T02:40:01Z",
+      "commands": [
+        "PYTHONPATH=. /tmp/crs-venv/bin/python -c \"from datasets import load_dataset; ds=load_dataset('ironflow/hyperliquid-candles-1h',split='train'); print(ds.column_names,len(ds)); print(min(ds['timestamp']),max(ds['timestamp']))\"",
+        "PYTHONPATH=. /tmp/crs-venv/bin/python -c \"from huggingface_hub import HfApi; print([d.id for d in HfApi().list_datasets(author='ironflow')])\""
+      ],
+      "result": {
+        "datasets_by_author_ironflow": [
+          "ironflow/hyperliquid-liquidations",
+          "ironflow/hyperliquid-funding",
+          "ironflow/hyperliquid-candles-1h",
+          "ironflow/hyperliquid-open-interest",
+          "ironflow/hyperliquid-trades",
+          "ironflow/hyperliquid-outcomes"
+        ],
+        "search_hyperliquid_candles": [
+          "ironflow/hyperliquid-candles-1h"
+        ],
+        "columns": [
+          "timestamp",
+          "market",
+          "coin",
+          "dex",
+          "market_class",
+          "open",
+          "high",
+          "low",
+          "close",
+          "volume",
+          "trades"
+        ],
+        "rows": 3643742,
+        "timestamp_min_utc": "2025-05-25T14:00:00+00:00",
+        "timestamp_max_utc": "2026-10-31T23:00:00+00:00",
+        "covers_spec_window_20251220_20260928": true,
+        "covers_multiyear_target_ge_20230101": false
+      },
+      "outcome": "NOT_ACQUIRABLE_FOR_EXTENSION_TARGET",
+      "evidence": "Dataset is the same Ironflow candles-1h source already ingested as C14 wide archive (hyperliquid_ironflow_wide_20261115T214900Z, 197 perps, 6792-bar spec window). Its earliest bar is 2025-05-25T14:00:00Z, so it cannot supply pre-2025-05-25 history and cannot reach the >=2023-01-01 multiyear target. No other ironflow candle datasets exist."
+    },
+    {
+      "id": "T1_api_retention_probe",
+      "source": "Hyperliquid public info API (candleSnapshot + metaAndAssetCtxs)",
+      "method": "scripts/probe_hyperliquid_blocker.py (read-only, live)",
+      "executed_utc": "2026-11-16T02:29:56Z",
+      "commands": [
+        "PYTHONPATH=. /tmp/crs-venv/bin/python scripts/probe_hyperliquid_blocker.py"
+      ],
+      "artifact": "research_state/hyperliquid_retention_probe.json",
+      "result": {
+        "full_window_served": false,
+        "expected_hourly_bars": 6792,
+        "max_bars_returned": 3849,
+        "missing_early_bars_vs_expected": 2943,
+        "earliest_served_start_utc": "2026-04-21T15:00:00Z",
+        "perps_total": 235,
+        "perps_passing_volume_gate": 26,
+        "probed": 26
+      },
+      "outcome": "BLOCKED_API_RETENTION_MOVING_TAIL",
+      "evidence": "Public API serves a moving tail only (earliest 2026-04-21T15:00:00Z, 3849/6792 bars max); cannot supply 283d spec prefix nor multiyear history."
+    }
+  ],
+  "existing_verified_native_archives": [
+    {
+      "path": "research_state/archives/hyperliquid_ironflow_1h_20251220_20260928",
+      "window": "2025-12-20T00:00:00Z..2026-09-28T23:00:00Z",
+      "symbols_passing": 5,
+      "source": "ironflow/hyperliquid-candles-1h"
+    },
+    {
+      "path": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z",
+      "window": "2025-12-20T00:00:00Z..2026-09-28T23:00:00Z",
+      "files": 197,
+      "source": "ironflow/hyperliquid-candles-1h",
+      "note": "Widest available verified Hyperliquid-native archive used by C14 (113 symbols @ $5M gate)."
+    }
+  ],
+  "conclusion": {
+    "extended_native_archive_ge_20230101_acquirable": false,
+    "reason": "No verified Hyperliquid-native hourly OHLCV source covering >=2023-01-01 is reachable: public API is retention-limited (moving tail from ~2026-04-21) and the only identified native Ironflow candles dataset begins 2025-05-25T14:00:00Z. C14 already exhausted the widest available native window (283d spec, 197-file archive, 113 selected @ $5M).",
+    "t2_executed": false,
+    "t3_outcome": "EVIDENCED_HARD_BLOCKER_DATA_REQUIRED"
+  },
+  "provenance_caveat": "Acquisition-attempt evidence only; no new market data fabricated. Cross-venue OKX/Binance archives present in repo remain is_hyperliquid_venue_data=false and are not relabeled."
+}

@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T02:40:01Z",
+  "run_type": "c15_decision_verdict_hyperliquid_native_window_extension",
+  "campaign": "C15",
+  "verdict": "BLOCKED_EVIDENCED_DATA_REQUIRED",
+  "performance_evidence": false,
+  "is_hyperliquid_venue_data": true,
+  "basis": "Hyperliquid-native evidence basis preserved; no new native window acquired.",
+  "summary": "C15 T1 acquisition attempted (HF ironflow/hyperliquid-candles-1h probe + live API retention probe). No verified Hyperliquid-native hourly archive extending to >=2023-01-01 is reachable (Ironflow candles start 2025-05-25T14:00:00Z; API retention tail from ~2026-04-21). T2 full battery not executable without extended native evidence. C14 remains UNDERPOWERED (3 episodes, CI spans zero); C1\u2013C13 consolidated FINAL NO_GO unchanged.",
+  "c14_anchor": {
+    "verdict": "UNDERPOWERED",
+    "episodes": 3,
+    "crash_days": 4,
+    "trades": 7,
+    "bootstrap_ci95": [
+      -1144.0,
+      17547.0
+    ],
+    "permutation_p": 0.03595,
+    "placebo_p": 0.4444,
+    "first_ci_exclusion_n": 4,
+    "artifact": "research_state/decision_verdict_hyperliquid_native_c14_20261116T001200Z.json"
+  },
+  "t1_evidence": {
+    "acquisition_attempt_json": "research_state/c15_acquisition_attempt_20261116T024001Z.json",
+    "acquisition_attempt_md": "research_state/c15_acquisition_attempt_20261116T024001Z.md",
+    "api_probe": "research_state/hyperliquid_retention_probe.json",
+    "ironflow_dataset_range_utc": [
+      "2025-05-25T14:00:00+00:00",
+      "2026-10-31T23:00:00+00:00"
+    ],
+    "ironflow_rows": 3643742,
+    "multiyear_target_ge": "2023-01-01T00:00:00Z",
+    "extended_native_acquirable": false
+  },
+  "t3_data_request": "research_state/c15_data_request_stem_20261116T024001Z.md",
+  "gates": {
+    "session_gate": "21/21 checks passed",
+    "verify_c14_focus_campaign": "C14 ACCEPTANCE: PASS",
+    "verify_campaign_evidence": "4/4 EVIDENCE VERIFIED"
+  },
+  "hard_prohibitions_respected": {
+    "no_go_claim_without_preregistered_criteria": true,
+    "no_relabel_cross_venue_as_hyperliquid": true,
+    "no_fabrication_synthesis": true,
+    "no_spec_relaxation": true,
+    "no_handoff_only_stop": true,
+    "canonical_c1_c14_unchanged": true
+  }
+}
