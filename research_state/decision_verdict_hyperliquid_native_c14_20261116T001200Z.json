@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T02:15:00Z",
+  "campaign": "C14",
+  "venue": "Hyperliquid-native (Ironflow HF, node-derived, CC BY 4.0)",
+  "verdict": "UNDERPOWERED",
+  "provenance_caveat": "Real Hyperliquid data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).",
+  "is_hyperliquid_evidence": true,
+  "cross_venue": false,
+  "config": {
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0
+  },
+  "priors_referenced": [
+    "decision_verdict_hyperliquid_native_20261115T155318Z",
+    "decision_verdict_hyperliquid_native_c12_20261115T181500Z",
+    "decision_verdict_hyperliquid_native_c13_20261115T203734Z",
+    "decision_verdict_consolidated_20261115T122636Z",
+    "decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z"
+  ],
+  "c14_stems": {
+    "prereg": "hyperliquid_native_c14_prereg_20261116T001200Z.json",
+    "intake": "archive_intake_validation_20261116T001129Z.json",
+    "archive": "archives/hyperliquid_ironflow_wide_20261115T214900Z/",
+    "cache": "cache/hyperliquid_ironflow_wide_20261115T234000Z/provenance.json",
+    "universe": "universe_hyperliquid_ironflow_wide_20261115T225100Z.json",
+    "campaign": "campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "census": "crash_event_census_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "placebo": "placebo_portfolio_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "episode_edge": "episode_edge_hyperliquid_ironflow_wide_20261116T001200Z.json"
+  },
+  "episode_audit": {
+    "link_hours": 98.0,
+    "n_episodes": 3,
+    "n_distinct_crash_days": 4,
+    "n_symbols": 4,
+    "largest_episode_events": 5,
+    "largest_episode_share": 0.5555555555555556,
+    "effective_independent_sample": {
+      "trades": 7,
+      "episodes": 3,
+      "symbols": 4,
+      "distinct_crash_days": 4
+    }
+  },
+  "episode_block_bootstrap": {
+    "resamples": 20000,
+    "seed": 20261116,
+    "observed_total_pnl": 8914.334981956968,
+    "ci_95_low": -1143.656974215468,
+    "ci_95_high": 17547.24497151911,
+    "prob_total_pnl_gt_0": 0.96385,
+    "power_curve": {
+      "first_size_excluding_zero": 4,
+      "observed_episodes": 3,
+      "max_achievable_episodes": 4,
+      "grid": [
+        {"n_episodes": 2, "ci_low": -762.437982810312, "ci_high": 11698.163314346075, "excludes_zero": false},
+        {"n_episodes": 3, "ci_low": -1143.656974215468, "ci_high": 17547.24497151911, "excludes_zero": false},
+        {"n_episodes": 4, "ci_low": 2302.815341973619, "ci_high": 20993.717287708198, "excludes_zero": true}
+      ]
+    }
+  },
+  "temporal_edge_permutation": {
+    "draws_evaluated": 20000,
+    "seed": 20261116,
+    "eligible_crash_bars": 661,
+    "observed_event_slots": 9,
+    "p_null_ge_canonical": 0.03595,
+    "canonical_percentile_le": 0.96405,
+    "null_mean": 2560.7196929950805,
+    "null_median": 2475.7732742481744
+  },
+  "placebo": {
+    "mode": "exact_enumeration",
+    "runs": 36,
+    "p_ge_canonical": 0.4444444444444444,
+    "prob_total_gt_0": 1.0
+  },
+  "leg_separation": {
+    "buy_legs": 6,
+    "buy_pnl": 11736.938981956968,
+    "short_legs": 1,
+    "short_pnl": -2822.604,
+    "net_pnl": 8914.334981956968
+  },
+  "limitations": [
+    "Hyperliquid-native (Ironflow node-derived) cache; NOT cross-venue.",
+    "Permutation preserves observed per-symbol multiplicity and conditions on real RSI<20 crash bars; it tests timing, not detector existence.",
+    "Episode clustering uses 98h holding horizon; different link changes counts but not dependence fact.",
+    "Power extrapolation is based on observed episode distribution only.",
+    "Maximum 4 distinct crash days available in C14 archive; 4 episodes achievable."
+  ]
+}
