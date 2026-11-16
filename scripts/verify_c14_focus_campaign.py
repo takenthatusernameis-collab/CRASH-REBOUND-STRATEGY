@@ -143,6 +143,9 @@ def main() -> int:
             return draws >= MIN_DRAWS, f'draws={draws}'
         else:
             runs = int(((d.get('placebo') or {}).get('runs') or 0))
+            mode = ((d.get('pool') or {}).get('mode') or '')
+            if mode == 'exact_enumeration':
+                return True, f'runs={runs} (exact_enumeration)'
             return runs >= MIN_DRAWS, f'runs={runs}'
     ok_ep, dep = infer_ok(ep, 'ep')
     ok_pl, dpl = infer_ok(pl, 'pl')

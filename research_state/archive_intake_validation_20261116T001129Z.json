@@ -2176,6 +2176,7 @@
   "provenance_caveat": "Intake validation only: proves the archive is structurally usable as evidence input, NOT that the strategy is profitable. Never relabel OKX, partial snapshots, dry-run fixtures, or the placeholder parquet as Hyperliquid evidence.",
   "no_new_data_fabricated": true,
   "generated_at_utc": "2026-11-16T00:11:29Z",
+  "summary": {"accepted_symbols": 174},
   "selftest": {
     "cases": [
       {
