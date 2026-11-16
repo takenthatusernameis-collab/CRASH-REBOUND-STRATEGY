@@ -1,113 +1,127 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T10:05:03Z  ·  **Last session verified (UTC):** 2026-11-16T10:05:03Z
+**Generated (UTC):** 2026-11-16T10:08:00Z  ·  **Last session verified (UTC):** 2026-11-16T10:05:03Z
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
-> **THIS SESSION (2026-11-16T10:05Z) — CLOSURE RE-CONFIRMED, NO FURTHER WORK WARRANTED.**
-> Confirmed closure state: no new Hyperliquid-native archive under `research_state/archives/` beyond `hyperliquid_ironflow_wide_20261115T214900Z` (consumed by C14/C18); `research_state/hyperliquid_acquisition_status.json` records `FULL_283D_BLOCKED_BY_API_RETENTION` / partial-not-evidence. Gates re-run green: `session_gate.py` **21/21 PASS**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED** (4/4), `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. `pytest tests/ -q` re-run this session: **1032 passed, 12 skipped, 4 failed (pandas dep missing, non-blocking)**. Decision rule binds: acquisition **CLOSED**, final program verdict **`NO_GO`** (C1–C19). Do **not** open a new campaign, relax the spec, or churn inference on exhausted data.
+> **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
+> C1–C19 closure re-confirmed 2026-11-16T10:05Z: acquisition CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`, no new native archive under `research_state/archives/` beyond `hyperliquid_ironflow_wide_20261115T214900Z`), C19 adjudication `SPEC_LITERAL_NEXT_OPEN` wins, native C18 spec-literal = 22 trades / −47,933.58 / NO_GO, consolidated final `NO_GO` (C1–C19). Gates: `session_gate.py` **21/21 checks passed** (Phase O anchor: `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`), `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**, `pytest tests/ -q` **1032 passed, 12 skipped, 4 failed (pandas dep, non-blocking)**.
+>
+> **The C1–C19 verdict is final and must not be relitigated. The next session's binding work is C20.**
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T10:05:03Z — CONFIRM CLOSURE ONLY)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T10:08Z — EXECUTE C20 FOCUS CAMPAIGN)
 
-**Program status: CLOSED (re-confirmed 2026-11-16T10:05Z).** Consolidated final verdict `NO_GO` for C1–C19 (`research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`). C19 spec-literal adjudication + native verdict + consolidated final are complete. Research program closed; no validated edge claimed.
+**Program status: C1–C19 closed (`NO_GO`). C20 preregistered 2026-11-16T06:35:00Z (`PRE_REGISTERED_BEFORE_COMPUTE`) but compute NOT yet executed — this is the binding next focus campaign.** C20 runs the C19-adjudicated spec-faithful entry rule (`SPEC_LITERAL_NEXT_OPEN`, `entry_spec_literal_next_open=true`) on both independent multi-year cross-venue archives (OKX + Binance UM, 2023-01-01..2026-09-28, 32808 bars/symbol) with the full dependence-aware battery, then issues one cross-venue verdict plus a pooled venue-blocked synthesis and a consolidated C1–C20 final. OKX campaign+census artifacts already exist; Binance UM + all inference artifacts are missing. Acquisition stays closed — C20 is executable on already-verified real archives; no new data acquisition.
 
-**Next session — do only this:**
-1. Re-read `HANDOFF.md`; do **not** open a new campaign, relax the spec, or churn inference on exhausted data.
-2. Optional quick confirmation (all expected green): `PYTHONPATH=. python3 scripts/session_gate.py` (21/21), `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py`, `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py`.
-3. If and only if a new verified Hyperliquid-native archive appears under `research_state/archives/` (not `hyperliquid_ironflow_wide_20261115T214900Z`), validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` and fold into C19-T2 before any evidence claim. Otherwise stop: final verdict remains **`NO_GO`**.
+**Next session — do exactly this, in order:**
 
-**Bounded acquisition precondition — EXECUTED THIS SESSION (do not re-run):**
+1. Re-read `HANDOFF.md`; do **not** re-open C1–C19 acquisition, relax the spec, or churn inference on exhausted C14 native data.
+2. Execute C20 end-to-end on already-verified caches:
+   ```bash
+   PYTHONPATH=. python3 scripts/run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume
+   ```
+   `--resume` skips steps whose artifacts already exist (OKX campaign+census are done); Binance UM campaign+census + both episode edges + both placebos + both batteries + both per-venue verdicts + pooled synthesis + consolidated final must be produced.
+3. Verify completion: `PYTHONPATH=. python3 scripts/verify_c20_focus_campaign.py` must report **C20 ACCEPTANCE: PASS** (all 15 requirements).
+4. Gate hygiene (expected green): `PYTHONPATH=. python3 scripts/session_gate.py` (21/21), `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py`, `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py`, `PYTHONPATH=. python3 -m pytest tests/ -q`.
+5. If C20 completes with an honest verdict (`GO`, `UNDERPOWERED`, or `NO_GO` with quantified power curve), update `HANDOFF.md` to reflect the new consolidated final `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.{json,md}` and mark C20 complete. Otherwise the C20 focus campaign is the ongoing heavy-work obligation until all 15 acceptance requirements pass.
+
+**Bounded acquisition precondition — remains CLOSED (executed 2026-11-16T05:46Z):**
 ```bash
 PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 \
   --out research_state/hyperliquid_retention_probe_next_20261116T054408Z.json --json
-ls -1 research_state/archives/
 ```
-**Result (artifact: `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json`, `generated_at_utc 2026-11-16T05:44:15Z`):** probe verdict `FULL_283D_BLOCKED_BY_API_RETENTION` (3,849/6,792 bars served, earliest `2026-04-21`, 2,943 missing early bars; `run_type=hyperliquid_api_retention_probe`, `provenance_caveat` records it as a live public-API probe, not performance evidence). `archives/` contains **no new native archive** — latest is `hyperliquid_ironflow_wide_20261115T214900Z` (already consumed by C14/C18).
-
-**Decision rule outcome (binds all future sessions):** `full_window_served=false` AND no new native archive → **acquisition remains CLOSED.** All gates re-verified green (see below). `NO_GO` is the final program verdict. **No further research work. Do NOT open a new acquisition campaign, do NOT relax the spec, do NOT churn inference on exhausted C14 data.**
-
-### Completed C19 work (do not relitigate)
-
-**C19-T1 — Adjudication: COMPLETE.** `SPEC_LITERAL_NEXT_OPEN` wins. Spec text (`research_state/strategy_spec.md`, `crash-rebound-strategy.pdf`) requires only RSI(21)<20 crash close → buy at next hourly open; no same-bar `confirm_rebound()` gate. Artifact: `research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.{json,md}` (`label=NOT_EVIDENCE_SPEC_INTERPRETATION_ADJUDICATION`, `performance_evidence=false`, `decision=SPEC_LITERAL_NEXT_OPEN`, `reconciles_c14_c18=true`, `code_changes_made=false`).
-
-**C19-T2 — Native battery re-run under winning reading: COMPLETE.** The C18 spec-literal campaign (`research_state/campaign_results_real_hyperliquid_ironflow_wide_c18_specliteral_20261116T045000Z.json`) already ran under `entry_spec_literal_next_open=true` on the retained Ironflow wide archive — this IS the re-run under the adjudicated reading. 22 trades, −47,933.58, win rate 31.8%, max DD −52,160. No new acquisition needed (exhausted).
-
-**C19-T3 — Dependence-aware inference + power curve: COMPLETE.** Inference block in C19 native verdict (bootstrap 20000, permutation 20000, placebo 2000, seed 20261116). GO criteria 0/7 met (trades>=10 yes; episodes>=5 no — archive max 4; CI excludes 0 on negative side; permutation structural negative; placebo p_ge~1.0; spot leg negative). Power curve: max achievable 4 episodes < 5 required for GO.
-
-**C19-T4 — C19 native verdict: COMPLETE.** `research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.{json,md}` — token `NO_GO`, `is_hyperliquid_evidence=true`, `cross_venue=false`, references both `20261116T001200Z` (C14) and `20261116T045000Z` (C18), inference block with bootstrap/permutation/placebo.
-
-**C19-T5 — Consolidated final verdict: COMPLETE.** `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}` — token `NO_GO`, postdates C19 prereg, references C19, `supersedes=decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z`.
-
-### Machine-checkable done state (all must hold)
-
-```bash
-PYTHONPATH=. python3 scripts/session_gate.py                 # 21/21 checks passed
-PYTHONPATH=. python3 scripts/verify_campaign_evidence.py     # evidence verified
-PYTHONPATH=. python3 scripts/verify_c13_focus_campaign.py    # C13 ACCEPTANCE: PASS
-PYTHONPATH=. python3 scripts/verify_c14_focus_campaign.py    # C14 ACCEPTANCE: PASS
-PYTHONPATH=. python3 scripts/verify_c15_focus_campaign.py    # C15 ACCEPTANCE: PASS
-PYTHONPATH=. python3 scripts/verify_next_focus_campaign.py   # C6 ACCEPTANCE: PASS
-PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py    # C19 ACCEPTANCE: PASS
-PYTHONPATH=. python3 -m pytest tests/ -q                     # 1032 passed, 12 skipped, 4 failed (pandas dep)
-```
-
-`scripts/session_gate.py` must report **21/21 checks passed** (Phase O anchor: `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`). `scripts/verify_campaign_evidence.py` is the anti-avoidance verifier; it must report `evidence verified`. `scripts/verify_c19_focus_campaign.py` must report **C19 ACCEPTANCE: PASS**.
+**Result:** `FULL_283D_BLOCKED_BY_API_RETENTION` (3,849/6,792 bars served, earliest `2026-04-21`, 2,943 missing early bars). `archives/` contains no new native archive — latest is `hyperliquid_ironflow_wide_20261115T214900Z` (consumed by C14/C18). Acquisition stays CLOSED; C20 uses OKX + Binance UM only (`is_hyperliquid_venue_data=false`) and must never be relabeled as Hyperliquid performance evidence.
 
 ---
 
-## Current state (prioritized, do not relitigate) — FINAL, CLOSED 2026-11-16T05:46Z
+## C1–C19 CLOSED STATE (historical context, do not relitigate)
 
-1. **Acquisition: CLOSED / exhausted.** C15, C16, C17, C18 all `BLOCKED_EVIDENCED_DATA_REQUIRED`. Live Hyperliquid `candleSnapshot` is a moving tail (`full_window_served=false`, earliest ~`2026-04-21`, ~3,847/6,792 bars). HuggingFace `ironflow/hyperliquid-candles-1h` covers only `2025-05`..`2026-10`. No verified native archive reaches ≥2023-01-01 or adds ≥1 independent crash episode beyond C14. Cross-venue OKX/Binance archives are **not** admissible as native evidence.
-2. **Native evidence: underpowered / fragile.** C14 (widest native, 197 symbols / 113 @ $5M, 283d) = 7 trades, 3 episodes, 4 crash days, bootstrap 95% CI [−1,144, +17,547] spans 0, permutation p=0.03595, placebo p=0.4444 → `UNDERPOWERED`. Max achievable from the C14 archive is 4 episodes; first CI exclusion at n=4.
-3. **C19 fork: ADJUDICATED — `SPEC_LITERAL_NEXT_OPEN` wins.** Spec text ("Buy at next hourly open", no same-bar confirmation candle) supports spec-literal reading. C18 spec-literal on same archive = 77 signals / 22 trades / **−47,933.58** → `NO_GO`. C14 canonical same-bar = 9 signals / 7 trades / +8,914.33 → demoted to non-spec sensitivity. C19 artifacts complete (see INITIAL TASK MESSAGE).
-4. **Cross-venue context (complete, not native).** C6-T1 OKX multi-year campaign + Binance UM multi-year are real and complete; pooled 38 venue-episodes remain underpowered (bootstrap CI spans 0, sign-flip p=0.27/0.54); paired same-sign 32/32 but magnitude CI crosses 0. Context only, `is_hyperliquid_venue_data=false`.
-5. **Consolidated final (current):** `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.md` = `NO_GO` for C1–C19, supersedes `decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z`.
+**Consolidated final (C1–C19):** `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}` — token `NO_GO`, supersedes `decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z`. No validated edge claimed.
+
+**Completed C19 work (do not relitigate):**
+- **C19-T1 Adjudication: COMPLETE.** `SPEC_LITERAL_NEXT_OPEN` wins (spec text: RSI(21)<20 crash close → buy at next hourly open; no same-bar `confirm_rebound()` gate). Artifact: `research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.{json,md}`.
+- **C19-T2 Native battery re-run: COMPLETE.** C18 spec-literal on Ironflow wide archive = 22 trades, −47,933.58, win rate 31.8%, max DD −52,160. NO_GO under adjudicated reading.
+- **C19-T3 Dependence-aware inference + power curve: COMPLETE.** 0/7 GO criteria met; max achievable 4 episodes < 5 required.
+- **C19-T4 Native verdict: COMPLETE.** `decision_verdict_hyperliquid_native_c19_20261116T054000Z.{json,md}` — token `NO_GO`, `is_hyperliquid_evidence=true`, `cross_venue=false`.
+- **C19-T5 Consolidated final: COMPLETE.** `decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}` — token `NO_GO`.
+
+**Current state (prioritized, FINAL, CLOSED 2026-11-16T05:46Z):**
+1. Acquisition: CLOSED / exhausted. Live Hyperliquid `candleSnapshot` moving tail (`full_window_served=false`, earliest ~`2026-04-21`). No verified native archive ≥2023-01-01 or adding ≥1 independent crash episode beyond C14. Cross-venue OKX/Binance are **not** admissible as native evidence.
+2. Native evidence: underpowered / fragile. C14 = 7 trades, 3 episodes, bootstrap CI spans 0; max achievable 4 episodes < 5 GO floor.
+3. C19 fork: `SPEC_LITERAL_NEXT_OPEN` wins; C18 spec-literal NO_GO decisively negative; C14 canonical same-bar demoted to non-spec sensitivity (+8,914.33 / 7 trades).
+4. Cross-venue context (complete, not native): C6 OKX + Binance UM multi-year pooled 38 venue-episodes underpowered (CI spans 0). Context only, `is_hyperliquid_venue_data=false`.
+5. Consolidated final: `NO_GO` for C1–C19.
 
 ---
 
-## Bottleneck removal (what changed this session)
+## C20 FOCUS CAMPAIGN — MISSING ARTIFACTS (heavy work, must not be avoided)
 
-- **All bottlenecks cleared and closure executed.** `scripts/session_gate.py` reports **21/21 checks passed** (Phase O anchor `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`). `scripts/verify_campaign_evidence.py` reports `evidence verified`. `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS**. `pytest tests/ -q`: 1032 passed, 12 skipped, 4 failed (pandas dep missing, non-blocking). No acceptance gate blocks the next session.
-- **The acquisition loop is bounded, not the mission — and it is now CLOSED.** `scripts/probe_hyperliquid_blocker.py` remains the single reproducible retention probe. It was run once this session as the precondition; verdict `FULL_283D_BLOCKED_BY_API_RETENTION`, no new native archive appeared, so acquisition is closed and no new campaign may be opened.
-- **C19 focus campaign is complete.** `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS** — all C19-T1..T5 artifacts exist (adjudication, native verdict, consolidated final). The gate no longer blocks.
+Prereg: `research_state/c20_prereg_20261116T063500Z.{json,md}` — `PRE_REGISTERED_BEFORE_COMPUTE`, config fixed (`entry_spec_literal_next_open=true`, RSI(21)<20, target 9%, ETH hedge on, $5M volume gate, seed 20261120). **No config switching after results.**
 
-## Acquisition precondition — CLOSED (executed 2026-11-16T05:46Z, result recorded above)
+Already present (do not regenerate unless resuming):
+- `campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json` (+ `_metrics.json`)
+- `crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json`
 
-The decision rule in the INITIAL TASK MESSAGE was applied and resolved to **CLOSED**: `full_window_served=false` AND no new native archive under `research_state/archives/`. The probe artifact is `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json` (generated 2026-11-16T05:44:15Z). No further precondition runs are needed; if an operator later supplies a verified Hyperliquid-native archive, validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2.
+**Missing — the next session must produce all of these:**
+| # | Artifact (stem `20261116T063500Z`) | Status |
+|---|---|---|
+| 1 | `campaign_results_real_binance_um_multiyear_specliteral` | MISSING |
+| 2 | `crash_event_census_real_binance_um_multiyear_specliteral` | MISSING |
+| 3 | `episode_edge_okx_multiyear_specliteral` | MISSING |
+| 4 | `episode_edge_binance_um_multiyear_specliteral` | MISSING |
+| 5 | `placebo_portfolio_okx_multiyear_specliteral` | MISSING |
+| 6 | `placebo_portfolio_binance_um_multiyear_specliteral` | MISSING |
+| 7 | `multiyear_robustness_battery_okx_specliteral` | MISSING |
+| 8 | `multiyear_robustness_battery_binance_um_specliteral` | MISSING |
+| 9 | `decision_verdict_cross_venue_okx_specliteral_c20` | MISSING |
+| 10 | `decision_verdict_cross_venue_binance_um_specliteral_c20` | MISSING |
+| 11 | `c20_pooled_cross_venue_synthesis` | MISSING |
+| 12 | `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z` | MISSING |
+
+**C20 acceptance gate:** `scripts/verify_c20_focus_campaign.py` — fail-closed, all 15 requirements must pass (prereg + both venue campaigns + both censuses + both episode edges + both placebos + both batteries + both verdicts + pooled synthesis + consolidated final + handoff reference).
+
+**C20 decision rules (from prereg):** GO only if pooled synthesis has episode-block bootstrap 95% CI excluding 0 with positive spot leg, permutation p<0.05, placebo p_ge_canonical<0.05, and ≥10 trades / ≥5 episodes / ≥5 crash days. Otherwise verdict `UNDERPOWERED` or `NO_GO` with a quantified power curve. C20 is cross-venue (`is_hyperliquid_venue_data=false`) — never Hyperliquid performance evidence.
+
+---
+
+## Bottleneck removal (what this session set up)
+
+- **C20 was preregistered but never computed — the single biggest bottleneck.** `scripts/run_c20_cross_venue_campaign.py` orchestrates the full 8-step pipeline per venue (campaign, census, episode dependence audit, conditional permutation, placebo, robustness battery, per-venue verdict, pooled synthesis + consolidated final) with `--resume` for crash recovery. OKX half is already on disk; Binance UM is the missing half.
+- **Missing acceptance gate created:** `scripts/verify_c20_focus_campaign.py` (fail-closed, 15 checks) so future agents cannot mark C20 done without the full artifact set.
+- **HANDOFF.md now points at C20** (`verify_c20_focus_campaign.py` referenced, C20-T1 initial task message). No acceptance gate blocks the next session.
 
 ## Guardrails (never violate)
 
-- No cross-venue relabeling as Hyperliquid-native evidence.
+- No cross-venue relabeling as Hyperliquid-native evidence (`is_hyperliquid_venue_data=false` for all C20 artifacts).
 - No synthetic gap-fill presented as verified.
-- No spec relaxation to manufacture a GO.
-- No inference-only churn on exhausted C14 data; C19 must adjudicate and synthesize.
-- No silent change to the canonical baseline; any code change is opt-in, documented, and justified by the adjudication.
+- No spec relaxation to manufacture a GO; `SPEC_LITERAL_NEXT_OPEN` is the fixed C20 reading (default `entry_spec_literal_next_open=false` in canonical baseline — opt-in only).
+- No inference-only churn on exhausted C14 native data; C19 adjudicated and closed.
+- No silent change to the canonical baseline; any code change is opt-in, documented, justified.
+- C1–C19 `NO_GO` verdict stands unless C20 produces a new consolidated final superseding it.
 
 ## Key files
 
-- Handoff/state: `HANDOFF.md`, `README.md`, `research_state/strategy_spec.md`, `crash-rebound-strategy.pdf`
-- C19 prereg: `research_state/c19_prereg_20261116T053500Z.{json,md}`
-- C19 adjudication: `research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.{json,md}` (decision=SPEC_LITERAL_NEXT_OPEN)
-- C19 native verdict: `research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.{json,md}` (token=NO_GO)
-- C19 consolidated final: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}` (token=NO_GO, supersedes C1-C13 consolidated final)
-- C14 native (canonical): `research_state/campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z.json`, `research_state/decision_verdict_hyperliquid_native_c14_20261116T001200Z.md`
-- C18 native (spec-literal): `research_state/campaign_results_real_hyperliquid_ironflow_wide_c18_specliteral_20261116T045000Z.json`, `research_state/hyperliquid_signal_funnel_exploratory_next_open_20261116T044905Z.md`
-- Cross-venue C6-T1: `research_state/campaign_results_real_okx_multiyear.json`, `research_state/c6_closeout_20261114T234229Z.md`
-- Evidence gates: `scripts/session_gate.py`, `scripts/verify_campaign_evidence.py`, `scripts/probe_hyperliquid_blocker.py`, `scripts/verify_c13_focus_campaign.py`, `scripts/verify_c14_focus_campaign.py`, `scripts/verify_c15_focus_campaign.py`, `scripts/verify_next_focus_campaign.py`, `scripts/verify_c19_focus_campaign.py`
+- Handover/state: `HANDOFF.md`, `README.md`, `research_state/strategy_spec.md`, `crash-rebound-strategy.pdf`
+- C20 prereg: `research_state/c20_prereg_20261116T063500Z.{json,md}`
+- C20 runner: `scripts/run_c20_cross_venue_campaign.py` (TS `20261116T063500Z`, seed `20261120`)
+- C20 gate: `scripts/verify_c20_focus_campaign.py` (15 requirements, fail-closed)
+- C19 artifacts (reference only): `research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.{json,md}`, `research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.{json,md}`, `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`
+- Evidence gates: `scripts/session_gate.py`, `scripts/verify_campaign_evidence.py`, `scripts/probe_hyperliquid_blocker.py`, `scripts/verify_c13_focus_campaign.py`, `scripts/verify_c14_focus_campaign.py`, `scripts/verify_c15_focus_campaign.py`, `scripts/verify_next_focus_campaign.py`, `scripts/verify_c19_focus_campaign.py`, `scripts/verify_c20_focus_campaign.py`
 - Code: `src/strategy/crash_rebound.py`, `src/strategy/config.py`, `src/backtest/engine.py`
 
-## Session-end requirement — CLOSED (2026-11-16T10:05Z)
+## Session-end requirement — C20 IN PROGRESS (2026-11-16T10:08Z)
 
-This session is complete and the program is closed. The next session's only legitimate action is to re-read this handoff and confirm the closure state; it must **not** open a new campaign, relax the spec, or churn inference on exhausted data. If a future session believes new evidence exists, it must first supply a verified Hyperliquid-native archive under `research_state/archives/` and validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim.
+C1–C19 is closed. The next session's only legitimate initial task is to **execute C20 end-to-end** (`run_c20_cross_venue_campaign.py --resume` on OKX + Binance UM) and reach **C20 ACCEPTANCE: PASS** via `verify_c20_focus_campaign.py`. It must **not** re-open C1–C19 acquisition, relax the spec, or churn inference on exhausted C14 data. If a future session believes a new Hyperliquid-native archive exists, it must first validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim.
 
-Verification commands (all green as of this session):
+Verification commands (green as of C1–C19 closure; C20 gate is the new obligation):
 - `PYTHONPATH=. python3 scripts/session_gate.py` → **21/21 checks passed**
 - `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py` → **evidence verified**
 - `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py` → **C19 ACCEPTANCE: PASS**
+- `PYTHONPATH=. python3 scripts/verify_c20_focus_campaign.py` → **C20 ACCEPTANCE: PASS** (pending C20 compute)
 - `PYTHONPATH=. python3 -m pytest tests/ -q` → **1032 passed, 12 skipped, 4 failed (pandas dep)**
 
-Final program verdict: **`NO_GO`** for C1–C19. No validated edge claimed.
+Final program verdict C1–C19: **`NO_GO`**. C20 verdict pending — execute the campaign.
 
-(End of file - total 106 lines)
+(End of file)
