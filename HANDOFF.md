@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T11:38:58Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T12:07:18Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
@@ -46,10 +46,10 @@
 
 ---
 
-## LIVE STATE VERIFIED THIS SESSION (2026-11-16T11:38:58Z)
+## LIVE STATE VERIFIED THIS SESSION (2026-11-16T12:07:18Z)
 
-- **Supervisor running (do not disturb):** `scripts/finish_c20_detached.sh` **PID 22315, SID 22315, PPID 1**, attempt 1 started 2026-11-16T11:27:50Z (`/tmp/c20_supervisor.log`). `run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` active with 4 workers (~93% CPU each). No `/tmp/c20_supervisor_status.json` yet (written on transitions/stall/PASS).
-- **C20 gate:** `C20 ACCEPTANCE: FAIL — 12 requirement(s) missing` (c20_artifacts_present, binance_um_census_computed, okx/binance_um episode_edge, okx/binance_um placebo, okx/binance_um battery, okx/binance_um verdict, pooled synthesis, consolidated final). Prereg present: `research_state/c20_prereg_20261116T063500Z.{json,md}` (2 c20-timestamped files). Supervisor log shows OKX campaign+census cached/resuming from prior attempt.
+- **Supervisor running (do not disturb):** `scripts/finish_c20_detached.sh` **PID 22315, SID 22315, PPID 1**, attempt 1 started 2026-11-16T11:27:50Z, elapsed ~40m (`/tmp/c20_supervisor.log`). `run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` active with 4 workers (~93% CPU each). No `/tmp/c20_supervisor_status.json` yet (written on transitions/stall/PASS).
+- **C20 gate:** `C20 ACCEPTANCE: FAIL — 12 requirement(s) missing` (c20_artifacts_present, binance_um_census_computed, okx/binance_um episode_edge, okx/binance_um placebo, okx/binance_um battery, okx/binance_um verdict, pooled synthesis, consolidated final). Prereg present: `research_state/c20_prereg_20261116T063500Z.{json,md}`. Supervisor log shows OKX campaign+census cached/resuming from prior attempt.
 - **Venv:** `/tmp/crs-venv/bin/python` present (no `scipy`, not needed). Bootstrap only if missing: `bash scripts/bootstrap_env.sh /tmp/crs-venv`.
 - **Prior verified hygiene (2026-11-16T11:37Z, unchanged code):** `session_gate.py` 21/21, `verify_campaign_evidence.py` EVIDENCE VERIFIED, `verify_c19_focus_campaign.py` PASS, `pytest -q` 1047 passed, 1 skipped. Re-run step 5 before claiming C20 done.
 - **Cost/ETA:** ~4–5 h end-to-end with `--jobs 4` (≈38 s/draw); expect PASS ~2026-11-16T16:00Z if uninterrupted. Poll, do not block a turn.
