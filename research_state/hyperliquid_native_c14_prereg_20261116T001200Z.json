@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "campaign": "C14",
+  "generated_at_utc": "2026-11-16T00:13:03Z",
+  "label": "HYPERLIQUID_NATIVE_C14_BROAD_UNIVERSE_POWER_ESCALATION",
+  "status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "real_market_data": true,
+  "is_hyperliquid_venue_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "provenance_caveat": "Real Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot. Real fetched/archived candles, non-synthetic. 283d window 2025-12-20T00:00:00Z\u20132026-09-28T23:00:00Z. Performance evidence only when produced by the full decision-grade battery under this prereg.",
+  "inputs": {
+    "archive_dir": "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z",
+    "intake_validation": "research_state/archive_intake_validation_20261116T001129Z.json",
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_wide_20261115T234000Z",
+    "universe_file": "research_state/universe_hyperliquid_ironflow_wide_20261115T225100Z.json",
+    "census_planned": "research_state/crash_event_census_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "campaign_planned": "research_state/campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "priors": {
+      "consolidated_final": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z.md",
+      "cross_venue_c10": "research_state/decision_verdict_consolidated_20261115T122636Z.md",
+      "native_c11_3": "research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md",
+      "native_c12": "research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md",
+      "native_c13": "research_state/decision_verdict_hyperliquid_native_c13_20261115T203734Z.md",
+      "power_target": "research_state/power_target_hyperliquid_20261114T172700Z.md"
+    }
+  },
+  "hypothesis": {
+    "id": "H1_c14_broad_universe_canonical",
+    "description": "Broad-universe Hyperliquid-native (Ironflow) power escalation of the spec crash-rebound strategy to raise effective independent crash episodes toward the decision floor, evaluated with dependence-aware inference.",
+    "config": {
+      "rsi_threshold": 20.0,
+      "rsi_period": 21,
+      "target_pct": 9.0,
+      "rebound_short_target_pct": 9.0,
+      "rebound_short_time_exit_bars": 48,
+      "enable_rebound_short": true,
+      "enable_eth_hedge": true,
+      "min_daily_volume_usd": 5000000.0,
+      "entry_spec_literal_next_open": false
+    },
+    "selection_rule": "Fixed by this prereg; no config switching after results."
+  },
+  "inference_plan": {
+    "dependence_aware": true,
+    "seed": 20261116,
+    "min_draws": 100,
+    "draws": 20000,
+    "placebo_draws": 2000,
+    "methods": [
+      "episode_block_bootstrap_CI95_spot_hedge_rebound_total",
+      "conditional_temporal_edge_permutation_p",
+      "portfolio_placebo_admission_selection_p_ge_canonical",
+      "crash_event_census_alignment",
+      "leg_separation_spot_eth_hedge_rebound_short"
+    ],
+    "power": "Minimum floor: 100 permutation draws and 100 placebo subsets. GO requires >=10 trades, >=5 episodes, >=5 distinct crash days, bootstrap 95% CI excluding 0, permutation p<0.05, placebo p_ge_canonical<0.05, and spot leg > 0. If unmet, verdict must be UNDERPOWERED or NO_GO with a quantified power curve."
+  },
+  "decision_rules": {
+    "go": "GO only if all hold: episode-block bootstrap 95% CI excludes 0 (spot or total with positive spot), permutation p < 0.05, placebo p_ge_canonical < 0.05, and effective N >= 10 trades / 5 episodes / 5 crash days.",
+    "no_go": [
+      "CI95 spans 0 for spot and total",
+      "permutation p >= 0.05 or placebo p_ge_canonical >= 0.05",
+      "positive total entirely hedge/rebound-masked with non-positive spot",
+      "census/funnel shows no reproducible edge on widened universe"
+    ],
+    "underpowered": [
+      "Effective sample below floor; label UNDERPOWERED/FRAGILE_NOT_DECISION_GRADE",
+      "Missing seed/SHA binding or compute predating this prereg"
+    ],
+    "power_curve_required_if_not_go": true
+  },
+  "power_targets": {
+    "min_episode_block_bootstrap_draws": 100,
+    "min_permutation_draws": 20000,
+    "min_placebo_subsets": 2000,
+    "min_effective_trades_for_go": 10,
+    "min_effective_episodes_for_go": 5,
+    "min_distinct_crash_days_for_go": 5,
+    "alpha": 0.05
+  }
+}

@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T00:20:50Z",
+  "run_type": "portfolio_placebo_c14_wide",
+  "seed": 20261116,
+  "draws_requested": 2000,
+  "config": {
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "config_matched": true
+  },
+  "provenance_caveat": "Real Hyperliquid (Ironflow node-derived, native) data, non-synthetic; node-derived (Ironflow HF, CC BY 4.0), NOT the venue's own candleSnapshot; Hyperliquid-native evidence (not cross-venue).",
+  "venue_label": "Hyperliquid (Ironflow node-derived, native)",
+  "is_hyperliquid_evidence": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "inputs": {
+    "cache_dir": "research_state/cache/hyperliquid_ironflow_wide_20261115T234000Z",
+    "manifest": "research_state/cache/hyperliquid_ironflow_wide_20261115T234000Z/provenance.json",
+    "universe": "research_state/universe_hyperliquid_ironflow_wide_20261115T225100Z.json",
+    "census": "research_state/crash_event_census_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "campaign": "research_state/campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "manifest_sha256": "a43aa823ffe4cfce748ae24268ecd0077cc5af0ae9143c72d5db6ebabde47444",
+    "universe_sha256": "892db6f94c08d18070583290035b301ec1a1b6f5331e96e0837be9be3648104f",
+    "census_sha256": "a4e21847e0642eb547fd46107e640bd54a8c412d4b3a2e8651c8573b97212522",
+    "campaign_sha256": "4665be922b55f1762a1ac2cb93f3d4a816fc6e8ef0ec9d7f003872e80b97401b"
+  },
+  "canonical": {
+    "num_trades": 7,
+    "total_pnl": 8914.334981956968,
+    "replay": {
+      "num_trades": 7,
+      "total_pnl": 8914.334981956968
+    }
+  },
+  "memo": {
+    "census_events": 661,
+    "rows": 661,
+    "memo_signals": 9,
+    "signal_gate_events": 9,
+    "memo_matches_signal_gate": true,
+    "admitted_trade_keys": 7
+  },
+  "missing_symbols": [],
+  "pool": {
+    "signal_gate_events": 9,
+    "choose_k": 7,
+    "total_combinations": 36,
+    "mode": "exact_enumeration"
+  },
+  "placebo": {
+    "runs": 36,
+    "summary": {
+      "n": 36,
+      "mean": 8422.457505463224,
+      "median": 8591.226240051126,
+      "stdev": 1920.9106590232554,
+      "min": 4292.5031215663475,
+      "max": 11938.764098546573,
+      "p05": 5171.6748774061725,
+      "p25": 7210.853266968734,
+      "p75": 9299.013576578804,
+      "p95": 11687.570903709293
+    },
+    "trade_count_summary": {
+      "n": 36,
+      "mean": 5.833333333333333,
+      "median": 6.0,
+      "stdev": 0.6009252125773316,
+      "min": 5.0,
+      "max": 7.0,
+      "p05": 5.0,
+      "p25": 5.0,
+      "p75": 6.0,
+      "p95": 7.0
+    },
+    "p_ge_canonical": 0.4444444444444444,
+    "p_le_canonical": 0.5833333333333334,
+    "canonical_percentile_le": 0.5833333333333334,
+    "prob_total_pnl_positive": 1.0
+  },
+  "wall_seconds": 10.092095136642456,
+  "limitations": [
+    "Hyperliquid-native (Ironflow node-derived) wide cache; NOT cross-venue.",
+    "Tests admission/cap/occupancy selection within observed gate-passing pool, not detector existence.",
+    "Preserves all gates, sizing, cap, hedge, fees, funding, liquidation; no synthetic data."
+  ]
+}
