@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-16T02:34:13Z — **C14 COMPLETE/UNDERPOWERED (gate PASS); C15 IS THE ACTIVE HEAVY CAMPAIGN — DO SUBSTANTIVE WORK.** "Closed state / do nothing substantive" remains **REMOVED**. This is the single durable handoff and the **initial task message** for the next agentic work session.
+**Handoff updated (UTC):** 2026-11-16T02:34:29Z — **C14 COMPLETE/UNDERPOWERED (gate PASS); C15 IS THE ACTIVE HEAVY CAMPAIGN — DO SUBSTANTIVE WORK.** "Closed state / do nothing substantive" remains **REMOVED**. This is the single durable handoff and the **initial task message** for the next agentic work session.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap). **Priority:** decision-grade crash-rebound verdict on **Hyperliquid-native** evidence with honest dependence-aware inference. Cross-venue OKX/Binance remain `is_hyperliquid_venue_data=false` and must NOT be relabeled as Hyperliquid.
 
@@ -8,7 +8,7 @@
 
 **Priors (do not relitigate/rewrite):** FINAL consolidated **`NO_GO`** `research_state/decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z.md`; cross-venue C10 `NO_GO` (0/7, `is_hyperliquid_venue_data=false`) `research_state/decision_verdict_consolidated_20261115T122636Z.md`; native C11.3 `NO_GO/FRAGILE_NOT_DECISION_GRADE` `research_state/decision_verdict_hyperliquid_native_20261115T155318Z.md`; C12 `NO_DECISION_GRADE_GO` `research_state/decision_verdict_hyperliquid_native_c12_20261115T181500Z.md`; C13 `UNDERPOWERED` `research_state/decision_verdict_hyperliquid_native_c13_20261115T203734Z.md`; C14 `UNDERPOWERED` `research_state/decision_verdict_hyperliquid_native_c14_20261116T001200Z.md`.
 
-## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-16T02:28:30Z)
+## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-16T02:34:29Z)
 
 **You are the next agentic session continuing `CRASH-REBOUND-STRATEGY` (branch `main`). Do substantive research work now — a handoff-only stop is not acceptable.** C14 is **COMPLETE**: full pre-registered inference battery on widest available Hyperliquid-native universe (197 symbols, 113 selected @ $5M, 283d). Gate prints `C14 ACCEPTANCE: PASS`. Verdict **`UNDERPOWERED`** — 3 effective episodes / 4 crash days / 7 trades; bootstrap 95% CI [−1144,+17547] spans zero (first CI exclusion n=4, archive max 4); permutation p=0.03595; placebo p=0.4444. Consolidated final verdict C1–C13 remains `NO_GO`. **Do not relabel cross-venue as Hyperliquid, do not fabricate data, do not relax $5M/spec defaults, do not edit canonical C1–C14 artifacts.**
 
