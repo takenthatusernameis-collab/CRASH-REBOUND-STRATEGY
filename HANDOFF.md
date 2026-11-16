@@ -1,7 +1,8 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T21:52:20Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T21:54:30Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
+**Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Target gate result:** `21/21 checks passed` (verify with `scripts/session_gate.py`; re-run after this handoff regeneration to confirm).
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
 > C20 was preregistered at `research_state/c20_prereg_20261116T063500Z.{json,md}`. Its detached, lock-guarded, `--resume` compute is the only active campaign. It is **not complete**: `C20 ACCEPTANCE: FAIL` (11 of 17 checks missing; 5 of 15 required JSON artifacts on disk). The only accepted terminal state is `C20 ACCEPTANCE: PASS`. Do not re-plan, re-adjudicate C1–C19, relabel cross-venue results as Hyperliquid-native, edit the running campaign, or substitute narrative for artifacts.
@@ -10,7 +11,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T21:52:20Z — FINISH C20, MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T21:54:30Z — FINISH C20, MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** close C20 (cross-venue out-of-sample replication on OKX + Binance UM, both real archives) because C1–C19 are closed as `NO_GO` and no other decision-relevant campaign is authorized. Treat C20 as the **only** binding next focus until `scripts/verify_c20_focus_campaign.py` prints `C20 ACCEPTANCE: PASS`.
 
@@ -27,9 +28,9 @@
    ls research_state/*_20261116T063500Z.json 2>/dev/null | sort
    ```
    - **Liveness = worker cumulative CPU `TIME` advancing across two probes ~10s apart + durable artifact progress**, not log/status file presence. Silent logs during heavy compute are normal.
-   - **LIVE NOW (2026-11-16T21:52:20Z, verified):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive; campaign PID 2750 + workers 2963–2966 alive (4 workers, `/tmp/crs-venv`, ~95% CPU each, cumulative worker `TIME` ~02:13 advancing, etime ~02:20). `/tmp/c20_supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, `n_artifacts_present=5`, updated 2026-11-16T21:52:26Z. `/tmp/c20_supervisor.log` shows attempt 1 start 2026-11-16T19:32:15Z with OKX campaign/census/episode cached on resume. `.venv` and `research_state/.c20/` absent (legacy `/tmp` paths in use). No second campaign running.
+   - **LIVE NOW (2026-11-16T21:54:30Z, verified):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive; campaign PID 2750 + workers 2963–2966 alive (4 workers, `/tmp/crs-venv`, ~95% CPU each, cumulative worker `TIME` ~02:15 and advancing, etime ~02:22). `/tmp/c20_supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, artifacts=5, updated 2026-11-16T21:54:27Z. `/tmp/c20_supervisor.log` shows attempt 1 start 2026-11-16T19:32:15Z with OKX campaign/census/episode cached on resume. `.venv` and `research_state/.c20/` absent (legacy `/tmp` paths in use). No second campaign running.
    - **Artifacts present (8 files / 5 required JSON):** `c20_prereg_20261116T063500Z.{json,md}`, `campaign_results_real_okx_multiyear_specliteral_20261116T063500Z{,_metrics}.json`, `crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json`, `episode_edge_okx_multiyear_specliteral_20261116T063500Z.json`, `campaign_results_real_binance_um_multiyear_specliteral_20261116T063500Z{,_metrics}.json`.
-   - **Gate (verified 2026-11-16T21:52:20Z):** `C20 ACCEPTANCE: FAIL — 11 requirement(s) missing` (`c20_artifacts_present, binance_um_census_computed, binance_um_episode_edge_computed, okx_placebo_computed, binance_um_placebo_computed, okx_battery_computed, binance_um_battery_computed, okx_verdict_computed, binance_um_verdict_computed, c20_pooled_synthesis_computed, c20_consolidated_final_computed`).
+   - **Gate (verified 2026-11-16T21:54:30Z):** `C20 ACCEPTANCE: FAIL — 11 requirement(s) missing` (`c20_artifacts_present, binance_um_census_computed, binance_um_episode_edge_computed, okx_placebo_computed, binance_um_placebo_computed, okx_battery_computed, binance_um_battery_computed, okx_verdict_computed, binance_um_verdict_computed, c20_pooled_synthesis_computed, c20_consolidated_final_computed`).
    - **Completed evidence so far (do NOT recompute):** OKX campaign `trades=113, total_pnl=-55057.45`; Binance UM campaign `trades=136, total_pnl=-70309.57`; OKX census cached; OKX episode edge cached (`episode_block_bootstrap.resamples=20000`, 47-point power curve). Both venues strongly negative → honest expected terminal token `UNDERPOWERED` or `NO_GO` unless pooled bootstrap CI excludes 0 positive (unlikely).
    - **If any live C20 supervisor/campaign tree exists (legacy or durable), do not start a second campaign.** Let it run; do only non-racing work (step 4).
    - **Only if no live supervisor/campaign is present:** recover durably and relaunch:
