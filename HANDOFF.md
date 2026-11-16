@@ -1,27 +1,27 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T05:45:00Z
+**Generated (UTC):** 2026-11-16T05:46:00Z  ·  **Last session verified (UTC):** 2026-11-16T05:46:00Z
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
+> **THIS SESSION (2026-11-16T05:46Z) — CLOSURE VERIFIED, NO FURTHER WORK WARRANTED.**
+> Re-ran the bounded acquisition precondition exactly as specified: `probe_hyperliquid_blocker.py` → verdict `FULL_283D_BLOCKED_BY_API_RETENTION` (3,849/6,792 bars served, earliest `2026-04-21`, 2,943 missing early bars). `ls research_state/archives/` → **no new native archive** (latest is `hyperliquid_ironflow_wide_20261115T214900Z`, already folded into C14/C18). Re-verified all gates: `session_gate.py` **21/21 passed**, `verify_campaign_evidence.py` **evidence verified**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**, `pytest tests/ -q` **1047 passed, 1 skipped**. Per the fail-closed decision rule, acquisition remains CLOSED and the program verdict stands at **`NO_GO`**. No new campaign was opened, no spec was relaxed, no inference was churned on exhausted C14 data.
+
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T05:45:00Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T05:46:00Z — CLOSURE)
 
-**Program status: COMPLETE.** Consolidated final verdict `NO_GO` for C1–C19 (`research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`). C19 spec-literal adjudication + native verdict + consolidated final are all done. Research program closed; no validated edge claimed.
+**Program status: CLOSED.** Consolidated final verdict `NO_GO` for C1–C19 (`research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`). C19 spec-literal adjudication + native verdict + consolidated final are all done. Research program closed; no validated edge claimed.
 
-**Next session mandatory first step — bounded acquisition precondition (do not skip):**
+**Bounded acquisition precondition — EXECUTED THIS SESSION (do not re-run):**
 ```bash
 PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 \
-  --out research_state/hyperliquid_retention_probe_next_<UTCSTAMP>.json --json
-ls -1 research_state/archives/    # look for any NEW native archive
+  --out research_state/hyperliquid_retention_probe_next_20261116T054408Z.json --json
+ls -1 research_state/archives/
 ```
+**Result (artifact: `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json`, `generated_at_utc 2026-11-16T05:44:15Z`):** probe verdict `FULL_283D_BLOCKED_BY_API_RETENTION` (3,849/6,792 bars served, earliest `2026-04-21`, 2,943 missing early bars; `run_type=hyperliquid_api_retention_probe`, `provenance_caveat` records it as a live public-API probe, not performance evidence). `archives/` contains **no new native archive** — latest is `hyperliquid_ironflow_wide_20261115T214900Z` (already consumed by C14/C18).
 
-**Decision rule (binds the next session):**
-- If probe reports `full_window_served=false` AND no new native archive exists under `research_state/archives/` → acquisition remains CLOSED. Re-verify all gates below (expect green), then close out: `NO_GO` is the final program verdict. No further research work. Do NOT open a new acquisition campaign, do NOT relax the spec, do NOT churn inference on exhausted C14 data.
-- If a NEW operator-supplied native archive appears → validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2. Only then is further C19 work re-opened.
-
-This is the next focus campaign: **verify the bound, then close out or fold new evidence.** Future agents must run the precondition first — the gate is fail-closed and cannot be bypassed.
+**Decision rule outcome (binds all future sessions):** `full_window_served=false` AND no new native archive → **acquisition remains CLOSED.** All gates re-verified green (see below). `NO_GO` is the final program verdict. **No further research work. Do NOT open a new acquisition campaign, do NOT relax the spec, do NOT churn inference on exhausted C14 data.**
 
 ### Completed C19 work (do not relitigate)
 
@@ -52,7 +52,7 @@ PYTHONPATH=. python3 -m pytest tests/ -q                     # all green
 
 ---
 
-## Current state (prioritized, do not relitigate)
+## Current state (prioritized, do not relitigate) — FINAL, CLOSED 2026-11-16T05:46Z
 
 1. **Acquisition: CLOSED / exhausted.** C15, C16, C17, C18 all `BLOCKED_EVIDENCED_DATA_REQUIRED`. Live Hyperliquid `candleSnapshot` is a moving tail (`full_window_served=false`, earliest ~`2026-04-21`, ~3,847/6,792 bars). HuggingFace `ironflow/hyperliquid-candles-1h` covers only `2025-05`..`2026-10`. No verified native archive reaches ≥2023-01-01 or adds ≥1 independent crash episode beyond C14. Cross-venue OKX/Binance archives are **not** admissible as native evidence.
 2. **Native evidence: underpowered / fragile.** C14 (widest native, 197 symbols / 113 @ $5M, 283d) = 7 trades, 3 episodes, 4 crash days, bootstrap 95% CI [−1,144, +17,547] spans 0, permutation p=0.03595, placebo p=0.4444 → `UNDERPOWERED`. Max achievable from the C14 archive is 4 episodes; first CI exclusion at n=4.
@@ -64,20 +64,13 @@ PYTHONPATH=. python3 -m pytest tests/ -q                     # all green
 
 ## Bottleneck removal (what changed this session)
 
-- **All bottlenecks cleared.** `scripts/session_gate.py` reports **21/21 checks passed** (Phase O anchor `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`). `scripts/verify_campaign_evidence.py` reports `evidence verified`. `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS**. `pytest tests/ -q`: 1047 passed, 1 skipped. No acceptance gate blocks the next session.
-- **The acquisition loop is bounded, not the mission.** `scripts/probe_hyperliquid_blocker.py` remains the single reproducible retention probe. Run it at most once as the next session's precondition; if `full_window_served=false` and no new archive has appeared under `research_state/archives/`, acquisition remains closed — do not open a new acquisition campaign.
+- **All bottlenecks cleared and closure executed.** `scripts/session_gate.py` reports **21/21 checks passed** (Phase O anchor `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`). `scripts/verify_campaign_evidence.py` reports `evidence verified`. `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS**. `pytest tests/ -q`: 1047 passed, 1 skipped. No acceptance gate blocks the next session.
+- **The acquisition loop is bounded, not the mission — and it is now CLOSED.** `scripts/probe_hyperliquid_blocker.py` remains the single reproducible retention probe. It was run once this session as the precondition; verdict `FULL_283D_BLOCKED_BY_API_RETENTION`, no new native archive appeared, so acquisition is closed and no new campaign may be opened.
 - **C19 focus campaign is complete.** `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS** — all C19-T1..T5 artifacts exist (adjudication, native verdict, consolidated final). The gate no longer blocks.
 
-## Acquisition precondition (bounded — do this first, then stop)
+## Acquisition precondition — CLOSED (executed 2026-11-16T05:46Z, result recorded above)
 
-See the **INITIAL TASK MESSAGE — NEXT SESSION** decision rule above. The probe command:
-```bash
-PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 \
-  --out research_state/hyperliquid_retention_probe_next_<UTCSTAMP>.json --json
-ls -1 research_state/archives/    # look for any NEW native archive
-```
-
-If the probe reports `full_window_served=false` and no new native archive exists → acquisition remains closed; re-verify all gates (expect green), then close out: `NO_GO` is the final program verdict. No further research work. Do NOT open a new acquisition campaign. If a new operator-supplied native archive appears, validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2.
+The decision rule in the INITIAL TASK MESSAGE was applied and resolved to **CLOSED**: `full_window_served=false` AND no new native archive under `research_state/archives/`. The probe artifact is `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json` (generated 2026-11-16T05:44:15Z). No further precondition runs are needed; if an operator later supplies a verified Hyperliquid-native archive, validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2.
 
 ## Guardrails (never violate)
 
@@ -100,6 +93,14 @@ If the probe reports `full_window_served=false` and no new native archive exists
 - Evidence gates: `scripts/session_gate.py`, `scripts/verify_campaign_evidence.py`, `scripts/probe_hyperliquid_blocker.py`, `scripts/verify_c13_focus_campaign.py`, `scripts/verify_c14_focus_campaign.py`, `scripts/verify_c15_focus_campaign.py`, `scripts/verify_next_focus_campaign.py`, `scripts/verify_c19_focus_campaign.py`
 - Code: `src/strategy/crash_rebound.py`, `src/strategy/config.py`, `src/backtest/engine.py`
 
-## Session-end requirement
+## Session-end requirement — CLOSED (2026-11-16T05:46Z)
 
-This session is complete. Leave the repo so progress continues without rediscovery: the next session should run `scripts/session_gate.py` (expect **21/21 checks passed**), `scripts/verify_campaign_evidence.py` (expect `evidence verified`), and `scripts/verify_c19_focus_campaign.py` (expect **C19 ACCEPTANCE: PASS**). Then run the bounded acquisition precondition in the INITIAL TASK MESSAGE above. All C19 work is done; close out with `NO_GO` as the final program verdict unless new native archive evidence appears.
+This session is complete and the program is closed. The next session's only legitimate action is to re-read this handoff and confirm the closure state; it must **not** open a new campaign, relax the spec, or churn inference on exhausted data. If a future session believes new evidence exists, it must first supply a verified Hyperliquid-native archive under `research_state/archives/` and validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim.
+
+Verification commands (all green as of this session):
+- `PYTHONPATH=. python3 scripts/session_gate.py` → **21/21 checks passed**
+- `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py` → **evidence verified**
+- `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py` → **C19 ACCEPTANCE: PASS**
+- `PYTHONPATH=. python3 -m pytest tests/ -q` → **1047 passed, 1 skipped**
+
+Final program verdict: **`NO_GO`** for C1–C19. No validated edge claimed.
