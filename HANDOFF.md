@@ -1,13 +1,15 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T10:11:42Z  ·  **Last session verified (UTC):** 2026-11-16T10:11:42Z
+**Generated (UTC):** 2026-11-16T10:11:42Z  ·  **Last session verified (UTC):** 2026-11-16T10:20:00Z
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
-> **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
-> C1–C19 closure re-confirmed 2026-11-16T10:05Z: acquisition CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`, no new native archive under `research_state/archives/` beyond `hyperliquid_ironflow_wide_20261115T214900Z`), C19 adjudication `SPEC_LITERAL_NEXT_OPEN` wins, native C18 spec-literal = 22 trades / −47,933.58 / NO_GO, consolidated final `NO_GO` (C1–C19). Gates: `session_gate.py` **21/21 checks passed** (Phase O anchor: `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`), `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**, `pytest tests/ -q` **1032 passed, 12 skipped, 4 failed (pandas dep, non-blocking)**.
+> **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
+> Re-confirmed 2026-11-16T10:20Z: acquisition CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`, no new native archive under `research_state/archives/` beyond `hyperliquid_ironflow_wide_20261115T214900Z`; probe `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json` 3845 bars, earliest 2026-04-21, 2947 early bars missing). C19 adjudication `SPEC_LITERAL_NEXT_OPEN` wins; C18 native spec-literal = 22 trades / −47,933.58 / NO_GO; consolidated C1–C19 final `NO_GO`. Gates (this session): `session_gate.py` **21/21 checks passed**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. `pytest tests/ -q` not re-run this turn (last recorded: 1032 passed, 12 skipped, 4 failed — `pandas` dep, non-blocking).
 >
-> **The C1–C19 verdict is final and must not be relitigated. The next session's binding work is C20.**
+> **C20 STATUS (2026-11-16T10:20Z): PREREGISTERED BUT NOT COMPUTED — this is the only active bottleneck.** Prereg `research_state/c20_prereg_20261116T063500Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`, `entry_spec_literal_next_open=true`, seed 20261120, fixed config, no switching). Runner `scripts/run_c20_cross_venue_campaign.py` and fail-closed gate `scripts/verify_c20_focus_campaign.py` exist. OKX campaign+census artifacts exist; **Binance UM campaign+census and ALL inference/verdict artifacts are missing**. `verify_c20_focus_campaign.py` currently **FAIL (13 requirements missing)**. The next session must execute C20 end-to-end — planning-only or inference-only churn is not progress.
+>
+> **C1–C19 verdict is final and must not be relitigated.**
 
 ---
 
