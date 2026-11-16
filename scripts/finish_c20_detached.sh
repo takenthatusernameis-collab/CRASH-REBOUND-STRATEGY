@@ -81,9 +81,28 @@ for attempt in $(seq 1 "$MAX_ATTEMPTS"); do
   before=$(artifact_count)
   log "attempt $attempt/$MAX_ATTEMPTS start (artifacts=$before)"
 
+  # Heartbeat watchdog: the campaign script only prints when an artifact lands, so a
+  # healthy heavy run can look "silent" for hours. Write IN_FLIGHT_HEAVY_COMPUTE status
+  # while the run is alive so a future agent does not mistake silence for a stall.
+  # A true stall is still detected by the no-new-artifact counter below.
   PYTHONPATH=. "$PY" -u scripts/run_c20_cross_venue_campaign.py \
-    --venues okx binance_um --jobs "$JOBS" --resume >>"$LOG" 2>&1
+    --venues okx binance_um --jobs "$JOBS" --resume >>"$LOG" 2>&1 &
+  campaign_pid=$!
+  (
+    while kill -0 "$campaign_pid" 2>/dev/null; do
+      sleep 60
+      if ! kill -0 "$campaign_pid" 2>/dev/null; then
+        break
+      fi
+      write_status "IN_FLIGHT_HEAVY_COMPUTE" "$attempt" \
+        "campaign running; no new log line is EXPECTED until an artifact lands; artifacts=$before; poll ps for CPU time advancement"
+    done
+  ) &
+  watchdog_pid=$!
+  wait "$campaign_pid"
   run_rc=$?
+  kill "$watchdog_pid" 2>/dev/null
+  wait "$watchdog_pid" 2>/dev/null
 
   if PYTHONPATH=. "$PY" scripts/verify_c20_focus_campaign.py >>"$LOG" 2>&1; then
     after=$(artifact_count)
