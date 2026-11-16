@@ -1,0 +1,132 @@
+{
+  "schema_version": 1,
+  "campaign": "C20",
+  "generated_at_utc": "2026-11-16T06:41:55Z",
+  "label": "CROSS_VENUE_SPEC_LITERAL_REPLICATION_AND_POOLED_SYNTHESIS",
+  "status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "real_market_data": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol). Performance evidence only when produced by the full decision-grade battery under this prereg.",
+  "objective": "Run the C19-adjudicated spec-faithful entry rule (SPEC_LITERAL_NEXT_OPEN) on both independent multi-year cross-venue archives (OKX, Binance UM) with the full dependence-aware battery, then issue one cross-venue verdict plus a pooled venue-blocked synthesis. This closes the gap that all prior cross-venue evidence used the canonical same-bar reading while C19 adjudicated spec-literal as faithful.",
+  "binding_task": "C19-T1 adjudicated SPEC_LITERAL_NEXT_OPEN as the spec-faithful reading. The native verdict under that reading is NO_GO. C20 tests whether that verdict replicates out-of-sample across two independent venues and 3.4 years, or diverges. Either outcome is decision-relevant and must be reported honestly.",
+  "inputs_fixed": {
+    "okx": {
+      "cache_dir": "research_state/cache/okx_1h_multiyear_20230101_20260928",
+      "universe": "research_state/universe_okx_multiyear_verified.json",
+      "canonical_campaign_same_bar": "research_state/campaign_results_real_okx_multiyear.json",
+      "canonical_census_same_bar": "research_state/crash_event_census_real_okx_multiyear.json",
+      "planned_campaign_spec_literal": "research_state/campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json",
+      "planned_census_spec_literal": "research_state/crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json",
+      "planned_episode_edge": "research_state/episode_edge_okx_multiyear_specliteral_20261116T063500Z.json",
+      "planned_placebo": "research_state/placebo_portfolio_okx_multiyear_specliteral_20261116T063500Z.json",
+      "planned_battery": "research_state/multiyear_robustness_battery_okx_specliteral_20261116T063500Z.json"
+    },
+    "binance_um": {
+      "cache_dir": "research_state/cache/binance_um_1h_multiyear_20230101_20260928",
+      "universe": "research_state/universe_binance_um_multiyear_verified.json",
+      "canonical_campaign_same_bar": "research_state/campaign_results_real_binance_um_multiyear.json",
+      "canonical_census_same_bar": "research_state/crash_event_census_real_binance_um_multiyear.json",
+      "planned_campaign_spec_literal": "research_state/campaign_results_real_binance_um_multiyear_specliteral_20261116T063500Z.json",
+      "planned_census_spec_literal": "research_state/crash_event_census_real_binance_um_multiyear_specliteral_20261116T063500Z.json",
+      "planned_episode_edge": "research_state/episode_edge_binance_um_multiyear_specliteral_20261116T063500Z.json",
+      "planned_placebo": "research_state/placebo_portfolio_binance_um_multiyear_specliteral_20261116T063500Z.json",
+      "planned_battery": "research_state/multiyear_robustness_battery_binance_um_specliteral_20261116T063500Z.json"
+    },
+    "priors": {
+      "c19_adjudication": "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+      "c19_native_verdict": "research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.md",
+      "consolidated_final": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.md",
+      "cross_venue_c10": "research_state/decision_verdict_consolidated_20261115T122636Z.md",
+      "okx_multiyear_battery": "research_state/multiyear_robustness_battery_20261115T011700Z.json",
+      "binance_multiyear_battery": "research_state/multiyear_robustness_battery_binance_um.json"
+    },
+    "pooled_synthesis_planned": "research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json",
+    "verdict_planned": "research_state/decision_verdict_cross_venue_specliteral_c20_20261116T063500Z.json",
+    "consolidated_planned": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json"
+  },
+  "hypothesis": {
+    "id": "H1_c20_spec_literal_cross_venue",
+    "description": "Under the C19-adjudicated spec-faithful entry rule, the crash-rebound strategy's cross-venue multi-year edge is measured on two independent venues and pooled with venue-blocked dependence-aware inference.",
+    "config": {
+      "rsi_period": 21,
+      "rsi_threshold": 20.0,
+      "target_pct": 9.0,
+      "rebound_short_target_pct": 9.0,
+      "rebound_short_time_exit_bars": 48,
+      "enable_rebound_short": true,
+      "enable_eth_hedge": true,
+      "min_daily_volume_usd": 5000000.0,
+      "gross_cap_pct": 120.0,
+      "entry_spec_literal_next_open": true
+    },
+    "selection_rule": "Fixed by this prereg; no config switching after results."
+  },
+  "required_artifacts": {
+    "prereg": "research_state/c20_prereg_20261116T063500Z.{json,md}",
+    "okx_campaign": "research_state/campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json",
+    "binance_campaign": "research_state/campaign_results_real_binance_um_multiyear_specliteral_20261116T063500Z.json",
+    "okx_census": "research_state/crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json",
+    "binance_census": "research_state/crash_event_census_real_binance_um_multiyear_specliteral_20261116T063500Z.json",
+    "okx_episode_edge": "research_state/episode_edge_okx_multiyear_specliteral_20261116T063500Z.json",
+    "binance_episode_edge": "research_state/episode_edge_binance_um_multiyear_specliteral_20261116T063500Z.json",
+    "okx_placebo": "research_state/placebo_portfolio_okx_multiyear_specliteral_20261116T063500Z.json",
+    "binance_placebo": "research_state/placebo_portfolio_binance_um_multiyear_specliteral_20261116T063500Z.json",
+    "okx_battery": "research_state/multiyear_robustness_battery_okx_specliteral_20261116T063500Z.json",
+    "binance_battery": "research_state/multiyear_robustness_battery_binance_um_specliteral_20261116T063500Z.json",
+    "pooled_synthesis": "research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json",
+    "verdict": "research_state/decision_verdict_cross_venue_specliteral_c20_20261116T063500Z.{json,md}",
+    "consolidated_final": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.{json,md}",
+    "handoff": "HANDOFF.md must reference C20-T1 and verify_c20_focus_campaign.py"
+  },
+  "inference_plan": {
+    "dependence_aware": true,
+    "seed": 20261120,
+    "min_draws": 100,
+    "draws": 20000,
+    "placebo_draws": 2000,
+    "methods": [
+      "per_venue_episode_block_bootstrap_CI95_spot_hedge_rebound_total",
+      "per_venue_conditional_temporal_edge_permutation_p",
+      "per_venue_full_portfolio_placebo_p_ge_canonical",
+      "per_venue_crash_event_census_alignment",
+      "per_venue_leg_separation_spot_eth_hedge_rebound_short",
+      "pooled_venue_blocked_bootstrap_over_venue_episode_totals",
+      "pooled_sign_concordance_and_magnitude_ci"
+    ],
+    "power": "Minimum heavy-compute floor: 100 permutation draws and 100 placebo subsets per venue; target 20000 bootstrap/permutation draws and 2000 placebo subsets. GO requires >=10 trades, >=5 episodes, >=5 distinct crash days, bootstrap 95% CI excluding 0, permutation p<0.05, placebo p_ge_canonical<0.05, and a positive spot leg. If unmet, verdict must be UNDERPOWERED or NO_GO with a quantified power curve."
+  },
+  "decision_rules": {
+    "go": "GO only if all hold in the pooled synthesis: episode-block bootstrap 95% CI excludes 0 with positive spot leg, permutation p < 0.05, placebo p_ge_canonical < 0.05, and effective N >= 10 trades / 5 episodes / 5 crash days.",
+    "no_go": [
+      "pooled CI95 spans 0 for spot and total",
+      "permutation p >= 0.05 or placebo p_ge_canonical >= 0.05",
+      "positive total entirely hedge/rebound-masked with non-positive spot",
+      "spec-literal reading is negative in both venues (corroborates C19 NO_GO)"
+    ],
+    "underpowered": [
+      "Effective sample below floor; label UNDERPOWERED/FRAGILE_NOT_DECISION_GRADE",
+      "Missing seed/SHA binding or compute predating this prereg"
+    ],
+    "power_curve_required_if_not_go": true
+  },
+  "power_targets": {
+    "min_episode_block_bootstrap_draws": 100,
+    "min_permutation_draws": 20000,
+    "min_placebo_subsets": 2000,
+    "min_effective_trades_for_go": 10,
+    "min_effective_episodes_for_go": 5,
+    "min_distinct_crash_days_for_go": 5,
+    "alpha": 0.05
+  },
+  "guardrails": [
+    "No cross-venue relabeling as Hyperliquid-native evidence.",
+    "No synthetic gap-fill presented as verified.",
+    "No spec relaxation to manufacture a GO; SPEC_LITERAL_NEXT_OPEN is the fixed reading.",
+    "No inference-only churn on exhausted C14 native data.",
+    "No silent change to the canonical baseline; the spec-literal flag is opt-in and default false.",
+    "C20 is executable on already-verified real archives; acquisition stays closed."
+  ]
+}
