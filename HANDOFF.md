@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T10:08:00Z  ·  **Last session verified (UTC):** 2026-11-16T10:05:03Z
+**Generated (UTC):** 2026-11-16T10:11:42Z  ·  **Last session verified (UTC):** 2026-11-16T10:11:42Z
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
