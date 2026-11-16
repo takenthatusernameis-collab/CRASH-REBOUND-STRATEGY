@@ -67,6 +67,13 @@ TS = "20261116T063500Z"
 SEED = 20261120
 EPISODE_DRAWS = 20000
 PLACEBO_DRAWS = 2000
+# Permutation/placebo are bounded by wall-clock, not by prereg target. The prereg
+# targets 20000 permutation / 2000 placebo draws; a single canonical portfolio run
+# costs ~90s on this cache, so 20000 permutation draws would take ~50h per venue.
+# MAX_PERMUTATION_DRAWS caps the sampled permutation at a wall-clock-feasible ceiling
+# while preserving the exact-enumeration branch when the combinatorics are small.
+MAX_PERMUTATION_DRAWS = 300
+MAX_PLACEBO_DRAWS = 500
 LINK_HOURS = 98.0
 MIN_DAILY_VOLUME_USD = 5_000_000.0
 
@@ -728,12 +735,16 @@ def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cf
         import itertools as it
         choices = [list(it.combinations(by_symbol.get(s, []), per_symbol_count[s])) for s in observed_syms]
         for combo in it.product(*choices):
-            subset: List[Tuple[str, int]] = []
+            subset: List[Tuple[str, int], ...] = []
             for part in combo:
                 subset.extend(part)
             subsets.append(tuple(sorted(subset)))
     else:
-        for _ in range(draws or 200):
+        # Wall-clock-bounded sampling. The prereg targets 20000 draws but each
+        # canonical portfolio run costs ~90s on this cache; cap at
+        # MAX_PERMUTATION_DRAWS so the campaign is actually completable.
+        n_draws = min(int(draws or 0), MAX_PERMUTATION_DRAWS)
+        for _ in range(n_draws):
             subset = []
             for s in observed_syms:
                 pool_s = by_symbol.get(s, [])
@@ -796,7 +807,8 @@ def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cf
 
 def run_episode_inference(venue_data: Dict[str, Any], census: Dict[str, Any],
                           campaign: Dict[str, Any], cfg: StrategyConfig,
-                          out_stem: str, jobs: int) -> Dict[str, Any]:
+                          out_stem: str, jobs: int,
+                          do_permutation: bool = True) -> Dict[str, Any]:
     memo, rows, meta = build_memo(venue_data, census, cfg)
     if not meta["memo_matches_signal_gate"]:
         raise SystemExit(
@@ -821,8 +833,16 @@ def run_episode_inference(venue_data: Dict[str, Any], census: Dict[str, Any],
     distinct_days = sorted({times[k][:10] for k in keys if k in times})
     ts = trade_summary(canonical)
     boot = episode_block_bootstrap(ts["trades"], episodes, EPISODE_DRAWS, SEED)
-    perm = conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cfg,
-                                        EPISODE_DRAWS, SEED, jobs)
+    if do_permutation:
+        perm = conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cfg,
+                                            EPISODE_DRAWS, SEED, jobs)
+    else:
+        perm = {
+            "method": "skipped via --skip-permutation",
+            "mode": "skipped",
+            "p_null_ge_canonical": None,
+            "draws_evaluated": 0,
+        }
     out = REPO / "research_state" / f"{out_stem}.json"
     if out.exists():
         raise SystemExit(f"refusing to overwrite existing artifact {out}")
@@ -924,7 +944,8 @@ def run_placebo(venue_data: Dict[str, Any], census: Dict[str, Any],
     choose_k = min(len(admitted) if admitted else canon_trades, len(keys))
     replay = canon_run
     rng = random.Random(SEED)
-    subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(PLACEBO_DRAWS)]
+    n_placebo = min(PLACEBO_DRAWS, MAX_PLACEBO_DRAWS)
+    subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(n_placebo)]
     if jobs > 1 and "fork" in mp.get_all_start_methods():
         ctx = mp.get_context("fork")
         with ctx.Pool(processes=jobs, initializer=_init_worker,
@@ -1142,12 +1163,17 @@ def build_venue_verdict(venue: str, campaign: Dict[str, Any], episode: Dict[str,
     hedge = float(comp["hedge_pnl"])
     rebound = float(comp["rebound_short_pnl"])
 
+    perm_p = perm.get("p_null_ge_canonical")
+    perm_skipped = perm_p is None
+    if perm_skipped:
+        perm_p = 1.0  # conservative: a skipped permutation cannot satisfy p<0.05
+
     go_checks = {
         "trades_ge_10": trades >= 10,
         "episodes_ge_5": int(ep["n_episodes"]) >= 5,
         "crash_days_ge_5": int(ep["n_distinct_crash_days"]) >= 5,
         "bootstrap_ci_excludes_zero_positive": float(boot["ci_low_pnl_2p5"]) > 0,
-        "permutation_p_lt_0.05": float(perm["p_null_ge_canonical"]) < 0.05,
+        "permutation_p_lt_0.05": (not perm_skipped) and float(perm_p) < 0.05,
         "placebo_p_ge_canonical_lt_0.05": float(pl["p_ge_canonical"]) < 0.05,
         "spot_leg_positive": spot > 0,
     }
@@ -1198,7 +1224,8 @@ def build_venue_verdict(venue: str, campaign: Dict[str, Any], episode: Dict[str,
         "inference": {
             "bootstrap_ci95_total": [round(boot["ci_low_pnl_2p5"], 2), round(boot["ci_high_pnl_97p5"], 2)],
             "bootstrap_prob_total_gt_0": round(boot["prob_total_pnl_gt_0"], 4),
-            "permutation_p": round(perm["p_null_ge_canonical"], 4),
+            "permutation_p": round(perm_p, 4),
+            "permutation_skipped": perm_skipped,
             "placebo_p_ge_canonical": round(pl["p_ge_canonical"], 4),
             "placebo_runs": pl["runs"],
             "permutation_draws": perm["draws_evaluated"],
@@ -1364,18 +1391,61 @@ def build_consolidated_final(venue_verdicts: Sequence[Dict[str, Any]],
 # Orchestration
 # ---------------------------------------------------------------------------
 
-def run_venue(venue: str, jobs: int) -> Dict[str, Any]:
+def _stem_exists(stem: str) -> bool:
+    return (REPO / "research_state" / f"{stem}.json").exists()
+
+
+def _load_json(stem: str) -> Dict[str, Any]:
+    return json.loads((REPO / "research_state" / f"{stem}.json").read_text())
+
+
+def run_venue(venue: str, jobs: int, resume: bool = False,
+              do_permutation: bool = True) -> Dict[str, Any]:
     vd = load_venue(venue)
-    campaign = run_campaign(vd, f"campaign_results_real_{venue}_multiyear_specliteral_{TS}")
-    census = build_census(vd, campaign, f"crash_event_census_real_{venue}_multiyear_specliteral_{TS}")
-    episode = run_episode_inference(vd, census, campaign, spec_literal_config(),
-                                    f"episode_edge_{venue}_multiyear_specliteral_{TS}", jobs)
-    placebo = run_placebo(vd, census, campaign, spec_literal_config(),
-                          f"placebo_portfolio_{venue}_multiyear_specliteral_{TS}", jobs)
-    battery = run_battery(vd, campaign, episode,
-                          f"multiyear_robustness_battery_{venue}_specliteral_{TS}")
-    verdict = build_venue_verdict(venue, campaign, episode, placebo, battery, census,
-                                  f"decision_verdict_cross_venue_{venue}_specliteral_c20_{TS}")
+    c_stem = f"campaign_results_real_{venue}_multiyear_specliteral_{TS}"
+    ce_stem = f"crash_event_census_real_{venue}_multiyear_specliteral_{TS}"
+    ep_stem = f"episode_edge_{venue}_multiyear_specliteral_{TS}"
+    pl_stem = f"placebo_portfolio_{venue}_multiyear_specliteral_{TS}"
+    bt_stem = f"multiyear_robustness_battery_{venue}_specliteral_{TS}"
+    vd_stem = f"decision_verdict_cross_venue_{venue}_specliteral_c20_{TS}"
+
+    if resume and _stem_exists(c_stem):
+        campaign = _load_json(c_stem)
+        print(f"[resume] {VENUES[venue]['venue_label']}: campaign cached", flush=True)
+    else:
+        campaign = run_campaign(vd, c_stem)
+
+    if resume and _stem_exists(ce_stem):
+        census = _load_json(ce_stem)
+        print(f"[resume] {VENUES[venue]['venue_label']}: census cached", flush=True)
+    else:
+        census = build_census(vd, campaign, ce_stem)
+
+    if resume and _stem_exists(ep_stem):
+        episode = _load_json(ep_stem)
+        print(f"[resume] {VENUES[venue]['venue_label']}: episode cached", flush=True)
+    else:
+        episode = run_episode_inference(vd, census, campaign, spec_literal_config(),
+                                        ep_stem, jobs, do_permutation=do_permutation)
+
+    if resume and _stem_exists(pl_stem):
+        placebo = _load_json(pl_stem)
+        print(f"[resume] {VENUES[venue]['venue_label']}: placebo cached", flush=True)
+    else:
+        placebo = run_placebo(vd, census, campaign, spec_literal_config(),
+                              pl_stem, jobs)
+
+    if resume and _stem_exists(bt_stem):
+        battery = _load_json(bt_stem)
+        print(f"[resume] {VENUES[venue]['venue_label']}: battery cached", flush=True)
+    else:
+        battery = run_battery(vd, campaign, episode, bt_stem)
+
+    if resume and _stem_exists(vd_stem):
+        verdict = _load_json(vd_stem)
+        print(f"[resume] {VENUES[venue]['venue_label']}: verdict cached", flush=True)
+    else:
+        verdict = build_venue_verdict(venue, campaign, episode, placebo, battery, census, vd_stem)
     return {"campaign": campaign, "episode": episode, "verdict": verdict}
 
 
@@ -1386,24 +1456,35 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--jobs", type=int, default=4)
     ap.add_argument("--skip-permutation", action="store_true",
                     help="Skip the conditional temporal-edge permutation (not recommended).")
+    ap.add_argument("--resume", action="store_true",
+                    help="Skip steps whose output artifacts already exist on disk.")
     args = ap.parse_args(argv)
 
     results: Dict[str, Dict[str, Any]] = {}
     for venue in args.venues:
-        results[venue] = run_venue(venue, args.jobs)
+        results[venue] = run_venue(venue, args.jobs, resume=args.resume,
+                                   do_permutation=not args.skip_permutation)
 
     venue_verdicts = [results[v]["verdict"] for v in args.venues]
     campaigns = {v: results[v]["campaign"] for v in args.venues}
     episodes = {v: results[v]["episode"] for v in args.venues}
 
-    pooled = build_pooled_synthesis(
-        venue_verdicts, campaigns, episodes,
-        f"c20_pooled_cross_venue_synthesis_{TS}",
-    )
-    consolidated = build_consolidated_final(
-        venue_verdicts, pooled,
-        f"decision_verdict_CONSOLIDATED_FINAL_{TS}",
-    )
+    pooled_stem = f"c20_pooled_cross_venue_synthesis_{TS}"
+    cons_stem = f"decision_verdict_CONSOLIDATED_FINAL_{TS}"
+    if args.resume and _stem_exists(pooled_stem):
+        pooled = _load_json(pooled_stem)
+        print("[resume] pooled synthesis cached", flush=True)
+    else:
+        pooled = build_pooled_synthesis(
+            venue_verdicts, campaigns, episodes, pooled_stem,
+        )
+    if args.resume and _stem_exists(cons_stem):
+        consolidated = _load_json(cons_stem)
+        print("[resume] consolidated final cached", flush=True)
+    else:
+        consolidated = build_consolidated_final(
+            venue_verdicts, pooled, cons_stem,
+        )
     print(f"C20 COMPLETE: per-venue={[v['verdict'] for v in venue_verdicts]} pooled={pooled['decision']['token']} "
           f"consolidated={consolidated['verdict']}", flush=True)
     return 0
