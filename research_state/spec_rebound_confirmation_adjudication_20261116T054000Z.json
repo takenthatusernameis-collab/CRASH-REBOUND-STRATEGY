@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "campaign": "C19",
+  "generated_at_utc": "2026-11-16T05:40:00Z",
+  "label": "NOT_EVIDENCE_SPEC_INTERPRETATION_ADJUDICATION",
+  "performance_evidence": false,
+  "decision": "SPEC_LITERAL_NEXT_OPEN",
+  "reconciles_c14_c18": true,
+  "c14_stem": "campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z / decision_verdict_hyperliquid_native_c14_20261116T001200Z (entry_spec_literal_next_open=false, 9 signals / 7 trades / +8,914.33)",
+  "c18_stem": "campaign_results_real_hyperliquid_ironflow_wide_c18_specliteral_20261116T045000Z / hyperliquid_signal_funnel_exploratory_next_open_20261116T044905Z (entry_spec_literal_next_open=true, 77 signals / 22 trades / -47,933.58)",
+  "code_changes_made": false,
+  "code_change_description": null,
+  "spec_sources": [
+    "research_state/strategy_spec.md (Crash Trigger: 'Signal: coin's 21-hour RSI closes below 20 (last day almost all selling)'; Entry: 'Buy at next hourly open'; no same-bar rebound confirmation candle required)",
+    "crash-rebound-strategy.pdf (spec: RSI(21)<20 crash close -> buy at next hourly open; no same-bar confirm_rebound gate)"
+  ],
+  "adjudication_summary": {
+    "question_id": "Q1_rebound_confirmation_timing",
+    "statement": "Does the spec require a same-bar rebound-confirmation candle (canonical confirm_rebound on the signal bar) before the next-open buy, or is the spec-literal reading (RSI(21)<20 close -> buy at next hourly open, no same-bar confirmation) the faithful one?",
+    "candidate_readings": [
+      "SPEC_LITERAL_NEXT_OPEN: no same-bar rebound confirmation; buy at next hourly open per spec text; produces C18 (77 signals, 22 trades, -47,933.58).",
+      "CANONICAL_SAME_BAR_RETAINED: same-bar confirm_rebound() required before entry; produces C14 (9 signals, 7 trades, +8,914.33)."
+    ],
+    "decision_rule_pre_registered": "The reading with direct spec-text support wins. No post-hoc switching.",
+    "spec_text_findings": [
+      "strategy_spec.md Crash Trigger section states only '21-hour RSI closes below 20' as the trigger and 'Buy at next hourly open' as the entry rule.",
+      "No clause in the spec requires a same-bar rebound confirmation candle (close > open with body in upper half of range) as a precondition to entry.",
+      "confirm_rebound() in src/strategy/crash_rebound.py:288 is an implementation addition not present in the spec text. It is gated behind entry_spec_literal_next_open=False by default, preserving the canonical baseline.",
+      "The spec-literal reading (buy at next hourly open after RSI(21)<20 close, no same-bar confirmation) is directly supported by the spec text; the canonical same-bar reading is an implementation extra."
+    ],
+    "consequence": "SPEC_LITERAL_NEXT_OPEN wins. Per pre-registered decision rule, the native verdict is NO_GO (C18: 22 trades, -47,933.58 on the same 283-day archive). C14 same-bar result (+8,914.33, 7 trades) is demoted to a non-spec sensitivity, not evidence."
+  }
+}

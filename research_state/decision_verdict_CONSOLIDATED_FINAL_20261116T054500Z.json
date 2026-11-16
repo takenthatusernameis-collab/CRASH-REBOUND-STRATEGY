@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T05:45:00Z",
+  "scope": "C1-C19 final consolidation",
+  "final_verdict_token": "NO_GO",
+  "verdict": "NO_GO",
+  "research_program_complete": true,
+  "supersedes": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261115T204933Z",
+  "supersedes_verdict_token": "NO_GO",
+  "campaign_verdicts": {
+    "cross_venue_c10_final": {
+      "token": "NO_GO",
+      "criteria_pass": "0/7",
+      "is_hyperliquid_venue_data": false,
+      "pooled_episode_bootstrap_ci95_total": [-69065.03, 168946.87],
+      "pooled_p_total_gt_0": 0.74095,
+      "pooled_permutation_p_one_sided": 0.26955,
+      "placebo_p_ge_canonical_okx": 0.4,
+      "placebo_p_ge_canonical_binance": 0.415
+    },
+    "native_c11_3_canonical_rsi21_lt_20": {
+      "token": "NO_GO_FRAGILE_NOT_DECISION_GRADE_UNDERPOWERED",
+      "criteria_pass": "0/7",
+      "episode_bootstrap_ci95_total": [-1143.66, 10339.42],
+      "temporal_permutation_p_null_ge_canonical": 0.08,
+      "placebo_exact_p_ge_canonical": 0.7143,
+      "legs": {"spot": -3968.8, "eth_hedge": 8261.31, "rebound_short": 0.0, "total": 4292.5},
+      "effective_n": {"trades": 6, "episodes": 3, "crash_days": 4}
+    },
+    "native_c12_discovery": {
+      "token": "NO_DECISION_GRADE_GO",
+      "lead_config": "c12_25_9_rsi25_target9",
+      "lead_total": 23244.22,
+      "lead_episode_bootstrap_ci95_total": [-36650, 74463],
+      "lead_p_total_gt_0": 0.77,
+      "validated": false
+    },
+    "native_c13_preregistered_validation": {
+      "token": "UNDERPOWERED",
+      "lead_config": "rsi25_target9",
+      "bootstrap_ci95_total": [-22799.52, 79978.91],
+      "bootstrap_p_total_gt_0": 0.803,
+      "temporal_permutation_p_null_ge_canonical": 0.085,
+      "placebo_p_ge_canonical": 0.32,
+      "placebo_canonical_percentile_le": 0.68,
+      "legs": {"spot": -3968.8, "eth_hedge": 8261.31, "rebound_short": 11904.32, "total": 23244.22},
+      "effective_n": {"trades": 17, "episodes": 10, "crash_days_distinct_signal_events": 12, "symbols": 5},
+      "seed": 20261115,
+      "go_criteria_met": false
+    },
+    "native_c14_canonical_same_bar_sensitivity": {
+      "token": "UNDERPOWERED (non-spec sensitivity)",
+      "criteria_pass": "0/7",
+      "campaign": "research_state/campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z.json",
+      "verdict": "research_state/decision_verdict_hyperliquid_native_c14_20261116T001200Z.json",
+      "config": "entry_spec_literal_next_open=false; 7 trades; total_pnl=8914.33",
+      "episode_block_bootstrap": {"ci_95_low": -1143.66, "ci_95_high": 17547.24, "spans_zero": true},
+      "temporal_edge_permutation": {"p_null_ge_canonical": 0.03595},
+      "placebo": {"p_ge_canonical": 0.4444},
+      "effective_n": {"trades": 7, "episodes": 3, "crash_days": 4},
+      "note": "Same-bar confirm_rebound is an implementation extra, not spec-text. Demoted to non-spec sensitivity per C19 adjudication."
+    },
+    "native_c18_spec_literal_next_open": {
+      "token": "NO_GO",
+      "criteria_pass": "0/7",
+      "campaign": "research_state/campaign_results_real_hyperliquid_ironflow_wide_c18_specliteral_20261116T045000Z.json",
+      "verdict": "research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.json",
+      "config": "entry_spec_literal_next_open=true; 77 signals / 22 trades; total_pnl=-47933.58",
+      "win_rate": 0.3181818181818182,
+      "profit_factor": 0.2542099233211947,
+      "max_drawdown": -52160.28238001531,
+      "sharpe_ratio": -0.4497320887426686,
+      "effective_n": {"trades": 22, "episodes": "<5 (archive max 4)", "crash_days": "<5"},
+      "note": "Adjudicated spec-faithful reading (SPEC_LITERAL_NEXT_OPEN) per C19-T1. Decisively negative; NO_GO."
+    },
+    "c19_consolidated_native_final": {
+      "token": "NO_GO",
+      "verdict": "research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.json",
+      "adjudication": "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+      "note": "C19 adjudicates the same-bar vs spec-literal fork in favor of SPEC_LITERAL_NEXT_OPEN; native verdict NO_GO on the spec-faithful reading."
+    }
+  },
+  "structural_power_note": "283-day native window; effective N insufficient for dependence-aware decision-grade positive inference across campaigns. C13 CI excludes 0 only near ~37+ episodes (far beyond observed 10). C14 archive max achievable is 4 episodes (< 5 required for GO). Additional evidence would require materially more native crash episodes or genuinely new independent data — neither is claimed here.",
+  "leg_separation_conclusion": "No campaign demonstrates a robust, decision-grade positive spot crash-rebound alpha. Positive totals, where present (C14 same-bar sensitivity, C12/C13), rely on hedge/rebound-short components and/or fail dependence-aware validation. C18 spec-literal (adjudicated) is decisively negative.",
+  "provenance": {
+    "native": "Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot REST; is_hyperliquid_venue_data=true for native artifacts only",
+    "cross_venue": "OKX/Binance UM real exchange data, non-synthetic; is_hyperliquid_venue_data=false",
+    "no_fabrication": true,
+    "c19_adjudication": "SPEC_LITERAL_NEXT_OPEN wins on direct spec-text support; canonical same-bar confirm_rebound is an implementation extra demoted to non-spec sensitivity"
+  },
+  "final_integrated_decision": {
+    "overall_final_verdict": "NO_GO",
+    "rationale": "The crash-rebound strategy (as specified/tested across C1–C19) is not validated as a decision-grade positive edge on available evidence. Cross-venue results do not transfer as validated Hyperliquid edge. Hyperliquid-native canonical results show negative spot alpha with hedge-masked totals and underpowered dependence-aware inference. The C19 adjudication confirms the spec-faithful reading (SPEC_LITERAL_NEXT_OPEN) yields a decisively negative native result (-47,933.58, 22 trades, NO_GO). No campaign warrants a GO claim.",
+    "program_status": "Research program complete; consolidated final verdict C19 supersedes C1-C13 consolidated final. Further positive claims require new, decision-grade independent evidence with adequate effective crash episodes."
+  }
+}

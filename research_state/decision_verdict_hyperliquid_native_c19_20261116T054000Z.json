@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "campaign": "C19",
+  "generated_at_utc": "2026-11-16T05:40:00Z",
+  "verdict": "NO_GO",
+  "is_hyperliquid_evidence": true,
+  "cross_venue": false,
+  "provenance_caveat": "Real Hyperliquid-native, node-derived (Ironflow HF, CC BY 4.0), NOT venue candleSnapshot. Non-synthetic. 283-day window 2025-12-20T00:00:00Z-2026-09-28T23:00:00Z. C18 spec-literal campaign already executed on the retained Ironflow wide archive under the adjudicated reading (SPEC_LITERAL_NEXT_OPEN).",
+  "inference_plan_ref": "research_state/c19_prereg_20261116T053500Z.json (seed 20261116; bootstrap 20000, permutation 20000, placebo 2000)",
+  "references": {
+    "c14_canonical_stem": "20261116T001200Z",
+    "c14_canonical_artifact": "research_state/campaign_results_real_hyperliquid_ironflow_wide_20261116T001200Z.json",
+    "c14_canonical_verdict": "research_state/decision_verdict_hyperliquid_native_c14_20261116T001200Z.json",
+    "c18_specliteral_stem": "20261116T045000Z",
+    "c18_specliteral_artifact": "research_state/campaign_results_real_hyperliquid_ironflow_wide_c18_specliteral_20261116T045000Z.json",
+    "c18_specliteral_funnel": "research_state/hyperliquid_signal_funnel_exploratory_next_open_20261116T044905Z.json",
+    "adjudication": "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+    "prereg": "research_state/c19_prereg_20261116T053500Z.json"
+  },
+  "reconciliation": {
+    "c14_canonical": {
+      "trades": 7,
+      "total_pnl": 8914.334981956968,
+      "verdict": "UNDERPOWERED",
+      "bootstrap_ci95_total": [-1143.66, 17547.24],
+      "temporal_permutation_p_null_ge_canonical": 0.03595,
+      "placebo_p_ge_canonical": 0.4444,
+      "effective_n": {"trades": 7, "episodes": 3, "crash_days": 4},
+      "status": "demoted to non-spec sensitivity (same-bar confirm_rebound is an implementation extra, not spec-text)"
+    },
+    "c18_spec_literal": {
+      "trades": 22,
+      "total_pnl": -47933.576914836274,
+      "verdict": "NO_GO",
+      "win_rate": 0.3181818181818182,
+      "profit_factor": 0.2542099233211947,
+      "max_drawdown": -52160.28238001531,
+      "sharpe_ratio": -0.4497320887426686,
+      "signals": 77,
+      "status": "adjudicated reading (SPEC_LITERAL_NEXT_OPEN) on same 283-day archive"
+    },
+    "sign_flip_explained": "The single fork (same-bar confirm_rebound gate vs spec-literal next-open entry) flips the native sign on identical data: C14 canonical +8,914.33 (7 trades) vs C18 spec-literal -47,933.58 (22 trades). The spec text supports SPEC_LITERAL_NEXT_OPEN ('Buy at next hourly open', no same-bar confirmation required), so C18 is the spec-faithful native result and C14 is a non-spec sensitivity."
+  },
+  "inference": {
+    "bootstrap": {
+      "method": "episode-block bootstrap 95% CI (95% CI excludes 0 required for GO)",
+      "resamples": 20000,
+      "seed": 20261116,
+      "c14_reference_ci95_total": [-1143.66, 17547.24],
+      "c14_reference_spans_zero": true,
+      "c18_spec_literal_total_pnl": -47933.576914836274,
+      "c18_inference_note": "C18 spec-literal total (-47,933.58 across 22 trades, win rate 31.8%, profit factor 0.254, max drawdown -52,160) is decisively negative on its face; bootstrap CI would exclude 0 on the negative side. No GO inference possible."
+    },
+    "permutation": {
+      "method": "conditional temporal-edge permutation (p < 0.05 required for GO)",
+      "draws": 20000,
+      "seed": 20261116,
+      "c14_reference_p_null_ge_canonical": 0.03595,
+      "c18_inference_note": "C18 spec-literal is structurally negative (negative expectancy per trade: -2,178.80 avg); permutation testing is unnecessary to reject GO. The sign flip is structural from the adjudicated entry rule, not timing luck."
+    },
+    "placebo": {
+      "method": "full-portfolio placebo (p_ge_canonical < 0.05 required for GO)",
+      "runs": 2000,
+      "floor": 100,
+      "seed": 20261116,
+      "c14_reference_p_ge_canonical": 0.4444,
+      "c18_inference_note": "C18 spec-literal total is far below any placebo mass; placebo p_ge_canonical would be ~1.0 (canonical is an extreme negative outlier under placebo). GO criteria categorically unmet."
+    },
+    "power_curve": {
+      "max_achievable_episodes_c14_archive": 4,
+      "go_requires_episodes": 5,
+      "power_curve_note": "C14 archive max achievable is 4 episodes (< 5 required for GO). C18 spec-literal on same archive has 22 trades but concentrated in few episodes; effective N insufficient for GO under any reading. Power curve confirms NO_GO/UNDERPOWERED ceiling."
+    },
+    "leg_separation": {
+      "c18_spot_leg": "negative (buy legs lose; coin PnL deeply negative across symbols)",
+      "c18_eth_hedge_leg": "partially offsets but does not manufacture positive spot alpha",
+      "c18_rebound_short_leg": "negative overall (rebound shorts after +9% target fail in crash-rebound regime)",
+      "conclusion": "No leg demonstrates positive spot crash-rebound alpha; total is negative and driven by losses, not edge."
+    }
+  },
+  "decision_floors_assessment": {
+    "go_requires": [">= 10 trades", ">= 5 episodes", ">= 5 distinct crash days", "bootstrap 95% CI excludes 0", "permutation p < 0.05", "placebo p_ge_canonical < 0.05", "spot leg > 0"],
+    "go_criteria_met": false,
+    "assessment": "C18 spec-literal: 22 trades (>=10 met) but negative total; episodes/crash days < 5 on C14 archive; CI would exclude 0 on negative side; permutation p not applicable to structural negative; placebo p_ge_canonical ~1.0; spot leg negative. GO categorically unmet.",
+    "verdict_token": "NO_GO",
+    "never_upgrade_to_go": true
+  }
+}
