@@ -1,5 +1,5 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
-**Generated (UTC):** 2026-11-16T03:29:37Z
+**Generated (UTC):** 2026-11-16T03:30:35Z
 **Repo:** `CRASH-REBOUND-STRATEGY` (crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain)
 **Single durable handoff for next agentic session — read before doing anything else.**
 
@@ -11,7 +11,7 @@
 ## Initial task for this session (non-optional)
 **Mission: execute a heavy, evidenced Hyperliquid-native data-acquisition campaign until a decision-grade extension is secured or every viable native path is exhausted with command-level proof.** Do not run C16+ inference on the existing archive and do not relax spec defaults to manufacture episodes.
 
-### Required work plan (execute, don’t summarize)
+### Required work plan (execute, don't summarize)
 1. **Baseline & constraints (first actions):**
    - Read `research_state/c15_data_request_stem_20261116T024001Z.md`, `research_state/c15_acquisition_attempt_20261116T024001Z.md`, `research_state/c15_decision_verdict_hyperliquid_native_c15_20261116T024001Z.{md,json}`, `research_state/crash_event_census_hyperliquid_ironflow_wide_20261116T001200Z.json`, `research_state/episode_edge_hyperliquid_ironflow_wide_20261116T001200Z.json`.
    - Treat as fixed: native Hyperliquid perps only, hourly gap-free bars, per-symbol SHA256 + non-synthetic/provenance attestation, `spec_compliant_volume_threshold=true` ($5M rolling-24h), unchanged RSI/sizing/exits/hedge, `is_hyperliquid_venue_data=true` only for native artifacts.
