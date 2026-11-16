@@ -72,7 +72,8 @@ def load_candles(path: Path) -> List[Dict[str, Any]]:
     return data
 
 
-def load_inputs(rsi_threshold: float = 20.0, target_pct: Optional[float] = None) -> Dict[str, Any]:
+def load_inputs(rsi_threshold: float = 20.0, target_pct: Optional[float] = None,
+                entry_spec_literal_next_open: bool = False) -> Dict[str, Any]:
     manifest = load_provenance(str(CACHE_DIR / "provenance.json"))
     universe = json.loads(UNIVERSE_PATH.read_text())
     symbols = [str(s).upper() for s in (universe.get("selected_symbols") or universe.get("symbols") or [])]
@@ -99,6 +100,8 @@ def load_inputs(rsi_threshold: float = 20.0, target_pct: Optional[float] = None)
     )
     if target_pct is not None:
         cfg_kwargs["target_pct"] = float(target_pct)
+    # Spec-literal entry path: bypass ONLY the same-bar confirm_rebound gate.
+    cfg_kwargs["entry_spec_literal_next_open"] = bool(entry_spec_literal_next_open)
     cfg = StrategyConfig(**cfg_kwargs)
     return {
         "cache_dir": CACHE_DIR,
@@ -435,9 +438,10 @@ def render_md(r):
     return "\n".join(lines)
 
 
-def run(draws, seed, out_stem, rsi_threshold=20.0, target_pct=None):
+def run(draws, seed, out_stem, rsi_threshold=20.0, target_pct=None,
+        entry_spec_literal_next_open=False):
     t0 = time.time()
-    inp = load_inputs(rsi_threshold, target_pct)
+    inp = load_inputs(rsi_threshold, target_pct, entry_spec_literal_next_open)
     memo, rows, meta = build_memo(inp)
     keys = event_keys(memo, rows)
     times = _bar_time(rows)

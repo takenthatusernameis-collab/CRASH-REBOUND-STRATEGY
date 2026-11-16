@@ -1,0 +1,2170 @@
+{
+  "timestamp": "2026-11-16T04:49:05.212625+00:00",
+  "run_type": "real_market_campaign_exploratory_spec_literal_next_open",
+  "label": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+  "research_status": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "partial_universe_not_evidence": true,
+  "canonical_baseline_changed": false,
+  "provenance_caveat": "Exploratory spec-literal next-open adjudication on the retained PARTIAL aligned Hyperliquid chain; real fetched candles, non-synthetic; NOT the 283-day spec window and NOT performance evidence. Never use for validation or capital allocation. Canonical baseline is unchanged.",
+  "config": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "entry_next_bar": true,
+    "entry_spec_literal_next_open": true,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "slippage_pct": 0.0005,
+    "funding_rate_pct_per_hour": 0.01,
+    "enable_liquidation_checks": true
+  },
+  "data_provenance": {
+    "manifest_path": "research_state/cache/hyperliquid_ironflow_wide_20261115T234000Z/provenance.json",
+    "manifest_sha256": "a43aa823ffe4cfce748ae24268ecd0077cc5af0ae9143c72d5db6ebabde47444",
+    "source": {
+      "kind": "archive",
+      "hl_url": null,
+      "input_archive": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z",
+      "input_archives": []
+    },
+    "target_window": {
+      "start": "2025-12-20T00:00:00+00:00",
+      "end": "2026-09-28T23:00:00+00:00",
+      "expected_hourly_bars": 6792
+    },
+    "symbols_loaded": [
+      "0G",
+      "146",
+      "2Z",
+      "49",
+      "AAVE",
+      "ACE",
+      "ADA",
+      "AERO",
+      "AIXBT",
+      "ALGO",
+      "ALT",
+      "ANIME",
+      "APE",
+      "APEX",
+      "APT",
+      "AR",
+      "ARB",
+      "ASTER",
+      "ATOM",
+      "AVAX",
+      "AVNT",
+      "BABY",
+      "BANANA",
+      "BCH",
+      "BERA",
+      "BIGTIME",
+      "BIO",
+      "BLUR",
+      "BNB",
+      "BRETT",
+      "BSV",
+      "BTC",
+      "CAKE",
+      "CC",
+      "CELO",
+      "CFX",
+      "COMP",
+      "COMPLETE:",
+      "COUNT:",
+      "CRV",
+      "DOGE",
+      "DOT",
+      "EIGEN",
+      "ENA",
+      "ENS",
+      "ETC",
+      "ETH",
+      "ETHFI",
+      "FARTCOIN",
+      "FET",
+      "FIL",
+      "GALA",
+      "GAS",
+      "GMT",
+      "GMX",
+      "GOAT",
+      "GRASS",
+      "GRIFFAIN",
+      "HBAR",
+      "HYPE",
+      "HYPER",
+      "ICP",
+      "IMX",
+      "INCOMPLETE",
+      "INIT",
+      "INJ",
+      "IO",
+      "JTO",
+      "JUP",
+      "KAITO",
+      "KAS",
+      "KBONK",
+      "KFLOKI",
+      "KLUNC",
+      "KNEIRO",
+      "KPEPE",
+      "KSHIB",
+      "LAYER",
+      "LDO",
+      "LINEA",
+      "LINK",
+      "LTC",
+      "MANTA",
+      "ME",
+      "MELANIA",
+      "MERL",
+      "MET",
+      "MINA",
+      "MNT",
+      "MON",
+      "MOODENG",
+      "MORPHO",
+      "MOVE",
+      "NEAR",
+      "NEO",
+      "NIL",
+      "NXPC",
+      "ONDO",
+      "OP",
+      "ORDI",
+      "PAXG",
+      "PENDLE",
+      "PENGU",
+      "PEOPLE",
+      "PNUT",
+      "POL",
+      "POPCAT",
+      "PROVE",
+      "PUMP",
+      "PYTH",
+      "RENDER",
+      "RESOLV",
+      "REZ",
+      "RUNE",
+      "SAND",
+      "SEI",
+      "SKY",
+      "SNX",
+      "SOL",
+      "SOPH",
+      "SPX",
+      "STABLE",
+      "STBL",
+      "STRK",
+      "STX",
+      "SUI",
+      "SUPER",
+      "SUSHI",
+      "SYRUP",
+      "TAO",
+      "TIA",
+      "TRB",
+      "TRUMP",
+      "TRX",
+      "UNI",
+      "VIRTUAL",
+      "VVV",
+      "WCT",
+      "WIF",
+      "WLD",
+      "WLFI",
+      "XLM",
+      "XPL",
+      "XRP",
+      "YGG",
+      "ZEC",
+      "ZEN",
+      "ZETA",
+      "ZK",
+      "ZORA",
+      "ZRO"
+    ]
+  },
+  "funnel": {
+    "totals": {
+      "symbols": 151,
+      "bars_total": 1025592,
+      "rsi_crash_hours_no_volume_gate": 857,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 235,
+      "same_bar_rebound_confirm_implementation": 26,
+      "next_bar_rebound_confirm_implementation": 102,
+      "generate_signal_canonical_same_bar_confirm": 9,
+      "generate_signal_spec_literal_next_open": 77
+    },
+    "per_symbol": {
+      "0G": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "146": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "2Z": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "49": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "AAVE": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 4,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 4
+      },
+      "ACE": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ADA": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 6,
+        "same_bar_rebound_confirm_implementation": 2,
+        "next_bar_rebound_confirm_implementation": 4,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "AERO": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "AIXBT": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ALGO": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ALT": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ANIME": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "APE": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "APEX": {
+        "rsi_crash_hours_no_volume_gate": 9,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "APT": {
+        "rsi_crash_hours_no_volume_gate": 7,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "AR": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ARB": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ASTER": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ATOM": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "AVAX": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 2
+      },
+      "AVNT": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BABY": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BANANA": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BCH": {
+        "rsi_crash_hours_no_volume_gate": 29,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+        "same_bar_rebound_confirm_implementation": 2,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 2,
+        "generate_signal_spec_literal_next_open": 9
+      },
+      "BERA": {
+        "rsi_crash_hours_no_volume_gate": 14,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BIGTIME": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BIO": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BLUR": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BNB": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 5,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 5
+      },
+      "BRETT": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BSV": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "BTC": {
+        "rsi_crash_hours_no_volume_gate": 10,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 10,
+        "same_bar_rebound_confirm_implementation": 1,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 1,
+        "generate_signal_spec_literal_next_open": 10
+      },
+      "CAKE": {
+        "rsi_crash_hours_no_volume_gate": 18,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "CC": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "CELO": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "CFX": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "COMP": {
+        "rsi_crash_hours_no_volume_gate": 17,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "COMPLETE:": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "COUNT:": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "CRV": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "DOGE": {
+        "rsi_crash_hours_no_volume_gate": 9,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+        "same_bar_rebound_confirm_implementation": 1,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "DOT": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "EIGEN": {
+        "rsi_crash_hours_no_volume_gate": 11,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ENA": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ENS": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ETC": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ETH": {
+        "rsi_crash_hours_no_volume_gate": 12,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 12,
+        "same_bar_rebound_confirm_implementation": 2,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 2,
+        "generate_signal_spec_literal_next_open": 12
+      },
+      "ETHFI": {
+        "rsi_crash_hours_no_volume_gate": 10,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "FARTCOIN": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "FET": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "FIL": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GALA": {
+        "rsi_crash_hours_no_volume_gate": 10,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GAS": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GMT": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GMX": {
+        "rsi_crash_hours_no_volume_gate": 10,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GOAT": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GRASS": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "GRIFFAIN": {
+        "rsi_crash_hours_no_volume_gate": 7,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "HBAR": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "HYPE": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "HYPER": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ICP": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "IMX": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "INCOMPLETE": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "INIT": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "INJ": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "IO": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "JTO": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "JUP": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KAITO": {
+        "rsi_crash_hours_no_volume_gate": 12,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 10,
+        "same_bar_rebound_confirm_implementation": 1,
+        "next_bar_rebound_confirm_implementation": 3,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KAS": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KBONK": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KFLOKI": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KLUNC": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KNEIRO": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KPEPE": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 4,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "KSHIB": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "LAYER": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "LDO": {
+        "rsi_crash_hours_no_volume_gate": 13,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "LINEA": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "LINK": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 3
+      },
+      "LTC": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 2
+      },
+      "MANTA": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ME": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MELANIA": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MERL": {
+        "rsi_crash_hours_no_volume_gate": 24,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MET": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MINA": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MNT": {
+        "rsi_crash_hours_no_volume_gate": 17,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MON": {
+        "rsi_crash_hours_no_volume_gate": 9,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+        "same_bar_rebound_confirm_implementation": 1,
+        "next_bar_rebound_confirm_implementation": 4,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MOODENG": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MORPHO": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "MOVE": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "NEAR": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "NEO": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "NIL": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "NXPC": {
+        "rsi_crash_hours_no_volume_gate": 20,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ONDO": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "OP": {
+        "rsi_crash_hours_no_volume_gate": 24,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 14,
+        "same_bar_rebound_confirm_implementation": 4,
+        "next_bar_rebound_confirm_implementation": 6,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ORDI": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PAXG": {
+        "rsi_crash_hours_no_volume_gate": 23,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 9
+      },
+      "PENDLE": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PENGU": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PEOPLE": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PNUT": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "POL": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "POPCAT": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PROVE": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PUMP": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "PYTH": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "RENDER": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "RESOLV": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "REZ": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "RUNE": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SAND": {
+        "rsi_crash_hours_no_volume_gate": 11,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SEI": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SKY": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SNX": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SOL": {
+        "rsi_crash_hours_no_volume_gate": 16,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 16,
+        "same_bar_rebound_confirm_implementation": 4,
+        "next_bar_rebound_confirm_implementation": 8,
+        "generate_signal_canonical_same_bar_confirm": 4,
+        "generate_signal_spec_literal_next_open": 16
+      },
+      "SOPH": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SPX": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "STABLE": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "STBL": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "STRK": {
+        "rsi_crash_hours_no_volume_gate": 4,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "STX": {
+        "rsi_crash_hours_no_volume_gate": 13,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SUI": {
+        "rsi_crash_hours_no_volume_gate": 13,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 13,
+        "same_bar_rebound_confirm_implementation": 2,
+        "next_bar_rebound_confirm_implementation": 6,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SUPER": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SUSHI": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "SYRUP": {
+        "rsi_crash_hours_no_volume_gate": 1,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "TAO": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "TIA": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "TRB": {
+        "rsi_crash_hours_no_volume_gate": 2,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "TRUMP": {
+        "rsi_crash_hours_no_volume_gate": 18,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 18,
+        "same_bar_rebound_confirm_implementation": 3,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "TRX": {
+        "rsi_crash_hours_no_volume_gate": 19,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 3,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "UNI": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "VIRTUAL": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "VVV": {
+        "rsi_crash_hours_no_volume_gate": 7,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "WCT": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "WIF": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "WLD": {
+        "rsi_crash_hours_no_volume_gate": 12,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 10,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 2,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "WLFI": {
+        "rsi_crash_hours_no_volume_gate": 11,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 6,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 3,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "XLM": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "XPL": {
+        "rsi_crash_hours_no_volume_gate": 13,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 12,
+        "same_bar_rebound_confirm_implementation": 2,
+        "next_bar_rebound_confirm_implementation": 5,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "XRP": {
+        "rsi_crash_hours_no_volume_gate": 8,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 8,
+        "same_bar_rebound_confirm_implementation": 1,
+        "next_bar_rebound_confirm_implementation": 3,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "YGG": {
+        "rsi_crash_hours_no_volume_gate": 10,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ZEC": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 5,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 5
+      },
+      "ZEN": {
+        "rsi_crash_hours_no_volume_gate": 0,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ZETA": {
+        "rsi_crash_hours_no_volume_gate": 3,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ZK": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ZORA": {
+        "rsi_crash_hours_no_volume_gate": 6,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 0,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      },
+      "ZRO": {
+        "rsi_crash_hours_no_volume_gate": 5,
+        "rsi_crash_hours_passing_trailing_24h_5m_volume": 5,
+        "same_bar_rebound_confirm_implementation": 0,
+        "next_bar_rebound_confirm_implementation": 1,
+        "generate_signal_canonical_same_bar_confirm": 0,
+        "generate_signal_spec_literal_next_open": 0
+      }
+    }
+  },
+  "results": {
+    "num_trades": 22,
+    "total_pnl": -47933.576914836274,
+    "final_open_positions": 0,
+    "final_gross_exposure": 0.0,
+    "trades": [
+      {
+        "symbol": "AAVE",
+        "exit_reason": "liquidated",
+        "pnl": -6864.918629653454,
+        "total_pnl": -4576.144823061049,
+        "entry_price": 159.20115415387247,
+        "hedge_pnl": 2288.773806592406,
+        "max_live_coin_notional": 99865.6132906507,
+        "shares": 627.2920182106703,
+        "entry_timestamp": "2025-12-21T23:00:00+00:00",
+        "exit_timestamp": "2025-12-22T20:00:00+00:00",
+        "r_multiple": -0.4920860304971676,
+        "bars_held": 22,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 100.03233384706246
+      },
+      {
+        "symbol": "PAXG",
+        "exit_reason": "time_exit",
+        "pnl": -848.1616928343487,
+        "total_pnl": -1459.0756649808363,
+        "entry_price": 4345.881578732143,
+        "hedge_pnl": -610.9139721464876,
+        "max_live_coin_notional": 120000.0,
+        "shares": 27.612349261253573,
+        "entry_timestamp": "2025-12-29T16:00:00+00:00",
+        "exit_timestamp": "2025-12-31T17:00:00+00:00",
+        "r_multiple": -0.12868140703502381,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 20.93295280359053
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 11059.97784678426,
+        "total_pnl": 6545.945214848017,
+        "entry_price": 387.444625,
+        "hedge_pnl": 4809.342318708008,
+        "max_live_coin_notional": 130667.2332,
+        "shares": 309.7216795819532,
+        "entry_timestamp": "2026-01-08T10:00:00+00:00",
+        "exit_timestamp": "2026-01-09T06:00:00+00:00",
+        "r_multiple": 0.10781689403444304,
+        "bars_held": 21,
+        "leg": "short",
+        "rebound_short_pnl": -8924.997103860007,
+        "rebound_hedge_pnl": 4410.964471923763,
+        "hedge_side": "short",
+        "hedge_size": 101.17857290714996
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "liquidated",
+        "pnl": -9326.157993088189,
+        "total_pnl": 3715.9807383729094,
+        "entry_price": 133.757845,
+        "hedge_pnl": 13042.138731461098,
+        "max_live_coin_notional": 120000.0,
+        "shares": 897.1436404346974,
+        "entry_timestamp": "2026-01-19T01:00:00+00:00",
+        "exit_timestamp": "2026-01-20T22:00:00+00:00",
+        "r_multiple": -0.7155883077551021,
+        "bars_held": 46,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 47.88886417490695
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -1758.8057615630096,
+        "total_pnl": -121.04619217949175,
+        "entry_price": 3033.21685,
+        "hedge_pnl": 1637.7595693835178,
+        "max_live_coin_notional": 60000.0,
+        "shares": 19.780979391565758,
+        "entry_timestamp": "2026-01-20T16:00:00+00:00",
+        "exit_timestamp": "2026-01-22T17:00:00+00:00",
+        "r_multiple": -0.3890381312953309,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 19.790876405976846
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 4308.605383538844,
+        "total_pnl": -86.4367405363264,
+        "entry_price": 117.8708685,
+        "hedge_pnl": -4395.04212407517,
+        "max_live_coin_notional": 60000.0,
+        "shares": 509.0316272675975,
+        "entry_timestamp": "2026-01-25T20:00:00+00:00",
+        "exit_timestamp": "2026-01-27T21:00:00+00:00",
+        "r_multiple": 0.8675142077149195,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 22.81295189841942
+      },
+      {
+        "symbol": "LINK",
+        "exit_reason": "time_exit",
+        "pnl": 2707.0219419732175,
+        "total_pnl": -1759.3972551355664,
+        "entry_price": 11.438716,
+        "hedge_pnl": -4466.419197108784,
+        "max_live_coin_notional": 60000.0,
+        "shares": 5245.343970424653,
+        "entry_timestamp": "2026-01-25T20:00:00+00:00",
+        "exit_timestamp": "2026-01-27T21:00:00+00:00",
+        "r_multiple": 0.5850506792198679,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 23.183611578220894
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -7725.916294992914,
+        "total_pnl": -5293.3242443580575,
+        "entry_price": 2482.181798333333,
+        "hedge_pnl": 2432.5920506348566,
+        "max_live_coin_notional": 60000.0,
+        "shares": 24.17228264274887,
+        "entry_timestamp": "2026-01-31T17:00:00+00:00",
+        "exit_timestamp": "2026-01-31T18:00:00+00:00",
+        "r_multiple": -1.1635525214052445,
+        "bars_held": 2,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 24.18477165544762
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "liquidated",
+        "pnl": -5174.209398294356,
+        "total_pnl": -3100.295320790708,
+        "entry_price": 510.84379966666665,
+        "hedge_pnl": 2073.914077503648,
+        "max_live_coin_notional": 60000.0,
+        "shares": 117.45273220336806,
+        "entry_timestamp": "2026-01-31T17:00:00+00:00",
+        "exit_timestamp": "2026-01-31T18:00:00+00:00",
+        "r_multiple": -0.9678868882364415,
+        "bars_held": 2,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 20.62173358377271
+      },
+      {
+        "symbol": "LINK",
+        "exit_reason": "liquidated",
+        "pnl": -2931.3194894193184,
+        "total_pnl": -2557.2526768045727,
+        "entry_price": 9.60469945,
+        "hedge_pnl": 374.0668126147456,
+        "max_live_coin_notional": 40000.0,
+        "shares": 4164.627972820118,
+        "entry_timestamp": "2026-01-31T18:00:00+00:00",
+        "exit_timestamp": "2026-01-31T18:00:00+00:00",
+        "r_multiple": -0.5260237731177363,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 17.370384534916553
+      },
+      {
+        "symbol": "AAVE",
+        "exit_reason": "liquidated",
+        "pnl": -2370.831226186121,
+        "total_pnl": -2058.0405455568866,
+        "entry_price": 124.10302000000001,
+        "hedge_pnl": 312.7906806292344,
+        "max_live_coin_notional": 30000.0,
+        "shares": 241.73464916486316,
+        "entry_timestamp": "2026-01-31T18:00:00+00:00",
+        "exit_timestamp": "2026-01-31T18:00:00+00:00",
+        "r_multiple": -0.5749504456098932,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.540063813531829
+      },
+      {
+        "symbol": "BNB",
+        "exit_reason": "liquidated",
+        "pnl": -1861.7033582408674,
+        "total_pnl": -722.2356757663472,
+        "entry_price": 781.6939507860727,
+        "hedge_pnl": 1139.4676824745202,
+        "max_live_coin_notional": 24000.0,
+        "shares": 30.702553059116756,
+        "entry_timestamp": "2026-01-31T18:00:00+00:00",
+        "exit_timestamp": "2026-02-02T03:00:00+00:00",
+        "r_multiple": -0.80599794787343,
+        "bars_held": 34,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 6.6774755374632875
+      },
+      {
+        "symbol": "BNB",
+        "exit_reason": "liquidated",
+        "pnl": -8859.875880754353,
+        "total_pnl": -9838.45944293508,
+        "entry_price": 611.0466067022387,
+        "hedge_pnl": -978.5835621807281,
+        "max_live_coin_notional": 120000.0,
+        "shares": 196.38436525755174,
+        "entry_timestamp": "2026-02-05T22:00:00+00:00",
+        "exit_timestamp": "2026-02-06T00:00:00+00:00",
+        "r_multiple": -0.3467542601052397,
+        "bars_held": 3,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 46.05374017930765
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "time_exit",
+        "pnl": 4896.903401300498,
+        "total_pnl": 3598.872164167164,
+        "entry_price": 77.64180100000002,
+        "hedge_pnl": -1298.0312371333343,
+        "max_live_coin_notional": 120000.0,
+        "shares": 1545.55920205921,
+        "entry_timestamp": "2026-02-23T04:00:00+00:00",
+        "exit_timestamp": "2026-02-25T05:00:00+00:00",
+        "r_multiple": 0.4451508418365992,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 72.11783175970069
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "time_exit",
+        "pnl": 548.5161682912021,
+        "total_pnl": -7147.948925958719,
+        "entry_price": 494.9905011027114,
+        "hedge_pnl": -7696.465094249921,
+        "max_live_coin_notional": 60000.0,
+        "shares": 121.21444727996891,
+        "entry_timestamp": "2026-02-23T21:00:00+00:00",
+        "exit_timestamp": "2026-02-25T22:00:00+00:00",
+        "r_multiple": 0.07988091231833137,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 35.7589306899607
+      },
+      {
+        "symbol": "PAXG",
+        "exit_reason": "time_exit",
+        "pnl": 3041.812070580681,
+        "total_pnl": 1129.9361693171945,
+        "entry_price": 5060.9571031334535,
+        "hedge_pnl": -1911.8759012634864,
+        "max_live_coin_notional": 120000.0,
+        "shares": 23.710930077969422,
+        "entry_timestamp": "2026-03-09T01:00:00+00:00",
+        "exit_timestamp": "2026-03-11T02:00:00+00:00",
+        "r_multiple": 0.8280066224771622,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 28.026975546039683
+      },
+      {
+        "symbol": "PAXG",
+        "exit_reason": "time_exit",
+        "pnl": -5719.263858346957,
+        "total_pnl": -5391.067814459172,
+        "entry_price": 4703.877989219117,
+        "hedge_pnl": 328.1960438877854,
+        "max_live_coin_notional": 120000.0,
+        "shares": 25.510865773948574,
+        "entry_timestamp": "2026-03-19T09:00:00+00:00",
+        "exit_timestamp": "2026-03-21T10:00:00+00:00",
+        "r_multiple": -0.9549781543141656,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 22.718662922694453
+      },
+      {
+        "symbol": "PAXG",
+        "exit_reason": "time_exit",
+        "pnl": 2897.250594497459,
+        "total_pnl": 158.7501136923588,
+        "entry_price": 4643.274446877008,
+        "hedge_pnl": -2738.5004808051003,
+        "max_live_coin_notional": 85991.53699599834,
+        "shares": 18.519589565470305,
+        "entry_timestamp": "2026-04-12T23:00:00+00:00",
+        "exit_timestamp": "2026-04-15T00:00:00+00:00",
+        "r_multiple": 2.1360921387370047,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 21.948890884919955
+      },
+      {
+        "symbol": "PAXG",
+        "exit_reason": "time_exit",
+        "pnl": 320.84057858094974,
+        "total_pnl": 629.7892667547605,
+        "entry_price": 4558.637087183944,
+        "hedge_pnl": 308.94868817381075,
+        "max_live_coin_notional": 77347.3855078529,
+        "shares": 16.96721718105302,
+        "entry_timestamp": "2026-04-28T12:00:00+00:00",
+        "exit_timestamp": "2026-04-30T13:00:00+00:00",
+        "r_multiple": 0.1380598507506724,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 15.551288225345683
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "time_exit",
+        "pnl": 2044.4547345784208,
+        "total_pnl": 559.3600758639968,
+        "entry_price": 296.15234307347947,
+        "hedge_pnl": -1485.094658714424,
+        "max_live_coin_notional": 68189.57691485166,
+        "shares": 230.2516880574971,
+        "entry_timestamp": "2026-05-28T15:00:00+00:00",
+        "exit_timestamp": "2026-05-30T16:00:00+00:00",
+        "r_multiple": 0.20984692928025914,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 57.59430132489292
+      },
+      {
+        "symbol": "BTC",
+        "exit_reason": "liquidated",
+        "pnl": -9990.339461044698,
+        "total_pnl": -3230.116863449931,
+        "entry_price": 68041.00466830477,
+        "hedge_pnl": 6760.222597594767,
+        "max_live_coin_notional": 120000.0,
+        "shares": 1.763642388659482,
+        "entry_timestamp": "2026-06-02T15:00:00+00:00",
+        "exit_timestamp": "2026-06-04T00:00:00+00:00",
+        "r_multiple": -1.3412187237944675,
+        "bars_held": 34,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 44.246964563505536
+      },
+      {
+        "symbol": "ZEC",
+        "exit_reason": "liquidated",
+        "pnl": -22309.059062963024,
+        "total_pnl": -16931.368471879934,
+        "entry_price": 375.7888,
+        "hedge_pnl": 5377.690591083089,
+        "max_live_coin_notional": 120000.0,
+        "shares": 319.3283035577431,
+        "entry_timestamp": "2026-06-05T06:00:00+00:00",
+        "exit_timestamp": "2026-06-05T06:00:00+00:00",
+        "r_multiple": -0.3946215715196278,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 204.56065396623268
+      }
+    ],
+    "equity_curve_points": 23
+  },
+  "metrics": {
+    "sharpe_ratio": -0.4497320887426686,
+    "sortino_ratio": -0.36008783058496396,
+    "max_drawdown": -52160.28238001531,
+    "max_drawdown_timestamp": "2026-06-05T06:00:00+00:00",
+    "max_drawdown_series": [
+      {
+        "timestamp": "2025-12-20T21:00:00+00:00",
+        "equity": 100000.0,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2025-12-22T20:00:00+00:00",
+        "equity": 95423.85517693895,
+        "drawdown": -0.04576144823061055
+      },
+      {
+        "timestamp": "2025-12-31T17:00:00+00:00",
+        "equity": 93964.77951195811,
+        "drawdown": -0.06035220488041887
+      },
+      {
+        "timestamp": "2026-01-09T06:00:00+00:00",
+        "equity": 100510.72472680613,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-01-20T22:00:00+00:00",
+        "equity": 104226.70546517904,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "2026-01-22T17:00:00+00:00",
+        "equity": 104105.65927299955,
+        "drawdown": -0.001161374060892027
+      },
+      {
+        "timestamp": "2026-01-27T21:00:00+00:00",
+        "equity": 104019.22253246323,
+        "drawdown": -0.001990688775873525
+      },
+      {
+        "timestamp": "2026-01-27T21:00:00+00:00",
+        "equity": 102259.82527732766,
+        "drawdown": -0.01887117297887238
+      },
+      {
+        "timestamp": "2026-01-31T18:00:00+00:00",
+        "equity": 96966.5010329696,
+        "drawdown": -0.06965781370336988
+      },
+      {
+        "timestamp": "2026-01-31T18:00:00+00:00",
+        "equity": 93866.2057121789,
+        "drawdown": -0.0994035041859926
+      },
+      {
+        "timestamp": "2026-01-31T18:00:00+00:00",
+        "equity": 91308.95303537432,
+        "drawdown": -0.1239389883058368
+      },
+      {
+        "timestamp": "2026-01-31T18:00:00+00:00",
+        "equity": 89250.91248981743,
+        "drawdown": -0.14368479660296704
+      },
+      {
+        "timestamp": "2026-02-02T03:00:00+00:00",
+        "equity": 88528.67681405108,
+        "drawdown": -0.15061426513545983
+      },
+      {
+        "timestamp": "2026-02-06T00:00:00+00:00",
+        "equity": 78690.217371116,
+        "drawdown": -0.24500906922165444
+      },
+      {
+        "timestamp": "2026-02-25T05:00:00+00:00",
+        "equity": 82289.08953528317,
+        "drawdown": -0.21047979816674697
+      },
+      {
+        "timestamp": "2026-02-25T22:00:00+00:00",
+        "equity": 75141.14060932444,
+        "drawdown": -0.2790605797817504
+      },
+      {
+        "timestamp": "2026-03-11T02:00:00+00:00",
+        "equity": 76271.07677864164,
+        "drawdown": -0.2682194410901442
+      },
+      {
+        "timestamp": "2026-03-21T10:00:00+00:00",
+        "equity": 70880.00896418247,
+        "drawdown": -0.3199438795668095
+      },
+      {
+        "timestamp": "2026-04-15T00:00:00+00:00",
+        "equity": 71038.75907787483,
+        "drawdown": -0.31842075636164024
+      },
+      {
+        "timestamp": "2026-04-30T13:00:00+00:00",
+        "equity": 71668.5483446296,
+        "drawdown": -0.3123782621280949
+      },
+      {
+        "timestamp": "2026-05-30T16:00:00+00:00",
+        "equity": 72227.9084204936,
+        "drawdown": -0.3070114986544968
+      },
+      {
+        "timestamp": "2026-06-04T00:00:00+00:00",
+        "equity": 68997.79155704366,
+        "drawdown": -0.3380027580350312
+      },
+      {
+        "timestamp": "2026-06-05T06:00:00+00:00",
+        "equity": 52066.423085163726,
+        "drawdown": -0.5004502650948847
+      }
+    ],
+    "calmar_ratio": -0.9189669750177876,
+    "win_rate": 0.3181818181818182,
+    "profit_factor": 0.2542099233211947,
+    "monthly_breakdown": {
+      "2025-12": -6035.220488041885,
+      "2026-01": -4713.867022140684,
+      "2026-02": -14109.771880492983,
+      "2026-03": -4261.131645141977,
+      "2026-04": 788.5393804471194,
+      "2026-05": 559.3600758639968,
+      "2026-06": -20161.485335329864
+    },
+    "weekly_breakdown": {
+      "2025-W52": -4576.144823061049,
+      "2026-W01": -1459.0756649808363,
+      "2026-W02": 6545.945214848017,
+      "2026-W04": 3594.9345461934176,
+      "2026-W05": -14854.74678318212,
+      "2026-W06": -10560.695118701427,
+      "2026-W09": -3549.076761791555,
+      "2026-W11": 1129.9361693171945,
+      "2026-W12": -5391.067814459172,
+      "2026-W16": 158.7501136923588,
+      "2026-W18": 629.7892667547605,
+      "2026-W22": 559.3600758639968,
+      "2026-W23": -20161.485335329864
+    },
+    "annual_breakdown": {
+      "2025": -6035.220488041885,
+      "2026": -41898.35642679439
+    },
+    "annual_trade_counts": {
+      "2025": 2,
+      "2026": 20
+    },
+    "positive_months": 2,
+    "negative_months": 5,
+    "flat_months": 0,
+    "total_months": 7,
+    "trade_attribution": [
+      {
+        "symbol": "AAVE",
+        "pnl": -6634.185368617935,
+        "trades": 2,
+        "coin_pnl": -9235.749855839575,
+        "hedge_pnl": 2601.5644872216403
+      },
+      {
+        "symbol": "PAXG",
+        "pnl": -4931.667929675696,
+        "trades": 5,
+        "coin_pnl": -307.52230752221595,
+        "hedge_pnl": -4624.145622153479
+      },
+      {
+        "symbol": "ZEC",
+        "pnl": -10385.423257031918,
+        "trades": 2,
+        "coin_pnl": -11249.081216178763,
+        "hedge_pnl": 10187.032909791098
+      },
+      {
+        "symbol": "SOL",
+        "pnl": 7228.416162003747,
+        "trades": 3,
+        "coin_pnl": -120.64920824884666,
+        "hedge_pnl": 7349.065370252592
+      },
+      {
+        "symbol": "ETH",
+        "pnl": -5414.370436537549,
+        "trades": 2,
+        "coin_pnl": -9484.722056555924,
+        "hedge_pnl": 4070.3516200183744
+      },
+      {
+        "symbol": "LINK",
+        "pnl": -4316.649931940139,
+        "trades": 2,
+        "coin_pnl": -224.2975474461009,
+        "hedge_pnl": -4092.3523844940382
+      },
+      {
+        "symbol": "BCH",
+        "pnl": -9688.88417088543,
+        "trades": 3,
+        "coin_pnl": -2581.238495424733,
+        "hedge_pnl": -7107.645675460697
+      },
+      {
+        "symbol": "BNB",
+        "pnl": -10560.695118701427,
+        "trades": 2,
+        "coin_pnl": -10721.57923899522,
+        "hedge_pnl": 160.88412029379208
+      },
+      {
+        "symbol": "BTC",
+        "pnl": -3230.116863449931,
+        "trades": 1,
+        "coin_pnl": -9990.339461044698,
+        "hedge_pnl": 6760.222597594767
+      }
+    ],
+    "trade_attribution_by_leg": [
+      {
+        "leg": "buy",
+        "pnl": -43419.544282900024,
+        "trades": 22
+      },
+      {
+        "leg": "short",
+        "pnl": -4514.032631936244,
+        "trades": 1
+      }
+    ],
+    "leg_breakdown": [
+      {
+        "leg": "buy",
+        "trades": 22,
+        "wins": 7,
+        "losses": 15,
+        "win_rate": 0.3181818181818182,
+        "gross_profit": 20852.666374952645,
+        "gross_loss": 64272.21065785268,
+        "profit_factor": 0.32444296160839925,
+        "total_pnl": -43419.54428290003,
+        "avg_r_multiple": -0.16722742762971685,
+        "pnl_share_pct": 90.58273360246756
+      },
+      {
+        "leg": "short",
+        "trades": 1,
+        "wins": 0,
+        "losses": 1,
+        "win_rate": 0.0,
+        "gross_profit": 0,
+        "gross_loss": 4514.032631936244,
+        "profit_factor": 0.0,
+        "total_pnl": -4514.032631936244,
+        "avg_r_multiple": 0.10781689403444304,
+        "pnl_share_pct": 9.41726639753244
+      }
+    ],
+    "exposure_metrics": {
+      "total_trades": 22,
+      "gross_profit": 16338.6337430164,
+      "gross_loss": 64272.21065785268,
+      "total_pnl": -47933.576914836274,
+      "avg_pnl_per_trade": -2178.798950674376,
+      "winning_trades": 7,
+      "losing_trades": 15
+    },
+    "equity_start": 100000.0,
+    "equity_final": 52066.423085163726,
+    "equity_points": 23,
+    "equity_period_returns": [
+      -0.04576144823061055,
+      -0.015290470734758642,
+      0.0696638171115484,
+      0.036970987409285457,
+      -0.001161374060892027,
+      -0.0008302789794515369,
+      -0.016914155021553648,
+      -0.05176347827705184,
+      -0.03197284925993737,
+      -0.027243592700932857,
+      -0.022539307232660646,
+      -0.008092193744783845,
+      -0.1111330226204572,
+      0.04573468322236677,
+      -0.08686387182463473,
+      0.01503751686698484,
+      -0.07068299075028713,
+      0.0022397022236914995,
+      0.008865431701367098,
+      0.007804819391265235,
+      -0.044721174045979105,
+      -0.24539000582188186
+    ],
+    "equity_sharpe_ratio": -0.4284418289548907,
+    "equity_sortino_ratio": -0.3397586183184338,
+    "equity_max_drawdown_pct": -50.045026509488466,
+    "annual_return_pct": {
+      "2025": -6.035220488041885,
+      "2026": -44.58942663879963
+    },
+    "equity_total_return_pct": -47.93357691483627,
+    "equity_annualized_return_pct": -76.11235916583425,
+    "equity_horizon_years": 0.4558219178082192,
+    "equity_annualized_calmar_ratio": -1.5208775871345266,
+    "aum_fee_total": 4.529002248383145,
+    "profit_share_total": 453.3173291815038,
+    "vault_fee_total": 457.84633142988696,
+    "gross_total_pnl": -47933.576914836274,
+    "net_total_pnl": -48391.42324626616,
+    "gross_final_equity": 52066.423085163726,
+    "net_final_equity": 52066.30421205166,
+    "vault_hwm_final": 104079.85596263353,
+    "fee_hours_per_step": 1.0,
+    "fee_time_base_hours_per_year": 8760.0,
+    "timestamp": "2026-11-16T04:49:05.212454"
+  }
+}

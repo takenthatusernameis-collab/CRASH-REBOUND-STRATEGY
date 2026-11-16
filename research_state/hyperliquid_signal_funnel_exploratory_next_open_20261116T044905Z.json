@@ -1,0 +1,1234 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T04:49:05.215974+00:00",
+  "run_type": "hyperliquid_signal_funnel_exploratory_next_open_real_engine",
+  "label": "NOT_EVIDENCE_EXPLORATORY_FANOUT",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "canonical_baseline_changed": false,
+  "cache_dir": "research_state/cache/hyperliquid_ironflow_wide_20261115T234000Z",
+  "provenance_caveat": "Exploratory spec-literal next-open adjudication on the retained PARTIAL aligned Hyperliquid chain; real fetched candles, non-synthetic; NOT the 283-day spec window and NOT performance evidence. Never use for validation or capital allocation. Canonical baseline is unchanged.",
+  "counts": {
+    "symbols": 151,
+    "bars_total": 1025592,
+    "rsi_crash_hours_no_volume_gate": 857,
+    "rsi_crash_hours_passing_trailing_24h_5m_volume": 235,
+    "same_bar_rebound_confirm_implementation": 26,
+    "next_bar_rebound_confirm_implementation": 102,
+    "generate_signal_canonical_same_bar_confirm": 9,
+    "generate_signal_spec_literal_next_open": 77
+  },
+  "per_symbol": {
+    "0G": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "146": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "2Z": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "49": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "AAVE": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 4,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 4
+    },
+    "ACE": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ADA": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 6,
+      "same_bar_rebound_confirm_implementation": 2,
+      "next_bar_rebound_confirm_implementation": 4,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "AERO": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "AIXBT": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ALGO": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ALT": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ANIME": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "APE": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "APEX": {
+      "rsi_crash_hours_no_volume_gate": 9,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "APT": {
+      "rsi_crash_hours_no_volume_gate": 7,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "AR": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ARB": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ASTER": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ATOM": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "AVAX": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 2
+    },
+    "AVNT": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BABY": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BANANA": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BCH": {
+      "rsi_crash_hours_no_volume_gate": 29,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+      "same_bar_rebound_confirm_implementation": 2,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 2,
+      "generate_signal_spec_literal_next_open": 9
+    },
+    "BERA": {
+      "rsi_crash_hours_no_volume_gate": 14,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BIGTIME": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BIO": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BLUR": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BNB": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 5,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 5
+    },
+    "BRETT": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BSV": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "BTC": {
+      "rsi_crash_hours_no_volume_gate": 10,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 10,
+      "same_bar_rebound_confirm_implementation": 1,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 1,
+      "generate_signal_spec_literal_next_open": 10
+    },
+    "CAKE": {
+      "rsi_crash_hours_no_volume_gate": 18,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "CC": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "CELO": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "CFX": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "COMP": {
+      "rsi_crash_hours_no_volume_gate": 17,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "COMPLETE:": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "COUNT:": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "CRV": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "DOGE": {
+      "rsi_crash_hours_no_volume_gate": 9,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+      "same_bar_rebound_confirm_implementation": 1,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "DOT": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "EIGEN": {
+      "rsi_crash_hours_no_volume_gate": 11,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ENA": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ENS": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ETC": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ETH": {
+      "rsi_crash_hours_no_volume_gate": 12,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 12,
+      "same_bar_rebound_confirm_implementation": 2,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 2,
+      "generate_signal_spec_literal_next_open": 12
+    },
+    "ETHFI": {
+      "rsi_crash_hours_no_volume_gate": 10,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "FARTCOIN": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "FET": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "FIL": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GALA": {
+      "rsi_crash_hours_no_volume_gate": 10,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GAS": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GMT": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GMX": {
+      "rsi_crash_hours_no_volume_gate": 10,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GOAT": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GRASS": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "GRIFFAIN": {
+      "rsi_crash_hours_no_volume_gate": 7,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "HBAR": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "HYPE": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "HYPER": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ICP": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "IMX": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "INCOMPLETE": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "INIT": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "INJ": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "IO": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "JTO": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "JUP": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KAITO": {
+      "rsi_crash_hours_no_volume_gate": 12,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 10,
+      "same_bar_rebound_confirm_implementation": 1,
+      "next_bar_rebound_confirm_implementation": 3,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KAS": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KBONK": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KFLOKI": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KLUNC": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KNEIRO": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KPEPE": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 4,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "KSHIB": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "LAYER": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "LDO": {
+      "rsi_crash_hours_no_volume_gate": 13,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "LINEA": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "LINK": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 3
+    },
+    "LTC": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 2
+    },
+    "MANTA": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ME": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MELANIA": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MERL": {
+      "rsi_crash_hours_no_volume_gate": 24,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MET": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MINA": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MNT": {
+      "rsi_crash_hours_no_volume_gate": 17,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MON": {
+      "rsi_crash_hours_no_volume_gate": 9,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+      "same_bar_rebound_confirm_implementation": 1,
+      "next_bar_rebound_confirm_implementation": 4,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MOODENG": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MORPHO": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "MOVE": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "NEAR": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "NEO": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "NIL": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "NXPC": {
+      "rsi_crash_hours_no_volume_gate": 20,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ONDO": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "OP": {
+      "rsi_crash_hours_no_volume_gate": 24,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 14,
+      "same_bar_rebound_confirm_implementation": 4,
+      "next_bar_rebound_confirm_implementation": 6,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ORDI": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PAXG": {
+      "rsi_crash_hours_no_volume_gate": 23,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 9
+    },
+    "PENDLE": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PENGU": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 3,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PEOPLE": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PNUT": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "POL": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "POPCAT": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PROVE": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PUMP": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "PYTH": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "RENDER": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "RESOLV": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "REZ": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "RUNE": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SAND": {
+      "rsi_crash_hours_no_volume_gate": 11,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SEI": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SKY": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SNX": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SOL": {
+      "rsi_crash_hours_no_volume_gate": 16,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 16,
+      "same_bar_rebound_confirm_implementation": 4,
+      "next_bar_rebound_confirm_implementation": 8,
+      "generate_signal_canonical_same_bar_confirm": 4,
+      "generate_signal_spec_literal_next_open": 16
+    },
+    "SOPH": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SPX": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "STABLE": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "STBL": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "STRK": {
+      "rsi_crash_hours_no_volume_gate": 4,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "STX": {
+      "rsi_crash_hours_no_volume_gate": 13,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SUI": {
+      "rsi_crash_hours_no_volume_gate": 13,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 13,
+      "same_bar_rebound_confirm_implementation": 2,
+      "next_bar_rebound_confirm_implementation": 6,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SUPER": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SUSHI": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "SYRUP": {
+      "rsi_crash_hours_no_volume_gate": 1,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "TAO": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "TIA": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "TRB": {
+      "rsi_crash_hours_no_volume_gate": 2,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "TRUMP": {
+      "rsi_crash_hours_no_volume_gate": 18,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 18,
+      "same_bar_rebound_confirm_implementation": 3,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "TRX": {
+      "rsi_crash_hours_no_volume_gate": 19,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 9,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 3,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "UNI": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 1,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "VIRTUAL": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 2,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "VVV": {
+      "rsi_crash_hours_no_volume_gate": 7,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "WCT": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "WIF": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "WLD": {
+      "rsi_crash_hours_no_volume_gate": 12,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 10,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 2,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "WLFI": {
+      "rsi_crash_hours_no_volume_gate": 11,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 6,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 3,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "XLM": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "XPL": {
+      "rsi_crash_hours_no_volume_gate": 13,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 12,
+      "same_bar_rebound_confirm_implementation": 2,
+      "next_bar_rebound_confirm_implementation": 5,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "XRP": {
+      "rsi_crash_hours_no_volume_gate": 8,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 8,
+      "same_bar_rebound_confirm_implementation": 1,
+      "next_bar_rebound_confirm_implementation": 3,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "YGG": {
+      "rsi_crash_hours_no_volume_gate": 10,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ZEC": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 5,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 5
+    },
+    "ZEN": {
+      "rsi_crash_hours_no_volume_gate": 0,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ZETA": {
+      "rsi_crash_hours_no_volume_gate": 3,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ZK": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ZORA": {
+      "rsi_crash_hours_no_volume_gate": 6,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 0,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 0,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    },
+    "ZRO": {
+      "rsi_crash_hours_no_volume_gate": 5,
+      "rsi_crash_hours_passing_trailing_24h_5m_volume": 5,
+      "same_bar_rebound_confirm_implementation": 0,
+      "next_bar_rebound_confirm_implementation": 1,
+      "generate_signal_canonical_same_bar_confirm": 0,
+      "generate_signal_spec_literal_next_open": 0
+    }
+  },
+  "campaign_artifact": "research_state/campaign_results_real_hyperliquid_ironflow_wide_c18_funnel_20261116T045000Z.json",
+  "campaign_num_trades": 22,
+  "campaign_total_pnl": -47933.576914836274
+}
