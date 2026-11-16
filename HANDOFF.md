@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T12:35:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T13:14:57Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
@@ -8,7 +8,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T12:35:00Z — FINISH C20, MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T13:14:57Z — FINISH C20, MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY`.
 **Priority (from repo name + state):** this repo decides whether the crash-rebound strategy has a real edge. C1–C19 adjudicated the entry rule (`SPEC_LITERAL_NEXT_OPEN`: RSI(21)<20 crash close → buy at next hourly open, no same-bar confirmation gate) and returned `NO_GO` on Hyperliquid-native data. The single remaining decision-relevant question is whether that `NO_GO` replicates out-of-sample on the two independent real cross-venue archives (OKX + Binance UM). That is **C20**, the only binding next focus campaign. Everything else is closed or inadmissible.
@@ -47,9 +47,9 @@
 
 ---
 
-## LIVE STATE VERIFIED THIS SESSION (2026-11-16T12:35:00Z)
+## LIVE STATE VERIFIED THIS SESSION (2026-11-16T13:14:57Z)
 
-- **Supervisor running (do not disturb):** `scripts/finish_c20_detached.sh` **PID 22315, SID 22315, PPID 1**, attempt 1 started 2026-11-16T11:27:50Z, elapsed ~68m (`/tmp/c20_supervisor.log`). `run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` active with 4 workers (~93% CPU each). No `/tmp/c20_supervisor_status.json` yet (written on transitions/stall/PASS). Log shows `[resume] OKX: campaign cached` + `[resume] OKX: census cached`; the process is now in the **Binance-UM census/episode/placebo** stage (Binance campaign is cached from a prior attempt at 11:20Z). **Do not mistake the absence of a new log line for a hang** — the next log line only appears when the Binance episode artifact lands.
+- **Supervisor running (do not disturb):** `scripts/finish_c20_detached.sh` **PID 22315, SID 22315, PPID 1**, attempt 1 started 2026-11-16T11:27:50Z, elapsed ~1h47m (`/tmp/c20_supervisor.log`). `run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` active with 4 workers (~90% CPU each). No `/tmp/c20_supervisor_status.json` yet (written on transitions/stall/PASS). Log shows `[resume] OKX: campaign cached` + `[resume] OKX: census cached`; the process is now in the **Binance-UM census/episode/placebo** stage (Binance campaign is cached from a prior attempt at 11:20Z). **Do not mistake the absence of a new log line for a hang** — the next log line only appears when the Binance episode artifact lands.
 - **C20 gate:** `C20 ACCEPTANCE: FAIL — 12 requirement(s) missing` (c20_artifacts_present, binance_um_census_computed, okx/binance_um episode_edge, okx/binance_um placebo, okx/binance_um battery, okx/binance_um verdict, pooled synthesis, consolidated final). Prereg present: `research_state/c20_prereg_20261116T063500Z.{json,md}`. 7 of 15 artifact files on disk (prereg + OKX campaign/metrics + Binance campaign/metrics + OKX census).
 - **Venv:** `/tmp/crs-venv/bin/python` present (no `scipy`, not needed). Bootstrap only if missing: `bash scripts/bootstrap_env.sh /tmp/crs-venv`.
 - **Prior verified hygiene (2026-11-16T11:37Z, unchanged code):** `verify_campaign_evidence.py` EVIDENCE VERIFIED, `verify_c19_focus_campaign.py` PASS, `pytest -q` 1047 passed, 1 skipped. `session_gate.py` currently **20/21** — the only failing check is `durable_handoff` (this file previously lacked the literal `21/21 checks passed` and the `episode_edge_okx_full.json` timestamp `2026-11-13T23:38:47Z`; this rewrite adds both, so `session_gate.py` should now read 21/21). Re-run step 5 before claiming C20 done.
