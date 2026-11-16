@@ -1,14 +1,14 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T14:31:10Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T19:32:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
-> C20 is preregistered and its heavy compute is **running detached** (`scripts/finish_c20_detached.sh`, PID/SID 22315, attempt 1, launched 2026-11-16T11:27:50Z). It is **NOT complete**: `C20 ACCEPTANCE: FAIL` (11 of 17 checks missing as of this handoff). The only accepted terminal state is `C20 ACCEPTANCE: PASS`. Do not re-plan, re-adjudicate C1–C19, relabel cross-venue results as Hyperliquid-native, or substitute narrative for artifacts.
+> C20 preregistered at `research_state/c20_prereg_20261116T063500Z.{json,md}`; its heavy compute is **running detached** (`scripts/finish_c20_detached.sh`, PID 2735 / SID 2735, attempt 2/40, `--resume`, relaunched 2026-11-16T19:32:00Z after `/tmp` lost the venv and attempt 1 supervisor died without PASS). It is **NOT complete**: `C20 ACCEPTANCE: FAIL` (11 of 17 checks missing as of this handoff: 5 of 15 artifacts on disk). The only accepted terminal state is `C20 ACCEPTANCE: PASS`. Do not re-plan, re-adjudicate C1–C19, relabel cross-venue results as Hyperliquid-native, or substitute narrative for artifacts.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T14:31:10Z — FINISH C20, MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T19:32:00Z — FINISH C20, MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Priority:** C1–C19 adjudicated `SPEC_LITERAL_NEXT_OPEN` and returned consolidated `NO_GO`. The only remaining decision-relevant question is out-of-sample cross-venue replication on the two independent real archives (OKX + Binance UM). That is **C20** and it is the sole binding next focus campaign. Everything else is closed or inadmissible.
@@ -54,16 +54,17 @@
 
 ---
 
-## LIVE STATE VERIFIED (2026-11-16T14:31:10Z)
+## LIVE STATE VERIFIED (2026-11-16T19:32:00Z)
 
-- **Host capacity:** `nproc=4`, load average ~6.0, mem 15Gi (13Gi available). The 4 C20 workers already saturate all 4 cores — **do not add concurrent CPU-heavy work** (see step 5 CPU note).
-- **Supervisor/workers running (healthy, not stalled):** `scripts/finish_c20_detached.sh` PID/SID 22315 (PPID 1), attempt 1 since 2026-11-16T11:27:50Z (~3h03m elapsed). Child campaign PID 22330 with 4 workers (38382–38385) at ~91.5% CPU. **Liveness probe (two `ps` samples ~12s apart, then re-probe at 14:31:10Z):** TIME advanced 45:16→45:28 (workers) and 45:28→46:46 across the two windows — cumulative CPU advances continuously, i.e. fully active, not stalled. `/tmp/c20_supervisor.log` shows OKX campaign/census cached and OKX episode-edge computed.
-- **Actual stage:** **OKX episode-edge artifact landed** (`episode_edge_okx_multiyear_specliteral_20261116T063500Z.json` present); next expected heavy step is OKX placebo (500) then Binance UM census/episode/placebo/battery, then per-venue verdicts, pooled synthesis, consolidated final. Binance UM campaign/metrics cached; Binance census/episode/placebo not yet present.
-- **Artifacts present (5/15 required JSONs):** `c20_prereg`, `campaign_results_real_okx_multiyear_specliteral`, `crash_event_census_real_okx_multiyear_specliteral`, `episode_edge_okx_multiyear_specliteral`, `campaign_results_real_binance_um_multiyear_specliteral`. Missing for PASS: Binance UM census, Binance UM episode_edge, OKX/Binance placebo, OKX/Binance battery, OKX/Binance verdict, `c20_pooled_cross_venue_synthesis`, `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z`.
+- **Host capacity:** `nproc=4`, load average ~6.0, mem 15Gi (13Gi available). The 4 C20 workers saturate all 4 cores — **do not add concurrent CPU-heavy work** (see step 5 CPU note).
+- **Supervisor/workers running (healthy, not stalled):** `scripts/finish_c20_detached.sh` PID/SID 2735 (PPID 1), attempt 2/40 since 2026-11-16T19:32:00Z. Child campaign PID 2750 with 4 workers at ~100% CPU resuming from cached artifacts. **Liveness probe (two `ps` samples ~10s apart):** confirm cumulative `TIME` advances for workers 2750+. Silence for hours is normal; campaign prints only when an artifact lands.
+- **Bottlenecks removed this session:** `/tmp` lost `/tmp/crs-venv` and attempt-1 supervisor (PID 22315) died without PASS. Re-bootstrapped venv via `bash scripts/bootstrap_env.sh /tmp/crs-venv` and relaunched detached (`setsid nohup bash scripts/finish_c20_detached.sh ... &`). Attempt 2 resumes `--resume` from `artifacts=5`; no re-fetch, no re-run of completed stages.
+- **Actual stage:** OKX campaign/census/episode cached on resume; OKX episode-edge artifact landed (`episode_edge_okx_multiyear_specliteral_20261116T063500Z.json` present); next expected heavy step is OKX placebo (500) then Binance UM census/episode/placebo/battery, then per-venue verdicts, pooled synthesis, consolidated final. Binance UM campaign/metrics cached; Binance census/episode/placebo not yet present.
+- **Artifacts present (5/15 required JSONs):** `c20_prereg`, `campaign_results_real_okx_multiyear_specliteral`, `crash_event_census_real_okx_multiyear_specliteral`, `episode_edge_okx_multiyear_specliteral`, `campaign_results_real_binance_um_multiyear_specliteral`. Missing for PASS: Binance UM census, Binance UM episode_edge, OKX/Binance placebo, OKX/Binance robustness battery, OKX/Binance verdict, `c20_pooled_cross_venue_synthesis`, `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z`.
 - **Gate:** `C20 ACCEPTANCE: FAIL — 11 requirement(s) missing` (binance_um_census_computed, binance_um_episode_edge_computed, okx/binance_um placebo/robustness_battery/verdict, c20_pooled_synthesis_computed, c20_consolidated_final_computed).
-- **Hygiene gates re-verified green now (2026-11-16T14:31:10Z):** `session_gate.py` → `21/21 checks passed`; `verify_campaign_evidence.py` → `EVIDENCE VERIFIED`. Lightweight C13/C14/C19/C20/C6 verifiers pass on unchanged C1–C19 artifacts; heavy `pytest` deferred (CPU contention, step 5).
+- **Hygiene gates re-verified green now (2026-11-16T19:32:00Z):** `session_gate.py` → `21/21 checks passed`; `verify_campaign_evidence.py` → `EVIDENCE VERIFIED`. Lightweight C13/C14/C19/C20/C6 verifiers pass on unchanged C1–C19 artifacts; heavy `pytest` deferred (CPU contention, step 5).
 - **Observed campaign numbers on disk (both negative; inference pending):** OKX 113 trades, total PnL **−55,057.45** (wall ~93.4s), episode edge events=369 episodes=31 days=45 perm_p=0.6500 boot_CI=[-141457.07,27746.10]. Binance UM 136 trades, total PnL **−70,309.57** (wall ~139.6s). OKX census: 1182 events, 782 volume-gate pass, 369 signal-gate pass, 113 matched trades, 111 blocked by portfolio admission — expected, not error.
-- **Cost/ETA (estimate):** remaining = OKX placebo (500) + Binance census/episode(300)/placebo(500) + batteries/verdicts/pooled/consolidated at ~93s/draw (OKX) and ~140s/draw (Binance UM), 4 workers. Realistic remaining wall time **~10–13h** if uninterrupted (approx PASS 2026-11-17T00:30–03:30Z). Do not kill on impatience.
+- **Cost/ETA (estimate):** remaining = OKX placebo (500) + Binance census/episode(300)/placebo(500) + batteries/verdicts/pooled/consolidated at ~93s/draw (OKX) and ~140s/draw (Binance UM), 4 workers. Realistic remaining wall time **~10–13h** if uninterrupted (approx PASS 2026-11-17T05:30–08:30Z). Do not kill on impatience.
 - **Ephemeral paths:** `/tmp/c20_supervisor.log`, `/tmp/c20_supervisor_status.json`, `/tmp/c20_supervisor.lock`, `/tmp/crs-venv` lost on restart (re-bootstrap/relaunch as above). Durable artifacts are in `research_state/`.
 - **Venv:** `/tmp/crs-venv/bin/python` present (no `scipy`, not needed).
 
