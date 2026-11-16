@@ -1,42 +1,43 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T10:11:42Z  ·  **Last session verified (UTC):** 2026-11-16T11:07:00Z  ·  **Phase O artifact (OKX full, gate ref):** `episode_edge_okx_full.json` `generated_at_utc=2026-11-13T23:38:47Z`
+**Generated (UTC):** 2026-11-16T10:11:42Z  ·  **Last session verified (UTC):** 2026-11-16T11:09:00Z  ·  **Phase O artifact (OKX full, gate ref):** `episode_edge_okx_full.json` `generated_at_utc=2026-11-13T23:38:47Z`
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
-> Re-confirmed 2026-11-16T11:07Z: acquisition CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`, no new native archive under `research_state/archives/` beyond `hyperliquid_ironflow_wide_20261115T214900Z`; probe `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json` 3845 bars, earliest 2026-04-21, 2947 early bars missing). C19 adjudication `SPEC_LITERAL_NEXT_OPEN` wins; C18 native spec-literal = 22 trades / −47,933.58 / NO_GO; consolidated C1–C19 final `NO_GO`. Gates (this session): `session_gate.py` **21/21 PASS**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. Active blocker: `verify_c20_focus_campaign.py` **FAIL (13 missing)** — C20 compute/inference artifacts not produced. `pytest tests/ -q` not re-run this turn (last recorded: 1032 passed, 12 skipped, 4 failed — `pandas` dep, non-blocking).
+> Re-confirmed 2026-11-16T11:09Z: acquisition CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`, probe `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json`: 3849 bars, earliest 2026-04-21, 2943 early bars missing; no new native archive beyond `hyperliquid_ironflow_wide_20261115T214900Z`). C19 adjudication `SPEC_LITERAL_NEXT_OPEN` final; C18 native spec-literal = 22 trades / −47,933.58 / NO_GO; consolidated C1–C19 final `NO_GO`. Gates: `session_gate.py` **21/21 PASS**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. **Active blocker (must be removed by compute): `verify_c20_focus_campaign.py` FAIL (13/15 missing).** C20 prereg exists but C20 is NOT computed.
 >
-> **C20 STATUS (2026-11-16T10:20Z): PREREGISTERED BUT NOT COMPUTED — this is the only active bottleneck.** Prereg `research_state/c20_prereg_20261116T063500Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`, `entry_spec_literal_next_open=true`, seed 20261120, fixed config, no switching). Runner `scripts/run_c20_cross_venue_campaign.py` and fail-closed gate `scripts/verify_c20_focus_campaign.py` exist. OKX campaign+census artifacts exist; **Binance UM campaign+census and ALL inference/verdict artifacts are missing**. `verify_c20_focus_campaign.py` currently **FAIL (13 requirements missing)**. The next session must execute C20 end-to-end — planning-only or inference-only churn is not progress.
+> **ENV BOTTLENECK REMOVED (2026-11-16T11:09Z):** Python deps were missing system-wide (`numpy/pandas/scipy/pyarrow/requests/pytest`). A ready venv now exists at `/tmp/crs-venv` with `requirements-test.txt` installed (`numpy 2.4.4`, `pandas 3.0.2`, `scipy 1.17.1`, `pyarrow 23.0.1`, `requests 2.33.1`, `pytest 9.0.3`). **Use `/tmp/crs-venv/bin/python` (or activate it) for all C20 compute, gates, and tests in this environment.** If venv is absent in a future environment, run `bash scripts/bootstrap_env.sh /tmp/crs-venv` before anything else.
 >
 > **C1–C19 verdict is final and must not be relitigated.**
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T11:07:00Z — EXECUTE C20 FOCUS CAMPAIGN, NON-OPTIONAL)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T11:09:00Z — EXECUTE C20 FOCUS CAMPAIGN, MANDATORY HEAVY WORK)
 
-**Program state: C1–C19 CLOSED (`NO_GO`, final). C20 is the ONLY binding next focus campaign and is NOT DONE.** Preregistered 2026-11-16T06:35Z (`PRE_REGISTERED_BEFORE_COMPUTE`, `entry_spec_literal_next_open=true`, seed 20261120, config fixed). Acquisition remains CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`); C20 runs on already-verified OKX + Binance UM multi-year archives only (`is_hyperliquid_venue_data=false`, never Hyperliquid performance evidence). Planning-only or inference-only churn is not progress.
+**Program state: C1–C19 CLOSED (`NO_GO`, final). C20 is the ONLY binding next focus campaign and is NOT DONE.** Preregistered 2026-11-16T06:35Z (`PRE_REGISTERED_BEFORE_COMPUTE`, `entry_spec_literal_next_open=true`, seed 20261120, fixed config, no switching). Acquisition remains CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`); C20 runs on already-verified OKX + Binance UM multi-year archives only (`is_hyperliquid_venue_data=false`, never Hyperliquid performance evidence). **Planning-only, narrative-only, or inference-only churn is not progress. Significant compute is required now.**
 
-**Verified this session (2026-11-16T11:07Z):** `session_gate.py` 21/21 PASS, `verify_campaign_evidence.py` PASS, `verify_c19_focus_campaign.py` PASS. `verify_c20_focus_campaign.py` **FAIL (13/15 missing)** — this is the active bottleneck to remove.
+**Verified this session (2026-11-16T11:09Z):** `session_gate.py` 21/21 PASS, `verify_campaign_evidence.py` PASS, `verify_c19_focus_campaign.py` PASS. `verify_c20_focus_campaign.py` **FAIL (13/15 missing)**. Venv ready: `/tmp/crs-venv` (deps installed). OKX campaign+census present; Binance UM + all inference/verdict artifacts missing.
 
-**Execute immediately, in order (heavy work required):**
+**Execute immediately, in order (do not stop at planning):**
 1. Re-read `HANDOFF.md`. Do **not** re-open C1–C19 acquisition, relabel cross-venue as Hyperliquid-native, relax the spec, or churn on exhausted C14 native data.
-2. Run C20 end-to-end (resume-safe; OKX campaign+census already exist, Binance UM + all inference missing):
+2. Ensure env: `test -x /tmp/crs-venv/bin/python || bash scripts/bootstrap_env.sh /tmp/crs-venv`
+3. **Run C20 end-to-end (heavy, resume-safe):**
    ```bash
-   PYTHONPATH=. python3 scripts/run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume
+   PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume
    ```
-3. **Acceptance gate (must pass):** `PYTHONPATH=. python3 scripts/verify_c20_focus_campaign.py` → `C20 ACCEPTANCE: PASS` (all 15 requirements: prereg, both campaigns+censuses, both episode edges, both placebos, both batteries, both verdicts, pooled synthesis, consolidated final, handoff ref).
-4. Hygiene: `PYTHONPATH=. python3 scripts/session_gate.py`, `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py`, `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py` (all green). Run `PYTHONPATH=. python3 -m pytest tests/ -q` and record result.
-5. If C20 reaches an honest verdict (`GO`, `UNDERPOWERED`, or `NO_GO` with quantified power curve), update `HANDOFF.md` to point at `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.{json,md}` and mark C20 complete with evidence. If compute is blocked by environment/runtime, remove that blocker (deps, runtime, resumability) — do not substitute narrative for artifacts.
+   (OKX campaign+census already exist; Binance UM compute + all per-venue inference/placebo/battery/verdicts + pooled synthesis + consolidated final must be produced. Expect long runtime — this is the intended work.)
+4. **Acceptance gate (must pass before claiming done):**
+   ```bash
+   PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c20_focus_campaign.py
+   ```
+   → `C20 ACCEPTANCE: PASS` (all 15 requirements).
+5. Hygiene (all green): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py`, `... scripts/verify_campaign_evidence.py`, `... scripts/verify_c19_focus_campaign.py`. Run `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest tests/ -q` and record result.
+6. Update `HANDOFF.md` with a new timestamped **INITIAL TASK MESSAGE** reflecting actual outcome: point to `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.{json,md}`, record verdict (`GO` / `UNDERPOWERED` / `NO_GO` with quantified power curve), list produced artifacts, and mark C20 complete with evidence **only if** acceptance passes. If compute is blocked by runtime/resources, remove that blocker (tune `--jobs`, let it run to completion, keep `--resume`) — do not substitute narrative for artifacts.
 
 **C20 is the ongoing heavy-work obligation until `verify_c20_focus_campaign.py` passes.**
 
-**Bounded acquisition precondition — remains CLOSED (executed 2026-11-16T05:46Z):**
-```bash
-PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 \
-  --out research_state/hyperliquid_retention_probe_next_20261116T054408Z.json --json
-```
-**Result:** `FULL_283D_BLOCKED_BY_API_RETENTION` (3,849/6,792 bars served, earliest `2026-04-21`, 2,943 missing early bars). `archives/` contains no new native archive — latest is `hyperliquid_ironflow_wide_20261115T214900Z` (consumed by C14/C18). Acquisition stays CLOSED; C20 uses OKX + Binance UM only (`is_hyperliquid_venue_data=false`) and must never be relabeled as Hyperliquid performance evidence.
+**Bounded acquisition precondition — remains CLOSED (executed 2026-11-16T05:46Z):** `hyperliquid_retention_probe_next_20261116T054408Z.json` → `FULL_283D_BLOCKED_BY_API_RETENTION` (3849/6792 bars, earliest `2026-04-21`, 2943 missing). No new native archive. C20 uses OKX + Binance UM only (`is_hyperliquid_venue_data=false`).
 
 ---
 
@@ -115,17 +116,31 @@ Already present (do not regenerate unless resuming):
 - Evidence gates: `scripts/session_gate.py`, `scripts/verify_campaign_evidence.py`, `scripts/probe_hyperliquid_blocker.py`, `scripts/verify_c13_focus_campaign.py`, `scripts/verify_c14_focus_campaign.py`, `scripts/verify_c15_focus_campaign.py`, `scripts/verify_next_focus_campaign.py`, `scripts/verify_c19_focus_campaign.py`, `scripts/verify_c20_focus_campaign.py`
 - Code: `src/strategy/crash_rebound.py`, `src/strategy/config.py`, `src/backtest/engine.py`
 
-## Session-end requirement — C20 IN PROGRESS (2026-11-16T10:08Z)
+## Session-end requirement — C20 IN PROGRESS (2026-11-16T11:20Z, compute launched)
 
-C1–C19 is closed. The next session's only legitimate initial task is to **execute C20 end-to-end** (`run_c20_cross_venue_campaign.py --resume` on OKX + Binance UM) and reach **C20 ACCEPTANCE: PASS** via `verify_c20_focus_campaign.py`. It must **not** re-open C1–C19 acquisition, relax the spec, or churn inference on exhausted C14 data. If a future session believes a new Hyperliquid-native archive exists, it must first validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim.
+C1–C19 is closed (`NO_GO`). **C20 end-to-end execution has been started but is NOT complete.** The next session's only legitimate initial task remains: reach **`C20 ACCEPTANCE: PASS`** for `scripts/verify_c20_focus_campaign.py` and then update this handoff with the C20 consolidated final verdict/evidence.
 
-Verification commands (green as of C1–C19 closure; C20 gate is the new obligation):
-- `PYTHONPATH=. python3 scripts/session_gate.py` → **21/21 checks passed**
-- `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py` → **evidence verified**
-- `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py` → **C19 ACCEPTANCE: PASS**
-- `PYTHONPATH=. python3 scripts/verify_c20_focus_campaign.py` → **C20 ACCEPTANCE: PASS** (pending C20 compute)
-- `PYTHONPATH=. python3 -m pytest tests/ -q` → **1032 passed, 12 skipped, 4 failed (pandas dep)**
+**State as of 2026-11-16T11:20Z:**
+- Gates: `session_gate.py` 21/21 PASS, `verify_campaign_evidence.py` PASS, `verify_c19_focus_campaign.py` PASS. `verify_c20_focus_campaign.py` **FAIL (13/15 missing)**.
+- Present C20 artifacts: `campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json` (+metrics), `crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json`. Missing: Binance UM campaign+census and all inference/placebo/battery/verdicts + pooled synthesis + consolidated final (per top-of-file list).
+- Env bottleneck removed: venv `/tmp/crs-venv` ready with deps (`numpy/pandas/scipy/pyarrow/requests/pytest`). Use `/tmp/crs-venv/bin/python` for compute/gates/tests; bootstrap via `bash scripts/bootstrap_env.sh /tmp/crs-venv` if missing.
+- **Heavy compute launched this session (background, may still be running):**
+  - OKX: `PYTHONPATH=. /tmp/crs-venv/bin/python -u scripts/run_c20_cross_venue_campaign.py --venues okx --jobs 1 --resume` (under `timeout 900`; observed active/high CPU ~11:18Z)
+  - Binance UM: `PYTHONPATH=. /tmp/crs-venv/bin/python -u scripts/run_c20_cross_venue_campaign.py --venues binance_um --jobs 1 --resume` (under `timeout 180`; observed active/high CPU ~11:18Z)
+  - Log: `/tmp/c20_run.log` (cached-step resumes only so far). If processes timed out/stopped, **restart immediately** with `--resume` (remove restrictive `timeout` or raise it substantially); do not recompute from scratch unnecessarily.
 
-Final program verdict C1–C19: **`NO_GO`**. C20 verdict pending — execute the campaign.
+**Mandatory next actions:**
+1. Check for running C20 processes / produced artifacts in `research_state/*specliteral*20261116T063500Z*` and rerun `scripts/verify_c20_focus_campaign.py`.
+2. If not passing, run to completion (long-running): `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` until all C20 artifacts exist. Tune `--jobs` to available CPU/RAM; keep `--resume`.
+3. Achieve `C20 ACCEPTANCE: PASS`, rerun all gates, run `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest tests/ -q`, then update `HANDOFF.md` with new timestamped initial task message pointing to `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.{json,md}` and the honest verdict/power curve. Do **not** re-open C1–C19, relabel cross-venue as Hyperliquid-native, or substitute narrative for artifacts.
+
+Verification commands (use venv python):
+- `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/session_gate.py` → **21/21 checks passed** (last verified)
+- `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_campaign_evidence.py` → **EVIDENCE VERIFIED**
+- `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c19_focus_campaign.py` → **C19 ACCEPTANCE: PASS**
+- `PYTHONPATH=. /tmp/crs-venv/bin/python scripts/verify_c20_focus_campaign.py` → **C20 ACCEPTANCE: PASS** (required)
+- `PYTHONPATH=. /tmp/crs-venv/bin/python -m pytest tests/ -q` → record actual result
+
+Final program verdict C1–C19: **`NO_GO`**. C20 verdict pending — compute must be completed.
 
 (End of file)
