@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T13:24:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T13:25:51Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
@@ -8,7 +8,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T13:24:00Z — FINISH C20, MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T13:25:51Z — FINISH C20, MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY`.
 **Priority (from repo name + state):** this repo decides whether the crash-rebound strategy has a real edge. C1–C19 adjudicated the entry rule (`SPEC_LITERAL_NEXT_OPEN`: RSI(21)<20 crash close → buy at next hourly open, no same-bar confirmation gate) and returned `NO_GO` on Hyperliquid-native data. The single remaining decision-relevant question is whether that `NO_GO` replicates out-of-sample on the two independent real cross-venue archives (OKX + Binance UM). That is **C20**, the only binding next focus campaign. Everything else is closed or inadmissible.
@@ -58,9 +58,9 @@
 
 ---
 
-## LIVE STATE VERIFIED THIS SESSION (2026-11-16T13:24:00Z)
+## LIVE STATE VERIFIED THIS SESSION (2026-11-16T13:25:51Z)
 
-- **Supervisor running (do not disturb):** `scripts/finish_c20_detached.sh` **PID 22315, SID 22315, PPID 1**, attempt 1 started 2026-11-16T11:27:50Z, elapsed ~1 h 56 m (`/tmp/c20_supervisor.log`). Child `run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` PID 22330 with 4 workers (22345–22348), each ~90% CPU. CPU ticks advanced between the 13:22:21Z and 13:22:29Z probes → **healthy, not stalled**.
+- **Supervisor running (do not disturb):** `scripts/finish_c20_detached.sh` **PID 22315, SID 22315, PPID 1**, attempt 1 started 2026-11-16T11:27:50Z, elapsed ~1 h 58 m (`/tmp/c20_supervisor.log`). Child `run_c20_cross_venue_campaign.py --venues okx binance_um --jobs 4 --resume` PID 22330 with 4 workers (22345–22348), each ~90% CPU. CPU ticks advanced between probes → **healthy, not stalled**.
 - **Actual stage (corrects prior handoff):** the run is in the **OKX episode-block permutation** stage, **not** Binance-UM. OKX campaign + census are cached; `episode_edge_okx_multiyear_specliteral_20261116T063500Z.json` has not landed yet. Binance-UM has not started (its campaign is cached from 11:20Z). The next log line appears only when the OKX episode artifact lands.
 - **Artifacts:** **4/15 required C20 artifacts present** (7 files if metrics are counted): `c20_prereg`, OKX campaign (+metrics), OKX census, Binance UM campaign (+metrics). Missing (12 gate checks): `binance_um_census`, OKX/Binance `episode_edge`, OKX/Binance `placebo`, OKX/Binance `battery`, OKX/Binance `verdict`, `pooled_synthesis`, `consolidated_final`.
 - **Gate:** `C20 ACCEPTANCE: FAIL — 12 requirement(s) missing` (c20_artifacts_present, binance_um_census_computed, okx/binance_um episode_edge, okx/binance_um placebo, okx/binance_um battery, okx/binance_um verdict, c20_pooled_synthesis_computed, c20_consolidated_final_computed). Prereg present: `research_state/c20_prereg_20261116T063500Z.{json,md}`.
