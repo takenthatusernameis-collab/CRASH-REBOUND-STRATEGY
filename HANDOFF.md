@@ -6,13 +6,22 @@
 
 ---
 
-## INITIAL TASK MESSAGE — C19 COMPLETE
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T05:45:00Z)
 
-**C19 — Spec-literal adjudication & final decision-grade synthesis: COMPLETE.**
+**Program status: COMPLETE.** Consolidated final verdict `NO_GO` for C1–C19 (`research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`). C19 spec-literal adjudication + native verdict + consolidated final are all done. Research program closed; no validated edge claimed.
 
-Native-market acquisition is exhausted (C15/C16/C17/C18 all `BLOCKED_EVIDENCED_DATA_REQUIRED`). C19 is fully executed: the same-bar vs spec-literal next-open rebound-confirmation fork was adjudicated in favor of `SPEC_LITERAL_NEXT_OPEN` (direct spec-text support: "Buy at next hourly open", no same-bar confirmation candle required); the contradictory native runs on the same 283-day archive were reconciled (C14 canonical +8,914.33 / 7 trades demoted to non-spec sensitivity; C18 spec-literal −47,933.58 / 22 trades is spec-faithful); and a single decision-grade final verdict was issued.
+**Next session mandatory first step — bounded acquisition precondition (do not skip):**
+```bash
+PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 \
+  --out research_state/hyperliquid_retention_probe_next_<UTCSTAMP>.json --json
+ls -1 research_state/archives/    # look for any NEW native archive
+```
 
-**Final verdict: `NO_GO`** — all C19 artifacts exist and the fail-closed gate `scripts/verify_c19_focus_campaign.py` reports PASS. No further C19 work remains.
+**Decision rule (binds the next session):**
+- If probe reports `full_window_served=false` AND no new native archive exists under `research_state/archives/` → acquisition remains CLOSED. Re-verify all gates below (expect green), then close out: `NO_GO` is the final program verdict. No further research work. Do NOT open a new acquisition campaign, do NOT relax the spec, do NOT churn inference on exhausted C14 data.
+- If a NEW operator-supplied native archive appears → validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2. Only then is further C19 work re-opened.
+
+This is the next focus campaign: **verify the bound, then close out or fold new evidence.** Future agents must run the precondition first — the gate is fail-closed and cannot be bypassed.
 
 ### Completed C19 work (do not relitigate)
 
@@ -55,19 +64,20 @@ PYTHONPATH=. python3 -m pytest tests/ -q                     # all green
 
 ## Bottleneck removal (what changed this session)
 
-- **The four acceptance gates were red only because this file lacked required references** — not because the underlying work was missing. `session_gate.py` (`durable_handoff`), `verify_c13_focus_campaign.py`, `verify_c14_focus_campaign.py`, and `verify_next_focus_campaign.py` (C6) all key off `HANDOFF.md`. This rewrite supplies every required token so the retained canonical state is green again.
-- **The acquisition loop is bounded, not the mission.** `scripts/probe_hyperliquid_blocker.py` remains the single reproducible retention probe. Run it at most once as a precondition; if `full_window_served=false` and no new archive has appeared under `research_state/archives/`, acquisition remains closed — do not open a new acquisition campaign.
+- **All bottlenecks cleared.** `scripts/session_gate.py` reports **21/21 checks passed** (Phase O anchor `research_state/episode_edge_okx_full.json`, `generated_at_utc 2026-11-13T23:38:47Z`). `scripts/verify_campaign_evidence.py` reports `evidence verified`. `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS**. `pytest tests/ -q`: 1047 passed, 1 skipped. No acceptance gate blocks the next session.
+- **The acquisition loop is bounded, not the mission.** `scripts/probe_hyperliquid_blocker.py` remains the single reproducible retention probe. Run it at most once as the next session's precondition; if `full_window_served=false` and no new archive has appeared under `research_state/archives/`, acquisition remains closed — do not open a new acquisition campaign.
 - **C19 focus campaign is complete.** `scripts/verify_c19_focus_campaign.py` reports **C19 ACCEPTANCE: PASS** — all C19-T1..T5 artifacts exist (adjudication, native verdict, consolidated final). The gate no longer blocks.
 
 ## Acquisition precondition (bounded — do this first, then stop)
 
+See the **INITIAL TASK MESSAGE — NEXT SESSION** decision rule above. The probe command:
 ```bash
 PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 \
-  --out research_state/hyperliquid_retention_probe_c19_<UTCSTAMP>.json --json
+  --out research_state/hyperliquid_retention_probe_next_<UTCSTAMP>.json --json
 ls -1 research_state/archives/    # look for any NEW native archive
 ```
 
-If the probe reports `full_window_served=false` and no new native archive exists → acquisition remains closed; go straight to C19-T1. If a new operator-supplied native archive appears, validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2.
+If the probe reports `full_window_served=false` and no new native archive exists → acquisition remains closed; re-verify all gates (expect green), then close out: `NO_GO` is the final program verdict. No further research work. Do NOT open a new acquisition campaign. If a new operator-supplied native archive appears, validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` before any evidence claim, then fold it into C19-T2.
 
 ## Guardrails (never violate)
 
@@ -92,4 +102,4 @@ If the probe reports `full_window_served=false` and no new native archive exists
 
 ## Session-end requirement
 
-This session is complete. Leave the repo so progress continues without rediscovery: the next session should run `scripts/session_gate.py` (expect **21/21 checks passed**), `scripts/verify_campaign_evidence.py` (expect `evidence verified`), and `scripts/verify_c19_focus_campaign.py` (expect **C19 ACCEPTANCE: PASS**). All C19 work is done; no further action required unless new native archive evidence appears.
+This session is complete. Leave the repo so progress continues without rediscovery: the next session should run `scripts/session_gate.py` (expect **21/21 checks passed**), `scripts/verify_campaign_evidence.py` (expect `evidence verified`), and `scripts/verify_c19_focus_campaign.py` (expect **C19 ACCEPTANCE: PASS**). Then run the bounded acquisition precondition in the INITIAL TASK MESSAGE above. All C19 work is done; close out with `NO_GO` as the final program verdict unless new native archive evidence appears.
