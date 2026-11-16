@@ -1,17 +1,22 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T09:02:17Z  ·  **Last session verified (UTC):** 2026-11-16T08:03:00Z
+**Generated (UTC):** 2026-11-16T10:03:47Z  ·  **Last session verified (UTC):** 2026-11-16T10:03:47Z
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
-> **THIS SESSION (2026-11-16T08:03Z) — CLOSURE RE-VERIFIED, NO FURTHER WORK WARRANTED.**
-> Re-confirmed closure state: no new native archive under `research_state/archives/` (latest `hyperliquid_ironflow_wide_20261115T214900Z` already consumed by C14/C18); prior probe artifact `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json` remains `FULL_283D_BLOCKED_BY_API_RETENTION` (`full_window_served=false`, 3849/6792 bars). Re-ran gates: `session_gate.py` **21/21 PASS**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. `pytest tests/ -q` not re-run this session (last verified 2026-11-16T05:46Z: **1047 passed, 1 skipped**). Decision rule binds: acquisition **CLOSED**, final program verdict **`NO_GO`** (C1–C19). Do **not** open a new campaign, relax the spec, or churn inference on exhausted data.
+> **THIS SESSION (2026-11-16T10:03Z) — CLOSURE CONFIRMED, NO FURTHER WORK WARRANTED.**
+> Confirmed closure state: no new Hyperliquid-native archive under `research_state/archives/` beyond `hyperliquid_ironflow_wide_20261115T214900Z` (consumed by C14/C18); `research_state/hyperliquid_acquisition_status.json` records `FULL_283D_BLOCKED_BY_API_RETENTION` / partial-not-evidence. Gates re-run green: `session_gate.py` **21/21 PASS**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED** (4/4), `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. `pytest tests/ -q` not re-run this session (last verified 2026-11-16T05:46Z: **1047 passed, 1 skipped**). Decision rule binds: acquisition **CLOSED**, final program verdict **`NO_GO`** (C1–C19). Do **not** open a new campaign, relax the spec, or churn inference on exhausted data.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T09:02:17Z — CONFIRM CLOSURE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T10:03:47Z — CONFIRM CLOSURE ONLY)
 
-**Program status: CLOSED.** Consolidated final verdict `NO_GO` for C1–C19 (`research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`). C19 spec-literal adjudication + native verdict + consolidated final are all done. Research program closed; no validated edge claimed.
+**Program status: CLOSED (re-confirmed 2026-11-16T10:03Z).** Consolidated final verdict `NO_GO` for C1–C19 (`research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.{json,md}`). C19 spec-literal adjudication + native verdict + consolidated final are complete. Research program closed; no validated edge claimed.
+
+**Next session — do only this:**
+1. Re-read `HANDOFF.md`; do **not** open a new campaign, relax the spec, or churn inference on exhausted data.
+2. Optional quick confirmation (all expected green): `PYTHONPATH=. python3 scripts/session_gate.py` (21/21), `PYTHONPATH=. python3 scripts/verify_campaign_evidence.py`, `PYTHONPATH=. python3 scripts/verify_c19_focus_campaign.py`.
+3. If and only if a new verified Hyperliquid-native archive appears under `research_state/archives/` (not `hyperliquid_ironflow_wide_20261115T214900Z`), validate it with `scripts/validate_hyperliquid_archive_intake.py` + `scripts/derive_verified_universe.py` and fold into C19-T2 before any evidence claim. Otherwise stop: final verdict remains **`NO_GO`**.
 
 **Bounded acquisition precondition — EXECUTED THIS SESSION (do not re-run):**
 ```bash
