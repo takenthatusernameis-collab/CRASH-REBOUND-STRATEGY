@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T21:42:07Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T21:44:50Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
@@ -10,7 +10,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T21:42:07Z — FINISH C20, MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-16T21:44:50Z — FINISH C20, MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Priority:** C1–C19 adjudicated `SPEC_LITERAL_NEXT_OPEN` and returned consolidated `NO_GO`. The only remaining decision-relevant question is out-of-sample cross-venue replication on the two independent real archives (OKX + Binance UM). That is **C20**, the sole binding next focus campaign. Everything else is closed or inadmissible.
@@ -28,7 +28,7 @@
    ls research_state/*_20261116T063500Z.json 2>/dev/null | sort
    ```
    - **Liveness = worker cumulative CPU `TIME` advancing across two probes ~10s apart + durable artifact progress, not log/status presence.** Silent logs while artifacts are in flight are normal.
-   - **LIVE NOW (2026-11-16T21:42Z, verified):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive (etime ~02:09); campaign PID 2750 + workers 2963–2966 alive (4 workers, `/tmp/crs-venv`, ~95.4% CPU each). `/tmp/c20_supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, artifacts=5, updated 2026-11-16T21:41:26Z. Worker cumulative `TIME` ~02:03 each and advancing (healthy). Artifacts on disk: 5/15 (`c20_prereg`, OKX campaign/metrics+census+episode, Binance UM campaign/metrics). Gate: `C20 ACCEPTANCE: FAIL` (11/17 missing). `.venv` and `research_state/.c20/` absent (legacy durable paths only).
+   - **LIVE NOW (2026-11-16T21:44:50Z, verified):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive (etime ~02:12); campaign PID 2750 + workers 2963–2966 alive (4 workers, `/tmp/crs-venv`, ~95.3-95.4% CPU each). `/tmp/c20_supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, artifacts=5, updated 2026-11-16T21:44:26Z. Worker cumulative `TIME` ~02:05 each and advancing vs prior probe (healthy). Artifacts on disk: 5/15 (`c20_prereg`, OKX campaign/metrics+census+episode, Binance UM campaign/metrics). Gate: `C20 ACCEPTANCE: FAIL` (11/17 missing). `.venv` and `research_state/.c20/` absent (legacy durable paths only). No second campaign started.
    - **If any live C20 supervisor/campaign tree exists (legacy or durable), do not start a second campaign.** Let it run to completion while you do only non-racing work in step 4.
    - **Only if no live supervisor/campaign is present:** recover durably and relaunch:
      ```bash
@@ -63,18 +63,18 @@
 ## LIVE STATE VERIFIED (2026-11-16T21:42:07Z)
 
 - **Host capacity:** `nproc=4`. Four C20 workers saturate all cores — do not add concurrent CPU-heavy work.
-- **Live compute (observed):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive (etime ~02:09); campaign PID 2750 + workers 2963–2966 alive (4 workers, `/tmp/crs-venv`, ~95.4% CPU each). `/tmp/c20_supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, artifacts=5, updated 2026-11-16T21:41:26Z. Worker cumulative `TIME` ~02:03 each and advancing (healthy). `/tmp/c20_supervisor.log` previously recorded attempt 1 start at 2026-11-16T19:32:15Z with OKX campaign/census/episode cached.
+- **Live compute (observed):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive (etime ~02:12); campaign PID 2750 + workers 2963–2966 alive (4 workers, `/tmp/crs-venv`, ~95.3-95.4% CPU each). `/tmp/c20_supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, artifacts=5, updated 2026-11-16T21:44:26Z. Worker cumulative `TIME` ~02:05 each and advancing (healthy). `/tmp/c20_supervisor.log` recorded attempt 1 start at 2026-11-16T19:32:15Z with OKX campaign/census/episode cached.
 - **Durable recovery state:** `.venv` not present at repo root (live run uses `/tmp/crs-venv`); `research_state/.c20/` absent. Durable relaunch path exists but **must not be used while the legacy tree is alive**. If legacy tree dies, run `bash scripts/bootstrap_env.sh .venv` then relaunch `scripts/finish_c20_detached_durable.sh`.
 - **Actual stage:** OKX campaign/census/episode cached+landed; Binance UM campaign/metrics landed. Remaining heavy work: Binance UM census/episode, both placebos, both robustness batteries, both per-venue verdicts, pooled synthesis, consolidated final.
 - **Artifacts present (5/15):** `research_state/c20_prereg_20261116T063500Z.json`, `campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json`, `crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json`, `episode_edge_okx_multiyear_specliteral_20261116T063500Z.json`, `campaign_results_real_binance_um_multiyear_specliteral_20261116T063500Z.json`.
 - **Missing for PASS:** Binance UM census/episode, OKX+Binance placebos, OKX+Binance robustness batteries, OKX+Binance verdicts, `c20_pooled_cross_venue_synthesis_20261116T063500Z.json`, `decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`.
-- **Gate:** `C20 ACCEPTANCE: FAIL` (11 of 17 checks missing) — only `scripts/verify_c20_focus_campaign.py` → `C20 ACCEPTANCE: PASS` is terminal success.
+- **Gate (verified 2026-11-16T21:44:50Z):** `C20 ACCEPTANCE: FAIL` (11 of 17 checks missing) — only `scripts/verify_c20_focus_campaign.py` → `C20 ACCEPTANCE: PASS` is terminal success.
 - **Hygiene (last known green per prior cycles):** `session_gate.py` 21/21 checks passed (baseline token 2026-11-13T23:38:47Z), `verify_campaign_evidence.py` EVIDENCE VERIFIED, `verify_c19/c13/c14/next_focus` PASS. Not rerun this session to avoid CPU contention. Heavy `pytest tests/ -q` (`1047 passed, 1 skipped`) deferred until C20 terminal.
 - **Ephemeral paths:** legacy `/tmp` files may vanish on restart; durable artifacts are `research_state/*_20261116T063500Z.json` plus (once durable supervisor used) `research_state/.c20/`.
 - **Venv:** prefer `.venv/bin/python` after bootstrap; live legacy run currently uses `/tmp/crs-venv/bin/python`.
 - **Leftover/nonblocking:** `tmpgq4pmrk6/` present at repo root (temp-named cache dir). Not removed to avoid interfering with unknown consumers; cleanup candidate after C20 terminal if unreferenced.
 
-## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-16T21:42:07Z)
+## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-16T21:44:50Z)
 
 1. **Durable-recovery gap while legacy compute runs** → handoff forbids parallel durable relaunch when legacy tree is healthy and provides exact durable bootstrap/relaunch commands for the no-live-process case.
 2. **Session-bound/short-timeout compute** (carry-forward) → detached, lock-guarded, auto-resume durable supervisor (`scripts/finish_c20_detached_durable.sh`, `.venv`, `research_state/.c20/supervisor.lock`, `--resume`, exits 0 only on PASS).
@@ -82,7 +82,7 @@
 4. **Liveness misread** (carry-forward) → judge by worker CPU-time delta + artifact count, not status/log presence.
 5. **CPU contention on 4-vCPU host** (carry-forward) → heavy `pytest tests/ -q` deferred until C20 terminal; lightweight gates only when non-contending.
 6. **Fail-closed acceptance** (carry-forward) → only `scripts/verify_c20_focus_campaign.py` PASS is success.
-7. **No new bottleneck this session (2026-11-16T21:42:07Z, verified)** → legacy C20 supervisor/campaign tree healthy (PID 2735, campaign 2750, workers 2963–2966 ~95.4% CPU, cumulative TIME ~02:03 advancing, 5/15 artifacts, gate FAIL 11/17). No blocked/inefficient sessions observed; no competing campaign launched.
+7. **No new bottleneck this session (2026-11-16T21:44:50Z, verified)** → legacy C20 supervisor/campaign tree healthy (PID 2735/SID 2735 etime ~02:12, campaign 2750, workers 2963–2966 ~95.3-95.4% CPU, cumulative TIME ~02:05 advancing, 5/15 artifacts, gate FAIL 11/17). No blocked/inefficient sessions observed; no competing campaign launched; handoff refreshed with current durable next-task instructions.
 
 ## C20 SPEC & DECISION RULES (prereg `c20_prereg_20261116T063500Z`, PRE_REGISTERED_BEFORE_COMPUTE)
 
