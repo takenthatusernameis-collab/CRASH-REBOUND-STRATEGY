@@ -1,11 +1,11 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T05:46:00Z  ·  **Last session verified (UTC):** 2026-11-16T07:33:47Z
+**Generated (UTC):** 2026-11-16T05:46:00Z  ·  **Last session verified (UTC):** 2026-11-16T08:03:00Z
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
-> **THIS SESSION (2026-11-16T07:33Z) — CLOSURE RE-VERIFIED, NO FURTHER WORK WARRANTED.**
-> Confirmed handoff/gates remain in the closed state (no new native archive under `research_state/archives/`; prior probe recorded `FULL_283D_BLOCKED_BY_API_RETENTION`). Re-ran: `session_gate.py` **21/21 passed**, `verify_campaign_evidence.py` **evidence verified**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. `pytest tests/ -q` was not re-run this session (last verified 2026-11-16T05:46Z: **1047 passed, 1 skipped**). Per the fail-closed decision rule, acquisition remains CLOSED and the final program verdict stands at **`NO_GO`** (C1–C19). No new campaign opened, no spec relaxed, no inference churn on exhausted data.
+> **THIS SESSION (2026-11-16T08:03Z) — CLOSURE RE-VERIFIED, NO FURTHER WORK WARRANTED.**
+> Re-confirmed closure state: no new native archive under `research_state/archives/` (latest `hyperliquid_ironflow_wide_20261115T214900Z` already consumed by C14/C18); prior probe artifact `research_state/hyperliquid_retention_probe_next_20261116T054408Z.json` remains `FULL_283D_BLOCKED_BY_API_RETENTION` (`full_window_served=false`, 3849/6792 bars). Re-ran gates: `session_gate.py` **21/21 PASS**, `verify_campaign_evidence.py` **EVIDENCE VERIFIED**, `verify_c19_focus_campaign.py` **C19 ACCEPTANCE: PASS**. `pytest tests/ -q` not re-run this session (last verified 2026-11-16T05:46Z: **1047 passed, 1 skipped**). Decision rule binds: acquisition **CLOSED**, final program verdict **`NO_GO`** (C1–C19). Do **not** open a new campaign, relax the spec, or churn inference on exhausted data.
 
 ---
 
