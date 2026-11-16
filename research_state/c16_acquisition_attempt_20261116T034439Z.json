@@ -1,0 +1,154 @@
+{
+    "schema_version": 1,
+    "generated_at_utc": "2026-11-16T03:44:39Z",
+    "campaign": "C16",
+    "run_type": "hyperliquid_native_acquisition_attempt",
+    "objective": "Acquire/identify verified Hyperliquid-native hourly OHLCV archive extending to >=2023-01-01 or adding >=1 independent crash episode beyond C14 (target n>=4) under unchanged spec ($5M rolling-24h, native perps, gap-free hourly, SHA256+non-synthetic/provenance).",
+    "baseline_read": [
+        "research_state/c15_data_request_stem_20261116T024001Z.md",
+        "research_state/c15_acquisition_attempt_20261116T024001Z.md",
+        "research_state/c15_decision_verdict_hyperliquid_native_c15_20261116T024001Z.md",
+        "research_state/c15_decision_verdict_hyperliquid_native_c15_20261116T024001Z.json",
+        "research_state/crash_event_census_hyperliquid_ironflow_wide_20261116T001200Z.json",
+        "research_state/episode_edge_hyperliquid_ironflow_wide_20261116T001200Z.json",
+        "HANDOFF.md"
+    ],
+    "fixed_constraints": {
+        "venue": "Hyperliquid-native perps only",
+        "frequency": "hourly gap-free bars",
+        "volume_gate_usd_rolling_24h": 5000000,
+        "spec_unchanged": true,
+        "provenance_required": "per-file SHA256 + SOURCE/manifest/provenance, non-synthetic attestation",
+        "is_hyperliquid_venue_data_only_for_native": true,
+        "cross_venue_relabeling": "forbidden",
+        "inference_on_exhausted_c14": "forbidden"
+    },
+    "attempts": [
+        {
+            "id": "c16_t1_hf_ironflow_candles_metadata",
+            "source": "HuggingFace dataset ironflow/hyperliquid-candles-1h (CC BY 4.0)",
+            "commands": [
+                "curl -s https://huggingface.co/api/datasets/ironflow/hyperliquid-candles-1h",
+                "curl -s 'https://huggingface.co/api/datasets?author=ironflow&limit=50'",
+                "python3 datasets.load_dataset(...) [not runnable: datasets/huggingface_hub not installed; HF API used as evidence]"
+            ],
+            "evidence_observed": {
+                "hf_last_modified": "2026-11-13T07:20:50.000Z",
+                "hf_sha": "5177a7f728a968252128ba435ae142bc241dd13e",
+                "description_claim": "Hourly OHLCV candles for every Hyperliquid perp and spot pair from 25 May 2025 to 31 October 2026; 3,642,453 candles across 799 markets",
+                "siblings_data_files": [
+                    "data/2025-05.parquet",
+                    "data/2025-06.parquet",
+                    "data/2025-07.parquet",
+                    "data/2025-08.parquet",
+                    "data/2025-09.parquet",
+                    "data/2025-10.parquet",
+                    "data/2025-11.parquet",
+                    "data/2025-12.parquet",
+                    "data/2026-01.parquet",
+                    "data/2026-02.parquet",
+                    "data/2026-03.parquet",
+                    "data/2026-04.parquet",
+                    "data/2026-05.parquet",
+                    "data/2026-06.parquet",
+                    "data/2026-07.parquet",
+                    "data/2026-08.parquet",
+                    "data/2026-09.parquet",
+                    "data/2026-10.parquet"
+                ],
+                "author_datasets": [
+                    "ironflow/hyperliquid-liquidations",
+                    "ironflow/hyperliquid-funding",
+                    "ironflow/hyperliquid-candles-1h",
+                    "ironflow/hyperliquid-open-interest",
+                    "ironflow/hyperliquid-trades",
+                    "ironflow/hyperliquid-outcomes"
+                ],
+                "local_ingest_status": "Widest native archive already present: research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z (207 parquet symbol files; C14 scope 197-file/113-symbol @ $5M)."
+            },
+            "acceptance_criteria_eval": {
+                "extends_to_ge_2023_01_01": false,
+                "adds_ge_1_independent_crash_episode_beyond_c14": "no evidence; coverage starts 2025-05, cannot add pre-2025 episodes",
+                "native_hyperliquid_perps": true,
+                "verifiable_provenance_possible_if_ingested": "publisher-described native; would require full intake+manifest+SHA256 validation before evidence"
+            },
+            "outcome": "NOT_ACQUIRABLE_FOR_EXTENSION_TARGET",
+            "reason": "Earliest coverage 2025-05-25 per HF metadata; cannot reach >=2023-01-01 and no indicated history beyond C14 window."
+        },
+        {
+            "id": "c16_t1_hyperliquid_api_retention_probe_live",
+            "source": "Hyperliquid public candleSnapshot API (live)",
+            "commands": [
+                "PYTHONPATH=. python3 scripts/probe_hyperliquid_blocker.py --limit 10 --out research_state/hyperliquid_retention_probe_c16_20261116T034225Z.json --json"
+            ],
+            "evidence_artifact": "research_state/hyperliquid_retention_probe_c16_20261116T034225Z.json",
+            "evidence_observed": {
+                "generated_at_utc": "2026-11-16T03:44:23Z",
+                "target_window": "2025-12-20T00:00:00Z..2026-09-28T23:00:00Z",
+                "expected_hourly_bars": 6792,
+                "full_window_served": false,
+                "max_bars_returned": 3848,
+                "missing_early_bars_vs_expected": 2944,
+                "earliest_served_start_utc": "2026-04-21T16:00:00Z",
+                "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION",
+                "universe_probed": "10 of 26 passing $5M gate (235 perps total)"
+            },
+            "acceptance_criteria_eval": {
+                "extends_to_ge_2023_01_01": false,
+                "adds_ge_1_independent_crash_episode_beyond_c14": false,
+                "native_hyperliquid_perps": true,
+                "moving_tail": true
+            },
+            "outcome": "BLOCKED_API_RETENTION_MOVING_TAIL",
+            "reason": "Public API serves moving tail only (~2026-04-21 onward in probe); cannot supply spec prefix or multiyear history."
+        },
+        {
+            "id": "c16_t1_repo_env_source_inventory",
+            "source": "Local repository and environment",
+            "commands": [
+                "ls research_state/archives; find scripts -maxdepth 1 -type f; env | rg -i 'HF|HUGGING|HYPER|IRON|API_KEY|TOKEN|AWS|S3|ARCHIVE'",
+                "python3 -c 'import datasets/huggingface_hub' (absent)"
+            ],
+            "evidence_observed": {
+                "native_archives_present": [
+                    "research_state/archives/hyperliquid_btc_eth_1h_20251220_20260928_verified.parquet",
+                    "research_state/archives/hyperliquid_ironflow_1h_20251220_20260928",
+                    "research_state/archives/hyperliquid_ironflow_wide_20261115T214900Z"
+                ],
+                "cross_venue_archives_present_not_usable_as_native": [
+                    "research_state/archives/okx_1h_multiyear_20230101_20260928",
+                    "research_state/archives/binance_um_1h_multiyear_20230101_20260928"
+                ],
+                "acquisition_hooks": [
+                    "scripts/fetch_hyperliquid_candles.py",
+                    "scripts/probe_hyperliquid_blocker.py",
+                    "scripts/validate_hyperliquid_archive_intake.py",
+                    "scripts/derive_verified_universe.py"
+                ],
+                "matching_env_credentials_or_storage_hooks": "none found",
+                "hf_client_libs_installed": false
+            },
+            "outcome": "NO_ADDITIONAL_VIABLE_NATIVE_PATH_FOUND_LOCALLY"
+        }
+    ],
+    "validated_intake_obtained": false,
+    "t2_full_battery_on_extended_native": "not executed (no extended/episode-adding native archive acquired or validated)",
+    "conclusion": {
+        "extended_native_archive_ge_2023_01_01_acquirable": false,
+        "adds_ge_1_independent_crash_episode_beyond_c14_acquirable": false,
+        "status": "BLOCKED_EVIDENCED_DATA_REQUIRED",
+        "summary": "Every probed viable native path exhausted with command-level evidence: Hyperliquid public API remains moving-tail retention-limited; Ironflow HF candles dataset (latest known native public source in-repo/HF author inventory) covers 2025-05-25..2026-10-31 and is already ingested as widest C14 archive; no local credentials/hooks or other verified native multiyear source found. C14 remains UNDERPOWERED (3 episodes/4 days/7 trades). No spec relaxation, no cross-venue relabeling, no inference-only churn performed."
+    },
+    "minimum_external_deliverable_to_unblock": {
+        "requirement": "Operator-supplied verified Hyperliquid-native hourly OHLCV perp archive extending to >=2023-01-01 OR supplying >=1 additional independent crash episode beyond C14 (target n>=4, bootstrap CI excluding zero feasible under unchanged spec)",
+        "must_include": [
+            "raw hourly candles per symbol (gap-free in covered range)",
+            "SOURCE/provenance with acquisition method and timestamps",
+            "per-file SHA256 checksums/manifest",
+            "coverage metadata and non-synthetic attestation",
+            "symbol universe consistent with native Hyperliquid perps"
+        ],
+        "intake_gate": "scripts/validate_hyperliquid_archive_intake.py + derivation/verification scripts before evidence claim",
+        "placement_hint": "research_state/archives/<source>/..."
+    }
+}

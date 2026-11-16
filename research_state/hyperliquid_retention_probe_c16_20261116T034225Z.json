@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T03:43:26Z",
+  "run_type": "hyperliquid_api_retention_probe",
+  "provenance_caveat": "Live Hyperliquid public API probe; non-synthetic; records only what the public candleSnapshot endpoint served. Not performance evidence.",
+  "endpoint": {
+    "url": "https://api.hyperliquid.xyz/info",
+    "method": "candleSnapshot + metaAndAssetCtxs"
+  },
+  "target_window": {
+    "start": "2025-12-20T00:00:00Z",
+    "end": "2026-09-28T23:00:00Z",
+    "expected_hourly_bars": 6792
+  },
+  "spec_min_daily_volume_usd": 5000000.0,
+  "universe": {
+    "perps_total": 235,
+    "perps_passing_volume_gate": 26,
+    "probed": 10,
+    "requested_not_in_live_universe": [],
+    "probe_limit": 10
+  },
+  "probe_summary": {
+    "full_window_served": false,
+    "symbols_full_window": [],
+    "symbols_partial_window": [
+      "BTC",
+      "ETH",
+      "HYPE",
+      "SOL",
+      "ZEC",
+      "XRP",
+      "ASTER",
+      "NEAR",
+      "XMR",
+      "PUMP"
+    ],
+    "symbols_empty_or_error": [],
+    "max_bars_returned": 3847,
+    "expected_hourly_bars": 6792,
+    "missing_early_bars_vs_expected": 2945,
+    "earliest_served_start_utc": "2026-04-21T17:00:00Z"
+  },
+  "per_symbol": [
+    {
+      "symbol": "BTC",
+      "status": "ok",
+      "bars_returned": 3844,
+      "first_bar_utc": "2026-04-21T20:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 3074559150.94
+    },
+    {
+      "symbol": "ETH",
+      "status": "ok",
+      "bars_returned": 3844,
+      "first_bar_utc": "2026-04-21T20:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 837298506.88
+    },
+    {
+      "symbol": "HYPE",
+      "status": "ok",
+      "bars_returned": 3846,
+      "first_bar_utc": "2026-04-21T18:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 500274745.62
+    },
+    {
+      "symbol": "SOL",
+      "status": "ok",
+      "bars_returned": 3844,
+      "first_bar_utc": "2026-04-21T20:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 258996402.64
+    },
+    {
+      "symbol": "ZEC",
+      "status": "ok",
+      "bars_returned": 3844,
+      "first_bar_utc": "2026-04-21T20:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 233135339.13
+    },
+    {
+      "symbol": "XRP",
+      "status": "ok",
+      "bars_returned": 3847,
+      "first_bar_utc": "2026-04-21T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 65438149.07
+    },
+    {
+      "symbol": "ASTER",
+      "status": "ok",
+      "bars_returned": 3844,
+      "first_bar_utc": "2026-04-21T20:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 56095945.92
+    },
+    {
+      "symbol": "NEAR",
+      "status": "ok",
+      "bars_returned": 3845,
+      "first_bar_utc": "2026-04-21T19:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 33437214.71
+    },
+    {
+      "symbol": "XMR",
+      "status": "ok",
+      "bars_returned": 3847,
+      "first_bar_utc": "2026-04-21T17:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 31242069.56
+    },
+    {
+      "symbol": "PUMP",
+      "status": "ok",
+      "bars_returned": 3844,
+      "first_bar_utc": "2026-04-21T20:00:00Z",
+      "last_bar_utc": "2026-09-28T23:00:00Z",
+      "day_volume_usd": 22519277.51
+    }
+  ],
+  "verdict": "FULL_283D_BLOCKED_BY_API_RETENTION",
+  "next_action": "Public API cannot supply the full 283-day window; obtain an operator-supplied verified Hyperliquid-native archive per research_state/DATA_REQUEST_283D_HYPERLIQUID.md."
+}
