@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff (single source of truth)
 
-**Handoff updated (UTC):** 2026-11-15T21:45:00Z — **NEW FOCUS CAMPAIGN C14 LAUNCHED (MANDATORY HEAVY WORK)**. The prior "closed state / do nothing substantive" directive is **REMOVED** as an efficiency bottleneck. C1–C13 remain COMPLETE and their final verdict `NO_GO` is preserved as a prior, but the program is **NOT closed**: the decision-grade question is still open because effective crash-episode N is structurally too small (10 episodes). The next session's binding mission is **C14 — Broad-Universe Native Power Escalation** (section below). A session that only reads this file, reruns gates, or re-litigates C1–C13 has **not** done the work.
+**Handoff updated (UTC):** 2026-11-16T00:03:00Z — **C14 CAMPAIGN ACTIVE (MANDATORY HEAVY WORK)**. The prior "closed state / do nothing substantive" directive is **REMOVED** as an efficiency bottleneck. C1–C13 remain COMPLETE and their final verdict `NO_GO` is preserved as a prior, but the program is **NOT closed**: the decision-grade question is still open because effective crash-episode N is structurally too small (10 episodes). The next session's binding mission is **C14 — Broad-Universe Native Power Escalation** (section below). A session that only reads this file, reruns gates, or re-litigates C1–C13 has **not** done the work.
 **Supersedes:** all earlier handoffs, including the 2026-11-15T20:55:41Z "closed state" handoff. **This file is the only durable handoff.** Do not create another status/handoff file.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — Hyperliquid crash-rebound strategy research/backtest (RSI(21)<20 crash → buy at **next hourly open** → +9% / 50h exit → optional rebound short; ETH-hedged; 120% gross cap).
@@ -15,7 +15,7 @@
 
 ---
 
-## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-15T21:45:00Z)
+## NEXT SESSION START HERE — INITIAL TASK MESSAGE FOR THE NEXT AGENTIC WORK SESSION (2026-11-16T00:03:00Z)
 
 **You are the next agentic session continuing `CRASH-REBOUND-STRATEGY` (branch `main`).** Read this section as your **initial task message**. It is a heavy-work order, not a status note. Your session is **not complete** until the C14 acceptance contract below is satisfied (or a documented hard blocker is recorded per §"Acceptance contract").
 
@@ -106,14 +106,14 @@ If a future session changes the Phase O artifact, update this line to the new `g
 
 ---
 
-## What changed this session (2026-11-15T21:45Z)
+## What changed this session (2026-11-16T00:03Z)
 
 - **Bottleneck removal:** deleted the "closed state / do nothing substantive / no idle churn" directive from the prior handoff; it was the reason sessions were unproductive.
 - **C14 campaign authored:** mandatory broad-universe native power escalation (C14-T1..T7) with exact scripts, acceptance contract, and anti-avoidance rules.
 - **Provenance correction recorded:** the 5-symbol archive is a slice, not the dataset's full universe; live probe sees 32 perps passing the $5M gate; HuggingFace reachable (HTTP 200, 2026-11-15T21:43Z) so acquisition is not blocked.
 - **Priors preserved:** C1–C13 and consolidated `NO_GO` retained as priors; not re-run, not relabeled.
 
-## Verified state (as of 2026-11-15T21:45:00Z)
+## Verified state (as of 2026-11-16T00:03:00Z)
 
 | Check | Result | Evidence |
 |---|---|---|
