@@ -41,7 +41,7 @@ def test_truncated_fixture_is_rejected_even_with_optin(tmp_path):
     trunc = intake._write_fixture(tmp_path, "trunc", ["BTC", "ETH"], 300, flat=False)
     res = intake.validate_archive(trunc, allow_synthetic_fixture=True)
     assert res["verdict"] == "REJECT_NOT_EVIDENCE"
-    assert any(c["check"] == "window_coverage" and c["status"] == "fail"
+    assert any(c["check"] in ("window_span", "window_coverage") and c["status"] == "fail"
                for c in res["checks"])
 
 

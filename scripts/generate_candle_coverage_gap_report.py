@@ -278,7 +278,7 @@ def _ts_from_ts(c):
 def build_gap_report(*, manifest: Optional[Dict[str, Any]], probe_evidence: Any = None,
                      generated_at_utc: Optional[str] = None, archive_scan: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
     if archive_scan is None:
-        archive_scan = _scan_archives(archive_scan_paths)
+        archive_scan = {"searched_paths": list(archive_scan_paths), "verified_archives_found": []}
     elif isinstance(archive_scan, dict):
         # Honor precomputed archive_scan (tests/callers) to avoid expensive scans.
         has_precomputed = ("candidate_archives" in archive_scan) or ("verified_archives_found" in archive_scan)

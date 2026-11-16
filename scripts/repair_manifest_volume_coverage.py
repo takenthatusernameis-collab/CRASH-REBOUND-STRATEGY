@@ -55,6 +55,17 @@ def _read_verified_candles(sym: str, info: Dict[str, Any], cache_dir: Path):
 
 def repair_manifest(manifest_path: str, *, dry_run: bool = False, require_verified: bool = True) -> Dict[str, Any]:
     manifest = load_provenance(manifest_path)
+    syms_check = manifest.get("symbols") or {}
+    prev_check = manifest.get("repaired_volume_coverage") if isinstance(manifest.get("repaired_volume_coverage"), dict) else None
+    if isinstance(prev_check, dict) and syms_check and all(
+        isinstance(v, dict)
+        and isinstance(v.get("volume_coverage"), dict)
+        and "observed_max_24h_usd_volume" in v["volume_coverage"]
+        and "universe_membership_ok" in v["volume_coverage"]
+        for v in syms_check.values()
+    ):
+        return {"manifest": manifest, "repaired": True, "errors": [], "dry_run": dry_run}
+
     cache_dir = Path(manifest_path).resolve().parent
     tw = manifest.get("target_window") or {}
     start_ms = None
