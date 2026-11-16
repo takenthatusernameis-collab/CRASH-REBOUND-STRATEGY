@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-16T22:31:52Z",
+  "campaign": "C20",
+  "prereg_sha256": "6f7ad7091ead523d53e1fcb4cacb74f246673aa3c490ce433e74bb3a27cc0242",
+  "label": "CROSS_VENUE_SPEC_LITERAL_PER_VENUE_VERDICT",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "performance_evidence": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "OKX",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "inputs": {
+    "campaign": "research_state/campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json",
+    "census": "research_state/crash_event_census_real_okx_multiyear_specliteral_20261116T063500Z.json",
+    "episode_edge": "research_state/episode_edge_okx_multiyear_specliteral_20261116T063500Z.json",
+    "placebo": "research_state/placebo_portfolio_okx_multiyear_specliteral_20261116T063500Z.json",
+    "battery": "research_state/multiyear_robustness_battery_okx_specliteral_20261116T063500Z.json"
+  },
+  "headline": {
+    "trades": 113,
+    "total_pnl": -55057.45,
+    "coin_pnl": -197767.56,
+    "hedge_pnl": 140841.8,
+    "rebound_short_pnl": -38420.09,
+    "episodes": 31,
+    "distinct_crash_days": 45,
+    "events": 369
+  },
+  "go_checks": {
+    "trades_ge_10": true,
+    "episodes_ge_5": true,
+    "crash_days_ge_5": true,
+    "bootstrap_ci_excludes_zero_positive": false,
+    "permutation_p_lt_0.05": false,
+    "placebo_p_ge_canonical_lt_0.05": false,
+    "spot_leg_positive": false
+  },
+  "go_checks_passed": 3,
+  "go_checks_total": 7,
+  "inference": {
+    "bootstrap_ci95_total": [
+      -141457.07,
+      27746.1
+    ],
+    "bootstrap_prob_total_gt_0": 0.0976,
+    "permutation_p": 0.65,
+    "permutation_skipped": false,
+    "placebo_p_ge_canonical": 0.772,
+    "placebo_runs": 500,
+    "permutation_draws": 300
+  },
+  "verdict": "NO_GO",
+  "verdict_token": "NO_GO",
+  "is_decision_grade_positive": false
+}
