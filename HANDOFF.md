@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T20:40:12Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
+**Generated (UTC):** 2026-11-16T14:31:10Z · **REGENERATED (UTC):** 2026-11-16T20:42:44Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting, Hyperliquid-native evidence chain.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 
 > **PROGRAM STATE: C1–C19 CLOSED (final verdict `NO_GO`) · C20 IS THE BINDING NEXT FOCUS CAMPAIGN — NOT OPTIONAL.**
@@ -58,10 +58,10 @@
 
 ---
 
-## LIVE STATE VERIFIED (2026-11-16T20:40:12Z)
+## LIVE STATE VERIFIED (2026-11-16T20:42:44Z)
 
 - **Host capacity:** `nproc=4`. Four C20 workers saturate all cores — do not add concurrent CPU-heavy work.
-- **Live compute (observed):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive; campaign PIDs 2750, 2963–2966 alive; workers ~01:04–01:05 cumulative CPU each at ~95% CPU (healthy, progressing). `/tmp/c20_supervisor.log` shows attempt 1 start at 2026-11-16T19:32:15Z with artifacts=5 and OKX campaign/census/episode cached.
+- **Live compute (observed):** legacy supervisor `scripts/finish_c20_detached.sh` PID 2735/SID 2735 alive; campaign PIDs 2750, 2963–2966 alive; workers ~01:07 cumulative CPU each at ~95% CPU (healthy, progressing). `/tmp/c20_supervisor.log` shows attempt 1 start at 2026-11-16T19:32:15Z with artifacts=5 and OKX campaign/census/episode cached.
 - **Durable recovery state:** `.venv` and `research_state/.c20/` absent; durable relaunch path is available but **must not be used while legacy tree is alive**.
 - **Actual stage:** OKX campaign/census/episode cached+landed; Binance UM campaign landed. Remaining heavy work: Binance UM census/episode, both placebos, both robustness batteries, both per-venue verdicts, pooled synthesis, consolidated final.
 - **Artifacts present (5/15 required JSONs):** `c20_prereg`, OKX campaign, OKX census, OKX episode-edge, Binance UM campaign.
@@ -73,7 +73,7 @@
 - **Venv:** prefer `.venv/bin/python` after bootstrap; live legacy run currently uses `/tmp/crs-venv/bin/python`.
 - **Leftover/nonblocking:** `tmpgq4pmrk6/cache/hyperliquid/provenance.json` exists at repo root (temp-named dir). Not removed in this session to avoid interfering with unknown consumers; treat as cleanup candidate after C20 terminal unless referenced.
 
-## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-16T20:40:12Z)
+## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-16T20:42:44Z)
 
 1. **Durable-recovery gap while legacy compute runs** → handoff now explicitly forbids parallel durable relaunch when legacy tree is healthy and provides exact durable bootstrap/relaunch commands for the no-live-process case.
 2. **Session-bound/short-timeout compute** (carry-forward) → detached, lock-guarded, auto-resume durable supervisor (`scripts/finish_c20_detached_durable.sh`, `.venv`, `research_state/.c20/supervisor.lock`, `--resume`, exits 0 only on PASS). No short `timeout`, no `--jobs 1`, no foreground campaign.
@@ -91,7 +91,7 @@
 
 ## NO-AVOIDANCE CONTRACT (binding)
 
-- Only accepted terminal state: `C20 ACCEPTANCE: PASS`. Narrative-only, partial venue, “prereg only,” relabeling cross-venue as Hyperliquid-native, or gate/script edits to pass are rejected.
+- Only accepted terminal state: `C20 ACCEPTANCE: PASS`. Narrative-only, partial venue, "prereg only," relabeling cross-venue as Hyperliquid-native, or gate/script edits to pass are rejected.
 - C20 requires **both venues end-to-end** + pooled synthesis + post-prereg consolidated final (no partial-credit terminal state).
 - If pooled token is `GO`, next focus is **C21 independent out-of-sample confirmation**, preregistered before compute. If `UNDERPOWERED`/`NO_GO`, record with quantified power curve and close C1–C20; do not relitigate exhausted data.
 
