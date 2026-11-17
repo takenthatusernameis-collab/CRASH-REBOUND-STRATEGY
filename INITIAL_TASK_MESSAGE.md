@@ -1,12 +1,12 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:51:43Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:53:53Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Authoritative durable handoff:** `HANDOFF.md` — this file is a pointer only; do not maintain a second source of truth. Read `HANDOFF.md` for the full binding state, C21 spec, guardrails, file map, and the execute-in-order steps.
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data (OKX + Binance UM).
 **State:** C1–C20 CLOSED & CERTIFIED `NO_GO`. C21-T1 is the **only** open binding work.
 
-**BOTTOM LINE UP FRONT (verified 2026-11-17T23:51:43Z):**
-- Canonical C21 runner **ACTIVE**: PID 21945 (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), ~1h52m wall, 4 workers R-state ~94–95% CPU each. **4/8** per-fold checkpoints — all OKX folds complete; **OKX verdict: NO_GO** (survivors=0, trades=113, pnl=-54799.23). **Binance UM fold 2023 computing** (census events=342 trades=28 pnl=+34989.9036, fast-path validated). **5/12** artifacts present; `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` — 8 requirements missing.
+**BOTTOM LINE UP FRONT (verified 2026-11-17T23:53:53Z):**
+- Canonical C21 runner **ACTIVE**: PID 21945 (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), ~1h54m wall, 4 R-state workers each ~94% CPU. **4/8** per-fold checkpoints — all OKX folds complete; **OKX verdict: NO_GO** (survivors=0, trades=113, pnl=-54799.23). **Binance UM fold 2023 computing** (census events=342 signal_pass=143 trades=28 pnl=+34989.9036, fast-path validated diff=0.00e+00). **5/12** artifacts present; `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` — 8 requirements missing (all Binance UM fold artifacts + verdict, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`).
 - **DO NOT START A SECOND RUNNER** — the live process is computing on all 4 cores.
 - **Binding no-avoidance campaign:** C21-T1 is the sole open campaign. Continue heavy execution until `C21 ACCEPTANCE: PASS`; no planning-only, artifact-free monitoring, draw-count reduction, or C22+ relabeling is accepted.
 
