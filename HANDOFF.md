@@ -1,8 +1,8 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T07:52:52Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
-**CLOSURE CERTIFICATION RE-VERIFIED THIS SESSION (2026-11-17T07:52:52Z):** re-verified end-to-end state. `pytest tests/ -q` = `1047 passed, 1 skipped` (re-run 2026-11-17T07:47Z, 18.40s). All C1–C20 gates green with literal tokens: `session_gate.py` `21/21 checks passed` (re-verified 2026-11-17T07:47Z), `verify_campaign_evidence.py` `EVIDENCE VERIFIED`, `C20 ACCEPTANCE: PASS` (pooled `NO_GO`), `C19 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`. `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`. **The C1–C20 research program is COMPLETE and certified `NO_GO`; nothing in C1–C20 remains to run. Do NOT relaunch C20, do not re-run pytest/gates for closure, do not commit unless asked.**
-**BINDING NEXT FOCUS CAMPAIGN `C21` PREREGISTERED (gate RED until executed):** `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`) + `scripts/verify_c21_focus_campaign.py` (fail-closed: 13 requirements missing / 0/12 artifacts, enforcing all four folds, 20,000 bootstrap/permutation draws, and 2,000 placebo runs per venue as verified 2026-11-17T07:52Z). **The next session's primary heavy task is to execute C21 end-to-end and turn `C21 ACCEPTANCE: FAIL` → `C21 ACCEPTANCE: PASS`.** No live `finish_c20`/`run_c20`/`run_c21`/campaign/supervisor processes; stale `research_state/.c20/supervisor.lock` absent.
+**Generated (UTC):** 2026-11-17T07:54:31Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
+**CLOSURE CERTIFICATION RE-VERIFIED THIS SESSION (2026-11-17T07:54:31Z):** re-verified end-to-end state. `pytest tests/ -q` = `1047 passed, 1 skipped` (re-run 2026-11-17T07:47Z, 18.40s). All C1–C20 gates green with literal tokens: `session_gate.py` `21/21 checks passed` (re-verified 2026-11-17T07:47Z), `verify_campaign_evidence.py` `EVIDENCE VERIFIED`, `C20 ACCEPTANCE: PASS` (pooled `NO_GO`), `C19 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`. `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`. **The C1–C20 research program is COMPLETE and certified `NO_GO`; nothing in C1–C20 remains to run. Do NOT relaunch C20, do not re-run pytest/gates for closure, do not commit unless asked.**
+**BINDING NEXT FOCUS CAMPAIGN `C21` PREREGISTERED (gate RED until executed):** `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`) + `scripts/verify_c21_focus_campaign.py` (fail-closed: 13 requirements missing / 0/12 artifacts, enforcing all four folds, 20,000 bootstrap/permutation draws, and 2,000 placebo runs per venue as verified 2026-11-17T07:54Z). **The next session's primary heavy task is to execute C21 end-to-end and turn `C21 ACCEPTANCE: FAIL` → `C21 ACCEPTANCE: PASS`.** No live `finish_c20`/`run_c20`/`run_c21`/campaign/supervisor processes; stale `research_state/.c20/supervisor.lock` absent.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 **Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T07:47Z, green).
 
@@ -47,7 +47,7 @@ Future agents **cannot avoid heavy work**: the binding next campaign is **C21-T1
 
 Not progress: reading, planning, rewriting this file, refreshing timestamps, "monitoring" an already-exited supervisor, relaunching C20, or inventing a same-data C22+ rerun. **Do NOT relaunch `scripts/finish_c20_detached_durable.sh`. Do NOT commit unless explicitly asked.**
 
-## LIVE STATE VERIFIED (2026-11-17T07:52:52Z)
+## LIVE STATE VERIFIED (2026-11-17T07:54:31Z)
 
 - **Host capacity:** `nproc=4`. No live `finish_c20`/`run_c20`/`run_c21`/campaign/supervisor processes (verified). No stale `research_state/.c20/supervisor.lock`.
 - **C20:** PASS, terminal. `research_state/.c20/supervisor_status.json` = `state: PASS`, `artifacts: 15`, `updated_at_utc: 2026-11-17T05:39:45Z`.
@@ -58,7 +58,7 @@ Not progress: reading, planning, rewriting this file, refreshing timestamps, "mo
 - **Certification (re-verified):** `pytest tests/ -q` → `1047 passed, 1 skipped`; `session_gate.py` → `21/21 checks passed`; `verify_campaign_evidence.py` → `EVIDENCE VERIFIED`; `verify_c20_focus_campaign.py` → `C20 ACCEPTANCE: PASS`; `verify_c19_focus_campaign.py` → `C19 ACCEPTANCE: PASS`; `verify_c13_focus_campaign.py` → `C13 ACCEPTANCE: PASS`; `verify_c14_focus_campaign.py` → `C14 ACCEPTANCE: PASS`; `verify_next_focus_campaign.py` → `C6 ACCEPTANCE: PASS`; `probe_hyperliquid_blocker.py` → `FULL_283D_BLOCKED_BY_API_RETENTION`; `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected).
 - **Venv:** `.venv/bin/python` (Python 3.12.3).
 
-## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T07:52:52Z)
+## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T07:54:31Z)
 
 1. **"Do nothing" paralysis removed:** C1–C20 closed `NO_GO` but binding next campaign **C21-T1** is preregistered and its gate is RED until executed — heavy work is mandatory, not optional.
 2. **No live/stale process blockers:** no `finish_c20`/`run_c20`/`run_c21` processes running; no stale supervisor lock; no duplicate/rival campaigns; no foreground campaign in this turn.
