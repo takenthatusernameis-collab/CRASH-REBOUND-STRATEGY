@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T05:41:10Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C20.
+**Generated (UTC):** 2026-11-17T05:41:45Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C20.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 **Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T05:40:55Z, green).
 
@@ -13,7 +13,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T05:41:10Z — CLOSE C1–C20 WITH VERIFIED NO_GO; MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T05:41:45Z — CLOSE C1–C20 WITH VERIFIED NO_GO; MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** the research program C1–C20 is **complete with a `NO_GO` verdict on all venues**. No decision-relevant research campaign remains authorized. **Do not invent a same-data campaign, do not relabel cross-venue results as Hyperliquid-native, do not relax the prereg, do not fabricate artifacts.** The binding obligation is to **certify and document the closure** with real, verifiable work.
 
@@ -60,7 +60,7 @@
 
 ---
 
-## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T05:41:10Z)
+## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T05:41:45Z)
 
 Future agents **cannot avoid heavy work**: because the research program is complete (`NO_GO`), the only accepted progress is **closure certification** — (a) the full `pytest tests/ -q` run to the `1047 passed, 1 skipped` literal, and (b) all acceptance/hygiene gates re-verified green with their literal tokens. Reading, planning, rewriting this file, refreshing timestamps, or "monitoring" an already-exited supervisor is **not** progress.
 
@@ -80,7 +80,7 @@ Future agents **cannot avoid heavy work**: because the research program is compl
 - **Ephemeral paths:** legacy `/tmp/*c20*` are recovery-only; durable artifacts are `research_state/*_20261116T063500Z.json` plus `research_state/.c20/`.
 - **Venv:** `.venv/bin/python` is the active interpreter.
 
-## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T05:41:10Z)
+## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T05:41:45Z)
 
 1. **Stale in-flight state removed:** the prior handoff claimed C20 was in-flight (10/15) and told the next session to relaunch a dead supervisor. That instruction would have caused a spurious rival-campaign relaunch of an already-passed campaign, or an indefinite wait for a supervisor that exited cleanly. This handoff corrects it: **C20 PASS, do not relaunch, nothing to wait for.**
 2. **Deferred heavy work unblocked:** C20 was saturating all 4 vCPUs, which is why `pytest tests/ -q` was deferred. C20 has exited; the full suite is now runnable and is the mandatory closure-certification task.
