@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T19:56:30Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
+**Generated (UTC):** 2026-11-17T20:27:48Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
 **CLOSURE CERTIFICATION RE-VERIFIED (live venv, 2026-11-17T11:10:06Z):** `pytest tests/ -q` = `1047 passed, 1 skipped` (26.58s). All C1–C20 gates green with literal tokens: `session_gate.py` `21/21 checks passed`, `verify_campaign_evidence.py` `EVIDENCE VERIFIED`, `C20 ACCEPTANCE: PASS` (pooled `NO_GO`), `C19 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`. **The C1–C20 research program is COMPLETE and certified `NO_GO`; nothing in C1–C20 remains to run. Do NOT relaunch C20, do not re-run pytest/gates for closure, do not commit unless asked.**
 **BINDING NEXT FOCUS CAMPAIGN `C21` PREREGISTERED (gate RED until executed):** `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`) + canonical runner `scripts/run_c21_cross_venue_campaign.py` + verifier `scripts/verify_c21_focus_campaign.py`. **Verified 2026-11-17T19:56:30Z (this session):** the previous C21 launch is stalled and is an execution bottleneck: PID 2803 is gone, `research_state/c21_run_20261117T195156Z.log` has advanced only through the OKX 2023 census, and 0/12 required C21 artifacts exist. The next session must not narrate or restart C20; it must resume C21 with `--jobs 4 --resume`, preserve every existing artifact, and drive the verifier to `C21 ACCEPTANCE: PASS`. **The next session's primary heavy task is to remove the stalled-run bottleneck by resuming C21 end-to-end and validating all 12 required artifacts.**
 
@@ -8,11 +8,11 @@
 
 **Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T19:56:30Z, green).
 
-**C21 BLOCKER (2026-11-17T19:56:30Z):** the prior C21 runner is inactive before artifact creation; the next session must resume C21 with `--jobs 4 --resume` and obtain all 12 required artifacts and `C21 ACCEPTANCE: PASS`. Do not treat the stale PID/log as active progress.
+**C21 BLOCKER (2026-11-17T20:27:48Z):** the prior C21 runner is inactive before artifact creation; the next session must resume C21 with `--jobs 4 --resume` and obtain all 12 required artifacts and `C21 ACCEPTANCE: PASS`. Do not treat the stale PID/log as active progress.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T19:56:30Z — C21 STALLED, RESUME REQUIRED)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T20:27:48Z — C21 STALLED, RESUME REQUIRED)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** C1–C20 are complete/certified `NO_GO`; the single binding next task is **C21-T1** (cross-venue temporal walk-forward & regime-stability of the spec-literal rule). C21 is preregistered and its gate is RED. The prior run (`PID 2803`, log `research_state/c21_run_20261117T195156Z.log`) is not active and produced only:
 
@@ -45,7 +45,7 @@ The previous handoff's "running" claim is stale and must not be repeated.
 
 ---
 
-## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T19:56:30Z)
+## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T20:27:48Z)
 
 Future agents **cannot avoid heavy work**: the binding next campaign is **C21-T1**, whose gate `scripts/verify_c21_focus_campaign.py` is **RED until the full battery is executed**. The prior runner stalled before artifacts existed; that is not progress. Accepted progress is therefore **only**:
 - **C21 executed end-to-end:** all `c21_*_20261117T064408Z` artifacts produced (per-venue fold campaign + episode edge + placebo + census, per-venue verdict, pooled stability synthesis, consolidated final), with `C21 ACCEPTANCE: PASS` (token `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` with a power curve) and an honest pooled verdict.
