@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T21:51:23Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T21:52:57Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
 **Verified live state (2026-11-17T21:51:23Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **14019** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), 4 R-state workers, ~38 min wall, ~617 MB RSS. **0/12 required artifacts** and **no per-fold checkpoints** at this instant (OKX fold 2023 computing; fold census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00); counts may have advanced since.
