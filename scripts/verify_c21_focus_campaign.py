@@ -35,6 +35,9 @@ HANDOFF = REPO / "HANDOFF.md"
 TS = "20261117T064408Z"  # C21 prereg timestamp; fixed before any C21 compute
 
 VALID_VERDICTS = {"STABLE_POSITIVE_SUBSET", "NO_GO", "UNDERPOWERED"}
+REQUIRED_FOLD_IDS = {"2023", "2024", "2025", "2026YTD"}
+REQUIRED_DRAWS = 20000
+REQUIRED_PLACEBO_RUNS = 2000
 
 REQUIRED_ARTIFACTS = [
     "okx_fold_campaign",
@@ -79,6 +82,21 @@ def _load(path: Path) -> Tuple[Optional[Dict[str, Any]], Optional[str]]:
 
 def _ts_of(data: Optional[Dict[str, Any]]) -> str:
     return str((data or {}).get("generated_at_utc") or "")
+
+
+def _fold_ids(data: Optional[Dict[str, Any]]) -> set[str]:
+    raw = (data or {}).get("folds")
+    if isinstance(raw, dict):
+        raw = raw.get("folds", list(raw))
+    if not isinstance(raw, list):
+        return set()
+    folds = set()
+    for item in raw:
+        if isinstance(item, str):
+            folds.add(item)
+        elif isinstance(item, dict):
+            folds.add(str(item.get("id") or item.get("fold") or ""))
+    return folds
 
 
 def _check(label: str, ok: bool, detail: str = "") -> bool:
@@ -132,6 +150,8 @@ def main() -> int:
     # 3. Both per-venue fold campaigns computed (real, cross-venue, not Hyperliquid).
     for venue, key in (("OKX", "okx_fold_campaign"), ("Binance UM", "binance_fold_campaign")):
         c = artifacts[key]
+        folds = _fold_ids(c)
+        folds_ok = REQUIRED_FOLD_IDS.issubset(folds)
         c_ok = (
             c is not None
             and c.get("campaign") == "C21"
@@ -143,15 +163,19 @@ def main() -> int:
             and c.get("synthetic_data") is False
             and bool(c.get("prereg_sha256"))
             and (c.get("results") or {}).get("num_trades") is not None
+            and folds_ok
         )
         detail = ARTIFACT_STEMS[key] + ".json"
         if c is not None:
-            detail += f"; trades={c.get('results', {}).get('num_trades')} pnl={c.get('results', {}).get('total_pnl')}"
+            detail += f"; folds={sorted(folds)} trades={c.get('results', {}).get('num_trades')} pnl={c.get('results', {}).get('total_pnl')}"
         results.append((f"{venue.lower().replace(' ', '_')}_fold_campaign_computed", bool(c_ok), detail))
 
     # 4. Both per-venue fold episode edges computed (dependence-aware, seeded).
     for venue, key in (("OKX", "okx_fold_episode_edge"), ("Binance UM", "binance_fold_episode_edge")):
         e = artifacts[key]
+        folds = _fold_ids(e)
+        bootstrap_draws = ((e or {}).get("episode_block_bootstrap") or {}).get("resamples")
+        permutation_draws = ((e or {}).get("temporal_edge_permutation") or {}).get("draws_evaluated")
         e_ok = (
             e is not None
             and e.get("campaign") == "C21"
@@ -160,12 +184,20 @@ def main() -> int:
             and e.get("cross_venue") is True
             and bool(e.get("seed"))
             and bool(e.get("episode_block_bootstrap"))
+            and isinstance(bootstrap_draws, int)
+            and bootstrap_draws >= REQUIRED_DRAWS
+            and isinstance(permutation_draws, int)
+            and permutation_draws >= REQUIRED_DRAWS
+            and REQUIRED_FOLD_IDS.issubset(folds)
         )
-        results.append((f"{venue.lower().replace(' ', '_')}_fold_episode_edge_computed", bool(e_ok), ARTIFACT_STEMS[key] + ".json"))
+        results.append((f"{venue.lower().replace(' ', '_')}_fold_episode_edge_computed", bool(e_ok),
+                        ARTIFACT_STEMS[key] + f".json; folds={sorted(folds)} bootstrap={bootstrap_draws} permutation={permutation_draws}"))
 
     # 5. Both per-venue fold placebos computed.
     for venue, key in (("OKX", "okx_fold_placebo"), ("Binance UM", "binance_fold_placebo")):
         pl = artifacts[key]
+        folds = _fold_ids(pl)
+        runs = ((pl or {}).get("placebo") or {}).get("runs")
         pl_ok = (
             pl is not None
             and pl.get("campaign") == "C21"
@@ -173,20 +205,27 @@ def main() -> int:
             and pl.get("is_hyperliquid_venue_data") is False
             and pl.get("cross_venue") is True
             and bool(pl.get("placebo"))
+            and isinstance(runs, int)
+            and runs >= REQUIRED_PLACEBO_RUNS
+            and REQUIRED_FOLD_IDS.issubset(folds)
         )
-        results.append((f"{venue.lower().replace(' ', '_')}_fold_placebo_computed", bool(pl_ok), ARTIFACT_STEMS[key] + ".json"))
+        results.append((f"{venue.lower().replace(' ', '_')}_fold_placebo_computed", bool(pl_ok),
+                        ARTIFACT_STEMS[key] + f".json; folds={sorted(folds)} runs={runs}"))
 
     # 6. Both per-venue fold censuses computed.
     for venue, key in (("OKX", "okx_fold_census"), ("Binance UM", "binance_fold_census")):
         c = artifacts[key]
+        folds = _fold_ids(c)
         c_ok = (
             c is not None
             and c.get("campaign") == "C21"
             and c.get("entry_rule") == "SPEC_LITERAL_NEXT_OPEN"
             and c.get("is_hyperliquid_venue_data") is False
             and c.get("cross_venue") is True
+            and REQUIRED_FOLD_IDS.issubset(folds)
         )
-        results.append((f"{venue.lower().replace(' ', '_')}_fold_census_computed", bool(c_ok), ARTIFACT_STEMS[key] + ".json"))
+        results.append((f"{venue.lower().replace(' ', '_')}_fold_census_computed", bool(c_ok),
+                        ARTIFACT_STEMS[key] + f".json; folds={sorted(folds)}"))
 
     # 7. Both per-venue verdicts computed with an explicit token.
     for venue, key in (("OKX", "okx_verdict"), ("Binance UM", "binance_verdict")):
@@ -204,18 +243,22 @@ def main() -> int:
 
     # 8. Pooled stability synthesis computed with venue-blocked bootstrap + token.
     pooled = artifacts["pooled_synthesis"]
+    pooled_bootstrap = (pooled or {}).get("pooled_venue_blocked_bootstrap") or {}
+    pooled_draws = pooled_bootstrap.get("draws")
     pooled_ok = (
         pooled is not None
         and pooled.get("campaign") == "C21"
         and pooled.get("is_hyperliquid_venue_data") is False
         and pooled.get("cross_venue") is True
         and bool(pooled.get("pooled_venue_blocked_bootstrap"))
+        and isinstance(pooled_draws, int)
+        and pooled_draws >= REQUIRED_DRAWS
         and (pooled.get("decision", {}).get("token") in VALID_VERDICTS)
         and bool(pooled.get("multiplicity"))
     )
     results.append(("c21_pooled_synthesis_computed", bool(pooled_ok),
                     ARTIFACT_STEMS["pooled_synthesis"] + ".json" +
-                    (f"; token={pooled.get('decision', {}).get('token')}" if pooled else "")))
+                    (f"; draws={pooled_draws} token={pooled.get('decision', {}).get('token')}" if pooled else "")))
 
     # 9. Consolidated final C21: postdates prereg, supersedes C20 final, scope C21.
     cf = artifacts["consolidated_final"]
