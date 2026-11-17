@@ -9,3 +9,7 @@
 [C21][fast-path validated] trades=34 pnl=-38598.3539 diff=0.00e+00
 [C21][fast-path validated] trades=34 pnl=-38598.3539 diff=0.00e+00
 [C21][fast-path validated] trades=34 pnl=-38598.3539 diff=0.00e+00
+[C21] OKX fold 2024: trades=34 pnl=-38598.35 eps=7 perm_p=0.70645 placebo_runs=2000
+[C21] OKX fold 2025: symbols=34
+[census] OKX: events=314 signal_pass=100 trades=39 matched=39 unexplained=23
+[C21][fast-path validated] trades=39 pnl=-24979.9365 diff=0.00e+00
