@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T22:16:07Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T22:18:15Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
-**Verified live state (2026-11-17T22:16:57Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **4 R-state workers** each ~88–90% CPU (PIDs rotate per phase; observed 23811–23814), ~17 min wall. **0/12 required artifacts**, **0/8 per-fold checkpoints** (OKX fold 2023 in strata phase; census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00, re-validated 3×). Counts may have advanced since.
+**Verified live state (2026-11-17T22:18:15Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **4 R-state workers** each ~90–92% CPU (PIDs 23811–23814), ~18 min 19 s wall, system load avg 6.12. **0/12 required artifacts**, **0/8 per-fold checkpoints** (OKX fold 2023 in strata phase; census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00, re-validated 3×). `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected until complete). Counts may have advanced since.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
