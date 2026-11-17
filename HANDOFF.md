@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T22:53:01Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T22:54:17Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
-**Verified live state (2026-11-17T22:53:01Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **4 R-state workers** each ~90–94% CPU (PIDs 27786–27789), ~53 min wall total, system load avg 7.03. **0/12 required artifacts**, **1/8 per-fold checkpoints** (`c21_ckpt_okx_2023_20261117T064408Z.json`; OKX fold 2023 complete — census events=345 signal_pass=95 trades=21 matched=21 unexplained=32, fast-path validated pnl=21382.7300 diff=0.00e+00 ×3). **OKX fold 2024 is now computing:** census events=303 signal_pass=115 trades=34 matched=34 unexplained=46, pnl=-38598.3539. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected until complete). Counts may have advanced since.
+**Verified live state (2026-11-17T22:54:17Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **4 R-state workers** each ~90–94% CPU (PIDs 27786–27789), ~55 min wall total, system load avg 7.0. **1/8 required checkpoints** (`c21_ckpt_okx_2023_20261117T064408Z.json`; OKX fold 2023 complete — census events=345 signal_pass=95 trades=21 matched=21 unexplained=32, fast-path validated pnl=21382.7300 diff=0.00e+00 ×3). **OKX fold 2024 is now computing:** census events=303 signal_pass=115 trades=34 matched=34 unexplained=46, pnl=-38598.3539. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected until complete). Counts may have advanced since.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
@@ -11,13 +11,13 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T22:53:01Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T22:54:17Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
-**Bottom line up front (verified 2026-11-17T22:53:01Z):**
+**Bottom line up front (verified 2026-11-17T22:54:17Z):**
 - C1–C20 closure green. Do not re-run pytest/gates for closure unless you changed code.
-- C21 is open and blocked only on compute: runner active (PID 21945, ~53 min wall total, 4 workers ~90–94% CPU, system load avg ~7.0; OKX fold 2023 complete — checkpoint `c21_ckpt_okx_2023_20261117T064408Z.json` written 22:28 — OKX fold 2024 now computing), `1/8` per-fold checkpoints, `0/12` artifacts, gate `C21 ACCEPTANCE: FAIL` (expected until complete).
+- C21 is open and blocked only on compute: runner active (PID 21945, ~55 min wall total, 4 workers ~90–94% CPU, system load avg ~7.0; OKX fold 2023 complete — checkpoint `c21_ckpt_okx_2023_20261117T064408Z.json` written — OKX fold 2024 now computing), `1/8` per-fold checkpoints, `0/12` artifacts, gate `C21 ACCEPTANCE: FAIL` (expected until complete).
 - **Do NOT start a second runner.** The live process is computing on all 4 cores.
 - Final C1–C20 verdict: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json` token `NO_GO`, `research_program_complete: true`.
 
