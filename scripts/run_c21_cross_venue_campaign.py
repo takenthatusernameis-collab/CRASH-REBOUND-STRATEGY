@@ -663,33 +663,56 @@ def _fast_serial_draws(candles: Dict[str, Any], cfg: StrategyConfig,
     return [_fast_draw_pnl(candles, cfg, memo, s) for s in subsets]
 
 
+# Fork-pool worker globals. The fork start method inherits these from the parent
+# process at Pool creation time, so per-task payloads carry only the subset keys
+# (a handful of tuples) instead of the full candles/cfg/memo blobs. Without this,
+# pickling the ~34-symbol candles dict for every draw dominates wall time and the
+# preregistered 20,000-draw permutation / 2,000-draw placebo would take hours.
+_FAST_WORKER_GLOBALS: Dict[str, Any] = {}
+
+
+def _fast_worker_init(candles: Dict[str, Any], cfg: StrategyConfig,
+                      memo: Dict[Tuple[str, int], Any]) -> None:
+    _FAST_WORKER_GLOBALS["candles"] = candles
+    _FAST_WORKER_GLOBALS["cfg"] = cfg
+    _FAST_WORKER_GLOBALS["memo"] = memo
+
+
+def _fast_draw_worker(subset: Sequence[Tuple[str, int]]) -> float:
+    g = _FAST_WORKER_GLOBALS
+    memo = g["memo"]
+    try:
+        return float(_fast_portfolio_pnl(
+            g["candles"], g["cfg"],
+            {k: memo[k] for k in subset if k in memo}
+        ).get("total_pnl", 0.0))
+    except Exception:
+        return 0.0
+
+
 def _fast_parallel_draws(candles: Dict[str, Any], cfg: StrategyConfig,
                          memo: Dict[Tuple[str, int], Any],
                          subsets: Sequence[Sequence[Tuple[str, int]]],
                          jobs: int) -> List[float]:
-    """Parallel draws; falls back to serial if the pool cannot start."""
-    if jobs <= 1:
+    """Parallel draws via a fork pool with inherited globals.
+
+    Falls back to serial if a fork pool cannot be created. The per-draw cost is
+    dominated by the exact fast replay itself (~90 ms/draw at 4 workers on a
+    full-year fold), so this is the only path that can meet the preregistered
+    20,000-draw / 2,000-draw targets in wall-clock time.
+    """
+    if jobs <= 1 or len(subsets) <= 1:
         return _fast_serial_draws(candles, cfg, memo, subsets)
     try:
         import multiprocessing as mp
         if "fork" not in mp.get_all_start_methods():
             return _fast_serial_draws(candles, cfg, memo, subsets)
         ctx = mp.get_context("fork")
-        payload = [(candles, cfg, memo, s) for s in subsets]
-        with ctx.Pool(processes=jobs) as pool:
-            return list(pool.map(_fast_draw_worker, payload, chunksize=16))
+        with ctx.Pool(processes=jobs, initializer=_fast_worker_init,
+                      initargs=(candles, cfg, memo)) as pool:
+            return list(pool.map(_fast_draw_worker, list(subsets), chunksize=32))
     except Exception:
         return _fast_serial_draws(candles, cfg, memo, subsets)
-
-
-def _fast_draw_worker(payload):
-    candles, cfg, memo, subset = payload
-    try:
-        return float(_fast_portfolio_pnl(candles, cfg,
-                                         {k: memo[k] for k in subset if k in memo}
-                                         ).get("total_pnl", 0.0))
-    except Exception:
-        return 0.0
 
 
 def _c21_conditional_permutation_null(venue_data: Dict[str, Any],
