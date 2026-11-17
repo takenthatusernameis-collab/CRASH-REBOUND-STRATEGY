@@ -1117,6 +1117,10 @@ def build_strata(venue_data_full: Dict[str, Any], vd_slice: Dict[str, Any],
 # Per-venue fold orchestration
 # ---------------------------------------------------------------------------
 
+def _checkpoint_stem(venue: str, fid: str) -> str:
+    return f"c21_ckpt_{venue}_{fid}_{TS}"
+
+
 def run_venue_folds(venue: str, jobs: int, resume: bool) -> Dict[str, Any]:
     vd = c20.load_venue(venue)
     venue_label = vd["venue_label"]
@@ -1134,6 +1138,23 @@ def run_venue_folds(venue: str, jobs: int, resume: bool) -> Dict[str, Any]:
         #   c21_{okx,binance_um}_fold_placebo_{TS}
         #   c21_{okx,binance_um}_fold_census_{TS}
         # Each is a single artifact with folds=[all four] and per-fold detail.
+        # Durability: each fold is checkpointed under c21_ckpt_* (internal only,
+        # never a gate artifact) so a mid-run crash loses at most one fold.
+        ckpt_stem = _checkpoint_stem(venue, fid)
+        if resume and _stem_exists(ckpt_stem):
+            ck = _load_json(ckpt_stem)
+            camp, cen, ep, pl, st = ck["campaign"], ck["census"], ck["episode"], ck["placebo"], ck["strata"]
+            fold_campaigns[fid] = camp
+            fold_censuses[fid] = cen
+            fold_episodes[fid] = ep
+            fold_placebos[fid] = pl
+            fold_strata[fid] = st
+            print(f"[resume] {ckpt_stem} cached", flush=True)
+            print(f"[C21] {venue_label} fold {fid}: trades={camp['results']['num_trades']} "
+                  f"pnl={camp['results']['total_pnl']:.2f} eps={ep['episode_audit']['n_episodes']} "
+                  f"perm_p={ep['temporal_edge_permutation'].get('p_null_ge_canonical')} "
+                  f"placebo_runs={pl['placebo']['runs']}", flush=True)
+            continue
         vd_slice = _slice_venue(vd, fold)
         print(f"[C21] {venue_label} fold {fid}: symbols={len(vd_slice['candles'])}", flush=True)
         camp = _run_fold_campaign(vd_slice, fid)
@@ -1146,6 +1167,8 @@ def run_venue_folds(venue: str, jobs: int, resume: bool) -> Dict[str, Any]:
         fold_episodes[fid] = ep
         fold_placebos[fid] = pl
         fold_strata[fid] = st
+        _write_json(ckpt_stem, {"campaign": camp, "census": cen, "episode": ep,
+                                "placebo": pl, "strata": st})
         print(f"[C21] {venue_label} fold {fid}: trades={camp['results']['num_trades']} "
               f"pnl={camp['results']['total_pnl']:.2f} eps={ep['episode_audit']['n_episodes']} "
               f"perm_p={ep['temporal_edge_permutation'].get('p_null_ge_canonical')} "
