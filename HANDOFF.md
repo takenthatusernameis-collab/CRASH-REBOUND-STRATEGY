@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T23:53:53Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T23:55:06Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
-**Verified live state (2026-11-17T23:53:53Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **~1h54m wall**, **4 R-state workers** each ~94% CPU (PIDs 36854–36857). **4/8 per-fold checkpoints** complete — all OKX folds (2023/2024/2025/2026YTD; `c21_ckpt_okx_2023_20261117T064408Z.json` … `c21_ckpt_okx_2026YTD_20261117T064408Z.json`). **5/12 artifacts** present: OKX fold-level census/episode_edge/placebo/campaign + `c21_decision_verdict_okx_stability_20261117T064408Z.json` (OKX verdict: NO_GO, survivors=0, trades=113, pnl=-54799.23). **Binance UM fold 2023 computing** (census events=342 signal_pass=143 trades=28 pnl=+34989.9036, fast-path validated diff=0.00e+00); Binance UM folds 2024/2025/2026YTD + pooled synthesis + consolidated final remain. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` — 8 requirement(s) missing (all Binance UM fold artifacts + verdict, c21_pooled_stability_synthesis, c21_decision_verdict_CONSOLIDATED). Counts may have advanced since. Worker CPU ~94% each; log silent between fold/validation prints is normal.
+**Verified live state (2026-11-17T23:55:06Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **~1h55m wall**, **4 R-state workers** each ~90–92% CPU (PIDs 38384–38387; PIDs rotate per parallel phase — do not judge liveness by worker PID). **5/8 per-fold checkpoints** complete — all OKX folds (2023/2024/2025/2026YTD) + Binance UM 2023 (`c21_ckpt_binance_um_2023_20261117T064408Z.json`); Binance UM folds 2024/2025/2026YTD remain. **5/12 artifacts** present: OKX fold-level census/episode_edge/placebo/campaign + `c21_decision_verdict_okx_stability_20261117T064408Z.json` (OKX verdict: NO_GO, survivors=0, trades=113, pnl=-54799.23). Binance UM fold 2023 computed (census events=342 signal_pass=143 trades=28 pnl=+34989.9036, fast-path validated diff=0.00e+00); Binance UM folds 2024/2025/2026YTD artifacts + verdict + pooled synthesis + consolidated final remain. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` — 8 requirement(s) missing (all Binance UM fold artifacts + verdict, c21_pooled_stability_synthesis, c21_decision_verdict_CONSOLIDATED). Counts may have advanced since. Worker CPU ~90–92% each; log silent between fold/validation prints is normal.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
@@ -11,13 +11,13 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:53:53Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:55:06Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
-**Bottom line up front (verified 2026-11-17T23:53:53Z):**
+**Bottom line up front (verified 2026-11-17T23:55:06Z):**
 - C1–C20 closure green. Do not re-run pytest/gates for closure unless you changed code.
-- C21 is open and blocked only on compute: runner active (PID 21945, ~1h54m wall, 4 R-state workers ~94% CPU; all OKX folds complete — checkpoints `c21_ckpt_okx_2023_*` … `c21_ckpt_okx_2026YTD_*` written; OKX verdict NO_GO survivors=0 trades=113 pnl=-54799.23), Binance UM fold 2023 computing (events=342 trades=28 pnl=+34989.9036, fast-path validated), **4/8** per-fold checkpoints, **5/12** artifacts, gate `C21 ACCEPTANCE: FAIL` — 8 requirements missing (Binance UM folds 2023/2024/2025/2026YTD artifacts + verdict, pooled synthesis, consolidated final).
+- C21 is open and blocked only on compute: runner active (PID 21945, ~1h55m wall, 4 R-state workers ~90–92% CPU; child workers PIDs 38384–38387 rotate per phase — verify liveness via `ps` CPU time + child-worker count + checkpoint count + artifact count). **5/8** per-fold checkpoints complete — all OKX folds done (verdict NO_GO, survivors=0, trades=113, pnl=-54799.23) + Binance UM 2023 checkpoint written (events=342 signal_pass=143 trades=28 pnl=+34989.9036). Binance UM folds 2024/2025/2026YTD remain. **5/12** artifacts; gate `C21 ACCEPTANCE: FAIL` — 8 requirements missing (Binance UM fold artifacts + verdict, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`).
 - **Do NOT start a second runner.** The live process is computing on all 4 cores.
 - Final C1–C20 verdict: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json` token `NO_GO`, `research_program_complete: true`.
 
