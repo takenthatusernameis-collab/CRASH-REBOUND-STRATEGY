@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T21:18:50Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T21:51:23Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
-**Verified live state (2026-11-17T21:18:50Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **14019** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), 4 R-state workers, ~5.5 min wall, ~617 MB RSS. **0/12 required artifacts** and **no per-fold checkpoints** at that instant (OKX fold 2023 in progress); counts may have advanced since.
+**Verified live state (2026-11-17T21:51:23Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **14019** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), 4 R-state workers, ~38 min wall, ~617 MB RSS. **0/12 required artifacts** and **no per-fold checkpoints** at this instant (OKX fold 2023 computing; fold census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00); counts may have advanced since.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
@@ -11,13 +11,13 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T21:18:50Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T21:51:23Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
-**Bottom line up front (verified 2026-11-17T21:18:50Z):**
+**Bottom line up front (verified 2026-11-17T21:51:23Z):**
 - C1–C20 closure green. Do not re-run pytest/gates for closure unless you changed code.
-- C21 is open and blocked only on compute: runner active, `0/12` artifacts, gate FAIL.
+- C21 is open and blocked only on compute: runner active (PID 14019, ~38 min wall; OKX fold 2023 computing), `0/12` artifacts, gate FAIL.
 - **Do NOT start a second runner.** Let the live process finish.
 - Final C1–C20 verdict: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json` token `NO_GO`, `research_program_complete: true`.
 
@@ -69,13 +69,13 @@ The only accepted C21 terminal state is **`C21 ACCEPTANCE: PASS`** with all 12 a
 
 ---
 
-## LIVE STATE VERIFIED (2026-11-17T21:18:50Z)
+## LIVE STATE VERIFIED (2026-11-17T21:51:23Z)
 
 - **Host:** `nproc=4`; load ~5.8 (4 workers); 15 GiB RAM, ~13 GiB available; no swap in use.
 - **Venv:** `.venv/bin/python` Python 3.12.3, bootstrapped via `scripts/bootstrap_env.sh`.
-- **Processes:** canonical C21 runner **PID 14019** active (`--jobs 4 --resume`), ppid 1 (detached), 4 R-state workers (worker PIDs rotate as each parallel phase starts; observed 14072–14075, then 15676–15679); no `finish_c20`/`run_c20`/supervisor processes.
+- **Processes:** canonical C21 runner **PID 14019** active (`--jobs 4 --resume`), ppid 1 (detached), 4 R-state workers, ~38 min wall (worker PIDs rotate as each parallel phase starts; observed 14072–14075, then 15676–15679); no `finish_c20`/`run_c20`/supervisor processes.
 - **C20:** PASS terminal (15/15 artifacts). C1–C20 consolidated `NO_GO`, `research_program_complete: true` in `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`.
-- **C21 (open, binding, blocked on compute):** prereg `research_state/c21_prereg_20261117T064408Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`); runner `scripts/run_c21_cross_venue_campaign.py`; verifier `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (13 requirements missing; 0/12 artifacts). Active log `research_state/c21_run_20261117T211319Z.log` (OKX 2023 started); stale log `research_state/c21_run_20261117T195156Z.log` — ignore.
+- **C21 (open, binding, blocked on compute):** prereg `research_state/c21_prereg_20261117T064408Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`); runner `scripts/run_c21_cross_venue_campaign.py`; verifier `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (13 requirements missing; 0/12 artifacts). Active log `research_state/c21_run_20261117T211319Z.log` (OKX 2023 computing; census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00); stale log `research_state/c21_run_20261117T195156Z.log` — ignore.
 - **Certification:** `pytest` `1047 passed, 1 skipped`; `session_gate.py` `21/21 checks passed`; `verify_campaign_evidence.py` `EVIDENCE VERIFIED`; `verify_c20_focus_campaign.py` `C20 ACCEPTANCE: PASS`; `verify_c19_focus_campaign.py` `C19 ACCEPTANCE: PASS`; `verify_c14_focus_campaign.py` `C14 ACCEPTANCE: PASS`; `verify_c13_focus_campaign.py` `C13 ACCEPTANCE: PASS`; `verify_next_focus_campaign.py` `C6 ACCEPTANCE: PASS`; `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`; `verify_c21_focus_campaign.py` `C21 ACCEPTANCE: FAIL` (expected while C21 incomplete).
 
 ---
@@ -84,7 +84,7 @@ The only accepted C21 terminal state is **`C21 ACCEPTANCE: PASS`** with all 12 a
 
 1. **Deps/env REMOVED:** `.venv` bootstrapped (Python 3.12.3 + deps). Fresh runner: `bash scripts/bootstrap_env.sh`.
 2. **Duplicate-runner risk REMOVED:** canonical C21 is active with `--jobs 4 --resume`; `scripts/run_c21_detached_durable.sh` refuses duplicates via `pgrep`.
-3. **Stale PID in prior handoff REMOVED:** prior text cited PID 5175; the live runner is PID 14019 (verified 2026-11-17T21:18:50Z).
+3. **Stale PID in prior handoff REMOVED:** prior text cited PID 5175; the live runner is PID **14019** (re-verified 2026-11-17T21:51:23Z, still ACTIVE, ~39 min wall).
 4. **"Do nothing" paralysis REMOVED:** C21-T1 is preregistered and its gate is RED — heavy execution is mandatory.
 5. **No C20/stale locks:** no `finish_c20`/`run_c20` processes; no supervisor lock.
 6. **Progress durability IMPROVED:** the runner now writes per-fold checkpoints `research_state/c21_ckpt_*` after each fold; `--resume` reuses them. A crash loses at most the in-flight fold. No checkpoint yet because OKX fold 2023 is still computing.
