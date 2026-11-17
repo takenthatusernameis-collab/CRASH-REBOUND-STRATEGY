@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-17T23:38:06Z",
+  "campaign": "C21",
+  "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
+  "label": "CROSS_VENUE_TEMPORAL_STABILITY_PER_VENUE_VERDICT",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "performance_evidence": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "OKX",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "folds": [
+    "2023",
+    "2024",
+    "2025",
+    "2026YTD"
+  ],
+  "per_fold_go_checks": {
+    "2023": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": true,
+      "spot_leg_positive": false
+    },
+    "2024": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": false,
+      "spot_leg_positive": false
+    },
+    "2025": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": false,
+      "spot_leg_positive": false
+    },
+    "2026YTD": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": false,
+      "spot_leg_positive": false
+    }
+  },
+  "stratum_survivors": [],
+  "n_stratum_survivors": 0,
+  "headline": {
+    "trades": 113,
+    "total_pnl": -54799.23,
+    "spot_pnl": -197767.56
+  },
+  "verdict": "NO_GO",
+  "verdict_token": "NO_GO",
+  "power_curve": {
+    "2023": null,
+    "2024": null,
+    "2025": null,
+    "2026YTD": null
+  },
+  "limitations": [
+    "CROSS-VENUE OKX; NOT Hyperliquid performance evidence.",
+    "Folds are fixed by prereg; strata fixed by prereg; no post-hoc selection."
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-17T23:38:06Z",
+  "phase": "C21",
+  "campaign": "C21",
+  "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
+  "prereg": "research_state/c21_prereg_20261117T064408Z.json",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "OKX",
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    }
+  ],
+  "fold": "ALL",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo (2000 subsets); preserves gates/sizing/cap/occupancy/hedge on the fold slice.",
+  "mode": "deterministic_seeded_draws:2000_choose_21_of_95",
+  "seed": 20261121,
+  "canonical": {
+    "trades": 21,
+    "total_pnl": 21382.7300090429,
+    "admitted_keys_count": 21
+  },
+  "pool": {
+    "signal_gate_events": 95,
+    "choose_k": 21
+  },
+  "placebo": {
+    "runs": 2000,
+    "summary": {
+      "n": 2000,
+      "sum": -7451522.572985214,
+      "mean": -3725.7612864926073,
+      "median": -3968.4450582127756,
+      "stdev": 10723.21101168575,
+      "min": -29982.04132541472,
+      "max": 42084.7271129803,
+      "p05": -21241.126108582983,
+      "p95": 14174.165105135377
+    },
+    "p_ge_canonical": 0.0125,
+    "canonical_percentile_le": 0.9875,
+    "prob_total_pnl_positive": 0.359,
+    "ci_low_pnl_2p5": -23110.37660046999,
+    "ci_high_pnl_97p5": 17263.288531783113
+  },
+  "verdict": "underpowered",
+  "jobs": 4,
+  "replay_path": "exact_validated_event_bar_replay",
+  "replay_validation": {
+    "key": [
+      139622948100416,
+      95
+    ],
+    "ok": true,
+    "detail": "trades=21 pnl=21382.7300 diff=0.00e+00",
+    "validated_at_utc": "2026-11-17T22:06:05Z"
+  },
+  "limitations": [
+    "CROSS-VENUE OKX fold 2023; NOT Hyperliquid performance evidence."
+  ],
+  "per_fold": {
+    "2023": {
+      "fold": "2023",
+      "venue_label": "OKX",
+      "runs": 2000,
+      "p_ge_canonical": 0.0125,
+      "canonical": {
+        "trades": 21,
+        "total_pnl": 21382.7300090429,
+        "admitted_keys_count": 21
+      }
+    },
+    "2024": {
+      "fold": "2024",
+      "venue_label": "OKX",
+      "runs": 2000,
+      "p_ge_canonical": 0.961,
+      "canonical": {
+        "trades": 34,
+        "total_pnl": -38598.353947839,
+        "admitted_keys_count": 34
+      }
+    },
+    "2025": {
+      "fold": "2025",
+      "venue_label": "OKX",
+      "runs": 2000,
+      "p_ge_canonical": 0.74,
+      "canonical": {
+        "trades": 39,
+        "total_pnl": -24979.936483489008,
+        "admitted_keys_count": 39
+      }
+    },
+    "2026YTD": {
+      "fold": "2026YTD",
+      "venue_label": "OKX",
+      "runs": 2000,
+      "p_ge_canonical": 0.872,
+      "canonical": {
+        "trades": 19,
+        "total_pnl": -12603.67201142127,
+        "admitted_keys_count": 19
+      }
+    }
+  }
+}

@@ -21,3 +21,10 @@
 [C21][fast-path validated] trades=19 pnl=-12603.6720 diff=0.00e+00
 [C21][fast-path validated] trades=19 pnl=-12603.6720 diff=0.00e+00
 [C21][fast-path validated] trades=19 pnl=-12603.6720 diff=0.00e+00
+[C21] OKX fold 2026YTD: trades=19 pnl=-12603.67 eps=7 perm_p=0.808184910946568 placebo_runs=2000
+[verdict] OKX: NO_GO survivors=0 trades=113 pnl=-54799.23
+[C21] Binance UM fold 2023: symbols=33
+[census] Binance UM: events=342 signal_pass=143 trades=28 matched=28 unexplained=57
+[C21][fast-path validated] trades=28 pnl=34989.9036 diff=0.00e+00
+[C21][fast-path validated] trades=28 pnl=34989.9036 diff=0.00e+00
+[C21][fast-path validated] trades=28 pnl=34989.9036 diff=0.00e+00
