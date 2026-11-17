@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-17T05:39:45Z",
+  "campaign": "C20",
+  "prereg_sha256": "6f7ad7091ead523d53e1fcb4cacb74f246673aa3c490ce433e74bb3a27cc0242",
+  "label": "CROSS_VENUE_POOLED_SPEC_LITERAL_SYNTHESIS",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "performance_evidence": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_labels": [
+    "OKX",
+    "Binance UM"
+  ],
+  "venue_tokens": [
+    "NO_GO",
+    "NO_GO"
+  ],
+  "pooled_venue_blocked_bootstrap": {
+    "seed": 20261120,
+    "draws": 20000,
+    "blocks": [
+      {
+        "venue": "OKX",
+        "total_pnl": -55057.45
+      },
+      {
+        "venue": "Binance UM",
+        "total_pnl": -70309.57
+      }
+    ],
+    "pooled_total_pnl": -125367.02,
+    "ci95": [
+      -140619.14,
+      -110114.9
+    ],
+    "prob_pooled_total_gt_0": 0.0,
+    "sign_concordant": true,
+    "signs": [
+      -1,
+      -1
+    ]
+  },
+  "effective_sample": {
+    "trades": 249,
+    "episodes": 67,
+    "distinct_crash_days": 98
+  },
+  "go_checks_passed": 6,
+  "go_checks_total": 14,
+  "decision": {
+    "token": "NO_GO",
+    "rationale": "Both independent multi-year venues produce NO_GO under the C19-adjudicated spec-faithful entry rule; the native C18/C19 verdict is also NO_GO. The pooled synthesis therefore corroborates NO_GO and does not establish a decision-grade positive edge."
+  },
+  "priors_referenced": [
+    "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+    "research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.md",
+    "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.md",
+    "research_state/decision_verdict_consolidated_20261115T122636Z.md"
+  ]
+}

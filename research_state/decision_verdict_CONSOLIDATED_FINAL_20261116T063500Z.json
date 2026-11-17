@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-17T05:39:45Z",
+  "scope": "C1-C20 final consolidation",
+  "final_verdict_token": "NO_GO",
+  "verdict": "NO_GO",
+  "research_program_complete": true,
+  "supersedes": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.json",
+  "supersedes_verdict_token": "NO_GO",
+  "campaign_verdicts": {
+    "c19_native_spec_literal": "NO_GO",
+    "c20_okx": "NO_GO",
+    "c20_binance_um": "NO_GO",
+    "c20_pooled": "NO_GO"
+  },
+  "structural_power_note": "C20 confirms the C19 NO_GO out-of-sample: the spec-faithful next-open rule loses on both independent multi-year venues (OKX and Binance UM), so the native NO_GO is not a single-venue artifact. Effective episode counts remain below the GO floor.",
+  "leg_separation_conclusion": {
+    "OKX": {
+      "trades": 113,
+      "total_pnl": -55057.45,
+      "coin_pnl": -197767.56,
+      "hedge_pnl": 140841.8,
+      "rebound_short_pnl": -38420.09,
+      "episodes": 31,
+      "distinct_crash_days": 45,
+      "events": 369
+    },
+    "Binance UM": {
+      "trades": 136,
+      "total_pnl": -70309.57,
+      "coin_pnl": -214779.38,
+      "hedge_pnl": 135812.12,
+      "rebound_short_pnl": -38036.67,
+      "episodes": 36,
+      "distinct_crash_days": 53,
+      "events": 484
+    }
+  },
+  "provenance": {
+    "is_hyperliquid_venue_data": false,
+    "cross_venue": true,
+    "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false
+  },
+  "final_integrated_decision": {
+    "token": "NO_GO",
+    "statement": "Consolidated final C1-C20 verdict: NO_GO. The crash-rebound strategy under the C19-adjudicated spec-faithful entry rule is not validated as a decision-grade positive edge on available native or cross-venue evidence. No campaign warrants a GO claim."
+  },
+  "priors_referenced": [
+    "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+    "research_state/decision_verdict_hyperliquid_native_c19_20261116T054000Z.md",
+    "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.md",
+    "research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json"
+  ]
+}

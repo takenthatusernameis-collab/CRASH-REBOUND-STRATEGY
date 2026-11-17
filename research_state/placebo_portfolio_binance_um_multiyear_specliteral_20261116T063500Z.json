@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-17T05:39:44Z",
+  "phase": "C20",
+  "campaign": "C20",
+  "prereg_sha256": "6f7ad7091ead523d53e1fcb4cacb74f246673aa3c490ce433e74bb3a27cc0242",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "venue_label": "Binance UM",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo: gate-passing crash-bar subsets of fixed size run through the real portfolio engine; preserves gates/sizing/cap/occupancy/hedge.",
+  "mode": "deterministic_seeded_draws:500_choose_136_of_484",
+  "seed": 20261120,
+  "inputs": {
+    "campaign_sha256": "9a92ea03e9a83623082b1f34d893c5cd44a1a26018dbcd9979560eec508509ba",
+    "census_sha256": "7d64fedb9840cac047e7d61da0ec1779f60dade31974278caf657aca34f67e6a"
+  },
+  "canonical": {
+    "trades": 136,
+    "total_pnl": -70309.57483741551,
+    "replay": {
+      "num_trades": 136,
+      "total_pnl": -70309.57483741551
+    },
+    "admitted_keys_count": 136
+  },
+  "pool": {
+    "signal_gate_events": 484,
+    "choose_k": 136,
+    "exact_combinations_infeasible": true
+  },
+  "placebo": {
+    "runs": 500,
+    "summary": {
+      "n": 500,
+      "sum": -12218831.232593643,
+      "mean": -24437.662465187284,
+      "median": -22653.732324894732,
+      "stdev": 29346.497855375652,
+      "min": -107742.94083485077,
+      "max": 46487.495415707526,
+      "p05": -76457.8415494688,
+      "p95": 18593.925891710358
+    },
+    "p_ge_canonical": 0.916,
+    "canonical_percentile_le": 0.084,
+    "prob_total_pnl_positive": 0.218,
+    "ci_low_pnl_2p5": -85329.96849940311,
+    "ci_high_pnl_97p5": 25709.88793233684
+  },
+  "verdict": "underpowered",
+  "jobs": 4,
+  "limitations": [
+    "Tests admission/cap/occupancy selection within the observed gate-passing pool, not temporal crash timing.",
+    "CROSS-VENUE Binance UM; NOT Hyperliquid performance evidence."
+  ]
+}
