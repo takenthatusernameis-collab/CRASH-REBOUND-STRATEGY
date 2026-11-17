@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T04:54:24Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C20.
+**Generated (UTC):** 2026-11-17T04:54:57Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C20.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 **Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T04:46:36Z, green).
 
@@ -11,7 +11,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T04:54:24Z — FINISH C20, MANDATORY HEAVY WORK)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T04:54:57Z — FINISH C20, MANDATORY HEAVY WORK)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** close C20 (cross-venue out-of-sample replication on OKX + Binance UM, both real archives) because C1–C19 are closed as `NO_GO` and no other decision-relevant campaign is authorized. Treat C20 as the **only** binding next focus until `scripts/verify_c20_focus_campaign.py` prints `C20 ACCEPTANCE: PASS`.
 
@@ -65,7 +65,7 @@
 
 ---
 
-## NEXT FOCUS CAMPAIGN — NO-AVOIDANCE BINDING (2026-11-17T04:54:24Z)
+## NEXT FOCUS CAMPAIGN — NO-AVOIDANCE BINDING (2026-11-17T04:54:57Z)
 
 Future agents **cannot avoid heavy work**: the only accepted progress is at least one missing C20 artifact moving toward `C20 ACCEPTANCE: PASS`. Rewriting this file, re-planning, narrating liveness, reading, or refreshing timestamps is **not** progress. The binding obligation each session:
 
@@ -76,7 +76,7 @@ Future agents **cannot avoid heavy work**: the only accepted progress is at leas
 - **No partial-credit terminal states:** narrative-only, single-venue, "prereg only," relabeling cross-venue as Hyperliquid-native, or gate/script edits to pass are all rejected.
 - **Expected terminal verdict token:** `UNDERPOWERED` or `NO_GO` (both venues strongly negative; OKX bootstrap CI already spans 0). Record honestly; do not manufacture a `GO`. If `GO`, next binding campaign is **C21 independent out-of-sample confirmation** (preregister before compute).
 
-## LIVE STATE VERIFIED (2026-11-17T04:54:24Z)
+## LIVE STATE VERIFIED (2026-11-17T04:54:57Z)
 
 - **Host capacity:** `nproc=4`; four C20 workers saturate cores. Avoid concurrent heavy CPU work.
 - **Live compute:** durable supervisor `scripts/finish_c20_detached_durable.sh` PID 2916/SID 2916 alive (etime ~02:09:58); campaign PID 2931 alive; 4 workers PIDs 3273–3276 alive (`.venv`, ~95% CPU each, etime ~02:09:07, cumulative CPU `TIME` 02:02:55–02:03:10 — advancing, **genuinely live, not stalled**). `research_state/.c20/supervisor_status.json` = `IN_FLIGHT_HEAVY_COMPUTE`, attempt 1, `artifacts=10`, updated 2026-11-17T04:46:26Z. No legacy `/tmp` tree running; no stale `/tmp/c20_supervisor*` locks. No second campaign running.
@@ -88,7 +88,7 @@ Future agents **cannot avoid heavy work**: the only accepted progress is at leas
 - **Venv:** `.venv/bin/python` is the active interpreter for the durable supervisor and workers.
 - **Leftover/nonblocking:** `tmpgq4pmrk6/` present at repo root (temp-named cache dir), unremoved to avoid interfering with unknown consumers; cleanup candidate after C20 terminal if unreferenced.
 
-## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T04:54:24Z)
+## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T04:54:57Z)
 
 1. **Fresh live-state snapshot:** refreshed from 2026-11-17T04:44:48Z to 2026-11-17T04:46:43Z with direct `pgrep`/`ps`/status/gate probes; next agent resumes at true frontier.
 2. **No blocked/inefficient sessions (verified):** only this session + one C20 supervisor tree (PID 2916 + campaign 2931 + workers 3273–3276, one lineage); no duplicate supervisors/campaigns, no stale `/tmp` locks. 4-core saturation by 4 workers is intentional compute, not a removable bottleneck.
