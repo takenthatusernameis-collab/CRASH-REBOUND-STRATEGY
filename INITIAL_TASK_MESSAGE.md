@@ -1,15 +1,17 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:56:10Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:58:30Z — C21 INCOMPLETE; DO NOT DUPLICATE)
 
-**Authoritative durable handoff:** `HANDOFF.md` — this file is a pointer only; do not maintain a second source of truth. Read `HANDOFF.md` for the full binding state, C21 spec, guardrails, file map, and the execute-in-order steps.
+**Authoritative durable handoff:** `HANDOFF.md` (single source of truth). This file is a pointer only.
 
-**Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data (OKX + Binance UM).
-**State:** C1–C20 CLOSED & CERTIFIED `NO_GO`. C21-T1 is the **only** open binding work.
+**Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication (OKX + Binance UM). C1–C20 CLOSED & CERTIFIED `NO_GO`. **Only open binding work: C21-T1** (temporal/regime stability across prereg folds/strata). No avoidable relabeling to new campaigns without new prereg+data+authorization.
 
-**BOTTOM LINE UP FRONT (verified 2026-11-17T23:55:06Z):**
-- Canonical C21 runner **ACTIVE**: PID 21945 (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), ~1h55m wall, 4 R-state workers each ~90–92% CPU (child workers PIDs 38384–38387 rotate per phase — verify liveness via `ps` CPU time + child-worker count + checkpoint count + artifact count). **5/8** per-fold checkpoints — all OKX folds complete; **OKX verdict: NO_GO** (survivors=0, trades=113, pnl=-54799.23); Binance UM 2023 checkpoint written (events=342 signal_pass=143 trades=28 pnl=+34989.9036). Binance UM folds 2024/2025/2026YTD remain. **5/12** artifacts present; `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` — 8 requirements missing (all Binance UM fold artifacts + verdict, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`).
-- **DO NOT START A SECOND RUNNER** — the live process is computing on all 4 cores.
-- **Binding no-avoidance campaign:** C21-T1 is the sole open campaign. Continue heavy execution until `C21 ACCEPTANCE: PASS`; no planning-only, artifact-free monitoring, draw-count reduction, or C22+ relabeling is accepted.
+**Verified snapshot (2026-11-17T23:58:30Z, from repo):**
+- C21 artifacts present (stamp `20261117T064408Z`): **5/8 checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023`). **5/12 gate artifacts**: `c21_okx_fold_{census,episode_edge,placebo,campaign}_...json`, `c21_decision_verdict_okx_stability_...json` (OKX NO_GO, survivors=0, trades=113, pnl=-54799.23).
+- Missing (gate RED): Binance UM folds 2024/2025/2026YTD artifacts, `c21_binance_um_stability_verdict_...`, `c21_pooled_stability_synthesis_...`, `c21_decision_verdict_CONSOLIDATED_...`.
+- Expected gate now: `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` until all 12 + verdicts + synthesis + consolidated exist.
 
-**Next action:** monitor the live runner to `C21 ACCEPTANCE: PASS` (per-fold checkpoints `research_state/c21_ckpt_*`, artifacts `research_state/c21_*_20261117T064408Z.json`, log `research_state/c21_run_20261117T215941Z.log`). If no runner is alive, run `bash scripts/run_c21_detached_durable.sh` (invoke from a command line that does not itself contain the script name). Then run `PYTHONPATH=. .venv/bin/python -m pytest tests/ -q` and `PYTHONPATH=. .venv/bin/python scripts/session_gate.py`. **Do not reduce draw counts, fabricate artifacts, relabel cross-venue, or commit unless explicitly asked.**
+**Immediate next action (do this, in order):**
+1. **Check runner:** `ps -eo pid,ppid,etime,time,stat,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep`. If any live C21 runner is present (R/S with children), **do not start another**; monitor to completion (see commands in `HANDOFF.md`).
+2. If **no** live runner: `bash scripts/run_c21_detached_durable.sh` (run from a shell command line that does **not** contain that script name string), then monitor logs/checkpoints/artifacts to `C21 ACCEPTANCE: PASS`.
+3. On `PASS`: run `PYTHONPATH=. .venv/bin/python -m pytest tests/ -q` and `PYTHONPATH=. .venv/bin/python scripts/session_gate.py`; update `HANDOFF.md` timestamp/tokens if needed. **Do not reduce draw counts, hand-fabricate artifacts, or commit unless explicitly asked.**
 
-Full state, C21 spec, guardrails, and file map: `HANDOFF.md`.
+Full binding details, guardrails, file map: `HANDOFF.md`.

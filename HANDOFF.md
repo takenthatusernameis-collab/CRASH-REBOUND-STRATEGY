@@ -1,9 +1,10 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T23:56:10Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T23:58:30Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
-**Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
-**Verified live state (2026-11-17T23:56:10Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **~2h0m wall**, **4 R-state workers** each ~91–92% CPU (PIDs 38384–38387; sum **365.7%**; PIDs rotate per parallel phase — do not judge liveness by worker PID). **5/8 per-fold checkpoints** complete — all OKX folds (2023/2024/2025/2026YTD) + Binance UM 2023 (`c21_ckpt_binance_um_2023_20261117T064408Z.json`); **Binance UM 2024 is IN FLIGHT** (census events=312 signal_pass=140 trades=43, fast-path validated diff=0.00e+00, pnl=-33586.8261); Binance UM folds 2025/2026YTD remain. **5/12 artifacts** present: OKX fold-level census/episode_edge/placebo/campaign + `c21_decision_verdict_okx_stability_20261117T064408Z.json` (OKX verdict: NO_GO, survivors=0, trades=113, pnl=-54799.23). Binance UM fold 2023 computed (census events=342 signal_pass=143 trades=28 pnl=+34989.9036, fast-path validated diff=0.00e+00); Binance UM folds 2024/2025/2026YTD artifacts + verdict + pooled synthesis + consolidated final remain. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` — 8 requirement(s) missing (all Binance UM fold artifacts + verdict, c21_pooled_stability_synthesis, c21_decision_verdict_CONSOLIDATED). Worker CPU ~91–92% each; log silent between fold/validation prints is normal.
+**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues. If no explicit user override exists, future work is **heavy execution to satisfy C21-T1 gate** — never planning-only loops.
+
+**Verified live/repo state (2026-11-17T23:58:30Z; re-verify with commands below):** canonical C21 runner state must be confirmed live (`ps`). Repo artifacts present now: **5/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023`, all with stamp `20261117T064408Z`). **5/12 required gate artifacts** present (OKX fold bundle + `c21_decision_verdict_okx_stability_20261117T064408Z.json`: NO_GO, survivors=0, trades=113, pnl=-54799.23). Missing (gate RED): Binance UM fold artifacts for 2024/2025/2026YTD, `c21_binance_um_stability_verdict_*`, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`. `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` is expected to print `C21 ACCEPTANCE: FAIL` until the full battery completes. Prior noted live runner context (from 23:56 handoff snapshot): PID 21945 detached, ~2h wall, 4 workers; **do not assume PID alive now** — verify first.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
@@ -11,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:55:06Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:58:30Z — C21 INCOMPLETE; NO AVOIDANCE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
