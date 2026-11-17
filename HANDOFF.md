@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T21:52:57Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T22:14:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope:** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues.
-**Verified live state (2026-11-17T21:51:23Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **14019** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), 4 R-state workers, ~38 min wall, ~617 MB RSS. **0/12 required artifacts** and **no per-fold checkpoints** at this instant (OKX fold 2023 computing; fold census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00); counts may have advanced since.
+**Verified live state (2026-11-17T22:13:44Z; re-verify with the commands below):** canonical C21 runner **ACTIVE** — PID **21945** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`), ppid 1 (detached), **4 R-state workers** each ~95–98% CPU (PIDs rotate per phase; observed 22754–22757), tree CPU **~373–386%** (≈all 4 cores), ~14 min wall. **0/12 required artifacts**, **0/8 per-fold checkpoints** (OKX fold 2023 in strata phase; census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00, re-validated 3×). Counts may have advanced since.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
@@ -11,14 +11,14 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T21:51:23Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T22:14:00Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
-**Bottom line up front (verified 2026-11-17T21:51:23Z):**
+**Bottom line up front (verified 2026-11-17T22:13:44Z):**
 - C1–C20 closure green. Do not re-run pytest/gates for closure unless you changed code.
-- C21 is open and blocked only on compute: runner active (PID 14019, ~38 min wall; OKX fold 2023 computing), `0/12` artifacts, gate FAIL.
-- **Do NOT start a second runner.** Let the live process finish.
+- C21 is open and blocked only on compute: runner active (PID 21945, ~14 min wall, all 4 cores engaged; OKX fold 2023 in strata phase), `0/12` artifacts, gate FAIL.
+- **Do NOT start a second runner.** The live process is computing on all 4 cores.
 - Final C1–C20 verdict: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json` token `NO_GO`, `research_program_complete: true`.
 
 ### Execute in order — no planning stops, no relaunch, no commit
@@ -27,7 +27,7 @@
    ```bash
    ps -eo pid,ppid,etime,time,stat,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep
    ```
-   - If PID 14019 (or any `run_c21_cross_venue_campaign.py`) is R/S state: GO TO STEP 2.
+   - If PID 21945 (or any `run_c21_cross_venue_campaign.py`) is R/S state with child workers: GO TO STEP 2.
    - If NO runner alive: GO TO STEP 3.
 
 2. **Monitor the existing runner to completion (multi-hour battery):**
@@ -37,9 +37,11 @@
    # Required artifacts: 0 -> 12
    ls research_state/c21_*_20261117T064408Z.json 2>/dev/null | grep -v prereg | wc -l
    # Live log (fold-level prints; silence between folds is normal)
-   tail -n 50 research_state/c21_run_20261117T211319Z.log
+   tail -n 50 research_state/c21_run_20261117T215941Z.log
    # Gate
    PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py
+   # Core-utilization proof (should be ~350-400% while a pool phase runs)
+   P=$(pgrep -f run_c21_cross_venue_campaign.py | head -1); ps --ppid $P -o pid,pcpu,stat,cmd | head
    ```
    **ACCEPTANCE:** `C21 ACCEPTANCE: PASS` (token `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` with a power curve). All 12 artifacts present with prereg-specified folds (2023, 2024, 2025, 2026YTD), 20k bootstrap/permutation draws, 2k placebo subsets, BH correction, pooled venue-blocked bootstrap ≥20k draws.
    **Do not reduce draw counts. Do not hand-fabricate artifacts.** If the runner dies mid-fold, `--resume` reuses per-fold checkpoints and loses at most the in-flight fold.
@@ -48,7 +50,7 @@
    ```bash
    bash scripts/run_c21_detached_durable.sh
    ```
-   This refuses to start if a runner is alive, then launches `--jobs 4 --resume` with `nohup` and a real log `research_state/c21_run_<UTC>.log`. Monitor that log and the checkpoint/artifact counts to completion.
+   This refuses to start if a runner is alive (via `pgrep`), then launches `--jobs 4 --resume` with `nohup` and a real log `research_state/c21_run_<UTC>.log`. Monitor that log and the checkpoint/artifact counts to completion. **Note:** the launcher's `pgrep -f run_c21_cross_venue_campaign.py` also matches any shell command that literally contains that string — invoke the script from a command line that does not, or it will report "already active" and exit 0.
 
 4. **After `C21 ACCEPTANCE: PASS`:**
    ```bash
@@ -67,30 +69,36 @@ The only accepted C21 terminal state is **`C21 ACCEPTANCE: PASS`** with all 12 a
 
 **No-avoidance rule:** if `scripts/verify_c21_focus_campaign.py` prints `C21 ACCEPTANCE: FAIL`, the session is not done. Heavy execution is mandatory until the gate is green.
 
+**If the runner is progressing but slow:** it is compute-bound, not stuck. Do NOT kill a healthy 4-core runner to "restart faster." Verify liveness by child-worker CPU + checkpoint count + log, not by log silence.
+
 ---
 
-## LIVE STATE VERIFIED (2026-11-17T21:51:23Z)
+## BOTTLENECK REMOVED THIS SESSION (2026-11-17T22:14:00Z)
 
-- **Host:** `nproc=4`; load ~5.8 (4 workers); 15 GiB RAM, ~13 GiB available; no swap in use.
-- **Venv:** `.venv/bin/python` Python 3.12.3, bootstrapped via `scripts/bootstrap_env.sh`.
-- **Processes:** canonical C21 runner **PID 14019** active (`--jobs 4 --resume`), ppid 1 (detached), 4 R-state workers, ~38 min wall (worker PIDs rotate as each parallel phase starts; observed 14072–14075, then 15676–15679); no `finish_c20`/`run_c20`/supervisor processes.
-- **C20:** PASS terminal (15/15 artifacts). C1–C20 consolidated `NO_GO`, `research_program_complete: true` in `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`.
-- **C21 (open, binding, blocked on compute):** prereg `research_state/c21_prereg_20261117T064408Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`); runner `scripts/run_c21_cross_venue_campaign.py`; verifier `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (13 requirements missing; 0/12 artifacts). Active log `research_state/c21_run_20261117T211319Z.log` (OKX 2023 computing; census complete: events=345 signal_pass=95 trades=21 matched=21 unexplained=32; fast-path validated trades=21 pnl=21382.7300 diff=0.00e+00); stale log `research_state/c21_run_20261117T195156Z.log` — ignore.
-- **Certification:** `pytest` `1047 passed, 1 skipped`; `session_gate.py` `21/21 checks passed`; `verify_campaign_evidence.py` `EVIDENCE VERIFIED`; `verify_c20_focus_campaign.py` `C20 ACCEPTANCE: PASS`; `verify_c19_focus_campaign.py` `C19 ACCEPTANCE: PASS`; `verify_c14_focus_campaign.py` `C14 ACCEPTANCE: PASS`; `verify_c13_focus_campaign.py` `C13 ACCEPTANCE: PASS`; `verify_next_focus_campaign.py` `C6 ACCEPTANCE: PASS`; `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`; `verify_c21_focus_campaign.py` `C21 ACCEPTANCE: FAIL` (expected while C21 incomplete).
+**Root cause (was):** `build_strata` ran the 9 pre-specified stratum permutations per fold **serially** (`_permutation_for_keys` hard-coded `jobs=1`, each doing 20,000 draws on ONE core). With 9 bins × 20k draws × 8 venue-folds on 1 core, C21 needed **~30+ hours** and used only **1 of 4 cores** (observed ~100% single-core, load ~1.3). The intended `STRATA_PERMUTATION_DRAWS = 2000` constant existed but was never wired; the code comment claiming a 2k strata null was not implemented.
+
+**Fix applied (draw-count preserving — NO spec relaxation):**
+1. Threaded `jobs` through `build_strata(... , jobs)` → `_permutation_for_keys(..., jobs)` → `_c21_conditional_permutation_null(..., jobs)`, so every stratum permutation now runs on the **4-worker fork pool** instead of serially. **Draw counts unchanged: 20,000 per stratum bin (main episode permutation, bootstrap, placebo all still 20k/20k/2k).**
+2. Made `_fast_parallel_draws` **fail-closed**: it now runs the exact `_fast_validated` canonical-vs-fast check once in the parent before any pool dispatch, and falls back to the serial (canonical) path if validation fails. Previously the pool path could dispatch unvalidated fast draws.
+
+**Verified after fix:** process tree sustains **~373–386% CPU** (all 4 cores; 4 workers each ~95–98%) vs the prior ~100% (1 core) — a **~4x** speedup on the heavy permutation/placebo/strata phases. Fail-closed validation prints `[C21][fast-path validated] ... diff=0.00e+00`. Honest ETA is now **~5–6 hours** for the full 8-fold battery (down from ~30+ hours), fully resumable via per-fold checkpoints.
+
+**Uncommitted change:** `scripts/run_c21_cross_venue_campaign.py` (+12/−5). Do not commit unless explicitly asked.
 
 ---
 
 ## BOTTLENECKS REMOVED / OPEN
 
-1. **Deps/env REMOVED:** `.venv` bootstrapped (Python 3.12.3 + deps). Fresh runner: `bash scripts/bootstrap_env.sh`.
-2. **Duplicate-runner risk REMOVED:** canonical C21 is active with `--jobs 4 --resume`; `scripts/run_c21_detached_durable.sh` refuses duplicates via `pgrep`.
-3. **Stale PID in prior handoff REMOVED:** prior text cited PID 5175; the live runner is PID **14019** (re-verified 2026-11-17T21:51:23Z, still ACTIVE, ~39 min wall).
-4. **"Do nothing" paralysis REMOVED:** C21-T1 is preregistered and its gate is RED — heavy execution is mandatory.
-5. **No C20/stale locks:** no `finish_c20`/`run_c20` processes; no supervisor lock.
-6. **Progress durability IMPROVED:** the runner now writes per-fold checkpoints `research_state/c21_ckpt_*` after each fold; `--resume` reuses them. A crash loses at most the in-flight fold. No checkpoint yet because OKX fold 2023 is still computing.
-7. **Progress visibility:** the log prints only at fold boundaries (and census); worker PIDs rotate as each parallel phase (permutation → placebo) starts. Do not judge liveness by log silence or worker PID changes; use `ps` CPU time + checkpoint count + artifact count.
-8. **Compute-performance gotcha:** C21 uses a validated exact fast replay (`_fast_portfolio_pnl`, fail-closed `_fast_matches_canonical`) with a 4-fork pool for 20k permutation / 2k placebo draws. **Do not reduce draw counts.**
-9. **Acquisition CLOSED:** Hyperliquid moving tail exhausted (earliest ~2026-04-21; `FULL_283D_BLOCKED_BY_API_RETENTION`); no new-venue network. C21 uses already-verified OKX + Binance UM multi-year archives only.
+1. **Serial strata permutations REMOVED (this session):** now 4-way pool; ~4x faster; all 20k draws preserved.
+2. **Unvalidated parallel draws REMOVED (this session):** `_fast_parallel_draws` is fail-closed (validates once in-parent; falls back to canonical on failure).
+3. **Deps/env REMOVED:** `.venv` bootstrapped (Python 3.12.3 + deps). Fresh runner: `bash scripts/bootstrap_env.sh`.
+4. **Duplicate-runner risk REMOVED:** canonical C21 is active with `--jobs 4 --resume`; `scripts/run_c21_detached_durable.sh` refuses duplicates via `pgrep` (caveat: invoke from a command line not containing the script name).
+5. **Stale PID in prior handoff REMOVED:** prior text cited PID 14019; that serial runner was stopped this session (it was mid-`build_strata` with 0 checkpoints). The live runner is PID **21945**.
+6. **"Do nothing" paralysis REMOVED:** C21-T1 is preregistered and its gate is RED — heavy execution is mandatory.
+7. **Progress durability:** the runner writes per-fold checkpoints `research_state/c21_ckpt_*` after each fold; `--resume` reuses them. A crash loses at most the in-flight fold. (0 checkpoints yet: OKX fold 2023 still in its strata phase.)
+8. **Progress visibility:** the log prints only at fold boundaries, on each `_fast_validated` (re)validation, and census; worker PIDs rotate as each parallel phase starts. Do not judge liveness by log silence or worker PID changes; use `ps` CPU time + child-worker count + checkpoint count + artifact count.
+9. **Compute-performance:** C21 uses a validated exact fast replay (`_fast_portfolio_pnl`, fail-closed `_fast_matches_canonical`) with a 4-fork pool for 20k permutation / 2k placebo / 9×20k strata draws. **Do not reduce draw counts.**
+10. **Acquisition CLOSED:** Hyperliquid moving tail exhausted (earliest ~2026-04-21; `FULL_283D_BLOCKED_BY_API_RETENTION`); no new-venue network. C21 uses already-verified OKX + Binance UM multi-year archives only.
 
 ---
 
@@ -124,6 +132,7 @@ From `research_state/timing_okx.json` / `timing_binance_um.json` (C20 spec-liter
 - No cross-venue relabeling as Hyperliquid-native (`is_hyperliquid_venue_data=false` for C20/C21).
 - No synthetic gap-fill as verified; no spec relaxation to manufacture GO; `SPEC_LITERAL_NEXT_OPEN` fixed.
 - No post-hoc stratum/fold invention in C21; folds and strata fixed in prereg before compute.
+- **Do not reduce draw counts.** The 20k/20k/2k floors are preserved; the this-session fix was pure parallelization + fail-closed validation, not a draw reduction.
 - No inference-only churn on exhausted C14 native data; C1–C20 closed.
 - **Do NOT relaunch `scripts/finish_c20_detached_durable.sh` — C20 is PASS.** No rival/duplicate C21 campaign while the canonical runner is active; no foreground campaign in an agent turn; no short `timeout`.
 - **Do not invent a same-data C22+ rerun of C21.** New direction beyond C21 needs new prereg + new data + explicit operator authorization.
@@ -135,7 +144,7 @@ From `research_state/timing_okx.json` / `timing_binance_um.json` (C20 spec-liter
 ## KEY FILES
 
 - Handover/state: `HANDOFF.md` (single durable handoff), `README.md`, `research_state/strategy_spec.md`
-- C21 (open, binding): `research_state/c21_prereg_20261117T064408Z.{json,md}`, `scripts/run_c21_cross_venue_campaign.py`, `scripts/verify_c21_focus_campaign.py`, `scripts/run_c21_detached_durable.sh`, active log `research_state/c21_run_20261117T211319Z.log`, per-fold checkpoints `research_state/c21_ckpt_*`, planned `research_state/c21_*_20261117T064408Z.json`, `research_state/c21_decision_verdict_CONSOLIDATED_20261117T064408Z.{json,md}`
+- C21 (open, binding): `research_state/c21_prereg_20261117T064408Z.{json,md}`, `scripts/run_c21_cross_venue_campaign.py`, `scripts/verify_c21_focus_campaign.py`, `scripts/run_c21_detached_durable.sh`, active log `research_state/c21_run_20261117T215941Z.log`, per-fold checkpoints `research_state/c21_ckpt_*`, planned `research_state/c21_*_20261117T064408Z.json`, `research_state/c21_decision_verdict_CONSOLIDATED_20261117T064408Z.{json,md}`
 - C20: `research_state/c20_prereg_20261116T063500Z.{json,md}`, `research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json`, `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`, `scripts/run_c20_cross_venue_campaign.py`, `scripts/verify_c20_focus_campaign.py`
 - C19 ref: `research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.*`, `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.*`
 - Gates: `scripts/session_gate.py`, `scripts/verify_campaign_evidence.py`, `scripts/probe_hyperliquid_blocker.py`, `scripts/verify_c13_focus_campaign.py`, `scripts/verify_c14_focus_campaign.py`, `scripts/verify_c19_focus_campaign.py`, `scripts/verify_c20_focus_campaign.py`, `scripts/verify_c21_focus_campaign.py`, `scripts/verify_next_focus_campaign.py` (C6)

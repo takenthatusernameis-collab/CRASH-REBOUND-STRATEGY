@@ -710,6 +710,12 @@ def _fast_parallel_draws(candles: Dict[str, Any], cfg: StrategyConfig,
     """
     if jobs <= 1 or len(subsets) <= 1:
         return _fast_serial_draws(candles, cfg, memo, subsets)
+    # Fail-closed: validate the exact fast replay against the canonical engine
+    # once in the parent before any pool dispatch. If validation fails, fall
+    # back to the serial path (whose per-draw _fast_draw_pnl also re-checks and
+    # uses the canonical engine), so no unvalidated fast number can escape.
+    if not _fast_validated(candles, cfg, memo):
+        return _fast_serial_draws(candles, cfg, memo, subsets)
     try:
         import multiprocessing as mp
         if "fork" not in mp.get_all_start_methods():
@@ -975,10 +981,11 @@ def _stratum_bootstrap_ci(trade_rows: Sequence[Dict[str, Any]], episodes: Sequen
 
 def _permutation_for_keys(vd_slice: Dict[str, Any], census: Dict[str, Any],
                           subset_keys: Sequence[Tuple[str, int]], canonical_pnl: float,
-                          cfg: StrategyConfig, draws: int, seed: int) -> Dict[str, Any]:
+                          cfg: StrategyConfig, draws: int, seed: int,
+                          jobs: int = 1) -> Dict[str, Any]:
     memo, rows, meta = c20.build_memo(vd_slice, census, cfg)
     return _c21_conditional_permutation_null(vd_slice, memo, rows, list(subset_keys),
-                                             canonical_pnl, cfg, draws, seed, 1)
+                                             canonical_pnl, cfg, draws, seed, jobs)
 
 
 def _key_in_bin(key: Tuple[str, int], vid: str, b: str,
@@ -998,7 +1005,7 @@ def _key_in_bin(key: Tuple[str, int], vid: str, b: str,
 
 def build_strata(venue_data_full: Dict[str, Any], vd_slice: Dict[str, Any],
                  census: Dict[str, Any], episode: Dict[str, Any],
-                 fold_id: str) -> Dict[str, Any]:
+                 fold_id: str, jobs: int = 1) -> Dict[str, Any]:
     """Pre-specified stratum stratification + BH correction for one venue-fold.
 
     Deterministic, no data-dependent bin invention. Each pre-specified bin is
@@ -1081,7 +1088,7 @@ def build_strata(venue_data_full: Dict[str, Any], vd_slice: Dict[str, Any],
             if n_trades > 0 and sub_keys:
                 try:
                     perm = _permutation_for_keys(vd_slice, census, sub_keys, boot["observed_total"],
-                                                 cfg, DRAWS, SEED + len(pvals))
+                                                 cfg, DRAWS, SEED + len(pvals), jobs)
                     p_perm = float(perm.get("p_null_ge_canonical") if perm.get("p_null_ge_canonical") is not None else 1.0)
                 except Exception:
                     p_perm = 1.0
@@ -1168,7 +1175,7 @@ def run_venue_folds(venue: str, jobs: int, resume: bool) -> Dict[str, Any]:
         cen = _fold_census(vd_slice, camp, fid)
         ep = _fold_episode_edge(vd_slice, cen, camp, c20.spec_literal_config(), fid, jobs)
         pl = _fold_placebo(vd_slice, cen, c20.spec_literal_config(), fid, jobs)
-        st = build_strata(vd, vd_slice, cen, ep, fid)
+        st = build_strata(vd, vd_slice, cen, ep, fid, jobs)
         fold_campaigns[fid] = camp
         fold_censuses[fid] = cen
         fold_episodes[fid] = ep
