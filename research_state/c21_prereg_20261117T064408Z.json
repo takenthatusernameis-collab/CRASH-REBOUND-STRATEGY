@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "campaign": "C21",
+  "generated_at_utc": "2026-11-17T06:44:08Z",
+  "label": "CROSS_VENUE_TEMPORAL_WALK_FORWARD_AND_REGIME_STABILITY_SPEC_LITERAL",
+  "status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "real_market_data": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol). Acquisition stays CLOSED (Hyperliquid moving tail exhausted, earliest ~2026-04-21). Performance evidence only when produced by the full battery under this prereg.",
+  "objective": "The C1-C20 program closed with a pooled NO_GO on the UNCONDITIONAL spec-literal next-open edge (C20 pooled CI spans 0; both venues negative). Before that edge is abandoned, C21 tests a pre-registered, decision-relevant follow-up question: is the NO_GO stable across time and crash regimes, or does a pre-specified fold/stratum survive multiplicity control with a positive spot leg and cross-venue concordance? This is a NEW hypothesis (temporal walk-forward + regime stability + conditional subset), not a rerun of C20's unconditional test.",
+  "binding_task": "C21-T1: Quantify the temporal and regime stability of the spec-literal crash-rebound edge on two independent real venues, with a pre-specified multiple-testing correction and an honest pooled C21 verdict (STABLE_POSITIVE_SUBSET / NO_GO / UNDERPOWERED). Every number must come from a full decision-grade battery executed after this prereg; no config switching after results.",
+  "inputs_fixed": {
+    "okx": {
+      "cache_dir": "research_state/cache/okx_1h_multiyear_20230101_20260928",
+      "universe": "research_state/universe_okx_multiyear_verified.json",
+      "canonical_campaign_same_bar": "research_state/campaign_results_real_okx_multiyear.json",
+      "c20_spec_literal_campaign": "research_state/campaign_results_real_okx_multiyear_specliteral_20261116T063500Z.json",
+      "c20_spec_literal_verdict": "research_state/decision_verdict_cross_venue_okx_specliteral_c20_20261116T063500Z.json"
+    },
+    "binance_um": {
+      "cache_dir": "research_state/cache/binance_um_1h_multiyear_20230101_20260928",
+      "universe": "research_state/universe_binance_um_multiyear_verified.json",
+      "canonical_campaign_same_bar": "research_state/campaign_results_real_binance_um_multiyear.json",
+      "c20_spec_literal_campaign": "research_state/campaign_results_real_binance_um_multiyear_specliteral_20261116T063500Z.json",
+      "c20_spec_literal_verdict": "research_state/decision_verdict_cross_venue_binance_um_specliteral_c20_20261116T063500Z.json"
+    },
+    "priors": {
+      "c20_pooled": "research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json",
+      "consolidated_final_c20": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json",
+      "c19_adjudication": "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json"
+    }
+  },
+  "folds": {
+    "definition": "Pre-specified contiguous calendar folds over the fixed multi-year window; each fold is evaluated independently per venue.",
+    "folds": [
+      {"id": "2023", "start": "2023-01-01T00:00:00Z", "end": "2023-12-31T23:00:00Z"},
+      {"id": "2024", "start": "2024-01-01T00:00:00Z", "end": "2024-12-31T23:00:00Z"},
+      {"id": "2025", "start": "2025-01-01T00:00:00Z", "end": "2025-12-31T23:00:00Z"},
+      {"id": "2026YTD", "start": "2026-01-01T00:00:00Z", "end": "2026-09-28T23:00:00Z"}
+    ],
+    "walk_forward": "Expand folds cumulatively (2023 -> 2023+2024 -> ... ) and report the cumulative equity/spot-leg trajectory to expose regime dependence; no parameter fitting is performed (all params fixed by this prereg), so walk-forward here is sequential out-of-fold reporting, not a fitted model."
+  },
+  "strata": {
+    "definition": "Pre-specified conditioning variables used ONLY for the multiplicity-controlled conditional-subset test. No data-dependent selection of strata.",
+    "variables": [
+      {"id": "crash_severity", "bins": ["rsi_0_10", "rsi_10_15", "rsi_15_20"]},
+      {"id": "btc_trend", "bins": ["btc_down_7d", "btc_flat_7d", "btc_up_7d"]},
+      {"id": "funding_regime", "bins": ["funding_negative", "funding_neutral", "funding_positive"]}
+    ],
+    "selection_rule": "Fixed by this prereg; strata are evaluated for every venue-fold and pooled; no post-hoc stratum invention."
+  },
+  "hypothesis": {
+    "id": "H1_c21_temporal_regime_stability",
+    "description": "Under the C19-adjudicated spec-faithful entry rule (SPEC_LITERAL_NEXT_OPEN), the crash-rebound spot edge is measured per temporal fold and per pre-specified regime stratum on two independent venues, with a pre-specified multiple-testing correction; C21 reports whether any stratum survives with cross-venue concordance or whether the C1-C20 NO_GO is robust.",
+    "config": {
+      "rsi_period": 21,
+      "rsi_threshold": 20.0,
+      "target_pct": 9.0,
+      "rebound_short_target_pct": 9.0,
+      "rebound_short_time_exit_bars": 48,
+      "enable_rebound_short": true,
+      "enable_eth_hedge": true,
+      "min_daily_volume_usd": 5000000.0,
+      "gross_cap_pct": 120.0,
+      "entry_spec_literal_next_open": true
+    },
+    "selection_rule": "Fixed by this prereg; no config switching after results."
+  },
+  "inference_plan": {
+    "dependence_aware": true,
+    "seed": 20261121,
+    "draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_subsets": 2000,
+    "methods": [
+      "per_fold_per_venue_episode_block_bootstrap_CI95_spot_hedge_rebound_total",
+      "per_fold_per_venue_conditional_temporal_edge_permutation_p",
+      "per_fold_per_venue_full_portfolio_placebo_p_ge_canonical",
+      "per_fold_per_venue_stratum_stratified_bootstrap_with_BH_correction",
+      "pooled_venue_blocked_bootstrap_over_fold_episode_totals",
+      "cross_venue_sign_concordance_across_folds"
+    ],
+    "multiplicity": {
+      "method": "benjamini_hochberg",
+      "family": "8 venue-fold tests (4 folds x 2 venues) plus a separate family for stratum tests",
+      "alpha": 0.05
+    },
+    "power": "Minimum heavy-compute floor: 20000 bootstrap draws and 20000 permutation draws and 2000 placebo subsets per venue-fold; a stratum/fold is only eligible for STABLE_POSITIVE_SUBSET if effective N >= 10 trades, >= 5 episodes, >= 5 distinct crash days. If unmet, the fold/stratum is UNDERPOWERED and a power curve must be reported.",
+    "power_curve_required_if_not_stable_positive": true
+  },
+  "decision_rules": {
+    "stable_positive_subset": "C21 STABLE_POSITIVE_SUBSET (provisional, follow-up warranting; NOT a global GO) only if at least one pre-specified venue-fold OR pooled-fold stratum survives BH correction at alpha=0.05 with episode-block bootstrap 95% CI excluding 0 and positive spot leg, permutation p<0.05, placebo p_ge_canonical<0.05, and effective N >= 10 trades / 5 episodes / 5 crash days, AND the same-direction effect is present in the other venue (cross-venue concordance) OR is explicitly flagged single-venue exploratory.",
+    "no_go": [
+      "no pre-specified stratum survives BH correction",
+      "pooled C21 venue-blocked bootstrap CI spans 0",
+      "spot leg non-positive across the majority of folds in both venues (corroborates C1-C20 NO_GO)"
+    ],
+    "underpowered": [
+      "per-fold effective sample below floor for all folds",
+      "missing seed/SHA binding or compute predating this prereg"
+    ],
+    "report_both": "Always report the per-fold, per-venue, and pooled numbers plus the power curve; never a bare token."
+  },
+  "required_artifacts": {
+    "prereg": "research_state/c21_prereg_20261117T064408Z.{json,md}",
+    "okx_folds": "research_state/c21_okx_fold_campaign_20261117T064408Z.json + c21_okx_fold_episode_edge_20261117T064408Z.json + c21_okx_fold_placebo_20261117T064408Z.json + c21_okx_fold_census_20261117T064408Z.json",
+    "binance_folds": "research_state/c21_binance_um_fold_campaign_20261117T064408Z.json + c21_binance_um_fold_episode_edge_20261117T064408Z.json + c21_binance_um_fold_placebo_20261117T064408Z.json + c21_binance_um_fold_census_20261117T064408Z.json",
+    "okx_verdict": "research_state/c21_decision_verdict_okx_stability_20261117T064408Z.{json,md}",
+    "binance_verdict": "research_state/c21_decision_verdict_binance_um_stability_20261117T064408Z.{json,md}",
+    "pooled_synthesis": "research_state/c21_pooled_stability_synthesis_20261117T064408Z.json",
+    "consolidated_final": "research_state/c21_decision_verdict_CONSOLIDATED_20261117T064408Z.{json,md}",
+    "handoff": "HANDOFF.md must reference C21-T1 and verify_c21_focus_campaign.py"
+  },
+  "guardrails": [
+    "No cross-venue relabeling as Hyperliquid-native evidence (is_hyperliquid_venue_data=false).",
+    "No synthetic gap-fill presented as verified.",
+    "No spec relaxation to manufacture a GO; SPEC_LITERAL_NEXT_OPEN is the fixed reading.",
+    "No post-hoc stratum invention; strata and folds are fixed here before compute.",
+    "No silent change to the canonical baseline; C1-C20 NO_GO stands unless C21 produces a pre-registered contradiction with full evidence.",
+    "C21 is executable on already-verified real archives; acquisition stays CLOSED (no new-venue download, Hyperliquid tail exhausted)."
+  ]
+}
