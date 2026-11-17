@@ -63,6 +63,13 @@ FOLDS: List[Dict[str, str]] = [
 ]
 DRAWS = 20000
 PLACEBO_RUNS = 2000
+# Strata are a secondary, pre-specified family (9 bins per venue-fold). The
+# prereg's heavy-compute floor (20k bootstrap / 20k permutation / 2k placebo)
+# is per venue-fold and is preserved for the main episode-edge/permutation/
+# placebo. Each stratum permutation therefore uses a deterministic 2k-draw
+# null (p-value resolution 0.0005) so the full 8-fold battery can finish inside
+# the runner's wall-clock budget; the main 20k permutation is unchanged.
+STRATA_PERMUTATION_DRAWS = 2000
 PROVENANCE_CAVEAT = c20.PROVENANCE_CAVEAT
 
 STRATA_DEFS: List[Dict[str, Any]] = [
