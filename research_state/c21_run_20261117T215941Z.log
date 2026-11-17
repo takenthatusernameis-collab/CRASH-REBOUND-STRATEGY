@@ -5,3 +5,5 @@
 [C21][fast-path validated] trades=21 pnl=21382.7300 diff=0.00e+00
 [C21] OKX fold 2023: trades=21 pnl=21382.73 eps=9 perm_p=0.0669 placebo_runs=2000
 [C21] OKX fold 2024: symbols=34
+[census] OKX: events=303 signal_pass=115 trades=34 matched=34 unexplained=46
+[C21][fast-path validated] trades=34 pnl=-38598.3539 diff=0.00e+00
