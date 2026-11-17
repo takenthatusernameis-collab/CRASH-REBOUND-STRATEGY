@@ -1,10 +1,10 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T07:42:29Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C20.
-**CLOSURE CERTIFICATION RE-VERIFIED THIS SESSION (2026-11-17T07:42:29Z):** re-verified end-to-end state. `pytest tests/ -q` = `1047 passed, 1 skipped in 18.52s` (2026-11-17T06:44:08Z, last recorded run). All C1–C20 gates green with literal tokens: `session_gate.py` `21/21 checks passed` (re-verified 2026-11-17T07:42Z), `verify_campaign_evidence.py` `EVIDENCE VERIFIED`, `C20 ACCEPTANCE: PASS` (pooled `NO_GO`), `C19 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`. `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`. **The C1–C20 research program is COMPLETE and certified `NO_GO`; nothing in C1–C20 remains to run. Do NOT relaunch C20, do not re-run pytest/gates for closure, do not commit unless asked.**
-**BINDING NEXT FOCUS CAMPAIGN `C21` PREREGISTERED (gate RED until executed):** `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`) + `scripts/verify_c21_focus_campaign.py` (fail-closed, 13 requirements missing / 0/12 artifacts as of 2026-11-17T07:42Z). **The next session's primary heavy task is to execute C21 end-to-end and turn `C21 ACCEPTANCE: FAIL` → `C21 ACCEPTANCE: PASS`.** No live `finish_c20`/`run_c20`/`run_c21`/campaign/supervisor processes; stale `research_state/.c20/supervisor.lock` absent.
+**Generated (UTC):** 2026-11-17T07:44:04Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
+**CLOSURE CERTIFICATION RE-VERIFIED THIS SESSION (2026-11-17T07:44:04Z):** re-verified end-to-end state. `pytest tests/ -q` = `1047 passed, 1 skipped in 18.52s` (2026-11-17T06:44:08Z, last recorded run). All C1–C20 gates green with literal tokens: `session_gate.py` `21/21 checks passed` (re-verified 2026-11-17T07:44Z), `verify_campaign_evidence.py` `EVIDENCE VERIFIED`, `C20 ACCEPTANCE: PASS` (pooled `NO_GO`), `C19 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`. `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`. **The C1–C20 research program is COMPLETE and certified `NO_GO`; nothing in C1–C20 remains to run. Do NOT relaunch C20, do not re-run pytest/gates for closure, do not commit unless asked.**
+**BINDING NEXT FOCUS CAMPAIGN `C21` PREREGISTERED (gate RED until executed):** `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`) + `scripts/verify_c21_focus_campaign.py` (fail-closed, 13 requirements missing / 0/12 artifacts as of 2026-11-17T07:44Z). **The next session's primary heavy task is to execute C21 end-to-end and turn `C21 ACCEPTANCE: FAIL` → `C21 ACCEPTANCE: PASS`.** No live `finish_c20`/`run_c20`/`run_c21`/campaign/supervisor processes; stale `research_state/.c20/supervisor.lock` absent.
 **Single durable handoff for the next agentic session — read this before doing anything else.**
-**Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T07:42Z, green).
+**Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T07:44Z, green).
 
 > **PROGRAM STATE: C1–C20 COMPLETE and certified `NO_GO` (closure re-verified 2026-11-17T07:42Z). C20 `ACCEPTANCE: PASS` (15/15 artifacts; pooled cross-venue `NO_GO`). The C20 supervisor exited cleanly at 2026-11-17T05:39:45Z with `C20 ACCEPTANCE: PASS` (artifacts=15, attempts=1, run_rc=0). There is NO live supervisor/campaign process now.**
 >
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T07:42:29Z — C1–C20 CLOSED `NO_GO`; EXECUTE NEW C21)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T07:44:04Z — C1–C20 CLOSED `NO_GO`; EXECUTE NEW C21)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** C1–C20 are complete/certified `NO_GO`; the single binding next task is **C21-T1** (cross-venue temporal walk-forward & regime-stability of the spec-literal rule) — see `research_state/c21_prereg_20261117T064408Z.md` and `scripts/verify_c21_focus_campaign.py`.
 
@@ -38,7 +38,7 @@
 
 ---
 
-## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T07:42:29Z)
+## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T07:44:04Z)
 
 Future agents **cannot avoid heavy work**: the binding next campaign is **C21-T1**, whose gate `scripts/verify_c21_focus_campaign.py` is **RED until the full battery is executed**. Accepted progress is therefore **only**:
 - **C21 executed end-to-end:** all `c21_*_20261117T064408Z` artifacts produced (per-venue fold campaign + episode edge + placebo + census, per-venue verdict, pooled stability synthesis, consolidated final), with `C21 ACCEPTANCE: PASS` (token `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` with a power curve) and an honest pooled verdict.
@@ -47,18 +47,18 @@ Future agents **cannot avoid heavy work**: the binding next campaign is **C21-T1
 
 Not progress: reading, planning, rewriting this file, refreshing timestamps, "monitoring" an already-exited supervisor, relaunching C20, or inventing a same-data C22+ rerun. **Do NOT relaunch `scripts/finish_c20_detached_durable.sh`. Do NOT commit unless explicitly asked.**
 
-## LIVE STATE VERIFIED (2026-11-17T07:42:29Z)
+## LIVE STATE VERIFIED (2026-11-17T07:44:04Z)
 
 - **Host capacity:** `nproc=4`. No live `finish_c20`/`run_c20`/`run_c21`/campaign/supervisor processes (verified `pgrep -af 'finish_c20|run_c20|run_c21'` = none). Only this session's own harness runs.
 - **C20:** PASS, terminal. `research_state/.c20/supervisor_status.json` = `state: PASS`, `artifacts: 15`, `updated_at_utc: 2026-11-17T05:39:45Z`. Stale `research_state/.c20/supervisor.lock` is absent (removed earlier; not a bottleneck).
-- **C21 (open, binding):** prereg present `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`). Gate `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (13 requirements missing; 0/12 output artifacts) as of 2026-11-17T07:42Z — **expected RED until heavy compute is executed**. No C21 campaign script/runner artifacts exist yet; all C21 outputs remain to be produced. Leave uncommitted unless asked.
+- **C21 (open, binding):** prereg present `research_state/c21_prereg_20261117T064408Z.{json,md}` (status `PRE_REGISTERED_BEFORE_COMPUTE`). Gate `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (13 requirements missing; 0/12 output artifacts) as of 2026-11-17T07:44Z — **expected RED until heavy compute is executed**. No C21 campaign script/runner artifacts exist yet; all C21 outputs remain to be produced. Leave uncommitted unless asked.
 - **Artifacts:** 15/15 `research_state/*_20261116T063500Z.json` present. C20 result artifacts and closure memo are **untracked** in git; `research_state/hyperliquid_retention_probe.json` modified by an earlier session's probe run — leave uncommitted unless asked.
 - **Consolidated final (C1–C20):** `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json` — token `NO_GO`, `research_program_complete: true`, supersedes `..._20261116T054500Z.json`. Pooled total PnL `-125,367.02`, bootstrap 95% CI `[-140,619.14, -110,114.9]`, `prob_pooled_total_gt_0=0.0`, go checks `6/14`, effective sample `trades=249, episodes=67, distinct_crash_days=98`. Memo present.
 - **Per-venue (both `NO_GO`):** OKX `trades=113, total_pnl=-55,057.45` (coin `-197,767.56`, hedge `+140,841.80`, rebound_short `-38,420.09`), episodes=31, crash_days=45, events=369. Binance UM `trades=136, total_pnl=-70,309.57` (coin `-214,779.38`, hedge `+135,812.12`, rebound_short `-38,036.67`), episodes=36, crash_days=53, events=484.
-- **Certification (re-verified 2026-11-17T07:42Z):** `pytest tests/ -q` → `1047 passed, 1 skipped in 18.52s` (2026-11-17T06:44:08Z, last recorded). `session_gate.py` → `21/21 checks passed`. `verify_campaign_evidence.py` → `EVIDENCE VERIFIED`. `verify_c20_focus_campaign.py` → `C20 ACCEPTANCE: PASS`. `verify_c19_focus_campaign.py` → `C19 ACCEPTANCE: PASS`. `verify_c13_focus_campaign.py` → `C13 ACCEPTANCE: PASS`. `verify_c14_focus_campaign.py` → `C14 ACCEPTANCE: PASS`. `verify_next_focus_campaign.py` → `C6 ACCEPTANCE: PASS`. `probe_hyperliquid_blocker.py` → `FULL_283D_BLOCKED_BY_API_RETENTION`. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected).
+- **Certification (re-verified 2026-11-17T07:44Z):** `pytest tests/ -q` → `1047 passed, 1 skipped in 18.52s` (2026-11-17T06:44:08Z, last recorded). `session_gate.py` → `21/21 checks passed`. `verify_campaign_evidence.py` → `EVIDENCE VERIFIED`. `verify_c20_focus_campaign.py` → `C20 ACCEPTANCE: PASS`. `verify_c19_focus_campaign.py` → `C19 ACCEPTANCE: PASS`. `verify_c13_focus_campaign.py` → `C13 ACCEPTANCE: PASS`. `verify_c14_focus_campaign.py` → `C14 ACCEPTANCE: PASS`. `verify_next_focus_campaign.py` → `C6 ACCEPTANCE: PASS`. `probe_hyperliquid_blocker.py` → `FULL_283D_BLOCKED_BY_API_RETENTION`. `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected).
 - **Venv:** `.venv/bin/python` (Python 3.12.3).
 
-## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T07:42:29Z)
+## BOTTLENECKS REMOVED / UNBLOCKED (2026-11-17T07:44:04Z)
 
 1. **"Do nothing" paralysis removed:** C1–C20 closed `NO_GO` but the next session must not idle. Binding next campaign **C21-T1** is preregistered and its gate is RED until executed.
 2. **No live/stale blockers:** no `finish_c20`/`run_c20`/`run_c21` processes running; `research_state/.c20/supervisor.lock` absent; only `.c20/supervisor_status.json` (`state: PASS`) and `supervisor.log` remain as history.
