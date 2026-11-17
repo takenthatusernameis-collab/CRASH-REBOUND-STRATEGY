@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T11:10:06Z — C1–C20 CLOSED `NO_GO`; EXECUTE NEW C21)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T11:11:24Z — C1–C20 CLOSED `NO_GO`; EXECUTE NEW C21)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** C1–C20 are complete/certified `NO_GO`; the single binding next task is **C21-T1** (cross-venue temporal walk-forward & regime-stability of the spec-literal rule) — see `research_state/c21_prereg_20261117T064408Z.md` and `scripts/verify_c21_focus_campaign.py`.
 
