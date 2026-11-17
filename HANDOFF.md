@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T20:30:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
+**Generated (UTC):** 2026-11-17T20:52:33Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C21.
 **C1–C20 CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20).** `pytest tests/ -q` = `1047 passed, 1 skipped`; `scripts/session_gate.py` = `21/21 checks passed` (Phase O binding `2026-11-13T23:38:47Z`); `scripts/verify_campaign_evidence.py` = `EVIDENCE VERIFIED`; `C20 ACCEPTANCE: PASS`, `C19 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`; `probe_hyperliquid_blocker.py` = `FULL_283D_BLOCKED_BY_API_RETENTION`.
 **OPEN BINDING WORK — `C21` (preregistered, gate RED):** `research_state/c21_prereg_20261117T064408Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`) + runner `scripts/run_c21_cross_venue_campaign.py` + verifier `scripts/verify_c21_focus_campaign.py`. **The single next task is C21-T1: drive the canonical C21 runner to produce all 12 required artifacts and make `verify_c21_focus_campaign.py` print `C21 ACCEPTANCE: PASS`.**
 
@@ -8,11 +8,11 @@
 
 **Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed`.
 
-**C21 LIVE-STATE CORRECTION (2026-11-17T20:30:00Z — supersedes the earlier "PID 2803 stalled" claim):** a canonical C21 runner **IS active**: PID **5175** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`, parent bash PID 5168, reparented to init). Verified R-state, 78.8% CPU, ~26 min CPU / ~32 min wall, 635 MB RSS, no swap. Its stdout/stderr are sockets with no reader; the file `research_state/c21_run_20261117T195156Z.log` (108 bytes, OKX 2023 census only) is a **stale abandoned log — not this process's output**. Verifier currently `FAIL` with `0/12` artifacts because **the runner writes per-venue artifacts only after all four folds complete in memory** (`run_venue_folds`, `scripts/run_c21_cross_venue_campaign.py:1115-1221`). This is a **progress-durability bottleneck**, not a wedge: the process is computing, but `--resume` cannot save partial work until a whole venue finishes.
+**C21 LIVE-STATE CORRECTION (2026-11-17T20:52:33Z — supersedes the earlier "PID 2803 stalled" claim):** a canonical C21 runner **IS active**: PID **5175** (`python scripts/run_c21_cross_venue_campaign.py --jobs 4 --resume`, parent bash PID 5168, reparented to init). Verified R-state, 78.8% CPU, ~46 min CPU / ~53 min wall, 635 MB RSS, no swap. Its stdout/stderr are sockets with no reader; the file `research_state/c21_run_20261117T195156Z.log` (108 bytes, OKX 2023 census only) is a **stale abandoned log — not this process's output**. Verifier currently `FAIL` with `0/12` artifacts because **the runner writes per-venue artifacts only after all four folds complete in memory** (`run_venue_folds`, `scripts/run_c21_cross_venue_campaign.py:1115-1221`). This is a **progress-durability bottleneck**, not a wedge: the process is computing, but `--resume` cannot save partial work until a whole venue finishes.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T20:30:00Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T20:52:33Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data). **Priority by repo scope:** C1–C20 are complete/certified `NO_GO`; the single binding task is **C21-T1** (cross-venue temporal walk-forward & regime-stability of the spec-literal rule). C21 is preregistered and its gate is RED. **A canonical runner may still be active — do not start a rival run.**
 
@@ -20,7 +20,7 @@
 
 **Execute in order. No planning-only stops, no liveness narration as progress, no inference-only churn, no handoff-refresh-as-progress, no relaunching C20, no committing.**
 
-**BOTTOM LINE UP FRONT (verified 2026-11-17T20:30:00Z):**
+**BOTTOM LINE UP FRONT (verified 2026-11-17T20:52:33Z):**
 - C1–C20 closure green (see tokens at top). **Do not re-run pytest/gates for closure** unless you changed code.
 - **C21 open/blocked:** runner possibly active; `0/12` required artifacts; `verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (expected until artifacts exist).
 - **Do NOT blindly relaunch.** First check for a live canonical process (Step 1). Only start if none is alive.
@@ -53,7 +53,7 @@
 
 ---
 
-## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T20:30:00Z)
+## NEXT FOCUS — NO-AVOIDANCE BINDING (2026-11-17T20:52:33Z)
 
 Future agents **cannot avoid heavy work**: the binding next campaign is **C21-T1**, whose gate `scripts/verify_c21_focus_campaign.py` is **RED until the full battery is executed**. A runner that has produced 0/12 artifacts is not accepted progress. Accepted progress is **only**:
 - **C21 executed end-to-end:** all `c21_*_20261117T064408Z` artifacts produced (per-venue fold campaign + episode edge + placebo + census, per-venue verdict, pooled stability synthesis, consolidated final), with `C21 ACCEPTANCE: PASS` (token `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` with a power curve) and an honest pooled verdict.
@@ -62,11 +62,11 @@ Future agents **cannot avoid heavy work**: the binding next campaign is **C21-T1
 
 Not progress: reading, planning, rewriting this file, refreshing timestamps, "monitoring" without artifact changes, relaunching C20, or inventing a same-data C22+ rerun. **Do NOT relaunch `scripts/finish_c20_detached_durable.sh`. Do NOT commit unless explicitly asked.**
 
-## LIVE STATE VERIFIED (2026-11-17T20:30:00Z)
+## LIVE STATE VERIFIED (2026-11-17T20:52:33Z)
 
 - **Host capacity:** `nproc=4`; load ~2.0; 16 GB RAM, ~13.7 GB available; no swap in use.
 - **Venv:** `.venv/bin/python` Python 3.12.3 bootstrapped via `scripts/bootstrap_env.sh`.
-- **Processes:** canonical C21 runner **PID 5175** active (`--jobs 4 --resume`), parent bash 5168 reparented to init; R-state, 78.8% CPU, ~26 min CPU / ~32 min wall, 635 MB RSS. No `finish_c20`/`run_c20`/supervisor processes.
+- **Processes:** canonical C21 runner **PID 5175** active (`--jobs 4 --resume`), parent bash 5168 reparented to init; R-state, 78.8% CPU, ~46 min CPU / ~53 min wall, 635 MB RSS. No `finish_c20`/`run_c20`/supervisor processes.
 - **C20:** PASS, terminal (15/15 artifacts). C1–C20 consolidated `NO_GO`, `research_program_complete: true` in `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`.
 - **C21 (open, binding, blocked):** prereg `research_state/c21_prereg_20261117T064408Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), runner `scripts/run_c21_cross_venue_campaign.py`, verifier → `C21 ACCEPTANCE: FAIL` (13 requirements missing; 0/12 required artifacts on disk). `research_state/timing_okx.json`, `timing_binance_um.json`, `timing_c21_census.json`, `zz_timing_c21_census.json` are prior timing probes — **not C21 evidence; do not rename/copy into required C21 artifacts.**
 - **Certification:** `pytest` `1047 passed, 1 skipped`; `session_gate.py` `21/21 checks passed`; `verify_campaign_evidence.py` `EVIDENCE VERIFIED`; `verify_c20_focus_campaign.py` `C20 ACCEPTANCE: PASS`; `verify_c19_focus_campaign.py` `C19 ACCEPTANCE: PASS`; `verify_c14_focus_campaign.py` `C14 ACCEPTANCE: PASS`; `verify_c13_focus_campaign.py` `C13 ACCEPTANCE: PASS`; `verify_next_focus_campaign.py` `C6 ACCEPTANCE: PASS`; `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`; `verify_c21_focus_campaign.py` `C21 ACCEPTANCE: FAIL` (expected while C21 incomplete).
