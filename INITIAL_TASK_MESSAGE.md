@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T20:51:13Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T20:53:32Z — C21 MID-COMPUTE, DO NOT DUPLICATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data (OKX + Binance UM).
 **State:** C1–C20 CLOSED & CERTIFIED `NO_GO` (pytest 1047 passed, session_gate 21/21, verify_campaign_evidence PASS). C21 is the **only** open binding work.
