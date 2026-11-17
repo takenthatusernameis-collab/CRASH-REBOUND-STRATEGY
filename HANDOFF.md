@@ -1,6 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Generated (UTC):** 2026-11-17T05:41:45Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound strategy research/backtesting; real-market, cross-venue (OKX + Binance UM) evidence chain feeding C20.
+**CLOSURE CERTIFICATION COMPLETE (2026-11-17T05:42:33Z):** the INITIAL TASK MESSAGE below has been executed end-to-end. Full `pytest tests/ -q` = `1047 passed, 1 skipped` (the deferred heavy work, now run). All gates re-verified green with literal tokens: `session_gate.py` `21/21 checks passed`, `verify_campaign_evidence.py` `EVIDENCE VERIFIED`, `C20 ACCEPTANCE: PASS`, `C19 ACCEPTANCE: PASS`, `C13 ACCEPTANCE: PASS`, `C14 ACCEPTANCE: PASS`, `C6 ACCEPTANCE: PASS`, `probe_hyperliquid_blocker.py` `FULL_283D_BLOCKED_BY_API_RETENTION`. Closure memo created: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.md` (token `NO_GO`, per-venue + pooled numbers, power statement) alongside the JSON — JSON unaltered. **C1–C20 are closed `NO_GO`; the research program is complete. Nothing remains to run. Do not relaunch C20, do not invent a same-data campaign, do not commit unless asked.**
 **Single durable handoff for the next agentic session — read this before doing anything else.**
 **Phase O artifact timestamp (binding, `research_state/episode_edge_okx_full.json`):** `2026-11-13T23:38:47Z` · **Session done-gate:** `scripts/session_gate.py` = `21/21 checks passed` (re-verified 2026-11-17T05:40:55Z, green).
 
