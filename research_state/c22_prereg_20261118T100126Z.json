@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T10:08:42.419678+00:00",
+  "campaign": "C22",
+  "binding_task": "C22-T1",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "title": "C22 \u2014 MEXC Out-of-Sample Cross-Venue Replication (SPEC_LITERAL_NEXT_OPEN)",
+  "why_c22": "C1-C20 closed NO_GO on OKX + Binance UM perps; C21-T1 confirmed temporal/regime stability of that NO_GO. Before abandoning the edge, C22 asks a NEW-DATA question: does the unchanged spec-literal edge replicate on an independent venue (MEXC) never used before? This is new data + a frozen spec, not a same-data rerun and not a parameter search.",
+  "config": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true,
+    "seed": 20261122
+  },
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z"
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z"
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z"
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z"
+    }
+  ],
+  "strata": [
+    {
+      "id": "crash_severity",
+      "bins": [
+        "rsi_0_10",
+        "rsi_10_15",
+        "rsi_15_20"
+      ],
+      "definition": "RSI(21) at crash signal: [0,10) / [10,15) / [15,20)"
+    },
+    {
+      "id": "btc_trend",
+      "bins": [
+        "btc_down_7d",
+        "btc_flat_7d",
+        "btc_up_7d"
+      ],
+      "definition": "BTC close vs 168h-ago close: <-5% / -5%..+5% / >+5%"
+    },
+    {
+      "id": "funding_regime",
+      "bins": [
+        "funding_negative",
+        "funding_neutral",
+        "funding_positive"
+      ],
+      "definition": "venue funding rate sign at crash day; neutral when venue has no funding history"
+    }
+  ],
+  "inference": {
+    "episode_block_bootstrap_draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_portfolio_runs": 2000,
+    "strata_permutation_draws": 2000,
+    "multiplicity": {
+      "method": "benjamini_hochberg",
+      "alpha": 0.05,
+      "families": [
+        "per-venue-fold",
+        "per-stratum"
+      ]
+    },
+    "power_floor": {
+      "min_trades": 10,
+      "min_episodes": 5,
+      "min_distinct_crash_days": 5,
+      "below_floor_token": "UNDERPOWERED"
+    },
+    "pooled": "venue-blocked bootstrap over fold totals + cross-venue sign concordance vs recorded OKX/Binance"
+  },
+  "decision_rules": {
+    "STABLE_POSITIVE_SUBSET": ">=1 pre-specified venue-fold or pooled stratum survives BH correction with bootstrap CI excluding 0 & positive spot leg, permutation p<0.05, placebo p_ge_canonical<0.05, effective N>= floor, AND same-direction effect in the other venue(s) or flagged single-venue exploratory (MEXC is the new venue; OKX/Binance are the recorded priors).",
+    "NO_GO": "no stratum survives BH correction; pooled CI spans 0; spot non-positive across most folds (corroborates the C1-C21 NO_GO).",
+    "UNDERPOWERED": "per-fold N below floor, or missing seed/SHA binding / compute predating this prereg.",
+    "rule": "Always report per-fold, per-venue, and pooled numbers plus the power curve \u2014 never a bare token."
+  },
+  "required_artifacts": [
+    "c22_prereg_20261118T100126Z.json",
+    "c22_prereg_20261118T100126Z.md",
+    "c22_mexc_fold_campaign_20261118T100126Z.json",
+    "c22_mexc_fold_episode_edge_20261118T100126Z.json",
+    "c22_mexc_fold_placebo_20261118T100126Z.json",
+    "c22_mexc_fold_census_20261118T100126Z.json",
+    "c22_decision_verdict_mexc_stability_20261118T100126Z.json",
+    "c22_pooled_stability_synthesis_20261118T100126Z.json",
+    "c22_decision_verdict_CONSOLIDATED_20261118T100126Z.json"
+  ],
+  "provenance": {
+    "venue": "mexc",
+    "venue_label": "MEXC",
+    "instrument_class": "USDT perpetual futures",
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "cross_venue": true,
+    "is_hyperliquid_venue_data": false,
+    "provenance_caveat": "Real MEXC USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+    "acquisition_script": "scripts/fetch_mexc_perp_archive.py",
+    "acquisition_probe": "research_state/c22_venue_acquisition_probe_20261118T100126Z.json",
+    "cache_dir": "research_state/cache/mexc_1h_multiyear_20230101_20260928",
+    "universe": "research_state/universe_mexc_multiyear_verified.json"
+  },
+  "guardrails": [
+    "Cross-venue real MEXC data only; never relabel as Hyperliquid (is_hyperliquid_venue_data=false).",
+    "Config is FROZEN to the spec-literal values above; no parameter tuning after results.",
+    "Folds and strata are fixed here, before compute; no post-hoc bin/fold invention.",
+    "Do NOT reduce draw counts: 20k bootstrap / 20k permutation / 2k placebo / 2k strata floors preserved.",
+    "No synthetic gap-fill; symbols not listed for the full window are excluded (coverage=false), never fabricated.",
+    "The C1-C21 NO_GO stands unless C22 produces a pre-registered contradiction with full evidence.",
+    "MEXC is the NEW venue; a same-data C22+ rerun on OKX/Binance is forbidden. New direction beyond C22 needs new prereg + new data + explicit authorization.",
+    "Report per-fold, per-venue, and pooled numbers plus the power curve \u2014 never a bare token."
+  ]
+}
