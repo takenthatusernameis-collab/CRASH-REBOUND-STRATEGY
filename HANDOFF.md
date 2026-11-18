@@ -1,45 +1,41 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-18T06:27:33Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-18T07:12:11Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
-**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). **C21-T1 is COMPLETE** — temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues; gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). No further campaign work is authorized beyond C21 without new prereg + new data + explicit operator authorization; do NOT invent a same-data C22+ rerun. If no explicit user override exists, future work is verification + await direction — never planning-only loops on closed campaigns.
+**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). **C21-T1 is COMPLETE** — temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues; gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). No further campaign work is authorized beyond C21 without **new prereg + new data + explicit operator authorization**; do NOT invent a same-data C22+ rerun. If no explicit user override exists, future work is verification + await direction — never planning-only loops on closed campaigns.
 
-**Verified live/repo state (2026-11-18T06:18:49Z):** C21 runner is NOT active and none is needed — battery finished cleanly (`research_state/c21_run_20261118T061505Z.log` ends `C21 COMPLETE: per-venue=['NO_GO', 'NO_GO'] pooled=NO_GO consolidated=NO_GO`). Repo artifacts present now: **8/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023/2024/2025/2026YTD`, stamp `20261117T064408Z`). **12/12 required gate artifacts** present (OKX fold bundle `NO_GO` trades=113 pnl=-54799.23; Binance UM fold bundle `NO_GO` trades=136 pnl=-70071.39; `c21_decision_verdict_okx_stability_*`, `c21_decision_verdict_binance_um_stability_*`, `c21_pooled_stability_synthesis_*` pooled=NO_GO draws=20000, `c21_decision_verdict_CONSOLIDATED_*` final=NO_GO ts=2026-11-18T06:15:08Z). `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS`. No compute bottleneck (parallel strata fix committed, ~4x speedup, draw counts preserved); `_build_pooled` TypeError from an earlier run did not recur — final run completed cleanly.
+**Verified live/repo state (2026-11-18T07:12:11Z):** C21 runner is NOT active and none is needed — battery finished cleanly (`research_state/c21_run_20261118T061505Z.log` ends `C21 COMPLETE: per-venue=['NO_GO', 'NO_GO'] pooled=NO_GO consolidated=NO_GO`). Repo artifacts present: **8/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023/2024/2025/2026YTD`, stamp `20261117T064408Z`). **12/12 required gate artifacts** present (OKX fold bundle `NO_GO` trades=113 pnl=-54799.23; Binance UM fold bundle `NO_GO` trades=136 pnl=-70071.39; `c21_decision_verdict_okx_stability_*`, `c21_decision_verdict_binance_um_stability_*`, `c21_pooled_stability_synthesis_*` pooled=NO_GO draws=20000, `c21_decision_verdict_CONSOLIDATED_*` final=NO_GO ts=2026-11-18T06:15:08Z). `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS`. Working tree clean at HEAD `d35fda6`.
 
-> **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`; C21-T1 COMPLETE, gate `C21 ACCEPTANCE: PASS` (12/12 artifacts, 8/8 checkpoints), consolidated `NO_GO`. No open binding campaign.**
+> **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`; C21-T1 COMPLETE, gate `C21 ACCEPTANCE: PASS` (12/12 artifacts, 8/8 checkpoints), consolidated `NO_GO`. No open binding campaign. No new data available (Hyperliquid `FULL_283D_BLOCKED_BY_API_RETENTION`); acquisition CLOSED/exhausted.**
 
 **Closure tokens (binding):** `pytest tests/ -q` = `1047 passed, 1 skipped`; `scripts/session_gate.py` = `21/21 checks passed` (Phase O timestamp `2026-11-13T23:38:47Z`); `scripts/verify_campaign_evidence.py` = `EVIDENCE VERIFIED`; C20/C19/C14/C13/C6 gates = `PASS`; `scripts/probe_hyperliquid_blocker.py` = `FULL_283D_BLOCKED_BY_API_RETENTION`.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T06:27:33Z — C21 COMPLETE; GATE PASS; NO ACTIVE RUNNER; NO UNCOMMITTED CHANGES)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T07:12:11Z — C21 COMPLETE; GATE PASS; NO CAMPAIGN AUTHORIZED; AWAIT EXPLICIT DIRECTION)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
-**Bottom line up front (verified 2026-11-18T06:18:49Z):**
+**Bottom line up front (verified 2026-11-18T07:12:11Z):**
 - C1–C20 closure green (`NO_GO`). Do not relitigate/relaunch C20 and do not re-run pytest/gates for closure unless you changed code.
-- **C21-T1 COMPLETE** — gate `C21 ACCEPTANCE: PASS`, all 12 artifacts + 8 checkpoints present, consolidated verdict `NO_GO` (OKX `NO_GO`, Binance UM `NO_GO`, pooled `NO_GO`, 72 pooled stratum tests 0 survivors). No further campaign work is authorized beyond C21 without new prereg + new data + explicit operator authorization; do NOT invent a same-data C22+ rerun.
-- No runner is active and none is needed. Do not start `run_c21_cross_venue_campaign.py` or `run_c21_detached_durable.sh` — the battery finished cleanly (`research_state/c21_run_20261118T061505Z.log` ends `C21 COMPLETE: per-venue=['NO_GO', 'NO_GO'] pooled=NO_GO consolidated=NO_GO`).
-- Closure checks already green this session: `pytest tests/ -q` = `1047 passed, 1 skipped`; `scripts/session_gate.py` = `21/21 checks passed` (Phase O `2026-11-13T23:38:47Z`).
+- **C21-T1 COMPLETE** — gate `C21 ACCEPTANCE: PASS`, all 12 artifacts + 8 checkpoints present, consolidated verdict `NO_GO` (OKX `NO_GO`, Binance UM `NO_GO`, pooled `NO_GO`, 72 pooled stratum tests 0 survivors). Campaign execution is finished; no runner is active and none is needed.
+- **No heavy execution is authorized on current data.** All preregistered campaigns through C21 are closed `NO_GO`; acquisition is CLOSED/exhausted (Hyperliquid `FULL_283D_BLOCKED_BY_API_RETENTION`, earliest ~2026-04-21). **Do NOT invent, preregister, or run a same-data C22+ rerun/variant.** Any work beyond C21 requires **new prereg + new data (or explicit operator-authorized scope change) + explicit operator authorization**.
 
-**Immediate next action (verification only, no campaign work):**
+**Immediate next action (verification only, then stop):**
 1. **Confirm gate green:** `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → expect `C21 ACCEPTANCE: PASS` (tokens `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED`). Current token: `NO_GO`.
-2. **Confirm artifacts:** `ls research_state/c21_ckpt_* | wc -l` → 8; `ls research_state/c21_*_20261117T064408Z.json | grep -v prereg | grep -v ckpt | wc -l` → 12.
-3. **No active runner:** `ps -eo pid,ppid,etime,time,stat,pcpu,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep` → expect empty. Do not start a runner; none is needed.
-4. **Await explicit operator direction** for any work beyond C21 (new prereg + new data required). Do not plan, rewrite, or relaunch campaigns without authorization.
+2. **Confirm artifacts/runner:** `ls research_state/c21_ckpt_* | wc -l` → 8; `ls research_state/c21_*_20261117T064408Z.json | grep -v prereg | grep -v ckpt | wc -l` → 12; `ps -eo pid,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep` → empty.
+3. **Await explicit operator direction.** Do not plan, rewrite, relaunch, or manufacture further campaign work without authorization and new data/prereg. Report gate/artifact state and stop.
 
-**No-avoidance rule:** while `scripts/verify_c21_focus_campaign.py` prints anything other than `C21 ACCEPTANCE: PASS`, the session is not done and heavy execution is mandatory. It currently prints `PASS` — campaign execution is complete; do not manufacture further work on the same data.
+**No-avoidance rule:** if `scripts/verify_c21_focus_campaign.py` ever prints anything other than `C21 ACCEPTANCE: PASS`, the session is not done and heavy execution to restore a green gate on the existing C21 battery is mandatory. It currently prints `PASS` — do not manufacture further work on the same data.
 ---
 
-## BINDING CAMPAIGN — C21-T1 CANNOT BE AVOIDED
+## BINDING CAMPAIGN — C21-T1 (SATISFIED 2026-11-18T06:15:08Z)
 
-The only accepted C21 terminal state is **`C21 ACCEPTANCE: PASS`** with all 12 artifacts produced by the canonical runner. Accepted tokens: `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` (with a quantified power curve and an honest pooled verdict).
+C21 terminal state achieved: **`C21 ACCEPTANCE: PASS`** (consolidated `NO_GO`, 12/12 artifacts, 8/8 checkpoints) produced by the canonical runner. Accepted tokens: `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED`. This section is historical/binding for gate semantics.
 
-**Not progress:** reading, planning, rewriting this file, refreshing timestamps, "monitoring" without artifact changes, relaunching C20, inventing a same-data C22+ rerun, or reducing draw counts. A runner with 0/12 artifacts is not accepted progress.
+**Not progress (ever):** reading, planning, rewriting handoff without authorization, "monitoring" without artifact changes, relaunching C20, inventing a same-data C22+ rerun, or reducing draw counts.
 
-**No-avoidance rule:** if `scripts/verify_c21_focus_campaign.py` prints `C21 ACCEPTANCE: FAIL`, the session is not done. Heavy execution is mandatory until the gate is green.
-
-**If the runner is progressing but slow:** it is compute-bound, not stuck. Do NOT kill a healthy 4-core runner to "restart faster." Verify liveness by child-worker CPU + checkpoint count + log, not by log silence.
+**No-avoidance rule:** if `scripts/verify_c21_focus_campaign.py` ever regresses to `C21 ACCEPTANCE: FAIL`, the session is not done — heavy execution to restore a green gate on the existing C21 battery is mandatory until PASS. With PASS green, do not manufacture further work on the same data; await explicit direction + new prereg + new data for anything beyond C21.
 
 ---
 
@@ -59,20 +55,20 @@ The only accepted C21 terminal state is **`C21 ACCEPTANCE: PASS`** with all 12 a
 
 ## BOTTLENECKS REMOVED / OPEN
 
-1. **Serial strata permutations REMOVED (this session):** now 4-way pool; ~4x faster; all 20k draws preserved.
-2. **Unvalidated parallel draws REMOVED (this session):** `_fast_parallel_draws` is fail-closed (validates once in-parent; falls back to canonical on failure).
+1. **Serial strata permutations REMOVED:** 4-way pool; ~4x faster; all 20k draws preserved (committed).
+2. **Unvalidated parallel draws REMOVED:** `_fast_parallel_draws` is fail-closed (validates once in-parent; falls back to canonical on failure).
 3. **Deps/env REMOVED:** `.venv` bootstrapped (Python 3.12.3 + deps). Fresh runner: `bash scripts/bootstrap_env.sh`.
-4. **Duplicate-runner risk REMOVED:** canonical C21 is active with `--jobs 4 --resume`; `scripts/run_c21_detached_durable.sh` refuses duplicates via `pgrep` (caveat: invoke from a command line not containing the script name).
-5. **Stale PID in prior handoff REMOVED:** prior text cited PID 14019; that serial runner was stopped this session (it was mid-`build_strata` with 0 checkpoints). The live runner is PID **21945**.
-6. **"Do nothing" paralysis REMOVED:** C21-T1 is preregistered and its gate is RED — heavy execution is mandatory.
-7. **Progress durability:** the runner writes per-fold checkpoints `research_state/c21_ckpt_*` after each fold; `--resume` reuses them. A crash loses at most the in-flight fold. (1 checkpoint so far: OKX fold 2023; OKX fold 2024 in progress.)
-8. **Progress visibility:** the log prints only at fold boundaries, on each `_fast_validated` (re)validation, and census; worker PIDs rotate as each parallel phase starts. Do not judge liveness by log silence or worker PID changes; use `ps` CPU time + child-worker count + checkpoint count + artifact count.
-9. **Compute-performance:** C21 uses a validated exact fast replay (`_fast_portfolio_pnl`, fail-closed `_fast_matches_canonical`) with a 4-fork pool for 20k permutation / 2k placebo / 9×20k strata draws. **Do not reduce draw counts.**
-10. **Acquisition CLOSED:** Hyperliquid moving tail exhausted (earliest ~2026-04-21; `FULL_283D_BLOCKED_BY_API_RETENTION`); no new-venue network. C21 uses already-verified OKX + Binance UM multi-year archives only.
+4. **Duplicate-runner risk REMOVED:** no C21 runner active; `scripts/run_c21_detached_durable.sh` refuses duplicates via `pgrep` (caveat: invoke from a command line not containing the script name). Do not start a runner.
+5. **Stale PID/log references REMOVED:** prior in-progress notes (PID 21945 / in-flight fold state) are obsolete; C21 completed cleanly (log `research_state/c21_run_20261118T061505Z.log`, 12/12 artifacts, 8/8 checkpoints).
+6. **"Do nothing" paralysis REMOVED:** C21-T1 executed to completion; gate is `C21 ACCEPTANCE: PASS` (consolidated `NO_GO`).
+7. **Progress durability (historical):** per-fold checkpoints `research_state/c21_ckpt_*` written; `--resume` supported. Not needed now (complete).
+8. **Progress visibility (historical):** log/fork-pool behavior noted; irrelevant while no runner is active.
+9. **Compute-performance:** validated exact fast replay with 4-fork pool preserved 20k/20k/2k draws. **Do not reduce draw counts** in any future authorized campaign.
+10. **Acquisition CLOSED (blocking for new campaigns):** Hyperliquid moving tail exhausted (earliest ~2026-04-21; `FULL_283D_BLOCKED_BY_API_RETENTION`); no new-venue network available in-repo. No heavy follow-on campaign is possible without new data + new prereg + explicit operator authorization. This is the binding constraint — do not invent a same-data C22+ rerun.
 
 ---
 
-## C21 SPEC & DECISION RULES (prereg `c21_prereg_20261117T064408Z`, PRE_REGISTERED_BEFORE_COMPUTE) — OPEN
+## C21 SPEC & DECISION RULES (prereg `c21_prereg_20261117T064408Z`, PRE_REGISTERED_BEFORE_COMPUTE) — COMPLETE (`NO_GO`)
 
 - **C21-T1:** quantify temporal/regime stability of the spec-literal crash-rebound edge on two independent real venues, with pre-specified BH multiplicity correction and an honest pooled verdict (`STABLE_POSITIVE_SUBSET` / `NO_GO` / `UNDERPOWERED`).
 - **Config fixed:** `entry_spec_literal_next_open=true`, RSI(21)<20, target 9%, rebound short 9%/48h, ETH hedge on, $5M volume gate, gross cap 120%, seed 20261121.
@@ -114,7 +110,7 @@ From `research_state/timing_okx.json` / `timing_binance_um.json` (C20 spec-liter
 ## KEY FILES
 
 - Handover/state: `HANDOFF.md` (single durable handoff), `README.md`, `research_state/strategy_spec.md`
-- C21 (open, binding): `research_state/c21_prereg_20261117T064408Z.{json,md}`, `scripts/run_c21_cross_venue_campaign.py`, `scripts/verify_c21_focus_campaign.py`, `scripts/run_c21_detached_durable.sh`, active log `research_state/c21_run_20261117T215941Z.log`, per-fold checkpoints `research_state/c21_ckpt_*`, planned `research_state/c21_*_20261117T064408Z.json`, `research_state/c21_decision_verdict_CONSOLIDATED_20261117T064408Z.{json,md}`
+- C21 (complete, `NO_GO`, gate PASS): `research_state/c21_prereg_20261117T064408Z.{json,md}`, `scripts/run_c21_cross_venue_campaign.py`, `scripts/verify_c21_focus_campaign.py`, `scripts/run_c21_detached_durable.sh`, final log `research_state/c21_run_20261118T061505Z.log`, per-fold checkpoints `research_state/c21_ckpt_*` (8), artifacts `research_state/c21_*_20261117T064408Z.json` (12 excl. prereg), `research_state/c21_decision_verdict_CONSOLIDATED_20261117T064408Z.{json,md}`
 - C20: `research_state/c20_prereg_20261116T063500Z.{json,md}`, `research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json`, `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`, `scripts/run_c20_cross_venue_campaign.py`, `scripts/verify_c20_focus_campaign.py`
 - C19 ref: `research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.*`, `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T054500Z.*`
 - Gates: `scripts/session_gate.py`, `scripts/verify_campaign_evidence.py`, `scripts/probe_hyperliquid_blocker.py`, `scripts/verify_c13_focus_campaign.py`, `scripts/verify_c14_focus_campaign.py`, `scripts/verify_c19_focus_campaign.py`, `scripts/verify_c20_focus_campaign.py`, `scripts/verify_c21_focus_campaign.py`, `scripts/verify_next_focus_campaign.py` (C6)
