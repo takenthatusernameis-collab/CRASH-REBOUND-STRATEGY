@@ -1,9 +1,9 @@
-# INITIAL TASK MESSAGE (POINTER) — 2026-11-18T10:10:23Z
+# INITIAL TASK MESSAGE (POINTER) — 2026-11-18T10:14:17Z
 
 **Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication, OKX + Binance UM perps done, MEXC next). C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE** — MEXC USDT-perp out-of-sample replication, PRE-REGISTERED (`c22_prereg_20261118T100126Z`), acquisition VIABLE, infrastructure built, battery PENDING.
 
-**Verified (2026-11-18T10:10:23Z):** `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS`; `scripts/probe_c22_venue_acquisition.py` → `ACQUISITION_VIABLE_MEXC_MULTIYEAR` (MEXC multiyear 2023–2026; Gate.io recent-only; Binance/Bybit geo-blocked; Hyperliquid-native still exhausted `FULL_283D_BLOCKED_BY_API_RETENTION`); `scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs green, 0/7 battery artifacts). No C21/C22 runner active.
+**Verified (2026-11-18T10:14:17Z):** `scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS`; `scripts/probe_c22_venue_acquisition.py` → `ACQUISITION_VIABLE_MEXC_MULTIYEAR` (MEXC multiyear 2023–2026; Gate.io recent-only; Binance/Bybit geo-blocked; Hyperliquid-native still exhausted `FULL_283D_BLOCKED_BY_API_RETENTION`); `scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs green, 0/7 battery artifacts). No C21/C22 runner active.
 
 **Next action (HEAVY, authorized, non-avoidable):** execute the C22 MEXC battery — acquire the multiyear MEXC archive (`scripts/fetch_mexc_perp_archive.py`), derive the $5M-gated universe (`scripts/derive_verified_universe.py`), run the 8-fold 20k/20k/2k battery (mirror `scripts/run_c21_cross_venue_campaign.py` for `venue=mexc`), then `scripts/verify_c22_focus_campaign.py` must print `C22 ACCEPTANCE: PASS`. Do NOT tune the spec to chase a GO; `NO_GO`/`UNDERPOWERED` is a valid success. Do NOT run a same-data C23+ rerun without new prereg + new data + explicit authorization. Full binding context/tokens: `HANDOFF.md`.

@@ -16,12 +16,12 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T10:10:23Z — C22 ACTIVE; ACQUISITION VIABLE; EXECUTE THE HEAVY MEXC BATTERY)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T10:14:17Z — C22 ACTIVE; ACQUISITION VIABLE; EXECUTE THE HEAVY MEXC BATTERY)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done, MEXC next).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress is available (OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).
 
-**Verified (2026-11-18T10:10:23Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (0/7 battery artifacts). No C22 runner active yet.
+**Verified (2026-11-18T10:14:17Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (0/7 battery artifacts). No C22 runner active yet.
 
 **Binding constraint / what changed vs the prior handoff:** the prior handoff said acquisition was CLOSED and "no new-venue network is available" — **that is now SUPERSEDED by probe evidence.** MEXC USDT-perp 1H data is reachable and multiyear (2023–2026). This makes a **new-data** C22 legitimate (MEXC ≠ OKX/Binance). It is **NOT** a same-data C22+ rerun and **NOT** a parameter search: the spec is frozen (see prereg). Hyperliquid-native data remains exhausted (`FULL_283D_BLOCKED_BY_API_RETENTION`, earliest ~2026-04-21) — do not retry it.
 
