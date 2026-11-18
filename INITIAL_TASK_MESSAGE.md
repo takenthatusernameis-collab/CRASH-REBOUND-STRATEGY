@@ -1,11 +1,11 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T01:10:37Z — C21 INCOMPLETE; MONITOR/RESUME ONLY)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T01:14:02Z — C21 INCOMPLETE; MONITOR/RESUME ONLY)
 
 **Authoritative durable handoff:** `HANDOFF.md` (single source of truth). This file is a pointer only.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication (OKX + Binance UM). C1–C20 CLOSED & CERTIFIED `NO_GO`. **Only open binding work: C21-T1** (temporal/regime stability across prereg folds/strata, `c21_prereg_20261117T064408Z`). No relabeling, no C20 relaunch, no same-data C22+, no draw-count reduction.
 
-**Verified snapshot (2026-11-18T01:10:37Z):**
-- Canonical C21 runner **live & healthy**: PID 21945, `--jobs 4 --resume`, ~3h10m wall, 4 R-state child workers (48951–48954, ~94–95% CPU each, ~380% total). **No duplicate runner.**
+**Verified snapshot (2026-11-18T01:14:02Z):**
+- Canonical C21 runner **live & healthy**: PID 21945, `--jobs 4 --resume`, ~3h15m wall, 4 R-state child workers (50546–50549, ~87–92% CPU each, ~360% total). **No duplicate runner.**
 - Checkpoints **6/8**: `c21_ckpt_okx_{2023,2024,2025,2026YTD}`, `c21_ckpt_binance_um_{2023,2024}` (stamp `20261117T064408Z`).
 - Required gate artifacts **5/12**: OKX fold bundle (`campaign/census/episode_edge/placebo`) + `c21_decision_verdict_okx_stability_20261117T064408Z.json` (`NO_GO`, survivors=0, trades=113, pnl=-54799.23).
 - Progress: OKX complete (NO_GO). Binance UM 2023 (trades=28 pnl=+34989.90, perm_p=0.6606) and 2024 (trades=43 pnl=-33586.83, perm_p=0.7127) checkpoints/log complete. **Binance UM fold 2025 in active compute** (census+fast-path: trades=41, pnl=-42040.50; fold checkpoint/summary pending while workers run permutation/placebo/strata); fold 2026YTD pending, then Binance verdict + `c21_pooled_stability_synthesis_*` + `c21_decision_verdict_CONSOLIDATED_*`.
