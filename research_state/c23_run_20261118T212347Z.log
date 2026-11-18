@@ -1,0 +1,21 @@
+[C23] Bitget fold 2023: symbols=33
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c23_bitget_campaign.py", line 1530, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c23_bitget_campaign.py", line 1520, in main
+    venue_results[venue] = run_venue_folds(venue, args.jobs, resume=args.resume)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c23_bitget_campaign.py", line 1154, in run_venue_folds
+    cen = _fold_census(vd_slice, camp, fid)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c23_bitget_campaign.py", line 307, in _fold_census
+    base = c20.build_census(vd_slice, campaign, f"c23_tmp_census_{vd_slice['venue']}_{fold_id}")
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c20_cross_venue_campaign.py", line 480, in build_census
+    "campaign_sha256": sha256_file(REPO / f"research_state/campaign_results_real_{venue_data['venue']}_multiyear_specliteral_{TS}.json"),
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c20_cross_venue_campaign.py", line 115, in sha256_file
+    with open(path, "rb") as f:
+         ^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/campaign_results_real_bitget_multiyear_specliteral_20261116T063500Z.json'

@@ -1,0 +1,915 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T21:23:35.788454+00:00",
+  "run_type": "verified_universe_derivation",
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "source_manifest": "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/cache/bitget_1h_multiyear_20230101_20260928/provenance.json",
+  "target_window": {
+    "start": "2023-01-01T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 32808
+  },
+  "requested_min_24h_volume_usd": 5000000.0,
+  "min_24h_volume_usd": 5000000.0,
+  "spec_compliant_volume_threshold": true,
+  "volume_method": "max rolling 24h sum(close*volume) over verified local hourly OHLCV in target window; proxy for exchange 24h quote volume",
+  "symbols": [
+    "AAVE",
+    "ADA",
+    "ALGO",
+    "APT",
+    "ATOM",
+    "AVAX",
+    "BAT",
+    "BCH",
+    "COMP",
+    "CRV",
+    "DOGE",
+    "DOT",
+    "ETC",
+    "ETH",
+    "FIL",
+    "GRT",
+    "KSM",
+    "LINK",
+    "LTC",
+    "MANA",
+    "MINA",
+    "NEAR",
+    "OP",
+    "SAND",
+    "SHIB",
+    "SNX",
+    "SOL",
+    "SUSHI",
+    "THETA",
+    "TRX",
+    "UNI",
+    "XLM",
+    "XRP",
+    "XTZ"
+  ],
+  "selected_symbols": [
+    "AAVE",
+    "ADA",
+    "ALGO",
+    "APT",
+    "ATOM",
+    "AVAX",
+    "BAT",
+    "BCH",
+    "COMP",
+    "CRV",
+    "DOGE",
+    "DOT",
+    "ETC",
+    "ETH",
+    "FIL",
+    "GRT",
+    "KSM",
+    "LINK",
+    "LTC",
+    "MANA",
+    "NEAR",
+    "OP",
+    "SAND",
+    "SHIB",
+    "SNX",
+    "SOL",
+    "SUSHI",
+    "THETA",
+    "TRX",
+    "UNI",
+    "XLM",
+    "XRP",
+    "XTZ"
+  ],
+  "selected_count": 33,
+  "report": {
+    "AAVE": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 338702682.398,
+      "max_24h_quote_volume": 338702682.398,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "4f5466b5ebbe2837856d108cc7f10284c7c00ea7da92509e85c4f77a00d819f6",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ADA": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 1088779034.23895,
+      "max_24h_quote_volume": 1088779034.23895,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "8b928fc60fb4633afe97c0608653f75ac8bdac4003eb1ca19325d541ddf0381f",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ALGO": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 119038762.79848,
+      "max_24h_quote_volume": 119038762.79848,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "7a6c1bc044863ee288cdfd0fb6dc61421771d0b2018b4b66bb51e156880ca154",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "APT": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 232314500.294833,
+      "max_24h_quote_volume": 232314500.294833,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "ce870fb12bbb903ff99c0e9cd7cce27fee6013cbe03a152f3d5b68508dc8197e",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ATOM": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 60556096.297928,
+      "max_24h_quote_volume": 60556096.297928,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "f57606336eab04e2b56fc8f7a31cd7b52a2a235ee06effce8ad23e749d386628",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "AVAX": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 464867855.332161,
+      "max_24h_quote_volume": 464867855.332161,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "4da3127e38d9a8c97bf2331447e6b28182dfda3bb0740c462d257fc0a52b6996",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "BAT": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 29641735.23522,
+      "max_24h_quote_volume": 29641735.23522,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "6ebcc13da949cf47e694fbcccf47707745f1a4d6c7e80ba35215d2219c119a6c",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32806,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 0.999939
+      }
+    },
+    "BCH": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 653506259.9146,
+      "max_24h_quote_volume": 653506259.9146,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "bc36ed53ce304224466a384891559f905e23bdc94a8945a5fef1d9697f14eb3f",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "COMP": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 114815692.3799,
+      "max_24h_quote_volume": 114815692.3799,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "bf7e5162960474ca46acb91ede7c6fc97a61b8b696d050b0aebde4dbd6b58c06",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "CRV": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 170326899.761,
+      "max_24h_quote_volume": 170326899.761,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "e994673dbc2cc653357bcd2b3a6049118e5ef4a20a96a6a781df60595a81d8e4",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "DOGE": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 2600360773.36678,
+      "max_24h_quote_volume": 2600360773.36678,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "b8fc04771463dbb401e3b25a43fce406d6d4998926c3f45c1c61193c0ee3f9d2",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "DOT": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 226212704.314626,
+      "max_24h_quote_volume": 226212704.314626,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "0718779aef5f52f3a5d9bb9d00106d59f6a3d531df319322dfe4583d08b7a15a",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ETC": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 225375374.942362,
+      "max_24h_quote_volume": 225375374.942362,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "d87f924f699fe264e4666ffd2bbe0b19e691256f41103f2048f7a11d2bf45903",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "ETH": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 35554701077.72781,
+      "max_24h_quote_volume": 35554701077.72781,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "89bedbb48f1f4fac67929de5fbd2706c309ecdab6dd3e367377e5ff896d92194",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "FIL": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 327501604.9384,
+      "max_24h_quote_volume": 327501604.9384,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "b530b2aa80eeab3617deed0f7498a7e69481078fab95acf060d54702ed3704fa",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "GRT": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 156489847.748105,
+      "max_24h_quote_volume": 156489847.748105,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "49968e2b1b8e4843bcf35faf0aa27128963002a06ce622e8944de7e69b16a180",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32807,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 0.99997
+      }
+    },
+    "KSM": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 124880622.003,
+      "max_24h_quote_volume": 124880622.003,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "f4f07793e49d20d77ce2a6b87ef8897dec2c2d1fcf6e1b384632c129fafe9216",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32794,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 0.999573
+      }
+    },
+    "LINK": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 1092063596.723999,
+      "max_24h_quote_volume": 1092063596.723999,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "56dffa93b995c8cb53bb64ec00d08d4d08e374c4fa65e36255eff2f3b8172407",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "LTC": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 558329125.173795,
+      "max_24h_quote_volume": 558329125.173795,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "f42abeaf1d703d2d8d2ecbb6e73cb88ec951855f2c763df5db2ad226336a4b74",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "MANA": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 85145425.5481,
+      "max_24h_quote_volume": 85145425.5481,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "14f14faba7395a900ec3764eca9c151cc7cf0261c5fdc3fdf28c2e154c988dac",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "MINA": {
+      "bars": 31555,
+      "max_rolling_24h_quote_volume_usd_proxy": 205498034.03848,
+      "max_24h_quote_volume": 205498034.03848,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1677042000000,
+      "last_ts_ms": 1790636400000,
+      "selected": false,
+      "volume_passes_threshold": true,
+      "manifest_status": "incomplete",
+      "manifest_complete": false,
+      "cache_sha256_from_manifest": "88f029fb28cb264a066402f1997b7324315856506247f269674f10205a42e3f8",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 31548,
+        "bars_checked": 31555,
+        "distinct_signature_ratio": 0.999778
+      },
+      "excluded_reason": "manifest_status:incomplete"
+    },
+    "NEAR": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 264174012.300422,
+      "max_24h_quote_volume": 264174012.300422,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "2f4d0459490ec451938dd5d0073a784b7cc2533fd1d20660a17d27683eb23695",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "OP": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 153647865.15858,
+      "max_24h_quote_volume": 153647865.15858,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "3d370b402acbad39726b9f6e12a921e95974aef8c2436e73a156a2707d70e627",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SAND": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 297621066.0816,
+      "max_24h_quote_volume": 297621066.0816,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "11a1d3d82e03a7f00cf6c4aa49fd6e10e6749e59cf51c23499a606d88cb49648",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SHIB": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 296750577.77803,
+      "max_24h_quote_volume": 296750577.77803,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "d2d7ad302026a102bae3b277174d0cc673648fdb8b66138863ccfc98edc198c8",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SNX": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 237154057.61854,
+      "max_24h_quote_volume": 237154057.61854,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "dbb6521f5cffd0d0af62300bb893077d3c3b2a7bbb40ed9a7ce226b06ff9d6a8",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SOL": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 5208514205.108026,
+      "max_24h_quote_volume": 5208514205.108026,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "eee0d6ef082bc8917d7ae494a1dd81c9f8fe210461252a31376fedf08e8fe0bc",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "SUSHI": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 195847454.4236,
+      "max_24h_quote_volume": 195847454.4236,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "dea140276a50b923b89156b8ed89d50d20f1729f909e06598503751a1a772f80",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "THETA": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 74638117.7121,
+      "max_24h_quote_volume": 74638117.7121,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "0f110825751370a84289342ed7a34c228e24a99317e0efc2381084da9139571f",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32806,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 0.999939
+      }
+    },
+    "TRX": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 506692229.37108,
+      "max_24h_quote_volume": 506692229.37108,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "fe2a4a7590f29d1c0c339a497bc75f5a3f93f65b203cff7bfbb3e380acb2d0a6",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "UNI": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 624089506.893,
+      "max_24h_quote_volume": 624089506.893,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "e81fb275d67192588549c107342e138caa79deb15c47f0a5911077787b2c3c32",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "XLM": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 774396739.856485,
+      "max_24h_quote_volume": 774396739.856485,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "4c675372b8ef625651cc9b3e80f80b228bc0a53345745a5f0df827e62fe32b4b",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "XRP": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 29811293437.386185,
+      "max_24h_quote_volume": 29811293437.386185,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "201967a02c9eff5357377a78be68b95436ef305086cc75f96bbbad786132334d",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32808,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 1.0
+      }
+    },
+    "XTZ": {
+      "bars": 32808,
+      "max_rolling_24h_quote_volume_usd_proxy": 360130550.177,
+      "max_24h_quote_volume": 360130550.177,
+      "passes_5m_any_24h_window": true,
+      "first_ts_ms": 1672531200000,
+      "last_ts_ms": 1790636400000,
+      "selected": true,
+      "volume_passes_threshold": true,
+      "manifest_status": "ok",
+      "manifest_complete": true,
+      "cache_sha256_from_manifest": "8e340d25866d25bd6c2fd8ac77c3380fee31917762b2f0f0f0b10eb4d00d97fb",
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      },
+      "runtime_synthetic_check": {
+        "is_synthetic": false,
+        "reason": "varied_series_ok",
+        "distinct_signatures": 32804,
+        "bars_checked": 32808,
+        "distinct_signature_ratio": 0.999878
+      }
+    }
+  },
+  "notes": [
+    "Derived from local verified caches only; not a live exchange universe snapshot.",
+    "For real campaign claims, use with a complete verified provenance manifest and truthful real_market_data flags.",
+    "min_24h_volume_usd is the effective threshold after spec-floor enforcement; requested_min_24h_volume_usd records the caller input. sub-$5M non-zero inputs are raised to $5M for spec-compliant derivation.",
+    "Symbols with manifest status!=ok, incomplete coverage, manifest synthetic_check, runtime synthetic detection, or missing in-window evidence are excluded fail-closed and never labeled real_market_data."
+  ]
+}
