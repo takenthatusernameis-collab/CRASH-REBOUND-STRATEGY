@@ -46,3 +46,16 @@
 [C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
 [C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
 [C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
+[C21] Binance UM fold 2026YTD: trades=24 pnl=-29433.98 eps=10 perm_p=1.0 placebo_runs=2000
+[verdict] Binance UM: NO_GO survivors=0 trades=136 pnl=-70071.39
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 1539, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 1531, in main
+    pooled = _build_pooled(venue_results, resume=args.resume)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 1417, in _build_pooled
+    "venue_labels": [v["venue_label"] for v in venue_blocks],
+                     ~^^^^^^^^^^^^^^^
+TypeError: tuple indices must be integers or slices, not str

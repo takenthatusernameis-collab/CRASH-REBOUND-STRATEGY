@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T01:25:32Z",
+  "phase": "C21",
+  "campaign": "C21",
+  "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
+  "prereg": "research_state/c21_prereg_20261117T064408Z.json",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "Binance UM",
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    }
+  ],
+  "fold": "ALL",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo (2000 subsets); preserves gates/sizing/cap/occupancy/hedge on the fold slice.",
+  "mode": "deterministic_seeded_draws:2000_choose_28_of_143",
+  "seed": 20261121,
+  "canonical": {
+    "trades": 28,
+    "total_pnl": 34989.903615539915,
+    "admitted_keys_count": 28
+  },
+  "pool": {
+    "signal_gate_events": 143,
+    "choose_k": 28
+  },
+  "placebo": {
+    "runs": 2000,
+    "summary": {
+      "n": 2000,
+      "sum": 14636424.544510383,
+      "mean": 7318.212272255191,
+      "median": 7347.774096046365,
+      "stdev": 10672.337840623115,
+      "min": -23402.365847928977,
+      "max": 38571.78915918721,
+      "p05": -10692.299903777519,
+      "p95": 24895.639826641465
+    },
+    "p_ge_canonical": 0.004,
+    "canonical_percentile_le": 0.996,
+    "prob_total_pnl_positive": 0.7535,
+    "ci_low_pnl_2p5": -13420.818027585536,
+    "ci_high_pnl_97p5": 28026.115074558667
+  },
+  "verdict": "underpowered",
+  "jobs": 4,
+  "replay_path": "exact_validated_event_bar_replay",
+  "replay_validation": {
+    "key": [
+      139622948893952,
+      143
+    ],
+    "ok": true,
+    "detail": "trades=28 pnl=34989.9036 diff=0.00e+00",
+    "validated_at_utc": "2026-11-17T23:38:24Z"
+  },
+  "limitations": [
+    "CROSS-VENUE Binance UM fold 2023; NOT Hyperliquid performance evidence."
+  ],
+  "per_fold": {
+    "2023": {
+      "fold": "2023",
+      "venue_label": "Binance UM",
+      "runs": 2000,
+      "p_ge_canonical": 0.004,
+      "canonical": {
+        "trades": 28,
+        "total_pnl": 34989.903615539915,
+        "admitted_keys_count": 28
+      }
+    },
+    "2024": {
+      "fold": "2024",
+      "venue_label": "Binance UM",
+      "runs": 2000,
+      "p_ge_canonical": 0.918,
+      "canonical": {
+        "trades": 43,
+        "total_pnl": -33586.82612026407,
+        "admitted_keys_count": 43
+      }
+    },
+    "2025": {
+      "fold": "2025",
+      "venue_label": "Binance UM",
+      "runs": 2000,
+      "p_ge_canonical": 0.913,
+      "canonical": {
+        "trades": 41,
+        "total_pnl": -42040.49580891518,
+        "admitted_keys_count": 41
+      }
+    },
+    "2026YTD": {
+      "fold": "2026YTD",
+      "venue_label": "Binance UM",
+      "runs": 2000,
+      "p_ge_canonical": 0.914,
+      "canonical": {
+        "trades": 24,
+        "total_pnl": -29433.975673315144,
+        "admitted_keys_count": 24
+      }
+    }
+  }
+}
