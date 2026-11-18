@@ -5,7 +5,7 @@
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication (OKX + Binance UM). C1–C20 CLOSED & CERTIFIED `NO_GO`. **Only open binding work: C21-T1** (temporal/regime stability across prereg folds/strata). No avoidable relabeling to new campaigns without new prereg+data+authorization.
 
 **Verified snapshot (2026-11-18T00:06:06Z, from repo):**
-- C21 artifacts present (stamp `20261117T064408Z`): **5/8 checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023`). **5/12 gate artifacts**: `c21_okx_fold_{census,episode_edge,placebo,campaign}_...json`, `c21_decision_verdict_okx_stability_...json` (OKX NO_GO, survivors=0, trades=113, pnl=-54799.23).
+- C21 artifacts present (stamp `20261117T064408Z`): **6/8 checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023/2024`). **5/12 gate artifacts**: `c21_okx_fold_{census,episode_edge,placebo,campaign}_...json`, `c21_decision_verdict_okx_stability_...json` (OKX NO_GO, survivors=0, trades=113, pnl=-54799.23).
 - Missing (gate RED): Binance UM folds 2024/2025/2026YTD artifacts, `c21_binance_um_stability_verdict_...`, `c21_pooled_stability_synthesis_...`, `c21_decision_verdict_CONSOLIDATED_...`.
 - Expected gate now: `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` until all 12 + verdicts + synthesis + consolidated exist.
 
