@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-18T19:24:30Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 active/resumed; Bitget USDT-perp C23 prepared).
+**Generated (UTC):** 2026-11-18T19:26:16Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 active/resumed; Bitget USDT-perp C23 prepared).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). **C22-T1 is the ACTIVE BINDING CAMPAIGN** — MEXC USDT-perp out-of-sample replication of the frozen spec-literal edge, PRE-REGISTERED (`c22_prereg_20261118T100126Z`), acquisition/cache/universe ready, heavy 4-fold battery **RESUMED AND RUNNING** (durable, resumable), **2/4 fold checkpoints complete** and the gate still `PENDING`. It must run to completion and pass `C22 ACCEPTANCE: PASS`. **C23-T1 is the PREPARED NEXT FOCUS CAMPAIGN** — Bitget USDT-M out-of-sample replication, gated on C22 PASS; it is a binding work order, not optional (see below). Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC/Bitget data as Hyperliquid; do not reduce draw counts.
 
@@ -18,7 +18,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T19:20:23Z — C22 RESUMED/RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE; THEN C23)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T19:26:16Z — C22 RESUMED/RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE; THEN C23)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done `NO_GO`; MEXC replication resumed/running, Bitget prepared next).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + deps); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress available (Bitget/OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).
