@@ -6,3 +6,4 @@
 [C22] MEXC fold 2023: trades=25 pnl=30599.03 eps=9 perm_p=0.01835 placebo_runs=2000
 [C22] MEXC fold 2024: symbols=33
 [census] MEXC: events=314 signal_pass=124 trades=40 matched=40 unexplained=48
+[C22][fast-path validated] trades=40 pnl=-27326.6263 diff=0.00e+00
