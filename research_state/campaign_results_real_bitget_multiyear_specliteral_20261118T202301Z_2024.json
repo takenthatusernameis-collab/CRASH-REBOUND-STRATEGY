@@ -1,0 +1,1410 @@
+{
+  "schema_version": 1,
+  "timestamp": "2026-11-18T22:56:47Z",
+  "generated_at_utc": "2026-11-18T22:56:47Z",
+  "run_type": "c23_real_market_campaign_spec_literal_fold",
+  "research_status": "CROSS_VENUE_TEMPORAL_STABILITY_NOT_HYPERLIQUID",
+  "campaign": "C23",
+  "prereg": "research_state/c23_prereg_20261118T202301Z.json",
+  "prereg_sha256": "c29b9ebafde7891c12c66573582d15116144a6bad4bdb50c611e51a0052ea745",
+  "real_market_data": true,
+  "performance_evidence": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "venue_label": "Bitget",
+  "folds": [
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z"
+    }
+  ],
+  "fold": "2024",
+  "evidence_warning": "Real Bitget USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+  "provenance_caveat": "Real Bitget USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+  "data_provenance": {
+    "cache_dir": "research_state/cache/bitget_1h_multiyear_20230101_20260928",
+    "universe": "research_state/universe_bitget_multiyear_verified.json",
+    "manifest_sha256": "d02bdd21c47d39f4c3352bf45fc2cbad2fd44517d5ae7706e991f14ff82bbfff",
+    "universe_sha256": "b9999ddaefd75e7e782a22f1dc1e2993349ec68bbd326a9b3cedeae9dbf0ce5b",
+    "symbols_loaded": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ATOM",
+      "AVAX",
+      "BAT",
+      "BCH",
+      "COMP",
+      "CRV",
+      "DOGE",
+      "DOT",
+      "ETC",
+      "ETH",
+      "FIL",
+      "GRT",
+      "KSM",
+      "LINK",
+      "LTC",
+      "MANA",
+      "NEAR",
+      "OP",
+      "SAND",
+      "SHIB",
+      "SNX",
+      "SOL",
+      "SUSHI",
+      "THETA",
+      "TRX",
+      "UNI",
+      "XLM",
+      "XRP",
+      "XTZ"
+    ],
+    "fold_slice": true,
+    "fold_start_utc": "2024-01-01T00:00:00Z",
+    "fold_end_utc": "2024-12-31T23:00:00Z"
+  },
+  "config": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true
+  },
+  "results": {
+    "num_trades": 36,
+    "total_pnl": -30939.595457279396,
+    "final_open_positions": 0,
+    "final_gross_exposure": 0.0,
+    "trades": [
+      {
+        "symbol": "LTC",
+        "exit_reason": "time_exit",
+        "pnl": -3040.5170642944477,
+        "total_pnl": -151.14922932346872,
+        "entry_price": 65.743855,
+        "hedge_pnl": 2889.367834970979,
+        "max_live_coin_notional": 120000.0,
+        "shares": 1825.265646500346,
+        "entry_timestamp": "1704286800000",
+        "exit_timestamp": "1704463200000",
+        "r_multiple": -0.13249352314553178,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 91.93600043756524
+      },
+      {
+        "symbol": "AVAX",
+        "exit_reason": "liquidated",
+        "pnl": -8418.367935728656,
+        "total_pnl": -6437.446481538526,
+        "entry_price": 41.6658631,
+        "hedge_pnl": 1980.9214541901304,
+        "max_live_coin_notional": 40000.0,
+        "shares": 960.0185145330638,
+        "entry_timestamp": "1712944800000",
+        "exit_timestamp": "1712944800000",
+        "r_multiple": -1.5541016154000784,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 17.937740408091116
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "liquidated",
+        "pnl": -5422.088482921419,
+        "total_pnl": -2795.679775039096,
+        "entry_price": 554.811123,
+        "hedge_pnl": 2626.408707882323,
+        "max_live_coin_notional": 40000.0,
+        "shares": 72.09660791173432,
+        "entry_timestamp": "1712944800000",
+        "exit_timestamp": "1712944800000",
+        "r_multiple": -1.02266805226039,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 23.776893635809802
+      },
+      {
+        "symbol": "FIL",
+        "exit_reason": "liquidated",
+        "pnl": -11630.585474349224,
+        "total_pnl": -9237.50444531855,
+        "entry_price": 7.292644000000001,
+        "hedge_pnl": 2393.081029030675,
+        "max_live_coin_notional": 40000.0,
+        "shares": 5484.979110457057,
+        "entry_timestamp": "1712944800000",
+        "exit_timestamp": "1712944800000",
+        "r_multiple": -2.018269490114575,
+        "bars_held": 1,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 21.666184150394734
+      },
+      {
+        "symbol": "APT",
+        "exit_reason": "liquidated",
+        "pnl": -2001.835732862314,
+        "total_pnl": -1781.0209614498015,
+        "entry_price": 9.6348145,
+        "hedge_pnl": 220.8147714125125,
+        "max_live_coin_notional": 24000.0,
+        "shares": 2490.9664840978517,
+        "entry_timestamp": "1712952000000",
+        "exit_timestamp": "1713027600000",
+        "r_multiple": -0.2646474611089411,
+        "bars_held": 22,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 13.771783215582339
+      },
+      {
+        "symbol": "FIL",
+        "exit_reason": "liquidated",
+        "pnl": -1905.050714234794,
+        "total_pnl": -1687.9697172291196,
+        "entry_price": 6.3611785,
+        "hedge_pnl": 217.08099700567442,
+        "max_live_coin_notional": 24000.0,
+        "shares": 3772.8857946683934,
+        "entry_timestamp": "1712952000000",
+        "exit_timestamp": "1713027600000",
+        "r_multiple": -0.2415659928239607,
+        "bars_held": 22,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 13.541007564244808
+      },
+      {
+        "symbol": "AVAX",
+        "exit_reason": "liquidated",
+        "pnl": -2272.4798219327263,
+        "total_pnl": -2092.8806222016638,
+        "entry_price": 38.46282275,
+        "hedge_pnl": 179.59919973106258,
+        "max_live_coin_notional": 24000.000000000004,
+        "shares": 623.979164399732,
+        "entry_timestamp": "1712952000000",
+        "exit_timestamp": "1713027600000",
+        "r_multiple": -0.35231150058522936,
+        "bars_held": 22,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 11.224347467286872
+      },
+      {
+        "symbol": "LINK",
+        "exit_reason": "liquidated",
+        "pnl": -2787.317699384586,
+        "total_pnl": -1420.2567799726364,
+        "entry_price": 14.472232,
+        "hedge_pnl": 1367.0609194119495,
+        "max_live_coin_notional": 24000.0,
+        "shares": 1658.3482077954527,
+        "entry_timestamp": "1712952000000",
+        "exit_timestamp": "1713034800000",
+        "r_multiple": -0.49112339179351,
+        "bars_held": 24,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 10.737302377125136
+      },
+      {
+        "symbol": "SOL",
+        "exit_reason": "liquidated",
+        "pnl": -2322.198339454342,
+        "total_pnl": -2155.76775505275,
+        "entry_price": 149.31243378333332,
+        "hedge_pnl": 166.43058440159203,
+        "max_live_coin_notional": 24000.0,
+        "shares": 160.736781203542,
+        "entry_timestamp": "1712952000000",
+        "exit_timestamp": "1713027600000",
+        "r_multiple": -0.462794274158573,
+        "bars_held": 22,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 10.41042690092609
+      },
+      {
+        "symbol": "AVAX",
+        "exit_reason": "target_rebound_short",
+        "pnl": 1645.1289779787862,
+        "total_pnl": 100.89884715418384,
+        "entry_price": 30.2251045,
+        "hedge_pnl": -532.5285256918064,
+        "max_live_coin_notional": 65330.647132953956,
+        "shares": 1985.104799224102,
+        "entry_timestamp": "1713042000000",
+        "exit_timestamp": "1713067200000",
+        "r_multiple": 0.002512430867151455,
+        "bars_held": 8,
+        "leg": "short",
+        "rebound_short_pnl": -4719.88752235479,
+        "rebound_hedge_pnl": 3175.657391530188,
+        "hedge_side": "short",
+        "hedge_size": 33.867637709409024
+      },
+      {
+        "symbol": "ETC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 2155.731783095297,
+        "total_pnl": 2930.83397057028,
+        "entry_price": 23.564776000000002,
+        "hedge_pnl": 4039.451788211033,
+        "max_live_coin_notional": 65329.52527678122,
+        "shares": 2546.1731526749923,
+        "entry_timestamp": "1713042000000",
+        "exit_timestamp": "1713160800000",
+        "r_multiple": 0.08564572073818277,
+        "bars_held": 34,
+        "leg": "short",
+        "rebound_short_pnl": -6455.3716444880765,
+        "rebound_hedge_pnl": 7230.47383196306,
+        "hedge_side": "short",
+        "hedge_size": 32.92249147876867
+      },
+      {
+        "symbol": "ETC",
+        "exit_reason": "time_exit",
+        "pnl": 191.30096334206013,
+        "total_pnl": 91.55228635245487,
+        "entry_price": 26.652319000000002,
+        "hedge_pnl": -99.74867698960526,
+        "max_live_coin_notional": 60000.00000000001,
+        "shares": 2251.2112360654246,
+        "entry_timestamp": "1717786800000",
+        "exit_timestamp": "1717963200000",
+        "r_multiple": 0.02149145792636509,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 24.523795363325775
+      },
+      {
+        "symbol": "LTC",
+        "exit_reason": "time_exit",
+        "pnl": 714.73516554714,
+        "total_pnl": 649.6043365539698,
+        "entry_price": 79.0908425,
+        "hedge_pnl": -65.13082899317021,
+        "max_live_coin_notional": 60000.0,
+        "shares": 758.6213283794518,
+        "entry_timestamp": "1717786800000",
+        "exit_timestamp": "1717963200000",
+        "r_multiple": 0.11877947519885221,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 15.83821030728631
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -1364.6962465237384,
+        "total_pnl": -242.31271586909952,
+        "entry_price": 3515.9080750000003,
+        "hedge_pnl": 1122.383530654639,
+        "max_live_coin_notional": 119999.99999999999,
+        "shares": 34.13058516895382,
+        "entry_timestamp": "1718100000000",
+        "exit_timestamp": "1718276400000",
+        "r_multiple": -0.14161253243875951,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 34.147660173868495
+      },
+      {
+        "symbol": "UNI",
+        "exit_reason": "time_exit",
+        "pnl": 4277.839283684415,
+        "total_pnl": 539.7053768439309,
+        "entry_price": 8.999497,
+        "hedge_pnl": -3738.133906840484,
+        "max_live_coin_notional": 120000.0,
+        "shares": 13334.078560168418,
+        "entry_timestamp": "1719234000000",
+        "exit_timestamp": "1719410400000",
+        "r_multiple": 0.2550874925451405,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 78.194169938583
+      },
+      {
+        "symbol": "LTC",
+        "exit_reason": "liquidated",
+        "pnl": -5829.87211093117,
+        "total_pnl": -1962.7065775900423,
+        "entry_price": 63.202637833333334,
+        "hedge_pnl": 3867.1655333411277,
+        "max_live_coin_notional": 60000.0,
+        "shares": 949.327465702005,
+        "entry_timestamp": "1720141200000",
+        "exit_timestamp": "1720144800000",
+        "r_multiple": -0.6648121204348205,
+        "bars_held": 2,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 22.05205728276148
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "liquidated",
+        "pnl": -3956.968841170921,
+        "total_pnl": 1198.2985059055918,
+        "entry_price": 324.5375911666667,
+        "hedge_pnl": 5155.267347076513,
+        "max_live_coin_notional": 59999.99999999999,
+        "shares": 184.87842898047185,
+        "entry_timestamp": "1720141200000",
+        "exit_timestamp": "1720144800000",
+        "r_multiple": -0.49091484103166505,
+        "bars_held": 2,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 29.393509404532686
+      },
+      {
+        "symbol": "ATOM",
+        "exit_reason": "target_rebound_short",
+        "pnl": 2431.650109269551,
+        "total_pnl": 968.3334328095791,
+        "entry_price": 5.2406185,
+        "hedge_pnl": 317.94829583555224,
+        "max_live_coin_notional": 43541.14934260938,
+        "shares": 7632.6868670177,
+        "entry_timestamp": "1720148400000",
+        "exit_timestamp": "1720285200000",
+        "r_multiple": 0.058307983726089245,
+        "bars_held": 39,
+        "leg": "short",
+        "rebound_short_pnl": -2860.1821761589435,
+        "rebound_hedge_pnl": 1396.8654996989715,
+        "hedge_side": "short",
+        "hedge_size": 17.465094569346057
+      },
+      {
+        "symbol": "ETC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 2037.9002077173272,
+        "total_pnl": 2763.030170253901,
+        "entry_price": 18.876433000000002,
+        "hedge_pnl": -1083.5105076197985,
+        "max_live_coin_notional": 32664.130403013103,
+        "shares": 1589.2833142787092,
+        "entry_timestamp": "1720148400000",
+        "exit_timestamp": "1720386000000",
+        "r_multiple": 0.2409591299613746,
+        "bars_held": 67,
+        "leg": "short",
+        "rebound_short_pnl": 1224.4799611879757,
+        "rebound_hedge_pnl": -499.3499986514019,
+        "hedge_side": "short",
+        "hedge_size": 12.369905749197969
+      },
+      {
+        "symbol": "DOT",
+        "exit_reason": "target_rebound_short",
+        "pnl": 2264.2641115709325,
+        "total_pnl": 1609.7304143079307,
+        "entry_price": 5.037517,
+        "hedge_pnl": 1490.9071178882082,
+        "max_live_coin_notional": 26124.320418301555,
+        "shares": 4764.251912201983,
+        "entry_timestamp": "1720148400000",
+        "exit_timestamp": "1720191600000",
+        "r_multiple": 0.1726499760899899,
+        "bars_held": 13,
+        "leg": "short",
+        "rebound_short_pnl": -2004.1324516680813,
+        "rebound_hedge_pnl": 1349.5987544050795,
+        "hedge_side": "short",
+        "hedge_size": 11.538351609265119
+      },
+      {
+        "symbol": "LTC",
+        "exit_reason": "target_rebound_short",
+        "pnl": 1483.446225788204,
+        "total_pnl": 534.5949125990178,
+        "entry_price": 58.660315,
+        "hedge_pnl": -1714.8691615443338,
+        "max_live_coin_notional": 32665.30867500001,
+        "shares": 511.4190061884257,
+        "entry_timestamp": "1720152000000",
+        "exit_timestamp": "1720447200000",
+        "r_multiple": 0.0405027383868656,
+        "bars_held": 83,
+        "leg": "short",
+        "rebound_short_pnl": -325.1859258566545,
+        "rebound_hedge_pnl": -623.6653873325317,
+        "hedge_side": "short",
+        "hedge_size": 11.928039539634959
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "target_rebound_short",
+        "pnl": 1381.7559124296279,
+        "total_pnl": 1996.5302038537461,
+        "entry_price": 303.3830781988206,
+        "hedge_pnl": -1621.6884997511763,
+        "max_live_coin_notional": 26131.847039999997,
+        "shares": 79.1079058940516,
+        "entry_timestamp": "1720152000000",
+        "exit_timestamp": "1720393200000",
+        "r_multiple": 0.23569471574108022,
+        "bars_held": 68,
+        "leg": "short",
+        "rebound_short_pnl": 1522.6987036049256,
+        "rebound_hedge_pnl": -907.9244121808074,
+        "hedge_side": "short",
+        "hedge_size": 11.318512078129713
+      },
+      {
+        "symbol": "AVAX",
+        "exit_reason": "liquidated",
+        "pnl": -8745.159061382856,
+        "total_pnl": 3436.620543361578,
+        "entry_price": 20.917453,
+        "hedge_pnl": 12181.779604744434,
+        "max_live_coin_notional": 60000.0,
+        "shares": 2868.4180621799414,
+        "entry_timestamp": "1722794400000",
+        "exit_timestamp": "1722819600000",
+        "r_multiple": -1.2058031634287871,
+        "bars_held": 8,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 31.887160797010097
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -5248.484692928253,
+        "total_pnl": -1441.1164146824576,
+        "entry_price": 2699.724137166667,
+        "hedge_pnl": 3807.3682782457954,
+        "max_live_coin_notional": 60000.0,
+        "shares": 22.224492930218194,
+        "entry_timestamp": "1722794400000",
+        "exit_timestamp": "1722816000000",
+        "r_multiple": -0.8413944164698758,
+        "bars_held": 7,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 22.23597558489881
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "liquidated",
+        "pnl": -1998.17393445626,
+        "total_pnl": -1335.9623524085498,
+        "entry_price": 2334.113627083333,
+        "hedge_pnl": 662.2115820477102,
+        "max_live_coin_notional": 24000.0,
+        "shares": 10.282275773347836,
+        "entry_timestamp": "1722826800000",
+        "exit_timestamp": "1722837600000",
+        "r_multiple": -0.27614316274034534,
+        "bars_held": 4,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 10.287845339391732
+      },
+      {
+        "symbol": "LINK",
+        "exit_reason": "liquidated",
+        "pnl": -1868.23652517894,
+        "total_pnl": -1635.5686691093902,
+        "entry_price": 9.569782,
+        "hedge_pnl": 232.66785606954966,
+        "max_live_coin_notional": 24000.0,
+        "shares": 2507.8941192181805,
+        "entry_timestamp": "1722826800000",
+        "exit_timestamp": "1722834000000",
+        "r_multiple": -0.2881094202969646,
+        "bars_held": 3,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 10.490939565371797
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "liquidated",
+        "pnl": -2687.798345500446,
+        "total_pnl": -1978.3962818089758,
+        "entry_price": 305.0351379166667,
+        "hedge_pnl": 709.4020636914703,
+        "max_live_coin_notional": 24000.0,
+        "shares": 78.67946022191259,
+        "entry_timestamp": "1722826800000",
+        "exit_timestamp": "1722837600000",
+        "r_multiple": -0.4023656973040985,
+        "bars_held": 4,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 11.01876918563984
+      },
+      {
+        "symbol": "AVAX",
+        "exit_reason": "liquidated",
+        "pnl": -2323.5744953830244,
+        "total_pnl": -1545.5415690829273,
+        "entry_price": 18.980485,
+        "hedge_pnl": 778.0329263000972,
+        "max_live_coin_notional": 24000.0,
+        "shares": 1264.4566247911998,
+        "entry_timestamp": "1722826800000",
+        "exit_timestamp": "1722837600000",
+        "r_multiple": -0.3680709156791936,
+        "bars_held": 4,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 12.081778765578228
+      },
+      {
+        "symbol": "UNI",
+        "exit_reason": "liquidated",
+        "pnl": -2712.699808847189,
+        "total_pnl": -1974.4465219122833,
+        "entry_price": 5.361679,
+        "hedge_pnl": 738.2532869349059,
+        "max_live_coin_notional": 24000.0,
+        "shares": 4476.209784285856,
+        "entry_timestamp": "1722826800000",
+        "exit_timestamp": "1722837600000",
+        "r_multiple": -0.3925325304757424,
+        "bars_held": 4,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 11.46563995973469
+      },
+      {
+        "symbol": "LINK",
+        "exit_reason": "target_rebound_short",
+        "pnl": 36.91729622046114,
+        "total_pnl": -4158.796077666675,
+        "entry_price": 8.291142999999998,
+        "hedge_pnl": -3348.6846934946134,
+        "max_live_coin_notional": 130640.29338487786,
+        "shares": 14473.27588005659,
+        "entry_timestamp": "1722862800000",
+        "exit_timestamp": "1722873600000",
+        "r_multiple": -0.04065621825563362,
+        "bars_held": 4,
+        "leg": "short",
+        "rebound_short_pnl": -11506.238108292044,
+        "rebound_hedge_pnl": 7310.524734404908,
+        "hedge_side": "short",
+        "hedge_size": 61.19960072820548
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": 1068.3592039068478,
+        "total_pnl": -245.97971551444812,
+        "entry_price": 2489.4951250000004,
+        "hedge_pnl": -1314.338919421296,
+        "max_live_coin_notional": 120000.0,
+        "shares": 48.20254468262917,
+        "entry_timestamp": "1724796000000",
+        "exit_timestamp": "1724972400000",
+        "r_multiple": 0.08235791045718643,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 48.226665327037075
+      },
+      {
+        "symbol": "UNI",
+        "exit_reason": "time_exit",
+        "pnl": 662.6837836899435,
+        "total_pnl": -1048.0809928883234,
+        "entry_price": 5.746871500000001,
+        "hedge_pnl": -1710.764776578267,
+        "max_live_coin_notional": 60000.0,
+        "shares": 10440.463128503916,
+        "entry_timestamp": "1724799600000",
+        "exit_timestamp": "1724976000000",
+        "r_multiple": 0.08916727718527047,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 32.24446103282992
+      },
+      {
+        "symbol": "ETH",
+        "exit_reason": "time_exit",
+        "pnl": -246.50055016069166,
+        "total_pnl": -244.0092212967338,
+        "entry_price": 2315.428135,
+        "hedge_pnl": 2.491328863957847,
+        "max_live_coin_notional": 120000.0,
+        "shares": 51.82626840629627,
+        "entry_timestamp": "1726444800000",
+        "exit_timestamp": "1726621200000",
+        "r_multiple": -0.03249082534554216,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 51.85220393471808
+      },
+      {
+        "symbol": "BCH",
+        "exit_reason": "time_exit",
+        "pnl": -312.012599603341,
+        "total_pnl": -878.3174389226479,
+        "entry_price": 314.51042128901224,
+        "hedge_pnl": -566.3048393193069,
+        "max_live_coin_notional": 60000.0,
+        "shares": 190.7726928541562,
+        "entry_timestamp": "1726448400000",
+        "exit_timestamp": "1726624800000",
+        "r_multiple": -0.0807133618966783,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 25.1830800486458
+      },
+      {
+        "symbol": "ETC",
+        "exit_reason": "time_exit",
+        "pnl": 308.0717240990105,
+        "total_pnl": -475.6514099159875,
+        "entry_price": 17.5807855,
+        "hedge_pnl": -783.723134014998,
+        "max_live_coin_notional": 40000.0,
+        "shares": 2275.2111957682437,
+        "entry_timestamp": "1726455600000",
+        "exit_timestamp": "1726632000000",
+        "r_multiple": 0.12355429017640727,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.59816080372814
+      },
+      {
+        "symbol": "LINK",
+        "exit_reason": "time_exit",
+        "pnl": -34.637839155634026,
+        "total_pnl": -832.7667320514072,
+        "entry_price": 10.5212575,
+        "hedge_pnl": -798.1288928957732,
+        "max_live_coin_notional": 30000.0,
+        "shares": 2851.3701903028223,
+        "entry_timestamp": "1726455600000",
+        "exit_timestamp": "1726632000000",
+        "r_multiple": -0.015899889161877706,
+        "bars_held": 50,
+        "leg": "buy",
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "hedge_side": "short",
+        "hedge_size": 14.867180512355443
+      }
+    ],
+    "equity_curve": [
+      {
+        "timestamp": "1704142800000",
+        "equity": 100000.0,
+        "pnl": 0.0
+      },
+      {
+        "timestamp": "1704463200000",
+        "equity": 99848.85077067654,
+        "pnl": -151.14922932346872
+      },
+      {
+        "timestamp": "1712944800000",
+        "equity": 93411.40428913801,
+        "pnl": -6437.446481538526
+      },
+      {
+        "timestamp": "1712944800000",
+        "equity": 90615.72451409891,
+        "pnl": -2795.679775039096
+      },
+      {
+        "timestamp": "1712944800000",
+        "equity": 81378.22006878036,
+        "pnl": -9237.50444531855
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 79597.19910733055,
+        "pnl": -1781.0209614498015
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 77909.22939010143,
+        "pnl": -1687.9697172291196
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 75816.34876789978,
+        "pnl": -2092.8806222016638
+      },
+      {
+        "timestamp": "1713034800000",
+        "equity": 74396.09198792714,
+        "pnl": -1420.2567799726364
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 72240.32423287438,
+        "pnl": -2155.76775505275
+      },
+      {
+        "timestamp": "1713067200000",
+        "equity": 72341.22308002858,
+        "pnl": 100.89884715418384
+      },
+      {
+        "timestamp": "1713160800000",
+        "equity": 75272.05705059884,
+        "pnl": 2930.83397057028
+      },
+      {
+        "timestamp": "1717963200000",
+        "equity": 75363.60933695131,
+        "pnl": 91.55228635245487
+      },
+      {
+        "timestamp": "1717963200000",
+        "equity": 76013.21367350528,
+        "pnl": 649.6043365539698
+      },
+      {
+        "timestamp": "1718276400000",
+        "equity": 75770.90095763619,
+        "pnl": -242.31271586909952
+      },
+      {
+        "timestamp": "1719410400000",
+        "equity": 76310.60633448011,
+        "pnl": 539.7053768439309
+      },
+      {
+        "timestamp": "1720144800000",
+        "equity": 74347.89975689007,
+        "pnl": -1962.7065775900423
+      },
+      {
+        "timestamp": "1720144800000",
+        "equity": 75546.19826279566,
+        "pnl": 1198.2985059055918
+      },
+      {
+        "timestamp": "1720285200000",
+        "equity": 76514.53169560524,
+        "pnl": 968.3334328095791
+      },
+      {
+        "timestamp": "1720386000000",
+        "equity": 79277.56186585914,
+        "pnl": 2763.030170253901
+      },
+      {
+        "timestamp": "1720191600000",
+        "equity": 80887.29228016708,
+        "pnl": 1609.7304143079307
+      },
+      {
+        "timestamp": "1720447200000",
+        "equity": 81421.8871927661,
+        "pnl": 534.5949125990178
+      },
+      {
+        "timestamp": "1720393200000",
+        "equity": 83418.41739661983,
+        "pnl": 1996.5302038537461
+      },
+      {
+        "timestamp": "1722819600000",
+        "equity": 86855.03793998141,
+        "pnl": 3436.620543361578
+      },
+      {
+        "timestamp": "1722816000000",
+        "equity": 85413.92152529895,
+        "pnl": -1441.1164146824576
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 84077.9591728904,
+        "pnl": -1335.9623524085498
+      },
+      {
+        "timestamp": "1722834000000",
+        "equity": 82442.39050378102,
+        "pnl": -1635.5686691093902
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 80463.99422197204,
+        "pnl": -1978.3962818089758
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 78918.45265288911,
+        "pnl": -1545.5415690829273
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 76944.00613097684,
+        "pnl": -1974.4465219122833
+      },
+      {
+        "timestamp": "1722873600000",
+        "equity": 72785.21005331015,
+        "pnl": -4158.796077666675
+      },
+      {
+        "timestamp": "1724972400000",
+        "equity": 72539.23033779571,
+        "pnl": -245.97971551444812
+      },
+      {
+        "timestamp": "1724976000000",
+        "equity": 71491.14934490738,
+        "pnl": -1048.0809928883234
+      },
+      {
+        "timestamp": "1726621200000",
+        "equity": 71247.14012361065,
+        "pnl": -244.0092212967338
+      },
+      {
+        "timestamp": "1726624800000",
+        "equity": 70368.822684688,
+        "pnl": -878.3174389226479
+      },
+      {
+        "timestamp": "1726632000000",
+        "equity": 69893.17127477202,
+        "pnl": -475.6514099159875
+      },
+      {
+        "timestamp": "1726632000000",
+        "equity": 69060.4045427206,
+        "pnl": -832.7667320514072
+      }
+    ],
+    "equity_curve_points": 37
+  },
+  "metrics": {
+    "sharpe_ratio": -0.3610842364812217,
+    "sortino_ratio": -0.3034363147657558,
+    "max_drawdown": -30939.595457279396,
+    "max_drawdown_timestamp": "1726632000000",
+    "max_drawdown_series": [
+      {
+        "timestamp": "1704142800000",
+        "equity": 100000.0,
+        "drawdown": 0.0
+      },
+      {
+        "timestamp": "1704463200000",
+        "equity": 99848.85077067654,
+        "drawdown": -0.0015114922932346236
+      },
+      {
+        "timestamp": "1712944800000",
+        "equity": 93411.40428913801,
+        "drawdown": -0.06588595710861991
+      },
+      {
+        "timestamp": "1712944800000",
+        "equity": 90615.72451409891,
+        "drawdown": -0.09384275485901089
+      },
+      {
+        "timestamp": "1712944800000",
+        "equity": 81378.22006878036,
+        "drawdown": -0.18621779931219645
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 79597.19910733055,
+        "drawdown": -0.20402800892669445
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 77909.22939010143,
+        "drawdown": -0.22090770609898566
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 75816.34876789978,
+        "drawdown": -0.24183651232100223
+      },
+      {
+        "timestamp": "1713034800000",
+        "equity": 74396.09198792714,
+        "drawdown": -0.2560390801207286
+      },
+      {
+        "timestamp": "1713027600000",
+        "equity": 72240.32423287438,
+        "drawdown": -0.2775967576712562
+      },
+      {
+        "timestamp": "1713067200000",
+        "equity": 72341.22308002858,
+        "drawdown": -0.27658776919971423
+      },
+      {
+        "timestamp": "1713160800000",
+        "equity": 75272.05705059884,
+        "drawdown": -0.24727942949401158
+      },
+      {
+        "timestamp": "1717963200000",
+        "equity": 75363.60933695131,
+        "drawdown": -0.24636390663048688
+      },
+      {
+        "timestamp": "1717963200000",
+        "equity": 76013.21367350528,
+        "drawdown": -0.23986786326494722
+      },
+      {
+        "timestamp": "1718276400000",
+        "equity": 75770.90095763619,
+        "drawdown": -0.24229099042363814
+      },
+      {
+        "timestamp": "1719410400000",
+        "equity": 76310.60633448011,
+        "drawdown": -0.23689393665519892
+      },
+      {
+        "timestamp": "1720144800000",
+        "equity": 74347.89975689007,
+        "drawdown": -0.2565210024310993
+      },
+      {
+        "timestamp": "1720144800000",
+        "equity": 75546.19826279566,
+        "drawdown": -0.2445380173720434
+      },
+      {
+        "timestamp": "1720285200000",
+        "equity": 76514.53169560524,
+        "drawdown": -0.23485468304394758
+      },
+      {
+        "timestamp": "1720386000000",
+        "equity": 79277.56186585914,
+        "drawdown": -0.20722438134140858
+      },
+      {
+        "timestamp": "1720191600000",
+        "equity": 80887.29228016708,
+        "drawdown": -0.19112707719832922
+      },
+      {
+        "timestamp": "1720447200000",
+        "equity": 81421.8871927661,
+        "drawdown": -0.18578112807233904
+      },
+      {
+        "timestamp": "1720393200000",
+        "equity": 83418.41739661983,
+        "drawdown": -0.1658158260338017
+      },
+      {
+        "timestamp": "1722819600000",
+        "equity": 86855.03793998141,
+        "drawdown": -0.1314496206001859
+      },
+      {
+        "timestamp": "1722816000000",
+        "equity": 85413.92152529895,
+        "drawdown": -0.14586078474701047
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 84077.9591728904,
+        "drawdown": -0.15922040827109596
+      },
+      {
+        "timestamp": "1722834000000",
+        "equity": 82442.39050378102,
+        "drawdown": -0.17557609496218982
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 80463.99422197204,
+        "drawdown": -0.1953600577802796
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 78918.45265288911,
+        "drawdown": -0.21081547347110885
+      },
+      {
+        "timestamp": "1722837600000",
+        "equity": 76944.00613097684,
+        "drawdown": -0.23055993869023164
+      },
+      {
+        "timestamp": "1722873600000",
+        "equity": 72785.21005331015,
+        "drawdown": -0.27214789946689855
+      },
+      {
+        "timestamp": "1724972400000",
+        "equity": 72539.23033779571,
+        "drawdown": -0.2746076966220429
+      },
+      {
+        "timestamp": "1724976000000",
+        "equity": 71491.14934490738,
+        "drawdown": -0.28508850655092627
+      },
+      {
+        "timestamp": "1726621200000",
+        "equity": 71247.14012361065,
+        "drawdown": -0.28752859876389353
+      },
+      {
+        "timestamp": "1726624800000",
+        "equity": 70368.822684688,
+        "drawdown": -0.29631177315312
+      },
+      {
+        "timestamp": "1726632000000",
+        "equity": 69893.17127477202,
+        "drawdown": -0.30106828725227985
+      },
+      {
+        "timestamp": "1726632000000",
+        "equity": 69060.4045427206,
+        "drawdown": -0.309395954572794
+      }
+    ],
+    "calmar_ratio": -1.0,
+    "win_rate": 0.3333333333333333,
+    "profit_factor": 0.35217691587543964,
+    "monthly_breakdown": {
+      "1704463": -151.14922932346872,
+      "1712944": -18470.630701896174,
+      "1713027": -7717.639055933334,
+      "1713034": -1420.2567799726364,
+      "1713067": 100.89884715418384,
+      "1713160": 2930.83397057028,
+      "1717963": 741.1566229064247,
+      "1718276": -242.31271586909952,
+      "1719410": 539.7053768439309,
+      "1720144": -764.4080716844505,
+      "1720285": 968.3334328095791,
+      "1720386": 2763.030170253901,
+      "1720191": 1609.7304143079307,
+      "1720447": 534.5949125990178,
+      "1720393": 1996.5302038537461,
+      "1722819": 3436.620543361578,
+      "1722816": -1441.1164146824576,
+      "1722837": -6834.346725212736,
+      "1722834": -1635.5686691093902,
+      "1722873": -4158.796077666675,
+      "1724972": -245.97971551444812,
+      "1724976": -1048.0809928883234,
+      "1726621": -244.0092212967338,
+      "1726624": -878.3174389226479,
+      "1726632": -1308.4181419673946
+    },
+    "weekly_breakdown": {
+      "2024-W01": -151.14922932346872,
+      "2024-W15": -27507.62769064796,
+      "2024-W16": 2930.83397057028,
+      "2024-W23": 741.1566229064247,
+      "2024-W24": -242.31271586909952,
+      "2024-W26": 539.7053768439309,
+      "2024-W27": 6573.216149540707,
+      "2024-W28": 534.5949125990178,
+      "2024-W32": -10633.207343309681,
+      "2024-W35": -1294.0607084027715,
+      "2024-W38": -2430.7448021867763
+    },
+    "annual_breakdown": {
+      "2024": -30939.595457279396
+    },
+    "annual_trade_counts": {
+      "2024": 36
+    },
+    "positive_months": 10,
+    "negative_months": 15,
+    "flat_months": 0,
+    "total_months": 25,
+    "trade_attribution": [
+      {
+        "symbol": "LTC",
+        "pnl": -929.6565577605234,
+        "trades": 4,
+        "coin_pnl": -6672.207783890273,
+        "hedge_pnl": 4976.533377774603
+      },
+      {
+        "symbol": "AVAX",
+        "pnl": -6538.349282307356,
+        "trades": 5,
+        "coin_pnl": -20114.452336448478,
+        "hedge_pnl": 14587.804659273917
+      },
+      {
+        "symbol": "BCH",
+        "pnl": -2457.564786011382,
+        "trades": 5,
+        "coin_pnl": -10997.1123567665,
+        "hedge_pnl": 6303.084779579824
+      },
+      {
+        "symbol": "FIL",
+        "pnl": -10925.474162547669,
+        "trades": 2,
+        "coin_pnl": -13535.636188584018,
+        "hedge_pnl": 2610.1620260363493
+      },
+      {
+        "symbol": "APT",
+        "pnl": -1781.0209614498015,
+        "trades": 1,
+        "coin_pnl": -2001.835732862314,
+        "hedge_pnl": 220.8147714125125
+      },
+      {
+        "symbol": "LINK",
+        "pnl": -8047.388258800109,
+        "trades": 4,
+        "coin_pnl": -4653.274767498699,
+        "hedge_pnl": -2547.0848109088874
+      },
+      {
+        "symbol": "SOL",
+        "pnl": -2155.76775505275,
+        "trades": 1,
+        "coin_pnl": -2322.198339454342,
+        "hedge_pnl": 166.43058440159203
+      },
+      {
+        "symbol": "ETC",
+        "pnl": 5309.765017260648,
+        "trades": 4,
+        "coin_pnl": 4693.004678253696,
+        "hedge_pnl": 2072.4694695866315
+      },
+      {
+        "symbol": "ETH",
+        "pnl": -3509.380419771289,
+        "trades": 5,
+        "coin_pnl": -7789.496220162095,
+        "hedge_pnl": 4280.115800390807
+      },
+      {
+        "symbol": "UNI",
+        "pnl": -2482.8221379566758,
+        "trades": 3,
+        "coin_pnl": 2227.8232585271694,
+        "hedge_pnl": -4710.645396483845
+      },
+      {
+        "symbol": "ATOM",
+        "pnl": 968.3334328095791,
+        "trades": 1,
+        "coin_pnl": 2431.650109269551,
+        "hedge_pnl": 317.94829583555224
+      },
+      {
+        "symbol": "DOT",
+        "pnl": 1609.7304143079307,
+        "trades": 1,
+        "coin_pnl": 2264.2641115709325,
+        "hedge_pnl": 1490.9071178882082
+      }
+    ],
+    "trade_attribution_by_leg": [
+      {
+        "leg": "buy",
+        "pnl": -24247.95670709117,
+        "trades": 36
+      },
+      {
+        "leg": "short",
+        "pnl": -6691.638750188224,
+        "trades": 8
+      }
+    ],
+    "leg_breakdown": [
+      {
+        "leg": "buy",
+        "trades": 36,
+        "wins": 13,
+        "losses": 23,
+        "win_rate": 0.3611111111111111,
+        "gross_profit": 19352.57567308771,
+        "gross_loss": 43600.53238017888,
+        "profit_factor": 0.44386099473146645,
+        "total_pnl": -24247.956707091173,
+        "avg_r_multiple": -0.3946571526644971,
+        "pnl_share_pct": 78.371925517165
+      },
+      {
+        "leg": "short",
+        "trades": 8,
+        "wins": 3,
+        "losses": 5,
+        "win_rate": 0.375,
+        "gross_profit": 2115.0064414356752,
+        "gross_loss": 8806.645191623898,
+        "profit_factor": 0.24016028753460877,
+        "total_pnl": -6691.638750188224,
+        "avg_r_multiple": 0.09945205965688753,
+        "pnl_share_pct": 21.628074482835004
+      }
+    ],
+    "exposure_metrics": {
+      "total_trades": 36,
+      "gross_profit": 16819.733000566164,
+      "gross_loss": 47759.32845784556,
+      "total_pnl": -30939.595457279396,
+      "avg_pnl_per_trade": -859.4332071466499,
+      "winning_trades": 12,
+      "losing_trades": 24
+    },
+    "equity_start": 100000.0,
+    "equity_final": 69060.4045427206,
+    "equity_points": 37,
+    "equity_period_returns": [
+      -0.0015114922932346236,
+      -0.06447191361594588,
+      -0.029928677299246885,
+      -0.10194151726813475,
+      -0.021885720281722726,
+      -0.02120639590537634,
+      -0.026863064088624693,
+      -0.01873285647559392,
+      -0.028976895122429184,
+      0.0013967108844769015,
+      0.040514022928918245,
+      0.0012162851653027746,
+      0.008619602249270998,
+      -0.0031877709697932487,
+      0.007122858116015715,
+      -0.02571997094332107,
+      0.01611744931361754,
+      0.012817765222826006,
+      0.036111181876482684,
+      0.02030499395316505,
+      0.0066091334933966375,
+      0.024520804819064854,
+      0.04119738363078604,
+      -0.01659220292642437,
+      -0.015641037532890298,
+      -0.019453001538086215,
+      -0.023997318245135603,
+      -0.019207865381617967,
+      -0.02501881949709004,
+      -0.05404964319881443,
+      -0.003379528826450733,
+      -0.014448471372079734,
+      -0.0034131388784856653,
+      -0.012327757119777802,
+      -0.006759405540253313,
+      -0.011914851148727363
+    ],
+    "equity_sharpe_ratio": -0.35463528645774434,
+    "equity_sortino_ratio": -0.3052257586031866,
+    "equity_max_drawdown_pct": -30.939595457279403,
+    "annual_return_pct": {
+      "2024": -30.939595457279395
+    },
+    "equity_total_return_pct": -30.939595457279403,
+    "equity_annualized_return_pct": -40.49474530695314,
+    "equity_horizon_years": 0.7131278538812785,
+    "equity_annualized_calmar_ratio": -1.3088324106521445,
+    "aum_fee_total": 6.667122562836359,
+    "profit_share_total": 0.0,
+    "vault_fee_total": 6.667122562836359,
+    "gross_total_pnl": -30939.5954572794,
+    "net_total_pnl": -30946.262579842238,
+    "gross_final_equity": 69060.4045427206,
+    "net_final_equity": 69060.24687056411,
+    "vault_hwm_final": 100000.0,
+    "fee_hours_per_step": 1.0,
+    "fee_time_base_hours_per_year": 8760.0,
+    "timestamp": "2026-11-18T22:56:47.321101"
+  },
+  "wall_seconds": 5.5,
+  "provenance_path": "research_state/campaign_results_real_bitget_multiyear_specliteral_20261118T202301Z_2024.json"
+}
