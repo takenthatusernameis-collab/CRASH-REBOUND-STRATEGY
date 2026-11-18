@@ -7,3 +7,7 @@
 [C22][fast-path validated] trades=37 pnl=-27638.0501 diff=0.00e+00
 [C22][fast-path validated] trades=37 pnl=-27638.0501 diff=0.00e+00
 [C22][fast-path validated] trades=37 pnl=-27638.0501 diff=0.00e+00
+[C22] MEXC fold 2025: trades=37 pnl=-27638.05 eps=8 perm_p=0.56015 placebo_runs=2000
+[C22] MEXC fold 2026YTD: symbols=33
+[census] MEXC: events=219 signal_pass=69 trades=22 matched=22 unexplained=15
+[C22][fast-path validated] trades=22 pnl=-25394.5872 diff=0.00e+00
