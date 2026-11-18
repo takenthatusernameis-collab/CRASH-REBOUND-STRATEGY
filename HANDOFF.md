@@ -18,7 +18,17 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T19:26:16Z — C22 RESUMED/RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE; THEN C23)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T22:21:55Z — C23-T1 ACTIVE & RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE)
+
+**Single durable handoff / source of truth:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer only.
+
+**Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data.
+
+**Current position (verified live 2026-11-18T22:21:55Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 ACTIVE & RUNNING** — Bitget USDT-M out-of-sample replication. Prereq GREEN: `c23_prereg_20261118T202301Z`, probe `ACQUISITION_VIABLE_BITGET_MULTIYEAR`, cache 34 symbols (33 complete), universe 33 selected. Runner parent PID **25897**, log `research_state/c23_run_20261118T222155Z.log`, fold 2023 in progress. Battery 0/7 — gate `C23 ACCEPTANCE: PENDING`.
+
+**Immediate next action:** one-shot status check then monitor/resume until `C23 ACCEPTANCE: PASS`:
+`ps -eo pid,etime,time,stat,cmd | grep '[r]un_c23_bitget_campaign.py' || true; ls -1 research_state/c23_ckpt_bitget_*_20261118T202301Z.json 2>/dev/null; tail -5 research_state/c23_run_20261118T222155Z.log; PYTHONPATH=. .venv/bin/python scripts/verify_c23_focus_campaign.py | tail -3`
+If no runner alive and gate PENDING: `bash scripts/run_c23_detached_durable.sh` (resume skips completed folds). Do not foreground-block; ~1.5 h/fold × 4 = ~6 h. Log silence with 4 workers at high CPU is normal. Never reduce draws; never relabel Bitget as Hyperliquid. After PASS report per-fold/pooled/power curve, then stop (no further campaign authorized beyond C23).
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done `NO_GO`; MEXC replication resumed/running, Bitget prepared next).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + deps); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress available (Bitget/OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).

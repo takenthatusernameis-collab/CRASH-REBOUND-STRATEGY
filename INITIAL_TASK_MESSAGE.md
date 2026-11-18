@@ -1,4 +1,12 @@
-# INITIAL TASK MESSAGE — 2026-11-18T21:24:15Z
+# INITIAL TASK MESSAGE — 2026-11-18T22:21:55Z
+
+**Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here.
+
+**Repo:** `CRASH-REBOUND-STRATEGY`.
+
+**Current position (verified live 2026-11-18T22:21:55Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 ACTIVE & RUNNING** (Bitget USDT-M). Runner parent PID **25897**, log `research_state/c23_run_20261118T222155Z.log`. Gate `C23 ACCEPTANCE: PENDING`.
+
+**Immediate next action:** monitor/resume until `C23 ACCEPTANCE: PASS` per HANDOFF.md. Do not reduce draws; do not relabel Bitget data as Hyperliquid.
 
 **Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here.
 
