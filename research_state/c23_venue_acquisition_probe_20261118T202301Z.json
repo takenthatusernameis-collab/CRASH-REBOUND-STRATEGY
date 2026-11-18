@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T20:23:14.803857+00:00",
+  "campaign": "C23",
+  "probe": "venue_acquisition_feasibility",
+  "purpose": "Confirm a second never-used USDT-perp venue can serve MULTI-YEAR 1H history for the frozen spec-literal C23 replication (new data, not a rerun).",
+  "probe_symbols": [
+    "SOL",
+    "ADA",
+    "XRP",
+    "DOGE",
+    "LINK",
+    "AVAX",
+    "DOT",
+    "LTC",
+    "BCH",
+    "NEAR",
+    "ARB",
+    "OP",
+    "ATOM",
+    "UNI",
+    "AAVE"
+  ],
+  "depth_windows": {
+    "2023": [
+      "2023-01-01T00:00:00Z",
+      "2023-01-02T23:00:00Z"
+    ],
+    "2024": [
+      "2024-06-01T00:00:00Z",
+      "2024-06-02T23:00:00Z"
+    ],
+    "2025": [
+      "2025-06-01T00:00:00Z",
+      "2025-06-02T23:00:00Z"
+    ],
+    "2026": [
+      "2026-09-01T00:00:00Z",
+      "2026-09-02T23:00:00Z"
+    ]
+  },
+  "venues": {
+    "bitget_usdt_m": {
+      "reachable": true,
+      "http_status": 200,
+      "n_usdt_m_contracts": 890,
+      "contracts_probe": [
+        "XRPUSDT",
+        "BCHUSDT",
+        "LTCUSDT",
+        "ADAUSDT",
+        "LINKUSDT",
+        "DOTUSDT",
+        "DOGEUSDT",
+        "SOLUSDT",
+        "UNIUSDT",
+        "AAVEUSDT",
+        "ATOMUSDT",
+        "AVAXUSDT",
+        "NEARUSDT",
+        "OPUSDT",
+        "ARBUSDT"
+      ],
+      "multiyear_2023": true,
+      "multiyear_2024": true,
+      "multiyear_2025": true,
+      "probe_bars_by_window": {
+        "2023": 47,
+        "2024": 47,
+        "2025": 47,
+        "2026": 47
+      },
+      "coverage_5m_live": {
+        "checked": [
+          "SOL",
+          "ADA",
+          "XRP",
+          "DOGE",
+          "LINK",
+          "AVAX",
+          "DOT",
+          "LTC",
+          "BCH",
+          "NEAR",
+          "ARB",
+          "OP",
+          "ATOM",
+          "UNI",
+          "AAVE"
+        ],
+        "n_checked": 15,
+        "passing_5m_live": [
+          "SOL",
+          "ADA",
+          "XRP",
+          "DOGE",
+          "LINK",
+          "NEAR",
+          "UNI"
+        ],
+        "n_passing_live": 7,
+        "note": "live 24h quote turnover proxy; authoritative $5M membership is recomputed from the acquired cache by derive_verified_universe.py"
+      },
+      "page_cap_bars": 200,
+      "pagination_note": "history-candles caps responses at 200 bars and returns the LAST 200 bars of the requested span; the C23 fetcher therefore pages BACKWARD from the end in <=199h windows so every hour is covered exactly once",
+      "note": "reachable; serves 1H history back to 2023-01-01 (48/48 bars per 48h probe window) -> multiyear out-of-sample C23 replication is feasible",
+      "already_have_multiyear_cache": false
+    },
+    "kraken_futures": {
+      "reachable": true,
+      "http_status": 200,
+      "n_pf_instruments": 208,
+      "multiyear_2023": false,
+      "note": "documented fallback only; depth/coverage unprobed in this run \u2014 requires its own viability probe before use",
+      "already_have_multiyear_cache": false
+    }
+  },
+  "recommendation": {
+    "primary_new_venue": "bitget_usdt_m",
+    "documented_fallback": null,
+    "multiyear_viable": true,
+    "rationale": "Bitget USDT-M serves 1H history back to 2023-01-01 with 890 USDT-M contracts; the whole spec altcoin universe is listed. New data + frozen spec = legitimate out-of-sample C23, NOT a same-data rerun."
+  },
+  "c23_data_status": "ACQUISITION_VIABLE_BITGET_MULTIYEAR"
+}
