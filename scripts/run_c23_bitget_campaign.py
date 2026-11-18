@@ -304,8 +304,25 @@ def _run_fold_campaign(vd_slice: Dict[str, Any], fold_id: str) -> Dict[str, Any]
 
 
 def _fold_census(vd_slice: Dict[str, Any], campaign: Dict[str, Any], fold_id: str) -> Dict[str, Any]:
-    base = c20.build_census(vd_slice, campaign, f"c23_tmp_census_{vd_slice['venue']}_{fold_id}")
-    tmp = STATE / f"c23_tmp_census_{vd_slice['venue']}_{fold_id}.json"
+    venue = vd_slice["venue"]
+    prov_rel = f"research_state/campaign_results_real_{venue}_multiyear_specliteral_{TS}_{fold_id}.json"
+    prov = REPO / prov_rel
+    payload = dict(campaign)
+    payload["generated_at_utc"] = iso_now()
+    payload["campaign"] = "C23"
+    payload["prereg"] = f"research_state/c23_prereg_{TS}.json"
+    payload["prereg_sha256"] = sha256_file(PREREG)
+    payload["provenance_path"] = prov_rel
+    payload["fabricated_data"] = False
+    payload["synthetic_data"] = False
+    prov.write_text(json.dumps(payload, indent=2) + "\n")
+    c20_ts_before = c20.TS
+    c20.TS = f"{TS}_{fold_id}"
+    try:
+        base = c20.build_census(vd_slice, campaign, f"c23_tmp_census_{venue}_{fold_id}")
+    finally:
+        c20.TS = c20_ts_before
+    tmp = STATE / f"c23_tmp_census_{venue}_{fold_id}.json"
     if tmp.exists():
         tmp.unlink()
     base["schema_version"] = 1
