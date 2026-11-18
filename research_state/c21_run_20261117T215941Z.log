@@ -40,3 +40,9 @@
 [C21][fast-path validated] trades=41 pnl=-42040.4958 diff=0.00e+00
 [C21][fast-path validated] trades=41 pnl=-42040.4958 diff=0.00e+00
 [C21][fast-path validated] trades=41 pnl=-42040.4958 diff=0.00e+00
+[C21] Binance UM fold 2025: trades=41 pnl=-42040.50 eps=8 perm_p=0.5911213458709141 placebo_runs=2000
+[C21] Binance UM fold 2026YTD: symbols=33
+[census] Binance UM: events=226 signal_pass=86 trades=24 matched=24 unexplained=23
+[C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
+[C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
+[C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
