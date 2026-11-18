@@ -9,3 +9,6 @@
 [C23][fast-path validated] trades=36 pnl=-30939.5955 diff=0.00e+00
 [C23][fast-path validated] trades=36 pnl=-30939.5955 diff=0.00e+00
 [C23][fast-path validated] trades=36 pnl=-30939.5955 diff=0.00e+00
+[C23] Bitget fold 2024: trades=36 pnl=-30939.60 eps=8 perm_p=0.60555 placebo_runs=2000
+[C23] Bitget fold 2025: symbols=33
+[census] Bitget: events=323 signal_pass=105 trades=37 matched=37 unexplained=26
