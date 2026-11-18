@@ -1247,7 +1247,7 @@ def run_venue_folds(venue: str, jobs: int, resume: bool) -> Dict[str, Any]:
         elif kind == "census":
             keep["events_total"] = d["reconciliation"]["events_total"]
             keep["signal_gate_pass"] = d["reconciliation"]["signal_gate_pass"]
-            keep["trades_matched"] = d["reconciliation"]["trades_matched"]
+            keep["trades_matched"] = d["reconciliation"]["trades_matched_to_events"]
         return keep
 
     camp = _merge(f"c22_mexc_fold_campaign_{TS}", fold_campaigns, "campaign")

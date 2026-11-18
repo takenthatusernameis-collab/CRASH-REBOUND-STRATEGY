@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T20:21:31Z",
+  "phase": "C22",
+  "campaign": "C22",
+  "prereg_sha256": "a9f66f75c994aaf64d829e55f362e33c821fb1131f74f31a5fd694104d94de89",
+  "prereg": "research_state/c22_prereg_20261118T100126Z.json",
+  "provenance_caveat": "Real MEXC USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "MEXC",
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    }
+  ],
+  "fold": "ALL",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo (2000 subsets); preserves gates/sizing/cap/occupancy/hedge on the fold slice.",
+  "mode": "deterministic_seeded_draws:2000_choose_25_of_110",
+  "seed": 20261122,
+  "canonical": {
+    "trades": 25,
+    "total_pnl": 30599.02953056273,
+    "admitted_keys_count": 25
+  },
+  "pool": {
+    "signal_gate_events": 110,
+    "choose_k": 25
+  },
+  "placebo": {
+    "runs": 2000,
+    "summary": {
+      "n": 2000,
+      "sum": 8499564.79987315,
+      "mean": 4249.7823999365755,
+      "median": 4184.984103677162,
+      "stdev": 10799.079322007134,
+      "min": -30734.211222599864,
+      "max": 38763.49596080791,
+      "p05": -14100.107168328748,
+      "p95": 22007.381987692374
+    },
+    "p_ge_canonical": 0.006,
+    "canonical_percentile_le": 0.994,
+    "prob_total_pnl_positive": 0.646,
+    "ci_low_pnl_2p5": -17351.595656862693,
+    "ci_high_pnl_97p5": 24924.835501484562
+  },
+  "verdict": "underpowered",
+  "jobs": 4,
+  "replay_path": "exact_validated_event_bar_replay",
+  "replay_validation": {
+    "key": [
+      139871133809984,
+      110
+    ],
+    "ok": true,
+    "detail": "trades=25 pnl=30599.0295 diff=0.00e+00",
+    "validated_at_utc": "2026-11-18T12:42:33Z"
+  },
+  "limitations": [
+    "CROSS-VENUE MEXC fold 2023; NOT Hyperliquid performance evidence."
+  ],
+  "per_fold": {
+    "2023": {
+      "fold": "2023",
+      "venue_label": "MEXC",
+      "runs": 2000,
+      "p_ge_canonical": 0.006,
+      "canonical": {
+        "trades": 25,
+        "total_pnl": 30599.02953056273,
+        "admitted_keys_count": 25
+      }
+    },
+    "2024": {
+      "fold": "2024",
+      "venue_label": "MEXC",
+      "runs": 2000,
+      "p_ge_canonical": 0.801,
+      "canonical": {
+        "trades": 40,
+        "total_pnl": -27326.62630697878,
+        "admitted_keys_count": 40
+      }
+    },
+    "2025": {
+      "fold": "2025",
+      "venue_label": "MEXC",
+      "runs": 2000,
+      "p_ge_canonical": 0.7785,
+      "canonical": {
+        "trades": 37,
+        "total_pnl": -27638.050083262533,
+        "admitted_keys_count": 37
+      }
+    },
+    "2026YTD": {
+      "fold": "2026YTD",
+      "venue_label": "MEXC",
+      "runs": 2000,
+      "p_ge_canonical": 0.9635,
+      "canonical": {
+        "trades": 22,
+        "total_pnl": -25394.587163618224,
+        "admitted_keys_count": 22
+      }
+    }
+  }
+}

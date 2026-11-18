@@ -1,0 +1,13 @@
+[resume] c22_ckpt_mexc_2023_20261118T100126Z cached
+[C22] MEXC fold 2023: trades=25 pnl=30599.03 eps=9 perm_p=0.01835 placebo_runs=2000
+[resume] c22_ckpt_mexc_2024_20261118T100126Z cached
+[C22] MEXC fold 2024: trades=40 pnl=-27326.63 eps=8 perm_p=0.3085 placebo_runs=2000
+[resume] c22_ckpt_mexc_2025_20261118T100126Z cached
+[C22] MEXC fold 2025: trades=37 pnl=-27638.05 eps=8 perm_p=0.56015 placebo_runs=2000
+[resume] c22_ckpt_mexc_2026YTD_20261118T100126Z cached
+[C22] MEXC fold 2026YTD: trades=22 pnl=-25394.59 eps=8 perm_p=1.0 placebo_runs=2000
+[resume] c22_mexc_fold_campaign_20261118T100126Z cached
+[verdict] MEXC: NO_GO survivors=0 trades=124 pnl=-49760.23
+[pooled] token=NO_GO venue_token=['NO_GO'] pooled_total=-49760.23 CI=[-49760.23, -49760.23] survivors=0/36
+[consolidated] C22 NO_GO
+C22 COMPLETE: per-venue=['NO_GO'] pooled=NO_GO consolidated=NO_GO

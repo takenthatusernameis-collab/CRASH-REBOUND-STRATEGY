@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T20:21:31Z",
+  "campaign": "C22",
+  "prereg_sha256": "a9f66f75c994aaf64d829e55f362e33c821fb1131f74f31a5fd694104d94de89",
+  "label": "CROSS_VENUE_TEMPORAL_STABILITY_POOLED_SYNTHESIS",
+  "provenance_caveat": "Real MEXC USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+  "performance_evidence": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_labels": [
+    "MEXC"
+  ],
+  "venue_tokens": [
+    "NO_GO"
+  ],
+  "pooled_venue_blocked_bootstrap": {
+    "seed": 20261122,
+    "draws": 20000,
+    "blocks": [
+      {
+        "venue": "MEXC",
+        "total_pnl": -49760.23
+      }
+    ],
+    "pooled_total_pnl": -49760.23,
+    "ci95": [
+      -49760.23,
+      -49760.23
+    ],
+    "prob_pooled_total_gt_0": 0.0,
+    "sign_concordant": true,
+    "signs": [
+      -1
+    ]
+  },
+  "effective_sample": {
+    "trades": 124,
+    "episodes": 33
+  },
+  "multiplicity": {
+    "method": "benjamini_hochberg",
+    "alpha": 0.05,
+    "n_pooled_stratum_tests": 36,
+    "n_pooled_survivors": 0,
+    "survivors": []
+  },
+  "decision": {
+    "token": "NO_GO",
+    "rationale": "Pooled token NO_GO from per-venue token ['NO_GO']; pooled CI=[-49760.23, -49760.23]; pooled strata survivors=0/36."
+  },
+  "priors_referenced": [
+    "research_state/c22_prereg_20261118T100126Z.json",
+    "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json",
+    "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+    "research_state/c20_pooled_cross_venue_synthesis_20261116T063500Z.json",
+    "research_state/c21_pooled_stability_synthesis_20261117T064408Z.json"
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T20:21:31Z",
+  "campaign": "C22",
+  "prereg_sha256": "a9f66f75c994aaf64d829e55f362e33c821fb1131f74f31a5fd694104d94de89",
+  "label": "CROSS_VENUE_TEMPORAL_STABILITY_PER_VENUE_VERDICT",
+  "provenance_caveat": "Real MEXC USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+  "performance_evidence": true,
+  "is_hyperliquid_venue_data": false,
+  "cross_venue": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "MEXC",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "folds": [
+    "2023",
+    "2024",
+    "2025",
+    "2026YTD"
+  ],
+  "per_fold_go_checks": {
+    "2023": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": true,
+      "placebo_p_ge_canonical_lt_0.05": true,
+      "spot_leg_positive": false
+    },
+    "2024": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": false,
+      "spot_leg_positive": false
+    },
+    "2025": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": false,
+      "spot_leg_positive": false
+    },
+    "2026YTD": {
+      "trades_ge_10": true,
+      "episodes_ge_5": true,
+      "crash_days_ge_5": true,
+      "bootstrap_ci_excludes_zero_positive": false,
+      "permutation_p_lt_0.05": false,
+      "placebo_p_ge_canonical_lt_0.05": false,
+      "spot_leg_positive": false
+    }
+  },
+  "stratum_survivors": [],
+  "n_stratum_survivors": 0,
+  "headline": {
+    "trades": 124,
+    "total_pnl": -49760.23,
+    "spot_pnl": -202870.32
+  },
+  "verdict": "NO_GO",
+  "verdict_token": "NO_GO",
+  "power_curve": {
+    "2023": null,
+    "2024": null,
+    "2025": null,
+    "2026YTD": null
+  },
+  "limitations": [
+    "CROSS-VENUE MEXC; NOT Hyperliquid performance evidence.",
+    "Folds are fixed by prereg; strata fixed by prereg; no post-hoc selection."
+  ]
+}

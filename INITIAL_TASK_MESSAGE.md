@@ -1,10 +1,10 @@
-# INITIAL TASK MESSAGE — 2026-11-18T19:26:16Z
+# INITIAL TASK MESSAGE — 2026-11-18T20:21:30Z
 
 **Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data.
 
-**Current position (verified live at 2026-11-18T19:24Z):** **C22-T1 ACTIVE & RESUMED** (MEXC USDT-perp out-of-sample replication). Parent runner PID **5347** (uptime 03:51) + 4 rotating workers (5415–5418, all `R` state = actively computing), log `research_state/c22_run_20261118T192115Z.log`. Folds **2023 COMPLETE** and **2024 COMPLETE** (checkpoints present); fold **2025** is in progress (census 311 events / 94 signal_pass / 37 trades / PnL -27,638.05, fast-path validated, episode-block permutation running); fold **2026YTD NOT STARTED**. Gate `C22 ACCEPTANCE: PENDING` (prereqs GREEN, **0/7 battery artifacts, 2/4 checkpoints**).
+**Current position (verified live at 2026-11-18T20:21Z):** **C22-T1 ACTIVE & RESUMED** (MEXC USDT-perp out-of-sample replication). All 4 fold checkpoints now present (2023, 2024, 2025, 2026YTD). Gate `C22 ACCEPTANCE: PENDING` (1/7 battery artifacts). Runner relaunched parent PID **12059**, log `research_state/c22_run_20261118T202130Z.log`. Bottleneck removed: fixed `trades_matched` → `trades_matched_to_events` KeyError in `run_c22_mexc_campaign.py:1250` that blocked artifact build. Folds complete; runner rebuilding 7 battery artifacts. C23-T1 (Bitget) prepared, binding after C22 PASS.
 
 **Immediate next action:** Run the one-shot status check from `HANDOFF.md`, then monitor/resume until `C22 ACCEPTANCE: PASS`. Only after C22 PASS and no runner alive, begin **C23-T1** (Bitget USDT-M) per the binding section in `HANDOFF.md`.
 
