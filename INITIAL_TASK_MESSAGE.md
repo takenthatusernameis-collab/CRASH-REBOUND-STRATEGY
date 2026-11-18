@@ -1,10 +1,10 @@
-# INITIAL TASK MESSAGE — 2026-11-18T23:25:19Z
+# INITIAL TASK MESSAGE — 2026-11-18T23:26:18Z
 
 **Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data.
 
-**Current position (verified live 2026-11-18T23:25:19Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 ACTIVE & RUNNING** (Bitget USDT-M out-of-sample replication). Runner parent PID **25897** alive with 4 rotating workers, log `research_state/c23_run_20261118T222155Z.log`. **Fold 2023 checkpoint DONE** (24 trades, PnL +28,706.32, 9 episodes, perm_p=0.0229, 0/9 BH strata survivors); **fold 2024 IN PROGRESS** (census 36 trades, -30,939.60, fast-path diff 0.00e+00, permutation/placebo phase); 2025/2026YTD pending. Battery artifacts **0/7** — gate `C23 ACCEPTANCE: PENDING`. Expected completion **2026-11-19T01:20–01:45Z** (~46 min/fold observed).
+**Current position (verified live 2026-11-18T23:26:18Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 ACTIVE & RUNNING** (Bitget USDT-M out-of-sample replication). Runner parent PID **25897** alive with 4 rotating workers, log `research_state/c23_run_20261118T222155Z.log`. **Fold 2023 checkpoint DONE** (24 trades, PnL +28,706.32, 9 episodes, perm_p=0.0229, 0/9 BH strata survivors); **fold 2024 IN PROGRESS** (census 36 trades, -30,939.60, fast-path diff 0.00e+00, permutation/placebo phase running); 2025/2026YTD pending. Battery artifacts **0/7** — gate `C23 ACCEPTANCE: PENDING`. Expected completion **2026-11-19T01:20–01:45Z** (~46 min/fold observed).
 
 **Immediate next action (one read-only command):** `bash scripts/status_c23.sh`
 - `RUNNER: ALIVE` → do not relaunch, do not kill, do not foreground-wait; schedule a wakeup ~40–45 min out and re-check. Quiet logs during the 20k permutation/2k placebo phase are normal.
