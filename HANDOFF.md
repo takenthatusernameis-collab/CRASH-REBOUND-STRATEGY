@@ -1,28 +1,28 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-18T15:08:04Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 active; Bitget USDT-perp C23 prepared).
+**Generated (UTC):** 2026-11-18T15:08:43Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 active; Bitget USDT-perp C23 prepared).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). **C22-T1 is the ACTIVE BINDING CAMPAIGN** — MEXC USDT-perp out-of-sample replication of the frozen spec-literal edge, PRE-REGISTERED (`c22_prereg_20261118T100126Z`), acquisition/cache/universe ready, heavy 4-fold battery **LAUNCHED AND RUNNING** (durable, resumable), **1/4 fold checkpoints complete** and the gate still `PENDING`. It must run to completion and pass `C22 ACCEPTANCE: PASS`. **C23-T1 is the PREPARED NEXT FOCUS CAMPAIGN** — Bitget USDT-M out-of-sample replication, gated on C22 PASS; it is a binding work order, not optional (see below). Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC/Bitget data as Hyperliquid; do not reduce draw counts.
 
-**Verified live/repo state (2026-11-18T14:18:58Z):**
+**Verified live/repo state (2026-11-18T15:08:43Z):**
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS` (pooled=`NO_GO`, consolidated final=`NO_GO`, ts=2026-11-18T06:15:08Z).
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs GREEN: prereg json+md present, config matches frozen spec-literal, acquisition viable, MEXC cache 34 symbols present, universe derived; **0/7 battery artifacts, 1/4 checkpoints** at this check). Timestamped artifacts present: `c22_prereg_20261118T100126Z.{json,md}`, `c22_venue_acquisition_probe_20261118T100126Z.json`.
-- **C22 RUNNER IS ACTIVE (durable):** parent PID **21734** (Sl, etime ~01:53:25) + 4 rotating Pool workers **34431–34439** (R, etime ~01:38, ~1.5 min CPU each) running `scripts/run_c22_mexc_campaign.py --jobs 4 --resume`, launched 2026-11-18T12:25:33Z via `bash scripts/run_c22_detached_durable.sh` → log `research_state/c22_run_20261118T122533Z.log`. **Worker PIDs rotate per permutation Pool; parent PID 21734 is the stable one. Do not hardcode worker PIDs and do not kill the parent.**
+- **C22 RUNNER IS ACTIVE (durable):** parent PID **21734** (Sl, etime ~02:43:28) + 4 rotating Pool workers **38703–38706** (R, etime ~09:27, ~1.5 min CPU each) running `scripts/run_c22_mexc_campaign.py --jobs 4 --resume`, launched 2026-11-18T12:25:33Z via `bash scripts/run_c22_detached_durable.sh` → log `research_state/c22_run_20261118T122533Z.log`. **Worker PIDs rotate per permutation Pool; parent PID 21734 is the stable one. Do not hardcode worker PIDs and do not kill the parent.**
 - **Fold progress:** fold **2023 COMPLETE** — checkpoint `research_state/c22_ckpt_mexc_2023_20261118T100126Z.json` (mtime 13:47Z): 33 symbols, census 325 events / 110 signal_pass / 25 trades, PnL **+30,599.03**, 9 episodes, 12 distinct crash days, permutation p=**0.01835**, placebo p_ge=**0.006**, bootstrap CI95=**[-4,715.22, +67,959.60]**, 0/9 BH strata survivors. Fold **2024 IN PROGRESS** — census 314 events / 124 signal_pass / 40 trades, PnL **-27,326.63**, fast-path validated, episode-block permutation running (log tail shows 3× `[C22][fast-path validated] trades=40 pnl=-27326.63`). Folds 2025 and 2026YTD not started.
 - Local `main` HEAD `2df7f76` (controller checkpoints the worktree; do not rewrite history; do not commit unless explicitly asked).
 
 > **PROGRAM STATE: C1–C20 COMPLETE `NO_GO`; C21-T1 COMPLETE, gate PASS, consolidated `NO_GO`; C22-T1 ACTIVE — 1/4 MEXC folds checkpointed, 4-fold 20k/20k/2k battery running, gate `PENDING`; C23-T1 PREPARED (Bitget) and binding after C22. Hyperliquid-native acquisition CLOSED.**
 
-> **RUNTIME PROFILE (measured 2026-11-18T12:25–14:18Z):** fold 2023 took ~81 min wall time (12:25:33Z → 13:47Z checkpoint). Per-fold cost is dominated by the 20,000-draw episode-block permutation (`_fold_episode_edge`) plus 2,000-subset placebo and 9 stratum permutations. Expect ~1.5 h/fold; with 3 folds remaining, the full C22 battery should complete roughly **17:30–18:30Z**. A long log silence with 4 workers at high CPU is EXPECTED, not a hang. The first checkpoint appears only after a full fold (campaign+census+episode+placebo+strata) completes; there is no mid-fold checkpoint.
+> **RUNTIME PROFILE (measured 2026-11-18T12:25–15:08Z):** fold 2023 took ~81 min wall time (12:25:33Z → 13:47Z checkpoint). Per-fold cost is dominated by the 20,000-draw episode-block permutation (`_fold_episode_edge`) plus 2,000-subset placebo and 9 stratum permutations. Expect ~1.5 h/fold; with 3 folds remaining, the full C22 battery should complete roughly **17:30–18:30Z**. A long log silence with 4 workers at high CPU is EXPECTED, not a hang. The first checkpoint appears only after a full fold (campaign+census+episode+placebo+strata) completes; there is no mid-fold checkpoint.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T14:18:58Z — C22 RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE; THEN C23)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T15:08:43Z — C22 RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE; THEN C23)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done, MEXC replication in progress, Bitget prepared next).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + deps); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress available (Bitget/OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).
 
-**Verified live (2026-11-18T14:18:58Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs GREEN, **0/7 battery artifacts, 1/4 checkpoints**; timestamped artifacts present: `c22_prereg_20261118T100126Z.json`, `c22_venue_acquisition_probe_20261118T100126Z.json`). **C22 runner is LIVE (no duplicate):** parent PID **21734** + rotating workers **34431–34439** (R) running `scripts/run_c22_mexc_campaign.py --jobs 4 --resume`, log `research_state/c22_run_20261118T122533Z.log` (fold 2023 complete, fold 2024 episode permutation in progress). **C23-T1 (Bitget) is PREPARED but NOT STARTED** — it may start only after C22 is PASS and no C22 runner is alive.
+**Verified live (2026-11-18T15:08:43Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs GREEN, **0/7 battery artifacts, 1/4 checkpoints**; timestamped artifacts present: `c22_prereg_20261118T100126Z.json`, `c22_venue_acquisition_probe_20261118T100126Z.json`). **C22 runner is LIVE (no duplicate):** parent PID **21734** + rotating workers **38703–38706** (R) running `scripts/run_c22_mexc_campaign.py --jobs 4 --resume`, log `research_state/c22_run_20261118T122533Z.log` (fold 2023 complete, fold 2024 episode permutation in progress). **C23-T1 (Bitget) is PREPARED but NOT STARTED** — it may start only after C22 is PASS and no C22 runner is alive.
 
 **Immediate next action — MONITOR/RESUME → COMPLETE → VERIFY GATE (do this first; do not start C23 yet):**
 1. **One-shot status check (fast, non-blocking):**
@@ -52,7 +52,7 @@
 **C22 REQUIRED ARTIFACTS (TS = `20261118T100126Z`)** — gate checks all 7 battery artifacts + prereg:
 `c22_prereg_{TS}.{json,md}`; `c22_mexc_fold_campaign_{TS}.json`; `c22_mexc_fold_episode_edge_{TS}.json`; `c22_mexc_fold_placebo_{TS}.json`; `c22_mexc_fold_census_{TS}.json`; `c22_decision_verdict_mexc_stability_{TS}.json`; `c22_pooled_stability_synthesis_{TS}.json`; `c22_decision_verdict_CONSOLIDATED_{TS}.json`.
 
-**Live run context (verified 2026-11-18T14:17:27Z):** durable parent PID 21734 + rotating workers 32665–32668 (R), log `research_state/c22_run_20261118T122533Z.log`, started 12:25:33Z. Fold 2023 complete (checkpoint 13:47Z: 25 trades, +30,599.03, 9 episodes, 12 crash days, perm p=0.01835, placebo p_ge=0.006, CI [-4,715.22, +67,959.60], 0/9 BH strata survivors). Fold 2024 in progress (40 trades, -27,326.63, episode permutation running). Expect 4 per-fold checkpoints `c22_ckpt_mexc_<fold>_20261118T100126Z.json` then 7 final artifacts. Do not foreground or duplicate. See RUNTIME PROFILE above: log silence with high worker CPU = normal.
+**Live run context (verified 2026-11-18T15:08:43Z):** durable parent PID 21734 + rotating workers 38703–38706 (R), log `research_state/c22_run_20261118T122533Z.log`, started 12:25:33Z. Fold 2023 complete (checkpoint 13:47Z: 25 trades, +30,599.03, 9 episodes, 12 crash days, perm p=0.01835, placebo p_ge=0.006, CI [-4,715.22, +67,959.60], 0/9 BH strata survivors). Fold 2024 in progress (40 trades, -27,326.63, episode permutation running). Expect 4 per-fold checkpoints `c22_ckpt_mexc_<fold>_20261118T100126Z.json` then 7 final artifacts. Do not foreground or duplicate. See RUNTIME PROFILE above: log silence with high worker CPU = normal.
 
 ---
 
@@ -88,7 +88,7 @@
 
 ---
 
-## BOTTLENECKS REMOVED THIS SESSION (2026-11-18T14:18:58Z)
+## BOTTLENECKS REMOVED THIS SESSION (2026-11-18T15:08:43Z)
 
 1. **Stale worker-PID bottleneck removed:** the prior handoff pinned workers `27728–27731`; those are gone. The stable parent is **21734**; workers rotate per permutation Pool (now **34431–34439**). The handoff now records the parent PID and explicitly says worker PIDs rotate, so the next session cannot mistake a normal Pool respawn for a crash or relaunch a duplicate.
 2. **Stale progress claims corrected:** prior handoff said `0/4 checkpoints` and "fold 2023 in progress"; verified state is **1/4 checkpoints** (2023 complete at 13:47Z) and **fold 2024 in progress** (40 trades, -27,326.63). Fold 2023 evidence is recorded (25 trades, +30,599.03, 9 episodes, 12 crash days, perm p=0.01835, placebo p_ge=0.006, CI [-4,715.22, +67,959.60], 0/9 BH strata survivors).
@@ -100,6 +100,7 @@
 
 ## BOTTLENECKS REMOVED IN PRIOR SESSIONS (selected)
 
+- **2026-11-18T15:08:43Z:** updated live state; corrected worker PIDs (38703–38706); re-verified fold 2023 checkpoint evidence and fold 2024 progress; C22 runner confirmed active (parent PID 21734).
 - **2026-11-18T14:18:58Z:** updated live state; corrected worker PIDs (34431–34439); re-verified fold 2023 checkpoint evidence and fold 2024 progress.
 - **2026-11-18T14:17:27Z:** re-verified live state; added durable launcher and runtime profile; clarified 4-fold MEXC scope and monitor/resume order.
 - **2026-11-18T12:22:19Z:** corrected phantom "running PID 18746" claim; added `scripts/run_c22_detached_durable.sh`; clarified 4-fold MEXC scope and launch/resume order.
