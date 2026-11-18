@@ -1,72 +1,34 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-18T01:18:11Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-18T06:18:49Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
-**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues. If no explicit user override exists, future work is **heavy execution to satisfy C21-T1 gate** — never planning-only loops.
+**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). **C21-T1 is COMPLETE** — temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues; gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). No further campaign work is authorized beyond C21 without new prereg + new data + explicit operator authorization; do NOT invent a same-data C22+ rerun. If no explicit user override exists, future work is verification + await direction — never planning-only loops on closed campaigns.
 
-**Verified live/repo state (2026-11-18T01:16:54Z; re-verify with commands below):** canonical C21 runner confirmed live and healthy: PID 21945 (Sl, etime 03:17:26) with 4 child workers (50546–50549, R state, ~91–92% CPU each, ~366% total), running `--jobs 4 --resume`. Repo artifacts present now: **6/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023/2024`, all stamp `20261117T064408Z`). **5/12 required gate artifacts** present (OKX fold bundle + `c21_decision_verdict_okx_stability_20261117T064408Z.json`: NO_GO, survivors=0, trades=113, pnl=-54799.23). OKX folds 2023/2024/2025/2026YTD complete (NO_GO). Binance UM fold 2023 complete (trades=28, pnl=+34989.90, perm_p=0.6606) and fold 2024 complete (trades=43, pnl=-33586.83, perm_p=0.7127) per log/checkpoints. **Binance UM fold 2025 in active compute** (log shows census + 3x fast-path validated: trades=41, pnl=-42040.50; fold-summary print/checkpoint not yet emitted, workers busy in permutation/placebo/strata phase); fold 2026YTD pending after 2025, then Binance verdict + pooled synthesis + consolidated emission. Missing (gate RED): `c21_binance_um_fold_{campaign,episode_edge,placebo,census}_20261117T064408Z.json`, `c21_decision_verdict_binance_um_stability_20261117T064408Z.json`, `c21_pooled_stability_synthesis_20261117T064408Z.json`, `c21_decision_verdict_CONSOLIDATED_20261117T064408Z.json`. `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` prints `C21 ACCEPTANCE: FAIL` (8 missing) until the full battery completes. No duplicate runner observed. No compute bottleneck: 4-core parallelism active (~360% aggregate CPU); **do not kill/restart a healthy runner, do not reduce draw counts, do not hand-fabricate artifacts.**
+**Verified live/repo state (2026-11-18T06:18:49Z):** C21 runner is NOT active and none is needed — battery finished cleanly (`research_state/c21_run_20261118T061505Z.log` ends `C21 COMPLETE: per-venue=['NO_GO', 'NO_GO'] pooled=NO_GO consolidated=NO_GO`). Repo artifacts present now: **8/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023/2024/2025/2026YTD`, stamp `20261117T064408Z`). **12/12 required gate artifacts** present (OKX fold bundle `NO_GO` trades=113 pnl=-54799.23; Binance UM fold bundle `NO_GO` trades=136 pnl=-70071.39; `c21_decision_verdict_okx_stability_*`, `c21_decision_verdict_binance_um_stability_*`, `c21_pooled_stability_synthesis_*` pooled=NO_GO draws=20000, `c21_decision_verdict_CONSOLIDATED_*` final=NO_GO ts=2026-11-18T06:15:08Z). `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS`. No compute bottleneck (parallel strata fix committed, ~4x speedup, draw counts preserved); `_build_pooled` TypeError from an earlier run did not recur — final run completed cleanly.
 
-> **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
+> **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`; C21-T1 COMPLETE, gate `C21 ACCEPTANCE: PASS` (12/12 artifacts, 8/8 checkpoints), consolidated `NO_GO`. No open binding campaign.**
 
 **Closure tokens (binding):** `pytest tests/ -q` = `1047 passed, 1 skipped`; `scripts/session_gate.py` = `21/21 checks passed` (Phase O timestamp `2026-11-13T23:38:47Z`); `scripts/verify_campaign_evidence.py` = `EVIDENCE VERIFIED`; C20/C19/C14/C13/C6 gates = `PASS`; `scripts/probe_hyperliquid_blocker.py` = `FULL_283D_BLOCKED_BY_API_RETENTION`.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T01:16:54Z — C21 INCOMPLETE; MONITOR/RESUME ONLY)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T06:18:49Z — C21 COMPLETE; GATE PASS; NO ACTIVE RUNNER)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
-**Bottom line up front (verified 2026-11-18T01:16:54Z):**
+**Bottom line up front (verified 2026-11-18T06:18:49Z):**
 - C1–C20 closure green (`NO_GO`). Do not relitigate/relaunch C20 and do not re-run pytest/gates for closure unless you changed code.
-- C21 is open and blocked only on compute: canonical runner active and healthy (PID 21945, ~3h17m wall, 4 R-state child workers ~366% CPU total, `--jobs 4 --resume`). **6/8** checkpoints present (`okx_2023/2024/2025/2026YTD`, `binance_um_2023/2024`). **5/12** required gate artifacts present (OKX bundle + `c21_decision_verdict_okx_stability_20261117T064408Z.json`: NO_GO, survivors=0, trades=113, pnl=-54799.23). Binance UM 2023/2024 folds completed (ckpts/log). **Binance UM fold 2025 in active compute** (census+fast-path done: trades=41, pnl=-42040.50; fold checkpoint/summary pending while workers run); fold 2026YTD pending, then Binance verdict + pooled synthesis + consolidated emission.
-- Gate: `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: FAIL` (8 missing: `c21_binance_um_fold_{campaign,episode_edge,placebo,census}`, `c21_decision_verdict_binance_um_stability_*`, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`).
-- **Do NOT start a second runner. Do not kill a healthy runner. Do not reduce draw counts or hand-fabricate artifacts.** Progress is normal despite log silence between phase prints; verify via CPU time + child workers + checkpoint/artifact counts.
-- Final C1–C20 verdict: `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json` token `NO_GO`, `research_program_complete: true`.
+- **C21-T1 COMPLETE** — gate `C21 ACCEPTANCE: PASS`, all 12 artifacts + 8 checkpoints present, consolidated verdict `NO_GO` (OKX `NO_GO`, Binance UM `NO_GO`, pooled `NO_GO`, 72 pooled stratum tests 0 survivors). No further campaign work is authorized beyond C21 without new prereg + new data + explicit operator authorization; do NOT invent a same-data C22+ rerun.
+- No runner is active and none is needed. Do not start `run_c21_cross_venue_campaign.py` or `run_c21_detached_durable.sh` — the battery finished cleanly (`research_state/c21_run_20261118T061505Z.log` ends `C21 COMPLETE: per-venue=['NO_GO', 'NO_GO'] pooled=NO_GO consolidated=NO_GO`).
+- Closure checks already green this session: `pytest tests/ -q` = `1047 passed, 1 skipped`; `scripts/session_gate.py` = `21/21 checks passed` (Phase O `2026-11-13T23:38:47Z`).
 
-**Canonical progress signals (prefer over log tail):**
-- `ps -eo pid,ppid,etime,time,stat,pcpu,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep` (expect parent + 4 R workers while in heavy phase)
-- `ls research_state/c21_ckpt_* | wc -l` → 8 when all folds checkpointed
-- `ls research_state/c21_*_20261117T064408Z.json | grep -v prereg | grep -v ckpt | wc -l` → 12 at completion
-- `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS` at completion (tokens: `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` with power curve)
+**Immediate next action (verification only, no campaign work):**
+1. **Confirm gate green:** `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → expect `C21 ACCEPTANCE: PASS` (tokens `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED`). Current token: `NO_GO`.
+2. **Confirm artifacts:** `ls research_state/c21_ckpt_* | wc -l` → 8; `ls research_state/c21_*_20261117T064408Z.json | grep -v prereg | grep -v ckpt | wc -l` → 12.
+3. **No active runner:** `ps -eo pid,ppid,etime,time,stat,pcpu,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep` → expect empty. Do not start a runner; none is needed.
+4. **Await explicit operator direction** for any work beyond C21 (new prereg + new data required). Do not plan, rewrite, or relaunch campaigns without authorization.
 
-### Execute in order — no planning stops, no relaunch, no commit
-
-1. **Confirm runner alive (5 sec):**
-   ```bash
-   ps -eo pid,ppid,etime,time,stat,cmd | grep run_c21_cross_venue_campaign.py | grep -v grep
-   ```
-   - If PID 21945 (or any `run_c21_cross_venue_campaign.py`) is R/S state with child workers: GO TO STEP 2.
-   - If NO runner alive: GO TO STEP 3.
-
-2. **Monitor the existing runner to completion (multi-hour battery):**
-   ```bash
-   # Per-fold checkpoints: 1 -> 8 (one per venue-fold). These are internal, not gate artifacts.
-   ls research_state/c21_ckpt_* 2>/dev/null | wc -l
-   # Required artifacts: 0 -> 12
-   ls research_state/c21_*_20261117T064408Z.json 2>/dev/null | grep -v prereg | grep -v ckpt | wc -l
-   # Live log (fold-level prints; silence between folds is normal)
-   tail -n 50 research_state/c21_run_20261117T215941Z.log
-   # Gate
-   PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py
-   # Core-utilization proof (should be ~350-400% while a pool phase runs)
-   P=$(pgrep -f run_c21_cross_venue_campaign.py | head -1); ps --ppid $P -o pid,pcpu,stat,cmd | head
-   ```
-   **ACCEPTANCE:** `C21 ACCEPTANCE: PASS` (token `STABLE_POSITIVE_SUBSET`, `NO_GO`, or `UNDERPOWERED` with a power curve). All 12 artifacts present with prereg-specified folds (2023, 2024, 2025, 2026YTD), 20k bootstrap/permutation draws, 2k placebo subsets, BH correction, pooled venue-blocked bootstrap ≥20k draws.
-   **Do not reduce draw counts. Do not hand-fabricate artifacts.** If the runner dies mid-fold, `--resume` reuses per-fold checkpoints and loses at most the in-flight fold.
-
-3. **Only if NO runner is alive: start the canonical resume run (detached, durable):**
-   ```bash
-   bash scripts/run_c21_detached_durable.sh
-   ```
-   This refuses to start if a runner is alive (via `pgrep`), then launches `--jobs 4 --resume` with `nohup` and a real log `research_state/c21_run_<UTC>.log`. Monitor that log and the checkpoint/artifact counts to completion. **Note:** the launcher's `pgrep -f run_c21_cross_venue_campaign.py` also matches any shell command that literally contains that string — invoke the script from a command line that does not, or it will report "already active" and exit 0.
-
-4. **After `C21 ACCEPTANCE: PASS`:**
-   ```bash
-   PYTHONPATH=. .venv/bin/python -m pytest tests/ -q        # 1047 passed, 1 skipped
-   PYTHONPATH=. .venv/bin/python scripts/session_gate.py     # 21/21 checks passed; Phase O 2026-11-13T23:38:47Z
-   ```
-   Then update this HANDOFF with new timestamped literals (keep all tokens below). **Do not commit unless explicitly asked.**
-
+**No-avoidance rule:** while `scripts/verify_c21_focus_campaign.py` prints anything other than `C21 ACCEPTANCE: PASS`, the session is not done and heavy execution is mandatory. It currently prints `PASS` — campaign execution is complete; do not manufacture further work on the same data.
 ---
 
 ## BINDING CAMPAIGN — C21-T1 CANNOT BE AVOIDED
