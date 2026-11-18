@@ -16,7 +16,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T10:14:17Z — C22 ACTIVE; ACQUISITION VIABLE; EXECUTE THE HEAVY MEXC BATTERY)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T11:02:55Z — C22 ACTIVE; ACQUISITION VIABLE; EXECUTE THE HEAVY MEXC BATTERY)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done, MEXC next).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress is available (OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).
