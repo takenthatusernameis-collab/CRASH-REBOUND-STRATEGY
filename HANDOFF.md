@@ -1,10 +1,10 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-17T23:58:30Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
+**Generated (UTC):** 2026-11-17T23:59:50Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). The only open binding task is **C21-T1**: temporal/regime stability of the spec-literal crash-rebound edge across pre-specified folds on two independent real venues. If no explicit user override exists, future work is **heavy execution to satisfy C21-T1 gate** — never planning-only loops.
 
-**Verified live/repo state (2026-11-17T23:58:30Z; re-verify with commands below):** canonical C21 runner state must be confirmed live (`ps`). Repo artifacts present now: **5/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023`, all with stamp `20261117T064408Z`). **5/12 required gate artifacts** present (OKX fold bundle + `c21_decision_verdict_okx_stability_20261117T064408Z.json`: NO_GO, survivors=0, trades=113, pnl=-54799.23). Missing (gate RED): Binance UM fold artifacts for 2024/2025/2026YTD, `c21_binance_um_stability_verdict_*`, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`. `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` is expected to print `C21 ACCEPTANCE: FAIL` until the full battery completes. Prior noted live runner context (from 23:56 handoff snapshot): PID 21945 detached, ~2h wall, 4 workers; **do not assume PID alive now** — verify first.
+**Verified live/repo state (2026-11-17T23:59:50Z; re-verify with commands below):** canonical C21 runner state must be confirmed live (`ps`). Repo artifacts present now: **5/8 per-fold checkpoints** (`c21_ckpt_okx_2023/2024/2025/2026YTD`, `c21_ckpt_binance_um_2023`, all with stamp `20261117T064408Z`). **5/12 required gate artifacts** present (OKX fold bundle + `c21_decision_verdict_okx_stability_20261117T064408Z.json`: NO_GO, survivors=0, trades=113, pnl=-54799.23). Missing (gate RED): Binance UM fold artifacts for 2024/2025/2026YTD, `c21_binance_um_stability_verdict_*`, `c21_pooled_stability_synthesis_*`, `c21_decision_verdict_CONSOLIDATED_*`. `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` is expected to print `C21 ACCEPTANCE: FAIL` until the full battery completes. Prior noted live runner context (from 23:56 handoff snapshot): PID 21945 detached, ~2h wall, 4 workers; **do not assume PID alive now** — verify first.
 
 > **PROGRAM STATE: C1–C20 COMPLETE, certified `NO_GO`. C21 is the only open work; its gate is RED until the full 12-artifact battery executes and the verifier prints `C21 ACCEPTANCE: PASS`.**
 
@@ -12,7 +12,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:58:30Z — C21 INCOMPLETE; NO AVOIDANCE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-17T23:59:50Z — C21 INCOMPLETE; NO AVOIDANCE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data).
 **Environment ready NOW:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`). Run with `PYTHONPATH=. .venv/bin/python ...`. If `.venv` is missing on a fresh runner, run `bash scripts/bootstrap_env.sh` FIRST.
