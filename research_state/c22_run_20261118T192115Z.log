@@ -13,3 +13,21 @@
 [C22][fast-path validated] trades=22 pnl=-25394.5872 diff=0.00e+00
 [C22][fast-path validated] trades=22 pnl=-25394.5872 diff=0.00e+00
 [C22][fast-path validated] trades=22 pnl=-25394.5872 diff=0.00e+00
+[C22] MEXC fold 2026YTD: trades=22 pnl=-25394.59 eps=8 perm_p=1.0 placebo_runs=2000
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c22_mexc_campaign.py", line 1524, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c22_mexc_campaign.py", line 1514, in main
+    venue_results[venue] = run_venue_folds(venue, args.jobs, resume=args.resume)
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c22_mexc_campaign.py", line 1254, in run_venue_folds
+    cen = _merge(f"c22_mexc_fold_census_{TS}", fold_censuses, "census")
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c22_mexc_campaign.py", line 1189, in _merge
+    base["per_fold"] = {f["id"]: _strip_heavy(per_fold[f["id"]], kind) for f in FOLDS}
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c22_mexc_campaign.py", line 1250, in _strip_heavy
+    keep["trades_matched"] = d["reconciliation"]["trades_matched"]
+                             ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+KeyError: 'trades_matched'
