@@ -1,0 +1,1058 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T20:50:26.585721+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "real_market_data": true,
+  "performance_evidence": false,
+  "is_hyperliquid_venue_data": false,
+  "source": {
+    "kind": "external_exchange",
+    "venue": "bitget",
+    "endpoint": "https://api.bitget.com/api/v2/mix/market/history-candles",
+    "source_label": "bitget_public_mix_market_history_candles_1h"
+  },
+  "request_params": {
+    "granularity": "1h",
+    "start_ms": 1672531200000,
+    "end_ms": 1790636400000,
+    "symbols": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ATOM",
+      "AVAX",
+      "BAT",
+      "BCH",
+      "COMP",
+      "CRV",
+      "DOGE",
+      "DOT",
+      "ETC",
+      "ETH",
+      "FIL",
+      "GRT",
+      "KSM",
+      "LINK",
+      "LTC",
+      "MANA",
+      "MINA",
+      "NEAR",
+      "OP",
+      "SAND",
+      "SHIB",
+      "SNX",
+      "SOL",
+      "SUSHI",
+      "THETA",
+      "TRX",
+      "UNI",
+      "XLM",
+      "XRP",
+      "XTZ"
+    ],
+    "window_hours": 199,
+    "min_daily_volume_usd_requested": 5000000.0
+  },
+  "venue_note": "REAL Bitget USDT-M perpetual OHLCV, non-synthetic, cross-venue vs the Hyperliquid spec. NOT Hyperliquid candles and must never be relabelled as Hyperliquid performance evidence (is_hyperliquid_venue_data=false).",
+  "target_window": {
+    "start": "2023-01-01T00:00:00+00:00",
+    "end": "2026-09-28T23:00:00+00:00",
+    "expected_hourly_bars": 32808
+  },
+  "symbols": {
+    "AAVE": {
+      "symbol": "AAVE",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "AAVEUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "4f5466b5ebbe2837856d108cc7f10284c7c00ea7da92509e85c4f77a00d819f6",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/AAVE.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:24:36.386998+00:00",
+      "retrieval_seconds": 48.04,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "ADAUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "8b928fc60fb4633afe97c0608653f75ac8bdac4003eb1ca19325d541ddf0381f",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/ADA.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:25:24.211419+00:00",
+      "retrieval_seconds": 47.82,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "ALGO": {
+      "symbol": "ALGO",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "ALGOUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "7a6c1bc044863ee288cdfd0fb6dc61421771d0b2018b4b66bb51e156880ca154",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/ALGO.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:26:11.969840+00:00",
+      "retrieval_seconds": 47.76,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "APT": {
+      "symbol": "APT",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "APTUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "ce870fb12bbb903ff99c0e9cd7cce27fee6013cbe03a152f3d5b68508dc8197e",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/APT.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:26:59.150861+00:00",
+      "retrieval_seconds": 47.18,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "ATOM": {
+      "symbol": "ATOM",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "ATOMUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "f57606336eab04e2b56fc8f7a31cd7b52a2a235ee06effce8ad23e749d386628",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/ATOM.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:27:47.285063+00:00",
+      "retrieval_seconds": 48.13,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "AVAXUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "4da3127e38d9a8c97bf2331447e6b28182dfda3bb0740c462d257fc0a52b6996",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/AVAX.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:28:34.798540+00:00",
+      "retrieval_seconds": 47.51,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "BAT": {
+      "symbol": "BAT",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "BATUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "6ebcc13da949cf47e694fbcccf47707745f1a4d6c7e80ba35215d2219c119a6c",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/BAT.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:29:21.855557+00:00",
+      "retrieval_seconds": 47.06,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "BCHUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "bc36ed53ce304224466a384891559f905e23bdc94a8945a5fef1d9697f14eb3f",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/BCH.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:30:08.201122+00:00",
+      "retrieval_seconds": 46.35,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "COMP": {
+      "symbol": "COMP",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "COMPUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "bf7e5162960474ca46acb91ede7c6fc97a61b8b696d050b0aebde4dbd6b58c06",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/COMP.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:30:55.765039+00:00",
+      "retrieval_seconds": 47.56,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "CRV": {
+      "symbol": "CRV",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "CRVUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "e994673dbc2cc653357bcd2b3a6049118e5ef4a20a96a6a781df60595a81d8e4",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/CRV.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:31:43.511813+00:00",
+      "retrieval_seconds": 47.75,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "DOGEUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "b8fc04771463dbb401e3b25a43fce406d6d4998926c3f45c1c61193c0ee3f9d2",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/DOGE.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:32:30.400967+00:00",
+      "retrieval_seconds": 46.89,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "DOT": {
+      "symbol": "DOT",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "DOTUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "0718779aef5f52f3a5d9bb9d00106d59f6a3d531df319322dfe4583d08b7a15a",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/DOT.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:33:17.181613+00:00",
+      "retrieval_seconds": 46.78,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "ETC": {
+      "symbol": "ETC",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "ETCUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "d87f924f699fe264e4666ffd2bbe0b19e691256f41103f2048f7a11d2bf45903",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/ETC.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:34:03.691111+00:00",
+      "retrieval_seconds": 46.51,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "ETHUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "89bedbb48f1f4fac67929de5fbd2706c309ecdab6dd3e367377e5ff896d92194",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/ETH.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:34:50.187602+00:00",
+      "retrieval_seconds": 46.5,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "FIL": {
+      "symbol": "FIL",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "FILUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "b530b2aa80eeab3617deed0f7498a7e69481078fab95acf060d54702ed3704fa",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/FIL.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:35:36.406293+00:00",
+      "retrieval_seconds": 46.22,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "GRT": {
+      "symbol": "GRT",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "GRTUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "49968e2b1b8e4843bcf35faf0aa27128963002a06ce622e8944de7e69b16a180",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/GRT.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:36:22.545333+00:00",
+      "retrieval_seconds": 46.14,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "KSM": {
+      "symbol": "KSM",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "KSMUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "f4f07793e49d20d77ce2a6b87ef8897dec2c2d1fcf6e1b384632c129fafe9216",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/KSM.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:37:08.718759+00:00",
+      "retrieval_seconds": 46.17,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "LINKUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "56dffa93b995c8cb53bb64ec00d08d4d08e374c4fa65e36255eff2f3b8172407",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/LINK.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:37:54.717871+00:00",
+      "retrieval_seconds": 46.0,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "LTC": {
+      "symbol": "LTC",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "LTCUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "f42abeaf1d703d2d8d2ecbb6e73cb88ec951855f2c763df5db2ad226336a4b74",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/LTC.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:38:42.229878+00:00",
+      "retrieval_seconds": 47.51,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "MANA": {
+      "symbol": "MANA",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "MANAUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "14f14faba7395a900ec3764eca9c151cc7cf0261c5fdc3fdf28c2e154c988dac",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/MANA.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:39:29.765739+00:00",
+      "retrieval_seconds": 47.54,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "MINA": {
+      "symbol": "MINA",
+      "status": "incomplete",
+      "venue": "bitget",
+      "instrument": "MINAUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 160,
+      "rows_written": 31555,
+      "sha256": "88f029fb28cb264a066402f1997b7324315856506247f269674f10205a42e3f8",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/MINA.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:40:15.913768+00:00",
+      "retrieval_seconds": 46.15,
+      "coverage": {
+        "observed_in_window_bars": 31555,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2023-02-22T05:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1677042000000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "NEAR": {
+      "symbol": "NEAR",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "NEARUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "2f4d0459490ec451938dd5d0073a784b7cc2533fd1d20660a17d27683eb23695",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/NEAR.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:41:04.265281+00:00",
+      "retrieval_seconds": 48.35,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "OP": {
+      "symbol": "OP",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "OPUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "3d370b402acbad39726b9f6e12a921e95974aef8c2436e73a156a2707d70e627",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/OP.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:41:52.291218+00:00",
+      "retrieval_seconds": 48.03,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "SAND": {
+      "symbol": "SAND",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "SANDUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "11a1d3d82e03a7f00cf6c4aa49fd6e10e6749e59cf51c23499a606d88cb49648",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/SAND.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:42:40.021210+00:00",
+      "retrieval_seconds": 47.73,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "SHIB": {
+      "symbol": "SHIB",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "SHIBUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "d2d7ad302026a102bae3b277174d0cc673648fdb8b66138863ccfc98edc198c8",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/SHIB.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:43:26.506214+00:00",
+      "retrieval_seconds": 46.48,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "SNX": {
+      "symbol": "SNX",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "SNXUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "dbb6521f5cffd0d0af62300bb893077d3c3b2a7bbb40ed9a7ce226b06ff9d6a8",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/SNX.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:44:12.046626+00:00",
+      "retrieval_seconds": 45.54,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "SOLUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "eee0d6ef082bc8917d7ae494a1dd81c9f8fe210461252a31376fedf08e8fe0bc",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/SOL.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:44:57.498542+00:00",
+      "retrieval_seconds": 45.45,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "SUSHI": {
+      "symbol": "SUSHI",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "SUSHIUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "dea140276a50b923b89156b8ed89d50d20f1729f909e06598503751a1a772f80",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/SUSHI.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:45:43.658517+00:00",
+      "retrieval_seconds": 46.16,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "THETA": {
+      "symbol": "THETA",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "THETAUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "0f110825751370a84289342ed7a34c228e24a99317e0efc2381084da9139571f",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/THETA.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:46:29.602592+00:00",
+      "retrieval_seconds": 45.94,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "TRX": {
+      "symbol": "TRX",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "TRXUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "fe2a4a7590f29d1c0c339a497bc75f5a3f93f65b203cff7bfbb3e380acb2d0a6",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/TRX.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:47:15.567529+00:00",
+      "retrieval_seconds": 45.96,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "UNIUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "e81fb275d67192588549c107342e138caa79deb15c47f0a5911077787b2c3c32",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/UNI.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:48:03.022341+00:00",
+      "retrieval_seconds": 47.45,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "XLM": {
+      "symbol": "XLM",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "XLMUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "4c675372b8ef625651cc9b3e80f80b228bc0a53345745a5f0df827e62fe32b4b",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/XLM.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:48:49.895332+00:00",
+      "retrieval_seconds": 46.87,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "XRPUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "201967a02c9eff5357377a78be68b95436ef305086cc75f96bbbad786132334d",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/XRP.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:49:37.132011+00:00",
+      "retrieval_seconds": 47.24,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    },
+    "XTZ": {
+      "symbol": "XTZ",
+      "status": "ok",
+      "venue": "bitget",
+      "instrument": "XTZUSDT",
+      "endpoint": "GET https://api.bitget.com/api/v2/mix/market/history-candles (productType=usdt-futures, granularity=1H)",
+      "bar": "1H",
+      "pages_fetched": 165,
+      "rows_written": 32808,
+      "sha256": "8e340d25866d25bd6c2fd8ac77c3380fee31917762b2f0f0f0b10eb4d00d97fb",
+      "cache_path": "research_state/cache/bitget_1h_multiyear_20230101_20260928/candles/XTZ.json",
+      "source": "bitget_public_mix_market_history_candles_1h",
+      "retrieved_at_utc": "2026-11-18T20:50:26.585671+00:00",
+      "retrieval_seconds": 49.45,
+      "coverage": {
+        "observed_in_window_bars": 32808,
+        "expected_hourly_bars": 32808,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2023-01-01T00:00:00+00:00",
+        "last_timestamp": "2026-09-28T23:00:00+00:00",
+        "first_timestamp_ms": 1672531200000,
+        "last_timestamp_ms": 1790636400000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "bitget_public_exchange_download"
+      }
+    }
+  },
+  "summary": {
+    "symbols_requested": 34,
+    "symbols_complete": 33,
+    "all_complete": false
+  }
+}
