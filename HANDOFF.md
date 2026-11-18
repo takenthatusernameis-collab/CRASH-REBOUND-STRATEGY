@@ -1,42 +1,54 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-18T10:10:23Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps to date).
+**Generated (UTC):** 2026-11-18T11:05:23Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps to date).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
-**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). **C22-T1 is the ACTIVE BINDING CAMPAIGN** — MEXC USDT-perp out-of-sample replication of the frozen spec-literal edge, PRE-REGISTERED (`c22_prereg_20261118T100126Z`) with acquisition VIABLE and infrastructure built; the heavy battery is PENDING and MUST be executed to gate `C22 ACCEPTANCE: PASS`. Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`); **new-venue (MEXC) acquisition is OPEN** (probe-verified). Do NOT run a same-data C22+ rerun on OKX/Binance; do NOT relabel MEXC data as Hyperliquid; do NOT reduce draw counts.
+**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). **C22-T1 is the ACTIVE BINDING CAMPAIGN** — MEXC USDT-perp out-of-sample replication of the frozen spec-literal edge, PRE-REGISTERED (`c22_prereg_20261118T100126Z`) with acquisition VIABLE and infrastructure built; the heavy battery is PENDING and MUST be executed to gate `C22 ACCEPTANCE: PASS`. Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`); **new-venue (MEXC) acquisition is OPEN** (probe-verified). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC data as Hyperliquid; do not reduce draw counts.
 
-**Verified live/repo state (2026-11-18T10:10:23Z):**
+**Verified live/repo state (2026-11-18T11:05:23Z):**
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS` (pooled=`NO_GO`, consolidated final=`NO_GO`, ts=2026-11-18T06:15:08Z, 12/12 artifacts, 8/8 checkpoints, stamp `20261117T064408Z`).
-- `PYTHONPATH=. .venv/bin/python scripts/probe_c22_venue_acquisition.py` → artifact `research_state/c22_venue_acquisition_probe_20261118T100126Z.json`, `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`. **MEXC reachable + multiyear** (2023=49 bars, 2024=49 bars in probe windows; 10/15 probe symbols ≥ $5M/24h: SOL, ADA, XRP, DOGE, LINK, AVAX, NEAR, ARB, UNI, AAVE). Gate.io reachable but **recent-only** (candles ≤ ~2000 bars, funding ≤180d). Binance UM + Bybit **geo-blocked** from runner (HTTP 451 / 403). OKX SWAP reachable + multiyear (already cached).
+- `PYTHONPATH=. .venv/bin/python scripts/probe_c22_venue_acquisition.py` → artifact `research_state/c22_venue_acquisition_probe_20261118T100126Z.json` (refreshed `generated_at_utc=2026-11-18T11:03:58Z`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`. **MEXC reachable + multiyear** (2023=49 bars, 2024=49 bars in probe windows; 11/15 probe symbols ≥ $5M/24h: SOL, ADA, XRP, DOGE, LINK, AVAX, DOT, NEAR, ARB, UNI, AAVE). Gate.io reachable but **recent-only** (candles ≤ ~2000 bars, funding ≤180d). Binance UM + Bybit **geo-blocked** from runner (HTTP 451 / 403). OKX SWAP reachable + multiyear (already cached).
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs GREEN: prereg json+md present, config matches frozen spec-literal, acquisition viable; **0/7 battery artifacts** — heavy work required).
-- No C21/C22 runner active; none needed for C1–C21.
+- `PYTHONPATH=. .venv/bin/python -m pytest tests/test_c22_campaign_20261118.py -q` → `11 passed in 0.18s`.
+- No C21/C22 runner process active; none needed for C1–C21. **The C22 runner script itself is still missing — creating it is the first execution step below, not a reason to stop.**
 
-> **PROGRAM STATE: C1–C20 COMPLETE `NO_GO`; C21-T1 COMPLETE, gate PASS, consolidated `NO_GO`; C22-T1 ACTIVE — pre-registered, acquisition VIABLE (MEXC multiyear), infra ready, battery PENDING (heavy work required to reach gate PASS). Hyperliquid-native acquisition CLOSED; MEXC new-venue acquisition OPEN.**
+> **PROGRAM STATE: C1–C20 COMPLETE `NO_GO`; C21-T1 COMPLETE, gate PASS, consolidated `NO_GO`; C22-T1 ACTIVE — pre-registered, acquisition VIABLE (MEXC multiyear), data/inference infrastructure ready, battery PENDING (heavy work required to reach gate PASS). Hyperliquid-native acquisition CLOSED; MEXC new-venue acquisition OPEN.**
 
 **Closure tokens (binding):** `pytest tests/ -q` = `1058 passed, 1 skipped` (includes `tests/test_c22_campaign_20261118.py` = `11 passed`); `scripts/session_gate.py` = `21/21 checks passed` (Phase O timestamp `2026-11-13T23:38:47Z`); `scripts/verify_campaign_evidence.py` = `EVIDENCE VERIFIED`; C20/C19/C14/C13/C6 gates = `PASS`; `scripts/probe_hyperliquid_blocker.py` = `FULL_283D_BLOCKED_BY_API_RETENTION`.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T11:02:55Z — C22 ACTIVE; ACQUISITION VIABLE; EXECUTE THE HEAVY MEXC BATTERY)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T11:05:23Z — C22 ACTIVE; ACQUISITION VIABLE; EXECUTE THE HEAVY MEXC BATTERY)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done, MEXC next).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + `pytest`/`numpy`/`pandas`/`requests`/`pyarrow`); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress is available (OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).
 
-**Verified (2026-11-18T10:14:17Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (0/7 battery artifacts). No C22 runner active yet.
+**Verified (2026-11-18T11:05:23Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (0/7 battery artifacts), `tests/test_c22_campaign_20261118.py` → 11 passed. No C22 runner process active and **no C22 runner script exists yet**.
 
-**Binding constraint / what changed vs the prior handoff:** the prior handoff said acquisition was CLOSED and "no new-venue network is available" — **that is now SUPERSEDED by probe evidence.** MEXC USDT-perp 1H data is reachable and multiyear (2023–2026). This makes a **new-data** C22 legitimate (MEXC ≠ OKX/Binance). It is **NOT** a same-data C22+ rerun and **NOT** a parameter search: the spec is frozen (see prereg). Hyperliquid-native data remains exhausted (`FULL_283D_BLOCKED_BY_API_RETENTION`, earliest ~2026-04-21) — do not retry it.
+**Binding constraint / what changed vs the prior handoff:** the prior handoff said acquisition was CLOSED and "no new-venue network is available" — **that is SUPERSEDED by probe evidence.** MEXC USDT-perp 1H data is reachable and multiyear (2023–2026). This makes a **new-data** C22 legitimate (MEXC ≠ OKX/Binance). It is **NOT** a same-data C22+ rerun and **NOT** a parameter search: the spec is frozen (see prereg). Hyperliquid-native data remains exhausted (`FULL_283D_BLOCKED_BY_API_RETENTION`, earliest ~2026-04-21) — do not retry it. The remaining engineering bottleneck is that the C22 runner must be created; that is the first heavy execution step, not a reason to stop or to re-plan.
 
 **Immediate next action — HEAVY EXECUTION (this is the authorized work; do it, do not plan around it):**
-1. **Confirm prereqs:** `verify_c22_focus_campaign.py` must read `PENDING` (never `FAIL`); probe `c22_data_status` must start `ACQUISITION_VIABLE`.
+1. **Confirm prereqs:** `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` must read `PENDING` (never `FAIL`); probe `c22_data_status` must start `ACQUISITION_VIABLE`.
 2. **Acquire the MEXC archive (multiyear):**
-   `PYTHONPATH=. .venv/bin/python scripts/fetch_mexc_perp_archive.py --symbols <C20 multiyear universe symbols> --start 2023-01-01T00:00:00Z --end 2026-09-28T23:00:00Z --out research_state/cache/mexc_1h_multiyear_20230101_20260928 --force`
-   (use the symbols in `research_state/universe_okx_multiyear_verified.json` as the candidate list; symbols not listed for the full window are honestly marked `coverage=false`, never fabricated).
+   ```bash
+   SYMBOLS=$(PYTHONPATH=. .venv/bin/python -c 'import json; print(" ".join(json.load(open("research_state/universe_okx_multiyear_verified.json"))["selected_symbols"]))')
+   PYTHONPATH=. .venv/bin/python scripts/fetch_mexc_perp_archive.py \
+     --symbols $SYMBOLS --start 2023-01-01T00:00:00Z --end 2026-09-28T23:00:00Z \
+     --out research_state/cache/mexc_1h_multiyear_20230101_20260928 --force
+   ```
+   Use the candidate list in `research_state/universe_okx_multiyear_verified.json`; symbols not listed for the full window are honestly marked `coverage=false`, never fabricated. Do not synthetic-gap-fill.
 3. **Derive the verified, volume-gated universe:**
-   `PYTHONPATH=. .venv/bin/python scripts/derive_verified_universe.py --manifest research_state/cache/mexc_1h_multiyear_20230101_20260928/provenance.json --cache-dir research_state/cache/mexc_1h_multiyear_20230101_20260928/candles --output research_state/universe_mexc_multiyear_verified.json --min-24h-volume-usd 5000000`
-4. **Run the 8-fold × 20k/20k/2k battery** (the heavy compute): mirror `scripts/run_c21_cross_venue_campaign.py` for `venue=mexc` — register a `mexc` venue_data (same cache/universe/provenance contract as `c20.load_venue`) and reuse the C20/C21 fold primitives (`_run_fold_campaign`, `_fold_census`, `_fold_episode_edge`, `_fold_placebo`, `build_strata`, `_build_venue_verdict`) with C22 labels/stems, plus a C22 pooled/consolidated that compares MEXC to the recorded OKX/Binance `NO_GO`. **Draw counts are frozen: 20,000 bootstrap / 20,000 permutation / 2,000 placebo / 2,000 strata.** Emit the 7 artifacts listed under "C22 REQUIRED ARTIFACTS".
+   ```bash
+   PYTHONPATH=. .venv/bin/python scripts/derive_verified_universe.py \
+     --manifest research_state/cache/mexc_1h_multiyear_20230101_20260928/provenance.json \
+     --cache-dir research_state/cache/mexc_1h_multiyear_20230101_20260928/candles \
+     --output research_state/universe_mexc_multiyear_verified.json \
+     --min-24h-volume-usd 5000000
+   ```
+4. **Create and run the C22 runner (the heavy compute).** Add `scripts/run_c22_mexc_campaign.py` (or an equivalent durable wrapper) that registers a `mexc` venue with the same cache/universe/provenance contract as `c20.load_venue`, reuses the C20/C21 fold primitives (`_run_fold_campaign`, `_fold_census`, `_fold_episode_edge`, `_fold_placebo`, `build_strata`, `_build_venue_verdict`) with **C22 stems/labels**, and emits a C22 pooled/consolidated that compares MEXC to the recorded OKX/Binance `NO_GO`. Do **not** run `run_c21_cross_venue_campaign.py` unchanged and rename its output: it is OKX/Binance-specific and hard-codes C21 artifacts. **Draw counts are frozen: 20,000 bootstrap / 20,000 permutation / 2,000 placebo / 2,000 strata.** Checkpoint each fold (`c22_ckpt_mexc_<fold>_<TS>.json`, internal only); run detached/durable, not in a foreground agent turn, and never launch a duplicate MEXC battery on the same cache. Emit exactly the 7 artifacts listed under "C22 REQUIRED ARTIFACTS".
 5. **Verify:** `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PASS` (token ∈ {`STABLE_POSITIVE_SUBSET`, `NO_GO`, `UNDERPOWERED`}; mexc verdict must equal consolidated; `is_hyperliquid_venue_data=false` everywhere).
 6. **Then stop and await explicit operator direction.** Do not start a same-data C23+ rerun on OKX/Binance/MEXC without new prereg + new data + explicit authorization.
 
-**No-avoidance rule (binding):** if `verify_c22_focus_campaign.py` prints anything other than `C22 ACCEPTANCE: PASS`, the session is **not done** — heavy execution (acquire → derive universe → run the full 8-fold 20k/20k/2k battery → emit artifacts) is mandatory until the gate is green. While the gate is `PASS`, do NOT manufacture further same-data work on the exhausted OKX/Binance/MEXC data.
+**No-avoidance rule (binding):** if `verify_c22_focus_campaign.py` prints anything other than `C22 ACCEPTANCE: PASS`, the session is **not done** — heavy execution (create runner → acquire → derive universe → run the full 8-fold 20k/20k/2k battery → emit artifacts) is mandatory until the gate is green. While the gate is `PASS`, do NOT manufacture further same-data work on the exhausted OKX/Binance/MEXC data. A `PENDING` result is a work order, not a completion state.
 
 **Expected outcome is honesty, not a GO:** given C1–C21, C22 will most likely confirm `NO_GO` (or `UNDERPOWERED` if MEXC per-fold N is below the power floor). A `NO_GO`/`UNDERPOWERED` result is a **success** — report per-fold, per-venue, and pooled numbers plus the power curve, never a bare token, and never tune the spec to chase a GO.
 
@@ -62,10 +74,21 @@
 - `scripts/build_c22_prereg.py` → prereg json+md.
 - `scripts/verify_c22_focus_campaign.py` — hard gate (`PASS` / `PENDING` / `FAIL`).
 - `tests/test_c22_campaign_20261118.py` — 11 tests (normalization, pagination, prereg schema, gate transitions).
+- **MISSING (next action, not optional):** `scripts/run_c22_mexc_campaign.py` — the C22 runner/artifact emitter. It must be created from the C20/C21 primitives with C22 stems/labels before the 8-fold battery can run; do not rename C21 output.
 
 ---
 
-## BOTTLENECK REMOVED THIS SESSION (2026-11-18T10:10:23Z)
+## BOTTLENECK REMOVED THIS SESSION (2026-11-18T11:05:23Z)
+
+1. **Re-verified the live state instead of trusting the prior note:** C21 gate `PASS`; C22 gate `PENDING` with 0/7 battery artifacts; C22 tests `11 passed`.
+2. **Refreshed the acquisition probe:** `research_state/c22_venue_acquisition_probe_20261118T100126Z.json` now records `generated_at_utc=2026-11-18T11:03:58Z` and `n_passing=11/15` (DOT is now in the $5M+ set). This supersedes the older `10/15` note; MEXC remains `ACQUISITION_VIABLE_MEXC_MULTIYEAR`.
+3. **Removed the "only re-verify / await direction" ambiguity:** the next session's first mandatory action is to create the C22 runner, then execute acquisition → universe → the full 8-fold 20k/20k/2k battery → gate. A `PENDING` gate is a work order, not a stopping point.
+4. **Named the remaining engineering bottleneck explicitly:** no C22 runner script exists. It must be created from the C20/C21 primitives with C22 stems/labels; do not run the C21 runner unchanged and rename its artifacts.
+5. **Preserved the acquisition boundary:** MEXC new-venue acquisition is OPEN; Hyperliquid-native acquisition remains CLOSED/exhausted (`FULL_283D_BLOCKED_BY_API_RETENTION`).
+
+---
+
+## BOTTLENECK REMOVED IN PRIOR SESSION (2026-11-18T10:10:23Z)
 
 **Root cause (was):** the prior handoff declared acquisition CLOSED/exhausted and forbade any C22+, and told every session to "do nothing but verify, then await direction." Combined with the controller's "meaningful project progress or fail" requirement, this created a **do-nothing paralysis**: sessions could not legitimately make progress and were told not to manufacture work. The factual basis ("no new-venue network available") was also **stale**.
 

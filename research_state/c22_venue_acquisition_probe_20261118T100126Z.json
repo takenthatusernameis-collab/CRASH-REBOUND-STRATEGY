@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-18T10:13:09.428525+00:00",
+  "generated_at_utc": "2026-11-18T11:03:58.616209+00:00",
   "campaign": "C22",
   "probe": "venue_acquisition_feasibility",
   "purpose": "Replace the stale 'no new-venue network / acquisition CLOSED' claim with reproducible reachability + multiyear-depth + $5M-coverage evidence.",
@@ -100,13 +100,14 @@
           "DOGE",
           "LINK",
           "AVAX",
+          "DOT",
           "NEAR",
           "ARB",
           "UNI",
           "AAVE"
         ],
         "n_checked": 15,
-        "n_passing": 10
+        "n_passing": 11
       },
       "note": "reachable; honors arbitrary start/end back to 2023; multiyear 1H viable",
       "already_have_multiyear_cache": false
