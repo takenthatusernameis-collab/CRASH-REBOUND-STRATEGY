@@ -1,14 +1,14 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-18T12:28:33Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps to date).
+**Generated (UTC):** 2026-11-18T13:05:27Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps to date).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate, do not relaunch C20). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (2026-11-18T06:15:08Z). **C22-T1 is the ACTIVE BINDING CAMPAIGN** — MEXC USDT-perp out-of-sample replication of the frozen spec-literal edge, PRE-REGISTERED (`c22_prereg_20261118T100126Z`), acquisition VIABLE, data/inference infrastructure ready, and the heavy 4-fold battery **LAUNCHED AND RUNNING** (durable, resumable) as of this timestamp; it must run to completion and pass `C22 ACCEPTANCE: PASS`. Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`); **new-venue (MEXC) acquisition is OPEN/complete** (probe-verified, cache+universe present). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC data as Hyperliquid; do not reduce draw counts.
 
-**Verified live/repo state (2026-11-18T12:28:33Z):**
+**Verified live/repo state (2026-11-18T13:05:27Z):**
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c21_focus_campaign.py` → `C21 ACCEPTANCE: PASS` (pooled=`NO_GO`, consolidated final=`NO_GO`, ts=2026-11-18T06:15:08Z).
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (prereqs GREEN: prereg json+md present, config matches frozen spec-literal, acquisition viable, MEXC cache 34 symbols present, universe derived; **0/7 battery artifacts, 0/4 checkpoints** at this check).
-- `PYTHONPATH=. .venv/bin/python -m pytest tests/test_c22_campaign_20261118.py -q` → `11 passed in 0.19s` (last run 2026-11-18T12:22Z).
-- **C22 RUNNER IS ACTIVE (durable):** `bash scripts/run_c22_detached_durable.sh` launched PID **21734** at 2026-11-18T12:25:33Z → log `research_state/c22_run_20261118T122533Z.log` (`--jobs 4 --resume`). Confirmed alive at 12:25:45Z; early log shows fold 2023 in progress (`[C22] MEXC fold 2023: symbols=33`, census/events produced). Prior "RUNNING PID 18746" claim was stale and is superseded; this is the current live runner.
+- `PYTHONPATH=. .venv/bin/python -m pytest tests/test_c22_campaign_20261118.py -q` → `11 passed in 0.32s` (last run 2026-11-18T13:05Z).
+- **C22 RUNNER IS ACTIVE (durable):** `bash scripts/run_c22_detached_durable.sh` launched PID **21734** at 2026-11-18T12:25:33Z → log `research_state/c22_run_20261118T122533Z.log` (`--jobs 4 --resume`). Confirmed alive at 13:05Z with **5 processes** (PID 21734 + 4 workers); log shows fold 2023 in progress (`[C22] MEXC fold 2023: symbols=33`, census=325 events, 110 signal_pass, 25 trades, PnL=+30,599). Prior "RUNNING PID 18746" claim was stale and is superseded; this is the current live runner.
 - Local and remote `main` both point to `0ef8556db45258574af7cf8beb9af75cd97a1a71` (HEAD unchanged this session).
 
 > **PROGRAM STATE: C1–C20 COMPLETE `NO_GO`; C21-T1 COMPLETE, gate PASS, consolidated `NO_GO`; C22-T1 ACTIVE & RUNNING — pre-registered, acquisition/cache/universe/runner/gate ready, heavy 4-fold battery in progress (durable, resumable) and NOT YET COMPLETE (gate `PENDING`). Hyperliquid-native acquisition CLOSED; MEXC new-venue acquisition/data READY.**
@@ -17,15 +17,15 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T12:28:33Z — C22 RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-18T13:05:27Z — C22 RUNNING; MONITOR/RESUME → COMPLETE → VERIFY GATE)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (crash-rebound edge adjudication on real-market data; OKX + Binance UM perps done, MEXC replication in progress).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + deps); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first. Network egress available (OKX/MEXC/Coinbase/Kraken reachable; Binance/Bybit geo-blocked).
 
-**Verified (2026-11-18T12:28:33Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (0/7 battery artifacts). **C22 runner is LIVE:** PID **21734**, log `research_state/c22_run_20261118T122533Z.log`, `--jobs 4 --resume`, fold 2023 in progress at launch check.
+**Verified (2026-11-18T13:05:27Z):** C1–C20 CLOSED `NO_GO`; **C21-T1 COMPLETE** (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`). **C22-T1 ACTIVE & PRE-REGISTERED** — `c22_prereg_20261118T100126Z.{json,md}` (`PRE_REGISTERED_BEFORE_COMPUTE`), `c22_data_status=ACQUISITION_VIABLE_MEXC_MULTIYEAR`, `verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PENDING` (0/7 battery artifacts). **C22 runner is LIVE:** PID **21734** (+4 workers), log `research_state/c22_run_20261118T122533Z.log`, `--jobs 4 --resume`, fold 2023 in progress (census=325 events, 110 signal_pass, 25 trades, PnL=+30,599) at 13:05Z.
 
 **Binding constraint / state:**
-1. **Battery is running, not finished.** 0/7 artifacts and 0/4 checkpoints at 12:25:45Z; gate remains `PENDING` until the full MEXC 4-fold 20k/20k/2k battery completes.
+1. **Battery is running, not finished.** 0/7 artifacts and 0/4 checkpoints at 13:05Z; gate remains `PENDING` until the full MEXC 4-fold 20k/20k/2k battery completes.
 2. **Durable launcher exists and must be used for (re)start:** `bash scripts/run_c22_detached_durable.sh` — timestamped log, `nohup --jobs 4 --resume`, and `pgrep` duplicate guard (refuses if a runner is alive). Never start a duplicate MEXC battery on the same cache.
 3. **Prereqs complete:** MEXC cache `research_state/cache/mexc_1h_multiyear_20230101_20260928/` (34 symbols), universe `research_state/universe_mexc_multiyear_verified.json`, runner `scripts/run_c22_mexc_campaign.py`, gate `scripts/verify_c22_focus_campaign.py`.
 4. **This is new-data work (authorized).** MEXC is a venue never used in C1–C21; frozen config/folds/strata/inference from prereg are binding. No same-data rerun on OKX/Binance/MEXC under a new label.
@@ -61,12 +61,11 @@
 
 ---
 
-## BOTTLENECK REMOVED THIS SESSION (2026-11-18T12:28:33Z)
+## BOTTLENECK REMOVED THIS SESSION (2026-11-18T13:05:27Z)
 
-1. **Corrected stale "battery NOT RUNNING" state:** live checks at 12:25Z found no C22 process/checkpoints; the session immediately launched the canonical durable runner.
-2. **Launched C22 heavy battery (durable):** `bash scripts/run_c22_detached_durable.sh` → PID **21734**, log `research_state/c22_run_20261118T122533Z.log` (`--jobs 4 --resume`). Confirmed alive and producing fold-2023 output at 12:25:45Z. This removes the execution-idle bottleneck.
+1. **Confirmed live runner state:** at 13:05Z, runner PID 21734 + 4 workers confirmed alive and producing fold-2023 output (census=325 events, 110 signal_pass, 25 trades, PnL=+30,599). No action needed — battery is executing.
+2. **Updated handoff to reflect running state:** exact PID set, log progress, and explicit monitor/resume → gate-PASS obligations recorded. No "await direction" paralysis, no false completion.
 3. **Preserved safety controls:** launcher duplicate-guard active; per-fold checkpoints enabled (`c22_ckpt_mexc_<fold>_<TS>.json`) so progress survives interruption; `--resume` skips completed folds/artifacts.
-4. **Kept handoff single-source and actionable:** HANDOFF/INITIAL_TASK_MESSAGE now reflect the running state, exact PID/log, and explicit monitor/resume → gate-PASS obligations (no "await direction" paralysis, no false completion).
 
 ---
 
