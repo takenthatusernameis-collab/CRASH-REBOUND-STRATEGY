@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-18T06:15:08Z",
+  "scope": "C21 cross-venue temporal-stability campaign",
+  "final_verdict_token": "NO_GO",
+  "verdict": "NO_GO",
+  "research_program_complete": false,
+  "supersedes": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json",
+  "supersedes_verdict_token": "NO_GO",
+  "campaign": "C21",
+  "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
+  "campaign_verdicts": {
+    "c21_okx_stability": "NO_GO",
+    "c21_binance_um_stability": "NO_GO",
+    "c21_pooled": "NO_GO"
+  },
+  "pooled_bootstrap": {
+    "seed": 20261121,
+    "draws": 20000,
+    "blocks": [
+      {
+        "venue": "OKX",
+        "total_pnl": -54799.23
+      },
+      {
+        "venue": "Binance UM",
+        "total_pnl": -70071.39
+      }
+    ],
+    "pooled_total_pnl": -124870.62,
+    "ci95": [
+      -140142.78,
+      -109598.46
+    ],
+    "prob_pooled_total_gt_0": 0.0,
+    "sign_concordant": true,
+    "signs": [
+      -1,
+      -1
+    ]
+  },
+  "multiplicity": {
+    "method": "benjamini_hochberg",
+    "alpha": 0.05,
+    "n_pooled_stratum_tests": 72,
+    "n_pooled_survivors": 0,
+    "survivors": []
+  },
+  "structural_power_note": "C21 measures temporal/regime stability of the C20 NO_GO across four pre-specified folds on two independent real venues, with BH-corrected strata and an honest pooled verdict. Fold and stratum definitions were fixed before compute.",
+  "provenance": {
+    "is_hyperliquid_venue_data": false,
+    "cross_venue": true,
+    "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false
+  },
+  "final_integrated_decision": {
+    "token": "NO_GO",
+    "statement": "Consolidated C21 verdict: NO_GO. C21 quantifies whether any pre-specified temporal fold or crash-regime stratum survives multiplicity control with a positive spot leg and cross-venue concordance; the unconditional C1-C20 NO_GO stands unless this pre-registered contradiction is accepted with full evidence."
+  },
+  "priors_referenced": [
+    "research_state/c21_prereg_20261117T064408Z.json",
+    "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json",
+    "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json"
+  ]
+}

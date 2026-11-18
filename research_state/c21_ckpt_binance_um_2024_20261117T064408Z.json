@@ -1,8 +1,8 @@
 {
   "campaign": {
     "schema_version": 1,
-    "timestamp": "2026-11-17T23:54:06Z",
-    "generated_at_utc": "2026-11-17T23:54:06Z",
+    "timestamp": "2026-11-18T04:38:19Z",
+    "generated_at_utc": "2026-11-18T04:38:19Z",
     "run_type": "c21_real_market_campaign_spec_literal_fold",
     "research_status": "CROSS_VENUE_TEMPORAL_STABILITY_NOT_HYPERLIQUID",
     "campaign": "C21",
@@ -1631,13 +1631,13 @@
       "vault_hwm_final": 100067.32169790012,
       "fee_hours_per_step": 1.0,
       "fee_time_base_hours_per_year": 8760.0,
-      "timestamp": "2026-11-17T23:54:06.884532"
+      "timestamp": "2026-11-18T04:38:19.533894"
     },
-    "wall_seconds": 3.3
+    "wall_seconds": 5.5
   },
   "census": {
     "schema_version": 1,
-    "generated_at_utc": "2026-11-17T23:54:06Z",
+    "generated_at_utc": "2026-11-18T04:38:19Z",
     "run_type": "c21_crash_event_census_spec_literal_fold",
     "campaign": "C21",
     "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
@@ -8864,7 +8864,7 @@
   },
   "episode": {
     "schema_version": 1,
-    "generated_at_utc": "2026-11-18T00:06:36Z",
+    "generated_at_utc": "2026-11-18T04:50:50Z",
     "phase": "C21",
     "campaign": "C21",
     "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
@@ -10005,7 +10005,10 @@
     },
     "temporal_edge_permutation": {
       "method": "conditional permutation: crash bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; exact validated portfolio replay",
-      "mode": "deterministic_seeded_draws:19904_seed:20261121",
+      "mode": "resampled_to_20000_from_19904_draws",
+      "exact_null_space_size": null,
+      "exact_null_resampled": true,
+      "resampled_to_target_draws": 20000,
       "eligible_crash_bars": 312,
       "observed_event_slots": 140,
       "observed_per_symbol": {
@@ -10027,39 +10030,39 @@
         "UNI": 14
       },
       "distinct_possible_draws": 1778112,
-      "draws_evaluated": 19904,
+      "draws_evaluated": 20000,
       "target_draws": 20000,
       "seed": 20261121,
       "jobs": 4,
       "replay_path": "exact_validated_event_bar_replay",
       "replay_validation": {
         "key": [
-          139622953409984,
+          139635661463616,
           140
         ],
         "ok": true,
         "detail": "trades=43 pnl=-33586.8261 diff=0.00e+00",
-        "validated_at_utc": "2026-11-17T23:54:13Z"
+        "validated_at_utc": "2026-11-18T04:38:30Z"
       },
       "canonical_total_pnl": -33586.82612026407,
       "null_total_pnl": {
-        "mean": -30735.479306985017,
+        "mean": -30740.07285062958,
         "median": -31796.645238885565,
-        "stdev": 3232.7253165197126,
+        "stdev": 3226.6334477789605,
         "min": -35038.90703765899,
         "max": -24270.184561242913,
         "p05": -34732.92281270552,
-        "p95": -25832.391746591136,
+        "p95": -25854.567416170637,
         "ci_low_pnl_2p5": -34732.92281270552,
         "ci_high_pnl_97p5": -25301.352240151213,
         "prob_total_pnl_gt_0": 0.0
       },
-      "canonical_percentile_le": 0.33038585209003213,
-      "p_null_ge_canonical": 0.7127210610932476,
-      "n_null_ge_canonical": 14186,
-      "wall_seconds": 745.7775042057037,
+      "canonical_percentile_le": 0.33105,
+      "p_null_ge_canonical": 0.71335,
+      "n_null_ge_canonical": 14267,
+      "wall_seconds": 745.5143280029297,
       "limitations": [
-        "Exact enumeration infeasible; deterministic seeded draw set with documented seed/count."
+        "Distinct null configurations fewer than the preregistered draw floor; resampled with replacement to reach the floor (standard Monte-Carlo permutation). Every draw is a real null configuration."
       ]
     },
     "canonical_replay": {
@@ -10587,7 +10590,7 @@
   },
   "placebo": {
     "schema_version": 1,
-    "generated_at_utc": "2026-11-18T00:07:26Z",
+    "generated_at_utc": "2026-11-18T04:51:40Z",
     "phase": "C21",
     "campaign": "C21",
     "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
@@ -10624,32 +10627,32 @@
       "runs": 2000,
       "summary": {
         "n": 2000,
-        "sum": -38929575.629984945,
-        "mean": -19464.787814992473,
-        "median": -19126.89733807678,
-        "stdev": 9831.513331732258,
-        "min": -54448.36580374979,
-        "max": 11252.32554833267,
-        "p05": -36275.807101478924,
-        "p95": -3532.8672768166384
+        "sum": -38872080.227039464,
+        "mean": -19436.04011351973,
+        "median": -19183.212625802815,
+        "stdev": 9785.355806829002,
+        "min": -54281.085664488965,
+        "max": 12390.666177481655,
+        "p05": -36019.459995739395,
+        "p95": -3401.1709486120926
       },
-      "p_ge_canonical": 0.918,
-      "canonical_percentile_le": 0.082,
+      "p_ge_canonical": 0.9205,
+      "canonical_percentile_le": 0.0795,
       "prob_total_pnl_positive": 0.0245,
-      "ci_low_pnl_2p5": -39530.21198943373,
-      "ci_high_pnl_97p5": -532.3773333453863
+      "ci_low_pnl_2p5": -39248.557494589506,
+      "ci_high_pnl_97p5": -133.56329882278033
     },
     "verdict": "underpowered",
     "jobs": 4,
     "replay_path": "exact_validated_event_bar_replay",
     "replay_validation": {
       "key": [
-        139622955241088,
+        139635649958208,
         140
       ],
       "ok": true,
       "detail": "trades=43 pnl=-33586.8261 diff=0.00e+00",
-      "validated_at_utc": "2026-11-18T00:06:39Z"
+      "validated_at_utc": "2026-11-18T04:50:56Z"
     },
     "limitations": [
       "CROSS-VENUE Binance UM fold 2024; NOT Hyperliquid performance evidence."
@@ -10721,13 +10724,13 @@
               4536.51
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.1517,
+            "permutation_p": 0.1509,
             "power_eligible": false,
             "power_curve": {
               "observed_episodes": 6,
               "first_size_excluding_zero": 5
             },
-            "p": 0.1517,
+            "p": 0.1509,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           },
@@ -10742,13 +10745,13 @@
               -3137.46
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.5684,
+            "permutation_p": 0.56845,
             "power_eligible": true,
             "power_curve": {
               "observed_episodes": 8,
               "first_size_excluding_zero": 5
             },
-            "p": 0.5684,
+            "p": 0.56845,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           }
@@ -10788,13 +10791,13 @@
               -2788.4
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.709874,
+            "permutation_p": 0.70955,
             "power_eligible": true,
             "power_curve": {
               "observed_episodes": 8,
               "first_size_excluding_zero": 5
             },
-            "p": 0.709874,
+            "p": 0.70955,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           },
@@ -10855,13 +10858,13 @@
               -2788.4
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.710415,
+            "permutation_p": 0.7088,
             "power_eligible": true,
             "power_curve": {
               "observed_episodes": 8,
               "first_size_excluding_zero": 5
             },
-            "p": 0.710415,
+            "p": 0.7088,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           },
@@ -10929,13 +10932,13 @@
     ],
     "pvals": [
       1.0,
-      0.1517,
-      0.5684,
+      0.1509,
+      0.56845,
       1.0,
-      0.709874,
+      0.70955,
       1.0,
       1.0,
-      0.710415,
+      0.7088,
       1.0
     ],
     "p_adj_bh": [

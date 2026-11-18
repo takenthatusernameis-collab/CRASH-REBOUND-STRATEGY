@@ -1,0 +1,45 @@
+[resume] c21_ckpt_okx_2023_20261117T064408Z cached
+[C21] OKX fold 2023: trades=21 pnl=21382.73 eps=9 perm_p=0.0669 placebo_runs=2000
+[resume] c21_ckpt_okx_2024_20261117T064408Z cached
+[C21] OKX fold 2024: trades=34 pnl=-38598.35 eps=7 perm_p=0.70645 placebo_runs=2000
+[resume] c21_ckpt_okx_2025_20261117T064408Z cached
+[C21] OKX fold 2025: trades=39 pnl=-24979.94 eps=8 perm_p=0.5574544270833334 placebo_runs=2000
+[resume] c21_ckpt_okx_2026YTD_20261117T064408Z cached
+[C21] OKX fold 2026YTD: trades=19 pnl=-12603.67 eps=7 perm_p=0.808184910946568 placebo_runs=2000
+[resume] c21_okx_fold_campaign_20261117T064408Z cached
+[resume] c21_okx_fold_census_20261117T064408Z cached
+[resume] c21_okx_fold_episode_edge_20261117T064408Z cached
+[resume] c21_okx_fold_placebo_20261117T064408Z cached
+[resume] c21_decision_verdict_okx_stability_20261117T064408Z cached
+[C21] Binance UM fold 2023: symbols=33
+[census] Binance UM: events=342 signal_pass=143 trades=28 matched=28 unexplained=57
+[C21][fast-path validated] trades=28 pnl=34989.9036 diff=0.00e+00
+[C21][fast-path validated] trades=28 pnl=34989.9036 diff=0.00e+00
+[C21][fast-path validated] trades=28 pnl=34989.9036 diff=0.00e+00
+[C21] Binance UM fold 2023: trades=28 pnl=34989.90 eps=10 perm_p=0.66045 placebo_runs=2000
+[C21] Binance UM fold 2024: symbols=33
+[census] Binance UM: events=312 signal_pass=140 trades=43 matched=43 unexplained=59
+[C21][fast-path validated] trades=43 pnl=-33586.8261 diff=0.00e+00
+[C21][fast-path validated] trades=43 pnl=-33586.8261 diff=0.00e+00
+[C21][fast-path validated] trades=43 pnl=-33586.8261 diff=0.00e+00
+[C21] Binance UM fold 2024: trades=43 pnl=-33586.83 eps=8 perm_p=0.7127210610932476 placebo_runs=2000
+[C21] Binance UM fold 2025: symbols=33
+[census] Binance UM: events=324 signal_pass=115 trades=41 matched=41 unexplained=36
+[C21][fast-path validated] trades=41 pnl=-42040.4958 diff=0.00e+00
+[C21][fast-path validated] trades=41 pnl=-42040.4958 diff=0.00e+00
+[C21][fast-path validated] trades=41 pnl=-42040.4958 diff=0.00e+00
+[C21] Binance UM fold 2025: trades=41 pnl=-42040.50 eps=8 perm_p=0.5911213458709141 placebo_runs=2000
+[C21] Binance UM fold 2026YTD: symbols=33
+[census] Binance UM: events=226 signal_pass=86 trades=24 matched=24 unexplained=23
+[C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
+[C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
+[C21][fast-path validated] trades=24 pnl=-29433.9757 diff=0.00e+00
+[C21] Binance UM fold 2026YTD: trades=24 pnl=-29433.98 eps=10 perm_p=1.0 placebo_runs=2000
+[resume] c21_binance_um_fold_campaign_20261117T064408Z cached
+[resume] c21_binance_um_fold_census_20261117T064408Z cached
+[resume] c21_binance_um_fold_episode_edge_20261117T064408Z cached
+[resume] c21_binance_um_fold_placebo_20261117T064408Z cached
+[resume] c21_decision_verdict_binance_um_stability_20261117T064408Z cached
+[resume] c21_pooled_stability_synthesis_20261117T064408Z cached
+[resume] c21_decision_verdict_CONSOLIDATED_20261117T064408Z cached
+C21 COMPLETE: per-venue=['NO_GO', 'NO_GO'] pooled=NO_GO consolidated=NO_GO

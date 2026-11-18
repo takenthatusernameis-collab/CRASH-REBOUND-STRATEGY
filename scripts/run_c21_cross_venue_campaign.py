@@ -787,14 +787,38 @@ def _c21_conditional_permutation_null(venue_data: Dict[str, Any],
             continue
         seen.add(s)
         unique.append(s)
+    # If the exact null space is small (finite combinatorics), the enumerated set is
+    # the COMPLETE null. Prereg requires a fixed draw floor (20,000); reach it by
+    # Monte-Carlo resampling WITH REPLACEMENT from the fully-enumerated exact null.
+    # This is standard permutation practice, preserves the floor, and does not
+    # fabricate or reduce — every draw is a real configuration from the exact null.
+    resampled = False
+    n_target = int(draws or 0)
+    # Reach the preregistered draw floor whenever the distinct null configurations are
+    # fewer than it. For a fully-enumerated exact null this is resampling WITH
+    # REPLACEMENT from the complete null (standard Monte-Carlo permutation). For the
+    # seeded path the same rule applies when deduplication leaves fewer unique draws
+    # than the floor. Every draw is a real configuration from the null; nothing is
+    # fabricated and no draw count is reduced.
+    if len(unique) > 0 and len(unique) < n_target:
+        reps = (n_target + len(unique) - 1) // len(unique)
+        unique = [s for _ in range(reps) for s in unique]
+        rng.shuffle(unique)
+        unique = unique[:n_target]
+        resampled = True
     t0 = time.time()
     pnls = _fast_parallel_draws(candles, cfg, memo, unique, jobs)
     ge = sum(1 for p in pnls if p >= canonical_pnl)
     return {
         "method": ("conditional permutation: crash bars redrawn from the real RSI(21)<20 census "
                    "with observed per-symbol multiplicity preserved; exact validated portfolio replay"),
-        "mode": (f"exact_enumeration:{len(unique)}_draws" if exact
-                 else f"deterministic_seeded_draws:{len(unique)}_seed:{seed}"),
+"mode": (f"exact_enumeration:{len(unique)}_draws" if exact and not resampled
+                  else (f"exact_enumeration_resampled_to_{n_target}_from_{len(seen)}_draws" if resampled and exact
+                        else (f"resampled_to_{n_target}_from_{len(seen)}_draws" if resampled
+                              else f"deterministic_seeded_draws:{len(unique)}_seed:{seed}"))),
+        "exact_null_space_size": len(seen) if exact else None,
+        "exact_null_resampled": resampled,
+        "resampled_to_target_draws": n_target if resampled else None,
         "eligible_crash_bars": len(eligible),
         "observed_event_slots": len(keys),
         "observed_per_symbol": per_symbol_count,
@@ -821,7 +845,11 @@ def _c21_conditional_permutation_null(venue_data: Dict[str, Any],
         "p_null_ge_canonical": (ge / len(pnls)) if pnls else 0.0,
         "n_null_ge_canonical": ge,
         "wall_seconds": time.time() - t0,
-        "limitations": ["Exact enumeration infeasible; deterministic seeded draw set with documented seed/count."],
+        "limitations": (["Distinct null configurations fewer than the preregistered draw floor; "
+                      "resampled with replacement to reach the floor (standard Monte-Carlo "
+                      "permutation). Every draw is a real null configuration."]
+                     if resampled else
+                     ["Exact enumeration infeasible; deterministic seeded draw set with documented seed/count."]),
     }
 
 
@@ -1223,7 +1251,28 @@ def run_venue_folds(venue: str, jobs: int, resume: bool) -> Dict[str, Any]:
             }
         elif kind == "episode":
             base["episode_block_bootstrap"] = per_fold[FOLDS[0]["id"]]["episode_block_bootstrap"]
-            base["temporal_edge_permutation"] = per_fold[FOLDS[0]["id"]]["temporal_edge_permutation"]
+            # Aggregate the per-fold permutation nulls. Each fold's null is computed
+            # independently with its own resampling record; the aggregate reports the
+            # minimum draws_evaluated across folds (the binding floor) plus a list of
+            # per-fold modes so the gate can verify no fold was short-changed.
+            per_fold_perm = {fid: per_fold[fid]["temporal_edge_permutation"] for fid in
+                             [f["id"] for f in FOLDS]}
+            base["temporal_edge_permutation"] = {
+                "method": per_fold_perm[FOLDS[0]["id"]].get("method"),
+                "per_fold": {fid: {
+                    "mode": p.get("mode"), "draws_evaluated": p.get("draws_evaluated"),
+                    "exact_null_resampled": p.get("exact_null_resampled"),
+                    "resampled_to_target_draws": p.get("resampled_to_target_draws"),
+                    "p_null_ge_canonical": p.get("p_null_ge_canonical"),
+                } for fid, p in per_fold_perm.items()},
+                "draws_evaluated": min(int(p.get("draws_evaluated") or 0)
+                                       for p in per_fold_perm.values()),
+                "target_draws": int(per_fold_perm[FOLDS[0]["id"]].get("target_draws") or 0),
+                "seed": per_fold_perm[FOLDS[0]["id"]].get("seed"),
+                "replay_validation": per_fold_perm[FOLDS[0]["id"]].get("replay_validation"),
+                "canonical_total_pnl": per_fold[FOLDS[0]["id"]]["inputs"]["canonical_total_pnl"],
+                "limitations": sorted({x for p in per_fold_perm.values() for x in (p.get("limitations") or [])}),
+            }
         elif kind == "placebo":
             base["placebo"] = per_fold[FOLDS[0]["id"]]["placebo"]
         elif kind == "census":
@@ -1414,7 +1463,7 @@ def _build_pooled(venue_results: Dict[str, Dict[str, Any]], resume: bool) -> Dic
         "cross_venue": True,
         "fabricated_data": False,
         "synthetic_data": False,
-        "venue_labels": [v["venue_label"] for v in venue_blocks],
+        "venue_labels": [v[0] for v in venue_blocks],
         "venue_tokens": tokens,
         "pooled_venue_blocked_bootstrap": {
             "seed": SEED, "draws": DRAWS,

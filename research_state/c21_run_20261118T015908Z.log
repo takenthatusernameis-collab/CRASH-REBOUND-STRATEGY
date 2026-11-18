@@ -1,0 +1,37 @@
+[resume] c21_ckpt_okx_2023_20261117T064408Z cached
+[C21] OKX fold 2023: trades=21 pnl=21382.73 eps=9 perm_p=0.0669 placebo_runs=2000
+[resume] c21_ckpt_okx_2024_20261117T064408Z cached
+[C21] OKX fold 2024: trades=34 pnl=-38598.35 eps=7 perm_p=0.70645 placebo_runs=2000
+[resume] c21_ckpt_okx_2025_20261117T064408Z cached
+[C21] OKX fold 2025: trades=39 pnl=-24979.94 eps=8 perm_p=0.5574544270833334 placebo_runs=2000
+[resume] c21_ckpt_okx_2026YTD_20261117T064408Z cached
+[C21] OKX fold 2026YTD: trades=19 pnl=-12603.67 eps=7 perm_p=0.808184910946568 placebo_runs=2000
+[resume] c21_okx_fold_campaign_20261117T064408Z cached
+[resume] c21_okx_fold_census_20261117T064408Z cached
+[resume] c21_okx_fold_episode_edge_20261117T064408Z cached
+[resume] c21_okx_fold_placebo_20261117T064408Z cached
+[resume] c21_decision_verdict_okx_stability_20261117T064408Z cached
+[resume] c21_ckpt_binance_um_2023_20261117T064408Z cached
+[C21] Binance UM fold 2023: trades=28 pnl=34989.90 eps=10 perm_p=0.6606060606060606 placebo_runs=2000
+[resume] c21_ckpt_binance_um_2024_20261117T064408Z cached
+[C21] Binance UM fold 2024: trades=43 pnl=-33586.83 eps=8 perm_p=0.7127210610932476 placebo_runs=2000
+[resume] c21_ckpt_binance_um_2025_20261117T064408Z cached
+[C21] Binance UM fold 2025: trades=41 pnl=-42040.50 eps=8 perm_p=0.5911213458709141 placebo_runs=2000
+[resume] c21_ckpt_binance_um_2026YTD_20261117T064408Z cached
+[C21] Binance UM fold 2026YTD: trades=24 pnl=-29433.98 eps=10 perm_p=1.0 placebo_runs=2000
+[resume] c21_binance_um_fold_campaign_20261117T064408Z cached
+[resume] c21_binance_um_fold_census_20261117T064408Z cached
+[resume] c21_binance_um_fold_episode_edge_20261117T064408Z cached
+[resume] c21_binance_um_fold_placebo_20261117T064408Z cached
+[resume] c21_decision_verdict_binance_um_stability_20261117T064408Z cached
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 1539, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 1531, in main
+    pooled = _build_pooled(venue_results, resume=args.resume)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 1417, in _build_pooled
+    "venue_labels": [v["venue_label"] for v in venue_blocks],
+                     ~^^^^^^^^^^^^^^^
+TypeError: tuple indices must be integers or slices, not str

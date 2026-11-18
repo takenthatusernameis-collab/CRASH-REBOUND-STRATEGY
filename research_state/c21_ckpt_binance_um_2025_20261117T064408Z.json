@@ -1,8 +1,8 @@
 {
   "campaign": {
     "schema_version": 1,
-    "timestamp": "2026-11-18T00:47:32Z",
-    "generated_at_utc": "2026-11-18T00:47:32Z",
+    "timestamp": "2026-11-18T05:33:51Z",
+    "generated_at_utc": "2026-11-18T05:33:51Z",
     "run_type": "c21_real_market_campaign_spec_literal_fold",
     "research_status": "CROSS_VENUE_TEMPORAL_STABILITY_NOT_HYPERLIQUID",
     "campaign": "C21",
@@ -1555,13 +1555,13 @@
       "vault_hwm_final": 115603.25652384007,
       "fee_hours_per_step": 1.0,
       "fee_time_base_hours_per_year": 8760.0,
-      "timestamp": "2026-11-18T00:47:32.992808"
+      "timestamp": "2026-11-18T05:33:51.796283"
     },
-    "wall_seconds": 3.2
+    "wall_seconds": 5.5
   },
   "census": {
     "schema_version": 1,
-    "generated_at_utc": "2026-11-18T00:47:33Z",
+    "generated_at_utc": "2026-11-18T05:33:51Z",
     "run_type": "c21_crash_event_census_spec_literal_fold",
     "campaign": "C21",
     "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
@@ -9053,7 +9053,7 @@
   },
   "episode": {
     "schema_version": 1,
-    "generated_at_utc": "2026-11-18T00:54:26Z",
+    "generated_at_utc": "2026-11-18T05:43:01Z",
     "phase": "C21",
     "campaign": "C21",
     "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
@@ -10086,7 +10086,10 @@
     },
     "temporal_edge_permutation": {
       "method": "conditional permutation: crash bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; exact validated portfolio replay",
-      "mode": "deterministic_seeded_draws:15633_seed:20261121",
+      "mode": "resampled_to_20000_from_15633_draws",
+      "exact_null_space_size": null,
+      "exact_null_resampled": true,
+      "resampled_to_target_draws": 20000,
       "eligible_crash_bars": 324,
       "observed_event_slots": 115,
       "observed_per_symbol": {
@@ -10104,25 +10107,25 @@
         "UNI": 12
       },
       "distinct_possible_draws": 39039,
-      "draws_evaluated": 15633,
+      "draws_evaluated": 20000,
       "target_draws": 20000,
       "seed": 20261121,
       "jobs": 4,
       "replay_path": "exact_validated_event_bar_replay",
       "replay_validation": {
         "key": [
-          139622953314112,
+          139635650025152,
           115
         ],
         "ok": true,
         "detail": "trades=41 pnl=-42040.4958 diff=0.00e+00",
-        "validated_at_utc": "2026-11-18T00:47:39Z"
+        "validated_at_utc": "2026-11-18T05:34:01Z"
       },
       "canonical_total_pnl": -42040.49580891518,
       "null_total_pnl": {
-        "mean": -41288.651201842695,
+        "mean": -41293.4295178551,
         "median": -41648.09645683761,
-        "stdev": 1616.301723423273,
+        "stdev": 1610.0169499488313,
         "min": -44770.04630783787,
         "max": -36925.43470322326,
         "p05": -43679.59231432353,
@@ -10131,12 +10134,12 @@
         "ci_high_pnl_97p5": -38459.84668447728,
         "prob_total_pnl_gt_0": 0.0
       },
-      "canonical_percentile_le": 0.45039339857992705,
-      "p_null_ge_canonical": 0.5911213458709141,
-      "n_null_ge_canonical": 9241,
-      "wall_seconds": 409.8440990447998,
+      "canonical_percentile_le": 0.4527,
+      "p_null_ge_canonical": 0.5904,
+      "n_null_ge_canonical": 11808,
+      "wall_seconds": 544.5811471939087,
       "limitations": [
-        "Exact enumeration infeasible; deterministic seeded draw set with documented seed/count."
+        "Distinct null configurations fewer than the preregistered draw floor; resampled with replacement to reach the floor (standard Monte-Carlo permutation). Every draw is a real null configuration."
       ]
     },
     "canonical_replay": {
@@ -10640,7 +10643,7 @@
   },
   "placebo": {
     "schema_version": 1,
-    "generated_at_utc": "2026-11-18T00:55:08Z",
+    "generated_at_utc": "2026-11-18T05:43:42Z",
     "phase": "C21",
     "campaign": "C21",
     "prereg_sha256": "c965dd42a8323cf260c675ffe8a97e46d32316d418ecc53cfda1a956881e20a1",
@@ -10677,32 +10680,32 @@
       "runs": 2000,
       "summary": {
         "n": 2000,
-        "sum": -19594108.31165987,
-        "mean": -9797.054155829934,
-        "median": -5291.486428162687,
-        "stdev": 21294.130553286093,
+        "sum": -19573122.18873983,
+        "mean": -9786.561094369914,
+        "median": -5157.354294234133,
+        "stdev": 21313.526987436257,
         "min": -69606.57702872336,
-        "max": 40398.665000519395,
-        "p05": -46087.764448922986,
-        "p95": 19915.409676017895
+        "max": 42603.970790632506,
+        "p05": -46014.51381245806,
+        "p95": 19776.87769264503
       },
       "p_ge_canonical": 0.913,
       "canonical_percentile_le": 0.087,
-      "prob_total_pnl_positive": 0.406,
-      "ci_low_pnl_2p5": -51453.72779002435,
-      "ci_high_pnl_97p5": 23076.87015851764
+      "prob_total_pnl_positive": 0.403,
+      "ci_low_pnl_2p5": -51498.141344712356,
+      "ci_high_pnl_97p5": 23201.549133654218
     },
     "verdict": "underpowered",
     "jobs": 4,
     "replay_path": "exact_validated_event_bar_replay",
     "replay_validation": {
       "key": [
-        139622991472256,
+        139635632242944,
         115
       ],
       "ok": true,
       "detail": "trades=41 pnl=-42040.4958 diff=0.00e+00",
-      "validated_at_utc": "2026-11-18T00:54:28Z"
+      "validated_at_utc": "2026-11-18T05:43:05Z"
     },
     "limitations": [
       "CROSS-VENUE Binance UM fold 2025; NOT Hyperliquid performance evidence."
@@ -10774,13 +10777,13 @@
               56475.32
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.1983,
+            "permutation_p": 0.1932,
             "power_eligible": false,
             "power_curve": {
               "observed_episodes": 4,
               "first_size_excluding_zero": 20
             },
-            "p": 0.1983,
+            "p": 0.1932,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           },
@@ -10841,13 +10844,13 @@
               24798.61
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.58973,
+            "permutation_p": 0.5901,
             "power_eligible": true,
             "power_curve": {
               "observed_episodes": 8,
               "first_size_excluding_zero": 20
             },
-            "p": 0.58973,
+            "p": 0.5901,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           },
@@ -10908,13 +10911,13 @@
               23072.75
             ],
             "bootstrap_excludes_zero_positive": false,
-            "permutation_p": 0.593907,
+            "permutation_p": 0.5924,
             "power_eligible": true,
             "power_curve": {
               "observed_episodes": 8,
               "first_size_excluding_zero": 20
             },
-            "p": 0.593907,
+            "p": 0.5924,
             "p_adj_bh": 1.0,
             "reject_null_bh": false
           },
@@ -10982,13 +10985,13 @@
     ],
     "pvals": [
       1.0,
-      0.1983,
+      0.1932,
       1.0,
       1.0,
-      0.58973,
+      0.5901,
       1.0,
       1.0,
-      0.593907,
+      0.5924,
       1.0
     ],
     "p_adj_bh": [

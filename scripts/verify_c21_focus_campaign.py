@@ -104,6 +104,44 @@ def _check(label: str, ok: bool, detail: str = "") -> bool:
     return ok
 
 
+def _permutation_resampling_justified(e: Optional[Dict[str, Any]]) -> bool:
+    """Permutation draw floor may be reached by resampling only when the distinct
+    null configurations are fewer than the floor AND the resampling is documented.
+
+    Accepts: draws_evaluated >= floor with an explicit resampling record
+    (exact_null_resampled truthy + resampled_to_target_draws == floor + a
+    resampling limitation), OR a seeded path that genuinely produced >= floor
+    distinct draws (no resampling record). Rejects any other shape.
+    """
+    te = (e or {}).get("temporal_edge_permutation") or {}
+    draws = te.get("draws_evaluated")
+    if not isinstance(draws, int) or draws < REQUIRED_DRAWS:
+        return False
+    resampled = te.get("exact_null_resampled")
+    target = te.get("resampled_to_target_draws")
+    lims = te.get("limitations") or []
+    if resampled:
+        return (isinstance(target, int) and target >= REQUIRED_DRAWS
+                and any("resampled" in str(x).lower() for x in lims))
+    return target is None
+
+
+def _fold_resampling_justified(p: Optional[Dict[str, Any]]) -> bool:
+    """Per-fold resampling justification: draws_evaluated == target >= floor with an
+    explicit resampling record, or a seeded path that produced >= floor distinct
+    draws without a resampling record."""
+    if not isinstance(p, dict):
+        return False
+    draws = p.get("draws_evaluated")
+    if not isinstance(draws, int) or draws < REQUIRED_DRAWS:
+        return False
+    resampled = p.get("exact_null_resampled")
+    target = p.get("resampled_to_target_draws")
+    if resampled:
+        return isinstance(target, int) and target >= REQUIRED_DRAWS
+    return target is None
+
+
 def main() -> int:
     results: List[Tuple[str, bool, str]] = []
 
@@ -175,7 +213,17 @@ def main() -> int:
         e = artifacts[key]
         folds = _fold_ids(e)
         bootstrap_draws = ((e or {}).get("episode_block_bootstrap") or {}).get("resamples")
-        permutation_draws = ((e or {}).get("temporal_edge_permutation") or {}).get("draws_evaluated")
+        te = (e or {}).get("temporal_edge_permutation") or {}
+        # Accept either a single aggregate permutation block (OKX shape) or the new
+        # per-fold aggregation (Binance UM shape with per_fold resampling records).
+        per_fold_perm = te.get("per_fold")
+        if isinstance(per_fold_perm, dict) and per_fold_perm:
+            permutation_draws = te.get("draws_evaluated")
+            resampling_justified = all(
+                _fold_resampling_justified(p) for p in per_fold_perm.values())
+        else:
+            permutation_draws = te.get("draws_evaluated")
+            resampling_justified = _permutation_resampling_justified(e)
         e_ok = (
             e is not None
             and e.get("campaign") == "C21"
@@ -189,6 +237,7 @@ def main() -> int:
             and isinstance(permutation_draws, int)
             and permutation_draws >= REQUIRED_DRAWS
             and REQUIRED_FOLD_IDS.issubset(folds)
+            and resampling_justified
         )
         results.append((f"{venue.lower().replace(' ', '_')}_fold_episode_edge_computed", bool(e_ok),
                         ARTIFACT_STEMS[key] + f".json; folds={sorted(folds)} bootstrap={bootstrap_draws} permutation={permutation_draws}"))

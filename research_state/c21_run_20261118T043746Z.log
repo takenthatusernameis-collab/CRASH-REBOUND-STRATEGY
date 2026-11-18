@@ -1,0 +1,4 @@
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c21_cross_venue_campaign.py", line 853
+    }
+    ^
+SyntaxError: closing parenthesis '}' does not match opening parenthesis '(' on line 815
