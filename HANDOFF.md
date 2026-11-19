@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-19T23:41:34Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-19T23:43:01Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T04:47Z (±30%)** on this 4-core box. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
@@ -11,7 +11,7 @@
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-19T22:40:15Z
+## VERIFIED LIVE STATE — 2026-11-19T23:43:01Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
@@ -25,8 +25,8 @@ PYTHONPATH=. .venv/bin/python scripts/verify_c26_focus_campaign.py
 
 Observed at generation time:
 
-- **C25 RUNNER: ALIVE.** Parent PID **3901** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), started **17:24:18Z**, 4 draw workers, launched through the harness background-process runner (`persistent=true`) via `scripts/run_c25_durable.sh`, teeing to `research_state/c25_run_20261119T172418Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
-- **Cells:** `cost_base 1/16`, `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 1 real cell DONE (`cost_base/okx/2023`, pnl **+34,420.88**, perm_p **0.335**, placebo p_ge **0.0705**, ckpt written 21:00:41Z). `cost_base/okx/2024` in permutation since 21:01Z (the permutation stage emits no log lines for hours — silence is normal).
+- **C25 RUNNER: ALIVE.** Parent PID **3258** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), started **23:41:32Z**, 4 draw workers, launched through the harness background-process runner (`persistent=true`) via `scripts/run_c25_durable.sh`, teeing to `research_state/c25_run_20261119T234132Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
+- **Cells:** `cost_base 1/16`, `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 1 real cell DONE (`cost_base/okx/2023`, pnl **+34,420.88**, perm_p **0.335**, placebo p_ge **0.0705**, ckpt written 21:00:41Z). `cost_base/okx/2024` in permutation since 23:41Z (the permutation stage emits no log lines for hours — silence is normal).
 - **ETA:** `eta_c25.sh` → 55 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **198.2 h ≈ 8.3 days → ~2026-11-28T04:47Z (±30%)**. Load average 6.58 on 4 cores; the box is genuinely saturated.
 - **Anchor:** `ANCHOR: INCOMPLETE` (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gate:** `C25 ACCEPTANCE: PENDING` (63 missing cells; verdict artifacts written only after all cells complete). **`C26 ACCEPTANCE: PENDING`** (blocked on C25; 64 missing cells; path-anchor reference not yet available).
@@ -36,7 +36,7 @@ Observed at generation time:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T22:40:15Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28 — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T23:43:01Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28 — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -58,7 +58,7 @@ Observed at generation time:
    d. **Immediately and durably launch C26-T1:** `background_process start command="bash scripts/run_c26_durable.sh" persistent=true`, then verify with `bash scripts/status_c26.sh` and `scripts/verify_c26_focus_campaign.py`. Do not idle, do not claim "no authorized work", do not do a same-data parameter search.
 6. **On `C26 ACCEPTANCE: PASS` (same session, mandatory successor):** run the staged stage-0 probe `PYTHONPATH=. .venv/bin/python scripts/probe_c27_venue_acquisition.py`; confirm the prereg `research_state/c27_prereg_20261119T215721Z.{json,md}` (`prereg_status: PRE_REGISTERED_BEFORE_COMPUTE`, sha pinned) still matches the probe verdict; then durably launch the C27 campaign. If the probe returns `ACQUISITION_BLOCKED_BY_API_RETENTION`, the only legitimate alternative is a **new pre-registered hypothesis on new data** — never a same-data rerun or a frozen-signal parameter search.
 
-**No-avoidance rule (binding):** `C24 → C25 → C26 → C27` is the heavy queue. No session may idle, declare "no authorized work", substitute a frozen-signal parameter search, retry closed data acquisitions, zero-fill funding, reduce draw counts, or relaunch a finished campaign (C20/C22/C23/C24 are PASS and closed). A `PENDING` gate is not a blocker: it means the heavy battery must keep running.
+**No-avoidance rule (binding):** `C24 → C25 → C26 → C27` is the heavy queue. No session may idle, declare "no authorized work", substitute a frozen-signal parameter search, retry closed data acquisitions, zero-fill funding, reduce draw counts, or relaunch a finished campaign (C20/C22/C23/C24 are PASS and closed). A `PENDING` gate is not a blocker: it means the heavy battery must keep running. **C25 is the live focus campaign; C26 is the mandatory same-session successor on C25 PASS; C27 is the mandatory same-session successor on C26 PASS.** "No authorized work" is never a truthful state while any gate in this chain is PENDING.
 
 ---
 
@@ -82,6 +82,7 @@ Removed already (do not re-add):
 3. **Late anchor detection — removed.** `scripts/check_c25_anchor.sh` compares every `cost_base` cell and venue total against C24 d15 the moment a checkpoint lands, instead of after ~6 days of compute.
 4. **Same-session C25→C26 transition — hard-coded in step 5d.** Previously the gap between "C25 PASS" and "C26 launched" could idle for a whole wake (8 h) or a human cycle. Now it is a same-session obligation with the exact command.
 5. **Queue-dryness — removed.** C26 is built and launch-ready behind the C25 gate; C27 is staged (probe + prereg) behind the C26 gate, so "no authorized work" is never a truthful state.
+6. **Stale PID/log state drift in INITIAL TASK MESSAGE — removed 2026-11-19T23:43:01Z.** The INITIAL TASK MESSAGE previously cited a dead runner PID 3901 / log `c25_run_20261119T172418Z.log` while the SESSION LOG recorded runner PID 3258 / log `c25_run_20261119T234132Z.log`. The VERIFIED LIVE STATE block now reads one verified state (PID 3258, log `234132Z.log`, started 23:41:32Z); future sessions cannot relaunch a ghost or confuse the live runner.
 
 Remaining bottleneck — compute, and it is **not fixable mid-run**:
 
@@ -178,7 +179,7 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 - Handoff/state: `HANDOFF.md` (single durable handoff), `INITIAL_TASK_MESSAGE.md` + `AGENT_HANDOFF.md` (pointers), `README.md`, `research_state/strategy_spec.md`.
 - C25 ops: `scripts/status_c25.sh`, `scripts/eta_c25.sh`, `scripts/check_c25_anchor.sh`, `scripts/run_c25_durable.sh`, `scripts/verify_c25_focus_campaign.py`.
-- C25 artifacts: `research_state/c25_prereg_20261119T045500Z.json`, `research_state/c25_ckpt_{arm}_{venue}_{fold}_20261119T045500Z.json`, `research_state/c25_decision_verdict_{arm,CONSOLIDATED}_20261119T045500Z.json`, run log `research_state/c25_run_20261119T172418Z.log`.
+- C25 artifacts: `research_state/c25_prereg_20261119T045500Z.json`, `research_state/c25_ckpt_{arm}_{venue}_{fold}_20261119T045500Z.json`, `research_state/c25_decision_verdict_{arm,CONSOLIDATED}_20261119T045500Z.json`, run log `research_state/c25_run_20261119T234132Z.log`.
 - C26: `scripts/run_c26_path_fidelity_campaign.py`, `scripts/run_c26_durable.sh`, `scripts/status_c26.sh`, `scripts/verify_c26_focus_campaign.py`, `tests/test_c26_campaign.py`, `research_state/c26_prereg_20261119T121500Z.{json,md}`.
 - C27: `scripts/probe_c27_venue_acquisition.py`, `research_state/c27_prereg_20261119T215721Z.{json,md}`.
 - Engine: `src/backtest/engine.py`, `src/strategy/config.py`, `scripts/run_portfolio.py`.
