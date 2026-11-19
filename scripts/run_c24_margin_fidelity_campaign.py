@@ -398,9 +398,9 @@ def _placebo(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
     pl = {
         "runs": len(pnls),
         "summary": c20._summ(pnls),
-        "p_ge_canonical": ge / len(results) if results else None,
-        "canonical_percentile_le": le / len(results) if results else None,
-        "prob_total_pnl_positive": sum(1 for x in pnls if x > 0) / len(results) if results else None,
+        "p_ge_canonical": ge / len(pnls) if pnls else None,
+        "canonical_percentile_le": le / len(pnls) if pnls else None,
+        "prob_total_pnl_positive": sum(1 for x in pnls if x > 0) / len(pnls) if pnls else None,
         "ci_low_pnl_2p5": c20._q(pnls, 0.025),
         "ci_high_pnl_97p5": c20._q(pnls, 0.975),
     }
@@ -409,7 +409,7 @@ def _placebo(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
         "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
         "method": ("Deterministic seeded full-portfolio placebo: gate-passing crash-bar subsets of "
                    "fixed size through the real portfolio engine; preserves gates/sizing/cap/occupancy/hedge."),
-        "mode": f"deterministic_seeded_draws:{len(results)}_choose_{choose_k}_of_{len(keys)}",
+        "mode": f"deterministic_seeded_draws:{len(pnls)}_choose_{choose_k}_of_{len(keys)}",
         "seed": SEED,
         "canonical": {"trades": canon_trades, "total_pnl": canon_pnl,
                       "admitted_keys_count": len(admitted)},
@@ -420,7 +420,7 @@ def _placebo(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
     out = STATE / f"{_stem(f'{arm}_{venue}_{fid}', 'fold_placebo')}.json"
     out.write_text(json.dumps(payload, indent=2) + "\n")
     print(f"[placebo] {arm} {venue} {fid}: pool={len(keys)} choose={choose_k} "
-          f"runs={len(results)} p_ge={pl['p_ge_canonical']}", flush=True)
+          f"runs={len(pnls)} p_ge={pl['p_ge_canonical']}", flush=True)
     return payload
 
 

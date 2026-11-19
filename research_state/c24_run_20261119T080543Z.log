@@ -1,0 +1,51 @@
+[resume] base_6 okx 2023
+[resume] base_6 okx 2024
+[resume] base_6 okx 2025
+[resume] base_6 okx 2026YTD
+[resume] base_6 binance_um 2023
+[resume] base_6 binance_um 2024
+[resume] base_6 binance_um 2025
+[resume] base_6 binance_um 2026YTD
+[resume] base_6 mexc 2023
+[resume] base_6 mexc 2024
+[resume] base_6 mexc 2025
+[resume] base_6 mexc 2026YTD
+[resume] base_6 bitget 2023
+[resume] base_6 bitget 2024
+[resume] base_6 bitget 2025
+[resume] base_6 bitget 2026YTD
+[resume] d10 okx 2023
+[resume] d10 okx 2024
+[resume] d10 okx 2025
+[resume] d10 okx 2026YTD
+[resume] d10 binance_um 2023
+[resume] d10 binance_um 2024
+[resume] d10 binance_um 2025
+[resume] d10 binance_um 2026YTD
+[resume] d10 mexc 2023
+[resume] d10 mexc 2024
+[resume] d10 mexc 2025
+[resume] d10 mexc 2026YTD
+[resume] d10 bitget 2023
+[resume] d10 bitget 2024
+[resume] d10 bitget 2025
+[resume] d10 bitget 2026YTD
+[run] d15 okx 2023
+[census] OKX: events=345 signal_pass=95 trades=20 matched=20 unexplained=36
+[C22][fast-path validated] trades=20 pnl=34420.8789 diff=0.00e+00
+[episode] d15 okx 2023: trades=20 pnl=34420.88 perm_p=0.335
+[C22][fast-path validated] trades=20 pnl=34420.8789 diff=0.00e+00
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 736, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 699, in main
+    ckpts[key] = _fold(venue, arm, fid, args.jobs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 280, in _fold
+    placebo = _placebo(sv, census, cfg, arm, venue, fid, jobs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 401, in _placebo
+    "p_ge_canonical": ge / len(results) if results else None,
+                                           ^^^^^^^
+NameError: name 'results' is not defined

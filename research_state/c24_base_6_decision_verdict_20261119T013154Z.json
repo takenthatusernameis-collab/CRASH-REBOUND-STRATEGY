@@ -2,7 +2,7 @@
   "schema_version": 1,
   "campaign": "C24",
   "arm": "base_6",
-  "generated_at_utc": "2026-11-19T03:58:32Z",
+  "generated_at_utc": "2026-11-19T08:22:36Z",
   "prereg": "research_state/c24_prereg_20261119T013154Z.json",
   "prereg_sha256": "3c0d0b12e139ed2ed264e44964c23639110b2c5a4c0b79ade99ec1f69af30dcb",
   "real_market_data": true,
