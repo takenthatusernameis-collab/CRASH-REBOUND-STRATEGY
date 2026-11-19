@@ -81,3 +81,5 @@
 [run] d15 binance_um 2025
 [census] Binance UM: events=324 signal_pass=115 trades=34 matched=34 unexplained=31
 [C22][fast-path validated] trades=34 pnl=18273.3112 diff=0.00e+00
+[episode] d15 binance_um 2025: trades=34 pnl=18273.31 perm_p=0.4923
+[C22][fast-path validated] trades=34 pnl=18273.3112 diff=0.00e+00
