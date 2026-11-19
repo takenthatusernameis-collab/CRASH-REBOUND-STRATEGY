@@ -73,3 +73,11 @@
 [run] d15 binance_um 2024
 [census] Binance UM: events=312 signal_pass=140 trades=33 matched=33 unexplained=51
 [C22][fast-path validated] trades=33 pnl=-15387.8955 diff=0.00e+00
+[episode] d15 binance_um 2024: trades=33 pnl=-15387.90 perm_p=0.71625
+[C22][fast-path validated] trades=33 pnl=-15387.8955 diff=0.00e+00
+[placebo] d15 binance_um 2024: pool=140 choose=33 runs=2000 p_ge=0.7845
+[battery] Binance UM: total=-15387.90 trades=33 legs=['buy', 'short'] episodes=8
+[done] d15 binance_um 2024 pnl=-15387.9
+[run] d15 binance_um 2025
+[census] Binance UM: events=324 signal_pass=115 trades=34 matched=34 unexplained=31
+[C22][fast-path validated] trades=34 pnl=18273.3112 diff=0.00e+00
