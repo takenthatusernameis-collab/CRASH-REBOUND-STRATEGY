@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-19T21:55:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-19T21:55:12Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` and `README.md` are pointers; never maintain a second source of truth.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28 (±30%)** on this 4-core box. **DO NOT RELAUNCH, DO NOT KILL, DO NOT REORDER ARMS.** `C26-T1` is BUILT and may not launch until `C25 ACCEPTANCE: PASS`.
@@ -52,7 +52,7 @@ This host has **4 cores**, shared with the CI runner. One C25 cell is:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T21:55:00Z — C25 RUNNER ALIVE, 1/56 REAL CELLS DONE, ETA ~2026-11-28, DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T21:55:12Z — C25 RUNNER ALIVE, 1/56 REAL CELLS DONE, ETA ~2026-11-28, DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
