@@ -59,3 +59,9 @@
 [C22][fast-path validated] trades=15 pnl=11564.7677 diff=0.00e+00
 [episode] d15 okx 2026YTD: trades=15 pnl=11564.77 perm_p=0.5756
 [C22][fast-path validated] trades=15 pnl=11564.7677 diff=0.00e+00
+[placebo] d15 okx 2026YTD: pool=59 choose=15 runs=2000 p_ge=0.3595
+[battery] OKX: total=11564.77 trades=15 legs=['buy'] episodes=7
+[done] d15 okx 2026YTD pnl=11564.77
+[run] d15 binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=27 matched=27 unexplained=58
+[C22][fast-path validated] trades=27 pnl=38752.1949 diff=0.00e+00
