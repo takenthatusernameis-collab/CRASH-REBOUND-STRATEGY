@@ -16,27 +16,29 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T02:12:24Z — C23-T1 COMPLETE, TERMINAL STATE, STOP)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T02:13:00Z — C23-T1 COMPLETE, TERMINAL STATE, STOP)
 
 **Single durable handoff / source of truth:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer only.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data.
 
-**Current position (verified live 2026-11-19T02:12:24Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 COMPLETE** — Bitget USDT-M out-of-sample replication. Gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. Pooled total PnL **-58,129.33**, prob_pooled_total_gt_0=0.0, BH pooled stratum survivors **0/36**, sign concordant (all negative). Folds: 2023: 24 trades +28,706.32; 2024: 36 trades -30,939.60; 2025: 37 trades -32,710.19; 2026YTD: 21 trades -23,185.86. 4/4 fold checkpoints present, 7/7 battery artifacts present. Runner NOT ALIVE (campaign finished) — do not relaunch.
+**Current position (verified live 2026-11-19T02:13:00Z):** C1–C20 CLOSED `NO_GO`; C21-T1 COMPLETE (`C21 ACCEPTANCE: PASS`, consolidated `NO_GO`); C22-T1 COMPLETE (`C22 ACCEPTANCE: PASS`, consolidated `NO_GO`); **C23-T1 COMPLETE** — Bitget USDT-M out-of-sample replication. Gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. Pooled total PnL **-58,129.33**, prob_pooled_total_gt_0=0.0, BH pooled stratum survivors **0/36**, sign concordant (all negative). Folds: 2023: 24 trades +28,706.32; 2024: 36 trades -30,939.60; 2025: 37 trades -32,710.19; 2026YTD: 21 trades -23,185.86. 4/4 fold checkpoints present, 7/7 battery artifacts present. Runner NOT ALIVE (campaign finished) — do not relaunch. `bash scripts/status_c23.sh` → RUNNER: NOT ALIVE, battery 7/7, gate `C23 ACCEPTANCE: PASS`. `PYTHONPATH=. .venv/bin/python scripts/verify_c23_focus_campaign.py` → `C23 ACCEPTANCE: PASS`.
 
-**Immediate next action:** none required — **STOP**. No campaign is authorized beyond C23. Do not launch C23 again, do not start a same-data follow-on on OKX/Binance/MEXC, do not relabel Bitget data as Hyperliquid, do not reduce draw counts. The correct terminal state is the evidence report below, not a new probe.
+**Immediate next action:** none required — **STOP**. No campaign is authorized beyond C23. Do not launch C23 again, do not start a same-data follow-on on OKX/Binance/MEXC/Bitget, do not relabel Bitget data as Hyperliquid, do not reduce draw counts. The correct terminal state is the evidence report below, not a new probe.
 
 **Terminal evidence (deliver and file):**
 - Per-fold (Bitget USDT-M 1H, spec-literal, frozen config rsi_period=21/rsi_threshold=20/target_pct=9, seed 20261123): 2023 (+28,706.32, 24 trades, perm_p=0.0229, 0/9 BH survivors); 2024 (-30,939.60, 36 trades); 2025 (-32,710.19, 37 trades); 2026YTD (-23,185.86, 21 trades).
 - Pooled: total PnL -58,129.33, CI95 [-58,129.33, -58,129.33], prob_gt_0=0.0, BH survivors 0/36, sign concordant (-1).
 - Consolidated verdict token: `NO_GO` (`research_state/c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`, generated 2026-11-19T00:31:49Z). Supersedes `research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json`.
 - Provenance: real Bitget USDT-perp data, non-synthetic, `is_hyperliquid_venue_data=false`, CROSS-VENUE vs the Hyperliquid spec — NOT Hyperliquid performance evidence, never relabelled as such. Window 2023-01-01..2026-09-28. Cache `research_state/cache/bitget_1h_multiyear_20230101_20260928/`; universe `research_state/universe_bitget_multiyear_verified.json`.
-- Regression: `tests/test_c23_campaign_20261118.py` → 12 passed.
+- Regression: `tests/test_c23_campaign_20261118.py` → 13 passed.
 
 **Repository:** `CRASH-REBOUND-STRATEGY` (all venues closed `NO_GO`: OKX, Binance UM, MEXC, Bitget; Hyperliquid-native acquisition CLOSED `FULL_283D_BLOCKED_BY_API_RETENTION`).
 **Environment:** durable `.venv` at repo root (Python 3.12.3 + deps); run with `PYTHONPATH=. .venv/bin/python ...`. If missing, `bash scripts/bootstrap_env.sh` first.
 **Priority by repo scope (non-negotiable):** C1–C20 CLOSED & CERTIFIED `NO_GO`. C21-T1 COMPLETE (`PASS`, consolidated `NO_GO`). C22-T1 COMPLETE (`PASS`, consolidated `NO_GO`). **C23-T1 COMPLETE (`PASS`, consolidated `NO_GO`) — terminal.** Do not invent heavy follow-on work; C1–C23 `NO_GO` stands unless C23 produced a pre-registered contradiction with full evidence (it did not).
-**Key tokens:** `C23 ACCEPTANCE: PASS` (consolidated `NO_GO`), `c23_prereg_20261118T202301Z`, `run_c23_detached_durable.sh`, `status_c23.sh`, `verify_c23_focus_campaign.py`, `tests/test_c23_campaign_20261118.py`, `FULL_283D_BLOCKED_BY_API_RETENTION`, `c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`.
+**Key tokens:** `C23 ACCEPTANCE: PASS` (consolidated `NO_GO`), `c23_prereg_20261118T202301Z`, `status_c23.sh`, `verify_c23_focus_campaign.py`, `tests/test_c23_campaign_20261118.py`, `FULL_283D_BLOCKED_BY_API_RETENTION`, `c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`.
+
+**Bottlenecks removed (none remaining):** environment/bootstrap (`.venv` ready), runner-dead-but-done (nothing to resume), C23 acceptance gate (cleared `PASS`). No open bottlenecks — terminal state reached.
 
 Full binding context, fold evidence, no-avoidance rules, guardrails, and execution order: `HANDOFF.md`.
 
