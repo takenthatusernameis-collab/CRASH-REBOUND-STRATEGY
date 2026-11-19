@@ -21,3 +21,8 @@
 [C23][fast-path validated] trades=21 pnl=-23185.8611 diff=0.00e+00
 [C23][fast-path validated] trades=21 pnl=-23185.8611 diff=0.00e+00
 [C23][fast-path validated] trades=21 pnl=-23185.8611 diff=0.00e+00
+[C23] Bitget fold 2026YTD: trades=21 pnl=-23185.86 eps=8 perm_p=0.75 placebo_runs=2000
+[verdict] Bitget: NO_GO survivors=0 trades=118 pnl=-58129.33
+[pooled] token=NO_GO venue_token=['NO_GO'] pooled_total=-58129.33 CI=[-58129.33, -58129.33] survivors=0/36
+[consolidated] C23 NO_GO
+C23 COMPLETE: per-venue=['NO_GO'] pooled=NO_GO consolidated=NO_GO

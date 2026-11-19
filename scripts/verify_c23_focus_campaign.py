@@ -79,6 +79,13 @@ def _token_of(obj: Optional[Dict[str, Any]]) -> Optional[str]:
         v = obj.get(key)
         if isinstance(v, str) and v in VALID_TOKENS:
             return v
+    # Runner-emitted artifacts nest the pooled/final token, e.g. {"decision": {"token": ...}}.
+    for nested_key in ("decision", "final_integrated_decision"):
+        nested = obj.get(nested_key)
+        if isinstance(nested, dict):
+            v = nested.get("token")
+            if isinstance(v, str) and v in VALID_TOKENS:
+                return v
     return None
 
 

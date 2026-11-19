@@ -193,3 +193,16 @@ def test_gate_fail_when_hyperliquid_mislabel(tmp_path, monkeypatch):
     token, checks = c23gate.evaluate()
     assert token == "FAIL"
     assert any("Hyperliquid" in p for p in checks["consistency_problems"])
+
+
+def test_gate_accepts_runner_nested_pooled_token(tmp_path, monkeypatch):
+    """Real runner artifacts nest the pooled token as {"decision": {"token": ...}}."""
+    monkeypatch.setattr(c23gate, "STATE", tmp_path)
+    _seed_prereq(tmp_path)
+    _seed_battery(tmp_path)
+    prov = {"is_hyperliquid_venue_data": False, "fabricated_data": False, "synthetic_data": False}
+    _write(tmp_path / f"c23_pooled_stability_synthesis_{c23gate.TS}.json",
+           {"campaign": "C23", "venue_tokens": ["NO_GO"], "provenance": prov,
+            "decision": {"token": "NO_GO", "rationale": "nested"}})
+    token, checks = c23gate.evaluate()
+    assert token == "PASS", checks

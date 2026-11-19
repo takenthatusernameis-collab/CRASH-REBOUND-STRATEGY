@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T00:31:49Z",
+  "scope": "C23 Bitget out-of-sample cross-venue replication campaign",
+  "final_verdict_token": "NO_GO",
+  "verdict": "NO_GO",
+  "research_program_complete": false,
+  "supersedes": "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json",
+  "supersedes_verdict_token": "NO_GO",
+  "campaign": "C23",
+  "prereg_sha256": "c29b9ebafde7891c12c66573582d15116144a6bad4bdb50c611e51a0052ea745",
+  "campaign_verdicts": {
+    "c23_bitget_stability": "NO_GO",
+    "c23_pooled": "NO_GO"
+  },
+  "pooled_bootstrap": {
+    "seed": 20261123,
+    "draws": 20000,
+    "blocks": [
+      {
+        "venue": "Bitget",
+        "total_pnl": -58129.33
+      }
+    ],
+    "pooled_total_pnl": -58129.33,
+    "ci95": [
+      -58129.33,
+      -58129.33
+    ],
+    "prob_pooled_total_gt_0": 0.0,
+    "sign_concordant": true,
+    "signs": [
+      -1
+    ]
+  },
+  "multiplicity": {
+    "method": "benjamini_hochberg",
+    "alpha": 0.05,
+    "n_pooled_stratum_tests": 36,
+    "n_pooled_survivors": 0,
+    "survivors": []
+  },
+  "structural_power_note": "C23 measures whether the unchanged spec-literal crash-rebound edge replicates on Bitget USDT-perp 1H data (a venue never used in C1\u2013C22) across four pre-specified folds, with BH-corrected strata and an honest pooled verdict. Fold and stratum definitions were fixed before compute. Bitget is new data; is_hyperliquid_venue_data=false.",
+  "provenance": {
+    "is_hyperliquid_venue_data": false,
+    "cross_venue": true,
+    "provenance_caveat": "Real Bitget USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false
+  },
+  "final_integrated_decision": {
+    "token": "NO_GO",
+    "statement": "Consolidated C23 verdict: NO_GO. C23 tests whether any pre-specified temporal fold or crash-regime stratum survives multiplicity control with a positive spot leg on Bitget out-of-sample data; the C1-C22 NO_GO stands unless this pre-registered contradiction is accepted with full evidence."
+  },
+  "priors_referenced": [
+    "research_state/c23_prereg_20261118T202301Z.json",
+    "research_state/decision_verdict_CONSOLIDATED_FINAL_20261116T063500Z.json",
+    "research_state/spec_rebound_confirmation_adjudication_20261116T054000Z.json",
+    "research_state/c22_prereg_20261118T100126Z.json",
+    "research_state/c22_pooled_stability_synthesis_20261118T100126Z.json",
+    "research_state/c22_decision_verdict_CONSOLIDATED_20261118T100126Z.json"
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T00:31:49Z",
+  "phase": "C23",
+  "campaign": "C23",
+  "prereg_sha256": "c29b9ebafde7891c12c66573582d15116144a6bad4bdb50c611e51a0052ea745",
+  "prereg": "research_state/c23_prereg_20261118T202301Z.json",
+  "provenance_caveat": "Real Bitget USDT-perp exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z.",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "venue_label": "Bitget",
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z",
+      "num_trades": null,
+      "total_pnl": null
+    }
+  ],
+  "fold": "ALL",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo (2000 subsets); preserves gates/sizing/cap/occupancy/hedge on the fold slice.",
+  "mode": "deterministic_seeded_draws:2000_choose_24_of_108",
+  "seed": 20261123,
+  "canonical": {
+    "trades": 24,
+    "total_pnl": 28706.320387885964,
+    "admitted_keys_count": 24
+  },
+  "pool": {
+    "signal_gate_events": 108,
+    "choose_k": 24
+  },
+  "placebo": {
+    "runs": 2000,
+    "summary": {
+      "n": 2000,
+      "sum": -3251657.777133929,
+      "mean": -1625.8288885669645,
+      "median": -1291.255061797462,
+      "stdev": 10750.268670181236,
+      "min": -38594.18370243736,
+      "max": 43300.191675567876,
+      "p05": -18919.863066209822,
+      "p95": 16221.512226012057
+    },
+    "p_ge_canonical": 0.0035,
+    "canonical_percentile_le": 0.9965,
+    "prob_total_pnl_positive": 0.4545,
+    "ci_low_pnl_2p5": -22529.432515639335,
+    "ci_high_pnl_97p5": 19315.167590346122
+  },
+  "verdict": "underpowered",
+  "jobs": 4,
+  "replay_path": "exact_validated_event_bar_replay",
+  "replay_validation": {
+    "key": [
+      139780635534208,
+      108
+    ],
+    "ok": true,
+    "detail": "trades=24 pnl=28706.3204 diff=0.00e+00",
+    "validated_at_utc": "2026-11-18T22:29:53Z"
+  },
+  "limitations": [
+    "CROSS-VENUE Bitget fold 2023; NOT Hyperliquid performance evidence."
+  ],
+  "per_fold": {
+    "2023": {
+      "fold": "2023",
+      "venue_label": "Bitget",
+      "runs": 2000,
+      "p_ge_canonical": 0.0035,
+      "canonical": {
+        "trades": 24,
+        "total_pnl": 28706.320387885964,
+        "admitted_keys_count": 24
+      }
+    },
+    "2024": {
+      "fold": "2024",
+      "venue_label": "Bitget",
+      "runs": 2000,
+      "p_ge_canonical": 0.8905,
+      "canonical": {
+        "trades": 36,
+        "total_pnl": -30939.595457279396,
+        "admitted_keys_count": 36
+      }
+    },
+    "2025": {
+      "fold": "2025",
+      "venue_label": "Bitget",
+      "runs": 2000,
+      "p_ge_canonical": 0.8755,
+      "canonical": {
+        "trades": 37,
+        "total_pnl": -32710.1909416799,
+        "admitted_keys_count": 37
+      }
+    },
+    "2026YTD": {
+      "fold": "2026YTD",
+      "venue_label": "Bitget",
+      "runs": 2000,
+      "p_ge_canonical": 0.9165,
+      "canonical": {
+        "trades": 21,
+        "total_pnl": -23185.861058872903,
+        "admitted_keys_count": 21
+      }
+    }
+  }
+}
