@@ -73,6 +73,7 @@ if str(REPO) not in sys.path:
 import scripts.run_c20_cross_venue_campaign as c20  # noqa: E402
 import scripts.run_c22_mexc_campaign as c22  # noqa: E402
 import scripts.run_c23_bitget_campaign as c23  # noqa: E402
+import scripts.draw_checkpoint  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 
@@ -458,6 +459,9 @@ def _fold(venue: str, arm: str, fid: str, jobs: int,
         "battery": battery,
     }
     _save(_ckpt(arm, venue, fid), ckpt)
+    for stage in ("perm", "placebo"):
+        draw_checkpoint.clear_partials(STATE, "C26", TS, stage=stage,
+                                       arm=arm, venue=venue, fold=fid)
     return ckpt
 
 
@@ -505,7 +509,7 @@ def _episode(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
     draws = DRAWS_SMOKE if SMOKE else DRAWS_FULL
     boot = c20.episode_block_bootstrap(ts["trades"], episodes, draws["episode_block_bootstrap"], SEED)
     perm = _c26_permutation(sv, memo, rows, keys, canonical_pnl, cfg,
-                            draws["permutation"], SEED, jobs)
+                            draws["permutation"], SEED, jobs, arm, venue, fid)
     distinct_days = sorted({times[k][:10] for k in keys if k in times})
     payload = {
         **_meta_header(arm, venue, fid, "fold_episode_edge"),
@@ -551,18 +555,11 @@ def _placebo(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
     n_placebo = draws["placebo_portfolio_runs"]
     rng = random.Random(SEED)
     subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(n_placebo)]
-    if jobs > 1 and "fork" in c20.mp.get_all_start_methods():
-        ctx = c20.mp.get_context("fork")
-        with ctx.Pool(processes=jobs, initializer=c20._init_worker,
-                      initargs=(candles_active, memo, cfg)) as pool:
-            results = pool.map(c20._run_draw, subsets, chunksize=1)
-    else:
-        results = []
-        for sub in subsets:
-            res = c20.run_memo_portfolio(candles_active, cfg,
-                                         {k: memo[k] for k in sub if k in memo})
-            results.append({"num_trades": int(res.get("num_trades", 0)),
-                            "total_pnl": float(res.get("total_pnl", 0.0))})
+    results = draw_checkpoint.run_chunked(
+        state_dir=STATE, campaign="C26", tag=TS, stage="placebo",
+        arm=arm, venue=venue, fold=fid, subsets=subsets, jobs=jobs,
+        prereg_sha256=sha256(PREREG), seed=SEED,
+        draw_many=draw_checkpoint.make_c20_draw_many(candles_active, memo, cfg, jobs))
     pnls = [r["total_pnl"] for r in results]
     ge = sum(1 for x in pnls if x >= canon_pnl)
     le = sum(1 for x in pnls if x <= canon_pnl)
@@ -601,12 +598,22 @@ def _bh(pvals: Sequence[float], alpha: float = 0.05) -> Tuple[List[bool], List[f
 
 def _c26_permutation(sv: Dict[str, Any], memo: Dict[Any, Any], rows: Sequence[Dict[str, Any]],
                     keys: List[Tuple[str, int]], canonical_pnl: float, cfg: StrategyConfig,
-                    draws: int, seed: int, jobs: int) -> Dict[str, Any]:
+                    draws: int, seed: int, jobs: int,
+                    arm: str = "?", venue: str = "?", fid: str = "?") -> Dict[str, Any]:
     """C26 conditional temporal-edge permutation — same estimator as C20/C24/C25,
-    without the C20 wall-clock cap (MAX_PERMUTATION_DRAWS=300)."""
+    without the C20 wall-clock cap (MAX_PERMUTATION_DRAWS=300). Draws are checkpointed
+    through scripts/draw_checkpoint.py (bit-identical, session-loss durable)."""
+
+    def _exec(unique, candles_active, memo_w, cfg_w, jobs_w):
+        return draw_checkpoint.run_chunked(
+            state_dir=STATE, campaign="C26", tag=TS, stage="perm",
+            arm=arm, venue=venue, fold=fid, subsets=unique, jobs=jobs_w,
+            prereg_sha256=sha256(PREREG), seed=seed,
+            draw_many=draw_checkpoint.make_c20_draw_many(candles_active, memo_w, cfg_w, jobs_w))
+
     return c20.conditional_permutation_null(
         sv, memo, rows, keys, canonical_pnl, cfg, draws, seed, jobs,
-        max_permutation_draws=draws)
+        max_permutation_draws=draws, draw_executor=_exec)
 
 
 def _venue_blocked_bootstrap(cells: Sequence[float], venues: Sequence[str],

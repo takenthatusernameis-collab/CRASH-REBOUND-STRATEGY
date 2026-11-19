@@ -711,9 +711,14 @@ def _run_draw(sub):
             "total_pnl": float(res.get("total_pnl", 0.0))}
 
 
-def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cfg,
-                                  draws: int, seed: int, jobs: int,
-                                  max_permutation_draws: Optional[int] = None) -> Dict[str, Any]:
+def permutation_draw_subsets(venue_data, rows, keys, draws: int, seed: int,
+                             max_permutation_draws: Optional[int] = None) -> Dict[str, Any]:
+    """Generate the deterministic conditional-permutation subset list.
+
+    Extracted verbatim from `conditional_permutation_null` so callers that
+    checkpoint draws (scripts/draw_checkpoint.py) consume exactly the same
+    subsets, in the same order, as a monolithic run.
+    """
     candles = venue_data["candles"]
     eligible = sorted({(str(r["symbol"]).upper(), int(r["bar_index"]))
                         for r in rows if r.get("bar_index") is not None and r.get("rsi") is not None
@@ -762,9 +767,34 @@ def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cf
             continue
         seen.add(s)
         unique.append(s)
+    return {
+        "eligible": eligible,
+        "observed_syms": observed_syms,
+        "per_symbol_count": per_symbol_count,
+        "total_possible": total_possible,
+        "exact": exact,
+        "unique": unique,
+    }
+
+
+def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cfg,
+                                  draws: int, seed: int, jobs: int,
+                                  max_permutation_draws: Optional[int] = None,
+                                  draw_executor=None) -> Dict[str, Any]:
+    candles = venue_data["candles"]
+    spec = permutation_draw_subsets(venue_data, rows, keys, draws, seed, max_permutation_draws)
+    eligible = spec["eligible"]
+    per_symbol_count = spec["per_symbol_count"]
+    total_possible = spec["total_possible"]
+    exact = spec["exact"]
+    unique = spec["unique"]
     candles_active = {s: candles[s] for s in sorted({k[0] for k in memo} | {"ETH"}) if s in candles}
     t0 = time.time()
-    if jobs > 1 and "fork" in mp.get_all_start_methods():
+    if draw_executor is not None:
+        # Optional checkpointed execution (scripts/draw_checkpoint.py). Must evaluate
+        # exactly `unique` in order and return one result dict per subset.
+        results = draw_executor(unique, candles_active, memo, cfg, jobs)
+    elif jobs > 1 and "fork" in mp.get_all_start_methods():
         ctx = mp.get_context("fork")
         with ctx.Pool(processes=jobs, initializer=_init_worker,
                       initargs=(candles_active, memo, cfg)) as pool:

@@ -29,4 +29,10 @@ fi
 
 echo "[c26-launch] starting canonical C26 resume run -> $LOG"
 export PYTHONPATH=.
+# Intra-cell draw durability: permutation/placebo draws checkpoint every 500
+# subsets and resume bit-identically after an environment loss (~5 min max loss)
+# instead of restarting the whole ~3.2 h cell. Set C25_DRAW_RESUME=0 for a
+# monolithic (non-resumable) audit run; results are identical either way.
+export C25_DRAW_RESUME="${C25_DRAW_RESUME:-1}"
+export C25_DRAW_CHUNK="${C25_DRAW_CHUNK:-500}"
 exec "$PY" scripts/run_c26_path_fidelity_campaign.py --jobs 4 --resume 2>&1 | tee "$LOG"
