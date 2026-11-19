@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "timestamp": "20261119T013154Z",
-  "generated_at_utc": "2026-11-19T03:30:30Z",
+  "generated_at_utc": "2026-11-19T03:38:53Z",
   "run_type": "c24_margin_fidelity_fold_campaign",
   "campaign": "C24",
   "arm": "d15",
@@ -777,5 +777,5 @@
       }
     ]
   },
-  "wall_seconds": 5.9
+  "wall_seconds": 5.8
 }

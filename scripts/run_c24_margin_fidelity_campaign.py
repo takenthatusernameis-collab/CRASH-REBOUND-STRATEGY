@@ -436,6 +436,19 @@ def _bh(pvals: Sequence[float], alpha: float = 0.05) -> Tuple[List[bool], List[f
     return c23._bh(pvals, alpha)
 
 
+def _c24_permutation(sv: Dict[str, Any], memo: Dict[Any, Any], rows: Sequence[Dict[str, Any]],
+                    keys: List[Tuple[str, int]], canonical_pnl: float, cfg: StrategyConfig,
+                    draws: int, seed: int, jobs: int) -> Dict[str, Any]:
+    """C24 conditional temporal-edge permutation — same estimator as C20 but WITHOUT
+    the C20 wall-clock cap (MAX_PERMUTATION_DRAWS=300).  C24's prereg draws floor is
+    20000 and the verifier enforces it; a capped run is UNDERPOWERED and must be redone.
+    The estimator itself is unchanged (crash-bar census, per-symbol multiplicity,
+    real portfolio engine)."""
+    return c20.conditional_permutation_null(
+        sv, memo, rows, keys, canonical_pnl, cfg, draws, seed, jobs,
+        _c24_max_permutation_draws=None)
+
+
 def _venue_blocked_bootstrap(cells: Sequence[float], venues: Sequence[str],
                              draws: int, seed: int) -> Dict[str, Any]:
     """Resample venue blocks with replacement; each draw sums all fold cells of sampled venues."""

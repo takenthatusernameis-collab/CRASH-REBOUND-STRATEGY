@@ -712,11 +712,12 @@ def _run_draw(sub):
 
 
 def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cfg,
-                                 draws: int, seed: int, jobs: int) -> Dict[str, Any]:
+                                  draws: int, seed: int, jobs: int,
+                                  max_permutation_draws: Optional[int] = None) -> Dict[str, Any]:
     candles = venue_data["candles"]
     eligible = sorted({(str(r["symbol"]).upper(), int(r["bar_index"]))
-                       for r in rows if r.get("bar_index") is not None and r.get("rsi") is not None
-                       and float(r.get("rsi")) < 20.0})
+                        for r in rows if r.get("bar_index") is not None and r.get("rsi") is not None
+                        and float(r.get("rsi")) < 20.0})
     by_symbol: Dict[str, List[Tuple[str, int]]] = {}
     for sym, idx in eligible:
         by_symbol.setdefault(sym, []).append((sym, idx))
@@ -743,7 +744,8 @@ def conditional_permutation_null(venue_data, memo, rows, keys, canonical_pnl, cf
         # Wall-clock-bounded sampling. The prereg targets 20000 draws but each
         # canonical portfolio run costs ~90s on this cache; cap at
         # MAX_PERMUTATION_DRAWS so the campaign is actually completable.
-        n_draws = min(int(draws or 0), MAX_PERMUTATION_DRAWS)
+        cap = MAX_PERMUTATION_DRAWS if max_permutation_draws is None else int(max_permutation_draws)
+        n_draws = min(int(draws or 0), cap)
         for _ in range(n_draws):
             subset = []
             for s in observed_syms:

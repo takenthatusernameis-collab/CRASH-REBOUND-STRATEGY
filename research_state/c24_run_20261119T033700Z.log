@@ -1,0 +1,49 @@
+[resume] base_6 okx 2023
+[resume] base_6 okx 2024
+[resume] base_6 okx 2025
+[resume] base_6 okx 2026YTD
+[resume] base_6 binance_um 2023
+[resume] base_6 binance_um 2024
+[resume] base_6 binance_um 2025
+[resume] base_6 binance_um 2026YTD
+[resume] base_6 mexc 2023
+[resume] base_6 mexc 2024
+[resume] base_6 mexc 2025
+[resume] base_6 mexc 2026YTD
+[resume] base_6 bitget 2023
+[resume] base_6 bitget 2024
+[resume] base_6 bitget 2025
+[resume] base_6 bitget 2026YTD
+[resume] d10 okx 2023
+[resume] d10 okx 2024
+[resume] d10 okx 2025
+[resume] d10 okx 2026YTD
+[resume] d10 binance_um 2023
+[resume] d10 binance_um 2024
+[resume] d10 binance_um 2025
+[resume] d10 binance_um 2026YTD
+[resume] d10 mexc 2023
+[resume] d10 mexc 2024
+[resume] d10 mexc 2025
+[resume] d10 mexc 2026YTD
+[resume] d10 bitget 2023
+[resume] d10 bitget 2024
+[resume] d10 bitget 2025
+[resume] d10 bitget 2026YTD
+[resume] d15 okx 2023
+[run] d15 okx 2024
+[census] OKX: events=303 signal_pass=115 trades=28 matched=28 unexplained=36
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 625, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 588, in main
+    ckpts[key] = _fold(venue, arm, fid, args.jobs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 278, in _fold
+    episode = _episode(sv, census, cfg, arm, venue, fid, jobs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c24_margin_fidelity_campaign.py", line 344, in _episode
+    perm = _c24_permutation(sv, memo, rows, keys, canonical_pnl, cfg,
+           ^^^^^^^^^^^^^^^^
+NameError: name '_c24_permutation' is not defined
