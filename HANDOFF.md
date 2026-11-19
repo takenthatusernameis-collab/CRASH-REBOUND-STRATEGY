@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-19T09:11:55Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 COMPLETE; Bitget USDT-perp C23 COMPLETE; four-venue execution-model adjudication C24 ACTIVE).
+**Generated (UTC):** 2026-11-19T10:07:47Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 COMPLETE; Bitget USDT-perp C23 COMPLETE; four-venue execution-model adjudication C24 ACTIVE).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate). **C21-T1 COMPLETE** — `C21 ACCEPTANCE: PASS`, consolidated `NO_GO`. **C22-T1 COMPLETE** — `C22 ACCEPTANCE: PASS`, consolidated `NO_GO`. **C23-T1 COMPLETE** — `C23 ACCEPTANCE: PASS`, consolidated `NO_GO`. **C24-T1 (MARGIN / LIQUIDATION FIDELITY ADJUDICATION) IS THE ACTIVE BINDING CAMPAIGN — RUNNER ALIVE.** Gate `C24 ACCEPTANCE: PENDING`. Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC/Bitget data as Hyperliquid; do not reduce draw counts. **Do not launch a duplicate C24 battery while the runner is alive; never kill the persistent runner.**
 
