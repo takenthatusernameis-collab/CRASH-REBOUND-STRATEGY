@@ -57,3 +57,5 @@
 [run] d15 okx 2026YTD
 [census] OKX: events=219 signal_pass=59 trades=15 matched=15 unexplained=9
 [C22][fast-path validated] trades=15 pnl=11564.7677 diff=0.00e+00
+[episode] d15 okx 2026YTD: trades=15 pnl=11564.77 perm_p=0.5756
+[C22][fast-path validated] trades=15 pnl=11564.7677 diff=0.00e+00
