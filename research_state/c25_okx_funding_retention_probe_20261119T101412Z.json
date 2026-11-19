@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T10:14:12Z",
+  "campaign": "C25",
+  "kind": "funding_acquisition_retention_probe",
+  "venue": "okx",
+  "endpoint": "https://www.okx.com/api/v5/public/funding-rate-history?instId=BTC-USDT-SWAP&limit=100",
+  "requested_window": {
+    "start": "2023-01-01",
+    "end": "2026-09-28"
+  },
+  "per_request_row_cap": 100,
+  "min_expected_span_days": 180,
+  "observations": [
+    {
+      "cursor_ms": 1704067200000,
+      "cursor_utc": "2024-01-01T00:00:00Z",
+      "rows": 100,
+      "rows_returned_after_cursor": 100,
+      "oldest_ms": 1787155200000,
+      "newest_ms": 1790006400000,
+      "span_days": 33.0
+    },
+    {
+      "cursor_ms": 1735689600000,
+      "cursor_utc": "2025-01-01T00:00:00Z",
+      "rows": 100,
+      "rows_returned_after_cursor": 100,
+      "oldest_ms": 1787155200000,
+      "newest_ms": 1790006400000,
+      "span_days": 33.0
+    },
+    {
+      "cursor_ms": 1767225600000,
+      "cursor_utc": "2026-01-01T00:00:00Z",
+      "rows": 100,
+      "rows_returned_after_cursor": 100,
+      "oldest_ms": 1787155200000,
+      "newest_ms": 1790006400000,
+      "span_days": 33.0
+    }
+  ],
+  "widest_span_days": 33.0,
+  "reachable_oldest_utc": "2026-08-19T16:00:00Z",
+  "reachable_newest_utc": "2026-09-21T16:00:00Z",
+  "decision_token": "OKX_FUNDING_BLOCKED_BY_API_RETENTION",
+  "venue_status": "UNAVAILABLE_FUNDING",
+  "action": "Do not run a multiyear OKX funding fetch; record UNAVAILABLE_FUNDING and evaluate C25 cost_taker_funding / cost_stress on binance_um, mexc and bitget only (>=3 venues), per the C25 prereg availability clause.",
+  "filled_zero_or_proxied": false,
+  "provenance": {
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "is_hyperliquid_venue_data": false
+  }
+}
