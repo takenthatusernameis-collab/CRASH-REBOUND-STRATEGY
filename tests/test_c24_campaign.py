@@ -105,8 +105,9 @@ def _populate_fake_pass(state: Path, prereg_sha: str) -> None:
                 }
                 if arm == "d15":
                     ck["episode"] = {
-                        "episode_block_bootstrap": {"draws": 20000},
-                        "temporal_edge_permutation": {"draws": 20000, "p_null_ge_canonical": 0.01},
+                        "episode_block_bootstrap": {"resamples": 20000},
+                        "temporal_edge_permutation": {"draws_evaluated": 20000,
+                                                      "p_null_ge_canonical": 0.01},
                     }
                     ck["placebo"] = {"placebo": {"runs": 2000}, "p_ge_canonical": 0.01}
                 _write_json(state / f"c24_ckpt_{arm}_{v}_{f}_{TS}.json", ck)
@@ -181,7 +182,7 @@ def test_gate_fails_on_reduced_draw_counts(tmp_path, monkeypatch, capsys):
     _populate_fake_pass(tmp_path, sha)
     p = tmp_path / f"c24_ckpt_d15_bitget_2025_{TS}.json"
     ck = json.loads(p.read_text())
-    ck["episode"]["temporal_edge_permutation"]["draws"] = 500
+    ck["episode"]["temporal_edge_permutation"]["draws_evaluated"] = 500
     _write_json(p, ck)
     monkeypatch.setattr(verify, "STATE", tmp_path)
     rc = verify.main([])
