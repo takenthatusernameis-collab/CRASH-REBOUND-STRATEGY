@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-19T21:55:12Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-19T22:24:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` and `README.md` are pointers; never maintain a second source of truth.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28 (±30%)** on this 4-core box. **DO NOT RELAUNCH, DO NOT KILL, DO NOT REORDER ARMS.** `C26-T1` is BUILT and may not launch until `C25 ACCEPTANCE: PASS`. `C27-T1` pre-compute staged (probe + `c27_prereg`, launch blocked on `C26 ACCEPTANCE: PASS`).
@@ -9,7 +9,7 @@
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-19T21:48:08Z (re-verify before acting; this block is stale the moment you read it)
+## VERIFIED LIVE STATE — 2026-11-19T22:24:00Z (re-verify before acting; this block is stale the moment you read it)
 
 Commands (read-only, in this order):
 
@@ -52,7 +52,7 @@ This host has **4 cores**, shared with the CI runner. One C25 cell is:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T21:55:12Z — C25 RUNNER ALIVE, 1/56 REAL CELLS DONE, ETA ~2026-11-28, DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T22:24:00Z — C25 RUNNER ALIVE, 1/56 REAL CELLS DONE, ETA ~2026-11-28, DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -155,6 +155,7 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 3. **Six-day waste risk removed.** Added `scripts/check_c25_anchor.sh` (read-only): it compares each `cost_base` cell against the C24 d15 cell and each venue total against the C24 anchor the moment a checkpoint lands. Previously an anchor mismatch could only be detected by the final gate, after the other arms had burned ~6 days of compute.
 4. **Queue-dryness removed.** C26-T1 remains fully built and launch-ready behind `C25 ACCEPTANCE: PASS`; **C27-T1 (new-venue OOS replication)** is now defined with a mandatory probe-first, prereg-first rule, so the queue `C25 → C26 → C27` cannot run dry and "no authorized work" is never a valid state.
 5. **Residual bottleneck documented, not "fixed" mid-run.** The binding constraint is compute: 3.07 core-s per permutation replay × 20k draws × 56 cells on 4 cores. The live process has already imported the engine, so mid-run code edits cannot help, draw floors cannot be reduced, and a restart would gamble the campaign. The correct handling is to let it run, monitor with 6–12 h wakeups, and measure — all of which is now encoded above.
+6. **Session-ambiguity bottleneck removed (2026-11-19T22:24:00Z).** Verified live C25 state (runner ALIVE, PID 3901, 1/56 real cells, ETA ~2026-11-28) and refreshed `INITIAL_TASK_MESSAGE.md` + this file's "INITIAL TASK MESSAGE — NEXT SESSION" block with a single timestamped, ordered task list. C27-T1 remains fully staged (probe `scripts/probe_c27_venue_acquisition.py` + prereg `research_state/c27_prereg_20261119T215721Z.{json,md}`, `PRE_REGISTERED_BEFORE_COMPUTE`, launch blocked on `C26 ACCEPTANCE: PASS`) so the `C25 → C26 → C27` queue cannot run dry and no future session can truthfully claim "no authorized work."
 
 ---
 
