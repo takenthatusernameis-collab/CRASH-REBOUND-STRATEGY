@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T09:18:00Z",
+  "campaign": "C25",
+  "kind": "pre_compute_model_disclosure",
+  "prereg": "research_state/c25_prereg_20261119T045500Z.json",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE (arms, signal path, draws, decision rules unchanged)",
+  "purpose": "Disclose the exact semantics of realized-funding application before any C25 cell runs, so the C25 report cannot overstate the funding model.",
+  "prereg_wording": "cost_taker_funding = cost_taker + realized 8h funding series on every leg",
+  "implemented_model": {
+    "name": "VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY",
+    "description": "Per venue, the engine receives one scalar funding_rate_pct_per_hour equal to the equal-weight mean of per-symbol mean realized 8h rates over the full 2023-01-01..2026-09-28 window, divided by 8 and by 100, and applies it uniformly over every held hour on every leg, with the engine's existing long-pays/short-receives convention.",
+    "not_implemented": "A per-trade, per-symbol, per-timestamp realized 8h funding series lookup.",
+    "consequence": "Within-venue time variation and symbol-level dispersion of funding are not modeled; only the venue-level realized mean replaces the flat 0.01 %/hr proxy.",
+    "applied_rate_pct_per_hour": {
+      "binance_um": 0.0005717304894560207,
+      "mexc": 0.0004581279930949994,
+      "bitget": 0.000721076606583072,
+      "okx": null
+    },
+    "unavailable_funding": ["okx"],
+    "flat_engine_proxy_pct_per_hour": 0.01
+  },
+  "binding_reporting_requirement": "The C25 verdict and consolidated report MUST state funding_model=VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY and cite this file. They MUST NOT claim a per-trade realized funding series was applied. Per-trade funding-series application is deferred to C26 (intrabar path + per-trade funding fidelity) or a later explicitly pre-registered campaign.",
+  "integrity_note": "This disclosure is additive metadata written before any C25 cell runs. It does not alter the preregistered arms, signal path, draw floors (20k/20k/2k) or decision rules.",
+  "provenance": {
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "is_hyperliquid_venue_data": false
+  }
+}

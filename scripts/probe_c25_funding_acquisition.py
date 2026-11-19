@@ -48,7 +48,8 @@ def _venue_funding(venue: str) -> Dict[str, Any]:
                     "path": str(mpath.relative_to(REPO)),
                     "generated_at_utc": man.get("generated_at_utc"),
                     "rate_pct_per_hour": man.get("funding_rate_pct_per_hour"),
-                    "symbols": man.get("symbols"),
+                    "symbols": len(man.get("symbols_acquired") or man.get("symbols") or []),
+                    "rows_total": man.get("rows_total"),
                     "window": man.get("window"),
                 })
                 if man.get("funding_rate_pct_per_hour") is not None:

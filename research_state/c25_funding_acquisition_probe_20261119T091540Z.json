@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T09:15:40Z",
+  "probe": "c25_funding_acquisition",
+  "venues": [
+    {
+      "venue": "okx",
+      "cache_dirs": [],
+      "funding_available": false,
+      "rate_pct_per_hour": null,
+      "manifests": []
+    },
+    {
+      "venue": "binance_um",
+      "cache_dirs": [
+        "research_state/cache/binance_um_funding_20230101_20260928"
+      ],
+      "funding_available": true,
+      "rate_pct_per_hour": 0.0005717304894560207,
+      "manifests": [
+        {
+          "path": "research_state/cache/binance_um_funding_20230101_20260928/funding_manifest.json",
+          "generated_at_utc": "2026-11-19T05:08:59Z",
+          "rate_pct_per_hour": 0.0005717304894560207,
+          "symbols": null,
+          "window": {
+            "start": "2023-01-01",
+            "end": "2026-09-28",
+            "start_ms": 1672531200000,
+            "end_ms": 1790640000000
+          }
+        }
+      ]
+    },
+    {
+      "venue": "mexc",
+      "cache_dirs": [
+        "research_state/cache/mexc_funding_20230101_20260928"
+      ],
+      "funding_available": true,
+      "rate_pct_per_hour": 0.0004581279930949994,
+      "manifests": [
+        {
+          "path": "research_state/cache/mexc_funding_20230101_20260928/funding_manifest.json",
+          "generated_at_utc": "2026-11-19T05:09:01Z",
+          "rate_pct_per_hour": 0.0004581279930949994,
+          "symbols": null,
+          "window": {
+            "start": "2023-01-01",
+            "end": "2026-09-28",
+            "start_ms": 1672531200000,
+            "end_ms": 1790640000000
+          }
+        }
+      ]
+    },
+    {
+      "venue": "bitget",
+      "cache_dirs": [
+        "research_state/cache/bitget_funding_20230101_20260928"
+      ],
+      "funding_available": true,
+      "rate_pct_per_hour": 0.000721076606583072,
+      "manifests": [
+        {
+          "path": "research_state/cache/bitget_funding_20230101_20260928/funding_manifest.json",
+          "generated_at_utc": "2026-11-19T05:09:10Z",
+          "rate_pct_per_hour": 0.000721076606583072,
+          "symbols": null,
+          "window": {
+            "start": "2023-01-01",
+            "end": "2026-09-28",
+            "start_ms": 1672531200000,
+            "end_ms": 1790640000000
+          }
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "funding_available": [
+      "binance_um",
+      "mexc",
+      "bitget"
+    ],
+    "unavailable_funding": [
+      "okx"
+    ]
+  }
+}

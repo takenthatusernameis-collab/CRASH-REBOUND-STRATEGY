@@ -38,9 +38,13 @@ for v in okx binance_um mexc bitget; do
 import json,sys
 d=json.load(open(sys.argv[1]))
 ep=d.get("episode") or {}
-print(f"    {d['venue']}/{d['fold']}: boot={(ep.get('episode_block_bootstrap') or {}).get('draws')} "
-      f"perm={(ep.get('temporal_edge_permutation') or {}).get('draws')} "
-      f"placebo={((d.get('placebo') or {}).get('placebo') or {}).get('runs')}")
+boot=(ep.get("episode_block_bootstrap") or {})
+perm=(ep.get("temporal_edge_permutation") or {})
+print(f"    {d['venue']}/{d['fold']}: pnl={round((d.get('campaign_artifact') or {}).get('results',{}).get('total_pnl',float('nan')),2)} "
+      f"boot={boot.get('resamples')} perm={perm.get('draws_evaluated')} "
+      f"perm_p={ep.get('perm_p')} "
+      f"placebo={((d.get('placebo') or {}).get('placebo') or {}).get('runs')} "
+      f"placebo_p_ge={(((d.get('placebo') or {}).get('placebo') or {}).get('p_ge_canonical'))}")
 EOF
     else
       echo "    ${v}/${f}: pending"
