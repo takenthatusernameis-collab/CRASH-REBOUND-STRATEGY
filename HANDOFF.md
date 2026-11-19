@@ -18,32 +18,39 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T04:12:00Z — C24 RUNNER ALIVE, HEAVY PHASE IN FLIGHT)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T04:51:00Z — C24 RUNNER ALIVE, HEAVY PHASE IN FLIGHT; C25 INFRASTRUCTURE BUILT)
 
 **Single durable handoff / source of truth:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer only.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data.
 
-**Current position (verified live 2026-11-19T04:12:00Z):** C1–C20 CLOSED `NO_GO`; C21-T1 COMPLETE (`PASS`, `NO_GO`); C22-T1 COMPLETE (`PASS`, `NO_GO`); C23-T1 COMPLETE (`PASS`, `NO_GO`, pooled -58,129.33). **C24-T1 (MARGIN / LIQUIDATION FIDELITY ADJUDICATION) IS THE ACTIVE BINDING CAMPAIGN AND THE RUNNER IS ALIVE AND DURABLE.** Gate `C24 ACCEPTANCE: PENDING`. Cells: `base_6 16/16` (fidelity anchor reproduced: okx -54,799.23 | binance_um -70,071.41 | mexc -49,760.24 | bitget -58,129.33), `d10 16/16`, `d15 0/16` (primary inference arm: 20k bootstrap + 20k permutation + 2k placebo per cell — the heavy phase), `d30 0/16`, `noliq 0/16`. 48 cells outstanding.
+**Current position (verified live 2026-11-19T04:51:00Z):** C1–C20 CLOSED `NO_GO`; C21-T1 COMPLETE (`PASS`, `NO_GO`); C22-T1 COMPLETE (`PASS`, `NO_GO`); C23-T1 COMPLETE (`PASS`, `NO_GO`, pooled -58,129.33). **C24-T1 (MARGIN / LIQUIDATION FIDELITY ADJUDICATION) IS THE ACTIVE BINDING CAMPAIGN AND THE RUNNER IS ALIVE AND DURABLE.** Gate `C24 ACCEPTANCE: PENDING`. Cells: `base_6 16/16` (fidelity anchor reproduced: okx -54,799.23 | binance_um -70,071.41 | mexc -49,760.24 | bitget -58,129.33), `d10 16/16`, `d15 0/16` (primary inference arm: `okx/2023` just bootstrapped — events=345, signal_pass=95, trades=20; 20k bootstrap + 20k permutation + 2k placebo per cell across 4 workers), `d30 0/16`, `noliq 0/16`. 48 cells outstanding; ~20 min per d15 cell → ~4–6 h remaining. Log: `research_state/c24_run_20261119T035832Z.log`.
+
+**C25-T1 (ROUND-TRIP COST & REALIZED-FUNDING FIDELITY) — INFRASTRUCTURE BUILT, NOT STARTED (blocked on C24 completion):** pre-registered `c25_prereg_20261119T045500Z` (`PRE_REGISTERED_BEFORE_COMPUTE`), campaign script `scripts/run_c25_cost_fidelity_campaign.py`, gate `scripts/verify_c25_focus_campaign.py`, durable launcher `scripts/run_c25_durable.sh`, status `scripts/status_c25.sh`, funding probe `scripts/probe_c25_funding_acquisition.py`, tests `tests/test_c25_campaign.py` (6 passed). Gate currently prints `C25 ACCEPTANCE: PENDING` (blocked on C24 PASS; no C25 cell may run first). Four cost/funding arms (`cost_base` anchor, `cost_taker`, `cost_taker_funding` PRIMARY, `cost_stress`), all four at full 20k/20k/2k inference — no smoke, no reduced floors.
 
 **Immediate next action (in order — do not skip, do not reorder):**
 1. `bash scripts/status_c24.sh` — read-only truth. Then `PYTHONPATH=. .venv/bin/python scripts/verify_c24_focus_campaign.py` → gate token.
 2. If `RUNNER: ALIVE`: **do not relaunch, do not kill it, do not start a second battery.** Monitor with bounded waits (`sleep 300` + tail the newest `research_state/c24_run_*.log`) or `schedule_wakeup`; d15 costs ~20 min per cell, 16 cells ≈ 4–6 h plus d30/noliq campaign-only arms.
 3. If `RUNNER: NOT ALIVE` and gate PENDING: resume exactly once with `bash scripts/run_c24_durable.sh` launched through the harness background-process tool with `persistent=true` (foreground wrapper + duplicate guard; do NOT use `nohup`, do NOT use a foreground campaign in an agent turn, do NOT shorten `--jobs 4`).
-4. On `C24 ACCEPTANCE: PASS`: deliver the arm×venue×fold table, per-leg attribution, exit-reason decomposition, pooled PnL per arm, BH survivors, and the consolidated token (`C24_REOPENS_C1_C23` or `C24_NO_GO_ROBUST_TO_MARGIN`), then proceed to the C25 campaign below.
+4. On `C24 ACCEPTANCE: PASS`: deliver the arm×venue×fold table, per-leg attribution, exit-reason decomposition, pooled PnL per arm, BH survivors, and the consolidated token (`C24_REOPENS_C1_C23` or `C24_NO_GO_ROBUST_TO_MARGIN`), then proceed to C25 (already built): durably launch C25-T1 via `scripts/run_c25_durable.sh` with `persistent=true`, run `scripts/verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PASS`, deliver the cost/funding table and consolidated token (`C25_REOPENS_C1_C24` or `C25_NO_GO_ROBUST_TO_COST`).
 5. If gate is `FAIL`: fix only the failing integrity condition (drift/anchor/draw floor/smoke artifact) and re-run; never relax draw floors to force PASS.
 
 **Why C24 (repo-scope priority):** C1–C23 closed `NO_GO` under an execution model that force-closes on a -(5+1)=6% adverse move (`src/backtest/engine.py::_check_liquidation`), tighter than the spec's wide ~15% safety stop and absent from the PDF. The stage-0 probe reproduced the recorded pooled PnL exactly with the 6% arm and showed a sign flip between the 10% and 15% arms. C24 decides whether `NO_GO` is real or a margin-model artifact: only liquidation distance varies, the signal path is frozen, `d15` is the single inference arm.
 
-**Key tokens:** `C24 ACCEPTANCE: PENDING` → `PASS`, `c24_prereg_20261119T013154Z`, `status_c24.sh`, `verify_c24_focus_campaign.py`, `run_c24_margin_fidelity_campaign.py`, `run_c24_durable.sh`, `tests/test_c24_campaign.py`, `FIDELITY_ANCHOR_REPRODUCED`, `C24_REOPENS_C1_C23`, `C24_NO_GO_ROBUST_TO_MARGIN`, `FULL_283D_BLOCKED_BY_API_RETENTION`, `c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`.
+**Why C25 (pre-authorized heavy successor):** C1–C24 test one published execution assumption (liquidation distance). The remaining un-adjudicated fidelity gap is **cost**: the engine's `slippage_pct=0.0005` (5 bps/side), `commission_per_share=0.001` charged per *share* (≈0.0017 bps on BTC at $60k, i.e. effectively free), `commission_min=1.0`, and `funding_rate_pct_per_hour=0.01` (flat 0.24%/day) are materially more permissive than real venue taker fees (≈4.5–7 bps/side → 9–14 bps round trip) and realized 8h funding. Because the strategy exits at a 9% target with multi-day holds and a short/hedge leg, cost mis-specification is the largest remaining candidate explanation for the four-venue `NO_GO`. C25 is the pre-registered inference campaign that decides whether `NO_GO` survives a realistic cost model.
+
+**No-avoidance rule (binding):** after `C24 ACCEPTANCE: PASS`, the next session MUST durably launch C25-T1. It may not idle, may not claim "no authorized work", and may not substitute a frozen-signal parameter search (forbidden by guardrails) for the pre-registered cost adjudication. C24 → C25 is the binding heavy queue.
+
+**Key tokens:** `C24 ACCEPTANCE: PENDING` → `PASS`, `C25 ACCEPTANCE: PENDING` → `PASS`, `c24_prereg_20261119T013154Z`, `c25_prereg_20261119T045500Z`, `status_c24.sh`, `status_c25.sh`, `verify_c24_focus_campaign.py`, `verify_c25_focus_campaign.py`, `run_c24_durable.sh`, `run_c25_durable.sh`, `tests/test_c24_campaign.py`, `tests/test_c25_campaign.py`, `FIDELITY_ANCHOR_REPRODUCED`, `COST_ANCHOR_REPRODUCED`, `C24_REOPENS_C1_C23`, `C24_NO_GO_ROBUST_TO_MARGIN`, `C25_REOPENS_C1_C24`, `C25_NO_GO_ROBUST_TO_COST`, `UNAVAILABLE_FUNDING`, `FULL_283D_BLOCKED_BY_API_RETENTION`, `c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`.
 
 **Bottlenecks removed (2026-11-19T04:12Z):**
 1. **Runner-killing bug:** `NameError: name '_c24_permutation' is not defined` killed the 03:37Z run and blocked every resume. The function is now defined (`scripts/run_c24_margin_fidelity_campaign.py:439`), imports cleanly, and the live run is past census → bootstrap → permutation.
-2. **Session-lifetime bottleneck:** two C24 launches (03:37Z, 03:54Z) died with the agent turn because they were non-durable. Added `scripts/run_c24_durable.sh` (foreground wrapper, venv guard, duplicate guard, tee log) and launched it as a **persistent** harness background process (`bgp_1f1f4c2900010lNp05XJPS94hs`, PID 22343) that survives session close and Kilo shutdown.
-3. **False-red tests:** `tests/test_c24_campaign.py` fixtures used `draws` while the real producers emit `resamples` / `draws_evaluated`, so the gate tests failed spuriously. Fixtures corrected → **11 passed**.
-4. **Stale handoff contradictions:** the previous header claimed PID 14458 was alive (it was not) and a second section declared C23 terminal STOP while C24 was binding. Both corrected here; this file is now internally consistent.
+2. **Session-lifetime bottleneck:** two C24 launches (03:37Z, 03:54Z) died with the agent turn because they were non-durable. Added `scripts/run_c24_durable.sh` and launched it as a **persistent** harness background process that survives session close and Kilo shutdown.
+3. **False-red tests:** `tests/test_c24_campaign.py` fixtures used `draws` while the real producers emit `resamples` / `draws_evaluated`. Fixtures corrected → **11 passed**.
+4. **Stale handoff contradictions:** the previous header claimed PID 14458 was alive (it was not) and a second section declared C23 terminal STOP while C24 was binding. Both corrected; this file is now internally consistent.
+5. **C25 idling bottleneck:** C25 prereg + campaign + gate + durable launcher + status + funding probe + tests now exist so no future session can claim "no authorized work" after C24 passes.
 
-Full binding context, arm definitions, decision rules, no-avoidance rules, guardrails, and execution order: `HANDOFF.md`.
+**Full binding context, arm definitions, decision rules, C25 campaign spec, no-avoidance rules, guardrails, and execution order:** this file (`HANDOFF.md`).
 
 ---
 

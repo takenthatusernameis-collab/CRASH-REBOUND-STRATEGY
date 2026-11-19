@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "campaign": "C25",
+  "binding_task": "C25-T1",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "generated_at_utc": "2026-11-19T04:55:00Z",
+  "title": "C25 - Round-Trip Cost & Realized-Funding Fidelity Adjudication of the frozen crash-rebound edge",
+  "why_c25": "C1-C24 test one published execution assumption (liquidation distance) on OKX, Binance UM, MEXC and Bitget. The remaining un-adjudicated fidelity gap is cost: the engine's slippage_pct=0.0005 (5 bps/side), commission_per_share=0.001 per share (~0.0017 bps on BTC at $60k, effectively free), commission_min=1.0, and funding_rate_pct_per_hour=0.01 (flat 0.24%/day) are materially more permissive than real venue taker fees (~4.5-7 bps/side => 9-14 bps round trip) and realized 8h funding. Because the strategy exits at a 9% target with multi-day holds and a short/hedge leg, cost mis-specification is the largest remaining candidate explanation for the four-venue NO_GO. C25 adjudicates whether NO_GO survives a realistic cost model.",
+  "research_question": "Is the pooled spec-literal PnL sign robust to realistic round-trip costs and realized 8h funding, across four independent real venues and four folds?",
+  "blocked_on": "C24-T1 (margin/liquidation fidelity). C25 build may proceed before C24 passes, but no C25 cell may run until C24 ACCEPTANCE: PASS and the C24 d15 primary-arm per-venue/per-fold PnL is available as the cost_base fidelity anchor.",
+  "signal_path_frozen": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "rebound_short_stop_pct": 40.0,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true,
+    "seed": 20261201,
+    "time_exit_max_bars": 50,
+    "liquidation_maint_margin_pct": 14.0,
+    "liquidation_buffer_pct": 1.0,
+    "liquidation_distance_pct": 15.0,
+    "drift_rule": "Any artifact whose signal_path/cost fields differ from this prereg are INVALID."
+  },
+  "arms": {
+    "cost_base": {
+      "role": "FIDELITY_ANCHOR",
+      "slippage_pct": 0.0005,
+      "commission_per_share": 0.001,
+      "commission_min": 1.0,
+      "funding_rate_pct_per_hour": 0.01,
+      "why": "Exact current engine model; MUST reproduce the C24 d15 primary-arm per-venue/per-fold PnL within +/-1.0 (COST_ANCHOR_REPRODUCED)."
+    },
+    "cost_taker": {
+      "role": "DESCRIPTIVE",
+      "slippage_pct": 0.0005,
+      "commission_per_share": null,
+      "commission_min": 1.0,
+      "funding_rate_pct_per_hour": 0.01,
+      "why": "Per-venue published taker fee (bps) per side + 5 bps slippage + $1 min commission; long and short/hedge legs both charged."
+    },
+    "cost_taker_funding": {
+      "role": "PRIMARY",
+      "slippage_pct": 0.0005,
+      "commission_per_share": null,
+      "commission_min": 1.0,
+      "funding_rate_pct_per_hour": null,
+      "why": "cost_taker + realized 8h funding series on every leg (longs pay when rate > 0, shorts receive), from acquired venue funding history."
+    },
+    "cost_stress": {
+      "role": "DESCRIPTIVE",
+      "slippage_pct": 0.001,
+      "commission_per_share": null,
+      "commission_min": 1.0,
+      "funding_rate_pct_per_hour": null,
+      "why": "cost_taker_funding + 2x slippage + 5 bps borrow/financing."
+    }
+  },
+  "taker_bps": {
+    "okx": 5.0,
+    "binance_um": 4.5,
+    "mexc": 6.0,
+    "bitget": 5.5
+  },
+  "reference_px": 60000.0,
+  "borrow_bps": 5.0,
+  "arms_rule": "ONLY slippage_pct / commission_per_share / commission_min / funding_rate_pct_per_hour vary across arms. All other config fields (signal path + liquidation distance) are identical and drift-checked. cost_base is the FIDELITY_ANCHOR; cost_taker_funding is the PRIMARY adjudication arm. All four arms run the full 4 venues x 4 folds x 20k bootstrap / 20k permutation / 2k placebo \u2014 no smoke arm, no reduced draw floors, no descriptive-only arm, because the question is a cost-driven sign flip.",
+  "venues": [
+    "okx",
+    "binance_um",
+    "mexc",
+    "bitget"
+  ],
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z"
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z"
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z"
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z"
+    }
+  ],
+  "inference": {
+    "episode_block_bootstrap_draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_portfolio_runs": 2000,
+    "strata_permutation_draws": 2000,
+    "pooled": "venue-blocked bootstrap over the 16 (venue, fold) cell totals (20000 draws)",
+    "multiplicity": {
+      "method": "benjamini_hochberg",
+      "alpha": 0.05,
+      "family": "primary arm cost_taker_funding, 4 folds x 4 venues = 16 permutation tests"
+    },
+    "draw_floor_rule": "Draws below 20000/20000/2000/2000 => UNDERPOWERED, not evidence."
+  },
+  "fidelity_anchor": {
+    "arm": "cost_base",
+    "reference": "C24 d15 primary-arm per-venue/per-fold PnL from research_state/c24_decision_verdict_d15_20261119T013154Z.json (venue_totals) and c24_ckpt_d15_<venue>_<fold>_20261119T013154Z.json. Available only after C24 ACCEPTANCE: PASS.",
+    "tolerance_pnl": 1.0,
+    "token_ok": "COST_ANCHOR_REPRODUCED",
+    "token_bad": "COST_ANCHOR_MISMATCH => C25_UNDERPOWERED",
+    "rule": "cost_base must reproduce the C24 d15 primary-arm per-venue/per-fold PnL within +/-1.0; otherwise C25 is UNDERPOWERED and no verdict may be issued."
+  },
+  "funding_acquisition": {
+    "required_for": [
+      "cost_taker_funding",
+      "cost_stress"
+    ],
+    "cache_layout": "research_state/cache/<venue>_funding_<window>/ with a manifest sha256 and universe file",
+    "rule": "A venue without realized funding history is recorded UNAVAILABLE_FUNDING (never zero-filled) and the realistic arm is evaluated on the remaining venues; the decision rule then requires >=3 positive folds and >=3 positive venues out of the available set."
+  },
+  "decision_rules": {
+    "C25_REOPENS_C1_C24": "ALL of, under cost_taker_funding (NOT cost_stress): (a) pooled total PnL > 0; (b) venue-blocked bootstrap CI95 lower bound > 0; (c) >= 1 BH survivor in the 16-test cost_taker_funding family; (d) >= 3 of 4 folds positive; (e) >= 3 of 4 venues positive. Then the C1-C24 NO_GO is NOT robust to a realistic cost model: record SUPERSEDED_BY_C25 and the edge is re-opened.",
+    "C25_NO_GO_ROBUST_TO_COST": "ANY of (a)-(e) fails under cost_taker_funding. Then the NO_GO survives a realistic cost model and is strengthened: record C1-C25 NO_GO ROBUST TO MARGIN AND COST; same-data fidelity work is CLOSED (only new-venue data or the CLOSED Hyperliquid-native acquisition remain).",
+    "C25_UNDERPOWERED": "Cost anchor mismatch, prereg generated after any compute artifact, draw floors not met, missing artifacts, or signal-path/cost drift.",
+    "rule": "Both REOPENS and NO_GO_ROBUST are terminal and must be reported with the full arm x venue x fold table, per-leg attribution and exit-reason decomposition. Never report a bare token. C25 is not a GO search: no configuration search, no additional thresholds, no new venues beyond the four."
+  },
+  "required_artifacts": [
+    "c25_prereg_20261119T045500Z.json",
+    "c25_prereg_20261119T045500Z.md",
+    "c25_decision_verdict_cost_base_20261119T045500Z.json",
+    "c25_decision_verdict_cost_taker_20261119T045500Z.json",
+    "c25_decision_verdict_cost_taker_funding_20261119T045500Z.json",
+    "c25_decision_verdict_cost_stress_20261119T045500Z.json",
+    "c25_decision_verdict_CONSOLIDATED_20261119T045500Z.json"
+  ],
+  "checkpoint_rule": "A (arm, venue, fold) is DONE only when research_state/c25_ckpt_<arm>_<venue>_<fold>_20261119T045500Z.json exists. Resume with --resume; never relaunch completed folds.",
+  "provenance": {
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "cross_venue": true,
+    "is_hyperliquid_venue_data": false,
+    "caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NEVER Hyperliquid performance evidence and never relabelled as such."
+  },
+  "guardrails": [
+    "No cross-venue relabeling as Hyperliquid-native.",
+    "No synthetic gap-fill; no spec relaxation of RSI/target/hold/sizing/volume/gross cap.",
+    "C25 varies only cost/funding; liquidation distance fixed at the C24 primary.",
+    "No additional cost thresholds, venues or folds beyond those pre-registered.",
+    "Artifacts are immutable once written; do not edit completed campaign outputs.",
+    "No C25 cell runs until C24 ACCEPTANCE: PASS (C25 is blocked on C24 completion)."
+  ]
+}
