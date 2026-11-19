@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "campaign": "C26",
+  "binding_task": "C26-T1",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "generated_at_utc": "2026-11-19T12:15:00Z",
+  "title": "C26 - Intrabar Path & Per-Trade Funding Fidelity Adjudication of the frozen crash-rebound edge",
+  "why_c26": "C25 applies funding as one venue-mean scalar per venue and prices every fill at next-open on 1h bars. Two fidelity gaps remain, both capable of flipping sign on a 9%-target, multi-day-hold, short/hedged strategy: (a) funding applied per trade, per symbol, per timestamp instead of a venue mean; (b) intrabar stop/target sequencing. C26 adjudicates whether the NO_GO survives these final same-data fidelity axes.",
+  "research_question": "Is the pooled spec-literal PnL sign robust to per-trade realized funding and conservative intrabar path sequencing, across four independent real venues and four folds?",
+  "blocked_on": "C25-T1 (round-trip cost & realized-funding fidelity). C26 build may proceed before C25 passes, but no C26 cell may run until C25 ACCEPTANCE: PASS and the C25 primary-arm per-venue/per-fold PnL is available as the path_base fidelity anchor.",
+  "signal_path_frozen": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "rebound_short_stop_pct": 40.0,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true,
+    "seed": 20261201,
+    "time_exit_max_bars": 50,
+    "liquidation_maint_margin_pct": 14.0,
+    "liquidation_buffer_pct": 1.0,
+    "liquidation_distance_pct": 15.0,
+    "drift_rule": "Any artifact whose signal_path/cost fields differ from this prereg are INVALID."
+  },
+  "arms": {
+    "path_base": {
+      "role": "FIDELITY_ANCHOR",
+      "intrabar_adverse_first": false,
+      "per_trade_funding": false,
+      "why": "Exact C25 primary-arm model (venue-mean scalar funding, next-open fills). MUST reproduce the C25 cost_taker_funding per-venue/per-fold PnL within +/-1.0 (PATH_ANCHOR_REPRODUCED, else PATH_ANCHOR_MISMATCH)."
+    },
+    "path_funding_trade": {
+      "role": "DESCRIPTIVE",
+      "intrabar_adverse_first": false,
+      "per_trade_funding": true,
+      "why": "Per-trade, per-symbol, per-timestamp realized 8h funding from the acquired venue funding caches (every held hour on every leg; longs pay when rate > 0, shorts receive). okx is UNAVAILABLE_FUNDING."
+    },
+    "path_intrabar_adverse_first": {
+      "role": "DESCRIPTIVE",
+      "intrabar_adverse_first": true,
+      "per_trade_funding": false,
+      "why": "Conservative intrabar sequencing: within a 1h bar that touches both the stop and the target (or liquidation), the adverse extreme is assumed to print first (stop/liquidation before target)."
+    },
+    "path_intrabar_combined": {
+      "role": "PRIMARY",
+      "intrabar_adverse_first": true,
+      "per_trade_funding": true,
+      "why": "Per-trade realized funding AND conservative intrabar sequencing together \u2014 the C26 primary adjudication arm."
+    }
+  },
+  "taker_bps": {
+    "okx": 5.0,
+    "binance_um": 4.5,
+    "mexc": 6.0,
+    "bitget": 5.5
+  },
+  "reference_px": 60000.0,
+  "borrow_bps": 5.0,
+  "arms_rule": "ONLY intrabar_adverse_first / per_trade_funding vary across arms. All other config fields (signal path + liquidation distance + cost model) are identical and drift-checked. path_base is the FIDELITY_ANCHOR; path_intrabar_combined is the PRIMARY adjudication arm. All four arms run the full 4 venues x 4 folds x 20k bootstrap / 20k permutation / 2k placebo \u2014 no smoke arm, no reduced draw floors, no descriptive-only arm.",
+  "venues": [
+    "okx",
+    "binance_um",
+    "mexc",
+    "bitget"
+  ],
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z"
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z"
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z"
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z"
+    }
+  ],
+  "inference": {
+    "episode_block_bootstrap_draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_portfolio_runs": 2000,
+    "strata_permutation_draws": 2000,
+    "pooled": "venue-blocked bootstrap over the 16 (venue, fold) cell totals (20000 draws)",
+    "multiplicity": {
+      "method": "benjamini_hochberg",
+      "alpha": 0.05,
+      "family": "primary arm path_intrabar_combined, 4 folds x 4 venues = 16 permutation tests"
+    },
+    "draw_floor_rule": "Draws below 20000/20000/2000/2000 => UNDERPOWERED, not evidence."
+  },
+  "fidelity_anchor": {
+    "arm": "path_base",
+    "reference": "C25 primary-arm (cost_taker_funding) per-venue/per-fold PnL from research_state/c25_decision_verdict_cost_taker_funding_20261119T045500Z.json (venue_totals). Available only after C25 ACCEPTANCE: PASS.",
+    "tolerance_pnl": 1.0,
+    "token_ok": "PATH_ANCHOR_REPRODUCED",
+    "token_bad": "PATH_ANCHOR_MISMATCH => C26_UNDERPOWERED",
+    "rule": "path_base must reproduce the C25 primary-arm per-venue/per-fold PnL within +/-1.0; otherwise C26 is UNDERPOWERED and no verdict may be issued."
+  },
+  "funding_acquisition": {
+    "required_for": [
+      "path_funding_trade",
+      "path_intrabar_combined"
+    ],
+    "cache_layout": "research_state/cache/<venue>_funding_<window>/funding_history.csv (+ manifest)",
+    "rule": "A venue without realized funding history is recorded UNAVAILABLE_FUNDING (never zero-filled) and the realistic arms are evaluated on the remaining venues; okx is UNAVAILABLE_FUNDING by API retention (33-day window)."
+  },
+  "decision_rules": {
+    "C26_REOPENS_C1_C25": "ALL of, under path_intrabar_combined (PRIMARY): (a) pooled total PnL > 0; (b) venue-blocked bootstrap CI95 lower bound > 0; (c) >= 1 BH survivor in the 16-test path_intrabar_combined family; (d) >= 3 of 4 folds positive; (e) >= 3 of 4 venues positive (available venue set; okx excluded from funding arms so binance_um, mexc, bitget must all be positive). Then the C1-C25 NO_GO is NOT robust to path/funding fidelity: record SUPERSEDED_BY_C26 and the edge is re-opened.",
+    "C26_NO_GO_ROBUST_TO_PATH": "ANY of (a)-(e) fails under path_intrabar_combined. Then the NO_GO survives per-trade funding and intrabar path fidelity and is strengthened: record C1-C26 NO_GO ROBUST TO MARGIN, COST AND PATH; same-data fidelity work is CLOSED (only new-venue data or the CLOSED Hyperliquid-native acquisition remain).",
+    "C26_UNDERPOWERED": "Path anchor mismatch, prereg generated after any compute artifact, draw floors not met, missing artifacts, or signal-path/cost/intrabar drift.",
+    "rule": "Both REOPENS and NO_GO_ROBUST are terminal and must be reported with the full arm x venue x fold table, per-leg attribution and exit-reason decomposition. Never report a bare token. C26 is not a GO search: no configuration search, no additional thresholds, no new venues beyond the four."
+  },
+  "required_artifacts": [
+    "c26_prereg_20261119T121500Z.json",
+    "c26_prereg_20261119T121500Z.md",
+    "c26_decision_verdict_path_base_20261119T121500Z.json",
+    "c26_decision_verdict_path_funding_trade_20261119T121500Z.json",
+    "c26_decision_verdict_path_intrabar_adverse_first_20261119T121500Z.json",
+    "c26_decision_verdict_path_intrabar_combined_20261119T121500Z.json",
+    "c26_decision_verdict_CONSOLIDATED_20261119T121500Z.json"
+  ],
+  "checkpoint_rule": "A (arm, venue, fold) is DONE only when research_state/c26_ckpt_<arm>_<venue>_<fold>_20261119T121500Z.json exists. Resume with --resume; never relaunch completed folds.",
+  "provenance": {
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "cross_venue": true,
+    "is_hyperliquid_venue_data": false,
+    "caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NEVER Hyperliquid performance evidence and never relabelled as such."
+  },
+  "guardrails": [
+    "No cross-venue relabeling as Hyperliquid-native.",
+    "No synthetic gap-fill; no spec relaxation of RSI/target/hold/sizing/volume/gross cap.",
+    "C26 varies only funding granularity and intrabar sequencing; liquidation distance fixed at the C24 primary; cost model frozen at the C25 primary.",
+    "No additional venues or folds beyond those pre-registered.",
+    "Artifacts are immutable once written; do not edit completed campaign outputs.",
+    "No C26 cell runs until C25 ACCEPTANCE: PASS (C26 is blocked on C25 completion)."
+  ]
+}

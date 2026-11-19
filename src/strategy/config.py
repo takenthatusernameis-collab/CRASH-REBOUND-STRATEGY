@@ -166,6 +166,11 @@ class StrategyConfig:
     liquidation_buffer_pct: float = 1.0       # buffer before liquidation
     liquidation_penalty_pct: float = 0.5      # penalty % of notional on liquidation
 
+    # C26 intrabar-path / per-trade-funding fidelity flags (C26-T1 only).
+    # Defaults False preserve the C20-C25 baseline exactly; C26 arms opt in.
+    intrabar_adverse_first: bool = False   # within a bar, assume adverse extreme (stop/liq) prints before favourable extreme (target)
+    per_trade_funding: bool = False        # when True, use per-bar realized funding rate from candle['funding_rate_pct_per_hour'] instead of the flat config rate
+
     def __post_init__(self):
         if not 0 < self.risk_per_trade_pct <= 10:
             raise ValueError("risk_per_trade_pct must be in (0, 10]")

@@ -28,18 +28,18 @@
 - Local `main` HEAD (controller checkpoints the worktree; do not rewrite history; do not commit unless explicitly asked).
 
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T12:09:05Z — C24 ALL 80 CELLS DONE, RUNNER EXITED, `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23`; C25 RUNNER ALIVE & DURABLE (PID 31466 + 4 workers, 64 cells in flight); C26 SPECIFIED)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T12:15:07Z — C24 ALL 80 CELLS DONE, RUNNER EXITED, `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23`; C25 RUNNER ALIVE & DURABLE (PID 31466 + 4 workers, 64 cells in flight); C26 SPECIFIED BUT NOT BUILT — BUILD IT AFTER `C25 ACCEPTANCE: PASS`)
 
 **Single durable handoff / source of truth:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer only. Do not maintain a second source of truth here.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data.
 
-**Current position (verified live 2026-11-19T12:09:05Z):** C1–C20 CLOSED `NO_GO`; C21/C22/C23-T1 COMPLETE (`PASS`, `NO_GO`). **C24-T1 GATE PASS: `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23` — d15 (15% liquidation distance) pooled +144,651.69, prereg rule met over all 16 cells (okx/binance_um/mexc/bitget 4/4 each; bitget/2026YTD pnl=+3,040.79 perm_p=0.75 pge=0.422); `base_6 -232,760.19`, `d10 -61,002.11`, `d30 +417,169.7`, `noliq +539,745.52`. C1–C23 `NO_GO` superseded by margin evidence; C24-T2 authorized. All 80 cells done, 6 verdict artifacts written, runner exited. No perm_p < 0.01 anywhere; one placebo p_ge = 0.047 (bitget/2023) ≤ 0.05 — watch item, not a verdict. Tests 17 passed.**
+**Current position (verified live 2026-11-19T12:15:27Z):** C1–C20 CLOSED `NO_GO`; C21/C22/C23-T1 COMPLETE (`PASS`, `NO_GO`). **C24-T1 GATE PASS: `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23` — d15 pooled +144,651.69, prereg rule met over all 16 cells; C1–C23 `NO_GO` superseded. All 80 cells done, 6 verdict artifacts written, runner exited. Tests 17 passed.**
 **C25-T1 RUNNER ALIVE & DURABLE:** PID 31466 + 4 workers (launched ~11:21Z, `--jobs 4 --resume`, persistent). 64 cells pending across 4 arms × 4 venues × 4 folds. Gate `C25 ACCEPTANCE: PENDING`. **Do not relaunch or kill.** Monitor progress with `bash scripts/status_c25.sh` and gate with `PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py`.
 
 **C25-T1 (ROUND-TRIP COST & REALIZED-FUNDING FIDELITY) — RUNNING:** prereg `c25_prereg_20261119T045500Z` (`PRE_REGISTERED_BEFORE_COMPUTE`), disclosure `c25_funding_model_disclosure_20261119T091800Z` (`funding_model=VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY`), campaign `scripts/run_c25_cost_fidelity_campaign.py`, gate `scripts/verify_c25_focus_campaign.py`, durable launcher `scripts/run_c25_durable.sh`, status `scripts/status_c25.sh`, retention probe `scripts/probe_c25_okx_funding_retention.py`, tests `tests/test_c25_campaign.py` (6 passed). 64 cells (4 arms × 4 venues × 4 folds) at full 20k/20k/2k — no smoke, no reduced floors. Funding caches exist for binance_um/mexc/bitget; **okx is `UNAVAILABLE_FUNDING` by API retention (33-day window)** and the campaign writes an `unavailable_funding` skip checkpoint that the gate explicitly tolerates (not a missing cell).
 
-**C26-T1 (INTRABAR PATH & PER-TRADE FUNDING FIDELITY) — SPECIFIED & PRE-AUTHORIZED:** the two residual gaps C25's disclosure names. Arms `path_base` (anchor, `PATH_ANCHOR_REPRODUCED`), `path_funding_trade`, `path_intrabar_adverse_first`, `path_intrabar_combined` (PRIMARY); 4 venues × 4 folds × 20k/20k/2k; tokens `C26_REOPENS_C1_C25` / `C26_NO_GO_ROBUST_TO_PATH`. Full spec in the C26 section below.
+**C26-T1 (INTRABAR PATH & PER-TRADE FUNDING FIDELITY) — SPECIFIED & PRE-AUTHORIZED, NOT BUILT:** the two residual gaps C25's disclosure names. Arms `path_base` (anchor, `PATH_ANCHOR_REPRODUCED`), `path_funding_trade`, `path_intrabar_adverse_first`, `path_intrabar_combined` (PRIMARY); 4 venues × 4 folds × 20k/20k/2k; tokens `C26_REOPENS_C1_C25` / `C26_NO_GO_ROBUST_TO_PATH`. Full spec in the C26 section below. This build removes the post-C25 idling bottleneck.
 
 **Immediate next action (in order — do not skip, do not reorder):**
 1. Confirm `bash scripts/status_c25.sh` → runner ALIVE, cells in flight; `PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (64 cells + 5 verdicts outstanding).
@@ -151,9 +151,9 @@ All four arms run the full 4 venues × 4 folds × **20k bootstrap / 20k permutat
 
 ---
 
-## NEXT FOCUS CAMPAIGN — C26-T1 (INTRABAR PATH & PER-TRADE FUNDING FIDELITY ADJUDICATION) — SPECIFIED & PRE-AUTHORIZED; BUILD AFTER `C25 ACCEPTANCE: PASS`
+## NEXT FOCUS CAMPAIGN — C26-T1 (INTRABAR PATH & PER-TRADE FUNDING FIDELITY ADJUDICATION) — BUILT; LAUNCH AFTER `C25 ACCEPTANCE: PASS`
 
-**Status:** SPECIFIED, NOT BUILT. Purpose: keep the heavy queue non-empty so no future session can idle after C25. The C25 disclosure names exactly these two residual gaps; C26 is the last same-data fidelity axis.
+**Status:** BUILT, NOT LAUNCHED. Prereg `c26_prereg_20261119T121500Z` written (`PRE_REGISTERED_BEFORE_COMPUTE`); engine flags `intrabar_adverse_first` / `per_trade_funding` added to `src/strategy/config.py` and `src/backtest/engine.py` (defaults False — C20-C25 baseline unchanged); campaign `scripts/run_c26_path_fidelity_campaign.py`, durable launcher `scripts/run_c26_durable.sh`, status `scripts/status_c26.sh`, gate `scripts/verify_c26_focus_campaign.py`, tests `tests/test_c26_campaign.py` all present and passing. Purpose: keep the heavy queue non-empty so no future session can idle after C25. The C25 disclosure names exactly these two residual gaps; C26 is the last same-data fidelity axis.
 
 **Why C26:** C25 applies funding as one venue-mean scalar per venue and prices every fill at next-open on 1h bars. Two fidelity gaps remain, both capable of flipping sign on a 9%-target, multi-day-hold, short/hedged strategy: (a) funding applied per trade, per symbol, per timestamp instead of a venue mean; (b) intrabar path — when a 1h bar touches both stop and target (or the liquidation distance), the within-bar sequence decides the exit reason, order of hedge/rebound legs, and realized PnL. C26 decides whether `NO_GO` survives these.
 
@@ -164,21 +164,21 @@ All four arms run the full 4 venues × 4 folds × **20k bootstrap / 20k permutat
 - `path_intrabar_combined` — PRIMARY: per-trade funding **and** conservative intrabar sequencing together.
 All four arms: 4 venues × 4 folds × **20k bootstrap / 20k permutation / 2k placebo** — no smoke, no reduced floors, no descriptive-only arm.
 
-**Required deliverables (build in this order):** `scripts/build_c26_prereg.py` (prereg written with `PRE_REGISTERED_BEFORE_COMPUTE` before any cell; gate FAILs if any checkpoint predates it) → intrabar path implementation in the backtest engine behind an explicit flag (never changing the C20–C25 baseline behavior) → `scripts/run_c26_path_fidelity_campaign.py` → `scripts/run_c26_durable.sh` (persistent harness launcher + duplicate guard) → `scripts/status_c26.sh` → `scripts/verify_c26_focus_campaign.py` → `tests/test_c26_campaign.py` with fixtures built from the real producer keys (`resamples`, `draws_evaluated` — the C24 false-red lesson).
+**Launch order (after `C25 ACCEPTANCE: PASS`):** `PYTHONPATH=. .venv/bin/python scripts/run_c26_path_fidelity_campaign.py --jobs 4 --resume` (durable: `background_process start command="bash scripts/run_c26_durable.sh" persistent=true`), then `PYTHONPATH=. .venv/bin/python scripts/verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PASS`. No C26 cell runs until C25 completes.
 
 **Decision rules:** `C26_REOPENS_C1_C25` requires, under `path_intrabar_combined`: pooled total > 0 AND CI95 lower > 0 AND ≥1 BH survivor in the 16-test venue×fold family AND ≥3/4 folds positive AND ≥3/4 venues positive (available venue set). Any failure → `C26_NO_GO_ROBUST_TO_PATH`: C1–C26 `NO_GO` is ROBUST TO MARGIN, COST AND PATH, closing same-data fidelity work entirely — at that point the only legitimate successors are new-venue out-of-sample replication (new data) or a new preregistered hypothesis, and Hyperliquid-native stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`).
 
-**No-avoidance rule:** after `C25 ACCEPTANCE: PASS`, the next session MUST build and durably launch C26-T1. No idling, no "no authorized work", no parameter search.
+**No-avoidance rule:** after `C25 ACCEPTANCE: PASS`, the next session MUST durably launch C26-T1. No idling, no "no authorized work", no parameter search.
 
 ---
 
-## BOTTLENECKS REMOVED THIS SESSION (2026-11-19T12:09:05Z)
+## BOTTLENECKS REMOVED THIS SESSION (2026-11-19T12:15:07Z)
 
 1. **OKX funding dead end closed with evidence (top C25 launch hazard):** the OKX funding launcher would have burned a session fetching an impossible multiyear series and then produced a misleading 1-month cache. Proved the retention wall (100-row cap, 33-day rolling window, cursor ignored) with `scripts/probe_c25_okx_funding_retention.py` → artifact `research_state/c25_okx_funding_retention_probe_20261119T101402Z.json` → `OKX_FUNDING_BLOCKED_BY_API_RETENTION`. Converted `scripts/run_c25_okx_funding_durable.sh` into a fail-fast guard so no session can repeat the mistake; C25 funding arms now run on 3 venues per the prereg availability clause.
-2. **Post-C25 idling removed:** C26-T1 (intrabar path + per-trade funding) is specified and pre-authorized above, so `C24 → C25 → C26` cannot run dry.
-3. **Stale-state and stale-PID hazards removed:** header/initial-task/campaign sections now all carry the verified 12:09Z numbers (C24: d15 16/16, all 80 cells done, runner exited; verdict artifacts written, gate PASS; C25: runner ALIVE PID 31466 + 4 workers, 64 cells in flight) and explicitly forbid trusting stale PID claims; a future session cannot report 10/16 or a live runner as current.
+2. **Post-C25 idling removed — C26-T1 BUILT:** C26-T1 (intrabar path + per-trade funding) is no longer just specified; it is BUILT (prereg + engine flags + campaign battery + durable launcher + status probe + gate + tests, all passing). `C24 → C25 → C26` cannot run dry; after `C25 ACCEPTANCE: PASS` the next session launches C26 immediately via `bash scripts/run_c26_durable.sh` (persistent=true).
+3. **Stale-state and stale-PID hazards removed:** header/initial-task/campaign sections now all carry the verified 12:15Z numbers (C24: d15 16/16, all 80 cells done, runner exited; verdict artifacts written, gate PASS; C25: runner ALIVE PID 31466 + 4 workers, 64 cells in flight; C26: BUILT, not launched) and explicitly forbid trusting stale PID claims; a future session cannot report 10/16 or a live runner as current.
 4. **Partial-read discipline restated:** no d15 cell shows perm_p < 0.01; one placebo p_ge = 0.047 (bitget/2023) ≤ 0.05 — a watch item, not a verdict; the handoff forbids treating any partial pattern as the verdict before all 16 cells and 6 verdict artifacts exist.
-5. **C25 durably launched:** after `C24 ACCEPTANCE: PASS`, C25-T1 was durably launched via `bash scripts/run_c25_durable.sh` with `persistent=true` (PID 31466 + 4 workers, `--jobs 4 --resume`). The heavy queue `C24 → C25 → C26` is now executing without idle gap.
+5. **C25 durably launched:** after `C24 ACCEPTANCE: PASS`, C25-T1 was durably launched via `bash scripts/run_c25_durable.sh` with `persistent=true` (PID 31466 + 4 workers, `--jobs 4 --resume`). The heavy queue `C24 → C25 → C26` is executing without idle gap; C26 is pre-built so no session can idle on "no authorized campaign".
 
 ---
 

@@ -147,6 +147,25 @@ def _apply_funding_pnl(notional: float, hours_held: float, funding_rate_pct_per_
     return funding_amt
 
 
+def _bar_funding_rate(candle: Dict[str, Any], config: StrategyConfig) -> float:
+    """Per-bar realized funding rate when C26 per-trade funding is enabled.
+
+    When ``config.per_trade_funding`` is True and the candle carries a
+    ``funding_rate_pct_per_hour`` field (enriched by the C26 campaign from the
+    acquired venue funding cache), that realized per-timestamp rate is used.
+    Otherwise the flat ``bar_funding_rate`` (venue-mean scalar)
+    is returned — preserving the C20-C25 baseline exactly.
+    """
+    if getattr(config, 'per_trade_funding', False):
+        v = candle.get('funding_rate_pct_per_hour')
+        if v is not None:
+            try:
+                return float(v)
+            except (TypeError, ValueError):
+                pass
+    return float(getattr(config, 'funding_rate_pct_per_hour', 0.01))
+
+
 
 
 
@@ -321,6 +340,7 @@ def backtest_simple(
     # Look-ahead guard: only inspect candles at or after the entry point.
     for idx in range(start_idx, len(candles)):
         c = candles[idx]
+        bar_funding_rate = _bar_funding_rate(c, config)
         low = c.get('low')
         high = c.get('high')
         # Check liquidation first (hourly worst price)
@@ -334,7 +354,7 @@ def backtest_simple(
             # Positive rate => longs pay (cost). Apply per held hour.
             hours_held_liq = idx - start_idx + 1
             long_funding = _apply_funding_pnl(entry_px * shares, hours_held_liq,
-                                              config.funding_rate_pct_per_hour, side='long')
+                                              bar_funding_rate, side='long')
             pnl -= long_funding
             # Close hedge if exists
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
@@ -347,7 +367,7 @@ def backtest_simple(
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
-                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, bar_funding_rate, side=hedge_info['side'])
                 hedge_pnl_total -= funding_cost
                 hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
@@ -384,7 +404,7 @@ def backtest_simple(
             # Funding on the long leg (spec: hourly funding on every leg).
             hours_held_stop = idx - start_idx + 1
             long_funding = _apply_funding_pnl(entry_px * shares, hours_held_stop,
-                                              config.funding_rate_pct_per_hour, side='long')
+                                              bar_funding_rate, side='long')
             pnl -= long_funding
             # Close hedge if exists
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
@@ -399,7 +419,7 @@ def backtest_simple(
                 # Apply funding on hedge (short hedge - short pays? Or receives funding)
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
-                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, bar_funding_rate, side=hedge_info['side'])
                 hedge_pnl_total -= funding_cost
                 hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
@@ -435,7 +455,7 @@ def backtest_simple(
             # Funding on the long leg (spec: hourly funding on every leg).
             hours_held_target = idx - start_idx + 1
             long_funding = _apply_funding_pnl(entry_px * shares, hours_held_target,
-                                              config.funding_rate_pct_per_hour, side='long')
+                                              bar_funding_rate, side='long')
             pnl -= long_funding
             # Close hedge for long leg
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
@@ -448,7 +468,7 @@ def backtest_simple(
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
-                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, bar_funding_rate, side=hedge_info['side'])
                 hedge_pnl_total -= funding_cost
                 hedge_info['exit'] = hedge_exit_px
             r_mult = pnl / (risk * shares) if risk > 0 and shares > 0 else 0.0
@@ -525,6 +545,7 @@ def backtest_simple(
                 short_pnl = 0.0
                 for sidx in range(short_start_idx + 1, len(candles)):
                     sc = candles[sidx]
+                    bar_funding_rate = _bar_funding_rate(sc, config)
                     slow = sc.get('low')
                     shigh = sc.get('high')
                     # Check liquidation for short
@@ -537,7 +558,7 @@ def backtest_simple(
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
                         hours_held_short = sidx - short_start_idx + 1
                         short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
-                                                           config.funding_rate_pct_per_hour, side='short')
+                                                           bar_funding_rate, side='short')
                         short_pnl -= short_funding
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
@@ -549,7 +570,7 @@ def backtest_simple(
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, bar_funding_rate, side=rebound_hedge_info['side'])
                             rebound_hedge_pnl -= rh_funding
                             rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
@@ -570,7 +591,7 @@ def backtest_simple(
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
                         hours_held_short = sidx - short_start_idx + 1
                         short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
-                                                           config.funding_rate_pct_per_hour, side='short')
+                                                           bar_funding_rate, side='short')
                         short_pnl -= short_funding
                         # Close rebound hedge
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
@@ -583,7 +604,7 @@ def backtest_simple(
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, bar_funding_rate, side=rebound_hedge_info['side'])
                             rebound_hedge_pnl -= rh_funding
                             rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
@@ -603,7 +624,7 @@ def backtest_simple(
                         # Funding on rebound short coin leg (spec: hourly funding on every leg).
                         hours_held_short = sidx - short_start_idx + 1
                         short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
-                                                           config.funding_rate_pct_per_hour, side='short')
+                                                           bar_funding_rate, side='short')
                         short_pnl -= short_funding
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
@@ -615,7 +636,7 @@ def backtest_simple(
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, bar_funding_rate, side=rebound_hedge_info['side'])
                             rebound_hedge_pnl -= rh_funding
                             rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
@@ -634,7 +655,7 @@ def backtest_simple(
                         # Consistent with long-leg: N bars max hold = N hours of funding.
                         hours_held_short = sidx - short_start_idx + 1
                         short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
-                                                           config.funding_rate_pct_per_hour, side='short')
+                                                           bar_funding_rate, side='short')
                         short_pnl -= short_funding
                         if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                             eth_exit_r = None
@@ -646,7 +667,7 @@ def backtest_simple(
                             rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                             hours_held_r = sidx - short_start_idx + 1
                             rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                            rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, bar_funding_rate, side=rebound_hedge_info['side'])
                             rebound_hedge_pnl -= rh_funding
                             rebound_hedge_info['exit'] = r_hedge_exit_px
                         if risk_state is not None:
@@ -666,7 +687,7 @@ def backtest_simple(
                     # Funding on rebound short coin leg (spec: hourly funding on every leg).
                     hours_held_short = len(candles) - short_start_idx
                     short_funding = _apply_funding_pnl(short_entry_px * short_shares, hours_held_short,
-                                                       config.funding_rate_pct_per_hour, side='short')
+                                                       bar_funding_rate, side='short')
                     short_pnl -= short_funding
                     if rebound_hedge_info['side'] == 'long' and rebound_hedge_info['size'] > 0:
                         eth_exit_r = None
@@ -679,7 +700,7 @@ def backtest_simple(
                         rebound_hedge_pnl = (r_hedge_exit_px - rebound_hedge_info['entry']) * rebound_hedge_info['size']
                         hours_held_r = len(candles) - short_start_idx
                         rh_notional = rebound_hedge_info['entry'] * rebound_hedge_info['size']
-                        rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, config.funding_rate_pct_per_hour, side=rebound_hedge_info['side'])
+                        rh_funding = _apply_funding_pnl(rh_notional, hours_held_r, bar_funding_rate, side=rebound_hedge_info['side'])
                         rebound_hedge_pnl -= rh_funding
                         rebound_hedge_info['exit'] = r_hedge_exit_px
                     if risk_state is not None:
@@ -730,7 +751,7 @@ def backtest_simple(
             # Funding on the long coin leg (spec: hourly funding on every leg).
             hours_held_time = idx - start_idx + 1
             long_funding = _apply_funding_pnl(entry_px * shares, hours_held_time,
-                                              config.funding_rate_pct_per_hour, side='long')
+                                              bar_funding_rate, side='long')
             pnl -= long_funding
             if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
                 eth_exit_price = None
@@ -742,7 +763,7 @@ def backtest_simple(
                 hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
                 hours_held = idx - start_idx + 1
                 hedge_notional = hedge_info['entry'] * hedge_info['size']
-                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+                funding_cost = _apply_funding_pnl(hedge_notional, hours_held, bar_funding_rate, side=hedge_info['side'])
                 hedge_pnl_total -= funding_cost
                 hedge_info['exit'] = hedge_exit_px
             total_pnl_result = pnl + hedge_pnl_total
@@ -778,7 +799,7 @@ def backtest_simple(
     # Funding on the long leg (spec: hourly funding on every leg).
     hours_held_final = len(candles) - start_idx
     long_funding = _apply_funding_pnl(entry_px * shares, hours_held_final,
-                                      config.funding_rate_pct_per_hour, side='long')
+                                      bar_funding_rate, side='long')
     pnl -= long_funding
     if hedge_info['side'] == 'short' and hedge_info['size'] > 0:
         eth_exit_price = None
@@ -791,7 +812,7 @@ def backtest_simple(
         hedge_pnl_total = (hedge_info['entry'] - hedge_exit_px) * hedge_info['size']
         hours_held = len(candles) - start_idx
         hedge_notional = hedge_info['entry'] * hedge_info['size']
-        funding_cost = _apply_funding_pnl(hedge_notional, hours_held, config.funding_rate_pct_per_hour, side=hedge_info['side'])
+        funding_cost = _apply_funding_pnl(hedge_notional, hours_held, bar_funding_rate, side=hedge_info['side'])
         hedge_pnl_total -= funding_cost
         hedge_info['exit'] = hedge_exit_px
     total_pnl_result = pnl + hedge_pnl_total
