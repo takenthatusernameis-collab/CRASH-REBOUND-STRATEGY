@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — 2026-11-19T09:04:01Z (C24 RUNNER ALIVE — d15 PRIMARY INFERENCE IN FLIGHT; C25 INFRASTRUCTURE BUILT & BLOCKED ON C24 PASS)
+# INITIAL TASK MESSAGE — 2026-11-19T09:08:09Z (C24 RUNNER ALIVE — d15 4/16→binance_um/2023 census DONE; C25 INFRASTRUCTURE BUILT & BLOCKED ON C24 PASS)
 
 **Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here. This file is a pointer only.
 
