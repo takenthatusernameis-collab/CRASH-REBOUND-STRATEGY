@@ -1,17 +1,17 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T22:24Z — C25 RUNNER ALIVE, 1/56 REAL CELLS DONE, ETA ~2026-11-28, DO NOT RELAUNCH)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T22:31:49Z — C25 RUNNER ALIVE, 1/56 REAL CELLS DONE, ETA ~2026-11-28, DO NOT RELAUNCH)
 
 **Single durable handoff / source of truth:** `HANDOFF.md`. This file is a pointer only — do not maintain a second source of truth here.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`; never Hyperliquid performance evidence. Prioritize the `C24 → C25 → C26 → C27` heavy queue above all else; no session may idle or declare "no authorized work."
 
-**Position:** C1–C20 closed `NO_GO`; C21/C22/C23-T1 complete (`PASS`), consolidated `NO_GO`. **C24-T1 complete — `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled +144,651.69, CI95 [+117,408.41, +173,074.50], prereg rule met over all 16 cells; C1–C23 `NO_GO` superseded). **C25-T1 in flight** — cost/funding fidelity, `cost_base/okx/2023` done (+34,420.88), 1 of 56 real inference cells, gate `C25 ACCEPTANCE: PENDING`, ETA ~2026-11-28 (±30 %). **C26-T1 built, blocked on C25 PASS.** **C27-T1 staged** (probe + prereg at `research_state/c27_prereg_20261119T215721Z.{json,md}`, NOT launched — launch only after `C26 ACCEPTANCE: PASS`).
+**Position:** C1–C20 closed `NO_GO`; C21/C22/C23-T1 complete (`PASS`), consolidated `NO_GO`. **C24-T1 complete — `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled +144,651.69, CI95 [+117,408.41, +173,074.50], prereg rule met over all 16 cells; C1–C23 `NO_GO` superseded). **C25-T1 in flight** — cost/funding fidelity, `cost_base/okx/2023` done (+34,420.88, perm_p 0.335, placebo p_ge 0.0705), 1 of 56 real inference cells, gate `C25 ACCEPTANCE: PENDING`, ETA ~2026-11-28T04:43Z (±30%). **C26-T1 built, blocked on C25 PASS.** **C27-T1 staged** (probe + prereg at `research_state/c27_prereg_20261119T215721Z.{json,md}`, NOT launched — launch only after `C26 ACCEPTANCE: PASS`).
 
 **Do exactly this, in order:**
 
 1. `bash scripts/status_c25.sh` then `bash scripts/eta_c25.sh` — these two are the truth. Do not assemble your own `ps`/`ls`/log chain.
 
 2. **Runner ALIVE (current state):** do **not** relaunch, kill, resume, or start any C26 cell.
-   - Optionally run `bash scripts/check_c25_anchor.sh` → must eventually print `ANCHOR: OK`. `ANCHOR: MISMATCH` is a P0 integrity stop: record the evidence, stop the battery, fix the cause, resume once. Never relax floors or edit the prereg.
+   - Optionally run `bash scripts/check_c25_anchor.sh` → currently prints `ANCHOR: INCOMPLETE` (1/16 cost_base cells done); must eventually print `ANCHOR: OK`. `ANCHOR: MISMATCH` is a P0 integrity stop: record the evidence, stop the battery, fix the cause, resume once. Never relax floors or edit the prereg.
    - Then suspend with `schedule_wakeup` at 6–12 h intervals (each cell takes ~3.6 h on this 4-core box). Do not poll in a loop and do not hold a turn open past the ~900 s idle timeout.
 
 3. **Runner NOT ALIVE and gate PENDING:** fix the failure cause first, then resume exactly once:
