@@ -2,9 +2,9 @@
 
 **Generated (UTC):** 2026-11-19T02:12:24Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 complete; Bitget USDT-perp C23 COMPLETE).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
-**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. **C22-T1 is COMPLETE** — gate `C22 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. **C23-T1 is COMPLETE** — gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (Bitget USDT-M out-of-sample replication of the frozen spec-literal edge; PRE-REGISTERED `c23_prereg_20261118T202301Z`; 4/4 fold checkpoints present, 7/7 battery artifacts present). Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC/Bitget data as Hyperliquid; do not reduce draw counts. **Terminal state reached: C1–C23 all CLOSED `NO_GO`. No further campaign is authorized beyond C23 — STOP.**
+**Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. **C22-T1 is COMPLETE** — gate `C22 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. **C23-T1 is COMPLETE** — gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (Bitget USDT-M out-of-sample replication of the frozen spec-literal edge; PRE-REGISTERED `c23_prereg_20261118T202301Z`; 4/4 fold checkpoints present, 7/7 battery artifacts present). **C24-T1 (MARGIN / LIQUIDATION FIDELITY ADJUDICATION) IS THE ACTIVE BINDING CAMPAIGN — RUNNING IN BACKGROUND (PID 14458, 4 workers, started 2026-11-19T02:50:00Z).** Gate `C24 ACCEPTANCE: PENDING`. Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC/Bitget data as Hyperliquid; do not reduce draw counts. **Do not launch a duplicate C24 battery while the runner is alive.**
 
-**Verified live/repo state (2026-11-19T02:12:24Z):**
+**Verified live/repo state (2026-11-19T03:13:53Z):**
 - `bash scripts/status_c23.sh` (read-only, one-shot; ONLY status command you need) → `RUNNER: NOT ALIVE` (campaign finished; do not relaunch), `2023/2024/2025/2026YTD: DONE`, battery `7/7`, gate `C23 ACCEPTANCE: PASS`.
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c23_focus_campaign.py` → `C23 ACCEPTANCE: PASS` (bitget=NO_GO, consolidated=NO_GO; battery 7/7; folds ['2023','2024','2025','2026YTD']; is_hyperliquid_venue_data=false).
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PASS` (mexc consolidated `NO_GO`). C22 runner NOT alive — campaign complete.
@@ -73,6 +73,24 @@ Full binding context, fold evidence, no-avoidance rules, guardrails, and executi
 `c23_prereg_{TS}.{json,md}`; `c23_bitget_fold_campaign_{TS}.json`; `c23_bitget_fold_episode_edge_{TS}.json`; `c23_bitget_fold_placebo_{TS}.json`; `c23_bitget_fold_census_{TS}.json`; `c23_decision_verdict_bitget_stability_{TS}.json`; `c23_pooled_stability_synthesis_{TS}.json`; `c23_decision_verdict_CONSOLIDATED_{TS}.json`.
 
 **Terminal rule (binding):** after `C23 ACCEPTANCE: PASS`, deliver the per-fold/pooled/power-curve report above and STOP — no further campaign is authorized beyond C23. Do not launch a same-data C23+ rerun, do not substitute Hyperliquid-native evidence (acquisition CLOSED `FULL_283D_BLOCKED_BY_API_RETENTION`), do not relabel Bitget data as Hyperliquid, do not reduce draw counts. C1–C23 `NO_GO` stands unless C23 produced a pre-registered contradiction with full evidence (it did not).
+
+---
+
+## NEXT FOCUS CAMPAIGN — C24-T1 (MARGIN / LIQUIDATION FIDELITY ADJUDICATION) — ACTIVE, RUNNING
+
+**Status:** `C24 ACCEPTANCE: PENDING`. Runner ALIVE (PID 14458, 4 workers, launched 2026-11-19T02:50:00Z). **This is the binding heavy campaign; do not launch a duplicate.** Resume command (only if runner dies): `PYTHONPATH=. .venv/bin/python scripts/run_c24_margin_fidelity_campaign.py --jobs 4 --resume`. Status: `bash scripts/status_c24.sh`. Gate: `PYTHONPATH=. .venv/bin/python scripts/verify_c24_focus_campaign.py`.
+
+**Why C24:** C1–C23 closed `NO_GO` with an execution model that force-closes on a **-(5+1)=6%** adverse move (`src/backtest/engine.py::_check_liquidation`), tighter than the published spec's wide safety stop (~15% median below entry) and absent from the PDF. The stage-0 probe reproduced the recorded C20/C22/C23 pooled PnL exactly with the 6% arm and showed a sign flip between 10% and 15% arms. C24 is the pre-registered inference campaign that decides whether the `NO_GO` is real or a margin-model artifact.
+
+**Arms (only liquidation distance varies; signal path frozen):** `base_6` (6%, FIDELITY_ANCHOR — MUST reproduce okx -54,799.23 | binance_um -70,071.41 | mexc -49,760.24 | bitget -58,129.33); `d10` (10%, descriptive); `d15` (15%, PRIMARY — full 20k/20k/2k inference); `d30` (30%, descriptive); `noliq` (disabled, descriptive upper bound).
+
+**Progress (2026-11-19T03:13:53Z):** base_6 16/16 DONE (anchor reproduced exactly — e.g. bitget 2023=+28,706.32, 2024=-30,939.60, 2025=-32,710.19, 2026YTD=-23,185.86); d10 16/16 DONE; d30 + noliq campaign-only arms in progress; **d15 (primary inference arm) 0/16 — okx 2023 episode done (perm_p=0.3433), 20k permutation draws running across 4 workers.** ~80 cells total; d15's 16 cells × (20k bootstrap + 20k permutation + 2k placebo) is the heavy phase (~1–2 h).
+
+**Decision rules:** `C24_REOPENS_C1_C23` (d15 pooled > 0 AND CI95 lower > 0 AND >=1 BH survivor AND >=3/4 folds positive AND >=3/4 venues positive → record `SUPERSEDED_BY_C24` and authorize C24-T2) vs `C24_NO_GO_ROBUST_TO_MARGIN` (any condition fails → C1–C24 `NO_GO` ROBUST). `C24_UNDERPOWERED` on anchor mismatch / draw-floor violation / drift / missing artifacts. Both outcomes require the full arm×venue×fold table, per-leg attribution and exit-reason decomposition.
+
+**Provenance:** real exchange USDT-perp data, non-synthetic, `cross_venue=true`, `is_hyperliquid_venue_data=false`. Never Hyperliquid performance evidence, never relabelled as such.
+
+**Key files:** prereg `research_state/c24_prereg_20261119T013154Z.{json,md}`; stage-0 probe `research_state/c24_liquidation_fidelity_probe_20261119T013154Z.json` (`may_emit_go=false`, `DESCRIPTIVE_NO_INFERENCE`); `scripts/run_c24_margin_fidelity_campaign.py`; `scripts/verify_c24_focus_campaign.py`; `scripts/status_c24.sh`; `tests/test_c24_campaign.py` (10 tests). Checkpoints: `research_state/c24_ckpt_{arm}_{venue}_{fold}_20261119T013154Z.json`. Verdicts: `research_state/c24_decision_verdict_{arm}_20261119T013154Z.json` + `..._CONSOLIDATED_...`.
 
 ---
 

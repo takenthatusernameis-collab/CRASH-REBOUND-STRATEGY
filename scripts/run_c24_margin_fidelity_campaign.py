@@ -334,15 +334,15 @@ def _episode(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
     times = {(str(r["symbol"]).upper(), int(r["bar_index"])): str(r["bar_timestamp_utc"])
              for r in rows if r.get("bar_index") is not None and r.get("bar_timestamp_utc")}
     candles = sv["candles"]
-    candles_active = {s: candles[s] for s in sorted({k[0] for k in memo} | {"ETH"}) if s in candles}
+    candles_active = {s: candles[s] for s in sorted({k[0] for k in keys} | {"ETH"}) if s in candles}
     canonical = c20.run_memo_portfolio(candles_active, cfg, memo)
     canonical_pnl = float(canonical.get("total_pnl", 0.0))
     episodes = c20.cluster_episodes(keys, times, 98.0)
     ts = c20.trade_summary(canonical)
     draws = DRAWS_SMOKE if SMOKE else DRAWS_FULL
     boot = c20.episode_block_bootstrap(ts["trades"], episodes, draws["episode_block_bootstrap"], SEED)
-    perm = c20.conditional_permutation_null(
-        sv, memo, rows, keys, canonical_pnl, cfg, draws["permutation"], SEED, jobs)
+    perm = _c24_permutation(sv, memo, rows, keys, canonical_pnl, cfg,
+                            draws["permutation"], SEED, jobs)
     distinct_days = sorted({times[k][:10] for k in keys if k in times})
     payload = {
         **_meta_header(arm, venue, fid, "fold_episode_edge"),
