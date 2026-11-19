@@ -1,12 +1,14 @@
-# INITIAL TASK MESSAGE — 2026-11-19T19:27:27Z (C24 COMPLETE `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23`; C25 RUNNER ALIVE & COMPUTING, 0/64 CELLS COMPLETE, DO NOT RELAUNCH; C26 BUILT, NOT LAUNCHED — AWAITING `C25 ACCEPTANCE: PASS`)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T19:32:35Z)
 
-**Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here. This file is a pointer only.
+**Single durable handoff / source of truth:** `HANDOFF.md`. This file is a pointer only. Do not maintain a second source of truth here.
 
-**Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC C22, Bitget C23; four-venue execution-model adjudication C24 COMPLETE; cost/funding C25 IN PROGRESS; path fidelity C26 BUILT, NOT LAUNCHED).
+**Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data.
 
-**Current position (verified live 2026-11-19T19:24:54Z):** C1–C20 CLOSED `NO_GO`; C21/C22/C23-T1 COMPLETE (`PASS`, `NO_GO`). **C24-T1 GATE PASS: `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23` — d15 pooled +144,651.69, prereg rule met over all 16 cells; C1–C23 `NO_GO` superseded. All 80 cells done, 6 verdict artifacts written, runner exited. Tests 17 passed.**
-**C25-T1 RUNNER ALIVE & COMPUTING (do not relaunch):** PID 3901 + 4 workers, `--jobs 4 --resume`, launched ~17:24Z. 0/64 cells complete so far (cost_base/cost_taker/cost_taker_funding/cost_stress × 4 venues × 4 folds). First cell `cost_base/okx/2023` in progress. Gate `C25 ACCEPTANCE: PENDING`. Monitor with `bash scripts/status_c25.sh` and `PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py`. If it dies, resume exactly once with `bash scripts/run_c25_durable.sh` (persistent=true).
-**C26-T1 (INTRABAR PATH & PER-TRADE FUNDING FIDELITY) — BUILT, NOT LAUNCHED:** prereg `c26_prereg_20261119T121500Z` written; arms `path_base` (anchor, `PATH_ANCHOR_REPRODUCED`), `path_funding_trade`, `path_intrabar_adverse_first`, `path_intrabar_combined` (PRIMARY); 4 venues × 4 folds × 20k/20k/2k; tokens `C26_REOPENS_C1_C25` / `C26_NO_GO_ROBUST_TO_PATH`. Launch only after `C25 ACCEPTANCE: PASS` via `bash scripts/run_c26_durable.sh` (persistent=true).
+**Current position (verified live 2026-11-19T19:32:35Z):**
+- C1–C20 CLOSED `NO_GO`; C21/C22/C23-T1 COMPLETE (`PASS`, `NO_GO`).
+- **C24-T1 GATE PASS:** `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23` — d15 pooled +144,651.69, prereg rule met over all 16 cells; C1–C23 `NO_GO` superseded. All 80 cells done, 6 verdict artifacts written, runner exited. Tests 17 passed.
+- **C25-T1 RUNNER ALIVE & COMPUTING (do not relaunch, do not kill, do not resume):** PID 3901 + 4 workers, `--jobs 4 --resume`, launched ~17:24Z (~2h 8m uptime). 0/64 cells complete so far (cost_base/cost_taker/cost_taker_funding/cost_stress × 4 venues × 4 folds). First cell `cost_base/okx/2023` in progress (`research_state/c25_run_20261119T172418Z.log`). Gate `C25 ACCEPTANCE: PENDING`. Monitor with `bash scripts/status_c25.sh` then `PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py`. Resume exactly once only if it dies: `bash scripts/run_c25_durable.sh` (persistent=true).
+- **C26-T1 (INTRABAR PATH & PER-TRADE FUNDING FIDELITY) — BUILT, NOT LAUNCHED:** prereg `c26_prereg_20261119T121500Z` written; arms `path_base` (anchor, `PATH_ANCHOR_REPRODUCED`), `path_funding_trade`, `path_intrabar_adverse_first`, `path_intrabar_combined` (PRIMARY); 4 venues × 4 folds × 20k/20k/2k; tokens `C26_REOPENS_C1_C25` / `C26_NO_GO_ROBUST_TO_PATH`. Launch only after `C25 ACCEPTANCE: PASS` via `bash scripts/run_c26_durable.sh` (persistent=true).
 
 **Immediate next action (in order — do not skip, do not reorder):**
 1. `bash scripts/status_c25.sh` (read-only truth) then `PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py`.
