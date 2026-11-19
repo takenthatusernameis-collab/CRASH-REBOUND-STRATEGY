@@ -228,7 +228,12 @@ def _cfg(arm: str, venue: str) -> StrategyConfig:
 
 def _config_payload(cfg: StrategyConfig, arm: str, venue: str) -> Dict[str, Any]:
     spec = ARMS[arm]
-    funding = _funding_rate_pct_per_hour(venue) if spec["funding_rate_pct_per_hour"] is None else spec["funding_rate_pct_per_hour"]
+    if spec["funding_rate_pct_per_hour"] is None:
+        funding = _funding_rate_pct_per_hour(venue)
+        funding_available = funding is not None
+    else:
+        funding = spec["funding_rate_pct_per_hour"]
+        funding_available = True
     return {
         "arm": arm,
         "venue": venue,
@@ -236,7 +241,7 @@ def _config_payload(cfg: StrategyConfig, arm: str, venue: str) -> Dict[str, Any]
         "commission_per_share": cfg.commission_per_share,
         "commission_min": cfg.commission_min,
         "funding_rate_pct_per_hour": cfg.funding_rate_pct_per_hour,
-        "funding_available": funding is not None and spec["funding_rate_pct_per_hour"] is not None,
+        "funding_available": funding_available,
         "liquidation_maint_margin_pct": cfg.liquidation_maint_margin_pct,
         "liquidation_buffer_pct": cfg.liquidation_buffer_pct,
         "liquidation_distance_pct": round(cfg.liquidation_maint_margin_pct + cfg.liquidation_buffer_pct, 4),

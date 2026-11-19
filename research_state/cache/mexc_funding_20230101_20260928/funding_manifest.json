@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T05:09:01Z",
+  "acquisition_stamp": "20261119T050901Z",
+  "venue": "mexc",
+  "window": {
+    "start": "2023-01-01",
+    "end": "2026-09-28",
+    "start_ms": 1672531200000,
+    "end_ms": 1790640000000
+  },
+  "source": "GET https://contract.mexc.com/api/v1/contract/funding_rate/history",
+  "symbols_requested": 33,
+  "symbols_acquired": [
+    "AAVE",
+    "ADA",
+    "ALGO",
+    "APT",
+    "ATOM",
+    "AVAX",
+    "BAT",
+    "BCH"
+  ],
+  "symbols_missing": [
+    "COMP",
+    "CRV",
+    "DOGE",
+    "DOT",
+    "ETC",
+    "ETH",
+    "GRT",
+    "KSM",
+    "LINK",
+    "LTC",
+    "MANA",
+    "MINA",
+    "NEAR",
+    "OP",
+    "SAND",
+    "SHIB",
+    "SNX",
+    "SOL",
+    "SUSHI",
+    "THETA",
+    "TRX",
+    "UNI",
+    "XLM",
+    "XRP",
+    "XTZ"
+  ],
+  "rows_total": 1568,
+  "funding_interval_hours": 8,
+  "mean_funding_rate_per_8h": 3.6650239447599955e-05,
+  "funding_rate_pct_per_hour": 0.0004581279930949994,
+  "aggregation": "equal-weight mean of per-symbol mean realized 8h rate / 8 / 100",
+  "per_symbol": {
+    "AAVE": {
+      "rows": 146,
+      "mean_funding_rate": 5.22054794520548e-05,
+      "first_ms": 1786435200000,
+      "last_ms": 1790611200000
+    },
+    "ADA": {
+      "rows": 246,
+      "mean_funding_rate": 3.4979674796747964e-05,
+      "first_ms": 1783555200000,
+      "last_ms": 1790611200000
+    },
+    "ALGO": {
+      "rows": 146,
+      "mean_funding_rate": 5.5205479452054804e-05,
+      "first_ms": 1786435200000,
+      "last_ms": 1790611200000
+    },
+    "APT": {
+      "rows": 246,
+      "mean_funding_rate": 2.503658536585366e-05,
+      "first_ms": 1783555200000,
+      "last_ms": 1790611200000
+    },
+    "ATOM": {
+      "rows": 146,
+      "mean_funding_rate": -1.5150684931506849e-05,
+      "first_ms": 1786435200000,
+      "last_ms": 1790611200000
+    },
+    "AVAX": {
+      "rows": 246,
+      "mean_funding_rate": 4.1337398373983745e-05,
+      "first_ms": 1783555200000,
+      "last_ms": 1790611200000
+    },
+    "BAT": {
+      "rows": 246,
+      "mean_funding_rate": 7.347154471544715e-05,
+      "first_ms": 1783555200000,
+      "last_ms": 1790611200000
+    },
+    "BCH": {
+      "rows": 146,
+      "mean_funding_rate": 2.6116438356164385e-05,
+      "first_ms": 1786435200000,
+      "last_ms": 1790611200000
+    }
+  },
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "funding_history_csv": "research_state/cache/mexc_funding_20230101_20260928/funding_history.csv",
+  "funding_history_sha256": "5a86ca6e36e9c3747b66928bf52d7dbecfcfe87da86e268e709ca81d4a3fbade"
+}

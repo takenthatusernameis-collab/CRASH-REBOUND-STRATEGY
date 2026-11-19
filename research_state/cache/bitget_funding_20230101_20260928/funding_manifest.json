@@ -1,0 +1,260 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T05:09:10Z",
+  "acquisition_stamp": "20261119T050910Z",
+  "venue": "bitget",
+  "window": {
+    "start": "2023-01-01",
+    "end": "2026-09-28",
+    "start_ms": 1672531200000,
+    "end_ms": 1790640000000
+  },
+  "source": "GET https://api.bitget.com/api/v2/mix/market/history-fund-rate",
+  "symbols_requested": 33,
+  "symbols_acquired": [
+    "AAVE",
+    "ADA",
+    "ALGO",
+    "APT",
+    "ATOM",
+    "AVAX",
+    "BAT",
+    "BCH",
+    "COMP",
+    "CRV",
+    "DOGE",
+    "DOT",
+    "ETC",
+    "ETH",
+    "FIL",
+    "GRT",
+    "KSM",
+    "LINK",
+    "LTC",
+    "MANA",
+    "NEAR",
+    "OP",
+    "SAND",
+    "SHIB",
+    "SNX",
+    "SOL",
+    "SUSHI",
+    "THETA",
+    "TRX",
+    "UNI",
+    "XLM",
+    "XRP",
+    "XTZ"
+  ],
+  "symbols_missing": [],
+  "rows_total": 3944,
+  "funding_interval_hours": 8,
+  "mean_funding_rate_per_8h": 5.7686128526645764e-05,
+  "funding_rate_pct_per_hour": 0.000721076606583072,
+  "aggregation": "equal-weight mean of per-symbol mean realized 8h rate / 8 / 100",
+  "per_symbol": {
+    "AAVE": {
+      "rows": 116,
+      "mean_funding_rate": 7.316379310344828e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "ADA": {
+      "rows": 116,
+      "mean_funding_rate": 7.485344827586206e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "ALGO": {
+      "rows": 116,
+      "mean_funding_rate": 9.325862068965518e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "APT": {
+      "rows": 116,
+      "mean_funding_rate": 8.163793103448276e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "ATOM": {
+      "rows": 116,
+      "mean_funding_rate": 3.229310344827586e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "AVAX": {
+      "rows": 116,
+      "mean_funding_rate": 7.473275862068965e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "BAT": {
+      "rows": 116,
+      "mean_funding_rate": 8.747413793103448e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "BCH": {
+      "rows": 116,
+      "mean_funding_rate": 7.845689655172413e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "COMP": {
+      "rows": 116,
+      "mean_funding_rate": 9.749137931034484e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "CRV": {
+      "rows": 116,
+      "mean_funding_rate": 8.310344827586208e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "DOGE": {
+      "rows": 116,
+      "mean_funding_rate": 7.875862068965517e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "DOT": {
+      "rows": 116,
+      "mean_funding_rate": 8.70344827586207e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "ETC": {
+      "rows": 116,
+      "mean_funding_rate": 8.801724137931035e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "ETH": {
+      "rows": 116,
+      "mean_funding_rate": 7.212931034482758e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "FIL": {
+      "rows": 116,
+      "mean_funding_rate": 7.025e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "GRT": {
+      "rows": 116,
+      "mean_funding_rate": 7.757758620689655e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "KSM": {
+      "rows": 116,
+      "mean_funding_rate": 6.978448275862068e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "LINK": {
+      "rows": 116,
+      "mean_funding_rate": 7.847413793103448e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "LTC": {
+      "rows": 116,
+      "mean_funding_rate": 8.89396551724138e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "MANA": {
+      "rows": 116,
+      "mean_funding_rate": 9.746551724137931e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "NEAR": {
+      "rows": 116,
+      "mean_funding_rate": 7.03448275862069e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "OP": {
+      "rows": 116,
+      "mean_funding_rate": 9.001724137931034e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "SAND": {
+      "rows": 116,
+      "mean_funding_rate": -0.0003673189655172414,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "SHIB": {
+      "rows": 116,
+      "mean_funding_rate": 6.927586206896552e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "SNX": {
+      "rows": 116,
+      "mean_funding_rate": 9.994827586206897e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "SOL": {
+      "rows": 116,
+      "mean_funding_rate": 4.472413793103448e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "SUSHI": {
+      "rows": 116,
+      "mean_funding_rate": 8.35344827586207e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "THETA": {
+      "rows": 116,
+      "mean_funding_rate": 7.113793103448277e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "TRX": {
+      "rows": 116,
+      "mean_funding_rate": -7.637068965517241e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "UNI": {
+      "rows": 116,
+      "mean_funding_rate": 7.211206896551725e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "XLM": {
+      "rows": 116,
+      "mean_funding_rate": 8.707758620689656e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "XRP": {
+      "rows": 116,
+      "mean_funding_rate": 7.574137931034483e-05,
+      "first_ms": 1787299200000,
+      "last_ms": 1790611200000
+    },
+    "XTZ": {
+      "rows": 232,
+      "mean_funding_rate": -1.4784482758620676e-06,
+      "first_ms": 1787299200000,
+      "last_ms": 1790625600000
+    }
+  },
+  "real_market_data": true,
+  "performance_evidence": false,
+  "fabricated_data": false,
+  "funding_history_csv": "research_state/cache/bitget_funding_20230101_20260928/funding_history.csv",
+  "funding_history_sha256": "d052a74b962663517e2c07d326b268213043e2d025d5f0ed19f7eee6626c8eea"
+}

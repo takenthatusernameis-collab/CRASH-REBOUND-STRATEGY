@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T05:03:51Z",
+  "probe": "c25_funding_acquisition",
+  "venues": [
+    {
+      "venue": "okx",
+      "cache_dirs": [],
+      "funding_available": false,
+      "rate_pct_per_hour": null,
+      "manifests": []
+    },
+    {
+      "venue": "binance_um",
+      "cache_dirs": [],
+      "funding_available": false,
+      "rate_pct_per_hour": null,
+      "manifests": []
+    },
+    {
+      "venue": "mexc",
+      "cache_dirs": [],
+      "funding_available": false,
+      "rate_pct_per_hour": null,
+      "manifests": []
+    },
+    {
+      "venue": "bitget",
+      "cache_dirs": [],
+      "funding_available": false,
+      "rate_pct_per_hour": null,
+      "manifests": []
+    }
+  ],
+  "summary": {
+    "funding_available": [],
+    "unavailable_funding": [
+      "okx",
+      "binance_um",
+      "mexc",
+      "bitget"
+    ]
+  }
+}

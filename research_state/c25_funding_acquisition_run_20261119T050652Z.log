@@ -1,0 +1,30 @@
+[done] binance_um: symbols=32 rows=132577 pct_per_hour=0.000572 -> research_state/cache/binance_um_funding_20230101_20260928
+[done] mexc: symbols=8 rows=1568 pct_per_hour=0.000458 -> research_state/cache/mexc_funding_20230101_20260928
+[done] bitget: symbols=33 rows=3944 pct_per_hour=0.000721 -> research_state/cache/bitget_funding_20230101_20260928
+[
+  {
+    "venue": "binance_um",
+    "status": "FUNDING_ACQUIRED",
+    "funding_rate_pct_per_hour": 0.0005717304894560207,
+    "rows_total": 132577,
+    "symbols_acquired": 32,
+    "cache_dir": "research_state/cache/binance_um_funding_20230101_20260928"
+  },
+  {
+    "venue": "mexc",
+    "status": "FUNDING_ACQUIRED",
+    "funding_rate_pct_per_hour": 0.0004581279930949994,
+    "rows_total": 1568,
+    "symbols_acquired": 8,
+    "cache_dir": "research_state/cache/mexc_funding_20230101_20260928"
+  },
+  {
+    "venue": "bitget",
+    "status": "FUNDING_ACQUIRED",
+    "funding_rate_pct_per_hour": 0.000721076606583072,
+    "rows_total": 3944,
+    "symbols_acquired": 33,
+    "cache_dir": "research_state/cache/bitget_funding_20230101_20260928"
+  }
+]
+wrote /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/research_state/c25_funding_acquisition_20261119T050910Z.json
