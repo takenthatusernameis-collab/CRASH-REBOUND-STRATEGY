@@ -99,3 +99,9 @@
 [C22][fast-path validated] trades=24 pnl=34300.4163 diff=0.00e+00
 [episode] d15 mexc 2023: trades=24 pnl=34300.42 perm_p=0.06135
 [C22][fast-path validated] trades=24 pnl=34300.4163 diff=0.00e+00
+[placebo] d15 mexc 2023: pool=110 choose=24 runs=2000 p_ge=0.0915
+[battery] MEXC: total=34300.42 trades=24 legs=['buy'] episodes=9
+[done] d15 mexc 2023 pnl=34300.42
+[run] d15 mexc 2024
+[census] MEXC: events=314 signal_pass=124 trades=31 matched=31 unexplained=36
+[C22][fast-path validated] trades=31 pnl=-15455.0907 diff=0.00e+00
