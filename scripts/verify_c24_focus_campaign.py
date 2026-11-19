@@ -141,8 +141,8 @@ def main(argv: List[str] | None = None) -> int:
                 ck = _load(STATE / f"c24_ckpt_{PRIMARY_ARM}_{v}_{f}_{TS}.json")
                 ep = ck.get("episode") or {}
                 pl = ck.get("placebo") or {}
-                boot = (ep.get("episode_block_bootstrap") or {}).get("draws")
-                perm = (ep.get("temporal_edge_permutation") or {}).get("draws")
+                boot = (ep.get("episode_block_bootstrap") or {}).get("resamples")
+                perm = (ep.get("temporal_edge_permutation") or {}).get("draws_evaluated")
                 runs = (pl.get("placebo") or {}).get("runs")
                 if not boot or int(boot) < DRAW_FLOORS["episode_block_bootstrap_draws"]:
                     fail.append(f"d15 {v} {f}: episode bootstrap draws {boot} < 20000")

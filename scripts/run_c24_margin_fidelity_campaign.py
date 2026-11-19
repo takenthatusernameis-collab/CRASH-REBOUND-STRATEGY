@@ -444,9 +444,13 @@ def _c24_permutation(sv: Dict[str, Any], memo: Dict[Any, Any], rows: Sequence[Di
     20000 and the verifier enforces it; a capped run is UNDERPOWERED and must be redone.
     The estimator itself is unchanged (crash-bar census, per-symbol multiplicity,
     real portfolio engine)."""
+    # C24's prereg floor is 20000 permutation draws.  c20's default cap
+    # (MAX_PERMUTATION_DRAWS=300) exists only because C20's own wall-clock budget
+    # could not afford 20k; C24 is pre-registered at 20k and the verifier enforces it,
+    # so pass the floor explicitly and never let it silently fall back to 300.
     return c20.conditional_permutation_null(
         sv, memo, rows, keys, canonical_pnl, cfg, draws, seed, jobs,
-        _c24_max_permutation_draws=None)
+        max_permutation_draws=draws)
 
 
 def _venue_blocked_bootstrap(cells: Sequence[float], venues: Sequence[str],
