@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "campaign": "C24",
+  "binding_task": "C24-T1",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "generated_at_utc": "2026-11-19T01:31:54Z",
+  "title": "C24 - Margin / Liquidation Fidelity Adjudication of the frozen crash-rebound edge",
+  "why_c24": "C1-C23 closed NO_GO on OKX, Binance UM, MEXC and Bitget using an execution model that force-liquidates at a -(5+1)=6% adverse move (src/backtest/engine.py::_check_liquidation). The published spec's own risk exit is a WIDE safety stop at 8x the usual hourly range (median ~15% below entry on Hyperliquid) and states the 120% coin cap 'leaves margin free'. A 6% forced exit pre-empts the strategy's own stop and is not specified in the PDF. The C1-C23 NO_GO may therefore describe the margin model rather than the strategy. C24 adjudicates exactly this, once, with full inference, before the NO_GO is treated as final.",
+  "research_question": "Is the pooled spec-literal PnL sign robust to the liquidation distance used by the execution model, across four independent real venues and four folds?",
+  "stage0_probe": {
+    "artifact": "research_state/c24_liquidation_fidelity_probe_20261119T013154Z.json",
+    "script": "scripts/probe_c24_liquidation_fidelity.py",
+    "fidelity_anchor_reproduced": true,
+    "evidence_class": "DESCRIPTIVE_NO_INFERENCE",
+    "pooled_all_venue_sum_by_arm": {
+      "base_6": -232760.21,
+      "d10": -61002.11,
+      "d15": 144651.69,
+      "d30": 417169.7,
+      "noliq": 539745.51
+    },
+    "note": "Descriptive only: no bootstrap, permutation, placebo or BH. It may NOT emit a GO token. It exists solely to justify running the C24 inference arm."
+  },
+  "signal_path_frozen": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "time_exit_max_bars": 50,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "rebound_short_stop_pct": 40.0,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true,
+    "seed": 20261201,
+    "drift_rule": "Any artifact whose signal_path fields differ from this block is INVALID."
+  },
+  "arms": {
+    "base_6": {
+      "maint": 5.0,
+      "buffer": 1.0,
+      "disable": false,
+      "role": "FIDELITY_ANCHOR",
+      "liquidation_distance_pct": 6.0
+    },
+    "d10": {
+      "maint": 9.0,
+      "buffer": 1.0,
+      "disable": false,
+      "role": "SECONDARY_DESCRIPTIVE",
+      "liquidation_distance_pct": 10.0
+    },
+    "d15": {
+      "maint": 14.0,
+      "buffer": 1.0,
+      "disable": false,
+      "role": "PRIMARY",
+      "liquidation_distance_pct": 15.0
+    },
+    "d30": {
+      "maint": 29.0,
+      "buffer": 1.0,
+      "disable": false,
+      "role": "SECONDARY_DESCRIPTIVE",
+      "liquidation_distance_pct": 30.0
+    },
+    "noliq": {
+      "maint": 5.0,
+      "buffer": 1.0,
+      "disable": true,
+      "role": "UPPER_BOUND_DESCRIPTIVE",
+      "liquidation_distance_pct": null
+    }
+  },
+  "arms_rule": "ONLY liquidation_maint_margin_pct / liquidation_buffer_pct / enable_liquidation_checks vary across arms. All other config fields are identical and drift-checked. d15 is PRIMARY because 15% equals the spec's stated median safety-stop distance, so a spec-faithful liquidation model cannot fire before the strategy's own stop.",
+  "venues": [
+    "okx",
+    "binance_um",
+    "mexc",
+    "bitget"
+  ],
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z"
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z"
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z"
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z"
+    }
+  ],
+  "inference_scope": {
+    "base_6": {
+      "mode": "anchor",
+      "full_inference": false,
+      "why": "Frozen config; its 20k/20k/2k inference is already recorded in C20 (OKX, Binance UM), C22 (MEXC) and C23 (Bitget). C24 only re-checks that its campaign PnL reproduces the recorded totals exactly."
+    },
+    "d15": {
+      "mode": "inference",
+      "full_inference": true,
+      "why": "PRIMARY adjudication arm; full pre-registered battery required."
+    },
+    "d10": {
+      "mode": "campaign_only",
+      "full_inference": false,
+      "why": "Descriptive threshold-curve point; no inference, no verdict power."
+    },
+    "d30": {
+      "mode": "campaign_only",
+      "full_inference": false,
+      "why": "Descriptive threshold-curve point; no inference, no verdict power."
+    },
+    "noliq": {
+      "mode": "campaign_only",
+      "full_inference": false,
+      "why": "Upper bound on margin-model sensitivity; not a fidelity claim."
+    }
+  },
+  "inference": {
+    "episode_block_bootstrap_draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_portfolio_runs": 2000,
+    "strata_permutation_draws": 2000,
+    "pooled": "venue-blocked bootstrap over the 16 (venue, fold) cell totals (20000 draws)",
+    "multiplicity": {
+      "method": "benjamini_hochberg",
+      "alpha": 0.05,
+      "family": "primary arm d15, 4 folds x 4 venues = 16 permutation tests"
+    },
+    "draw_floor_rule": "Draws below 20000/20000/2000/2000 => UNDERPOWERED, not evidence."
+  },
+  "fidelity_anchor": {
+    "arm": "base_6",
+    "recorded_pooled_pnl": {
+      "okx": -54799.23,
+      "binance_um": -70071.41,
+      "mexc": -49760.24,
+      "bitget": -58129.33
+    },
+    "tolerance_pnl": 1.0,
+    "rule": "base_6 must reproduce the recorded C20/C22/C23 pooled PnL within 1.0; otherwise C24 is INVALID and no verdict may be issued."
+  },
+  "decision_rules": {
+    "C24_REOPENS_C1_C23": "ALL of: (a) d15 pooled total PnL > 0; (b) venue-blocked bootstrap CI95 lower bound > 0; (c) >= 1 BH survivor in the 16-test d15 family; (d) >= 3 of 4 folds positive; (e) >= 3 of 4 venues positive. Then the C1-C23 NO_GO is NOT robust to a spec-plausible liquidation distance: record SUPERSEDED_BY_C24 and authorize C24-T2 (portfolio-margin fidelity arm + full re-adjudication).",
+    "C24_NO_GO_ROBUST_TO_MARGIN": "ANY of (a)-(e) fails. Then the NO_GO survives a spec-plausible liquidation distance and is strengthened: record C1-C24 NO_GO ROBUST and CLOSE the program.",
+    "C24_UNDERPOWERED": "Fidelity anchor mismatch, prereg generated after any compute artifact, draw floors not met, missing artifacts, or signal-path drift.",
+    "rule": "Both REOPENS and NO_GO_ROBUST are terminal and must be reported with the full arm x venue x fold table, per-leg attribution and exit-reason decomposition. Never report a bare token. C24 is not a GO search: no configuration search, no additional thresholds, no new venues beyond the four."
+  },
+  "required_artifacts": [
+    "c24_prereg_20261119T013154Z.json",
+    "c24_prereg_20261119T013154Z.md",
+    "c24_liquidation_fidelity_probe_20261119T013154Z.json",
+    "c24_decision_verdict_base_6_20261119T013154Z.json",
+    "c24_decision_verdict_d15_20261119T013154Z.json",
+    "c24_decision_verdict_d10_20261119T013154Z.json",
+    "c24_decision_verdict_d30_20261119T013154Z.json",
+    "c24_decision_verdict_noliq_20261119T013154Z.json",
+    "c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json"
+  ],
+  "checkpoint_rule": "A (arm, venue, fold) is DONE only when research_state/c24_ckpt_<arm>_<venue>_<fold>_20261119T013154Z.json exists. Resume with --resume; never relaunch completed folds.",
+  "provenance": {
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "cross_venue": true,
+    "is_hyperliquid_venue_data": false,
+    "caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NEVER Hyperliquid performance evidence and never relabelled as such."
+  },
+  "guardrails": [
+    "No cross-venue relabeling as Hyperliquid-native.",
+    "No synthetic gap-fill; no spec relaxation of RSI/target/hold/sizing/volume/gross cap.",
+    "The liquidation-distance change INCREASES fidelity (the frozen 6% is stricter than the spec's own ~15% median stop); it must never be described as a tuned edge.",
+    "No additional liquidation thresholds, venues or folds beyond those pre-registered.",
+    "Artifacts are immutable once written; do not edit completed campaign outputs."
+  ]
+}

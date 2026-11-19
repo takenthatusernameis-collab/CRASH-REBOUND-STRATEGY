@@ -1,0 +1,1089 @@
+{
+  "schema_version": 1,
+  "campaign": "C24",
+  "stage": "STAGE0_DESCRIPTIVE_PROBE",
+  "generated_at_utc": "2026-11-19T01:38:01Z",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "evidence_class": "DESCRIPTIVE_NO_INFERENCE",
+  "inference_not_run": [
+    "episode_block_bootstrap",
+    "conditional_permutation",
+    "placebo",
+    "benjamini_hochberg"
+  ],
+  "may_emit_go": false,
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such.",
+  "arms": {
+    "base_6": {
+      "maint": 5.0,
+      "buffer": 1.0,
+      "disable": false
+    },
+    "d10": {
+      "maint": 9.0,
+      "buffer": 1.0,
+      "disable": false
+    },
+    "d15": {
+      "maint": 14.0,
+      "buffer": 1.0,
+      "disable": false
+    },
+    "d30": {
+      "maint": 29.0,
+      "buffer": 1.0,
+      "disable": false
+    },
+    "noliq": {
+      "maint": 5.0,
+      "buffer": 1.0,
+      "disable": true
+    }
+  },
+  "folds": [
+    {
+      "id": "2023",
+      "start": "2023-01-01T00:00:00Z",
+      "end": "2023-12-31T23:00:00Z"
+    },
+    {
+      "id": "2024",
+      "start": "2024-01-01T00:00:00Z",
+      "end": "2024-12-31T23:00:00Z"
+    },
+    {
+      "id": "2025",
+      "start": "2025-01-01T00:00:00Z",
+      "end": "2025-12-31T23:00:00Z"
+    },
+    {
+      "id": "2026YTD",
+      "start": "2026-01-01T00:00:00Z",
+      "end": "2026-09-28T23:00:00Z"
+    }
+  ],
+  "venues": {
+    "okx": {
+      "2023": {
+        "base_6": {
+          "num_trades": 21,
+          "total_pnl": 21382.73,
+          "liquidation_exits": 7,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -24926.76,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 46309.49,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d10": {
+          "num_trades": 20,
+          "total_pnl": 34420.88,
+          "liquidation_exits": 5,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -30046.17,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 64467.05,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 20,
+          "total_pnl": 34420.88,
+          "liquidation_exits": 5,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -30046.17,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 64467.05,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 20,
+          "total_pnl": 62256.19,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -2210.86,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 64467.05,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 20,
+          "total_pnl": 62256.19,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -2210.86,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 64467.05,
+          "rebound_hedge_pnl": 0.0
+        }
+      },
+      "2024": {
+        "base_6": {
+          "num_trades": 34,
+          "total_pnl": -38598.35,
+          "liquidation_exits": 17,
+          "target_rebound_short_exits": 9,
+          "buy_leg_pnl": -72811.04,
+          "rebound_short_pnl": -20488.23,
+          "hedge_pnl": 33074.07,
+          "rebound_hedge_pnl": 14906.38
+        },
+        "d10": {
+          "num_trades": 33,
+          "total_pnl": -41700.05,
+          "liquidation_exits": 15,
+          "target_rebound_short_exits": 10,
+          "buy_leg_pnl": -87860.13,
+          "rebound_short_pnl": -9956.86,
+          "hedge_pnl": 37140.8,
+          "rebound_hedge_pnl": 6995.01
+        },
+        "d15": {
+          "num_trades": 28,
+          "total_pnl": -23054.83,
+          "liquidation_exits": 9,
+          "target_rebound_short_exits": 7,
+          "buy_leg_pnl": -74641.5,
+          "rebound_short_pnl": 756.21,
+          "hedge_pnl": 40173.19,
+          "rebound_hedge_pnl": -3997.95
+        },
+        "d30": {
+          "num_trades": 28,
+          "total_pnl": 14081.49,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 8,
+          "buy_leg_pnl": -30178.83,
+          "rebound_short_pnl": 6039.87,
+          "hedge_pnl": 26152.8,
+          "rebound_hedge_pnl": -6329.32
+        },
+        "noliq": {
+          "num_trades": 28,
+          "total_pnl": 14081.49,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 8,
+          "buy_leg_pnl": -30178.83,
+          "rebound_short_pnl": 6039.87,
+          "hedge_pnl": 26152.8,
+          "rebound_hedge_pnl": -6329.32
+        }
+      },
+      "2025": {
+        "base_6": {
+          "num_trades": 39,
+          "total_pnl": -24979.94,
+          "liquidation_exits": 16,
+          "target_rebound_short_exits": 13,
+          "buy_leg_pnl": -76651.45,
+          "rebound_short_pnl": -18368.79,
+          "hedge_pnl": 51338.02,
+          "rebound_hedge_pnl": 38373.48
+        },
+        "d10": {
+          "num_trades": 37,
+          "total_pnl": -7112.38,
+          "liquidation_exits": 10,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -66217.76,
+          "rebound_short_pnl": -13420.9,
+          "hedge_pnl": 55614.17,
+          "rebound_hedge_pnl": 36814.18
+        },
+        "d15": {
+          "num_trades": 33,
+          "total_pnl": 5538.89,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -52284.63,
+          "rebound_short_pnl": -12650.15,
+          "hedge_pnl": 57358.05,
+          "rebound_hedge_pnl": 34228.59
+        },
+        "d30": {
+          "num_trades": 32,
+          "total_pnl": 15142.45,
+          "liquidation_exits": 1,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -48127.61,
+          "rebound_short_pnl": -10377.53,
+          "hedge_pnl": 60766.8,
+          "rebound_hedge_pnl": 37429.4
+        },
+        "noliq": {
+          "num_trades": 32,
+          "total_pnl": 46169.29,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -17100.76,
+          "rebound_short_pnl": -10377.53,
+          "hedge_pnl": 60766.8,
+          "rebound_hedge_pnl": 37429.4
+        }
+      },
+      "2026YTD": {
+        "base_6": {
+          "num_trades": 19,
+          "total_pnl": -12603.67,
+          "liquidation_exits": 7,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -23378.31,
+          "rebound_short_pnl": 436.93,
+          "hedge_pnl": 10378.43,
+          "rebound_hedge_pnl": -2404.3
+        },
+        "d10": {
+          "num_trades": 15,
+          "total_pnl": 6947.39,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -12855.24,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19802.63,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 15,
+          "total_pnl": 11564.77,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -9033.38,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 20598.14,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 15,
+          "total_pnl": 11564.77,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -9033.38,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 20598.14,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 15,
+          "total_pnl": 11564.77,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -9033.38,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 20598.14,
+          "rebound_hedge_pnl": 0.0
+        }
+      }
+    },
+    "binance_um": {
+      "2023": {
+        "base_6": {
+          "num_trades": 28,
+          "total_pnl": 34989.9,
+          "liquidation_exits": 7,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -7626.67,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 42616.57,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d10": {
+          "num_trades": 27,
+          "total_pnl": 37272.19,
+          "liquidation_exits": 5,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -5457.23,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 42729.42,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 27,
+          "total_pnl": 38752.19,
+          "liquidation_exits": 4,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -3977.23,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 42729.42,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 27,
+          "total_pnl": 52514.9,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": 9785.48,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 42729.42,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 27,
+          "total_pnl": 52514.9,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": 9785.48,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 42729.42,
+          "rebound_hedge_pnl": 0.0
+        }
+      },
+      "2024": {
+        "base_6": {
+          "num_trades": 43,
+          "total_pnl": -33586.83,
+          "liquidation_exits": 21,
+          "target_rebound_short_exits": 11,
+          "buy_leg_pnl": -95644.27,
+          "rebound_short_pnl": -22698.69,
+          "hedge_pnl": 60546.19,
+          "rebound_hedge_pnl": 15879.39
+        },
+        "d10": {
+          "num_trades": 42,
+          "total_pnl": -32804.94,
+          "liquidation_exits": 18,
+          "target_rebound_short_exits": 13,
+          "buy_leg_pnl": -107731.2,
+          "rebound_short_pnl": -13837.57,
+          "hedge_pnl": 68763.27,
+          "rebound_hedge_pnl": 10527.23
+        },
+        "d15": {
+          "num_trades": 33,
+          "total_pnl": -15387.9,
+          "liquidation_exits": 11,
+          "target_rebound_short_exits": 6,
+          "buy_leg_pnl": -90467.09,
+          "rebound_short_pnl": -3198.53,
+          "hedge_pnl": 68875.96,
+          "rebound_hedge_pnl": -1565.96
+        },
+        "d30": {
+          "num_trades": 33,
+          "total_pnl": 27400.04,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 7,
+          "buy_leg_pnl": -40611.89,
+          "rebound_short_pnl": 2115.06,
+          "hedge_pnl": 55096.82,
+          "rebound_hedge_pnl": -3932.13
+        },
+        "noliq": {
+          "num_trades": 33,
+          "total_pnl": 27400.04,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 7,
+          "buy_leg_pnl": -40611.89,
+          "rebound_short_pnl": 2115.06,
+          "hedge_pnl": 55096.82,
+          "rebound_hedge_pnl": -3932.13
+        }
+      },
+      "2025": {
+        "base_6": {
+          "num_trades": 41,
+          "total_pnl": -42040.5,
+          "liquidation_exits": 17,
+          "target_rebound_short_exits": 14,
+          "buy_leg_pnl": -82766.16,
+          "rebound_short_pnl": -15599.04,
+          "hedge_pnl": 33815.4,
+          "rebound_hedge_pnl": 27579.04
+        },
+        "d10": {
+          "num_trades": 39,
+          "total_pnl": -17603.65,
+          "liquidation_exits": 10,
+          "target_rebound_short_exits": 14,
+          "buy_leg_pnl": -71438.02,
+          "rebound_short_pnl": -5153.63,
+          "hedge_pnl": 38777.77,
+          "rebound_hedge_pnl": 24754.55
+        },
+        "d15": {
+          "num_trades": 34,
+          "total_pnl": 18273.31,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 13,
+          "buy_leg_pnl": -38411.53,
+          "rebound_short_pnl": -632.92,
+          "hedge_pnl": 47765.68,
+          "rebound_hedge_pnl": 27220.29
+        },
+        "d30": {
+          "num_trades": 33,
+          "total_pnl": 28145.5,
+          "liquidation_exits": 1,
+          "target_rebound_short_exits": 13,
+          "buy_leg_pnl": -33967.1,
+          "rebound_short_pnl": 1669.56,
+          "hedge_pnl": 51188.2,
+          "rebound_hedge_pnl": 30428.76
+        },
+        "noliq": {
+          "num_trades": 33,
+          "total_pnl": 58597.36,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 13,
+          "buy_leg_pnl": -3515.24,
+          "rebound_short_pnl": 1669.56,
+          "hedge_pnl": 51188.2,
+          "rebound_hedge_pnl": 30428.76
+        }
+      },
+      "2026YTD": {
+        "base_6": {
+          "num_trades": 24,
+          "total_pnl": -29433.98,
+          "liquidation_exits": 8,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -28742.29,
+          "rebound_short_pnl": 261.06,
+          "hedge_pnl": -927.86,
+          "rebound_hedge_pnl": -1435.65
+        },
+        "d10": {
+          "num_trades": 23,
+          "total_pnl": -16271.33,
+          "liquidation_exits": 4,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -28244.76,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 11973.43,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 22,
+          "total_pnl": 5975.73,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -12899.74,
+          "rebound_short_pnl": 5800.98,
+          "hedge_pnl": -1571.29,
+          "rebound_hedge_pnl": 438.92
+        },
+        "d30": {
+          "num_trades": 22,
+          "total_pnl": 5975.73,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -12899.74,
+          "rebound_short_pnl": 5800.98,
+          "hedge_pnl": -1571.29,
+          "rebound_hedge_pnl": 438.92
+        },
+        "noliq": {
+          "num_trades": 22,
+          "total_pnl": 5975.73,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -12899.74,
+          "rebound_short_pnl": 5800.98,
+          "hedge_pnl": -1571.29,
+          "rebound_hedge_pnl": 438.92
+        }
+      }
+    },
+    "mexc": {
+      "2023": {
+        "base_6": {
+          "num_trades": 25,
+          "total_pnl": 30599.03,
+          "liquidation_exits": 7,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -15576.87,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 46175.9,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d10": {
+          "num_trades": 24,
+          "total_pnl": 32644.6,
+          "liquidation_exits": 5,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -12756.0,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 45400.59,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 24,
+          "total_pnl": 34300.42,
+          "liquidation_exits": 4,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -11100.18,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 45400.59,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 24,
+          "total_pnl": 48296.8,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": 2896.21,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 45400.59,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 24,
+          "total_pnl": 48296.8,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": 2896.21,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 45400.59,
+          "rebound_hedge_pnl": 0.0
+        }
+      },
+      "2024": {
+        "base_6": {
+          "num_trades": 40,
+          "total_pnl": -27326.63,
+          "liquidation_exits": 19,
+          "target_rebound_short_exits": 10,
+          "buy_leg_pnl": -79428.81,
+          "rebound_short_pnl": -25068.97,
+          "hedge_pnl": 53443.69,
+          "rebound_hedge_pnl": 17168.72
+        },
+        "d10": {
+          "num_trades": 39,
+          "total_pnl": -26249.92,
+          "liquidation_exits": 16,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -90867.55,
+          "rebound_short_pnl": -13756.7,
+          "hedge_pnl": 59056.44,
+          "rebound_hedge_pnl": 9673.71
+        },
+        "d15": {
+          "num_trades": 31,
+          "total_pnl": -15455.09,
+          "liquidation_exits": 9,
+          "target_rebound_short_exits": 6,
+          "buy_leg_pnl": -80730.61,
+          "rebound_short_pnl": -5320.06,
+          "hedge_pnl": 61561.18,
+          "rebound_hedge_pnl": -1281.0
+        },
+        "d30": {
+          "num_trades": 30,
+          "total_pnl": 16668.24,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 6,
+          "buy_leg_pnl": -48269.85,
+          "rebound_short_pnl": 1579.57,
+          "hedge_pnl": 54436.57,
+          "rebound_hedge_pnl": -5635.91
+        },
+        "noliq": {
+          "num_trades": 30,
+          "total_pnl": 16668.24,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 6,
+          "buy_leg_pnl": -48269.85,
+          "rebound_short_pnl": 1579.57,
+          "hedge_pnl": 54436.57,
+          "rebound_hedge_pnl": -5635.91
+        }
+      },
+      "2025": {
+        "base_6": {
+          "num_trades": 37,
+          "total_pnl": -27638.05,
+          "liquidation_exits": 16,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -77266.56,
+          "rebound_short_pnl": -14992.75,
+          "hedge_pnl": 43669.3,
+          "rebound_hedge_pnl": 32810.91
+        },
+        "d10": {
+          "num_trades": 35,
+          "total_pnl": -9396.8,
+          "liquidation_exits": 10,
+          "target_rebound_short_exits": 11,
+          "buy_leg_pnl": -66542.44,
+          "rebound_short_pnl": -7231.41,
+          "hedge_pnl": 45238.83,
+          "rebound_hedge_pnl": 28345.39
+        },
+        "d15": {
+          "num_trades": 31,
+          "total_pnl": 15567.16,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 11,
+          "buy_leg_pnl": -40404.78,
+          "rebound_short_pnl": -5171.04,
+          "hedge_pnl": 50505.33,
+          "rebound_hedge_pnl": 28462.37
+        },
+        "d30": {
+          "num_trades": 30,
+          "total_pnl": 25373.75,
+          "liquidation_exits": 1,
+          "target_rebound_short_exits": 11,
+          "buy_leg_pnl": -36066.67,
+          "rebound_short_pnl": -2890.16,
+          "hedge_pnl": 53966.01,
+          "rebound_hedge_pnl": 31704.76
+        },
+        "noliq": {
+          "num_trades": 30,
+          "total_pnl": 55954.99,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 11,
+          "buy_leg_pnl": -5485.42,
+          "rebound_short_pnl": -2890.16,
+          "hedge_pnl": 53966.01,
+          "rebound_hedge_pnl": 31704.76
+        }
+      },
+      "2026YTD": {
+        "base_6": {
+          "num_trades": 22,
+          "total_pnl": -25394.59,
+          "liquidation_exits": 9,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -30598.08,
+          "rebound_short_pnl": 321.47,
+          "hedge_pnl": 4910.95,
+          "rebound_hedge_pnl": -1797.04
+        },
+        "d10": {
+          "num_trades": 18,
+          "total_pnl": -4574.75,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -19995.95,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 15421.2,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 18,
+          "total_pnl": 3921.67,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -15142.99,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19064.66,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 18,
+          "total_pnl": 3921.67,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -15142.99,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19064.66,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 18,
+          "total_pnl": 3921.67,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -15142.99,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19064.66,
+          "rebound_hedge_pnl": 0.0
+        }
+      }
+    },
+    "bitget": {
+      "2023": {
+        "base_6": {
+          "num_trades": 24,
+          "total_pnl": 28706.32,
+          "liquidation_exits": 7,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -31730.78,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 60437.1,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d10": {
+          "num_trades": 23,
+          "total_pnl": 35797.29,
+          "liquidation_exits": 5,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -30477.52,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 66274.81,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 23,
+          "total_pnl": 35797.29,
+          "liquidation_exits": 5,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -30477.52,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 66274.81,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 23,
+          "total_pnl": 62360.94,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -3913.87,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 66274.81,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 23,
+          "total_pnl": 62360.94,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -3913.87,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 66274.81,
+          "rebound_hedge_pnl": 0.0
+        }
+      },
+      "2024": {
+        "base_6": {
+          "num_trades": 36,
+          "total_pnl": -30939.6,
+          "liquidation_exits": 17,
+          "target_rebound_short_exits": 8,
+          "buy_leg_pnl": -56469.47,
+          "rebound_short_pnl": -25123.82,
+          "hedge_pnl": 29768.54,
+          "rebound_hedge_pnl": 18432.18
+        },
+        "d10": {
+          "num_trades": 36,
+          "total_pnl": -37841.45,
+          "liquidation_exits": 15,
+          "target_rebound_short_exits": 10,
+          "buy_leg_pnl": -75871.84,
+          "rebound_short_pnl": -14530.43,
+          "hedge_pnl": 33646.21,
+          "rebound_hedge_pnl": 9103.38
+        },
+        "d15": {
+          "num_trades": 31,
+          "total_pnl": -29720.46,
+          "liquidation_exits": 9,
+          "target_rebound_short_exits": 7,
+          "buy_leg_pnl": -72317.14,
+          "rebound_short_pnl": -5214.24,
+          "hedge_pnl": 38066.13,
+          "rebound_hedge_pnl": -1602.53
+        },
+        "d30": {
+          "num_trades": 31,
+          "total_pnl": 9647.55,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 8,
+          "buy_leg_pnl": -25857.68,
+          "rebound_short_pnl": 940.59,
+          "hedge_pnl": 23717.09,
+          "rebound_hedge_pnl": -4686.35
+        },
+        "noliq": {
+          "num_trades": 31,
+          "total_pnl": 9647.55,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 8,
+          "buy_leg_pnl": -25857.68,
+          "rebound_short_pnl": 940.59,
+          "hedge_pnl": 23717.09,
+          "rebound_hedge_pnl": -4686.35
+        }
+      },
+      "2025": {
+        "base_6": {
+          "num_trades": 37,
+          "total_pnl": -32710.19,
+          "liquidation_exits": 14,
+          "target_rebound_short_exits": 13,
+          "buy_leg_pnl": -73226.84,
+          "rebound_short_pnl": -12793.34,
+          "hedge_pnl": 33709.71,
+          "rebound_hedge_pnl": 26310.57
+        },
+        "d10": {
+          "num_trades": 35,
+          "total_pnl": -13168.57,
+          "liquidation_exits": 10,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -68488.96,
+          "rebound_short_pnl": -5230.55,
+          "hedge_pnl": 42764.22,
+          "rebound_hedge_pnl": 24115.52
+        },
+        "d15": {
+          "num_trades": 31,
+          "total_pnl": 21116.87,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -37950.6,
+          "rebound_short_pnl": -4049.75,
+          "hedge_pnl": 52721.16,
+          "rebound_hedge_pnl": 30577.22
+        },
+        "d30": {
+          "num_trades": 30,
+          "total_pnl": 30778.89,
+          "liquidation_exits": 1,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -33686.96,
+          "rebound_short_pnl": -1814.86,
+          "hedge_pnl": 56134.73,
+          "rebound_hedge_pnl": 33780.91
+        },
+        "noliq": {
+          "num_trades": 30,
+          "total_pnl": 61294.76,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 12,
+          "buy_leg_pnl": -3171.09,
+          "rebound_short_pnl": -1814.86,
+          "hedge_pnl": 56134.73,
+          "rebound_hedge_pnl": 33780.91
+        }
+      },
+      "2026YTD": {
+        "base_6": {
+          "num_trades": 21,
+          "total_pnl": -23185.86,
+          "liquidation_exits": 8,
+          "target_rebound_short_exits": 1,
+          "buy_leg_pnl": -29094.89,
+          "rebound_short_pnl": 660.63,
+          "hedge_pnl": 5308.36,
+          "rebound_hedge_pnl": -3600.86
+        },
+        "d10": {
+          "num_trades": 17,
+          "total_pnl": -1360.62,
+          "liquidation_exits": 2,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -20307.42,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 18946.79,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d15": {
+          "num_trades": 17,
+          "total_pnl": 3040.79,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -16699.4,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19740.2,
+          "rebound_hedge_pnl": 0.0
+        },
+        "d30": {
+          "num_trades": 17,
+          "total_pnl": 3040.79,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -16699.4,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19740.2,
+          "rebound_hedge_pnl": 0.0
+        },
+        "noliq": {
+          "num_trades": 17,
+          "total_pnl": 3040.79,
+          "liquidation_exits": 0,
+          "target_rebound_short_exits": 0,
+          "buy_leg_pnl": -16699.4,
+          "rebound_short_pnl": 0.0,
+          "hedge_pnl": 19740.2,
+          "rebound_hedge_pnl": 0.0
+        }
+      }
+    }
+  },
+  "pooled": {
+    "base_6": {
+      "per_venue_total_pnl": {
+        "okx": -54799.23,
+        "binance_um": -70071.41,
+        "mexc": -49760.24,
+        "bitget": -58129.33
+      },
+      "all_venue_sum": -232760.21,
+      "per_venue_fold_sign": {
+        "okx": [
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "binance_um": [
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "mexc": [
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "bitget": [
+          1,
+          -1,
+          -1,
+          -1
+        ]
+      }
+    },
+    "d10": {
+      "per_venue_total_pnl": {
+        "okx": -7444.16,
+        "binance_um": -29407.73,
+        "mexc": -7576.87,
+        "bitget": -16573.35
+      },
+      "all_venue_sum": -61002.11,
+      "per_venue_fold_sign": {
+        "okx": [
+          1,
+          -1,
+          -1,
+          1
+        ],
+        "binance_um": [
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "mexc": [
+          1,
+          -1,
+          -1,
+          -1
+        ],
+        "bitget": [
+          1,
+          -1,
+          -1,
+          -1
+        ]
+      }
+    },
+    "d15": {
+      "per_venue_total_pnl": {
+        "okx": 28469.71,
+        "binance_um": 47613.33,
+        "mexc": 38334.16,
+        "bitget": 30234.49
+      },
+      "all_venue_sum": 144651.69,
+      "per_venue_fold_sign": {
+        "okx": [
+          1,
+          -1,
+          1,
+          1
+        ],
+        "binance_um": [
+          1,
+          -1,
+          1,
+          1
+        ],
+        "mexc": [
+          1,
+          -1,
+          1,
+          1
+        ],
+        "bitget": [
+          1,
+          -1,
+          1,
+          1
+        ]
+      }
+    },
+    "d30": {
+      "per_venue_total_pnl": {
+        "okx": 103044.9,
+        "binance_um": 114036.17,
+        "mexc": 94260.46,
+        "bitget": 105828.17
+      },
+      "all_venue_sum": 417169.7,
+      "per_venue_fold_sign": {
+        "okx": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "binance_um": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "mexc": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "bitget": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    },
+    "noliq": {
+      "per_venue_total_pnl": {
+        "okx": 134071.74,
+        "binance_um": 144488.03,
+        "mexc": 124841.7,
+        "bitget": 136344.04
+      },
+      "all_venue_sum": 539745.51,
+      "per_venue_fold_sign": {
+        "okx": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "binance_um": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "mexc": [
+          1,
+          1,
+          1,
+          1
+        ],
+        "bitget": [
+          1,
+          1,
+          1,
+          1
+        ]
+      }
+    }
+  },
+  "fidelity_anchor_reproduced": true
+}
