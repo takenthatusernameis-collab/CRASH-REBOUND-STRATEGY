@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "campaign": "C24",
+  "generated_at_utc": "2026-11-19T11:15:08Z",
+  "prereg": "research_state/c24_prereg_20261119T013154Z.json",
+  "prereg_sha256": "3c0d0b12e139ed2ed264e44964c23639110b2c5a4c0b79ade99ec1f69af30dcb",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Only the liquidation-distance execution parameter varies between arms; the signal path (RSI21<20 next-open, +9% target, 50h hold, 48h rebound short, 1.25% of 24h volume, 120% gross cap, ETH hedge) is frozen and drift-checked.",
+  "primary_arm": "d15",
+  "fidelity_arm": "base_6",
+  "arm_tokens": {
+    "base_6": "FIDELITY_ANCHOR_REPRODUCED",
+    "d10": "DESCRIPTIVE_ONLY",
+    "d15": "C24_REOPENS_C1_C23",
+    "d30": "DESCRIPTIVE_ONLY",
+    "noliq": "DESCRIPTIVE_ONLY"
+  },
+  "arm_pooled_totals": {
+    "base_6": -232760.19,
+    "d10": -61002.11,
+    "d15": 144651.69,
+    "d30": 417169.7,
+    "noliq": 539745.52
+  },
+  "consolidated_verdict": "C24_REOPENS_C1_C23"
+}

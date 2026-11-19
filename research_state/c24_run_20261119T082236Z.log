@@ -153,3 +153,137 @@
 [run] d15 bitget 2026YTD
 [census] Bitget: events=218 signal_pass=70 trades=17 matched=17 unexplained=13
 [C22][fast-path validated] trades=17 pnl=3040.7938 diff=0.00e+00
+[episode] d15 bitget 2026YTD: trades=17 pnl=3040.79 perm_p=0.75
+[C22][fast-path validated] trades=17 pnl=3040.7938 diff=0.00e+00
+[placebo] d15 bitget 2026YTD: pool=70 choose=17 runs=2000 p_ge=0.422
+[battery] Bitget: total=3040.79 trades=17 legs=['buy'] episodes=8
+[done] d15 bitget 2026YTD pnl=3040.79
+[run] d30 okx 2023
+[census] OKX: events=345 signal_pass=95 trades=20 matched=20 unexplained=36
+[battery] OKX: total=62256.19 trades=20 legs=['buy'] episodes=0
+[done] d30 okx 2023 pnl=62256.19
+[run] d30 okx 2024
+[census] OKX: events=303 signal_pass=115 trades=28 matched=28 unexplained=32
+[battery] OKX: total=14081.49 trades=28 legs=['buy', 'short'] episodes=0
+[done] d30 okx 2024 pnl=14081.49
+[run] d30 okx 2025
+[census] OKX: events=314 signal_pass=100 trades=32 matched=32 unexplained=16
+[battery] OKX: total=15142.45 trades=32 legs=['buy', 'short'] episodes=0
+[done] d30 okx 2025 pnl=15142.45
+[run] d30 okx 2026YTD
+[census] OKX: events=219 signal_pass=59 trades=15 matched=15 unexplained=9
+[battery] OKX: total=11564.77 trades=15 legs=['buy'] episodes=0
+[done] d30 okx 2026YTD pnl=11564.77
+[run] d30 binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=27 matched=27 unexplained=58
+[battery] Binance UM: total=52514.90 trades=27 legs=['buy'] episodes=0
+[done] d30 binance_um 2023 pnl=52514.9
+[run] d30 binance_um 2024
+[census] Binance UM: events=312 signal_pass=140 trades=33 matched=33 unexplained=46
+[battery] Binance UM: total=27400.04 trades=33 legs=['buy', 'short'] episodes=0
+[done] d30 binance_um 2024 pnl=27400.04
+[run] d30 binance_um 2025
+[census] Binance UM: events=324 signal_pass=115 trades=33 matched=33 unexplained=30
+[battery] Binance UM: total=28145.50 trades=33 legs=['buy', 'short'] episodes=0
+[done] d30 binance_um 2025 pnl=28145.5
+[run] d30 binance_um 2026YTD
+[census] Binance UM: events=226 signal_pass=86 trades=22 matched=22 unexplained=18
+[battery] Binance UM: total=5975.73 trades=22 legs=['buy', 'short'] episodes=0
+[done] d30 binance_um 2026YTD pnl=5975.73
+[run] d30 mexc 2023
+[census] MEXC: events=325 signal_pass=110 trades=24 matched=24 unexplained=44
+[battery] MEXC: total=48296.80 trades=24 legs=['buy'] episodes=0
+[done] d30 mexc 2023 pnl=48296.8
+[run] d30 mexc 2024
+[census] MEXC: events=314 signal_pass=124 trades=30 matched=30 unexplained=34
+[battery] MEXC: total=16668.24 trades=30 legs=['buy', 'short'] episodes=0
+[done] d30 mexc 2024 pnl=16668.24
+[run] d30 mexc 2025
+[census] MEXC: events=311 signal_pass=94 trades=30 matched=30 unexplained=15
+[battery] MEXC: total=25373.75 trades=30 legs=['buy', 'short'] episodes=0
+[done] d30 mexc 2025 pnl=25373.75
+[run] d30 mexc 2026YTD
+[census] MEXC: events=219 signal_pass=69 trades=18 matched=18 unexplained=13
+[battery] MEXC: total=3921.67 trades=18 legs=['buy'] episodes=0
+[done] d30 mexc 2026YTD pnl=3921.67
+[run] d30 bitget 2023
+[census] Bitget: events=348 signal_pass=108 trades=23 matched=23 unexplained=41
+[battery] Bitget: total=62360.94 trades=23 legs=['buy'] episodes=0
+[done] d30 bitget 2023 pnl=62360.94
+[run] d30 bitget 2024
+[census] Bitget: events=311 signal_pass=116 trades=31 matched=31 unexplained=28
+[battery] Bitget: total=9647.55 trades=31 legs=['buy', 'short'] episodes=0
+[done] d30 bitget 2024 pnl=9647.55
+[run] d30 bitget 2025
+[census] Bitget: events=323 signal_pass=105 trades=30 matched=30 unexplained=22
+[battery] Bitget: total=30778.89 trades=30 legs=['buy', 'short'] episodes=0
+[done] d30 bitget 2025 pnl=30778.89
+[run] d30 bitget 2026YTD
+[census] Bitget: events=218 signal_pass=70 trades=17 matched=17 unexplained=13
+[battery] Bitget: total=3040.79 trades=17 legs=['buy'] episodes=0
+[done] d30 bitget 2026YTD pnl=3040.79
+[run] noliq okx 2023
+[census] OKX: events=345 signal_pass=95 trades=20 matched=20 unexplained=36
+[battery] OKX: total=62256.19 trades=20 legs=['buy'] episodes=0
+[done] noliq okx 2023 pnl=62256.19
+[run] noliq okx 2024
+[census] OKX: events=303 signal_pass=115 trades=28 matched=28 unexplained=32
+[battery] OKX: total=14081.49 trades=28 legs=['buy', 'short'] episodes=0
+[done] noliq okx 2024 pnl=14081.49
+[run] noliq okx 2025
+[census] OKX: events=314 signal_pass=100 trades=32 matched=32 unexplained=16
+[battery] OKX: total=46169.29 trades=32 legs=['buy', 'short'] episodes=0
+[done] noliq okx 2025 pnl=46169.29
+[run] noliq okx 2026YTD
+[census] OKX: events=219 signal_pass=59 trades=15 matched=15 unexplained=9
+[battery] OKX: total=11564.77 trades=15 legs=['buy'] episodes=0
+[done] noliq okx 2026YTD pnl=11564.77
+[run] noliq binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=27 matched=27 unexplained=58
+[battery] Binance UM: total=52514.90 trades=27 legs=['buy'] episodes=0
+[done] noliq binance_um 2023 pnl=52514.9
+[run] noliq binance_um 2024
+[census] Binance UM: events=312 signal_pass=140 trades=33 matched=33 unexplained=46
+[battery] Binance UM: total=27400.04 trades=33 legs=['buy', 'short'] episodes=0
+[done] noliq binance_um 2024 pnl=27400.04
+[run] noliq binance_um 2025
+[census] Binance UM: events=324 signal_pass=115 trades=33 matched=33 unexplained=30
+[battery] Binance UM: total=58597.36 trades=33 legs=['buy', 'short'] episodes=0
+[done] noliq binance_um 2025 pnl=58597.36
+[run] noliq binance_um 2026YTD
+[census] Binance UM: events=226 signal_pass=86 trades=22 matched=22 unexplained=18
+[battery] Binance UM: total=5975.73 trades=22 legs=['buy', 'short'] episodes=0
+[done] noliq binance_um 2026YTD pnl=5975.73
+[run] noliq mexc 2023
+[census] MEXC: events=325 signal_pass=110 trades=24 matched=24 unexplained=44
+[battery] MEXC: total=48296.80 trades=24 legs=['buy'] episodes=0
+[done] noliq mexc 2023 pnl=48296.8
+[run] noliq mexc 2024
+[census] MEXC: events=314 signal_pass=124 trades=30 matched=30 unexplained=34
+[battery] MEXC: total=16668.24 trades=30 legs=['buy', 'short'] episodes=0
+[done] noliq mexc 2024 pnl=16668.24
+[run] noliq mexc 2025
+[census] MEXC: events=311 signal_pass=94 trades=30 matched=30 unexplained=15
+[battery] MEXC: total=55954.99 trades=30 legs=['buy', 'short'] episodes=0
+[done] noliq mexc 2025 pnl=55954.99
+[run] noliq mexc 2026YTD
+[census] MEXC: events=219 signal_pass=69 trades=18 matched=18 unexplained=13
+[battery] MEXC: total=3921.67 trades=18 legs=['buy'] episodes=0
+[done] noliq mexc 2026YTD pnl=3921.67
+[run] noliq bitget 2023
+[census] Bitget: events=348 signal_pass=108 trades=23 matched=23 unexplained=41
+[battery] Bitget: total=62360.94 trades=23 legs=['buy'] episodes=0
+[done] noliq bitget 2023 pnl=62360.94
+[run] noliq bitget 2024
+[census] Bitget: events=311 signal_pass=116 trades=31 matched=31 unexplained=28
+[battery] Bitget: total=9647.55 trades=31 legs=['buy', 'short'] episodes=0
+[done] noliq bitget 2024 pnl=9647.55
+[run] noliq bitget 2025
+[census] Bitget: events=323 signal_pass=105 trades=30 matched=30 unexplained=22
+[battery] Bitget: total=61294.76 trades=30 legs=['buy', 'short'] episodes=0
+[done] noliq bitget 2025 pnl=61294.76
+[run] noliq bitget 2026YTD
+[census] Bitget: events=218 signal_pass=70 trades=17 matched=17 unexplained=13
+[battery] Bitget: total=3040.79 trades=17 legs=['buy'] episodes=0
+[done] noliq bitget 2026YTD pnl=3040.79
+consolidated: C24_REOPENS_C1_C23

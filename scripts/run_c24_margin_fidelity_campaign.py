@@ -661,7 +661,7 @@ def _arm_summary(arm: str, ckpts, draws) -> Dict[str, Any]:
         "draws": draws,
         **verdict,
     }
-    _save(_stem(arm, "decision_verdict"), payload)
+    _save(f"c24_decision_verdict_{arm}_{TS}", payload)
     return payload
 
 
@@ -727,7 +727,7 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "arm_pooled_totals": {a: all_arms[a]["pooled"]["observed_total"] for a in all_arms},
             "consolidated_verdict": all_arms[PRIMARY_ARM]["token"],
         }
-        _save("c24_decision_verdict_CONSOLIDATED", final)
+        _save(f"c24_decision_verdict_CONSOLIDATED_{TS}", final)
         print("consolidated:", final["consolidated_verdict"], flush=True)
     return 0
 
