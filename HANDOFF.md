@@ -1,10 +1,10 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-19T02:11:24Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 complete; Bitget USDT-perp C23 COMPLETE).
+**Generated (UTC):** 2026-11-19T02:12:24Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX + Binance UM perps C1–C21; MEXC USDT-perp C22 complete; Bitget USDT-perp C23 COMPLETE).
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer to this file; do not maintain a second source of truth.
 **Priority by repo scope (non-negotiable):** C1–C20 are CLOSED & CERTIFIED `NO_GO` (do not relitigate). **C21-T1 is COMPLETE** — gate `C21 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. **C22-T1 is COMPLETE** — gate `C22 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. **C23-T1 is COMPLETE** — gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO` (Bitget USDT-M out-of-sample replication of the frozen spec-literal edge; PRE-REGISTERED `c23_prereg_20261118T202301Z`; 4/4 fold checkpoints present, 7/7 battery artifacts present). Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT run a same-data C22+ rerun on OKX/Binance; do not relabel MEXC/Bitget data as Hyperliquid; do not reduce draw counts. **Terminal state reached: C1–C23 all CLOSED `NO_GO`. No further campaign is authorized beyond C23 — STOP.**
 
-**Verified live/repo state (2026-11-19T02:11:24Z):**
+**Verified live/repo state (2026-11-19T02:12:24Z):**
 - `bash scripts/status_c23.sh` (read-only, one-shot; ONLY status command you need) → `RUNNER: NOT ALIVE` (campaign finished; do not relaunch), `2023/2024/2025/2026YTD: DONE`, battery `7/7`, gate `C23 ACCEPTANCE: PASS`.
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c23_focus_campaign.py` → `C23 ACCEPTANCE: PASS` (bitget=NO_GO, consolidated=NO_GO; battery 7/7; folds ['2023','2024','2025','2026YTD']; is_hyperliquid_venue_data=false).
 - `PYTHONPATH=. .venv/bin/python scripts/verify_c22_focus_campaign.py` → `C22 ACCEPTANCE: PASS` (mexc consolidated `NO_GO`). C22 runner NOT alive — campaign complete.
@@ -16,13 +16,13 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T02:11:24Z — C23-T1 COMPLETE, TERMINAL STATE, STOP)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T02:12:24Z — C23-T1 COMPLETE, TERMINAL STATE, STOP)
 
 **Single durable handoff / source of truth:** this file. `INITIAL_TASK_MESSAGE.md` is a pointer only.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data.
 
-**Current position (verified live 2026-11-19T02:11:24Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 COMPLETE** — Bitget USDT-M out-of-sample replication. Gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. Pooled total PnL **-58,129.33**, prob_pooled_total_gt_0=0.0, BH pooled stratum survivors **0/36**, sign concordant (all negative). Folds: 2023: 24 trades +28,706.32; 2024: 36 trades -30,939.60; 2025: 37 trades -32,710.19; 2026YTD: 21 trades -23,185.86. 4/4 fold checkpoints present, 7/7 battery artifacts present. Runner NOT ALIVE (campaign finished) — do not relaunch.
+**Current position (verified live 2026-11-19T02:12:24Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 COMPLETE** — Bitget USDT-M out-of-sample replication. Gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. Pooled total PnL **-58,129.33**, prob_pooled_total_gt_0=0.0, BH pooled stratum survivors **0/36**, sign concordant (all negative). Folds: 2023: 24 trades +28,706.32; 2024: 36 trades -30,939.60; 2025: 37 trades -32,710.19; 2026YTD: 21 trades -23,185.86. 4/4 fold checkpoints present, 7/7 battery artifacts present. Runner NOT ALIVE (campaign finished) — do not relaunch.
 
 **Immediate next action:** none required — **STOP**. No campaign is authorized beyond C23. Do not launch C23 again, do not start a same-data follow-on on OKX/Binance/MEXC, do not relabel Bitget data as Hyperliquid, do not reduce draw counts. The correct terminal state is the evidence report below, not a new probe.
 
