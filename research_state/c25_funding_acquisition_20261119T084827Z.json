@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T08:48:27Z",
+  "probe": "c25_funding_acquisition",
+  "window": {
+    "start": "2023-01-01",
+    "end": "2026-09-28"
+  },
+  "venues": [
+    {
+      "venue": "okx",
+      "status": "UNAVAILABLE_FUNDING",
+      "note": "no funding records acquired",
+      "generated_at_utc": "2026-11-19T08:48:27Z",
+      "attempted_symbols": [
+        "AAVE",
+        "ADA",
+        "ALGO",
+        "APT",
+        "ATOM",
+        "AVAX",
+        "BAT",
+        "BCH",
+        "COMP",
+        "CRV",
+        "DOGE",
+        "DOT",
+        "ETC",
+        "ETH",
+        "FIL",
+        "GRT",
+        "KSM",
+        "LINK",
+        "LTC",
+        "MANA",
+        "MINA",
+        "NEAR",
+        "OP",
+        "SAND",
+        "SHIB",
+        "SNX",
+        "SOL",
+        "SUSHI",
+        "THETA",
+        "TRX",
+        "UNI",
+        "XLM",
+        "XRP",
+        "XTZ"
+      ],
+      "funding_rate_pct_per_hour": null
+    }
+  ]
+}

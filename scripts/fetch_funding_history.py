@@ -20,7 +20,8 @@ Sources (real market data, no synthesis):
   - binance_um : https://data.binance.vision/data/futures/um/monthly/fundingRate/
   - mexc       : https://contract.mexc.com/api/v1/contract/funding_rate/history
   - bitget     : https://api.bitget.com/api/v2/mix/market/history-fund-rate
-  - okx        : https://www.okx.com/api/v5/public/funding-rate-history (403 here)
+  - okx        : https://www.okx.com/api/v5/public/funding-rate-history
+                 (paginated via `before`; per-symbol rates normalized to per-8h)
 
 Run (from repo root):
   PYTHONPATH=. .venv/bin/python scripts/fetch_funding_history.py \
@@ -204,10 +205,52 @@ def _bitget_symbol_rows(symbol: str, workers: int) -> List[Tuple[int, float]]:
     return rows
 
 
+def _okx_symbol_rows(symbol: str, workers: int) -> List[Tuple[int, float]]:
+    contract = CONTRACT_FMT["okx"].format(s=symbol)
+    base = ("https://www.okx.com/api/v5/public/funding-rate-history"
+            f"?instId={contract}&limit=100")
+    rows: List[Tuple[int, float]] = []
+    before: Optional[int] = None
+    for _ in range(200):
+        url = base + (f"&before={before}" if before else "")
+        try:
+            d = _get_json(url, timeout=25, retries=3)
+        except Exception:
+            break
+        recs = d.get("data") or []
+        if not recs:
+            break
+        oldest: Optional[int] = None
+        for rec in recs:
+            try:
+                ts = int(rec["fundingTime"])
+                rate = float(rec.get("realizedRate") or rec["fundingRate"])
+            except (KeyError, TypeError, ValueError):
+                continue
+            oldest = ts if oldest is None else min(oldest, ts)
+            if WINDOW_START_MS <= ts < WINDOW_END_MS:
+                rows.append((ts, rate))
+        if oldest is None or oldest < WINDOW_START_MS:
+            break
+        before = oldest
+        time.sleep(0.1)
+    rows.sort()
+    # OKX funding intervals vary by contract (4h for some alts, 8h otherwise).
+    # Convert each symbol's rate series to a per-8h equivalent so the venue
+    # scalar matches the manifest convention used for the other venues.
+    if len(rows) >= 3:
+        diffs = sorted(b[0] - a[0] for a, b in zip(rows, rows[1:]))
+        med_hours = diffs[len(diffs) // 2] / 3_600_000.0
+        if 2.0 <= med_hours <= 12.0 and abs(med_hours - 8.0) > 0.5:
+            rows = [(ts, r * 8.0 / med_hours) for ts, r in rows]
+    return rows
+
+
 FETCHERS = {
     "binance_um": _binance_symbol_rows,
     "mexc": _mexc_symbol_rows,
     "bitget": _bitget_symbol_rows,
+    "okx": _okx_symbol_rows,
 }
 
 
@@ -278,6 +321,7 @@ def acquire(venue: str, workers: int, limit_symbols: Optional[int]) -> Dict[str,
             "binance_um": "GET https://data.binance.vision/data/futures/um/monthly/fundingRate/<CONTRACT>/<CONTRACT>-fundingRate-<YYYY-MM>.zip",
             "mexc": "GET https://contract.mexc.com/api/v1/contract/funding_rate/history",
             "bitget": "GET https://api.bitget.com/api/v2/mix/market/history-fund-rate",
+            "okx": "GET https://www.okx.com/api/v5/public/funding-rate-history",
         }[venue],
         "symbols_requested": len(symbols),
         "symbols_acquired": sorted(per_symbol),

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-19T03:36:23Z",
+  "generated_at_utc": "2026-11-19T08:43:07Z",
   "campaign": "C24",
   "arm": "d15",
   "kind": "fold_episode_edge",
@@ -1309,8 +1309,11 @@
     }
   },
   "temporal_edge_permutation": {
-    "method": "conditional permutation: crash bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; real portfolio engine",
-    "mode": "deterministic_seeded_draws:300_seed:20261201",
+    "method": "conditional permutation: crash bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; exact validated portfolio replay",
+    "mode": "deterministic_seeded_draws:20000_seed:20261201",
+    "exact_null_space_size": null,
+    "exact_null_resampled": false,
+    "resampled_to_target_draws": null,
     "eligible_crash_bars": 303,
     "observed_event_slots": 115,
     "observed_per_symbol": {
@@ -1330,27 +1333,40 @@
       "UNI": 10
     },
     "distinct_possible_draws": 3911846400,
-    "draws_evaluated": 300,
+    "draws_evaluated": 20000,
+    "target_draws": 20000,
     "seed": 20261201,
     "jobs": 4,
+    "replay_path": "exact_validated_event_bar_replay",
+    "replay_validation": {
+      "key": [
+        140625849109312,
+        115
+      ],
+      "ok": true,
+      "detail": "trades=28 pnl=-23054.8306 diff=0.00e+00",
+      "validated_at_utc": "2026-11-19T08:31:32Z"
+    },
     "canonical_total_pnl": -23054.83056252186,
     "null_total_pnl": {
-      "mean": -20171.601680851778,
-      "median": -19627.776380353793,
-      "stdev": 5457.286002661285,
-      "min": -28975.430419551307,
+      "mean": -19858.237671966246,
+      "median": -18801.380589521592,
+      "stdev": 5412.574533907762,
+      "min": -30281.276561255585,
       "max": -8358.609051390606,
-      "p05": -27751.53513765642,
+      "p05": -27215.036860569086,
       "p95": -12765.851473810468,
-      "ci_low_pnl_2p5": -28421.67546343567,
-      "ci_high_pnl_97p5": -12091.9277256873,
+      "ci_low_pnl_2p5": -28308.91084001584,
+      "ci_high_pnl_97p5": -11123.75371791928,
       "prob_total_pnl_gt_0": 0.0
     },
-    "canonical_percentile_le": 0.4266666666666667,
-    "p_null_ge_canonical": 0.5966666666666667,
-    "n_null_ge_canonical": 179,
-    "wall_seconds": 348.6768138408661,
-    "limitation": "Exact enumeration infeasible; deterministic seeded subset with documented seed/count."
+    "canonical_percentile_le": 0.4181,
+    "p_null_ge_canonical": 0.6149,
+    "n_null_ge_canonical": 12298,
+    "wall_seconds": 698.99,
+    "limitations": [
+      "Exact enumeration infeasible; deterministic seeded draw set with documented seed/count."
+    ]
   },
   "effective_independent_sample": {
     "trades": 28,
@@ -1358,5 +1374,5 @@
     "episodes": 7,
     "distinct_crash_days": 12
   },
-  "perm_p": 0.5966666666666667
+  "perm_p": 0.6149
 }
