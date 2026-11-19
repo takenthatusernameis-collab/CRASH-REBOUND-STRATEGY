@@ -1,2 +1,8 @@
 [run] cost_base okx 2023
 [census] OKX: events=345 signal_pass=95 trades=20 matched=20 unexplained=36
+[episode] cost_base okx 2023: trades=20 pnl=34420.88 perm_p=0.335
+[placebo] cost_base okx 2023: pool=95 choose=20 runs=2000 p_ge=0.0705
+[battery] OKX: total=34420.88 trades=20 legs=['buy'] episodes=9
+[done] cost_base okx 2023 pnl=34420.88
+[run] cost_base okx 2024
+[census] OKX: events=303 signal_pass=115 trades=28 matched=28 unexplained=36
