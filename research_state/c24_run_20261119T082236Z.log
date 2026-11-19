@@ -49,3 +49,11 @@
 [run] d15 okx 2025
 [census] OKX: events=314 signal_pass=100 trades=33 matched=33 unexplained=17
 [C22][fast-path validated] trades=33 pnl=5538.8943 diff=0.00e+00
+[episode] d15 okx 2025: trades=33 pnl=5538.89 perm_p=0.53815
+[C22][fast-path validated] trades=33 pnl=5538.8943 diff=0.00e+00
+[placebo] d15 okx 2025: pool=100 choose=33 runs=2000 p_ge=0.699
+[battery] OKX: total=5538.89 trades=33 legs=['buy', 'short'] episodes=8
+[done] d15 okx 2025 pnl=5538.89
+[run] d15 okx 2026YTD
+[census] OKX: events=219 signal_pass=59 trades=15 matched=15 unexplained=9
+[C22][fast-path validated] trades=15 pnl=11564.7677 diff=0.00e+00
