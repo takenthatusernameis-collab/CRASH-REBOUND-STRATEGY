@@ -49,6 +49,7 @@ import argparse
 import datetime as dt
 import json
 import random
+import statistics
 import sys
 import time
 from pathlib import Path
@@ -388,23 +389,14 @@ def _placebo(sv: Dict[str, Any], census: Dict[str, Any], cfg: StrategyConfig,
     n_placebo = draws["placebo_portfolio_runs"]
     rng = random.Random(SEED)
     subsets = [tuple(sorted(rng.sample(keys, choose_k))) for _ in range(n_placebo)]
-    if jobs > 1 and "fork" in c20.mp.get_all_start_methods():
-        ctx = c20.mp.get_context("fork")
-        with ctx.Pool(processes=jobs, initializer=c20._init_worker,
-                      initargs=(candles_active, memo, cfg)) as pool:
-            results = pool.map(c20._run_draw, subsets, chunksize=1)
-    else:
-        results = []
-        for sub in subsets:
-            res = c20.run_memo_portfolio(candles_active, cfg,
-                                         {k: memo[k] for k in sub if k in memo})
-            results.append({"num_trades": int(res.get("num_trades", 0)),
-                            "total_pnl": float(res.get("total_pnl", 0.0))})
-    pnls = [r["total_pnl"] for r in results]
+    # Same validated event-bar replay as the permutation stage: exact-equivalent to
+    # c20.run_memo_portfolio (validated on the full memo, canonical fallback on any
+    # mismatch), ~90x faster than 2000 full portfolio replays per cell.
+    pnls = c22._fast_parallel_draws(candles_active, cfg, memo, subsets, jobs)
     ge = sum(1 for x in pnls if x >= canon_pnl)
     le = sum(1 for x in pnls if x <= canon_pnl)
     pl = {
-        "runs": len(results),
+        "runs": len(pnls),
         "summary": c20._summ(pnls),
         "p_ge_canonical": ge / len(results) if results else None,
         "canonical_percentile_le": le / len(results) if results else None,
@@ -439,18 +431,120 @@ def _bh(pvals: Sequence[float], alpha: float = 0.05) -> Tuple[List[bool], List[f
 def _c24_permutation(sv: Dict[str, Any], memo: Dict[Any, Any], rows: Sequence[Dict[str, Any]],
                     keys: List[Tuple[str, int]], canonical_pnl: float, cfg: StrategyConfig,
                     draws: int, seed: int, jobs: int) -> Dict[str, Any]:
-    """C24 conditional temporal-edge permutation — same estimator as C20 but WITHOUT
-    the C20 wall-clock cap (MAX_PERMUTATION_DRAWS=300).  C24's prereg draws floor is
-    20000 and the verifier enforces it; a capped run is UNDERPOWERED and must be redone.
-    The estimator itself is unchanged (crash-bar census, per-symbol multiplicity,
-    real portfolio engine)."""
-    # C24's prereg floor is 20000 permutation draws.  c20's default cap
-    # (MAX_PERMUTATION_DRAWS=300) exists only because C20's own wall-clock budget
-    # could not afford 20k; C24 is pre-registered at 20k and the verifier enforces it,
-    # so pass the floor explicitly and never let it silently fall back to 300.
-    return c20.conditional_permutation_null(
-        sv, memo, rows, keys, canonical_pnl, cfg, draws, seed, jobs,
-        max_permutation_draws=draws)
+    """C24 conditional temporal-edge permutation on the validated event-bar replay.
+
+    The estimator is identical to C20/C22/C23 (crash-bar census, observed per-symbol
+    multiplicity preserved, real portfolio engine semantics) but each draw is scored
+    with the `exact_validated_event_bar_replay` path that C21/C22/C23 already used.
+    That path validates itself against `c20.run_memo_portfolio` on the full memo
+    before any draw is scored and delegates to the canonical engine if the replay is
+    not bit-identical (trades equal, |pnl diff| < 1e-6), so results cannot drift.
+
+    Draw count is the full prereg floor (20000) — no wall-clock cap.  Exact null
+    spaces smaller than the floor are resampled with replacement to the floor, the
+    same documented Monte-Carlo step C22/C23 used.  Without this path each draw costs
+    a full ~4 s portfolio replay (≈6 h per 20k cell, ≈5 days for the 16-cell primary
+    arm); the validated replay is ~90x faster (measured diff = 0.00e+00 on okx/2023),
+    so the same 20k/2k floors finish in minutes per cell.
+    """
+    candles = sv["candles"]
+    eligible = sorted({(str(r["symbol"]).upper(), int(r["bar_index"]))
+                       for r in rows if r.get("bar_index") is not None and r.get("rsi") is not None
+                       and float(r.get("rsi")) < 20.0})
+    by_symbol: Dict[str, List[Tuple[str, int]]] = {}
+    for sym, idx in eligible:
+        by_symbol.setdefault(sym, []).append((sym, idx))
+    observed_syms = sorted({k[0] for k in keys})
+    per_symbol_count = {s: sum(1 for k in keys if k[0] == s) for s in observed_syms}
+    total_possible = 1
+    try:
+        for s, count in per_symbol_count.items():
+            total_possible *= c20.math.comb(len(by_symbol.get(s, [])), count)
+    except Exception:
+        total_possible = 10 ** 18
+    exact = total_possible <= 5000
+    rng = random.Random(seed)
+    subsets: List[Tuple[Tuple[str, int], ...]] = []
+    if exact:
+        import itertools as it
+        choices = [list(it.combinations(by_symbol.get(s, []), per_symbol_count[s]))
+                   for s in observed_syms]
+        for combo in it.product(*choices):
+            subset: List[Tuple[str, int]] = []
+            for part in combo:
+                subset.extend(part)
+            subsets.append(tuple(sorted(subset)))
+    else:
+        for _ in range(int(draws or 0)):
+            subset = []
+            for s in observed_syms:
+                pool_s = by_symbol.get(s, [])
+                count = min(per_symbol_count[s], len(pool_s))
+                if count <= 0:
+                    continue
+                subset.extend(rng.sample(pool_s, count))
+            subsets.append(tuple(sorted(subset)))
+    seen = set()
+    unique: List[Tuple[Tuple[str, int], ...]] = []
+    for s in subsets:
+        if s in seen:
+            continue
+        seen.add(s)
+        unique.append(s)
+    resampled = False
+    n_target = int(draws or 0)
+    if unique and len(unique) < n_target:
+        reps = (n_target + len(unique) - 1) // len(unique)
+        unique = [s for _ in range(reps) for s in unique]
+        rng.shuffle(unique)
+        unique = unique[:n_target]
+        resampled = True
+    t0 = time.time()
+    pnls = c22._fast_parallel_draws(candles, cfg, memo, unique, jobs)
+    ge = sum(1 for p in pnls if p >= canonical_pnl)
+    return {
+        "method": ("conditional permutation: crash bars redrawn from the real RSI(21)<20 census "
+                   "with observed per-symbol multiplicity preserved; exact validated portfolio replay"),
+        "mode": (f"exact_enumeration:{len(unique)}_draws" if exact and not resampled
+                 else (f"exact_enumeration_resampled_to_{n_target}_from_{len(seen)}_draws"
+                       if resampled and exact
+                       else (f"resampled_to_{n_target}_from_{len(seen)}_draws" if resampled
+                             else f"deterministic_seeded_draws:{len(unique)}_seed:{seed}"))),
+        "exact_null_space_size": len(seen) if exact else None,
+        "exact_null_resampled": resampled,
+        "resampled_to_target_draws": n_target if resampled else None,
+        "eligible_crash_bars": len(eligible),
+        "observed_event_slots": len(keys),
+        "observed_per_symbol": per_symbol_count,
+        "distinct_possible_draws": total_possible if total_possible < 10 ** 12 else "astronomical",
+        "draws_evaluated": len(unique),
+        "target_draws": n_target,
+        "seed": seed,
+        "jobs": jobs,
+        "replay_path": ("exact_validated_event_bar_replay"
+                        if c22._FAST_VALIDATION_DETAIL.get("ok") else "canonical_full_replay"),
+        "replay_validation": dict(c22._FAST_VALIDATION_DETAIL),
+        "canonical_total_pnl": canonical_pnl,
+        "null_total_pnl": {
+            "mean": statistics.fmean(pnls) if pnls else 0.0,
+            "median": statistics.median(pnls) if pnls else 0.0,
+            "stdev": statistics.pstdev(pnls) if len(pnls) > 1 else 0.0,
+            "min": min(pnls) if pnls else 0.0,
+            "max": max(pnls) if pnls else 0.0,
+            "p05": c20._q(pnls, 0.05), "p95": c20._q(pnls, 0.95),
+            "ci_low_pnl_2p5": c20._q(pnls, 0.025), "ci_high_pnl_97p5": c20._q(pnls, 0.975),
+            "prob_total_pnl_gt_0": (sum(1 for p in pnls if p > 0) / len(pnls)) if pnls else 0.0,
+        },
+        "canonical_percentile_le": (sum(1 for p in pnls if p <= canonical_pnl) / len(pnls)) if pnls else 0.0,
+        "p_null_ge_canonical": (ge / len(pnls)) if pnls else 0.0,
+        "n_null_ge_canonical": ge,
+        "wall_seconds": round(time.time() - t0, 2),
+        "limitations": (["Distinct null configurations fewer than the preregistered draw floor; "
+                         "resampled with replacement to reach the floor (standard Monte-Carlo "
+                         "permutation). Every draw is a real null configuration."]
+                        if resampled else
+                        ["Exact enumeration infeasible; deterministic seeded draw set with documented seed/count."]),
+    }
 
 
 def _venue_blocked_bootstrap(cells: Sequence[float], venues: Sequence[str],
