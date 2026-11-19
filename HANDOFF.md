@@ -3,9 +3,9 @@
 **Generated (UTC):** 2026-11-19T21:55:12Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **Single durable handoff:** this file. `INITIAL_TASK_MESSAGE.md` and `README.md` are pointers; never maintain a second source of truth.
 
-**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28 (±30%)** on this 4-core box. **DO NOT RELAUNCH, DO NOT KILL, DO NOT REORDER ARMS.** `C26-T1` is BUILT and may not launch until `C25 ACCEPTANCE: PASS`.
+**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28 (±30%)** on this 4-core box. **DO NOT RELAUNCH, DO NOT KILL, DO NOT REORDER ARMS.** `C26-T1` is BUILT and may not launch until `C25 ACCEPTANCE: PASS`. `C27-T1` pre-compute staged (probe + `c27_prereg`, launch blocked on `C26 ACCEPTANCE: PASS`).
 
-**Binding heavy queue (no idle state exists):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (NOT BUILT, defined below: new-venue out-of-sample replication)`.
+**Binding heavy queue (no idle state exists):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (pre-compute staged: scripts/probe_c27_venue_acquisition.py + research_state/c27_prereg_20261119T215721Z.{json,md}; launch blocked on C26 PASS)`.
 
 ---
 

@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "campaign": "C27",
+  "binding_task": "C27-T1",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "generated_at_utc": "2026-11-19T21:57:21Z",
+  "title": "C27 - Next Independent USDT-Perp Venue Out-of-Sample Replication of the frozen crash-rebound edge",
+  "why_c27": "C24 established the d15 margin/liquidation-fidelity adjudication (PASS, consolidated NO_GO superseding C1-C23). C25/C26 adjudicate cost/funding and intrabar-path fidelity on the SAME four venues (OKX, Binance UM, MEXC, Bitget). C27 asks the mandatory successor question: does the unchanged spec-literal edge replicate on a NEVER-USED USDT-perp venue (Bybit primary; fallback candidates named by the stage-0 probe)? This is new data + a frozen spec, not a same-data rerun and not a parameter search. C27-T1 may NOT launch until C26 ACCEPTANCE: PASS; C26 may NOT launch until C25 ACCEPTANCE: PASS; C25 is IN FLIGHT (runner alive, 1/56 cells, ETA ~2026-11-28).",
+  "research_question": "Does the frozen spec-literal crash-rebound edge produce a consistent sign on an independent, never-used USDT-perp venue across four folds, under the C25/C26 fidelity apparatus (cost_taker_funding primary arm), versus the recorded OKX/Binance/MEXC/Bitget NO_GO priors?",
+  "blocked_on": "C26-T1 (intrabar path & per-trade funding fidelity) which is itself blocked on C25-T1 (round-trip cost & realized-funding fidelity). C27 build (probe + prereg) may proceed before C25/C26 pass, but no C27 cell may run until C26 ACCEPTANCE: PASS.",
+  "acquisition_gate": "Stage-0 probe scripts/probe_c27_venue_acquisition.py must return c27_data_status starting with ACQUISITION_VIABLE_* before any C27 compute. If it returns ACQUISITION_BLOCKED_BY_API_RETENTION (or equivalent), C27 is blocked for multiyear replication; the only legitimate alternative is a new pre-registered hypothesis on new data, never a same-data rerun.",
+  "new_venue": "TBD by scripts/probe_c27_venue_acquisition.py (Bybit primary candidate; OKX/Binance UM/MEXC/Bitget already used; Hyperliquid-native CLOSED: FULL_283D_BLOCKED_BY_API_RETENTION)",
+  "signal_path_frozen": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "rebound_short_stop_pct": 40.0,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true,
+    "seed": 20261201,
+    "time_exit_max_bars": 50,
+    "liquidation_maint_margin_pct": 14.0,
+    "liquidation_buffer_pct": 1.0,
+    "liquidation_distance_pct": 15.0,
+    "drift_rule": "Any artifact whose signal_path/cost/funding fields differ from this prereg are INVALID. The new-venue config is frozen to these spec-literal values; no parameter tuning after results."
+  },
+  "arms": {
+    "path_base": {
+      "role": "FIDELITY_ANCHOR",
+      "intrabar_adverse_first": false,
+      "per_trade_funding": false,
+      "why": "C25 primary-arm model (venue-mean scalar funding, next-open fills). Anchor reproduces the C25 cost_taker_funding per-venue/per-fold PnL within +/-1.0 on shared venues; on the new venue it establishes the baseline."
+    },
+    "cost_taker_funding": {
+      "role": "PRIMARY",
+      "intrabar_adverse_first": false,
+      "per_trade_funding": false,
+      "why": "C25 primary arm: realized venue-mean funding scalar + 5 bps/side slippage + venue taker bps. The C27 adjudication arm on the new venue."
+    },
+    "path_intrabar_combined": {
+      "role": "DESCRIPTIVE",
+      "intrabar_adverse_first": true,
+      "per_trade_funding": true,
+      "why": "Per-trade realized funding AND conservative intrabar adverse-first sequencing together (C26 primary), applied to the new venue for robustness."
+    }
+  },
+  "folds": ["2023", "2024", "2025", "2026YTD"],
+  "fold_windows": {
+    "2023": ["2023-01-01T00:00:00Z", "2023-12-31T23:00:00Z"],
+    "2024": ["2024-01-01T00:00:00Z", "2024-12-31T23:00:00Z"],
+    "2025": ["2025-01-01T00:00:00Z", "2025-12-31T23:00:00Z"],
+    "2026YTD": ["2026-01-01T00:00:00Z", "2026-09-28T23:00:00Z"]
+  },
+  "inference": {
+    "bootstrap_draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_subsets": 2000,
+    "draw_floors": "20k bootstrap / 20k permutation / 2k placebo / 2k strata; do not reduce",
+    "power_floor": ">= 10 trades / >= 5 episodes / >= 5 distinct crash days per fold; otherwise UNDERPOWERED with a power curve",
+    "bh_correction": "Benjamini-Hochberg, alpha=0.05, per venue-fold family"
+  },
+  "decision_rules": {
+    "STABLE_POSITIVE_SUBSET": ">=1 pre-specified venue-fold or pooled stratum survives BH correction with bootstrap CI95 excluding 0 & positive spot leg, permutation p<0.05, placebo p_ge<0.05, effective N>=floor, AND same-direction effect corroborated vs recorded priors or flagged single-venue exploratory.",
+    "NO_GO": "no stratum survives BH correction; pooled CI95 spans 0; spot non-positive across most folds (corroborates the C1-C26 NO_GO).",
+    "UNDERPOWERED": "per-fold N below floor, or missing seed/SHA binding, or compute predating this prereg, or acquisition gate not passed."
+  },
+  "required_artifacts": "c27_prereg_<TS>.{json,md}; c27_venue_acquisition_probe_<TS>.json; c27_<venue>_fold_campaign_<TS>.json; c27_<venue>_fold_episode_edge_<TS>.json; c27_<venue>_fold_placebo_<TS>.json; c27_<venue>_fold_census_<TS>.json; c27_decision_verdict_<venue>_stability_<TS>.json; c27_pooled_stability_synthesis_<TS>.json; c27_decision_verdict_CONSOLIDATED_<TS>.json; HANDOFF references C27-T1 and verify_c27_focus_campaign.py.",
+  "guardrails": [
+    "Cross-venue real USDT-perp data only; never relabel as Hyperliquid (is_hyperliquid_venue_data=false for C20-C27).",
+    "Config is FROZEN to the spec-literal values above; no parameter tuning after results.",
+    "Folds and strata fixed here, before compute; no post-hoc bin/fold invention.",
+    "Do NOT reduce draw counts. Do not edit a live campaign's prereg or code path mid-flight.",
+    "No synthetic gap-fill; symbols not listed for the full window are excluded (coverage=false), never fabricated.",
+    "No funding fabrication on the new venue; report UNAVAILABLE_FUNDING if realized funding history is unavailable, never zero-fill or proxy.",
+    "The C1-C26 NO_GO stands unless C27 produces a pre-registered contradiction with full evidence.",
+    "New direction beyond C27 needs new prereg + new data + explicit authorization.",
+    "Report per-fold, per-venue, and pooled numbers plus the power curve — never a bare token."
+  ]
+}
