@@ -1,18 +1,15 @@
-# INITIAL TASK MESSAGE — 2026-11-18T23:26:18Z
+# INITIAL TASK MESSAGE — 2026-11-19T00:47:51Z (TERMINAL STATE — STOP)
 
-**Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here.
+**Single durable handoff / source of truth:** `HANDOFF.md` — read it in full before acting. Do not maintain a second source of truth here. This file is a pointer only.
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market data.
 
-**Current position (verified live 2026-11-18T23:26:18Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 ACTIVE & RUNNING** (Bitget USDT-M out-of-sample replication). Runner parent PID **25897** alive with 4 rotating workers, log `research_state/c23_run_20261118T222155Z.log`. **Fold 2023 checkpoint DONE** (24 trades, PnL +28,706.32, 9 episodes, perm_p=0.0229, 0/9 BH strata survivors); **fold 2024 IN PROGRESS** (census 36 trades, -30,939.60, fast-path diff 0.00e+00, permutation/placebo phase running); 2025/2026YTD pending. Battery artifacts **0/7** — gate `C23 ACCEPTANCE: PENDING`. Expected completion **2026-11-19T01:20–01:45Z** (~46 min/fold observed).
+**Current position (verified live 2026-11-19T00:47:51Z):** C1–C20 CLOSED `NO_GO`; C21 PASS (`NO_GO`); C22 PASS (`NO_GO`); **C23-T1 COMPLETE** — Bitget USDT-M out-of-sample replication. Gate `C23 ACCEPTANCE: PASS`, consolidated verdict `NO_GO`. Pooled total PnL **-58,129.33**, prob_pooled_total_gt_0=0.0, BH pooled stratum survivors **0/36**, sign concordant (all negative). Folds: 2023: 24 trades +28,706.32; 2024: 36 trades -30,939.60; 2025: 37 trades -32,710.19; 2026YTD: 21 trades -23,185.86. 4/4 fold checkpoints present, 7/7 battery artifacts present. Runner NOT ALIVE (campaign finished) — do not relaunch.
 
-**Immediate next action (one read-only command):** `bash scripts/status_c23.sh`
-- `RUNNER: ALIVE` → do not relaunch, do not kill, do not foreground-wait; schedule a wakeup ~40–45 min out and re-check. Quiet logs during the 20k permutation/2k placebo phase are normal.
-- `RUNNER: NOT ALIVE` + gate PENDING → `bash scripts/run_c23_detached_durable.sh` (resume skips completed folds; if all 4 checkpoints exist it only rebuilds artifacts).
-- Gate `PASS` → deliver the per-fold / pooled / power-curve report, then **STOP** (no campaign is authorized beyond C23).
+**Immediate next action:** none required — **STOP**. No campaign is authorized beyond C23. Do not launch C23 again, do not start a same-data follow-on on OKX/Binance/MEXC, do not relabel Bitget data as Hyperliquid, do not reduce draw counts. The correct terminal state is the evidence report in `HANDOFF.md`, not a new probe.
 
-**Key tokens:** `C22 ACCEPTANCE: PASS` (consolidated `NO_GO`), `C23 ACCEPTANCE: PENDING` → must reach `PASS`, `c23_prereg_20261118T202301Z`, `run_c23_detached_durable.sh`, `status_c23.sh`, `verify_c23_focus_campaign.py`, `tests/test_c23_campaign_20261118.py`.
+**Terminal evidence (file and do not relitigate):** per-fold numbers above; pooled PnL -58,129.33 (CI95 [-58,129.33, -58,129.33]); consolidated verdict token `NO_GO` (`research_state/c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`, generated 2026-11-19T00:31:49Z); provenance `is_hyperliquid_venue_data=false`, real Bitget USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; `tests/test_c23_campaign_20261118.py` → 12 passed.
 
-**Priority by repo scope (non-negotiable):** C1–C20 CLOSED & CERTIFIED `NO_GO`. C21-T1 COMPLETE (`PASS`, consolidated `NO_GO`). C22-T1 COMPLETE (`PASS`, consolidated `NO_GO`). **C23-T1 is the ACTIVE BINDING CAMPAIGN** — it must run to completion and pass `C23 ACCEPTANCE: PASS`; a positive fold 2023 alone is not a result (0/9 BH strata survivors). Hyperliquid-native acquisition stays CLOSED (`FULL_283D_BLOCKED_BY_API_RETENTION`). Do NOT reduce draw counts (20k/20k/2k floors); do NOT relabel Bitget data as Hyperliquid; do NOT start a same-data rerun.
+**Key tokens:** `C23 ACCEPTANCE: PASS` (consolidated `NO_GO`), `c23_prereg_20261118T202301Z`, `status_c23.sh`, `verify_c23_focus_campaign.py`, `tests/test_c23_campaign_20261118.py`, `FULL_283D_BLOCKED_BY_API_RETENTION`, `c23_decision_verdict_CONSOLIDATED_20261118T202301Z.json`.
 
 Full binding context, fold evidence, no-avoidance rules, guardrails, and execution order: `HANDOFF.md`.
