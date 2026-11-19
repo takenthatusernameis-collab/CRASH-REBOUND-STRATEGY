@@ -113,3 +113,11 @@
 [run] d15 mexc 2025
 [census] MEXC: events=311 signal_pass=94 trades=31 matched=31 unexplained=16
 [C22][fast-path validated] trades=31 pnl=15567.1584 diff=0.00e+00
+[episode] d15 mexc 2025: trades=31 pnl=15567.16 perm_p=0.4654
+[C22][fast-path validated] trades=31 pnl=15567.1584 diff=0.00e+00
+[placebo] d15 mexc 2025: pool=94 choose=31 runs=2000 p_ge=0.64
+[battery] MEXC: total=15567.16 trades=31 legs=['buy', 'short'] episodes=8
+[done] d15 mexc 2025 pnl=15567.16
+[run] d15 mexc 2026YTD
+[census] MEXC: events=219 signal_pass=69 trades=18 matched=18 unexplained=13
+[C22][fast-path validated] trades=18 pnl=3921.6690 diff=0.00e+00
