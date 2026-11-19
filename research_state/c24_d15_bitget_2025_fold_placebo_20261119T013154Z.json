@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-19T11:04:13Z",
+  "campaign": "C24",
+  "arm": "d15",
+  "kind": "fold_placebo",
+  "prereg": "research_state/c24_prereg_20261119T013154Z.json",
+  "prereg_sha256": "3c0d0b12e139ed2ed264e44964c23639110b2c5a4c0b79ade99ec1f69af30dcb",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "venue": "bitget",
+  "fold": "2025",
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Only the liquidation-distance execution parameter varies between arms; the signal path (RSI21<20 next-open, +9% target, 50h hold, 48h rebound short, 1.25% of 24h volume, 120% gross cap, ETH hedge) is frozen and drift-checked.",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo: gate-passing crash-bar subsets of fixed size through the real portfolio engine; preserves gates/sizing/cap/occupancy/hedge.",
+  "mode": "deterministic_seeded_draws:2000_choose_31_of_105",
+  "seed": 20261201,
+  "canonical": {
+    "trades": 31,
+    "total_pnl": 21116.87150931367,
+    "admitted_keys_count": 31
+  },
+  "pool": {
+    "signal_gate_events": 105,
+    "choose_k": 31
+  },
+  "placebo": {
+    "runs": 2000,
+    "summary": {
+      "n": 2000,
+      "sum": 51194156.7584763,
+      "mean": 25597.07837923815,
+      "median": 30265.373576509992,
+      "stdev": 21312.832278622627,
+      "min": -34113.98251242007,
+      "max": 83564.8745209601,
+      "p05": -13119.406099326881,
+      "p95": 54676.589987018524
+    },
+    "p_ge_canonical": 0.647,
+    "canonical_percentile_le": 0.353,
+    "prob_total_pnl_positive": 0.8365,
+    "ci_low_pnl_2p5": -17173.165481330656,
+    "ci_high_pnl_97p5": 59019.15519472418
+  },
+  "p_ge_canonical": 0.647
+}

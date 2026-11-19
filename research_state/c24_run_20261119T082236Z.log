@@ -145,3 +145,11 @@
 [run] d15 bitget 2025
 [census] Bitget: events=323 signal_pass=105 trades=31 matched=31 unexplained=23
 [C22][fast-path validated] trades=31 pnl=21116.8715 diff=0.00e+00
+[episode] d15 bitget 2025: trades=31 pnl=21116.87 perm_p=0.2552
+[C22][fast-path validated] trades=31 pnl=21116.8715 diff=0.00e+00
+[placebo] d15 bitget 2025: pool=105 choose=31 runs=2000 p_ge=0.647
+[battery] Bitget: total=21116.87 trades=31 legs=['buy', 'short'] episodes=8
+[done] d15 bitget 2025 pnl=21116.87
+[run] d15 bitget 2026YTD
+[census] Bitget: events=218 signal_pass=70 trades=17 matched=17 unexplained=13
+[C22][fast-path validated] trades=17 pnl=3040.7938 diff=0.00e+00
