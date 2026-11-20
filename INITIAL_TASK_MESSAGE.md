@@ -1,17 +1,18 @@
-# Initial Task Message — CRASH-REBOUND-STRATEGY (2026-11-20T22:29:16Z)
+# Initial Task Message — CRASH-REBOUND-STRATEGY (2026-11-20T22:30:36Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
+**Single durable handoff:** `HANDOFF.md`. `AGENT_HANDOFF.md` is a pointer only.
 
-**Live status (verified 2026-11-20T22:29:16Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh`):**
+**Live status (verified 2026-11-20T22:30:36Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh`):**
 
-- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state, resumed ~21:24Z, elapsed ~01:04:51)
+- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state, resumed ~21:24Z, elapsed 01:06:14)
 - Cells: **5/56 real complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87), **51 pending**, 8 okx funding skips (`UNAVAILABLE_FUNDING`)
 - Gate: `C25 ACCEPTANCE: PENDING` (59 missing cells); Anchor: `ANCHOR: INCOMPLETE` (5/16 cost_base checked: okx EXACT 28,469.71, binance_um/mexc/bitget INCOMPLETE, **no MISMATCH**)
-- ETA: **~2026-11-24T01:52:23Z (±30%)**; 4-core box saturated; in-flight cell `cost_base/binance_um/2024` elapsed 1.11 h
+- ETA: **~2026-11-24T01:53:43Z (±30%)**; 4-core box saturated; in-flight cell `cost_base/binance_um/2024` elapsed 1.13 h; next cells: cost_base/binance_um/2024, cost_base/binance_um/2025, cost_base/binance_um/2026YTD, cost_base/mexc/2023
 - `C26-T1` path/funding fidelity: **BUILT, blocked on C25 PASS** (`C26 ACCEPTANCE: PENDING`, 64 missing cells, no path anchor)
 - `C27-T1` venue replication: **STAGED, blocked on C26 PASS** (probe + prereg written, launch gated)
 - Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`
-- Tests: **1100 passed, 1 skipped** (46.1 s, re-verified 2026-11-20T17:37:22Z — **do not rerun pytest while runner is alive**; it competes for 4 saturated cores)
+- Tests: **1100 passed, 1 skipped** (46.1 s — do not rerun pytest while runner is alive; it competes for 4 saturated cores)
 
 ---
 
@@ -52,7 +53,7 @@ Those two commands are ground truth. Never trust a PID or log path written in an
 ---
 
 ## BOTTLENECK REGISTER (CURRENT):
-The only remaining bottleneck is **compute** (20k/20k/2k draw floors, prereg-bound, not reducible; 51 cells × ~3.6 h/cell ≈ 184 h on saturated 4 cores). It is **not fixable mid-run** — restarting gambles the campaign and a bit-identical claim cannot be proven mid-flight. C26/C27 are legitimately blocked on the C25 gate by the sequential adjudication chain; that is by design, not an inefficiency to workaround. No competing CPU work (extra tests, probes, notebooks) may run while the C25 runner is alive.
+The only remaining bottleneck is **compute** (20k/20k/2k draw floors, prereg-bound, not reducible; 51 cells × ~3.6 h/cell ≈ 184 h on saturated 4 cores). It is **not fixable mid-run** — restarting gambles the campaign and a bit-identical claim cannot be proven mid-flight. C26/C27 are legitimately blocked on the C25 gate by the sequential adjudication chain; that is by design, **not an inefficiency to workaround**. No competing CPU work (extra tests, probes, notebooks) may run while the C25 runner is alive. No removable bottleneck exists — progress continues only by letting C25 run to its gate.
 
 ---
 
@@ -60,7 +61,7 @@ The only remaining bottleneck is **compute** (20k/20k/2k draw floors, prereg-bou
 One bounded read (`bash scripts/eta_c25.sh`), then suspend with exactly:
 
 ```
-schedule_wakeup delay=8h reason="C25 tick" prompt="Run bash scripts/status_c25.sh and bash scripts/eta_c25.sh. If RUNNER NOT ALIVE and gate PENDING, fix the cause then resume exactly once with background_process start command='bash scripts/run_c25_durable.sh' persistent=true. If the gate is C25 ACCEPTANCE: PASS, execute the C5-PASS checklist and launch C26 in this same session. If check_c25_anchor.sh prints ANCHOR: MISMATCH, stop and record evidence. Otherwise update HANDOFF.md only if state materially changed and schedule the next 8h wakeup."
+schedule_wakeup delay=8h reason="C25 tick" prompt="Run bash scripts/status_c25.sh and bash scripts/eta_c25.sh. If RUNNER NOT ALIVE and gate PENDING, fix the cause then resume exactly once with background_process start command='bash scripts/run_c25_durable.sh' persistent=true. If the gate is C25 ACCEPTANCE: PASS, execute the C25-PASS checklist and launch C26 in this same session. If check_c25_anchor.sh prints ANCHOR: MISMATCH, stop and record evidence. Otherwise update HANDOFF.md only if state materially changed and schedule the next 8h wakeup."
 ```
 
 - 8 h cadence is correct at ~3.6 h/cell (≈2 cells per wake). Shorter adds nothing.
