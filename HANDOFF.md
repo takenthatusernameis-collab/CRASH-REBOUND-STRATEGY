@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T01:46:16Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T01:53:10Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
-**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T06:59:11Z (±30%)** on this 4-core box. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
+**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T08:03:57Z (±30%)** on this 4-core box. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
 
 **SESSION LOG — 2026-11-19T23:40Z (resume after environment loss):** At handoff read, `status_c25.sh` printed `RUNNER: NOT ALIVE` and `eta_c25.sh` reported the **`.venv` missing** — the runner image does not persist the venv or the background process across sessions, so both were lost. This is the known re-bootstrap cost. Fix applied, resume done exactly once: (1) `bash scripts/bootstrap_env.sh` rebuilt `$ROOT/.venv` (Python 3.12.3 + numpy/pandas/pyarrow/requests/pytest); (2) pre-resume verification — `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1095 passed, 1 skipped**; `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (63 missing cells, verdict artifacts pending); `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**); (3) launched `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` → runner **PID 3258** (parent 3253), log `research_state/c25_run_20261119T234132Z.log`, `cost_base/okx/2024` now in permutation. The checkpoint artifact `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` (334,972 bytes) survived in `research_state/`, so **no cell work was lost** — the resume re-read it and skipped it. Next wake: `cost_base/okx/2024` should land ~02:40Z.
 
@@ -11,7 +11,7 @@
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-20T01:46:16Z
+## VERIFIED LIVE STATE — 2026-11-20T01:53:10Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
@@ -27,7 +27,7 @@ Observed at generation time:
 
 - **C25 RUNNER: ALIVE.** Parent PID **3258** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), started **23:41:32Z**, 4 draw workers, launched through the harness background-process runner (`persistent=true`) via `scripts/run_c25_durable.sh`, teeing to `research_state/c25_run_20261119T234132Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
 - **Cells:** `cost_base 1/16`, `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 1 real cell DONE (`cost_base/okx/2023`, pnl **+34,420.88**, perm_p **0.335**, placebo p_ge **0.0705**, ckpt written 21:00:41Z). `cost_base/okx/2024` in permutation since 23:41Z (the permutation stage emits no log lines for hours — silence is normal).
-- **ETA:** `eta_c25.sh` → 55 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **198.2 h ≈ 8.3 days → ~2026-11-28T07:57:04Z (±30%)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
+- **ETA:** `eta_c25.sh` → 55 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **198.2 h ≈ 8.3 days → ~2026-11-28T08:03:57Z (±30%)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
 - **Anchor:** `ANCHOR: INCOMPLETE` (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gate:** `C25 ACCEPTANCE: PENDING` (63 missing cells; verdict artifacts written only after all cells complete). **`C26 ACCEPTANCE: PENDING`** (blocked on C25; 64 missing cells; path-anchor reference not yet available).
 - **Tests (re-verified this session):** `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1095 passed, 1 skipped** in 74 s. Campaign subset `tests/test_c25_campaign.py tests/test_c26_campaign.py` → **13 passed**.
@@ -36,7 +36,7 @@ Observed at generation time:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T01:46:16Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T07:57:04Z ±30% — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T01:53:10Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T08:03:57Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -83,6 +83,7 @@ Removed already (do not re-add):
 4. **Same-session C25→C26 transition — hard-coded in step 5d.** Previously the gap between "C25 PASS" and "C26 launched" could idle for a whole wake (8 h) or a human cycle. Now it is a same-session obligation with the exact command.
 5. **Queue-dryness — removed.** C26 is built and launch-ready behind the C25 gate; C27 is staged (probe + prereg) behind the C26 gate, so "no authorized work" is never a truthful state.
 6. **Stale PID/log state drift in INITIAL TASK MESSAGE — removed 2026-11-19T23:43:01Z.** The INITIAL TASK MESSAGE previously cited a dead runner PID 3901 / log `c25_run_20261119T172418Z.log` while the SESSION LOG recorded runner PID 3258 / log `c25_run_20261119T234132Z.log`. The VERIFIED LIVE STATE block now reads one verified state (PID 3258, log `234132Z.log`, started 23:41:32Z); future sessions cannot relaunch a ghost or confuse the live runner.
+7. **INITIAL_TASK_MESSAGE.md carried duplicate state — removed 2026-11-20T01:53:10Z.** `INITIAL_TASK_MESSAGE.md` is now a pointer-only file (one line pointing to `HANDOFF.md`). It no longer carries campaign state, ETA, PID, or gate values. Any future session that writes campaign state into `INITIAL_TASK_MESSAGE.md` or `AGENT_HANDOFF.md` recreates the exact state-drift failure this removes.
 
 Remaining bottleneck — compute, and it is **not fixable mid-run**:
 
