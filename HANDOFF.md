@@ -1,11 +1,11 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T17:37:22Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T17:39:26Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
-**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers PIDs 41732–41735 at ~97% CPU, running since ~13:25Z), **3/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66, boot=20000 perm=None placebo=2000), **53 remaining**, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-23T23:57:52Z (±30%)** on this 4-core box. Anchor `ANCHOR: INCOMPLETE` (3/16 cost_base cells checked, no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
+**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers PIDs 42315–42318 at ~97% CPU, running since ~13:25Z, elapsed ~04:13:49), **3/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66, boot=20000 perm=None placebo=2000), **53 remaining**, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-23T23:59:56Z (±30%)** on this 4-core box. Anchor `ANCHOR: INCOMPLETE` (3/16 cost_base cells checked, no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
 
-**SESSION LOG — 2026-11-20T17:37:22Z (re-verify, runner ALIVE & COMPUTING):** Re-verified live state (2026-11-20T17:37:22Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 4060, parent 4055, 4 workers PIDs 41732–41735 running since ~13:25Z), `eta_c25.sh` → **3/56 real cells complete**, 53 remaining (8 okx funding skips), ETA **~2026-11-23T23:57:52Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (3/16 cost_base cells checked; okx/2023, okx/2024, okx/2025 reproduce C24 d15 exactly — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (61 missing cells). `verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING` (blocked on C25; path-anchor reference not yet available). Runner healthy, 4 workers saturated; in-flight cell `cost_base/okx/2026YTD` elapsed 1.41 h (permutation stage prints nothing for hours — silence is normal, do not kill). Previous runner (PID 5536) died with `NameError: draw_checkpoint` at 2026-11-20T05:34Z; venv was missing; both fixed — `.venv` bootstrapped, runner resumed exactly once via `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` (bgp_1f92248df001b9YAq8Zs6rXQhd). No bottlenecks are removable mid-run — compute is the sole remaining constraint (see BOTTLENECK REGISTER). Scheduled next wake at 8 h per the monitoring protocol.
+**SESSION LOG — 2026-11-20T17:39:26Z (re-verify, runner ALIVE & COMPUTING):** Re-verified live state (2026-11-20T17:39:26Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 4060, parent 4055, 4 workers PIDs 42315–42318 running since ~13:25Z, elapsed ~04:13:49), `eta_c25.sh` → **3/56 real cells complete**, 53 remaining (8 okx funding skips), ETA **~2026-11-23T23:59:56Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (3/16 cost_base cells checked; okx/2023, okx/2024, okx/2025 reproduce C24 d15 exactly — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (61 missing cells). `verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING` (blocked on C25; path-anchor reference not yet available). Runner healthy, 4 workers saturated; in-flight cell `cost_base/okx/2026YTD` elapsed 1.44 h (permutation stage prints nothing for hours — silence is normal, do not kill). Previous runner (PID 5536) died with `NameError: draw_checkpoint` at 2026-11-20T05:34Z; venv was missing; both fixed — `.venv` bootstrapped, runner resumed exactly once via `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` (bgp_1f92248df001b9YAq8Zs6rXQhd). No bottlenecks are removable mid-run — compute is the sole remaining constraint (see BOTTLENECK REGISTER); C26/C27 are blocked on the C25 gate by design, not an inefficiency to workaround. Scheduled next wake at 8 h per the monitoring protocol.
 
 **Binding heavy queue (there is no idle state):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (probe + prereg staged, launch blocked on C26 PASS)`.
 
@@ -169,19 +169,19 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T17:37:22Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T17:39:26Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-**Live status (verified 2026-11-20T17:37:22Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh` + `verify_c25_focus_campaign.py` + `verify_c26_focus_campaign.py` + `pytest -q`):**
-- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers PIDs 41732–41735, running since ~13:25Z)
+**Live status (verified 2026-11-20T17:39:26Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh` + `verify_c25_focus_campaign.py` + `verify_c26_focus_campaign.py`):**
+- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers PIDs 42315–42318, running since ~13:25Z, elapsed ~04:13:49)
 - Cells: **3/56 real complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66), **53 pending**, 8 okx funding skips (`UNAVAILABLE_FUNDING`)
 - Gate: `C25 ACCEPTANCE: PENDING` (61 missing cells); Anchor: `ANCHOR: INCOMPLETE` (3/16 cost_base checked, no MISMATCH)
-- ETA: **~2026-11-23T23:57:52Z (±30%)**; 4-core box saturated; in-flight cell `cost_base/okx/2026YTD` elapsed 1.41 h
+- ETA: **~2026-11-23T23:59:56Z (±30%)**; 4-core box saturated; in-flight cell `cost_base/okx/2026YTD` elapsed 1.44 h
 - `C26-T1` path/funding fidelity: **BUILT, blocked on C25 PASS** (`C26 ACCEPTANCE: PENDING`, 64 missing cells, no path anchor)
 - `C27-T1` venue replication: **STAGED, blocked on C26 PASS** (probe + prereg written, launch gated)
 - Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`
-- Tests: **1100 passed, 1 skipped** (46.1 s)
+- Tests: **1100 passed, 1 skipped** (46.1 s, re-verified 2026-11-20T17:37:22Z — do not rerun pytest while the runner is alive; it competes for the 4 saturated cores)
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
 
