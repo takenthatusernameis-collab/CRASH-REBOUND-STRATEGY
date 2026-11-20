@@ -1,17 +1,17 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T21:32:31Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T21:34:25Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
-**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers, resumed ~21:24Z, elapsed ~00:08:06), **5/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87, boot=20000 perm=None placebo=2000), **51 remaining**, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-24T00:55:38Z (±30%)** on this 4-core box. Anchor `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28469.71, binance_um/mexc/bitget INCOMPLETE — no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
+**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state, resumed ~21:24Z, elapsed ~00:10:02), **5/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87, boot=20000 perm=None placebo=2000), **51 remaining**, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-24T00:57:32Z (±30%)** on this 4-core box. Anchor `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28469.71, binance_um/mexc/bitget INCOMPLETE — no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
 
-**SESSION LOG — 2026-11-20T21:32:31Z (re-verify, runner ALIVE & COMPUTING):** Re-verified live state (2026-11-20T21:32:31Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 3391, parent 3386, 4 workers, resumed ~21:24Z, elapsed ~00:08:06), `eta_c25.sh` → **5/56 real cells complete**, 51 remaining (8 okx funding skips), ETA **~2026-11-24T00:55:38Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (5/16 cost_base cells checked; okx EXACT 28,469.71, binance_um/mexc/bitget INCOMPLETE — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (59 missing cells). `verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING` (blocked on C25; 64 missing cells; path-anchor reference not yet available). Runner healthy, 4 workers saturated; in-flight cell `cost_base/binance_um/2024` elapsed 0.16 h (permutation stage prints nothing for hours — silence is normal, do not kill). Previous runner (PID 4060) died at ~2026-11-20T21:23Z; venv was missing; both fixed — `.venv` bootstrapped, runner resumed exactly once via `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` (bgp_1fad896fd001oqwzIgzDo9SSMA). No bottlenecks are removable mid-run — compute is the sole remaining constraint (see BOTTLENECK REGISTER); C26/C27 are blocked on the C25 gate by design, not an inefficiency to workaround. Scheduled next wake at 8 h per the monitoring protocol.
+**SESSION LOG — 2026-11-20T21:34:25Z (re-verify, runner ALIVE & COMPUTING):** Re-verified live state (2026-11-20T21:34:25Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 3391, parent 3386, 4 workers R-state, resumed ~21:24Z, elapsed ~00:10:02), `eta_c25.sh` → **5/56 real cells complete**, 51 remaining (8 okx funding skips), ETA **~2026-11-24T00:57:32Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (5/16 cost_base cells checked; okx EXACT 28,469.71, binance_um/mexc/bitget INCOMPLETE — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (59 missing cells). `verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING` (blocked on C25; 64 missing cells; path-anchor reference not yet available). Runner healthy, 4 workers saturated; in-flight cell `cost_base/binance_um/2024` elapsed 0.20 h (permutation stage prints nothing for hours — silence is normal, do not kill). No bottlenecks are removable mid-run — compute is the sole remaining constraint (see BOTTLENECK REGISTER); C26/C27 are blocked on the C25 gate by design, not an inefficiency to workaround. Scheduled next wake at 8 h per the monitoring protocol.
 
 **Binding heavy queue (there is no idle state):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (probe + prereg staged, launch blocked on C26 PASS)`.
 
 ---
 
-## INITIAL TASK MESSAGE (timestamped, 2026-11-20T21:32:31Z)
+## INITIAL TASK MESSAGE (timestamped, 2026-11-20T21:34:25Z)
 
 Read `HANDOFF.md` (this file) as the single durable source of truth. Then run, in order, read-only only:
 
@@ -29,7 +29,7 @@ Then schedule the next 8 h wake per MONITORING PROTOCOL and suspend. DO NOT rela
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-20T21:32:31Z
+## VERIFIED LIVE STATE — 2026-11-20T21:34:25Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
