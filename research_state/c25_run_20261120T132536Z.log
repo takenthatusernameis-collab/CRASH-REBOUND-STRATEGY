@@ -19,3 +19,4 @@
 [done] cost_base okx 2026YTD pnl=11564.77
 [run] cost_base binance_um 2023
 [census] Binance UM: events=342 signal_pass=143 trades=27 matched=27 unexplained=58
+[episode] cost_base binance_um 2023: trades=27 pnl=38752.19 perm_p=0.4909090909090909
