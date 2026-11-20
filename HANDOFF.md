@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T15:24:41Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T15:30:21Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers 14689–14692 running since ~13:25Z), **2/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97, both boot=20000 perm=None placebo=2000), **54 remaining**, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T17:59:17Z (±30%)** on this 4-core box. Anchor `ANCHOR: INCOMPLETE` (2/16 cost_base cells checked, no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
@@ -11,7 +11,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE (timestamped, 2026-11-20T15:24:41Z)
+## INITIAL TASK MESSAGE (timestamped, 2026-11-20T15:30:21Z)
 
 Read `HANDOFF.md` (this file) as the single durable source of truth. Then run, in order, read-only only:
 
@@ -29,7 +29,7 @@ Then schedule the next 8 h wake per MONITORING PROTOCOL and suspend. DO NOT rela
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-20T15:24:41Z
+## VERIFIED LIVE STATE — 2026-11-20T15:30:21Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
@@ -44,8 +44,8 @@ PYTHONPATH=. .venv/bin/python scripts/verify_c26_focus_campaign.py
 Observed at generation time (2026-11-20T14:41:00Z):
 
 - **C25 RUNNER: ALIVE.** Parent PID **4060** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), started **~13:25Z**, 4 draw workers (PIDs 14689–14692), launched through the harness background-process runner (`persistent=true`) via `scripts/run_c25_durable.sh`, teeing to `research_state/c25_run_20261120T132558Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
-- **Cells:** `cost_base 2/16` (okx/2023 pnl +34,420.88 perm_p 0.335 placebo p_ge 0.0705; okx/2024 pnl +1,621.97), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 2 real cells DONE, 54 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/okx/2025` elapsed 0.20 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
-- **ETA:** `eta_c25.sh` → 54 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **194.6 h ≈ 8.1 days → ~2026-11-28T17:15:28Z (±30%)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
+- **Cells:** `cost_base 2/16` (okx/2023 pnl +34,420.88 perm_p 0.335 placebo p_ge 0.0705; okx/2024 pnl +1,621.97), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 2 real cells DONE, 54 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/okx/2025` elapsed 1.03 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
+- **ETA:** `eta_c25.sh` → 54 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **194.6 h ≈ 8.1 days → ~2026-11-28T18:04:57Z (±30%)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
 - **Anchor:** `ANCHOR: INCOMPLETE` (2/16 cost_base cells checked; okx/2023 and okx/2024 reproduce C24 d15 exactly). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gate:** `C25 ACCEPTANCE: PENDING` (62 missing cells; verdict artifacts written only after all cells complete). **`C26 ACCEPTANCE: PENDING`** (blocked on C25; 64 missing cells; path-anchor reference not yet available).
 - **Tests (re-verified this session):** `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1100 passed, 1 skipped** in 20.5 s. Campaign subset `tests/test_c25_campaign.py tests/test_c26_campaign.py` → **13 passed**.
