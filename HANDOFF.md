@@ -1,9 +1,9 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T01:57:18Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T01:58:38Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
-**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T08:08:06Z (±30%)** on this 4-core box. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
+**ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, **1/56 real inference cells complete** (`cost_base/okx/2023`), gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T08:09:26Z (±30%)** on this 4-core box. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
 
 **SESSION LOG — 2026-11-19T23:40Z (resume after environment loss):** At handoff read, `status_c25.sh` printed `RUNNER: NOT ALIVE` and `eta_c25.sh` reported the **`.venv` missing** — the runner image does not persist the venv or the background process across sessions, so both were lost. This is the known re-bootstrap cost. Fix applied, resume done exactly once: (1) `bash scripts/bootstrap_env.sh` rebuilt `$ROOT/.venv` (Python 3.12.3 + numpy/pandas/pyarrow/requests/pytest); (2) pre-resume verification — `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1095 passed, 1 skipped**; `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (63 missing cells, verdict artifacts pending); `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**); (3) launched `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` → runner **PID 3258** (parent 3253), log `research_state/c25_run_20261119T234132Z.log`, `cost_base/okx/2024` now in permutation. The checkpoint artifact `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` (334,972 bytes) survived in `research_state/`, so **no cell work was lost** — the resume re-read it and skipped it. Next wake: `cost_base/okx/2024` should land ~02:40Z.
 
@@ -36,11 +36,11 @@ Observed at generation time:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T01:57:18Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T08:08:06Z ±30% — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T01:58:38Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T08:09:26Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips; ETA ~2026-11-28T08:08:06Z ±30%). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
+**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips; ETA ~2026-11-28T08:09:26Z ±30%). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
 
