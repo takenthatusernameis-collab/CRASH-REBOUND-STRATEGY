@@ -1,16 +1,16 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T14:41:00Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T15:31:13Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-**Live status (verified 2026-11-20T14:41:00Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh` + `verify_c25_focus_campaign.py` + `verify_c26_focus_campaign.py` + `pytest -q`):**
-- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers PIDs 14689–14692, running since ~13:25Z)
+**Live status (verified 2026-11-20T15:31:13Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh` + `verify_c25_focus_campaign.py` + `verify_c26_focus_campaign.py` + `PYTHONPATH=. .venv/bin/pytest -q`):**
+- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 4060, parent 4055, 4 workers PIDs 21888–21891, running since ~13:25Z)
 - Cells: **2/56 real complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97), **54 pending**, 8 okx funding skips (`UNAVAILABLE_FUNDING`)
 - Gate: `C25 ACCEPTANCE: PENDING` (62 missing cells); Anchor: `ANCHOR: INCOMPLETE` (2/16 cost_base checked, no MISMATCH)
-- ETA: **~2026-11-28T17:15:28Z (±30%)**; 4-core box saturated; in-flight cell `cost_base/okx/2025` elapsed 0.20 h
+- ETA: **~2026-11-28T18:05:52Z (±30%)**; 4-core box saturated; in-flight cell `cost_base/okx/2025` elapsed 1.04 h
 - `C26-T1` path/funding fidelity: **BUILT, blocked on C25 PASS** (`C26 ACCEPTANCE: PENDING`, 64 missing cells, no path anchor)
 - `C27-T1` venue replication: **STAGED, blocked on C26 PASS** (probe + prereg written, launch gated)
 - Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`
-- Tests: **1100 passed, 1 skipped** (20.5 s)
+- Tests: **1100 passed, 1 skipped** (52.7 s)
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
 
