@@ -73,7 +73,7 @@ if str(REPO) not in sys.path:
 import scripts.run_c20_cross_venue_campaign as c20  # noqa: E402
 import scripts.run_c22_mexc_campaign as c22  # noqa: E402
 import scripts.run_c23_bitget_campaign as c23  # noqa: E402
-import scripts.draw_checkpoint  # noqa: E402
+from scripts import draw_checkpoint  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 

@@ -1,0 +1,26 @@
+[resume] cost_base okx 2023
+[run] cost_base okx 2024
+[census] OKX: events=303 signal_pass=115 trades=28 matched=28 unexplained=36
+Traceback (most recent call last):
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 774, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 732, in main
+    ckpts[key] = _fold(venue, arm, fid, args.jobs)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 388, in _fold
+    episode = _episode(sv, census, cfg, arm, venue, fid, jobs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 459, in _episode
+    perm = _c25_permutation(sv, memo, rows, keys, canonical_pnl, cfg,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 567, in _c25_permutation
+    return c20.conditional_permutation_null(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c20_cross_venue_campaign.py", line 796, in conditional_permutation_null
+    results = draw_executor(unique, candles_active, memo, cfg, jobs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 561, in _exec
+    return draw_checkpoint.run_chunked(
+           ^^^^^^^^^^^^^^^
+NameError: name 'draw_checkpoint' is not defined

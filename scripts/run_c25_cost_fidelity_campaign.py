@@ -68,7 +68,7 @@ if str(REPO) not in sys.path:
 import scripts.run_c20_cross_venue_campaign as c20  # noqa: E402
 import scripts.run_c22_mexc_campaign as c22  # noqa: E402
 import scripts.run_c23_bitget_campaign as c23  # noqa: E402
-import scripts.draw_checkpoint  # noqa: E402
+from scripts import draw_checkpoint  # noqa: E402
 from scripts.run_portfolio import run_portfolio_simulation  # noqa: E402
 from src.strategy.config import StrategyConfig  # noqa: E402
 
@@ -386,7 +386,8 @@ def _fold(venue: str, arm: str, fid: str, jobs: int) -> Dict[str, Any]:
         tmp_path.unlink()
 
     episode = _episode(sv, census, cfg, arm, venue, fid, jobs)
-    placebo = _placebo(sv, census, cfg, arm, venue, fid, jobs)    battery = c20.run_battery(
+    placebo = _placebo(sv, census, cfg, arm, venue, fid, jobs)
+    battery = c20.run_battery(
         sv, campaign, episode or {"episode_block_bootstrap": {}},
         _stem(f"{arm}_{venue}_{fid}", "fold_battery"))
 
