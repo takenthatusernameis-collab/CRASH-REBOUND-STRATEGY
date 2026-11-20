@@ -1,8 +1,8 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T01:43:49Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T07:54:37Z ±30% — DO NOT RELAUNCH)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T01:44:44Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T06:59:11Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips; ETA ~2026-11-28T07:54:37Z ±30%). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
+**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips; ETA ~2026-11-28T06:59:11Z ±30%). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
 
