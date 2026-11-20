@@ -2,3 +2,8 @@
 [run] cost_base okx 2024
 [census] OKX: events=303 signal_pass=115 trades=28 matched=28 unexplained=36
 [episode] cost_base okx 2024: trades=28 pnl=-23054.83 perm_p=0.6149
+[placebo] cost_base okx 2024: pool=115 choose=28 runs=2000 p_ge=0.8965
+[battery] OKX: total=-23054.83 trades=28 legs=['buy', 'short'] episodes=7
+[done] cost_base okx 2024 pnl=-23054.83
+[run] cost_base okx 2025
+[census] OKX: events=314 signal_pass=100 trades=33 matched=33 unexplained=17
