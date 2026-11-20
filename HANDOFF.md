@@ -36,7 +36,7 @@ Observed at generation time (2026-11-20T06:37:22Z):
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:39:18Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T13:50:05Z ±30% — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:39:50Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T13:50:38Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -183,7 +183,7 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:35:47Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:39:50Z)
 
 **Read this HANDOFF.md** — single durable handoff with verified live state, binding queue (`C24 → C25 → C26 → C27`), exact orders, monitoring protocol, guardrails.
 
