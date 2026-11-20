@@ -68,8 +68,26 @@ if walls:
     finish = now + dt.timedelta(hours=eta_h)
     print(f"median permutation wall per completed cell: {med/3600.0:.2f} h")
     print(f"per-cell estimate (perm + placebo): {per_cell/3600.0:.2f} h")
-    print(f"ETA: {eta_h:.1f} h -> ~{finish.strftime('%Y-%m-%dT%H:%M:%SZ')} "
+    print(f"ETA (median model, n={len(walls)}): {eta_h:.1f} h -> ~{finish.strftime('%Y-%m-%dT%H:%M:%SZ')} "
           f"(+/- 30%; 4-core box, shared runner)")
+
+    # A median over few cells understates real cost: cells have very different
+    # runtime (universe size, event count). Time already spent on the in-flight
+    # cell is a hard lower bound on that cell's true cost, so use it when it
+    # exceeds the median model. Without this, a long cell reads as "stuck" and a
+    # session may kill a healthy runner.
+    newest = max((p.stat().st_mtime for p in STATE.glob(f"c25_ckpt_*_{TS}.json")), default=None)
+    if newest is not None and missing:
+        inflight_h = (now.timestamp() - newest) / 3600.0
+        print(f"in-flight cell elapsed (since last checkpoint): {inflight_h:.2f} h")
+        if inflight_h > per_cell / 3600.0:
+            cons_cell = max(inflight_h, per_cell / 3600.0)
+            cons_h = real_remaining * cons_cell
+            cons_finish = now + dt.timedelta(hours=cons_h)
+            print(f"ETA (conservative, in-flight-aware): {cons_h:.1f} h -> "
+                  f"~{cons_finish.strftime('%Y-%m-%dT%H:%M:%SZ')}")
+            print("WARNING: in-flight cell already exceeds the median budget. "
+                  "Permutation variance is expected; if RUNNER: ALIVE do NOT kill.")
 else:
     print("ETA: unknown (no completed real cell yet; measured budget 3.6 h/cell)")
 
