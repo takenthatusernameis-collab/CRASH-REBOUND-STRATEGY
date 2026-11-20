@@ -183,7 +183,13 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## KEY FILES
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T05:31:03Z)
+
+**Read this HANDOFF.md** — single durable handoff with verified live state, binding queue (`C24 → C25 → C26 → C27`), exact orders, monitoring protocol, guardrails.
+
+Current one-line status (verified at 2026-11-20T05:31:03Z via `status_c25.sh` + `eta_c25.sh`): bottleneck removed — venv bootstrapped, persistent C25 runner relaunched (PID 3100, 4 workers). `C25-T1` cost/funding fidelity **RUNNER ALIVE & COMPUTING**, 1/56 real inference cells complete (`cost_base/okx/2023`), 55 pending, gate `C25 ACCEPTANCE: PENDING`, ETA ~2026-11-28. Anchor `INCOMPLETE` (1/16 cost_base cells; okx/2023 reproduces C24 d15 exactly — no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
+
+Next focus campaign: monitor C25 to PASS, then unblock C26 path fidelity, then C27 venue acquisition. Heavy work continues; no idle sessions.
 
 - Handoff/state: `HANDOFF.md` (single durable handoff), `INITIAL_TASK_MESSAGE.md` + `AGENT_HANDOFF.md` (pointers), `README.md`, `research_state/strategy_spec.md`.
 - C25 ops: `scripts/status_c25.sh`, `scripts/eta_c25.sh`, `scripts/check_c25_anchor.sh`, `scripts/run_c25_durable.sh`, `scripts/verify_c25_focus_campaign.py`.

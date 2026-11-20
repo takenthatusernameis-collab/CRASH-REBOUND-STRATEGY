@@ -1,0 +1,4 @@
+  File "/home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY/scripts/run_c25_cost_fidelity_campaign.py", line 389
+    placebo = _placebo(sv, census, cfg, arm, venue, fid, jobs)    battery = c20.run_battery(
+                                                                  ^^^^^^^
+SyntaxError: invalid syntax
