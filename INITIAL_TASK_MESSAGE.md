@@ -1,5 +1,5 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T06:37:22Z)
+# INITIAL TASK MESSAGE — POINTER ONLY (2026-11-20T06:39:29Z)
 
-**Read `HANDOFF.md`** — it is the single durable handoff containing the verified live state, the binding queue (`C24 → C25 → C26 → C27`), the exact step-by-step orders, the monitoring protocol, and all guardrails.
+**This file is not a source of truth.** The single durable handoff and the current timestamped initial task message live in `HANDOFF.md`.
 
-Current one-line status (verified at 2026-11-20T06:37:22Z via `status_c25.sh` + `eta_c25.sh` + `check_c25_anchor.sh`): `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers), **1/56 real inference cells complete** (`cost_base/okx/2023`, pnl +34,420.88), **55 pending**, gate `C25 ACCEPTANCE: PENDING`, ETA **~2026-11-28T12:48:10Z (±30%)** on this 4-core box. Anchor `INCOMPLETE` (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
+Read `HANDOFF.md`, then run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`.

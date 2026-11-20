@@ -1,11 +1,11 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T06:37:22Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T06:39:29Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers), **1/56 real inference cells complete** (`cost_base/okx/2023`, pnl +34,420.88), 55 pending, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T12:48:10Z (±30%)** on this 4-core box. Anchor `INCOMPLETE` (1/16 checked, no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
 
-**SESSION LOG — 2026-11-20T06:37:22Z (handoff regeneration):** Re-verified live state at handoff read (2026-11-20T06:37:22Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 5536, parent 5531, 4 workers running since ~06:21Z), `eta_c25.sh` → **1/56 real cells complete**, 55 remaining, ETA **~2026-11-28T12:48:10Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**). Runner healthy, 4 workers saturated. Checkpoint `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` persists in `research_state/`. No bottlenecks are removable mid-run — compute is the sole remaining constraint and is not fixable without a restart (see BOTTLENECK REGISTER). Scheduled next wake at 8 h per the monitoring protocol.
+**SESSION LOG — 2026-11-20T06:39:29Z (handoff refresh):** Re-verified live state at handoff read (2026-11-20T06:39:29Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 5536, parent 5531, 4 workers running since ~06:21Z), `eta_c25.sh` → **1/56 real cells complete**, 55 remaining, ETA **~2026-11-28T12:48:10Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**). Runner healthy, 4 workers saturated. Checkpoint `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` persists in `research_state/`. No bottlenecks are removable mid-run — compute is the sole remaining constraint and is not fixable without a restart (see BOTTLENECK REGISTER). Scheduled next wake at 8 h per the monitoring protocol.
 
 **Binding heavy queue (there is no idle state):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (probe + prereg staged, launch blocked on C26 PASS)`.
 
@@ -36,7 +36,7 @@ Observed at generation time (2026-11-20T06:37:22Z):
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T06:37:22Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T12:48:10Z ±30% — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T06:39:29Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T12:48:10Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -183,11 +183,11 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T05:31:03Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T06:39:29Z)
 
 **Read this HANDOFF.md** — single durable handoff with verified live state, binding queue (`C24 → C25 → C26 → C27`), exact orders, monitoring protocol, guardrails.
 
-Current one-line status (verified at 2026-11-20T05:31:03Z via `status_c25.sh` + `eta_c25.sh`): bottleneck removed — venv bootstrapped, persistent C25 runner relaunched (PID 3100, 4 workers). `C25-T1` cost/funding fidelity **RUNNER ALIVE & COMPUTING**, 1/56 real inference cells complete (`cost_base/okx/2023`), 55 pending, gate `C25 ACCEPTANCE: PENDING`, ETA ~2026-11-28. Anchor `INCOMPLETE` (1/16 cost_base cells; okx/2023 reproduces C24 d15 exactly — no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
+Current one-line status (verified at 2026-11-20T06:39:29Z via `status_c25.sh` + `eta_c25.sh` + `check_c25_anchor.sh`): `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers), 1/56 real inference cells complete (`cost_base/okx/2023`), 55 pending, gate `C25 ACCEPTANCE: PENDING`, ETA ~2026-11-28T12:48:10Z (±30%) on this 4-core box. Anchor `INCOMPLETE` (1/16 cost_base cells; okx/2023 reproduces C24 d15 exactly — no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
 
 Next focus campaign: monitor C25 to PASS, then unblock C26 path fidelity, then C27 venue acquisition. Heavy work continues; no idle sessions.
 
