@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-20T00:52:12.896003+00:00",
+  "campaign": "C27",
+  "probe": "venue_acquisition_feasibility",
+  "purpose": "Stage-0 evidence: which never-used USDT-perp venue can serve real multiyear 1h perpetual history and $5M/24h coverage, before any C27 compute.",
+  "candidate_venues": [
+    "bybit",
+    "kucoin",
+    "bingx"
+  ],
+  "probe_symbols": [
+    "BTC",
+    "ETH",
+    "SOL",
+    "ADA",
+    "XRP",
+    "DOGE",
+    "LINK",
+    "AVAX",
+    "DOT",
+    "LTC",
+    "BCH",
+    "NEAR",
+    "ARB",
+    "OP",
+    "ATOM",
+    "UNI"
+  ],
+  "depth_windows": {
+    "2023": [
+      "2023-06-01T00:00:00Z",
+      "2023-06-03T00:00:00Z"
+    ],
+    "2024": [
+      "2024-06-01T00:00:00Z",
+      "2024-06-03T00:00:00Z"
+    ]
+  },
+  "venues": {
+    "bybit": {
+      "venue": "bybit",
+      "reachable": false,
+      "http_status": 403,
+      "multiyear_2023": false,
+      "probe_2023_bars": 0,
+      "note": "unreachable (geo/legal or API block from runner)"
+    },
+    "kucoin": {
+      "venue": "kucoin",
+      "reachable": true,
+      "http_status": 200,
+      "multiyear_2023": true,
+      "probe_2023_bars": 48,
+      "note": "reachable; multiyear 1H available"
+    },
+    "bingx": {
+      "venue": "bingx",
+      "reachable": true,
+      "http_status": 200,
+      "multiyear_2023": false,
+      "probe_2023_bars": 0,
+      "note": "reachable; multiyear 1H depth unverified"
+    }
+  },
+  "recommendation": {
+    "primary_new_venue": "kucoin",
+    "multiyear_viable": true,
+    "recent_only_venues": [
+      "bingx"
+    ],
+    "blocked_venues": [
+      "bybit"
+    ],
+    "rationale": "KUCOIN is reachable and serves multiyear 2023+ 1H perps -> a NEW-DATA out-of-sample C27 replication (fixed spec, no tuning) is feasible. This is new data (KUCOIN != OKX/Binance/MEXC/Bitget), so it is NOT a same-data rerun and satisfies the 'new prereg + new data + explicit authorization' rule."
+  },
+  "c27_data_status": "ACQUISITION_VIABLE_KUCOIN_MULTIYEAR"
+}
