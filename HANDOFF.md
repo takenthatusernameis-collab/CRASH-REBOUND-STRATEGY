@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T09:46:44Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T09:48:31Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers), **1/56 real inference cells complete** (`cost_base/okx/2023`, pnl +34,420.88), 55 pending, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T15:57:32Z (±30%)** on this 4-core box. Anchor `ANCHOR: INCOMPLETE` (1/16 checked, no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
@@ -8,6 +8,26 @@
 **SESSION LOG — 2026-11-20T08:44:52Z (handoff refresh):** Re-verified live state at handoff read (2026-11-20T08:44:52Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 5536, parent 5531, 4 workers running since ~05:39Z), `eta_c25.sh` → **1/56 real cells complete**, 55 remaining, ETA **~2026-11-28T14:54:20Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (63 missing cells). Runner healthy, 4 workers saturated. Checkpoint `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` persists in `research_state/`. No bottlenecks are removable mid-run — compute is the sole remaining constraint and is not fixable without a restart (see BOTTLENECK REGISTER). Scheduled next wake at 8 h per the monitoring protocol.
 
 **SESSION LOG — 2026-11-20T09:46:44Z (handoff refresh):** Re-verified live state at handoff read (2026-11-20T09:46:44Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 5536, parent 5531, 4 workers running since ~05:39Z), `eta_c25.sh` → **1/56 real cells complete**, 55 remaining, ETA **~2026-11-28T15:57:32Z (±30%)**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (63 missing cells). Runner healthy, 4 workers saturated; in-flight cell `cost_base/okx/2024` elapsed **4.29 h** (permutation stage prints nothing for hours — silence is normal, do not kill). Checkpoint `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` persists in `research_state/`. No bottlenecks are removable mid-run — compute is the sole remaining constraint (see BOTTLENECK REGISTER). Scheduled next wake at 8 h per the monitoring protocol.
+
+**SESSION LOG — 2026-11-20T09:48:31Z (handoff refresh):** Re-verified live state at handoff read (2026-11-20T09:48:31Z): `status_c25.sh` → `RUNNER: ALIVE` (PID 5536, parent 5531, 4 workers running since ~05:39Z), `eta_c25.sh` → **1/56 real cells complete**, 55 remaining, ETA **~2026-11-28T15:59:19Z (±30%)**, conservative **~2026-11-30T07:10:23Z**, `check_c25_anchor.sh` → **ANCHOR: INCOMPLETE** (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly — **no MISMATCH**). `verify_c25_focus_campaign.py` → `C25 ACCEPTANCE: PENDING` (63 missing cells). Runner healthy, 4 workers saturated; in-flight cell `cost_base/okx/2024` elapsed **4.32 h** (permutation stage prints nothing for hours — silence is normal, do not kill). Checkpoint `c25_ckpt_cost_base_okx_2023_20261119T045500Z.json` persists in `research_state/`. No bottlenecks are removable mid-run — compute is the sole remaining constraint (see BOTTLENECK REGISTER). Scheduled next wake at 8 h per the monitoring protocol.
+
+**Binding heavy queue (there is no idle state):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (probe + prereg staged, launch blocked on C26 PASS)`.
+
+---
+
+## INITIAL TASK MESSAGE (timestamped, 2026-11-20T09:48:31Z)
+
+Read `HANDOFF.md` (this file) as the single durable source of truth. Then run, in order, read-only only:
+
+```
+bash scripts/status_c25.sh
+bash scripts/eta_c25.sh
+bash scripts/check_c25_anchor.sh
+PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py
+PYTHONPATH=. .venv/bin/python scripts/verify_c26_focus_campaign.py
+```
+
+Then schedule the next 8 h wake per MONITORING PROTOCOL and suspend. DO NOT relaunch, kill, reorder, or start C26/C27. If `ANCHOR: MISMATCH`, stop and record evidence. If `C25 ACCEPTANCE: PASS`, execute the C25-PASS checklist and launch C26 in the same session.
 
 **Binding heavy queue (there is no idle state):** `C24-T1 (COMPLETE, PASS)` → **`C25-T1 (IN FLIGHT)`** → `C26-T1 (BUILT, blocked on C25 PASS)` → `C27-T1 (probe + prereg staged, launch blocked on C26 PASS)`.
 
