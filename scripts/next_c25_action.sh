@@ -25,6 +25,34 @@ echo "GATE:   ${gate_c25:-C25 ACCEPTANCE: UNKNOWN}"
 echo "GATE:   ${gate_c26:-C26 ACCEPTANCE: UNKNOWN}"
 echo "ANCHOR: ${anchor#ANCHOR: }"
 
+# --- pacing (removes the C25 -> C26 transition-latency bottleneck) -----------
+# A fixed 8 h cadence can idle the critical path for up to 8 h after the last
+# cell lands. The tier is derived from ground truth (remaining cells), never
+# from a guess, and every tier is cheap: one bounded read, no CPU contention.
+eta_line="$(bash scripts/eta_c25.sh 2>/dev/null)"
+remaining="$(printf '%s\n' "$eta_line" | sed -n 's/^real inference cells still to compute: //p' | head -1)"
+inflight="$(printf '%s\n' "$eta_line" | sed -n 's/^in-flight cell elapsed (since last checkpoint): //p' | head -1)"
+remaining="${remaining:-0}"
+
+wake_after="8h"
+wake_why=">6 cells left; 4 saturated cores at ~3.6 h/cell"
+if [[ "$remaining" -eq 0 ]]; then
+  wake_after="0s"
+  wake_why="no real cells left; act in this turn, do not suspend"
+elif [[ "$remaining" -le 2 ]]; then
+  wake_after="90m"
+  wake_why="<=2 cells left; detect the C25 gate within ~1.5 h of PASS"
+elif [[ "$remaining" -le 6 ]]; then
+  wake_after="4h"
+  wake_why="<=6 cells left; detect the C25 gate within ~4 h of PASS"
+fi
+
+echo "PACING: remaining=${remaining} in_flight=${inflight:-n/a} wake_after=${wake_after} (${wake_why})"
+
+wake_cmd() {
+  echo "WAKE: schedule_wakeup delay=\"${wake_after}\" reason=\"C25 tick\" prompt=\"Run bash scripts/next_c25_action.sh and obey its ACTION line. If RUNNER NOT ALIVE and C25 gate PENDING, resume exactly once with background_process start command='bash scripts/run_c25_durable.sh' persistent=true. If C25 ACCEPTANCE: PASS, execute the C25-PASS checklist and launch C26 in this same session. If ANCHOR: MISMATCH, stop and record evidence. Never relaunch or kill a live runner, never add competing CPU work, and never end the turn without scheduling the next wake.\""
+}
+
 emit() {
   echo "ACTION: $1"
   shift
