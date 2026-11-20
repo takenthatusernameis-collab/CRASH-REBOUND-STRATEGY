@@ -36,7 +36,7 @@ Observed at generation time:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-19T23:52:06Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28 — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T00:41:21Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T06:52Z — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
