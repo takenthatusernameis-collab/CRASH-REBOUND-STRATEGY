@@ -151,7 +151,7 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:44:23Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T08:38:54Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -159,7 +159,7 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 - `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers)
 - Cells: **1/56 real complete** (`cost_base/okx/2023`, pnl +34,420.88), **55 pending**, 8 okx funding skips (`UNAVAILABLE_FUNDING`)
 - Gate: `C25 ACCEPTANCE: PENDING`; Anchor: `ANCHOR: INCOMPLETE` (1/16, no MISMATCH)
-- ETA: **~2026-11-28T13:55:11Z (±30%)**, 4-core box saturated
+- ETA: **~2026-11-28T14:49:42Z (±30%)**, 4-core box saturated
 - Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
