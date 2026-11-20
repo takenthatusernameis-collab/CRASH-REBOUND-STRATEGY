@@ -27,7 +27,7 @@ Observed at generation time:
 
 - **C25 RUNNER: ALIVE.** Parent PID **3258** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), started **23:41:32Z**, 4 draw workers, launched through the harness background-process runner (`persistent=true`) via `scripts/run_c25_durable.sh`, teeing to `research_state/c25_run_20261119T234132Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
 - **Cells:** `cost_base 1/16`, `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 1 real cell DONE (`cost_base/okx/2023`, pnl **+34,420.88**, perm_p **0.335**, placebo p_ge **0.0705**, ckpt written 21:00:41Z). `cost_base/okx/2024` in permutation since 23:41Z (the permutation stage emits no log lines for hours — silence is normal).
-- **ETA:** `eta_c25.sh` → 55 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **198.2 h ≈ 8.3 days → ~2026-11-28T04:47Z (±30%)**. Load average 6.58 on 4 cores; the box is genuinely saturated.
+- **ETA:** `eta_c25.sh` → 55 real cells left, median **3.20 h** permutation + **0.41 h** placebo per cell → **198.2 h ≈ 8.3 days → ~2026-11-28T06:53:37Z (±30%)**. Load average 6.58 on 4 cores; the box is genuinely saturated.
 - **Anchor:** `ANCHOR: INCOMPLETE` (1/16 cost_base cells checked; okx/2023 reproduces C24 d15 exactly). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gate:** `C25 ACCEPTANCE: PENDING` (63 missing cells; verdict artifacts written only after all cells complete). **`C26 ACCEPTANCE: PENDING`** (blocked on C25; 64 missing cells; path-anchor reference not yet available).
 - **Tests (re-verified this session):** `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1095 passed, 1 skipped** in 74 s. Campaign subset `tests/test_c25_campaign.py tests/test_c26_campaign.py` → **13 passed**.
@@ -36,11 +36,11 @@ Observed at generation time:
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T00:41:21Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T06:52Z — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T00:42:33Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T06:53:37Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
+**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips; ETA ~2026-11-28T06:53:37Z ±30%). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
 
