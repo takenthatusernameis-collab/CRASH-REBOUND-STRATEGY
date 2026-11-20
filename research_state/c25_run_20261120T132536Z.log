@@ -20,3 +20,7 @@
 [run] cost_base binance_um 2023
 [census] Binance UM: events=342 signal_pass=143 trades=27 matched=27 unexplained=58
 [episode] cost_base binance_um 2023: trades=27 pnl=38752.19 perm_p=0.4909090909090909
+[placebo] cost_base binance_um 2023: pool=143 choose=27 runs=2000 p_ge=0.086
+[battery] Binance UM: total=38752.19 trades=27 legs=['buy'] episodes=10
+[done] cost_base binance_um 2023 pnl=38752.19
+[run] cost_base binance_um 2024
