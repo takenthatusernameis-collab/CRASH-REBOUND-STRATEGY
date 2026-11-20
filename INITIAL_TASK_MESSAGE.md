@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T15:34:01Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T15:36:01Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
