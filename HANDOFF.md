@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-20T03:59:15Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
+**Generated (UTC):** 2026-11-20T04:47:16Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data.
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are now *pointers only* (they must not carry state). `README.md` points here.
 
 **ONE-LINE STATUS:** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3258, 4 workers), **1/56 real inference cells complete** (`cost_base/okx/2023`, pnl +34,420.88), 55 pending, gate `C25 ACCEPTANCE: PENDING`, projected completion **~2026-11-28T10:10:02Z (±30%)** on this 4-core box. Anchor `INCOMPLETE` (1/16 checked, no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
@@ -11,7 +11,7 @@
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-20T03:59:15Z
+## VERIFIED LIVE STATE — 2026-11-20T04:47:16Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
@@ -36,7 +36,7 @@ Observed at generation time (2026-11-20T03:56:16Z):
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T03:59:15Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T10:10:02Z ±30% — DO NOT RELAUNCH)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T04:47:16Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T10:10:02Z ±30% — DO NOT RELAUNCH)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -119,7 +119,7 @@ Remaining bottleneck — compute, and it is **not fixable mid-run**:
 **Decision rules:** `C25_REOPENS_C1_C24` requires, under `cost_taker_funding`: pooled > 0 AND CI95 lower > 0 AND ≥1 BH survivor in the 16-test venue×fold family AND ≥3/4 folds positive AND ≥3/4 venues positive. Otherwise `C25_NO_GO_ROBUST_TO_COST`. Gate tokens: `C25 ACCEPTANCE: PENDING|PASS|FAIL`.
 **Scripts:** `run_c25_cost_fidelity_campaign.py`, `run_c25_durable.sh`, `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh`, `verify_c25_focus_campaign.py`, `build_c25_prereg.py`, `probe_c25_funding_acquisition.py`, `probe_c25_okx_funding_retention.py`, `fetch_funding_history.py`, `run_c25_okx_funding_durable.sh` (guard only), `tests/test_c25_campaign.py`.
 
-**Status (2026-11-20T03:59:15Z):** 1/56 real cells complete (`cost_base/okx/2023`), 55 remaining, ETA **~2026-11-28T10:10:02Z (±30%)**, anchor `INCOMPLETE` (1/16), gate `PENDING`. Runner healthy.
+**Status (2026-11-20T04:47:16Z):** 1/56 real cells complete (`cost_base/okx/2023`), 55 remaining, ETA **~2026-11-28T10:10:02Z (±30%)**, anchor `INCOMPLETE` (1/16), gate `PENDING`. Runner healthy.
 
 ### C26-T1 — INTRABAR PATH & PER-TRADE FUNDING FIDELITY (BUILT, NOT LAUNCHED)
 
