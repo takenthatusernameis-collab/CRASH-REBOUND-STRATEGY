@@ -33,38 +33,6 @@ Observed at generation time (2026-11-20T06:37:22Z):
 - **Tests (re-verified this session):** `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1095 passed, 1 skipped** in 74 s. Campaign subset `tests/test_c25_campaign.py tests/test_c26_campaign.py` → **13 passed**.
 - **C24:** `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23`, all 80 cells done, runner exited, 6 verdict artifacts present. **Do not relaunch.**
 - `.venv` is bootstrapped at repo root (Python 3.12.3). Use `PYTHONPATH=. .venv/bin/python ...`. Only run `bash scripts/bootstrap_env.sh` if `.venv/bin/python` is missing.
-
----
-
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:39:50Z — C25 RUNNER ALIVE, 1/56 REAL CELLS, ETA ~2026-11-28T13:50:38Z ±30% — DO NOT RELAUNCH)
-
-**Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
-
-**Current position:** C1–C20 closed `NO_GO`. C21/C22/C23-T1 complete (`PASS`), each consolidated `NO_GO`. **C24-T1 complete: `C24 ACCEPTANCE: PASS`, `C24_REOPENS_C1_C23`** (d15 pooled **+144,651.69**, CI95 [+117,408.41, +173,074.50], prob>0 = 1.0; C1–C23 `NO_GO` superseded). **C25-T1 in flight** (1/56 real cells; 8 okx funding cells are instant `UNAVAILABLE_FUNDING` skips; ETA ~2026-11-28T12:48:10Z ±30%). **C26-T1 built, not launched. C27-T1 probe + prereg staged, not launched.**
-
-**Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
-
-1. **Run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`.** Those two commands are the truth. Do not assemble your own `ps`/`ls`/log chain. Never trust a PID or log path written in any file; whatever `status_c25.sh` prints is ground truth.
-
-2. **If `RUNNER: ALIVE`:** do not relaunch, do not kill, do not resume, do not start any C26/C27 cell, do not add any CPU work. Do:
-   - `bash scripts/check_c25_anchor.sh` → must stay `ANCHOR: OK` / `ANCHOR: INCOMPLETE`. If `ANCHOR: MISMATCH`, that is a P0 integrity stop: record the evidence, stop the battery, fix the cause, resume once. Never relax floors or edit the prereg.
-   - then **suspend with `schedule_wakeup` (8 h)** using the exact prompt in the monitoring protocol below. Do not burn turns polling.
-
-3. **If `RUNNER: NOT ALIVE` and the gate is `PENDING`:** fix the failure cause first, then resume **exactly once**:
-   `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` (its duplicate guard no-ops if a runner is already up). Never resume twice for the same failure. Never `nohup`/`setsid` it yourself — a runner started inside a turn dies with the turn.
-
-4. **If the gate prints `C25 ACCEPTANCE: FAIL`:** fix only the failing integrity condition (prereg drift, anchor mismatch, draw floors, smoke contamination). Never force PASS.
-
-5. **On `C25 ACCEPTANCE: PASS` (do all of this in that same session, then go to step 6):**
-   a. Deliver the full arm × venue × fold cost/funding table, per-leg attribution, exit-reason decomposition, BH family, and the consolidated token (`C25_REOPENS_C1_C24` or `C25_NO_GO_ROBUST_TO_COST`).
-   b. State, verbatim, `funding_model=VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY` and cite `research_state/c25_funding_model_disclosure_20261119T091800Z.json`. Never claim per-trade funding (that is C26).
-   c. Report `okx` as `UNAVAILABLE_FUNDING` / `OKX_FUNDING_BLOCKED_BY_API_RETENTION`. Never zero-fill, proxy, or retry it.
-   d. **Immediately and durably launch C26-T1:** `background_process start command="bash scripts/run_c26_durable.sh" persistent=true`, then verify with `bash scripts/status_c26.sh` and `scripts/verify_c26_focus_campaign.py`. Do not idle, do not claim "no authorized work", do not do a same-data parameter search.
-
-6. **On `C26 ACCEPTANCE: PASS` (same session, mandatory successor):** run the staged stage-0 probe `PYTHONPATH=. .venv/bin/python scripts/probe_c27_venue_acquisition.py`; confirm the prereg `research_state/c27_prereg_20261119T215721Z.{json,md}` (`prereg_status: PRE_REGISTERED_BEFORE_COMPUTE`, sha pinned) still matches the probe verdict; then durably launch the C27 campaign. If the probe returns `ACQUISITION_BLOCKED_BY_API_RETENTION`, the only legitimate alternative is a **new pre-registered hypothesis on new data** — never a same-data rerun or a frozen-signal parameter search.
-
-**No-avoidance rule (binding):** `C24 → C25 → C26 → C27` is the heavy queue. No session may idle, declare "no authorized work", substitute a frozen-signal parameter search, retry closed data acquisitions, zero-fill funding, reduce draw counts, or relaunch a finished campaign (C20/C22/C23/C24 are PASS and closed). A `PENDING` gate is not a blocker: it means the heavy battery must keep running. **C25 is the live focus campaign; C26 is the mandatory same-session successor on C25 PASS; C27 is the mandatory same-session successor on C26 PASS.** "No authorized work" is never a truthful state while any gate in this chain is PENDING.
-
 ---
 
 ## MONITORING PROTOCOL FOR THE MULTI-DAY RUN (use this, never poll)
@@ -183,13 +151,35 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:39:50Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T07:40:39Z)
 
-**Read this HANDOFF.md** — single durable handoff with verified live state, binding queue (`C24 → C25 → C26 → C27`), exact orders, monitoring protocol, guardrails.
+**Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-Current one-line status (verified at 2026-11-20T07:35:47Z via `status_c25.sh` + `eta_c25.sh` + `check_c25_anchor.sh`): `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers), 1/56 real inference cells complete (`cost_base/okx/2023`), 55 pending, gate `C25 ACCEPTANCE: PENDING`, ETA ~2026-11-28T13:46:34Z (±30%) on this 4-core box. Anchor `INCOMPLETE` (1/16 cost_base cells; okx/2023 reproduces C24 d15 exactly — no MISMATCH). **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.** Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`.
+**Live status (verified 2026-11-20T07:40:39Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh`):**
+- `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 5536, 4 workers)
+- Cells: **1/56 real complete** (`cost_base/okx/2023`, pnl +34,420.88), **55 pending**, 8 okx funding skips (`UNAVAILABLE_FUNDING`)
+- Gate: `C25 ACCEPTANCE: PENDING`; Anchor: `ANCHOR: INCOMPLETE` (1/16, no MISMATCH)
+- ETA: **~2026-11-28T13:51:26Z (±30%)**, 4-core box saturated
+- Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`
 
-Next focus campaign: monitor C25 to PASS, then unblock C26 path fidelity, then C27 venue acquisition. Heavy work continues; no idle sessions.
+**Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
+
+1. **Run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`.** Those two commands are ground truth. Never trust a PID or log path written in any file. Never assemble your own `ps`/`ls`/log chain.
+
+2. **If `RUNNER: ALIVE`:** do not relaunch, do not kill, do not resume, do not start any C26/C27 cell, do not add any CPU work. Run `bash scripts/check_c25_anchor.sh` (must stay `ANCHOR: INCOMPLETE` / `ANCHOR: OK`; `ANCHOR: MISMATCH` is a P0 integrity stop — record evidence, fix cause, resume once). Then **suspend with `schedule_wakeup` (8 h)** using the monitoring protocol prompt. Do not burn turns polling.
+
+3. **If `RUNNER: NOT ALIVE` and gate is `PENDING`:** fix the failure cause, then resume **exactly once** with `background_process start command="bash scripts/run_c25_durable.sh" persistent=true`. Never resume twice for the same failure. Never `nohup`/`setsid` it yourself.
+
+4. **If gate prints `C25 ACCEPTANCE: FAIL`:** fix only the failing integrity condition (prereg drift, anchor mismatch, draw floors, smoke contamination). Never force PASS.
+
+5. **On `C25 ACCEPTANCE: PASS` (same session):** deliver the full arm × venue × fold cost/funding table, per-leg attribution, exit-reason decomposition, BH family, consolidated token (`C25_REOPENS_C1_C24` or `C25_NO_GO_ROBUST_TO_COST`). State verbatim `funding_model=VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY` citing `research_state/c25_funding_model_disclosure_20261119T091800Z.json`. Report `okx` as `UNAVAILABLE_FUNDING` / `OKX_FUNDING_BLOCKED_BY_API_RETENTION` — never zero-fill, proxy, or retry. Then durably launch C26-T1: `background_process start command="bash scripts/run_c26_durable.sh" persistent=true`; verify with `bash scripts/status_c26.sh` and `scripts/verify_c26_focus_campaign.py`.
+
+6. **On `C26 ACCEPTANCE: PASS` (same session, mandatory successor):** run `PYTHONPATH=. .venv/bin/python scripts/probe_c27_venue_acquisition.py`; confirm `research_state/c27_prereg_20261119T215721Z.{json,md}` (`prereg_status: PRE_REGISTERED_BEFORE_COMPUTE`, sha pinned) matches the probe verdict; then durably launch C27. If probe returns `ACQUISITION_BLOCKED_BY_API_RETENTION`, the only legitimate alternative is a **new pre-registered hypothesis on new data** — never a same-data rerun or frozen-signal parameter search.
+
+**No-avoidance rule (binding):** `C24 → C25 → C26 → C27` is the heavy queue. No session may idle, declare "no authorized work", substitute a frozen-signal parameter search, retry closed data acquisitions, zero-fill funding, reduce draw counts (20k/20k/2k/2k floors), or relaunch a finished campaign (C20/C22/C23/C24 are PASS and closed). A `PENDING` gate is not a blocker — it means the heavy battery must keep running. **C25 is the live focus campaign; C26 is the mandatory same-session successor on C25 PASS; C27 is the mandatory same-session successor on C26 PASS.** "No authorized work" is never a truthful state while any gate in this chain is PENDING.
+
+**Monitoring protocol:** one bounded read (`bash scripts/eta_c25.sh`), then suspend with exactly:
+`schedule_wakeup delay=8h reason="C25 tick" prompt="Run bash scripts/status_c25.sh and bash scripts/eta_c25.sh. If RUNNER NOT ALIVE and gate PENDING, fix the cause then resume exactly once with background_process start command='bash scripts/run_c25_durable.sh' persistent=true. If the gate is C25 ACCEPTANCE: PASS, execute the C25-PASS checklist and launch C26 in this same session. If check_c25_anchor.sh prints ANCHOR: MISMATCH, stop and record evidence. Otherwise update HANDOFF.md only if state materially changed and schedule the next 8h wakeup."`
 
 - Handoff/state: `HANDOFF.md` (single durable handoff), `INITIAL_TASK_MESSAGE.md` + `AGENT_HANDOFF.md` (pointers), `README.md`, `research_state/strategy_spec.md`.
 - C25 ops: `scripts/status_c25.sh`, `scripts/eta_c25.sh`, `scripts/check_c25_anchor.sh`, `scripts/run_c25_durable.sh`, `scripts/verify_c25_focus_campaign.py`.
