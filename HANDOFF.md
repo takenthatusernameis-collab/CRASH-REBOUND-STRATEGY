@@ -11,8 +11,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE (timestamped, 2026-11-20T22:26:56Z)
-
+## INITIAL TASK MESSAGE (timestamped, 2026-11-20T22:32:38Z)
 Read `HANDOFF.md` (this file) as the single durable source of truth. Then run, in order, read-only only:
 
 ```
