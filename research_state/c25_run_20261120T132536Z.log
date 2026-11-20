@@ -7,3 +7,4 @@
 [done] cost_base okx 2024 pnl=-23054.83
 [run] cost_base okx 2025
 [census] OKX: events=314 signal_pass=100 trades=33 matched=33 unexplained=17
+[episode] cost_base okx 2025: trades=33 pnl=5538.89 perm_p=0.5386363636363637
