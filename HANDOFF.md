@@ -151,15 +151,15 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T09:37:53Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-20T09:40:32Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
-**Live status (verified 2026-11-20T09:37:53Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh` + `verify_c25_focus_campaign.py`):**
+**Live status (verified 2026-11-20T09:40:32Z via `bash scripts/status_c25.sh` + `bash scripts/eta_c25.sh` + `bash scripts/check_c25_anchor.sh` + `verify_c25_focus_campaign.py`):**
 - `C25-T1` cost/funding fidelity: **RUNNER ALIVE & COMPUTING** (PID 5536, parent 5531, 4 workers, running since ~05:39Z)
 - Cells: **1/56 real complete** (`cost_base/okx/2023`, pnl +34,420.88), **55 pending**, 8 okx funding skips (`UNAVAILABLE_FUNDING`)
 - Gate: `C25 ACCEPTANCE: PENDING` (63 missing cells); Anchor: `ANCHOR: INCOMPLETE` (1/16 cost_base checked, no MISMATCH)
-- ETA: **~2026-11-28T14:58:06Z (±30%)**, 4-core box saturated; in-flight cell `cost_base/okx/2024` elapsed 3.34 h
+- ETA: **~2026-11-28T15:51:20Z (±30%)**, conservative ~2026-11-29T23:44:10Z; 4-core box saturated; in-flight cell `cost_base/okx/2024` elapsed 4.18 h
 - Binding queue: `C24 (PASS) → C25 (live) → C26 (BUILT, blocked on C25 PASS) → C27 (probe + prereg staged, blocked on C26 PASS)`
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
