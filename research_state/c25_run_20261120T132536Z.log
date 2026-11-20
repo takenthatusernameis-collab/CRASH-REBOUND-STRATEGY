@@ -14,3 +14,8 @@
 [run] cost_base okx 2026YTD
 [census] OKX: events=219 signal_pass=59 trades=15 matched=15 unexplained=9
 [episode] cost_base okx 2026YTD: trades=15 pnl=11564.77 perm_p=0.5737942765659395
+[placebo] cost_base okx 2026YTD: pool=59 choose=15 runs=2000 p_ge=0.4005
+[battery] OKX: total=11564.77 trades=15 legs=['buy'] episodes=7
+[done] cost_base okx 2026YTD pnl=11564.77
+[run] cost_base binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=27 matched=27 unexplained=58
