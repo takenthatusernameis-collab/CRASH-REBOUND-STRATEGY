@@ -17,8 +17,15 @@ TS="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG="$REPO/research_state/c25_run_${TS}.log"
 
 if [ ! -x "$PY" ]; then
-  echo "[c25-launch] ERROR: missing venv at $PY; run: bash scripts/bootstrap_env.sh" >&2
-  exit 1
+  # Fresh CI job / new worktree: .venv is gitignored, so every new runner image
+  # starts without it. Bootstrap here instead of exiting, so the documented
+  # single-command resume ("background_process start command=...run_c25_durable.sh")
+  # works on the very first session of a job. Fixed 2026-11-21T10:20Z.
+  echo "[c25-launch] missing venv at $PY; bootstrapping (scripts/bootstrap_env.sh)" >&2
+  if ! bash "$REPO/scripts/bootstrap_env.sh"; then
+    echo "[c25-launch] ERROR: bootstrap_env.sh failed; cannot start the runner." >&2
+    exit 1
+  fi
 fi
 
 if pgrep -f "run_c25_cost_fidelity_campaign.py --jobs" >/dev/null 2>&1; then

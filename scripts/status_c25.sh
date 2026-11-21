@@ -19,6 +19,12 @@ else
 fi
 
 echo "--- arm/venue/fold cells (a cell is DONE only when its ckpt exists) ---"
+# Intra-cell progress: permutation/placebo draws checkpoint every 500 subsets
+# (research_state/c25_draw_ckpts/). Without this, a healthy runner on a long
+# cell reads as "0/16 cells" for hours and a session may kill it. Read-only.
+chunks="$(ls research_state/c25_draw_ckpts/ 2>/dev/null | grep -c 'c25_partial_perm' || true)"
+chunk_cell="$(ls research_state/c25_draw_ckpts/ 2>/dev/null | grep -o 'c25_partial_perm_[a-z_]*_[a-z_]*_[0-9]*' | head -1 | sed 's/^c25_partial_perm_//')"
+echo "  in-flight draw chunks: ${chunks:-0}/40 (${chunk_cell:-none})"
 for arm in cost_base cost_taker cost_taker_funding cost_stress; do
   done=0
   for v in okx binance_um mexc bitget; do

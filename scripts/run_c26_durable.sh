@@ -17,8 +17,15 @@ TS="$(date -u +%Y%m%dT%H%M%SZ)"
 LOG="$REPO/research_state/c26_run_${TS}.log"
 
 if [ ! -x "$PY" ]; then
-  echo "[c26-launch] ERROR: missing venv at $PY; run: bash scripts/bootstrap_env.sh" >&2
-  exit 1
+  # Fresh CI job / new worktree: .venv is gitignored, so the first session of a
+  # job has no venv. Bootstrap here instead of exiting, so the documented
+  # one-command launch works on the first session after the predecessor gate
+  # PASSes. Fixed 2026-11-21T10:30:00Z.
+  echo "[c26-launch] missing venv at $PY; bootstrapping (scripts/bootstrap_env.sh)" >&2
+  if ! bash "$REPO/scripts/bootstrap_env.sh"; then
+    echo "[c26-launch] ERROR: bootstrap_env.sh failed; cannot start the runner." >&2
+    exit 1
+  fi
 fi
 
 if pgrep -f "run_c26_path_fidelity_campaign.py --jobs" >/dev/null 2>&1; then
