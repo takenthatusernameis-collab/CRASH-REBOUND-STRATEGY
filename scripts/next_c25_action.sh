@@ -50,7 +50,7 @@ for arm in cost_base cost_taker cost_taker_funding cost_stress; do
     for f in 2023 2024 2025 2026YTD; do
       ck="research_state/c25_ckpt_${arm}_${v}_${f}_${TS}.json"
       if [ -f "$ck" ]; then
-        if grep -q '"unavailable_funding"' "$ck" 2>/dev/null; then
+        if grep -q '"unavailable_funding": true' "$ck" 2>/dev/null; then
           skipped=$((skipped + 1))
         fi
       else
