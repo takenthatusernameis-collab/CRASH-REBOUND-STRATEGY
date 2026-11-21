@@ -1,14 +1,14 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T01:40:18Z · **Re-verified (UTC):** 2026-11-21T01:40:18Z (this session ran `status_c25.sh` and `eta_c25.sh` — runner confirmed ALIVE, 4-core box saturated, 4 workers R-state, state unchanged from 01:34Z) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
+**Generated (UTC):** 2026-11-21T01:40:18Z · **Re-verified (UTC):** 2026-11-21T01:43:53Z (this session ran `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh` — runner confirmed ALIVE, 4 workers R-state PIDs 47995-47998, state unchanged from 01:40:18Z) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. `README.md` points here. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
-**ONE-LINE STATUS (verified 2026-11-21T01:40:18Z):** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state PIDs 45302-45305, started ~21:24Z Nov 20, elapsed ~04:16). **5/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87, boot=20000 perm=None placebo=2000). **51 remaining.** Gate `C25 ACCEPTANCE: PENDING` (59 missing cells; verdict artifacts written only after all cells complete). Anchor `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28,469.71; binance_um/mexc/bitget INCOMPLETE — no MISMATCH). ETA ~**2026-11-24T05:03:25Z (±30%; conservative in-flight-aware ~2026-11-30T04:40:51Z)**. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
+**ONE-LINE STATUS (verified 2026-11-21T01:43:53Z):** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state PIDs 47995-47998, started ~21:24Z Nov 20, elapsed ~04:19). **5/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87, boot=20000 perm=None placebo=2000). **51 remaining.** Gate `C25 ACCEPTANCE: PENDING` (59 missing cells; verdict artifacts written only after all cells complete). Anchor `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28,469.71; binance_um/mexc/bitget INCOMPLETE — no MISMATCH). ETA ~**2026-11-24T05:07:00Z (±30%; conservative in-flight-aware ~2026-11-30T07:46:58Z)**. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T01:40:18Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T01:43:53Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -32,7 +32,7 @@
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-21T01:40:18Z
+## VERIFIED LIVE STATE — 2026-11-21T01:43:53Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
