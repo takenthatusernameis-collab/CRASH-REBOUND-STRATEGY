@@ -824,6 +824,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
             "arm_pooled_totals": {a: all_arms[a]["pooled"]["observed_total"] for a in all_arms},
             "consolidated_verdict": all_arms[PRIMARY_ARM]["token"],
         }
+        # C27/verify/status all read the TIMESTAMPED consolidated verdict
+        # (research_state/c26_decision_verdict_CONSOLIDATED_<TS>.json, TS below).
+        # The un-timestamped name is kept as a backward-compatible alias so older
+        # readers never break; the timestamped file is what the C27 gate requires.
+        _save(f"c26_decision_verdict_CONSOLIDATED_{TS}", final)
         _save("c26_decision_verdict_CONSOLIDATED", final)
         print("consolidated:", final["consolidated_verdict"], flush=True)
     return 0
