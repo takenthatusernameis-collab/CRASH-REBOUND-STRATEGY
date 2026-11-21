@@ -7,3 +7,9 @@
 [run] cost_base binance_um 2025
 [census] Binance UM: events=324 signal_pass=115 trades=34 matched=34 unexplained=31
 [episode] cost_base binance_um 2025: trades=34 pnl=18273.31 perm_p=0.48994620901639346
+[placebo] cost_base binance_um 2025: pool=115 choose=34 runs=2000 p_ge=0.694
+[battery] Binance UM: total=18273.31 trades=34 legs=['buy', 'short'] episodes=8
+[done] cost_base binance_um 2025 pnl=18273.31
+[run] cost_base binance_um 2026YTD
+[census] Binance UM: events=226 signal_pass=86 trades=22 matched=22 unexplained=18
+[episode] cost_base binance_um 2026YTD: trades=22 pnl=5975.73 perm_p=1.0
