@@ -9,3 +9,4 @@
 [resume] cost_base mexc 2023
 [run] cost_base mexc 2024
 [census] MEXC: events=314 signal_pass=124 trades=31 matched=31 unexplained=36
+[episode] cost_base mexc 2024: trades=31 pnl=-15455.09 perm_p=0.7940897044852243
