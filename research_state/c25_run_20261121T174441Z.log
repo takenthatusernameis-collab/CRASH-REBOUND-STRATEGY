@@ -15,3 +15,4 @@
 [done] cost_base mexc 2024 pnl=-15455.09
 [run] cost_base mexc 2025
 [census] MEXC: events=311 signal_pass=94 trades=31 matched=31 unexplained=16
+[episode] cost_base mexc 2025: trades=31 pnl=15567.16 perm_p=0.46464234766659873
