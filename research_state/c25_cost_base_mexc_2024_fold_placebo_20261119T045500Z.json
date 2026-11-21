@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-21T20:00:30Z",
+  "campaign": "C25",
+  "arm": "cost_base",
+  "kind": "fold_placebo",
+  "prereg": "research_state/c25_prereg_20261119T045500Z.json",
+  "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "venue": "mexc",
+  "fold": "2024",
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such.",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Deterministic seeded full-portfolio placebo: gate-passing crash-bar subsets of fixed size through the real portfolio engine; preserves gates/sizing/cap/occupancy/hedge.",
+  "mode": "deterministic_seeded_draws:2000_choose_31_of_124",
+  "seed": 20261201,
+  "canonical": {
+    "trades": 31,
+    "total_pnl": -15455.090684737856,
+    "admitted_keys_count": 31
+  },
+  "pool": {
+    "signal_gate_events": 124,
+    "choose_k": 31
+  },
+  "placebo": {
+    "runs": 2000,
+    "summary": {
+      "n": 2000,
+      "sum": -19855388.225137185,
+      "mean": -9927.694112568593,
+      "median": -9641.155832731585,
+      "stdev": 9142.679621012056,
+      "min": -38737.23088164218,
+      "max": 15546.329555362863,
+      "p05": -25477.86611842407,
+      "p95": 4722.492705245966
+    },
+    "p_ge_canonical": 0.736,
+    "canonical_percentile_le": 0.264,
+    "prob_total_pnl_positive": 0.141,
+    "ci_low_pnl_2p5": -28325.31116696656,
+    "ci_high_pnl_97p5": 7474.025306032572
+  },
+  "p_ge_canonical": 0.736
+}

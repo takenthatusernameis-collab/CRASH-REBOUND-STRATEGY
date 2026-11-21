@@ -10,3 +10,8 @@
 [run] cost_base mexc 2024
 [census] MEXC: events=314 signal_pass=124 trades=31 matched=31 unexplained=36
 [episode] cost_base mexc 2024: trades=31 pnl=-15455.09 perm_p=0.7940897044852243
+[placebo] cost_base mexc 2024: pool=124 choose=31 runs=2000 p_ge=0.736
+[battery] MEXC: total=-15455.09 trades=31 legs=['buy', 'short'] episodes=8
+[done] cost_base mexc 2024 pnl=-15455.09
+[run] cost_base mexc 2025
+[census] MEXC: events=311 signal_pass=94 trades=31 matched=31 unexplained=16
