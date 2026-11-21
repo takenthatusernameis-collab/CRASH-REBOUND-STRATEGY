@@ -8,3 +8,4 @@
 [resume] cost_base binance_um 2026YTD
 [run] cost_base mexc 2023
 [census] MEXC: events=325 signal_pass=110 trades=24 matched=24 unexplained=44
+[episode] cost_base mexc 2023: trades=24 pnl=34300.42 perm_p=0.06135
