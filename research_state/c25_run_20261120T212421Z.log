@@ -10,3 +10,4 @@
 [battery] Binance UM: total=-15387.90 trades=33 legs=['buy', 'short'] episodes=8
 [done] cost_base binance_um 2024 pnl=-15387.9
 [run] cost_base binance_um 2025
+[census] Binance UM: events=324 signal_pass=115 trades=34 matched=34 unexplained=31
