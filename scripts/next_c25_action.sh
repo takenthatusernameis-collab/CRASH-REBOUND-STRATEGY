@@ -162,8 +162,10 @@ fi
 
 if [[ "$runner_line" == *"ALIVE"* ]]; then
   emit "NONE_RUNNER_ALIVE" \
-    "  Do not relaunch, do not kill, do not start C26/C27, do not add CPU work." \
-    "  Update HANDOFF.md only if the cell count or ETA materially changed, then end the turn."
+    "  Next: bash scripts/check_c25_anchor.sh" \
+    "  Then (600000 ms tool timeout): bash -c 'sleep 540; bash scripts/next_c25_action.sh'" \
+    "  Do not end this session before that bounded wait completes." \
+    "  Do not relaunch, do not kill, do not start C26/C27, do not add CPU work."
 fi
 
 emit "RESUME_C25" \
