@@ -1,0 +1,11 @@
+[resume] cost_base okx 2023
+[resume] cost_base okx 2024
+[resume] cost_base okx 2025
+[resume] cost_base okx 2026YTD
+[resume] cost_base binance_um 2023
+[resume] cost_base binance_um 2024
+[resume] cost_base binance_um 2025
+[resume] cost_base binance_um 2026YTD
+[resume] cost_base mexc 2023
+[run] cost_base mexc 2024
+[census] MEXC: events=314 signal_pass=124 trades=31 matched=31 unexplained=36
