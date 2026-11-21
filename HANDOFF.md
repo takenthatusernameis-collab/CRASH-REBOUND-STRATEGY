@@ -8,7 +8,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T06:15:08Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T06:26:33Z)
 
 The full, binding initial task message lives in `INITIAL_TASK_MESSAGE.md` (this file is a pointer only; do not duplicate state here). Read `INITIAL_TASK_MESSAGE.md`, then run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`. Step 0 is to start a session goal (so the session persists across 8h wakeups) and confirm `cancel_wakeup list` is non-empty. Do not relaunch, kill, reorder, or start any C26/C27/C28/C29/C30/C31/C32 cell. The heavy queue is `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`; C28/C29/C30/C31 are built/staged and gate-held (their runners were fixed this session); C32 is built and gate-held behind C31. See `INITIAL_TASK_MESSAGE.md` for the full ordered task list, monitoring protocol, bottleneck register, and guardrails.
 
