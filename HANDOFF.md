@@ -75,7 +75,7 @@ Only then end the turn. The controller starts a fresh session every few minutes;
 
 ---
 
-## 2. VERIFIED LIVE STATE — 2026-11-21T13:57:01Z
+## 2. VERIFIED LIVE STATE — 2026-11-21T14:10:53Z
 
 Re-verify before acting; this block is stale the moment you read it. All read-only, in order:
 
@@ -93,10 +93,10 @@ bash scripts/status_c31.sh --direction c31-a   # C31 (built; PENDING until C30 P
 bash scripts/status_c32.sh --direction c32-a   # C32 (built; PENDING until C31 PASS)
 ```
 
-Observed at verification time (2026-11-21T13:58:20Z):
+Observed at verification time (2026-11-21T14:10:53Z):
 
 - **C25 RUNNER: ALIVE.** `scripts/status_c25.sh` prints `RUNNER: ALIVE`; the canonical process is `.venv/bin/python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` with 4 draw workers, launched 2026-11-21T10:17:12Z through the harness background-process runner (`persistent=true`), teeing to `research_state/c25_run_20261121T101712Z.log`. `.venv` is present (bootstrapped this session, Python 3.12.3, numpy 2.5.5 / pandas 3.1.1). **The previous handoff's "PID 3103" belonged to a job that has since ended; it is dead. Never trust a written PID — run `status_c25.sh`.**
-- **Cells:** `cost_base 9/16` (okx 4/4, binance_um 4/4, mexc 1/4 [2023 done], bitget 0/4), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`. **9 real cells DONE, 47 remaining**, 17 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight `cost_base/mexc/2024` at **15/40 draw chunks** (advancing across sessions — 12 at 13:33Z, 14 at 13:55Z, 15 at 13:57Z, steady 15 at 13:58Z — healthy long cell, **do NOT kill**). Next cells: `cost_base/mexc/2024` (in flight), `mexc/2025`, `mexc/2026YTD`, `bitget/2023`.
+- **Cells:** `cost_base 9/16` (okx 4/4, binance_um 4/4, mexc 1/4 [2023 done], bitget 0/4), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`. **9 real cells DONE, 47 remaining**, 17 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight `cost_base/mexc/2024` at **17/40 draw chunks** (advancing across sessions — 12 at 13:33Z, 14 at 13:55Z, 15 at 13:57Z, 15 at 13:58Z, 16 at 14:10Z, 17 at 14:20Z — healthy long cell, **do NOT kill**). Next cells: `cost_base/mexc/2024` (in flight), `mexc/2025`, `mexc/2026YTD`, `bitget/2023`.
 - **ETA:** `eta_c25.sh` self-calibrates from completed checkpoints; 47 real cells left, median 1.31 h/cell, per-cell estimate 1.48 h → **69.5 h ≈ 2026-11-24T09:50:49Z (±30%)**. In-flight-aware conservative estimate is higher; the in-flight cell is healthy (chunks advancing), so **do NOT kill**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive.
 - **Anchor:** `ANCHOR: INCOMPLETE` (okx EXACT 28469.71, binance_um EXACT 47613.34, mexc/bitget INCOMPLETE — **no MISMATCH**). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gates:** `C25 ACCEPTANCE: PENDING`. `C26 ACCEPTANCE: PENDING` (blocked on C25). `C28 ACCEPTANCE: PENDING` (blocked on C27; runner hard-refuses until `c27_decision_verdict_CONSOLIDATED_20261119T215721Z.json` exists). `C29 ACCEPTANCE: PENDING` (blocked on C28; 32 cells; runner hard-refuses until `c28_decision_verdict_CONSOLIDATED_20261121T013400Z.json` exists). `C30 ACCEPTANCE: PENDING` (blocked on C29; 32 cells; runner hard-refuses until `c29_decision_verdict_CONSOLIDATED_20261121T031907Z.json` exists). `C31 ACCEPTANCE: PENDING` (blocked on C30; 32 cells + 4 holdout-window manifests; runner hard-refuses until `c30_decision_verdict_CONSOLIDATED_20261121T051754Z.json` exists and `research_state/cache/<venue>_1h_multiyear_20260929_20261121` per venue are acquired). `C32 ACCEPTANCE: PENDING` (blocked on C31; runner hard-refuses until `c31_decision_verdict_CONSOLIDATED_20261121T061508Z.json` exists).
