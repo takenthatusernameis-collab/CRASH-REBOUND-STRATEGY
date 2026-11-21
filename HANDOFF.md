@@ -1,14 +1,14 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T06:27:19Z · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence. **Live priority:** the C25 round-trip cost & realized-funding fidelity campaign (runner ALIVE). Do not substitute unrelated work. C26/C27/C28/C29/C30/C31/C32 are built/staged and gate-held; C32 (next independent USDT-perp venue replication beyond C27, direction `c32-a`) is BUILT and gate-held behind C31 — the heavy-work queue does not terminate at C31.
+**Generated (UTC):** 2026-11-21T06:27:19Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-21T06:30:21Z — state unchanged; runner ALIVE, 8/56 cells complete. — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence. **Live priority:** the C25 round-trip cost & realized-funding fidelity campaign (runner ALIVE). Do not substitute unrelated work. C26/C27/C28/C29/C30/C31/C32 are built/staged and gate-held; C32 (next independent USDT-perp venue replication beyond C27, direction `c32-a`) is BUILT and gate-held behind C31 — the heavy-work queue does not terminate at C31.
 
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. `README.md` points here. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
-**ONE-LINE STATUS (re-verified 2026-11-21T06:29:19Z):** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (python worker PID **3103** under parent **3098**, 4 draw workers; `.venv/bin/python` present; log `research_state/c25_run_20261121T031415Z.log`). **8/56 real inference cells complete** (cost_base: okx 4/4, binance_um 4/4; mexc 0/4, bitget 0/4; cost_taker/cost_taker_funding/cost_stress 0/16 each; boot=20000 perm=None placebo=2000). **48 remaining.** Gate `C25 ACCEPTANCE: PENDING` (verdict artifacts written only after all 56 cells complete). Anchor `ANCHOR: INCOMPLETE` (8/16 cost_base checked; okx EXACT, binance_um EXACT; mexc/bitget INCOMPLETE — **no MISMATCH**). ETA **~2026-11-24T12:07:41Z** (±30%; median model n=8, 4-core box). **C26/C27/C28/C29/C30/C31/C32 are built/staged and gate-held.** **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27/C28/C29/C30/C31/C32 CELL.** Whatever `scripts/status_c25.sh` prints is ground truth — never trust a PID written in this file.
+**ONE-LINE STATUS (re-verified 2026-11-21T06:30:21Z):** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (python worker PID **3103** under parent **3098**, 4 draw workers; `.venv/bin/python` present; log `research_state/c25_run_20261121T031415Z.log`). **8/56 real inference cells complete** (cost_base: okx 4/4, binance_um 4/4; mexc 0/4, bitget 0/4; cost_taker/cost_taker_funding/cost_stress 0/16 each; boot=20000 perm=None placebo=2000). **48 remaining.** Gate `C25 ACCEPTANCE: PENDING` (verdict artifacts written only after all 56 cells complete). Anchor `ANCHOR: INCOMPLETE` (8/16 cost_base checked; okx EXACT, binance_um EXACT; mexc/bitget INCOMPLETE — **no MISMATCH**). ETA **~2026-11-24T12:08:44Z** (±30%; median model n=8, 4-core box). **C26/C27/C28/C29/C30/C31/C32 are built/staged and gate-held.** **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27/C28/C29/C30/C31/C32 CELL.** Whatever `scripts/status_c25.sh` prints is ground truth — never trust a PID written in this file.
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T06:27:19Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T06:30:05Z)
 
 The full, binding initial task message lives in `INITIAL_TASK_MESSAGE.md` (this file is a pointer only; do not duplicate state here). Read `INITIAL_TASK_MESSAGE.md`, then run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`. Step 0 is to start a session goal (so the session persists across 8h wakeups) and confirm `cancel_wakeup list` is non-empty. Do not relaunch, kill, reorder, or start any C26/C27/C28/C29/C30/C31/C32 cell. The heavy queue is `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`; C28/C29/C30/C31 are built/staged and gate-held (their runners were fixed this session); C32 is built and gate-held behind C31. See `INITIAL_TASK_MESSAGE.md` for the full ordered task list, monitoring protocol, bottleneck register, and guardrails.
 
@@ -18,7 +18,7 @@ The full, binding initial task message lives in `INITIAL_TASK_MESSAGE.md` (this 
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-21T06:24:18Z
+## VERIFIED LIVE STATE — 2026-11-21T06:30:21Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
