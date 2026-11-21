@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T02:30:48Z · **Re-verified (UTC):** 2026-11-21T02:38:08Z (this session ran `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh` — runner confirmed ALIVE, 4 workers R-state PIDs 54241-54244, 5/56 real cells, ANCHOR: INCOMPLETE with no MISMATCH, state consistent with prior; C28 BUILT + gate-held; no material change to live compute; 8h wakeup re-armed) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
+**Generated (UTC):** 2026-11-21T02:30:48Z · **Re-verified (UTC):** 2026-11-21T02:38:08Z · **Re-verified again (UTC):** 2026-11-21T02:40:13Z (this session ran `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh` — runner confirmed ALIVE, 4 workers R-state PIDs 54241-54244, 5/56 real cells, ANCHOR: INCOMPLETE with no MISMATCH, state unchanged from 02:38:08Z; C28 BUILT + gate-held; live compute unchanged; **8h wakeup re-armed wku_1fbf9fa51001TQVaOd2Cj0jFhF due 2026-11-21T10:40:26Z after it was found missing — monitoring continuity restored**) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. `README.md` points here. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T02:38:08Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T02:40:13Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -48,6 +48,8 @@ PYTHONPATH=. .venv/bin/python scripts/verify_c28_focus_campaign.py --direction c
 
 Observed at generation time (2026-11-21T02:35:05Z):
 
+Re-verified 2026-11-21T02:40:13Z: unchanged — `status_c25.sh`: RUNNER ALIVE (PID 3391, workers 54241-54244), 5/56 real cells complete, C25 ACCEPTANCE: PENDING; `eta_c25.sh`: 51 pending, median 1.31 h/cell, ETA ~2026-11-24T06:03:21Z (±30%; conservative ~2026-12-02T08:37:04Z); `check_c25_anchor.sh`: ANCHOR: INCOMPLETE (okx EXACT 28,469.71), no MISMATCH. 8h wakeup re-armed due 2026-11-21T10:40:26Z.
+
 - **C25 RUNNER: ALIVE.** Worker PID **3391** (parent **3386**, `scripts/run_c25_durable.sh`), running `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; 4 draw workers (R-state, recycled by the runner — current: **54241/54242/54243/54244**), launched through the harness background-process runner (`persistent=true`), teeing to `research_state/c25_run_20261120T212421Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
 - **Cells:** `cost_base 5/16` (okx/2023 pnl +34,420.88; okx/2024 pnl +1,621.97; okx/2025 pnl +4,721.66; okx/2026YTD pnl +5,166.77; binance_um/2023 pnl +165.87, boot=20000 perm=None placebo=2000), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 5 real cells DONE, 51 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/binance_um/2024` elapsed 5.24 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
 - **ETA:** `eta_c25.sh` → 51 real cells left, median **1.31 h** permutation + **0.17 h** placebo per cell → **75.4 h ≈ 3.1 days → ~2026-11-24T05:57:14Z (±30%; conservative in-flight-aware ~2026-12-02T03:19:06Z)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
@@ -86,6 +88,8 @@ Removed already (do not re-add):
 8. **Handoff bloat from repetitive session logs — removed 2026-11-21T00:27:46Z.** The prior `HANDOFF.md` had accumulated ~12 near-identical "re-verify" session-log entries with stale timestamps and two competing INITIAL TASK MESSAGE sections, creating ambiguity about which state was current. This version consolidates to a single clean handoff with the latest verified state at the top, the single binding INITIAL TASK MESSAGE, and the full guardrails/protocol/campaign record preserved.
 9. **Handoff vs repository drift on C28 — removed 2026-11-21T02:35:05Z.** The C28 campaign (prereg `c28_prereg_20261121T013400Z`, scripts, tests) already existed on disk (built 2026-11-21T01:36Z) but `HANDOFF.md` still described C28 as "not yet created" / "standing next focus campaign," so a future agent reading the handoff would either rebuild C28 or be confused. HANDOFF.md now records C28 as BUILT + gate-held with its exact artifacts, arms, tokens, and launch command, and adds `status_c28.sh`/`verify_c28_focus_campaign.py` to the read-only verification block.
 10. **C28 gate documented but not enforced — removed 2026-11-21T02:35:05Z.** `scripts/run_c28_campaign.py` printed a warning when C27 had not PASSed but then continued into ~8 days of heavy compute on pre-anchor, invalid evidence. It now raises `SystemExit` (exit 1) unless `research_state/c27_decision_verdict_CONSOLIDATED_20261119T215721Z.json` exists, matching the documented "no C28 cell may run until C27 ACCEPTANCE: PASS" guardrail. Tests unaffected (8 passed).
+
+11. **Missing 8h monitoring wakeup — removed 2026-11-21T02:40:13Z.** `cron_list`/`background_process list` showed no scheduled tasks at this session (the earlier "8h wakeup re-armed" claim was not durable). Re-armed with `schedule_wakeup delay=8h` (wku_1fbf9fa51001TQVaOd2Cj0jFhF, due 2026-11-21T10:40:26Z, monitoring protocol prompt attached). No future session may start without verifying the wakeup is armed; if missing, re-arm immediately with the exact protocol prompt from the MONITORING PROTOCOL section. Do not burn turns polling; the wakeup carries continuity.
 
 Remaining bottleneck — compute, and it is **not fixable mid-run**:
 
