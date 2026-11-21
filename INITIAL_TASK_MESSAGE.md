@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T06:15:08Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T06:27:19Z)
 
 **Repository priority:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). This repository's live priority is the C25 cost/funding-fidelity campaign; do not substitute unrelated work. The heavy queue is `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`; C32 (next-venue replication, direction `c32-a`) is now BUILT and gate-held behind C31 — "no authorized work" is never a truthful state while any gate in this chain is PENDING.
 
