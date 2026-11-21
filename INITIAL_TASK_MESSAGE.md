@@ -1,7 +1,1 @@
-# Initial Task Message — POINTER ONLY
-
-**This file is not a source of truth.** The single durable handoff and the current timestamped initial task message live in `HANDOFF.md`.
-
-Read `HANDOFF.md`, then run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`.
-
-Do not relaunch, kill, reorder, or start C26/C27. See `HANDOFF.md` for the full ordered task list, monitoring protocol, bottleneck register, and guardrails.
+See HANDOFF.md for the single durable handoff and the timestamped initial task message (2026-11-21T04:20:15Z).
