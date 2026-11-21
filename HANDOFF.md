@@ -37,7 +37,7 @@ Only then end the turn. The controller starts a fresh session every few minutes;
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T14:33:49Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T14:34:44Z)
 
 **NEXT-SESSION START HERE — this is the binding initial task message.** Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign** (RUNNER ALIVE, 9/56 cells, 47 remaining, ETA ~2026-11-24T09:50:49Z). Do not substitute unrelated work, do not relaunch/kill the runner, do not start any successor cell — C25 must finish and PASS first. The heavy queue `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+` is fully BUILT/STAGED (C26–C32 all verified by `check_queue_readiness.sh` exit 0); "no authorized work" is never truthful while any gate is PENDING. Follow step 0 → step 1 → the matching `ACTION:` row, in order.
 
