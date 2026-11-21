@@ -1,9 +1,11 @@
-# Agent Handoff — POINTER ONLY (2026-11-21T08:21:37Z)
+# Agent Handoff — POINTER ONLY (2026-11-21T08:26:16Z)
 
 **This file is not a source of truth.** The single durable handoff and the
 current timestamped initial task message live in `HANDOFF.md`.
 
-Read `HANDOFF.md`, then run `bash scripts/status_c25.sh` and `bash scripts/eta_c25.sh`.
+Read `HANDOFF.md`, then run `bash scripts/next_c25_action.sh` (the single read-only
+decision probe — it prints one `ACTION:` line, the exact next command, and the
+remaining-cells-based wake interval).
 
 Per the handoff, step 0 is to start a session goal (so the session persists across
 8h wakeups) and confirm `cancel_wakeup list` is non-empty. Do not relaunch, kill,
