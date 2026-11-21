@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T08:19:25Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-21T08:19:25Z — runner ALIVE (PID 3103 under parent 3098, verified via `status_c25.sh`), 8/56 cells complete, anchor INCOMPLETE (no MISMATCH). — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence. **Live priority:** the C25 round-trip cost & realized-funding fidelity campaign (runner ALIVE). Do not substitute unrelated work. C26/C27/C28/C29/C30/C31/C32 are built/staged and gate-held; C32 (next independent USDT-perp venue replication beyond C27, direction `c32-a`) is BUILT and gate-held behind C31 — the heavy-work queue does not terminate at C31.
+**Generated (UTC):** 2026-11-21T08:20:06Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-21T08:20:06Z — runner ALIVE (PID 3103 under parent 3098, verified via `status_c25.sh`), 8/56 cells complete, anchor INCOMPLETE (no MISMATCH). — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence. **Live priority:** the C25 round-trip cost & realized-funding fidelity campaign (runner ALIVE). Do not substitute unrelated work. C26/C27/C28/C29/C30/C31/C32 are built/staged and gate-held; C32 (next independent USDT-perp venue replication beyond C27, direction `c32-a`) is BUILT and gate-held behind C31 — the heavy-work queue does not terminate at C31.
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only; `README.md` points here. The full ordered task list is embedded in the INITIAL TASK MESSAGE section below — do not go looking for state in a second file. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T08:19:25Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T08:20:06Z)
 
 **Repository priority:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). This repository's live priority is the C25 cost/funding-fidelity campaign; do not substitute unrelated work. The heavy queue is `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`; C32 (next-venue replication, direction `c32-a`) is BUILT and gate-held behind C31 — "no authorized work" is never a truthful state while any gate in this chain is PENDING.
 
