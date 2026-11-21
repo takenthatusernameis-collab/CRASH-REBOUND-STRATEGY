@@ -22,3 +22,8 @@
 [run] cost_base mexc 2026YTD
 [census] MEXC: events=219 signal_pass=69 trades=18 matched=18 unexplained=13
 [episode] cost_base mexc 2026YTD: trades=18 pnl=3921.67 perm_p=1.0
+[placebo] cost_base mexc 2026YTD: pool=69 choose=18 runs=2000 p_ge=0.4295
+[battery] MEXC: total=3921.67 trades=18 legs=['buy'] episodes=8
+[done] cost_base mexc 2026YTD pnl=3921.67
+[run] cost_base bitget 2023
+[census] Bitget: events=348 signal_pass=108 trades=23 matched=23 unexplained=41
