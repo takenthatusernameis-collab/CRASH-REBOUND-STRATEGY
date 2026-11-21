@@ -9,3 +9,8 @@
 [run] cost_base mexc 2023
 [census] MEXC: events=325 signal_pass=110 trades=24 matched=24 unexplained=44
 [episode] cost_base mexc 2023: trades=24 pnl=34300.42 perm_p=0.06135
+[placebo] cost_base mexc 2023: pool=110 choose=24 runs=2000 p_ge=0.1135
+[battery] MEXC: total=34300.42 trades=24 legs=['buy'] episodes=9
+[done] cost_base mexc 2023 pnl=34300.42
+[run] cost_base mexc 2024
+[census] MEXC: events=314 signal_pass=124 trades=31 matched=31 unexplained=36
