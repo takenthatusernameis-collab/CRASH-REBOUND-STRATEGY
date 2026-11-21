@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "campaign": "C29",
+  "binding_task": "C29-A-T1",
+  "direction": "c29-a",
+  "direction_name": "strict_temporal_oos_holdout",
+  "prereg_status": "PRE_REGISTERED_BEFORE_COMPUTE",
+  "generated_at_utc": "2026-11-21T03:19:07Z",
+  "title": "C29-A Strict Temporal Out-of-Sample Holdout on the Newest Never-Scored Window",
+  "why_c29": "C24 established margin/liquidation fidelity (PASS, consolidated C24_REOPENS_C1_C23). C25/C26 adjudicate cost/funding and intrabar-path fidelity on 4 venues x 4 folds (2023-2026YTD). C27 is next-venue replication. C28 is portfolio-level cross-venue capital allocation & correlation fidelity. C29-A is the mandatory same-session successor on C28 ACCEPTANCE: PASS: it opens the strict temporal out-of-sample holdout frontier — the pooled sign on a holdout window that no C1-C28 cell has ever scored. No holdout direction has yet been scored; C29-A closes that gap so the heavy-work queue never dries out and no session may claim 'no authorized work'. C29 may NOT launch until C28 ACCEPTANCE: PASS; C28 on C27; C27 on C26; C26 on C25; C25 IN FLIGHT.",
+  "research_question": "Does the pooled spec-literal crash-rebound edge remain positive under the strict_temporal_oos_holdout fidelity axis, across four real venues, when scored on a strict temporal holdout window (newest never-scored real data) with the signal path frozen and draw floors intact?",
+  "blocked_on": "C28-T1 (portfolio-level cross-venue capital allocation & correlation fidelity), which is blocked on C27, which is blocked on C26, which is blocked on C25. C29 build (this prereg) may proceed before C25/C26/C27/C28 pass, but no C29 cell may run until C28 ACCEPTANCE: PASS and the C28 primary-arm evidence is available as anchor reference.",
+  "signal_path_frozen": {
+    "use_rsi_trigger": true,
+    "rsi_period": 21,
+    "rsi_threshold": 20.0,
+    "target_pct": 9.0,
+    "rebound_short_target_pct": 9.0,
+    "rebound_short_time_exit_bars": 48,
+    "rebound_short_stop_pct": 40.0,
+    "enable_rebound_short": true,
+    "enable_eth_hedge": true,
+    "enable_volume_based_sizing": true,
+    "position_size_pct_of_daily_volume": 1.25,
+    "min_daily_volume_usd": 5000000.0,
+    "gross_cap_pct": 120.0,
+    "entry_spec_literal_next_open": true,
+    "seed": 20261201,
+    "time_exit_max_bars": 50,
+    "liquidation_maint_margin_pct": 14.0,
+    "liquidation_buffer_pct": 1.0,
+    "liquidation_distance_pct": 15.0,
+    "drift_rule": "Any artifact whose signal_path/cost/execution fields differ from this prereg are INVALID."
+  },
+  "arms": {
+    "holdout_base": {
+      "role": "FIDELITY_ANCHOR",
+      "why": "C25/C26 primary-arm model re-run on the holdout window; must reproduce the established per-venue baseline within +/-1.0 (HOLDOUT_ANCHOR_REPRODUCED). Baseline for the holdout direction."
+    },
+    "holdout_primary": {
+      "role": "PRIMARY",
+      "why": "Strict temporal OOS holdout on never-scored real data (the newest window no C1-C28 cell has scored). Pooled sign and CI95 on the holdout window decide whether the edge generalizes forward in time."
+    }
+  },
+  "taker_bps": {
+    "okx": 5.0,
+    "binance_um": 4.5,
+    "mexc": 6.0,
+    "bitget": 5.5
+  },
+  "reference_px": 60000.0,
+  "borrow_bps": 5.0,
+  "liquidation": {
+    "maint_margin_pct": 14.0,
+    "buffer_pct": 1.0,
+    "distance_pct": 15.0,
+    "rule": "Liquidation distance fixed at the C24 primary arm (d15: maint=14, buffer=1 => 15%); not a C29 variable."
+  },
+  "arms_rule": "ONLY the C29 direction axis varies across arms. All other config fields (signal path + liquidation distance + cost model + funding model) are identical and drift-checked. The FIDELITY_ANCHOR arm reproduces the prior primary-arm baseline within +/-1.0; the PRIMARY arm is the adjudication arm. All arms run the full 4 venues x 4 folds x 20k bootstrap / 20k permutation / 2k placebo — no smoke arm, no reduced draw floors, no descriptive-only arm.",
+  "venues": ["okx", "binance_um", "mexc", "bitget"],
+  "folds": [
+    {"id": "2023", "start": "2023-01-01T00:00:00Z", "end": "2023-12-31T23:00:00Z"},
+    {"id": "2024", "start": "2024-01-01T00:00:00Z", "end": "2024-12-31T23:00:00Z"},
+    {"id": "2025", "start": "2025-01-01T00:00:00Z", "end": "2025-12-31T23:00:00Z"},
+    {"id": "2026YTD", "start": "2026-01-01T00:00:00Z", "end": "2026-09-28T23:00:00Z"}
+  ],
+  "inference": {
+    "episode_block_bootstrap_draws": 20000,
+    "permutation_draws": 20000,
+    "placebo_portfolio_runs": 2000,
+    "strata_permutation_draws": 2000,
+    "pooled": "venue-blocked bootstrap over the venue-fold cell totals (20000 draws)",
+    "multiplicity": {
+      "method": "benjamini_hochberg",
+      "alpha": 0.05,
+      "family": "primary arm, 4 folds x 4 venues = 16 permutation tests"
+    },
+    "draw_floor_rule": "Draws below 20000/20000/2000/2000 => UNDERPOWERED, not evidence.",
+    "power_floor": ">= 10 trades / >= 5 episodes / >= 5 distinct crash days per fold; otherwise UNDERPOWERED with a power curve."
+  },
+  "funding_acquisition": {
+    "rule": "A venue without realized funding history is recorded UNAVAILABLE_FUNDING (never zero-filled) and the realistic arms are evaluated on the remaining venues; okx is UNAVAILABLE_FUNDING by API retention (33-day window).",
+    "cache_layout": "research_state/cache/<venue>_funding_<window>/funding_history.csv (+ manifest)"
+  },
+  "anchor_rule": {
+    "rule": "Anchor verification against the prior primary arm is mandatory BEFORE any C29 inference cell runs. The fidelity-anchor arm of the selected direction must reproduce the C28 primary-arm per-venue/per-fold PnL (or the corresponding C29-A baseline) within +/-1.0 (HOLDOUT_ANCHOR_REPRODUCED). Anchor mismatch => C29_UNDERPOWERED; no verdict may be issued until the anchor reproduces.",
+    "tolerance_pnl": 1.0,
+    "token_ok": "HOLDOUT_ANCHOR_REPRODUCED",
+    "token_bad": "Anchor mismatch => C29_UNDERPOWERED",
+    "fidelity_arm": "holdout_base"
+  },
+  "decision_rules": {
+    "C29_REOPENS_C1_C28": "ALL of, under the PRIMARY arm of the selected direction: (a) pooled total PnL > 0; (b) venue-blocked bootstrap CI95 lower bound > 0; (c) >= 1 BH survivor in the 16-test primary-arm family; (d) >= 3 of 4 folds positive; (e) >= 3 of 4 venues positive (available venue set). Then the C1-C28 NO_GO is NOT robust to the C29 fidelity axis: record SUPERSEDED_BY_C29 and the edge is re-opened.",
+    "C29_NO_GO_ROBUST_TO_HOLDOUT": "ANY of (a)-(e) fails under the PRIMARY arm. Then the NO_GO survives the C29 fidelity axis and is strengthened: record C1-C29 NO_GO ROBUST TO MARGIN, COST, PATH, ALLOCATION AND HOLDOUT.",
+    "C29_UNDERPOWERED": ["Anchor mismatch, prereg generated after any compute artifact, draw floors not met, missing artifacts, signal-path/cost/execution drift, or acquisition gate not passed."]
+  },
+  "required_artifacts": [
+    "c29_prereg_20261121T031907Z.json",
+    "c29_prereg_20261121T031907Z.md",
+    "c29_decision_verdict_holdout_base_20261121T031907Z.json",
+    "c29_decision_verdict_holdout_primary_20261121T031907Z.json",
+    "c29_decision_verdict_CONSOLIDATED_20261121T031907Z.json"
+  ],
+  "checkpoint_rule": "A (direction, arm, venue, fold) is DONE only when research_state/c29_ckpt_<direction>_<arm>_<venue>_<fold>_<TS>.json exists. Resume with --resume; never relaunch completed folds.",
+  "provenance": {
+    "real_market_data": true,
+    "fabricated_data": false,
+    "synthetic_data": false,
+    "cross_venue": true,
+    "is_hyperliquid_venue_data": false,
+    "caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NEVER Hyperliquid performance evidence and never relabelled as such."
+  },
+  "guardrails": [
+    "No cross-venue relabeling as Hyperliquid-native (is_hyperliquid_venue_data=false).",
+    "No synthetic gap-fill; no spec relaxation of RSI/target/hold/sizing/volume/gross cap.",
+    "Signal path frozen to the C24/C25/C26 sentinel; liquidation distance fixed at the C24 primary d15; cost model frozen at C25 primary; funding model honest (okx = UNAVAILABLE_FUNDING, never zero-filled or proxied).",
+    "No additional venues, folds, or directions beyond those pre-registered for the selected C29 direction.",
+    "Artifacts are immutable once written; do not edit completed campaign outputs.",
+    "No C29 cell runs until C28 ACCEPTANCE: PASS (sequential adjudication chain).",
+    "Draw floors (20k/20k/2k/2k) are not reducible. No reduced-draw runs.",
+    "No same-data rerun of a closed campaign; C29-A needs a new data manifest (strict temporal holdout window) + fresh prereg + anchor verification."
+  ]
+}
