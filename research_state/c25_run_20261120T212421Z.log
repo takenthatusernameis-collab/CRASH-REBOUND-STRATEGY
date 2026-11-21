@@ -5,3 +5,4 @@
 [resume] cost_base binance_um 2023
 [run] cost_base binance_um 2024
 [census] Binance UM: events=312 signal_pass=140 trades=33 matched=33 unexplained=51
+[episode] cost_base binance_um 2024: trades=33 pnl=-15387.90 perm_p=0.7191508627194527
