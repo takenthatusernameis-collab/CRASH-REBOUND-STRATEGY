@@ -781,10 +781,18 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
         raise SystemExit("C28 prereg is not PRE_REGISTERED_BEFORE_COMPUTE; refusing to run")
 
     # C28 is blocked on C27 completion (primary-arm anchor must exist).
+    # Enforce the documented guardrail: no C28 cell may run until C27
+    # ACCEPTANCE: PASS. A warning-only path would burn ~8 days of compute on
+    # invalid, pre-anchor evidence, so refuse heavy compute outright. The
+    # gate script (status_c28.sh) reports PENDING; this runner must not proceed.
     c27_passed = (STATE / "c27_decision_verdict_CONSOLIDATED_20261119T215721Z.json").exists()
     if not c27_passed:
-        print("[c28] WARNING: C27 ACCEPTANCE: not yet PASS; no C28 cell may run until C27 completes.",
-              flush=True)
+        raise SystemExit(
+            "C27 ACCEPTANCE: not yet PASS; C28 may not run until C27 completes "
+            "(sequential adjudication chain C25 -> C26 -> C27 -> C28). "
+            "Anchor reference (C25 primary-arm venue_totals) is not yet available. "
+            "Re-run this campaign only after C27 ACCEPTANCE: PASS."
+        )
 
     direction = args.direction
     arms = list(_arms_for(direction).keys())
