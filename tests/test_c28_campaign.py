@@ -112,3 +112,28 @@ def test_c28_engine_config_accepts_c28_fields():
     assert DEFAULT_CONFIG.per_trade_funding is False
     # C28 direction axes are additive and do not mutate the shared baseline.
     assert DEFAULT_CONFIG.gross_cap_pct == 120.0
+
+
+def test_c28_runner_resolves_arms_and_builds_configs():
+    """Regression: the runner must resolve arms and build a StrategyConfig for
+    every direction x arm x venue. Guards against two latent crashes that made
+    the C28 runner abort before any cell ran: (1) resolving arms through
+    prereg['arms'][direction]['arms'] (KeyError -- arms live in
+    DIRECTION_ARM_CONFIG), and (2) passing the phantom per_venue_cap_pct kwarg
+    to StrategyConfig (TypeError -- the hourly engine only enforces gross_cap_pct).
+    """
+    import scripts.run_c28_campaign as runner
+
+    for d in DIRECTIONS:
+        arms = runner._arms_for(d)
+        roles = {a: v["role"] for a, v in arms.items()}
+        assert "FIDELITY_ANCHOR" in roles.values(), d
+        assert "PRIMARY" in roles.values(), d
+        for arm in arms:
+            for venue in ("okx", "binance_um", "mexc", "bitget"):
+                cfg = runner._cfg(d, arm, venue, None)
+                assert cfg.rsi_period == 21
+                assert cfg.rsi_threshold == 20.0
+                assert abs(cfg.slippage_pct - float(arms[arm]["slippage_pct"])) < 1e-12
+                payload = runner._config_payload(cfg, arm, venue, d, False)
+                assert payload["prereg_sha256"]

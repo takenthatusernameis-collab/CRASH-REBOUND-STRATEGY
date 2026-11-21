@@ -236,7 +236,11 @@ def _direction() -> str:
 
 
 def _arms_for(direction: str) -> Dict[str, Dict[str, Any]]:
-    return _prereg()["arms"][direction]["arms"]
+    # Per-arm execution params (slippage/commission/funding/gross_cap + role) live
+    # in DIRECTION_ARM_CONFIG; the prereg `arms` block carries only {role, why}
+    # for human-readable pre-registration. Resolving through the prereg here was a
+    # latent KeyError that made the runner crash before any cell ran.
+    return DIRECTION_ARM_CONFIG[direction]
 
 
 def _cfg(direction: str, arm: str, venue: str,
@@ -264,7 +268,6 @@ def _cfg(direction: str, arm: str, venue: str,
         intrabar_adverse_first=False,
         per_trade_funding=False,
         gross_cap_pct=float(spec.get("gross_cap_pct", 120.0)),
-        per_venue_cap_pct=spec.get("per_venue_cap_pct"),
     )
 
 
@@ -281,7 +284,7 @@ def _config_payload(cfg: StrategyConfig, arm: str, venue: str,
         "funding_rate_pct_per_hour": cfg.funding_rate_pct_per_hour,
         "funding_available": funding_available,
         "gross_cap_pct": cfg.gross_cap_pct,
-        "per_venue_cap_pct": cfg.per_venue_cap_pct,
+        "per_venue_cap_pct": spec.get("per_venue_cap_pct"),  # descriptive only; hourly engine enforces gross_cap_pct
         "liquidation_maint_margin_pct": cfg.liquidation_maint_margin_pct,
         "liquidation_buffer_pct": cfg.liquidation_buffer_pct,
         "liquidation_distance_pct": round(cfg.liquidation_maint_margin_pct + cfg.liquidation_buffer_pct, 4),
@@ -645,7 +648,7 @@ def _anchor_reference(direction: str) -> Optional[Dict[str, float]]:
 def _arm_verdict(direction: str, arm: str, ckpts: Dict[Tuple[str, str], Dict[str, Any]],
                  draws: Dict[str, Any]) -> Dict[str, Any]:
     prereg = _prereg()
-    arms_cfg = prereg["arms"][direction]["arms"]
+    arms_cfg = _arms_for(direction)
     venues = sorted({v for v, _ in ckpts})
     cells, cell_venues, rows = [], [], []
     fold_rows = []
