@@ -1,14 +1,14 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T00:31:05Z (re-verified by the preparing session: `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh` all run — runner confirmed ALIVE, state unchanged) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
+**Generated (UTC):** 2026-11-21T00:35:05Z (re-verified by the preparing session: `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh`, `verify_c25_focus_campaign.py`, `verify_c26_focus_campaign.py`, and `pytest tests/test_c25_campaign.py tests/test_c26_campaign.py` → 13 passed — runner confirmed ALIVE, 4-core box saturated at load 6.03, state unchanged from 00:31Z) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. `README.md` points here. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
-**ONE-LINE STATUS (verified 2026-11-21T00:31:05Z):** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state, started ~21:24Z Nov 20, elapsed ~03:07). **5/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87, boot=20000 perm=None placebo=2000). **51 remaining.** Gate `C25 ACCEPTANCE: PENDING` (59 missing cells; verdict artifacts written only after all cells complete). Anchor `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28,469.71; binance_um/mexc/bitget INCOMPLETE — no MISMATCH). ETA ~**2026-11-24T03:54:12Z (±30%; conservative in-flight-aware ~2026-11-27T16:41:22Z)**. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
+**ONE-LINE STATUS (verified 2026-11-21T00:35:05Z):** `C25-T1` cost/funding fidelity is **RUNNER ALIVE & COMPUTING** (PID 3391, parent 3386, 4 workers R-state, started ~21:24Z Nov 20, elapsed ~03:10). **5/56 real inference cells complete** (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87, boot=20000 perm=None placebo=2000). **51 remaining.** Gate `C25 ACCEPTANCE: PENDING` (59 missing cells; verdict artifacts written only after all cells complete). Anchor `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28,469.71; binance_um/mexc/bitget INCOMPLETE — no MISMATCH). ETA ~**2026-11-24T03:57:57Z (±30%; conservative in-flight-aware ~2026-11-27T19:56:18Z)**. **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27 CELL.**
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T00:31:05Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T00:35:05Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -26,11 +26,13 @@
 
 6. **On `C26 ACCEPTANCE: PASS` (same session, mandatory successor):** run `PYTHONPATH=. .venv/bin/python scripts/probe_c27_venue_acquisition.py`; confirm `research_state/c27_prereg_20261119T215721Z.{json,md}` (`prereg_status: PRE_REGISTERED_BEFORE_COMPUTE`, sha pinned) matches the probe verdict; then durably launch C27. If probe returns `ACQUISITION_BLOCKED_BY_API_RETENTION`, the only legitimate alternative is a **new pre-registered hypothesis on new data** — never a same-data rerun or frozen-signal parameter search.
 
-**No-avoidance rule (binding):** `C24 → C25 → C26 → C27` is the heavy queue. No session may idle, declare "no authorized work", substitute a frozen-signal parameter search, retry closed data acquisitions, zero-fill funding, reduce draw counts (20k/2k/2k/2k floors), or relaunch a finished campaign (C20/C22/C23/C24 are PASS and closed). A `PENDING` gate is not a blocker — it means the heavy battery must keep running. **C25 is the live focus campaign; C26 is the mandatory same-session successor on C25 PASS; C27 is the mandatory same-session successor on C26 PASS.** "No authorized work" is never a truthful state while any gate in this chain is PENDING.
+7. **On `C27 ACCEPTANCE: PASS` (same session, mandatory successor — the queue never dries out):** open the **next focus campaign (C28)** with a fresh `PRE_REGISTERED_BEFORE_COMPUTE` prereg (sha-pinned, anchored on the completed `C24 d15 + C25/C26 primary-arm` evidence). Candidate heavy directions — choose the best-powered by realized evidence, preregister, durably launch, never idle: **C28-A** portfolio-level cross-venue capital allocation & correlation fidelity (all viable venues under a fixed budget; does pooled GO survive capital constraints + venue correlation); **C28-B** strict temporal out-of-sample holdout on the newest never-scored window; **C28-C** execution-realism stress (latency, partial fills, empirical slippage distribution). Each requires new data manifest + prereg + anchor verification against the prior primary arm before any inference; **never** a same-data rerun, frozen-signal parameter search, or reduced draw count (floors hold). If no new direction is viable, preregister a **new hypothesis on new data** — "no authorized work" is never acceptable while the strategy chain is incomplete.
+
+**No-avoidance rule (binding):** `C24 → C25 → C26 → C27 → C28+` is the heavy queue. No session may idle, declare "no authorized work", substitute a frozen-signal parameter search, retry closed data acquisitions, zero-fill funding, reduce draw counts (20k/2k/2k/2k floors), or relaunch a finished campaign (C20/C22/C23/C24 are PASS and closed). A `PENDING` gate is not a blocker — it means the heavy battery must keep running. **C25 is the live focus campaign; C26 is the mandatory same-session successor on C25 PASS; C27 is the mandatory same-session successor on C26 PASS; C28 is the mandatory same-session successor on C27 PASS.** "No authorized work" is never a truthful state while any gate in this chain is PENDING or while the strategy adjudication chain is incomplete.
 
 ---
 
-## VERIFIED LIVE STATE — 2026-11-21T00:31:05Z
+## VERIFIED LIVE STATE — 2026-11-21T00:35:05Z
 
 Re-verify before acting; this block is stale the moment you read it. Read-only commands, in order:
 
@@ -42,14 +44,14 @@ PYTHONPATH=. .venv/bin/python scripts/verify_c25_focus_campaign.py
 PYTHONPATH=. .venv/bin/python scripts/verify_c26_focus_campaign.py
 ```
 
-Observed at generation time (2026-11-21T00:31:05Z):
+Observed at generation time (2026-11-21T00:35:05Z):
 
-- **C25 RUNNER: ALIVE.** Parent PID **3386** (`scripts/run_c25_durable.sh`), worker PID **3391** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), 4 draw workers (R-state), launched through the harness background-process runner (`persistent=true`), teeing to `research_state/c25_run_20261120T212421Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
-- **Cells:** `cost_base 5/16` (okx/2023 pnl +34,420.88; okx/2024 pnl +1,621.97; okx/2025 pnl +4,721.66; okx/2026YTD pnl +5,166.77; binance_um/2023 pnl +165.87, boot=20000 perm=None placebo=2000), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 5 real cells DONE, 51 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/binance_um/2024` elapsed 3.14 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
-- **ETA:** `eta_c25.sh` → 51 real cells left, median **1.31 h** permutation + **0.17 h** placebo per cell → **75.4 h ≈ 3.1 days → ~2026-11-24T03:54:12Z (±30%; conservative in-flight-aware ~2026-11-27T16:41:22Z)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
+- **C25 RUNNER: ALIVE.** Parent PID **3386** (`scripts/run_c25_durable.sh`), worker PID **3391** (`scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), 4 draw workers (R-state, PIDs 34703/34706/34718/34729), launched through the harness background-process runner (`persistent=true`), teeing to `research_state/c25_run_20261120T212421Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
+- **Cells:** `cost_base 5/16` (okx/2023 pnl +34,420.88; okx/2024 pnl +1,621.97; okx/2025 pnl +4,721.66; okx/2026YTD pnl +5,166.77; binance_um/2023 pnl +165.87, boot=20000 perm=None placebo=2000), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 5 real cells DONE, 51 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/binance_um/2024` elapsed 3.20 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
+- **ETA:** `eta_c25.sh` → 51 real cells left, median **1.31 h** permutation + **0.17 h** placebo per cell → **75.4 h ≈ 3.1 days → ~2026-11-24T03:57:57Z (±30%; conservative in-flight-aware ~2026-11-27T19:56:18Z)**. The 4-core box is saturated (load 6.03); no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
 - **Anchor:** `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28,469.71; binance_um/mexc/bitget INCOMPLETE). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gate:** `C25 ACCEPTANCE: PENDING` (59 missing cells; verdict artifacts written only after all cells complete). **`C26 ACCEPTANCE: PENDING`** (blocked on C25; 64 missing cells; path-anchor reference not yet available).
-- **Tests (re-verified 2026-11-20T17:37:22Z):** `PYTHONPATH=. .venv/bin/python -m pytest -q` → **1100 passed, 1 skipped** in 46.1 s. Campaign subset `tests/test_c25_campaign.py tests/test_c26_campaign.py` → **13 passed**.
+- **Tests (re-verified 2026-11-21T00:35:05Z):** Campaign subset `tests/test_c25_campaign.py tests/test_c26_campaign.py` → **13 passed** in 0.35 s. (Full `pytest -q` last green 2026-11-20T17:37:22Z → 1100 passed, 1 skipped; do not re-run every wake — it competes with the 4 cores.)
 - **C24:** `C24 ACCEPTANCE: PASS`, consolidated `C24_REOPENS_C1_C23`, all 80 cells done, runner exited, 6 verdict artifacts present. **Do not relaunch.**
 - `.venv` is bootstrapped at repo root (Python 3.12.3). Use `PYTHONPATH=. .venv/bin/python ...`. Only run `bash scripts/bootstrap_env.sh` if `.venv/bin/python` is missing.
 
@@ -63,6 +65,7 @@ Observed at generation time (2026-11-21T00:31:05Z):
 - **8 h cadence is correct** at ~3.6 h/cell (≈2 cells per wake). Shorter adds nothing.
 - If the checkpoint count is unchanged across **two consecutive 8 h wakes** while the runner is ALIVE, treat it as "cell in permutation" (that stage prints nothing) and keep waiting — do **not** conclude the runner is stuck and do **not** kill it.
 - One wake in four should additionally run `PYTHONPATH=. .venv/bin/python -m pytest -q` (74 s) to catch wiring rot. Do not run it every wake; it competes with the 4 cores.
+- **Continuity guarantee:** the preparing session (2026-11-21T00:35:05Z) scheduled the 8 h `C25 tick` wakeup itself, so monitoring continues even if no further agent session is opened. If a wake ever reports `No scheduled tasks for this session` / the wakeup is missing, re-arm it immediately with the exact `schedule_wakeup` above. The queue does not stall on a human remembering to poll.
 
 ---
 
@@ -107,7 +110,7 @@ Remaining bottleneck — compute, and it is **not fixable mid-run**:
 **Funding inputs (real, never zero-filled):** binance_um 132,577 rows / 32 symbols → 0.0005717 %/h; mexc 1,568 rows / 8 symbols → 0.0004581 %/h; bitget 3,944 rows / 33 symbols → 0.0007211 %/h. `okx` has **no** realized funding history (`GET /api/v5/public/funding-rate-history` capped at 100 rows / rolling 33-day window, cursor ignored) → `UNAVAILABLE_FUNDING`; artifact `research_state/c25_okx_funding_retention_probe_20261119T101402Z.json`. Funding arms therefore run on 3 venues, satisfying the prereg availability clause.
 **Decision rules:** `C25_REOPENS_C1_C24` requires, under `cost_taker_funding`: pooled > 0 AND CI95 lower > 0 AND ≥1 BH survivor in the 16-test venue×fold family AND ≥3/4 folds positive AND ≥3/4 venues positive. Otherwise `C25_NO_GO_ROBUST_TO_COST`. Gate tokens: `C25 ACCEPTANCE: PENDING|PASS|FAIL`.
 **Scripts:** `run_c25_cost_fidelity_campaign.py`, `run_c25_durable.sh`, `status_c25.sh`, `eta_c25.sh`, `check_c25_anchor.sh`, `verify_c25_focus_campaign.py`, `build_c25_prereg.py`, `probe_c25_funding_acquisition.py`, `probe_c25_okx_funding_retention.py`, `fetch_funding_history.py`, `run_c25_okx_funding_durable.sh` (guard only), `tests/test_c25_campaign.py`.
-**Status (2026-11-21T00:29:08Z):** 5/56 real cells complete (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87), 51 remaining, ETA **~2026-11-24T03:52:15Z (±30%; conservative ~2026-11-27T15:00:11Z)**, anchor `INCOMPLETE` (5/16; okx EXACT, others INCOMPLETE), gate `PENDING`. Runner healthy.
+**Status (2026-11-21T00:35:05Z):** 5/56 real cells complete (`cost_base/okx/2023` pnl +34,420.88; `cost_base/okx/2024` pnl +1,621.97; `cost_base/okx/2025` pnl +4,721.66; `cost_base/okx/2026YTD` pnl +5,166.77; `cost_base/binance_um/2023` pnl +165.87), 51 remaining, ETA **~2026-11-24T03:57:57Z (±30%; conservative ~2026-11-27T19:56:18Z)**, anchor `INCOMPLETE` (5/16; okx EXACT, others INCOMPLETE), gate `PENDING`. Runner healthy.
 
 ### C26-T1 — INTRABAR PATH & PER-TRADE FUNDING FIDELITY (BUILT, NOT LAUNCHED)
 
@@ -123,6 +126,7 @@ Remaining bottleneck — compute, and it is **not fixable mid-run**:
 **Staged artifacts:** `scripts/probe_c27_venue_acquisition.py`; `research_state/c27_prereg_20261119T215721Z.{json,md}` (`prereg_status: PRE_REGISTERED_BEFORE_COMPUTE`; Bybit primary candidate, fallback named by the probe; signal path frozen to the spec-literal values including `liquidation_maint_margin_pct=14.0`, `liquidation_buffer_pct=1.0`, `liquidation_distance_pct=15.0`).
 **Mandate:** after `C26 ACCEPTANCE: PASS` (whatever the token), the same session must run the probe, confirm the prereg matches its `ACQUISITION_VIABLE_*` verdict (or record `*_BLOCKED_BY_API_RETENTION`), and durably launch the campaign. If no new venue is viable, the only legitimate alternative is a **new pre-registered hypothesis on new data** — never a same-data rerun or frozen-signal parameter search.
 **Hyperliquid-native stays CLOSED:** `FULL_283D_BLOCKED_BY_API_RETENTION`.
+**C27 is not the end of the queue.** On `C27 ACCEPTANCE: PASS` the same session opens **C28** (portfolio-level cross-venue capital allocation / temporal OOS holdout / execution-realism stress) with a fresh sha-pinned prereg anchored on the completed C24/C25/C26 primary-arm evidence. See INITIAL TASK MESSAGE step 7. The heavy-work queue does not terminate at C27.
 
 ---
 
@@ -178,4 +182,5 @@ bitget 2023 35,797.29 / 0.1283 / 0.047 · 2024 −29,720.46 / 0.6564 / 0.9665 ·
 - C25 artifacts: `research_state/c25_prereg_20261119T045500Z.json`, `research_state/c25_ckpt_{arm}_{venue}_{fold}_20261119T045500Z.json`, `research_state/c25_decision_verdict_{arm,CONSOLIDATED}_20261119T045500Z.json`, run log `research_state/c25_run_20261120T212421Z.log`.
 - C26: `scripts/run_c26_path_fidelity_campaign.py`, `scripts/run_c26_durable.sh`, `scripts/status_c26.sh`, `scripts/verify_c26_focus_campaign.py`, `tests/test_c26_campaign.py`, `research_state/c26_prereg_20261119T121500Z.{json,md}`.
 - C27: `scripts/probe_c27_venue_acquisition.py`, `research_state/c27_prereg_20261119T215721Z.{json,md}`.
+- C28 (standing next focus campaign, prereg-gated per step 7 — not yet created): heavy directions = portfolio-level cross-venue capital allocation / strict temporal OOS holdout / execution-realism stress; each needs a fresh sha-pinned prereg + anchor before launch. The queue does not end at C27.
 - Engine: `src/backtest/engine.py`, `src/strategy/config.py`, `scripts/run_portfolio.py`.
