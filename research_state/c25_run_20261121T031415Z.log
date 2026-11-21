@@ -13,3 +13,8 @@
 [run] cost_base binance_um 2026YTD
 [census] Binance UM: events=226 signal_pass=86 trades=22 matched=22 unexplained=18
 [episode] cost_base binance_um 2026YTD: trades=22 pnl=5975.73 perm_p=1.0
+[placebo] cost_base binance_um 2026YTD: pool=86 choose=22 runs=2000 p_ge=0.4345
+[battery] Binance UM: total=5975.73 trades=22 legs=['buy', 'short'] episodes=10
+[done] cost_base binance_um 2026YTD pnl=5975.73
+[run] cost_base mexc 2023
+[census] MEXC: events=325 signal_pass=110 trades=24 matched=24 unexplained=44
