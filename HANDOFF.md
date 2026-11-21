@@ -1,10 +1,10 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T13:31:49Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-21T13:31:49Z — runner **ALIVE** (canonical `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, 4 draw workers, launched 2026-11-21T10:17:12Z through the harness background-process runner with `persistent=true`; log `research_state/c25_run_20261121T101712Z.log`), **9/56 real inference cells complete, 47 remaining**, anchor `INCOMPLETE` (okx EXACT 28469.71, binance_um EXACT 47613.34; mexc/bitget incomplete — no MISMATCH), gate `C25 ACCEPTANCE: PENDING`. — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data; `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabelled as Hyperliquid evidence. **Live priority:** the C25 round-trip cost & realized-funding fidelity campaign. **Do not substitute unrelated work.** C26 is BUILT; **C27 is BUILT (direction/venue-parametric, kucoin primary venue per `ACQUISITION_VIABLE_KUCOIN_MULTIYEAR` probe), gate-held behind C26 ACCEPTANCE: PASS** (`bash scripts/check_queue_readiness.sh` now exits 0); C28/C29/C30/C31/C32 are built/staged and gate-held, with C32 (next independent USDT-perp venue replication, direction `c32-a`) gate-held behind C31 — the heavy queue does not terminate at C31.
+**Generated (UTC):** 2026-11-21T13:33:14Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-21T13:33:14Z — runner **ALIVE** (canonical `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, 4 draw workers, launched 2026-11-21T10:17:12Z through the harness background-process runner with `persistent=true`; log `research_state/c25_run_20261121T101712Z.log`), **9/56 real inference cells complete, 47 remaining**, anchor `INCOMPLETE` (okx EXACT 28469.71, binance_um EXACT 47613.34; mexc/bitget incomplete — no MISMATCH), gate `C25 ACCEPTANCE: PENDING`. — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data; `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabelled as Hyperliquid evidence. **Live priority:** the C25 round-trip cost & realized-funding fidelity campaign. **Do not substitute unrelated work.** C26 is BUILT; **C27 is BUILT (direction/venue-parametric, kucoin primary venue per `ACQUISITION_VIABLE_KUCOIN_MULTIYEAR` probe), gate-held behind C26 ACCEPTANCE: PASS** (`bash scripts/check_queue_readiness.sh` now exits 0); C28/C29/C30/C31/C32 are built/staged and gate-held, with C32 (next independent USDT-perp venue replication, direction `c32-a`) gate-held behind C31 — the heavy queue does not terminate at C31.
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only; `README.md` points here. The full ordered task list is embedded in section 1 below — do not go looking for state in a second file. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
-**ONE-LINE STATUS (re-verified 2026-11-21T13:31:49Z):** `C25` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, 9/56 real cells done (cost_base: okx 4/4, binance_um 4/4, mexc 1/4 [2023], bitget 0/4; cost_taker / cost_taker_funding / cost_stress 0/16 each), **47 real cells remaining** (17 okx funding arms are permanent `UNAVAILABLE_FUNDING` skips, not compute), 4-core box saturated at ~1.48 h/cell → **ETA ~2026-11-24T09:50:49Z (±30%)**. In-flight cell `cost_base/mexc/2024` is at **12/40 draw chunks** (draws checkpoint every 500 subsets in `research_state/c25_draw_ckpts/`), so in-cell progress is visible and a restart loses at most ~500 draws, never a whole cell. **C26 is BUILT; C27 is BUILT (implementation verified by `scripts/check_queue_readiness.sh` exit 0), gate-held behind C26 ACCEPTANCE: PASS; C28/C29/C30/C31/C32 are built/staged and gate-held.** **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27/C28/C29/C30/C31/C32 CELL.** Whatever `scripts/status_c25.sh` prints is ground truth — never trust a PID written in this file.
+**ONE-LINE STATUS (re-verified 2026-11-21T13:33:14Z):** `C25` cost/funding fidelity is **RUNNER ALIVE & COMPUTING**, 9/56 real cells done (cost_base: okx 4/4, binance_um 4/4, mexc 1/4 [2023], bitget 0/4; cost_taker / cost_taker_funding / cost_stress 0/16 each), **47 real cells remaining** (17 okx funding arms are permanent `UNAVAILABLE_FUNDING` skips, not compute), 4-core box saturated at ~1.48 h/cell → **ETA ~2026-11-24T09:50:49Z (±30%)**. In-flight cell `cost_base/mexc/2024` is at **12/40 draw chunks** (draws checkpoint every 500 subsets in `research_state/c25_draw_ckpts/`), so in-cell progress is visible and a restart loses at most ~500 draws, never a whole cell. **C26 is BUILT; C27 is BUILT (implementation verified by `scripts/check_queue_readiness.sh` exit 0), gate-held behind C26 ACCEPTANCE: PASS; C28/C29/C30/C31/C32 are built/staged and gate-held.** **DO NOT RELAUNCH. DO NOT KILL. DO NOT REORDER ARMS. DO NOT START ANY C26/C27/C28/C29/C30/C31/C32 CELL.** Whatever `scripts/status_c25.sh` prints is ground truth — never trust a PID written in this file.
 
 ---
 
@@ -37,7 +37,7 @@ Only then end the turn. The controller starts a fresh session every few minutes;
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T13:31:49Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T13:33:14Z)
 
 **Repository priority:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). This repository's live priority is the C25 cost/funding-fidelity campaign; do not substitute unrelated work. The heavy queue is `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`; C32 (next-venue replication, direction `c32-a`) is BUILT and gate-held behind C31 — **"no authorized work" is never a truthful state while any gate in this chain is PENDING.**
 
@@ -75,7 +75,7 @@ Only then end the turn. The controller starts a fresh session every few minutes;
 
 ---
 
-## 2. VERIFIED LIVE STATE — 2026-11-21T13:31:49Z
+## 2. VERIFIED LIVE STATE — 2026-11-21T13:33:14Z
 
 Re-verify before acting; this block is stale the moment you read it. All read-only, in order:
 
@@ -93,7 +93,7 @@ bash scripts/status_c31.sh --direction c31-a   # C31 (built; PENDING until C30 P
 bash scripts/status_c32.sh --direction c32-a   # C32 (built; PENDING until C31 PASS)
 ```
 
-Observed at verification time (2026-11-21T13:31:49Z):
+Observed at verification time (2026-11-21T13:33:14Z):
 
 - **C25 RUNNER: ALIVE.** `scripts/status_c25.sh` prints `RUNNER: ALIVE`; the canonical process is `.venv/bin/python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` with 4 draw workers, launched 2026-11-21T10:17:12Z through the harness background-process runner (`persistent=true`), teeing to `research_state/c25_run_20261121T101712Z.log`. `.venv` is present (bootstrapped this session, Python 3.12.3, numpy 2.5.5 / pandas 3.1.1). **The previous handoff's "PID 3103" belonged to a job that has since ended; it is dead. Never trust a written PID — run `status_c25.sh`.**
 - **Cells:** `cost_base 9/16` (okx 4/4, binance_um 4/4, mexc 1/4 [2023 done], bitget 0/4), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`. **9 real cells DONE, 47 remaining**, 17 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight `cost_base/mexc/2024` at **12/40 draw chunks**. Next cells: `cost_base/mexc/2024` (in flight), `mexc/2025`, `mexc/2026YTD`, `bitget/2023`.
