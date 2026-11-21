@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-21T02:30:48Z · **Re-verified (UTC):** 2026-11-21T02:35:05Z (this session ran `status_c25.sh`, `eta_c25.sh`, `status_c28.sh --direction c28-a` — runner confirmed ALIVE, 4 workers R-state PIDs 54241-54244, 5/56 real cells, state consistent with prior; C28 confirmed BUILT + gate-holding, not launched; no material change to live compute) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
+**Generated (UTC):** 2026-11-21T02:30:48Z · **Re-verified (UTC):** 2026-11-21T02:37:08Z (this session ran `status_c25.sh`, `eta_c25.sh` — runner confirmed ALIVE, 4 workers R-state PIDs 54241-54244, 5/56 real cells, state consistent with prior; C28 BUILT + gate-held; no material change to live compute) · **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading-strategy research/backtesting on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
 **This is the single durable handoff.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. `README.md` points here. Any session that writes campaign state into a second file recreates the state-drift failure this removes.
 
@@ -8,7 +8,7 @@
 
 ---
 
-## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T02:35:05Z)
+## INITIAL TASK MESSAGE — NEXT SESSION (2026-11-21T02:37:08Z)
 
 **Repo:** `CRASH-REBOUND-STRATEGY` — crash-rebound edge adjudication on real-market, cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Real data, `cross_venue=true`, `is_hyperliquid_venue_data=false`, never relabelled as Hyperliquid evidence.
 
@@ -49,7 +49,7 @@ PYTHONPATH=. .venv/bin/python scripts/verify_c28_focus_campaign.py --direction c
 Observed at generation time (2026-11-21T02:35:05Z):
 
 - **C25 RUNNER: ALIVE.** Worker PID **3391** (parent **3386**, `scripts/run_c25_durable.sh`), running `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; 4 draw workers (R-state, recycled by the runner — current: **54241/54242/54243/54244**), launched through the harness background-process runner (`persistent=true`), teeing to `research_state/c25_run_20261120T212421Z.log`. Whatever `status_c25.sh` prints is ground truth — never trust a PID written in this file.
-- **Cells:** `cost_base 5/16` (okx/2023 pnl +34,420.88; okx/2024 pnl +1,621.97; okx/2025 pnl +4,721.66; okx/2026YTD pnl +5,166.77; binance_um/2023 pnl +165.87, boot=20000 perm=None placebo=2000), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 5 real cells DONE, 51 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/binance_um/2024` elapsed 5.19 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
+- **Cells:** `cost_base 5/16` (okx/2023 pnl +34,420.88; okx/2024 pnl +1,621.97; okx/2025 pnl +4,721.66; okx/2026YTD pnl +5,166.77; binance_um/2023 pnl +165.87, boot=20000 perm=None placebo=2000), `cost_taker 0/16`, `cost_taker_funding 0/16`, `cost_stress 0/16`; 5 real cells DONE, 51 remaining, 8 okx funding skips (`UNAVAILABLE_FUNDING`). In-flight cell `cost_base/binance_um/2024` elapsed 5.24 h since last checkpoint (permutation stage emits no log lines for hours — silence is normal).
 - **ETA:** `eta_c25.sh` → 51 real cells left, median **1.31 h** permutation + **0.17 h** placebo per cell → **75.4 h ≈ 3.1 days → ~2026-11-24T05:57:14Z (±30%; conservative in-flight-aware ~2026-12-02T03:19:06Z)**. The 4-core box is saturated; no mid-run acceleration, restart, or extra CPU work is permitted while the runner is alive (guardrails).
 - **Anchor:** `ANCHOR: INCOMPLETE` (5/16 cost_base cells checked; okx EXACT 28,469.71; binance_um/mexc/bitget INCOMPLETE). `ANCHOR: MISMATCH` would be a P0 integrity stop.
 - **Gate:** `C25 ACCEPTANCE: PENDING` (59 missing cells; verdict artifacts written only after all cells complete). **`C26 ACCEPTANCE: PENDING`** (blocked on C25; 64 missing cells; path-anchor reference not yet available). **`C28 ACCEPTANCE: PENDING`** (direction c28-a; 32 missing cells; blocked on C27; runner now hard-refuses until `c27_decision_verdict_CONSOLIDATED_20261119T215721Z.json` exists).
