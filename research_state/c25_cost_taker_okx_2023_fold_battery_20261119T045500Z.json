@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-22T16:21:02Z",
+  "phase": "C20",
+  "campaign": "C20",
+  "prereg_sha256": "6f7ad7091ead523d53e1fcb4cacb74f246673aa3c490ce433e74bb3a27cc0242",
+  "provenance_caveat": "Real OKX / Binance UM exchange data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such. Multi-year window 2023-01-01T00:00:00Z..2026-09-28T23:00:00Z (32808 hourly bars/symbol).",
+  "is_hyperliquid_evidence": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "venue_label": "OKX",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Per-leg attribution, exit-reason decomposition, sub-period stability, episode concentration, leave-one-out fragility, achievable-power bound.",
+  "A": {
+    "total_pnl": -3590334.5334888194,
+    "num_trades": 40,
+    "A1_per_leg": {
+      "buy": {
+        "n": 40,
+        "sum": -3590334.5334888194,
+        "mean": -89758.36333722048,
+        "median": -69894.66874388576,
+        "stdev": 68008.2758109621,
+        "min": -215480.8303880255,
+        "max": -9073.033482166922,
+        "p05": -212357.18212864298,
+        "p95": -12116.852398973719
+      }
+    },
+    "A1_components": {
+      "coin_pnl": -3369393.517100589,
+      "hedge_pnl": -220941.01638823046,
+      "rebound_short_pnl": 0.0,
+      "rebound_hedge_pnl": 0.0
+    },
+    "A2_exit_reason": {
+      "liquidated": {
+        "n": 37,
+        "sum": -3549181.8381484263,
+        "mean": -95923.83346347098,
+        "median": -72179.62954074629,
+        "stdev": 67012.75955843554,
+        "min": -215480.8303880255,
+        "max": -12206.492546344369,
+        "p05": -212512.68522800397,
+        "p95": -24498.299118549683
+      },
+      "time_exit": {
+        "n": 2,
+        "sum": -19486.72308109821,
+        "mean": -9743.361540549105,
+        "median": -9743.361540549105,
+        "stdev": 670.3280583821834,
+        "min": -10413.689598931289,
+        "max": -9073.033482166922,
+        "p05": -10346.65679309307,
+        "p95": -9140.06628800514
+      },
+      "stopped": {
+        "n": 1,
+        "sum": -21665.97225929459,
+        "mean": -21665.97225929459,
+        "median": -21665.97225929459,
+        "stdev": 0.0,
+        "min": -21665.97225929459,
+        "max": -21665.97225929459,
+        "p05": -21665.97225929459,
+        "p95": -21665.97225929459
+      }
+    },
+    "A3_sub_period": {
+      "year": {
+        "2023": {
+          "n": 40,
+          "sum": -3590334.5334888194,
+          "mean": -89758.36333722048,
+          "median": -69894.66874388576,
+          "stdev": 68008.2758109621,
+          "min": -215480.8303880255,
+          "max": -9073.033482166922,
+          "p05": -212357.18212864298,
+          "p95": -12116.852398973719
+        }
+      },
+      "half": {
+        "2023-H1": {
+          "n": 26,
+          "sum": -1695721.286644058,
+          "mean": -65220.04948630992,
+          "median": -41555.38573953049,
+          "stdev": 49258.79993071063,
+          "min": -213342.03509126257,
+          "max": -9073.033482166922,
+          "p05": -157204.965275136,
+          "p95": -10861.89033578456
+        },
+        "2023-H2": {
+          "n": 14,
+          "sum": -1894613.2468447613,
+          "mean": -135329.51763176866,
+          "median": -133311.80994768688,
+          "stdev": 74252.60363406301,
+          "min": -215480.8303880255,
+          "max": -18739.2748493462,
+          "p05": -213416.766681232,
+          "p95": -20641.628165812654
+        }
+      },
+      "quarter": {
+        "2023-Q1": {
+          "n": 5,
+          "sum": -313797.96122979914,
+          "mean": -62759.59224595983,
+          "median": -41284.30320043297,
+          "stdev": 48721.77110468686,
+          "min": -152864.7492338558,
+          "max": -10413.689598931289,
+          "p05": -136100.62980214847,
+          "p95": -16369.165103397045
+        },
+        "2023-Q2": {
+          "n": 21,
+          "sum": -1381923.3254142588,
+          "mean": -65805.87263877422,
+          "median": -41826.468278628,
+          "stdev": 49367.73214735248,
+          "min": -213342.03509126257,
+          "max": -9073.033482166922,
+          "p05": -158651.7039555627,
+          "p95": -12206.492546344369
+        },
+        "2023-Q3": {
+          "n": 14,
+          "sum": -1894613.2468447613,
+          "mean": -135329.51763176866,
+          "median": -133311.80994768688,
+          "stdev": 74252.60363406301,
+          "min": -215480.8303880255,
+          "max": -18739.2748493462,
+          "p05": -213416.766681232,
+          "p95": -20641.628165812654
+        }
+      }
+    },
+    "A4_concentration": {
+      "n_episodes_with_trades": 9,
+      "episode_totals_desc": [
+        -9073.03,
+        -69044.15,
+        -90016.25,
+        -91889.06,
+        -152864.75,
+        -158320.3,
+        -230831.33,
+        -1142018.96,
+        -1646276.7
+      ],
+      "gross_positive_episode_pnl": 0,
+      "gross_negative_episode_pnl": -3590334.53,
+      "n_positive_episodes": 0,
+      "n_negative_episodes": 9,
+      "top1_share_of_total": 0.0025270709220467837,
+      "top3_sum": -168133.43,
+      "top3_share_of_total": 0.04682946071786254,
+      "hhi_abs_episode_contrib": 0.321
+    },
+    "A5_leave_one_out_by_year": {
+      "2023": {
+        "dropped_pnl": -3590334.53,
+        "remaining_total_pnl": 0.0,
+        "sign_flipped_from_total": false
+      }
+    },
+    "A6_achievable_power": {
+      "n_episodes": 9,
+      "mean_episode_pnl": -398926.06,
+      "sd_episode_pnl": 548256.66,
+      "se_mean": 182752.22,
+      "t_stat_vs_zero": -2.183,
+      "episodes_needed_for_ci_excludes_zero": 7.3,
+      "power_at": {
+        "5": 0.3697,
+        "10": 0.6334,
+        "19": 0.8872,
+        "30": 0.9786,
+        "50": 0.9993,
+        "100": 1.0,
+        "200": 1.0,
+        "324": 1.0
+      }
+    },
+    "A7_episode_audit_summary": {
+      "n_events": null,
+      "n_episodes": null,
+      "n_distinct_crash_days": null,
+      "largest_episode_events": null
+    }
+  },
+  "verdict": "underpowered"
+}
