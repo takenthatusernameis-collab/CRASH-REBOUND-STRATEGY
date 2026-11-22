@@ -13,3 +13,8 @@
 [run] cost_base bitget 2023
 [census] Bitget: events=348 signal_pass=108 trades=23 matched=23 unexplained=41
 [episode] cost_base bitget 2023: trades=23 pnl=35797.29 perm_p=0.1283
+[placebo] cost_base bitget 2023: pool=108 choose=23 runs=2000 p_ge=0.0575
+[battery] Bitget: total=35797.29 trades=23 legs=['buy'] episodes=9
+[done] cost_base bitget 2023 pnl=35797.29
+[run] cost_base bitget 2024
+[census] Bitget: events=311 signal_pass=116 trades=31 matched=31 unexplained=32
