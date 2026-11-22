@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-22T19:08:45Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-22T19:08:45Z
+**Generated (UTC):** 2026-11-22T19:22:02Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-22T19:22:02Z
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,7 +10,7 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-22T19:08:45Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-22T19:22:02Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
@@ -19,7 +19,7 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop.
 - `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker_okx_2023` complete — 40/40 draw chunks checkpointed, final cell checkpoint `c25_ckpt_cost_taker_okx_2023_20261119T045500Z.json` on disk.
-- In-flight: `cost_taker_okx_2024` at **15/40 draw chunks** on disk. `real_cells_remaining=39` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
+- In-flight: `cost_taker_okx_2024` at **17/40 draw chunks** on disk. `real_cells_remaining=39` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
 - `PACING: remaining=39 draw_chunks=15 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive ETA with `bash scripts/eta_c25.sh` once `.venv` is back; do not hardcode 8 h when the probe says otherwise.
 - `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. No blocked session, no inefficient session, no "no authorized work" condition while any gate is PENDING.
 
