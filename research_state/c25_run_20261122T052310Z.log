@@ -20,3 +20,14 @@
 [run] cost_base bitget 2025
 [census] Bitget: events=323 signal_pass=105 trades=31 matched=31 unexplained=23
 [episode] cost_base bitget 2025: trades=31 pnl=21116.87 perm_p=0.2513002600520104
+[placebo] cost_base bitget 2025: pool=105 choose=31 runs=2000 p_ge=0.6775
+[battery] Bitget: total=21116.87 trades=31 legs=['buy', 'short'] episodes=8
+[done] cost_base bitget 2025 pnl=21116.87
+[run] cost_base bitget 2026YTD
+[census] Bitget: events=218 signal_pass=70 trades=17 matched=17 unexplained=13
+[episode] cost_base bitget 2026YTD: trades=17 pnl=3040.79 perm_p=0.75
+[placebo] cost_base bitget 2026YTD: pool=70 choose=17 runs=2000 p_ge=0.4505
+[battery] Bitget: total=3040.79 trades=17 legs=['buy'] episodes=8
+[done] cost_base bitget 2026YTD pnl=3040.79
+[run] cost_taker okx 2023
+[census] OKX: events=345 signal_pass=95 trades=40 matched=40 unexplained=51
