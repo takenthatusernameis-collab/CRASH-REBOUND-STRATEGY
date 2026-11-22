@@ -1,8 +1,8 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-22T13:59:49Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T14:01:16Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 
-**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, 4 workers R), 16/56 real cells complete, **40 remaining**, `cost_base 16/16` done, in-flight `cost_taker_okx_2023` at **23/40 draw chunks** (advancing), anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T05:45:39Z (±30%)**.
+**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, 4 workers R), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **24/40 draw chunks** (runner advancing), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T06:43:24Z (±30%, median n=16)**. `PACING: remaining=40 wake_after=8h`.
 
 **HEAVY QUEUE (fully built/staged, gate-held):**
 ```
@@ -12,10 +12,10 @@ C24 (PASS) → C25 (IN FLIGHT, 40 cells) → C26 (BUILT) → C27 (BUILT) → C28
 **BINDING WORKFLOW — DO EXACTLY THIS:**
 
 ```bash
-# 1. Start persistent goal (prevents session spin)
+# 0. Start persistent goal (prevents session spin)
 goal start --objective "Drive C25→C26→C27→C28→C29→C30→C31→C32 queue to completion: monitor C25 with bounded waits, resume-once if runner dies, launch mandatory same-session successor on each PASS, never idle"
 
-# 2. Single ground-truth probe (reads checkpoints in pure bash; works without venv)
+# 1. Single ground-truth probe (reads checkpoints in pure bash; works without venv)
 bash scripts/next_c25_action.sh
 ```
 
@@ -23,10 +23,10 @@ bash scripts/next_c25_action.sh
 
 **IF `ACTION: NONE_RUNNER_ALIVE`:**
 ```bash
-# 3. Verify anchor integrity (must stay OK/INCOMPLETE; MISMATCH = P0 stop)
+# 2. Verify anchor integrity (must stay OK/INCOMPLETE; MISMATCH = P0 stop)
 bash scripts/check_c25_anchor.sh
 
-# 4. ONE BOUNDED WAIT (9 min, 600000 ms tool timeout) — maps session to compute progress
+# 3. ONE BOUNDED WAIT (9 min, 600000 ms tool timeout) — maps session to compute progress
 bash -c 'sleep 540; bash scripts/next_c25_action.sh'
 # Then END TURN. Do not loop. Do not edit HANDOFF.md for cosmetic timestamps.
 ```
@@ -36,7 +36,7 @@ bash -c 'sleep 540; bash scripts/next_c25_action.sh'
 # Resume EXACTLY ONCE (run_c25_durable.sh self-bootstraps .venv on fresh job)
 background_process start command="bash scripts/run_c25_durable.sh" persistent=true
 # Then re-probe: bash scripts/next_c25_action.sh → should print NONE_RUNNER_ALIVE
-# Then steps 3–4 above.
+# Then steps 2–3 above.
 ```
 
 **GUARDRAILS (NEVER VIOLATE):**
