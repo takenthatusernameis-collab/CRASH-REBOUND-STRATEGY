@@ -23,3 +23,4 @@
 [done] cost_taker okx 2024 pnl=-1915479.62
 [run] cost_taker okx 2025
 [census] OKX: events=314 signal_pass=100 trades=47 matched=47 unexplained=45
+[episode] cost_taker okx 2025: trades=47 pnl=-1621780.71 perm_p=0.8829545454545454
