@@ -13,3 +13,4 @@
 [resume] cost_base bitget 2023
 [run] cost_base bitget 2024
 [census] Bitget: events=311 signal_pass=116 trades=31 matched=31 unexplained=32
+[episode] cost_base bitget 2024: trades=31 pnl=-29720.46 perm_p=0.6564
