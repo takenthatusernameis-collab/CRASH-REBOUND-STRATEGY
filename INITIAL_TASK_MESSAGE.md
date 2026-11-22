@@ -1,8 +1,8 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-22T13:15:49Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-22T13:18:43Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 
-**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (4 workers), 16/56 real cells complete, **40 remaining**, `cost_base 16/16` done, in-flight `cost_taker_okx_2023` at **15/40 draw chunks** (advancing), anchor **OK** (all 16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T05:45:39Z (±30%)**.
+**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (4 workers), 16/56 real cells complete, **40 remaining**, `cost_base 16/16` done, in-flight `cost_taker_okx_2023` at **18/40 draw chunks** (advancing), anchor **OK** (all 16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T05:45:39Z (±30%)**.
 
 **HEAVY QUEUE (fully built/staged, gate-held):**
 ```
