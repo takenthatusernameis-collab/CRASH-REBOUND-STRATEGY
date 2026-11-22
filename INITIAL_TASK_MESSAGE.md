@@ -1,8 +1,10 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T14:25:28Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T14:35:55Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 
-**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (supervisor PID 2889 + python PID 3106 + 4 workers 26668–26671 at ~96% CPU), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **27/40 draw chunks on disk** (runner advancing), gate `C25 ACCEPTANCE: PENDING`. Verified via `bash scripts/next_c25_action.sh` at 14:25Z → `ACTION: NONE_RUNNER_ALIVE`. ETA **~2026-11-25T04:12:41Z (±30%, median n=16)**. `PACING: remaining=40 wake_after=8h`.
+**SOURCE OF TRUTH:** `HANDOFF.md` is the single durable handoff and the binding initial task message (section 1). This file is a pointer only — if this file and `HANDOFF.md` disagree, `HANDOFF.md` wins.
+
+**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, supervisor 2889, 4 workers R), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **29/40 draw chunks on disk** (runner advancing, advanced 6→29 since 2026-11-22T07:48:24Z), gate `C25 ACCEPTANCE: PENDING`. Verified via `bash scripts/next_c25_action.sh` at 14:35Z → `ACTION: NONE_RUNNER_ALIVE`. ETA **~2026-11-25T07:19:04Z (±30%, median n=16)**. `PACING: remaining=40 wake_after=8h`.
 
 **HEAVY QUEUE (fully built/staged, gate-held):**
 ```
@@ -56,4 +58,4 @@ bash scripts/check_c25_anchor.sh     # cost_base vs C24 d15 anchor
 bash scripts/check_queue_readiness.sh # all C25–C32 verified (exits 0)
 ```
 
-**THIS IS THE SINGLE DURABLE HANDOFF.** Read `HANDOFF.md` for full detail, campaign specs, gate tokens, and the complete 11-step launch chain. The probe is your only decision input — obey it. Explicit directions are present for the whole queue; do not build C33 speculatively (C33 opens only after `C32 ACCEPTANCE: PASS`). No sessions are blocked.
+**THIS IS A POINTER ONLY.** Read `HANDOFF.md` for full detail, campaign specs, gate tokens, and the complete 11-step launch chain. The probe is your only decision input — obey it. Explicit directions are present for the whole queue; do not build C33 speculatively (C33 opens only after `C32 ACCEPTANCE: PASS`). No sessions are blocked.
