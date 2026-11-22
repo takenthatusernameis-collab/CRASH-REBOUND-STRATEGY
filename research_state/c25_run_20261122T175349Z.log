@@ -17,3 +17,9 @@
 [resume] cost_taker okx 2023
 [run] cost_taker okx 2024
 [census] OKX: events=303 signal_pass=115 trades=44 matched=44 unexplained=52
+[episode] cost_taker okx 2024: trades=44 pnl=-1915479.62 perm_p=0.98265
+[placebo] cost_taker okx 2024: pool=115 choose=44 runs=2000 p_ge=0.983
+[battery] OKX: total=-1915479.62 trades=44 legs=['buy'] episodes=7
+[done] cost_taker okx 2024 pnl=-1915479.62
+[run] cost_taker okx 2025
+[census] OKX: events=314 signal_pass=100 trades=47 matched=47 unexplained=45
