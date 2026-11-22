@@ -16,3 +16,4 @@
 [resume] cost_base bitget 2026YTD
 [run] cost_taker okx 2023
 [census] OKX: events=345 signal_pass=95 trades=40 matched=40 unexplained=51
+[episode] cost_taker okx 2023: trades=40 pnl=-3590334.53 perm_p=0.9772
