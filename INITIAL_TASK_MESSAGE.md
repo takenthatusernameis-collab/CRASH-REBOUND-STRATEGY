@@ -1,8 +1,8 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T14:07:40Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T14:14:18Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 
-**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, 4 workers R), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **24/40 draw chunks** (runner advancing), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T04:12:41Z (±30%, median n=16)**. `PACING: remaining=40 wake_after=8h`.
+**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, 4 workers R), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **25/40 draw chunks** (runner advancing), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T04:12:41Z (±30%, median n=16)**. `PACING: remaining=40 wake_after=8h`.
 
 **HEAVY QUEUE (fully built/staged, gate-held):**
 ```
