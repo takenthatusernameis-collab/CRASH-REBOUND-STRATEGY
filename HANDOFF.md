@@ -19,7 +19,7 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop.
 - `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker_okx_2023` complete — 40/40 draw chunks checkpointed, final cell checkpoint `c25_ckpt_cost_taker_okx_2023_20261119T045500Z.json` on disk.
-- In-flight: `cost_taker_okx_2024` at **17/40 draw chunks** on disk. `real_cells_remaining=39` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
+- In-flight: `cost_taker_okx_2024` at **19/40 draw chunks** on disk. `real_cells_remaining=39` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
 - `PACING: remaining=39 draw_chunks=15 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive ETA with `bash scripts/eta_c25.sh` once `.venv` is back; do not hardcode 8 h when the probe says otherwise.
 - `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. No blocked session, no inefficient session, no "no authorized work" condition while any gate is PENDING.
 
@@ -89,7 +89,7 @@ Canonical state at 2026-11-22T19:06:14Z:
 2. **File bloat from repetitive session re-stamps — removed.** Entries 28–46 (cross-section draw-chunk/ETA drift, cosmetic timestamp-only re-stamps) collapsed into this single canonical record. Edit `HANDOFF.md` **only** on material state change (cell count, gate token, anchor token, PASS/FAIL transition), via small unique-substring replacements — never a full-file rewrite.
 3. **`INITIAL_TASK_MESSAGE.md` carried duplicate state — removed.** Pointer-only; `HANDOFF.md` section 1 is the binding initial task message.
 4. **Stale PID/log state drift — removed.** The probe and on-disk checkpoints in `research_state/` are the only truth; never trust a PID written in any file.
-5. **Draw-chunk / in-flight drift across sections — removed.** One canonical value (`15/40` on `cost_taker_okx_2024` at 2026-11-22T19:04:12Z) re-derived from `status_c25.sh` / on-disk `c25_draw_ckpts/`; never re-stamp this number without a material state change.
+5. **Draw-chunk / in-flight drift across sections — removed.** One canonical value (`19/40` on `cost_taker_okx_2024`) re-derived from `status_c25.sh` / on-disk `c25_draw_ckpts/`; never re-stamp this number without a material state change.
 6. **Queue-dryness — removed.** C25 in flight; C26–C32 built/staged/gate-held: months of runway. Explicit directions present for every step; no speculative C33.
 7. **Session spin / quota exhaustion — removed.** One bounded wait per ALIVE-runner session; no tight relaunch loops.
 8. **Probe pacing collapsed to `wake_after=0s` without a venv — removed.** Remaining cells counted from on-disk checkpoints in pure bash; works with or without `.venv`.
