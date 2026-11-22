@@ -12,3 +12,4 @@
 [resume] cost_base mexc 2026YTD
 [run] cost_base bitget 2023
 [census] Bitget: events=348 signal_pass=108 trades=23 matched=23 unexplained=41
+[episode] cost_base bitget 2023: trades=23 pnl=35797.29 perm_p=0.1283
