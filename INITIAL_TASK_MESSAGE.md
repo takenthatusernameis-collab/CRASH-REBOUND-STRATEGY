@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (POINTER ONLY, 2026-11-22T19:06:14Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (POINTER ONLY, 2026-11-22T19:08:45Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 

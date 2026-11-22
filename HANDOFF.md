@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-22T19:07:56Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-22T19:07:56Z
+**Generated (UTC):** 2026-11-22T19:08:45Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-22T19:08:45Z
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,7 +10,7 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-22T19:07:56Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-22T19:08:45Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
