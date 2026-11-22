@@ -1,8 +1,8 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-22T13:50:08Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (2026-11-22T13:59:49Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 
-**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (4 workers), 16/56 real cells complete, **40 remaining**, `cost_base 16/16` done, in-flight `cost_taker_okx_2023` at **22/40 draw chunks** (advancing), anchor **OK** (all 16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T05:45:39Z (±30%)**.
+**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, 4 workers R), 16/56 real cells complete, **40 remaining**, `cost_base 16/16` done, in-flight `cost_taker_okx_2023` at **23/40 draw chunks** (advancing), anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), gate `C25 ACCEPTANCE: PENDING`. ETA **~2026-11-25T05:45:39Z (±30%)**.
 
 **HEAVY QUEUE (fully built/staged, gate-held):**
 ```
@@ -56,4 +56,4 @@ bash scripts/check_c25_anchor.sh     # cost_base vs C24 d15 anchor
 bash scripts/check_queue_readiness.sh # all C25–C32 verified (exits 0)
 ```
 
-**THIS IS THE SINGLE DURABLE HANDOFF.** Read `HANDOFF.md` for full detail, campaign specs, gate tokens, and the complete 11-step launch chain. The probe is your only decision input — obey it.
+**THIS IS THE SINGLE DURABLE HANDOFF.** Read `HANDOFF.md` for full detail, campaign specs, gate tokens, and the complete 11-step launch chain. The probe is your only decision input — obey it. Explicit directions are present for the whole queue; do not build C33 speculatively (C33 opens only after `C32 ACCEPTANCE: PASS`). No sessions are blocked.
