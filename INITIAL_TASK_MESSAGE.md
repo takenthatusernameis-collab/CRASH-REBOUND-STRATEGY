@@ -1,10 +1,10 @@
-# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T16:07:56Z)
+# INITIAL TASK MESSAGE — NEXT AGENTIC SESSION (REFRESHED 2026-11-22T16:08:21Z)
 
 **Repository:** `CRASH-REBOUND-STRATEGY` — crash-rebound trading strategy research/backtesting on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps).
 
 **SOURCE OF TRUTH:** `HANDOFF.md` is the single durable handoff and the binding initial task message (section 1). This file is a pointer only — if this file and `HANDOFF.md` disagree, `HANDOFF.md` wins.
 
-**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, supervisor 2889, 4 workers R at 93–94% CPU, per `scripts/status_c25.sh`), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **40/40 draw chunks on disk** (cell complete on disk, final cell checkpoint aggregating imminently; runner advancing, advanced 6→40 since 2026-11-22T07:48:24Z), gate `C25 ACCEPTANCE: PENDING`. Verified via `bash scripts/next_c25_action.sh` at 15:56:14Z → `ACTION: NONE_RUNNER_ALIVE`. ETA **~2026-11-25T08:26:38Z (±30%, median n=16)**. `PACING: remaining=40 draw_chunks=40 wake_after=8h`.
+**LIVE PRIORITY:** The **C25 round-trip cost & realized-funding fidelity campaign** — runner **ALIVE** (PID 3106, supervisor 2889, 4 workers R at 93–94% CPU, per `scripts/status_c25.sh`), 16/56 real cells complete, **40 remaining** (8 okx `UNAVAILABLE_FUNDING` skips), `cost_base 16/16` done [okx/binance_um/mexc/bitget 4/4 each], anchor **OK** (all 16/16 cost_base EXACT: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), in-flight `cost_taker_okx_2023` at **40/40 draw chunks on disk** (cell complete on disk, final cell checkpoint aggregating imminently; runner advancing, advanced 6→40 since 2026-11-22T07:48:24Z), gate `C25 ACCEPTANCE: PENDING`. Verified via `bash scripts/next_c25_action.sh` at 16:07:56Z → `ACTION: NONE_RUNNER_ALIVE`. ETA **~2026-11-25T08:26:38Z (±30%, median n=16)**. `PACING: remaining=40 draw_chunks=40 wake_after=8h`.
 
 **HEAVY QUEUE (fully built/staged, gate-held):**
 ```
