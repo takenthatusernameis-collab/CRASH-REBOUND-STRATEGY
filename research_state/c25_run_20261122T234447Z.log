@@ -20,3 +20,8 @@
 [run] cost_taker okx 2026YTD
 [census] OKX: events=219 signal_pass=59 trades=20 matched=20 unexplained=23
 [episode] cost_taker okx 2026YTD: trades=20 pnl=-740418.20 perm_p=0.5205123073844307
+[placebo] cost_taker okx 2026YTD: pool=59 choose=20 runs=2000 p_ge=0.987
+[battery] OKX: total=-740418.20 trades=20 legs=['buy'] episodes=7
+[done] cost_taker okx 2026YTD pnl=-740418.2
+[run] cost_taker binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=61 matched=61 unexplained=77
