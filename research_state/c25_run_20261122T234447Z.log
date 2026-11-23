@@ -25,3 +25,4 @@
 [done] cost_taker okx 2026YTD pnl=-740418.2
 [run] cost_taker binance_um 2023
 [census] Binance UM: events=342 signal_pass=143 trades=61 matched=61 unexplained=77
+[episode] cost_taker binance_um 2023: trades=61 pnl=-3856118.91 perm_p=1.0
