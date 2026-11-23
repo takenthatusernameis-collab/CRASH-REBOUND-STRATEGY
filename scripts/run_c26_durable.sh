@@ -28,9 +28,10 @@ if [ ! -x "$PY" ]; then
   fi
 fi
 
-if pgrep -f "run_c26_path_fidelity_campaign.py --jobs" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c26_path_fidelity_campaign.py --jobs"; then
   echo "[c26-launch] canonical C26 runner already active; not starting a duplicate."
-  ps -eo pid,etime,time,stat,cmd | grep "[r]un_c26_path_fidelity_campaign.py" || true
+  runner_ps "run_c26_path_fidelity_campaign.py"
   exit 0
 fi
 

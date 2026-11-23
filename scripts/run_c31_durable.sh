@@ -51,9 +51,10 @@ if [ -z "$DIRECTION" ]; then
   exit 1
 fi
 
-if pgrep -f "run_c31_campaign.py --direction ${DIRECTION} --jobs" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c31_campaign.py --direction ${DIRECTION} --jobs"; then
   echo "[c31-launch] canonical C31 runner already active for ${DIRECTION}; not starting a duplicate."
-  ps -eo pid,etime,time,stat,cmd | grep "[r]un_c31_campaign.py" || true
+  runner_ps "run_c31_campaign.py"
   exit 0
 fi
 

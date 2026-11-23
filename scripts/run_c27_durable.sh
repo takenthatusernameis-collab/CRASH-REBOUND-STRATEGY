@@ -34,9 +34,10 @@ if [ ! -x "$PY" ]; then
   fi
 fi
 
-if pgrep -f "run_c27_campaign.py --jobs" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c27_campaign.py --jobs"; then
   echo "[c27-launch] canonical C27 runner already active; not starting a duplicate."
-  ps -eo pid,etime,time,stat,cmd | grep "[r]un_c27_campaign.py" || true
+  runner_ps "run_c27_campaign.py"
   exit 0
 fi
 

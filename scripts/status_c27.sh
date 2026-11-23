@@ -38,9 +38,10 @@ else
 fi
 
 echo "--- runner ---"
-if pgrep -af "run_c27_campaign.py --jobs" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c27_campaign.py"; then
   echo "RUNNER: ALIVE"
-  ps -eo pid,ppid,etime,time,stat,cmd | grep "[r]un_c27_campaign.py --jobs" || true
+  runner_ps "run_c27_campaign.py"
 else
   echo "RUNNER: NOT ALIVE -> launch once with: background_process start command=\"bash scripts/run_c27_durable.sh\" persistent=true"
 fi

@@ -11,9 +11,10 @@ TS="20261119T045500Z"
 echo "UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 echo "--- runner ---"
-if pgrep -af "run_c25_cost_fidelity_campaign.py" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c25_cost_fidelity_campaign.py"; then
   echo "RUNNER: ALIVE"
-  ps -eo pid,ppid,etime,time,stat,cmd | grep "[r]un_c25_cost_fidelity_campaign.py" || true
+  runner_ps "run_c25_cost_fidelity_campaign.py"
 else
   echo "RUNNER: NOT ALIVE -> launch once with: background_process start command=\"bash scripts/run_c25_durable.sh\" persistent=true"
 fi

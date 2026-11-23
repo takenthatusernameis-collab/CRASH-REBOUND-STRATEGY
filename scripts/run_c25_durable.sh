@@ -28,9 +28,10 @@ if [ ! -x "$PY" ]; then
   fi
 fi
 
-if pgrep -f "run_c25_cost_fidelity_campaign.py --jobs" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c25_cost_fidelity_campaign.py --jobs"; then
   echo "[c25-launch] canonical C25 runner already active; not starting a duplicate."
-  ps -eo pid,etime,time,stat,cmd | grep "[r]un_c25_cost_fidelity_campaign.py" || true
+  runner_ps "run_c25_cost_fidelity_campaign.py"
   exit 0
 fi
 

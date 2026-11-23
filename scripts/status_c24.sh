@@ -11,9 +11,10 @@ TS="20261119T013154Z"
 echo "UTC: $(date -u +%Y-%m-%dT%H:%M:%SZ)"
 
 echo "--- runner ---"
-if pgrep -af "run_c24_margin_fidelity_campaign.py" >/dev/null 2>&1; then
+. "$REPO/scripts/runner_alive.sh"
+if runner_alive "run_c24_margin_fidelity_campaign.py"; then
   echo "RUNNER: ALIVE"
-  ps -eo pid,ppid,etime,time,stat,cmd | grep "[r]un_c24_margin_fidelity_campaign.py" || true
+  runner_ps "run_c24_margin_fidelity_campaign.py"
 else
   echo "RUNNER: NOT ALIVE -> resume with: PYTHONPATH=. .venv/bin/python scripts/run_c24_margin_fidelity_campaign.py --jobs 4 --resume"
 fi
