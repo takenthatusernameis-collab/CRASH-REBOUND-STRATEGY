@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "timestamp": "20261119T045500Z",
-  "generated_at_utc": "2026-11-22T23:14:33Z",
+  "generated_at_utc": "2026-11-22T23:45:05Z",
   "run_type": "c25_cost_fidelity_fold_campaign",
   "campaign": "C25",
   "arm": "cost_taker",
@@ -590,5 +590,5 @@
       }
     ]
   },
-  "wall_seconds": 2.7
+  "wall_seconds": 3.2
 }
