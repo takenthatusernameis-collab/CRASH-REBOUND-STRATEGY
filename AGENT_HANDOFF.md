@@ -1,4 +1,4 @@
-# Agent Handoff — POINTER ONLY (2026-11-23T11:04:24Z)
+# Agent Handoff — POINTER ONLY (2026-11-23T13:44:11Z)
 
 **This file is not a source of truth.** The single durable handoff and the
 current timestamped initial task message live in `HANDOFF.md`.
@@ -8,8 +8,9 @@ entry probe — it prints one `ACTION:` line, the exact next command, the remain
 cell count, and the pacing interval). It works with or without `.venv` and it
 correctly detects a dead runner (`NOT ALIVE` → `ACTION: RESUME_C25`).
 
-If the probe says `NONE_RUNNER_ALIVE`, the session is not finished after editing
-this file: run `bash scripts/check_c25_anchor.sh`, then exactly one bounded wait
+If the probe says `RESUME_C25`, the session is not finished after editing this file:
+resume exactly once with `background_process start command="bash scripts/run_c25_durable.sh" persistent=true`
+(it self-bootstraps `.venv`), re-probe, then do exactly one bounded wait
 (`bash -c 'sleep 540; bash scripts/next_c25_action.sh'`) with a **600 000 ms**
 tool timeout, then end the turn. Ending immediately after a handoff edit is the
 session-spin bottleneck.
