@@ -22,3 +22,15 @@
 [resume] cost_taker binance_um 2024
 [run] cost_taker binance_um 2025
 [census] Binance UM: events=324 signal_pass=115 trades=55 matched=55 unexplained=53
+[episode] cost_taker binance_um 2025: trades=55 pnl=-1879586.99 perm_p=1.0
+[placebo] cost_taker binance_um 2025: pool=115 choose=55 runs=2000 p_ge=0.9975
+[battery] Binance UM: total=-1879586.99 trades=55 legs=['buy', 'short'] episodes=8
+[done] cost_taker binance_um 2025 pnl=-1879586.99
+[run] cost_taker binance_um 2026YTD
+[census] Binance UM: events=226 signal_pass=86 trades=32 matched=32 unexplained=37
+[episode] cost_taker binance_um 2026YTD: trades=32 pnl=-1709825.00 perm_p=1.0
+[placebo] cost_taker binance_um 2026YTD: pool=86 choose=32 runs=2000 p_ge=1.0
+[battery] Binance UM: total=-1709825.00 trades=32 legs=['buy'] episodes=10
+[done] cost_taker binance_um 2026YTD pnl=-1709825.0
+[run] cost_taker mexc 2023
+[census] MEXC: events=325 signal_pass=110 trades=49 matched=49 unexplained=56

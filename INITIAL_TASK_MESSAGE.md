@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T15:04:06Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T15:25:02Z)
 
 **This file is not a source of truth.** The single durable handoff AND the binding timestamped initial task message live in `HANDOFF.md` §1.
 
@@ -12,13 +12,12 @@ Next session, do exactly this and nothing else:
 
 **Live priority:** C25 round-trip cost & realized-funding fidelity campaign (heavy queue `C24 → C25 → … → C32+`, all BUILT/STAGED and gate-held behind C25 PASS). Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps); `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabelled as Hyperliquid evidence.
 
-**Current ground truth (2026-11-23T14:14:49Z):**
-- `RUNNER: NOT ALIVE` — fresh CI job at ~13:43Z killed the prior runner and removed the gitignored `.venv`; on-disk `research_state/c25_ckpt_*` (22 cells) + 19 `c25_draw_ckpts/c25_partial_perm_cost_taker_binance_um_2025_*_chunk0000{00..18}.json` are committed and intact. Resume ONCE via `background_process start command="bash scripts/run_c25_durable.sh" persistent=true`; it self-bootstraps `.venv`.
-- `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`
-- `PROGRESS: real_cells_remaining=34 draw_chunks_on_disk=19 in_flight=cost_taker_binance_um_2025`
-- `ANCHOR: OK` (last verified 2026-11-23T11:04:24Z) — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50); re-verify with `bash scripts/check_c25_anchor.sh` after bootstrap.
-- `PACING: remaining=34 draw_chunks=19 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell)
-- `.venv` absent (Python 3.12.3 once bootstrapped); `scripts/check_queue_readiness.sh` exits 0; `scripts/session_gate.py` 21/21 passed at 2026-11-23T11:04:24Z (re-run after bootstrap).
-- Exactly ONE runner/session is the target; NO blocked/duplicate/inefficient sessions to remove.
+**Current ground truth (2026-11-23T15:25:02Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+- `RUNNER: ALIVE` (background process `bgp_208ab0663001BN3ifHmcOek6Cv`, `bash scripts/run_c25_durable.sh`, persistent, supervisor + 4 workers on `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; `.venv` present Python 3.12.3). `ACTION: NONE_RUNNER_ALIVE`. Do NOT resume; do NOT relaunch. Campaign advanced to 30 draw chunks (was 27 at 15:04Z).
+- `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
+- `PROGRESS: real_cells_remaining=34 skipped_unavailable_funding=8 draw_chunks_on_disk=30 in_flight=cost_taker_binance_um_2025`. On-disk checkpoints are the durability: 22 `research_state/c25_ckpt_*` cells (16 `cost_base` + 6 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024) plus 30 intra-cell chunks `research_state/c25_draw_ckpts/c25_partial_perm_cost_taker_binance_um_2025_20261119T045500Z_chunk0000{00..29}.json` for the in-flight cell. `--resume` + `C25_DRAW_RESUME=1` (default) picks up mid-cell bit-identically; at most the uncommitted chunk tail is lost.
+- `PACING: remaining=34 draw_chunks=30 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive ETA with `bash scripts/eta_c25.sh` after bootstrap; do not hardcode 8 h when the probe says otherwise.
+- `ANCHOR: OK` (last verified 2026-11-23T15:25:02Z) — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop. Re-verify with `bash scripts/check_c25_anchor.sh` immediately after resume bootstraps `.venv`.
+- `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. Exactly ONE runner/session is the target; the C25→C32 queue is the authorized heavy work, and the heavy-work contract below makes idling impossible. No "no authorized work" condition exists while any gate is PENDING.
 
 Read `HANDOFF.md` for the full ordered task list, ground truth, monitoring protocol, persistence model, bottleneck register, guardrails, and the C26–C32 launch chain.

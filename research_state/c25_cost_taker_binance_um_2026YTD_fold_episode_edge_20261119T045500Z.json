@@ -1,0 +1,1321 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-23T16:01:48Z",
+  "campaign": "C25",
+  "arm": "cost_taker",
+  "kind": "fold_episode_edge",
+  "prereg": "research_state/c25_prereg_20261119T045500Z.json",
+  "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "venue": "binance_um",
+  "fold": "2026YTD",
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such.",
+  "entry_rule": "SPEC_LITERAL_NEXT_OPEN",
+  "method": "Fold episode-block bootstrap + conditional temporal-edge permutation on the real portfolio engine; 98h single-linkage episode clustering.",
+  "seed": 20261201,
+  "canonical_replay": {
+    "trades": [
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1768784400000",
+        "exit_timestamp": "1768784400000",
+        "total_pnl": -43752.529976760634,
+        "pnl": -41277.207688009556,
+        "hedge_pnl": -2475.322288751075,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1768791600000",
+        "exit_timestamp": "1768791600000",
+        "total_pnl": -44263.897673347805,
+        "pnl": -41165.218901655135,
+        "hedge_pnl": -3098.6787716926706,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1768798800000",
+        "exit_timestamp": "1768798800000",
+        "total_pnl": -43552.05099910821,
+        "pnl": -41307.39248429913,
+        "hedge_pnl": -2244.658514809078,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1768806000000",
+        "exit_timestamp": "1768806000000",
+        "total_pnl": -44500.849464131294,
+        "pnl": -41209.19008897152,
+        "hedge_pnl": -3291.6593751597725,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "1768924800000",
+        "exit_timestamp": "1769101200000",
+        "total_pnl": -4471.419113458125,
+        "pnl": -5612.289793022358,
+        "hedge_pnl": 1140.8706795642324,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1769371200000",
+        "exit_timestamp": "1769371200000",
+        "total_pnl": -16097.521941104307,
+        "pnl": -15289.352003725144,
+        "hedge_pnl": -808.1699373791633,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "LINK",
+        "entry_timestamp": "1769371200000",
+        "exit_timestamp": "1769371200000",
+        "total_pnl": -57321.685097315625,
+        "pnl": -56492.488278806464,
+        "hedge_pnl": -829.1968185091605,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "AAVE",
+        "entry_timestamp": "1769371200000",
+        "exit_timestamp": "1769371200000",
+        "total_pnl": -13799.725064437023,
+        "pnl": -12857.967740425125,
+        "hedge_pnl": -941.7573240118977,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "AVAX",
+        "entry_timestamp": "1769713200000",
+        "exit_timestamp": "1769713200000",
+        "total_pnl": -176942.35158039458,
+        "pnl": -172040.8386878131,
+        "hedge_pnl": -4901.51289258147,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "1769878800000",
+        "exit_timestamp": "1769882400000",
+        "total_pnl": -4088.441925652011,
+        "pnl": -4831.923656061558,
+        "hedge_pnl": 743.4817304095471,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1769878800000",
+        "exit_timestamp": "1769878800000",
+        "total_pnl": -5604.772342262608,
+        "pnl": -5921.727765926299,
+        "hedge_pnl": 316.9554236636916,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1769878800000",
+        "exit_timestamp": "1769878800000",
+        "total_pnl": -46970.80951830355,
+        "pnl": -47360.218042808105,
+        "hedge_pnl": 389.408524504556,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1769889600000",
+        "exit_timestamp": "1770066000000",
+        "total_pnl": -340.23070215101245,
+        "pnl": -306.46617278916654,
+        "hedge_pnl": -33.764529361845916,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "ETH",
+        "entry_timestamp": "1769889600000",
+        "exit_timestamp": "1770066000000",
+        "total_pnl": -1125.93299525913,
+        "pnl": -1086.0834446685571,
+        "hedge_pnl": -39.84955059057275,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1769889600000",
+        "exit_timestamp": "1769889600000",
+        "total_pnl": -28981.859999475702,
+        "pnl": -28392.39635668509,
+        "hedge_pnl": -589.4636427906134,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1769889600000",
+        "exit_timestamp": "1769889600000",
+        "total_pnl": -11062.47988758376,
+        "pnl": -10470.297303688612,
+        "hedge_pnl": -592.1825838951479,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "AAVE",
+        "entry_timestamp": "1769889600000",
+        "exit_timestamp": "1769889600000",
+        "total_pnl": -9552.809195913298,
+        "pnl": -8903.840326674497,
+        "hedge_pnl": -648.9688692388002,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1770328800000",
+        "exit_timestamp": "1770328800000",
+        "total_pnl": -155435.7854933276,
+        "pnl": -150642.443345466,
+        "hedge_pnl": -4793.342147861622,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1770339600000",
+        "exit_timestamp": "1770339600000",
+        "total_pnl": -157813.29982697807,
+        "pnl": -150712.02746940215,
+        "hedge_pnl": -7101.272357575926,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "SOL",
+        "entry_timestamp": "1771819200000",
+        "exit_timestamp": "1771819200000",
+        "total_pnl": -67047.93266976984,
+        "pnl": -63236.29913402745,
+        "hedge_pnl": -3811.6335357423873,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1771880400000",
+        "exit_timestamp": "1772056800000",
+        "total_pnl": -30399.9361227146,
+        "pnl": -11379.79937809393,
+        "hedge_pnl": -19020.136744620668,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1775397600000",
+        "exit_timestamp": "1775397600000",
+        "total_pnl": -16042.560538360643,
+        "pnl": -13268.551209271056,
+        "hedge_pnl": -2774.009329089588,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1775404800000",
+        "exit_timestamp": "1775404800000",
+        "total_pnl": -16321.658417278792,
+        "pnl": -13730.200393319285,
+        "hedge_pnl": -2591.4580239595066,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1779069600000",
+        "exit_timestamp": "1779076800000",
+        "total_pnl": -22111.335568029033,
+        "pnl": -17755.95882507089,
+        "hedge_pnl": -4355.376742958141,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1779084000000",
+        "exit_timestamp": "1779098400000",
+        "total_pnl": -25541.116238122955,
+        "pnl": -21831.492099225976,
+        "hedge_pnl": -3709.6241388969793,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1779105600000",
+        "exit_timestamp": "1779282000000",
+        "total_pnl": -17518.541586703657,
+        "pnl": -14776.659737872833,
+        "hedge_pnl": -2741.881848830824,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1779494400000",
+        "exit_timestamp": "1779494400000",
+        "total_pnl": -145244.70182181208,
+        "pnl": -139609.00802284328,
+        "hedge_pnl": -5635.6937989687885,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1779501600000",
+        "exit_timestamp": "1779501600000",
+        "total_pnl": -145465.49259917066,
+        "pnl": -139809.4404356355,
+        "hedge_pnl": -5656.052163535144,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1779508800000",
+        "exit_timestamp": "1779508800000",
+        "total_pnl": -145284.0724701512,
+        "pnl": -139958.8046278015,
+        "hedge_pnl": -5325.267842349709,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "COMP",
+        "entry_timestamp": "1779948000000",
+        "exit_timestamp": "1779948000000",
+        "total_pnl": -154188.24372312185,
+        "pnl": -148118.42733157935,
+        "hedge_pnl": -6069.816391542503,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "liquidated",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1779969600000",
+        "exit_timestamp": "1780146000000",
+        "total_pnl": -26948.0015674741,
+        "pnl": -19213.270278307453,
+        "hedge_pnl": -7734.731289166646,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "time_exit",
+        "leg": "buy"
+      },
+      {
+        "symbol": "BCH",
+        "entry_timestamp": "1789052400000",
+        "exit_timestamp": "1789052400000",
+        "total_pnl": -32032.952614605907,
+        "pnl": -27777.315723699583,
+        "hedge_pnl": -4255.636890906322,
+        "rebound_short_pnl": 0.0,
+        "rebound_hedge_pnl": 0.0,
+        "exit_reason": "stopped",
+        "leg": "buy"
+      }
+    ],
+    "num_trades": 32
+  },
+  "episodes": [
+    {
+      "start": "2026-01-19T00:00:00Z",
+      "end": "2026-01-20T23:00:00Z",
+      "keys": [
+        [
+          "SOL",
+          432
+        ],
+        [
+          "SOL",
+          433
+        ],
+        [
+          "SOL",
+          434
+        ],
+        [
+          "SOL",
+          435
+        ],
+        [
+          "SOL",
+          436
+        ],
+        [
+          "SOL",
+          437
+        ],
+        [
+          "SOL",
+          438
+        ],
+        [
+          "SOL",
+          439
+        ],
+        [
+          "ETH",
+          471
+        ],
+        [
+          "ETH",
+          472
+        ],
+        [
+          "ETH",
+          473
+        ],
+        [
+          "ETH",
+          474
+        ],
+        [
+          "ETH",
+          475
+        ],
+        [
+          "ETH",
+          478
+        ],
+        [
+          "ETH",
+          479
+        ]
+      ],
+      "episode_id": 0,
+      "size": 15,
+      "events": 15,
+      "symbols": [
+        "ETH",
+        "SOL"
+      ],
+      "distinct_days": 2
+    },
+    {
+      "start": "2026-01-25T19:00:00Z",
+      "end": "2026-01-29T18:00:00Z",
+      "keys": [
+        [
+          "AAVE",
+          595
+        ],
+        [
+          "LINK",
+          595
+        ],
+        [
+          "SOL",
+          595
+        ],
+        [
+          "SOL",
+          596
+        ],
+        [
+          "AVAX",
+          690
+        ]
+      ],
+      "episode_id": 1,
+      "size": 5,
+      "events": 5,
+      "symbols": [
+        "AAVE",
+        "AVAX",
+        "LINK",
+        "SOL"
+      ],
+      "distinct_days": 2
+    },
+    {
+      "start": "2026-01-31T16:00:00Z",
+      "end": "2026-01-31T21:00:00Z",
+      "keys": [
+        [
+          "BCH",
+          736
+        ],
+        [
+          "COMP",
+          736
+        ],
+        [
+          "ETH",
+          736
+        ],
+        [
+          "AAVE",
+          737
+        ],
+        [
+          "AVAX",
+          737
+        ],
+        [
+          "BCH",
+          737
+        ],
+        [
+          "COMP",
+          737
+        ],
+        [
+          "ETC",
+          737
+        ],
+        [
+          "ETH",
+          737
+        ],
+        [
+          "KSM",
+          737
+        ],
+        [
+          "LINK",
+          737
+        ],
+        [
+          "LTC",
+          737
+        ],
+        [
+          "SOL",
+          737
+        ],
+        [
+          "AAVE",
+          738
+        ],
+        [
+          "AVAX",
+          738
+        ],
+        [
+          "BCH",
+          738
+        ],
+        [
+          "COMP",
+          738
+        ],
+        [
+          "ETC",
+          738
+        ],
+        [
+          "ETH",
+          738
+        ],
+        [
+          "KSM",
+          738
+        ],
+        [
+          "LINK",
+          738
+        ],
+        [
+          "LTC",
+          738
+        ],
+        [
+          "SOL",
+          738
+        ],
+        [
+          "AAVE",
+          739
+        ],
+        [
+          "BCH",
+          739
+        ],
+        [
+          "COMP",
+          739
+        ],
+        [
+          "ETH",
+          739
+        ],
+        [
+          "SOL",
+          739
+        ],
+        [
+          "BCH",
+          740
+        ],
+        [
+          "COMP",
+          740
+        ],
+        [
+          "ETH",
+          740
+        ],
+        [
+          "SOL",
+          740
+        ],
+        [
+          "BCH",
+          741
+        ]
+      ],
+      "episode_id": 2,
+      "size": 33,
+      "events": 33,
+      "symbols": [
+        "AAVE",
+        "AVAX",
+        "BCH",
+        "COMP",
+        "ETC",
+        "ETH",
+        "KSM",
+        "LINK",
+        "LTC",
+        "SOL"
+      ],
+      "distinct_days": 1
+    },
+    {
+      "start": "2026-02-05T21:00:00Z",
+      "end": "2026-02-06T00:00:00Z",
+      "keys": [
+        [
+          "COMP",
+          861
+        ],
+        [
+          "COMP",
+          864
+        ]
+      ],
+      "episode_id": 3,
+      "size": 2,
+      "events": 2,
+      "symbols": [
+        "COMP"
+      ],
+      "distinct_days": 2
+    },
+    {
+      "start": "2026-02-23T03:00:00Z",
+      "end": "2026-02-23T20:00:00Z",
+      "keys": [
+        [
+          "SOL",
+          1275
+        ],
+        [
+          "SOL",
+          1276
+        ],
+        [
+          "BCH",
+          1292
+        ]
+      ],
+      "episode_id": 4,
+      "size": 3,
+      "events": 3,
+      "symbols": [
+        "BCH",
+        "SOL"
+      ],
+      "distinct_days": 1
+    },
+    {
+      "start": "2026-04-05T13:00:00Z",
+      "end": "2026-04-05T15:00:00Z",
+      "keys": [
+        [
+          "BCH",
+          2269
+        ],
+        [
+          "BCH",
+          2270
+        ],
+        [
+          "BCH",
+          2271
+        ]
+      ],
+      "episode_id": 5,
+      "size": 3,
+      "events": 3,
+      "symbols": [
+        "BCH"
+      ],
+      "distinct_days": 1
+    },
+    {
+      "start": "2026-05-18T01:00:00Z",
+      "end": "2026-05-18T11:00:00Z",
+      "keys": [
+        [
+          "BCH",
+          3289
+        ],
+        [
+          "BCH",
+          3290
+        ],
+        [
+          "BCH",
+          3291
+        ],
+        [
+          "BCH",
+          3292
+        ],
+        [
+          "BCH",
+          3293
+        ],
+        [
+          "BCH",
+          3294
+        ],
+        [
+          "BCH",
+          3295
+        ],
+        [
+          "BCH",
+          3296
+        ],
+        [
+          "BCH",
+          3297
+        ],
+        [
+          "BCH",
+          3298
+        ],
+        [
+          "BCH",
+          3299
+        ]
+      ],
+      "episode_id": 6,
+      "size": 11,
+      "events": 11,
+      "symbols": [
+        "BCH"
+      ],
+      "distinct_days": 1
+    },
+    {
+      "start": "2026-05-22T23:00:00Z",
+      "end": "2026-05-23T04:00:00Z",
+      "keys": [
+        [
+          "COMP",
+          3407
+        ],
+        [
+          "COMP",
+          3408
+        ],
+        [
+          "COMP",
+          3409
+        ],
+        [
+          "COMP",
+          3410
+        ],
+        [
+          "COMP",
+          3411
+        ],
+        [
+          "COMP",
+          3412
+        ]
+      ],
+      "episode_id": 7,
+      "size": 6,
+      "events": 6,
+      "symbols": [
+        "COMP"
+      ],
+      "distinct_days": 2
+    },
+    {
+      "start": "2026-05-28T05:00:00Z",
+      "end": "2026-05-28T15:00:00Z",
+      "keys": [
+        [
+          "COMP",
+          3533
+        ],
+        [
+          "BCH",
+          3539
+        ],
+        [
+          "BCH",
+          3540
+        ],
+        [
+          "BCH",
+          3541
+        ],
+        [
+          "BCH",
+          3542
+        ],
+        [
+          "BCH",
+          3543
+        ]
+      ],
+      "episode_id": 8,
+      "size": 6,
+      "events": 6,
+      "symbols": [
+        "BCH",
+        "COMP"
+      ],
+      "distinct_days": 1
+    },
+    {
+      "start": "2026-09-10T14:00:00Z",
+      "end": "2026-09-10T15:00:00Z",
+      "keys": [
+        [
+          "BCH",
+          6062
+        ],
+        [
+          "BCH",
+          6063
+        ]
+      ],
+      "episode_id": 9,
+      "size": 2,
+      "events": 2,
+      "symbols": [
+        "BCH"
+      ],
+      "distinct_days": 1
+    }
+  ],
+  "episode_block_bootstrap": {
+    "resamples": 20000,
+    "seed": 20261201,
+    "episode_blocks": 10,
+    "episode_trade_counts": {
+      "0": 5,
+      "1": 4,
+      "2": 8,
+      "3": 2,
+      "4": 2,
+      "5": 2,
+      "6": 3,
+      "7": 3,
+      "8": 2,
+      "9": 1
+    },
+    "observed_total_pnl": -1709824.9987342798,
+    "observed_episode_totals": {
+      "0": -180540.75,
+      "1": -264161.28,
+      "2": -107727.34,
+      "3": -313249.09,
+      "4": -97447.87,
+      "5": -32364.22,
+      "6": -65170.99,
+      "7": -435994.27,
+      "8": -181136.25,
+      "9": -32032.95
+    },
+    "bootstrap_total_pnl": {
+      "mean": -1707643.8164649496,
+      "median": -1689998.3460924267,
+      "p05": -2388486.747766176,
+      "p95": -1090387.290147352,
+      "ci_low_pnl_2p5": -2525084.8875210653,
+      "ci_high_pnl_97p5": -991765.9818064779,
+      "prob_total_pnl_gt_0": 0.0
+    },
+    "power_curve": {
+      "grid": [
+        {
+          "n_episodes": 2,
+          "ci_low": -749243.35,
+          "ci_high": -64397.17,
+          "excludes_zero": true,
+          "mean": -340723.08
+        },
+        {
+          "n_episodes": 3,
+          "ci_low": -969693.39,
+          "ci_high": -161845.04,
+          "excludes_zero": true,
+          "mean": -512470.46
+        },
+        {
+          "n_episodes": 4,
+          "ci_low": -1217278.85,
+          "ci_high": -237626.77,
+          "excludes_zero": true,
+          "mean": -682714.55
+        },
+        {
+          "n_episodes": 5,
+          "ci_low": -1432675.32,
+          "ci_high": -375273.26,
+          "excludes_zero": true,
+          "mean": -852142.37
+        },
+        {
+          "n_episodes": 6,
+          "ci_low": -1636583.9,
+          "ci_high": -474372.26,
+          "excludes_zero": true,
+          "mean": -1024871.75
+        },
+        {
+          "n_episodes": 7,
+          "ci_low": -1883622.32,
+          "ci_high": -620258.39,
+          "excludes_zero": true,
+          "mean": -1200880.28
+        },
+        {
+          "n_episodes": 8,
+          "ci_low": -2134321.96,
+          "ci_high": -733261.73,
+          "excludes_zero": true,
+          "mean": -1373680.96
+        },
+        {
+          "n_episodes": 9,
+          "ci_low": -2322238.13,
+          "ci_high": -875393.83,
+          "excludes_zero": true,
+          "mean": -1539300.19
+        },
+        {
+          "n_episodes": 10,
+          "ci_low": -2528330.71,
+          "ci_high": -973762.28,
+          "excludes_zero": true,
+          "mean": -1703054.0
+        },
+        {
+          "n_episodes": 11,
+          "ci_low": -2744776.43,
+          "ci_high": -1106026.82,
+          "excludes_zero": true,
+          "mean": -1882264.33
+        },
+        {
+          "n_episodes": 12,
+          "ci_low": -2945184.67,
+          "ci_high": -1219607.02,
+          "excludes_zero": true,
+          "mean": -2039497.87
+        },
+        {
+          "n_episodes": 13,
+          "ci_low": -3185089.67,
+          "ci_high": -1369698.61,
+          "excludes_zero": true,
+          "mean": -2216205.21
+        },
+        {
+          "n_episodes": 14,
+          "ci_low": -3371664.93,
+          "ci_high": -1477578.6,
+          "excludes_zero": true,
+          "mean": -2392254.37
+        },
+        {
+          "n_episodes": 15,
+          "ci_low": -3534961.16,
+          "ci_high": -1671948.09,
+          "excludes_zero": true,
+          "mean": -2578309.55
+        },
+        {
+          "n_episodes": 16,
+          "ci_low": -3799790.66,
+          "ci_high": -1756657.95,
+          "excludes_zero": true,
+          "mean": -2727391.98
+        },
+        {
+          "n_episodes": 17,
+          "ci_low": -3957783.14,
+          "ci_high": -1947458.19,
+          "excludes_zero": true,
+          "mean": -2898658.25
+        },
+        {
+          "n_episodes": 18,
+          "ci_low": -4187656.03,
+          "ci_high": -2065283.5,
+          "excludes_zero": true,
+          "mean": -3077587.53
+        },
+        {
+          "n_episodes": 19,
+          "ci_low": -4328898.58,
+          "ci_high": -2214665.47,
+          "excludes_zero": true,
+          "mean": -3246163.24
+        },
+        {
+          "n_episodes": 20,
+          "ci_low": -4574048.93,
+          "ci_high": -2401652.19,
+          "excludes_zero": true,
+          "mean": -3428514.52
+        },
+        {
+          "n_episodes": 21,
+          "ci_low": -4730643.23,
+          "ci_high": -2512145.61,
+          "excludes_zero": true,
+          "mean": -3585035.55
+        },
+        {
+          "n_episodes": 22,
+          "ci_low": -4931012.68,
+          "ci_high": -2624667.72,
+          "excludes_zero": true,
+          "mean": -3758799.08
+        },
+        {
+          "n_episodes": 23,
+          "ci_low": -5123840.2,
+          "ci_high": -2801200.88,
+          "excludes_zero": true,
+          "mean": -3933196.39
+        },
+        {
+          "n_episodes": 24,
+          "ci_low": -5347039.64,
+          "ci_high": -2977868.07,
+          "excludes_zero": true,
+          "mean": -4109404.05
+        },
+        {
+          "n_episodes": 25,
+          "ci_low": -5545395.02,
+          "ci_high": -3073758.43,
+          "excludes_zero": true,
+          "mean": -4269434.48
+        },
+        {
+          "n_episodes": 26,
+          "ci_low": -5756572.78,
+          "ci_high": -3227160.37,
+          "excludes_zero": true,
+          "mean": -4454322.93
+        },
+        {
+          "n_episodes": 27,
+          "ci_low": -5975508.07,
+          "ci_high": -3351574.95,
+          "excludes_zero": true,
+          "mean": -4629881.85
+        },
+        {
+          "n_episodes": 28,
+          "ci_low": -6110301.34,
+          "ci_high": -3512611.07,
+          "excludes_zero": true,
+          "mean": -4780504.86
+        },
+        {
+          "n_episodes": 29,
+          "ci_low": -6356319.0,
+          "ci_high": -3659489.22,
+          "excludes_zero": true,
+          "mean": -4953070.05
+        },
+        {
+          "n_episodes": 30,
+          "ci_low": -6556971.82,
+          "ci_high": -3818046.7,
+          "excludes_zero": true,
+          "mean": -5147422.36
+        },
+        {
+          "n_episodes": 31,
+          "ci_low": -6698523.76,
+          "ci_high": -4002593.47,
+          "excludes_zero": true,
+          "mean": -5302551.2
+        },
+        {
+          "n_episodes": 32,
+          "ci_low": -6908612.33,
+          "ci_high": -4152012.01,
+          "excludes_zero": true,
+          "mean": -5487478.41
+        },
+        {
+          "n_episodes": 33,
+          "ci_low": -7043256.56,
+          "ci_high": -4307230.92,
+          "excludes_zero": true,
+          "mean": -5646678.25
+        },
+        {
+          "n_episodes": 34,
+          "ci_low": -7273498.54,
+          "ci_high": -4403534.37,
+          "excludes_zero": true,
+          "mean": -5801181.79
+        },
+        {
+          "n_episodes": 35,
+          "ci_low": -7516559.76,
+          "ci_high": -4575051.04,
+          "excludes_zero": true,
+          "mean": -5988226.28
+        },
+        {
+          "n_episodes": 36,
+          "ci_low": -7614959.27,
+          "ci_high": -4737645.5,
+          "excludes_zero": true,
+          "mean": -6139611.12
+        },
+        {
+          "n_episodes": 37,
+          "ci_low": -7890311.09,
+          "ci_high": -4873903.94,
+          "excludes_zero": true,
+          "mean": -6326234.06
+        },
+        {
+          "n_episodes": 38,
+          "ci_low": -8109313.55,
+          "ci_high": -5043891.29,
+          "excludes_zero": true,
+          "mean": -6497295.07
+        },
+        {
+          "n_episodes": 39,
+          "ci_low": -8235591.91,
+          "ci_high": -5219486.1,
+          "excludes_zero": true,
+          "mean": -6662153.01
+        },
+        {
+          "n_episodes": 40,
+          "ci_low": -8424024.54,
+          "ci_high": -5308867.79,
+          "excludes_zero": true,
+          "mean": -6826609.73
+        },
+        {
+          "n_episodes": 50,
+          "ci_low": -10342654.91,
+          "ci_high": -6826721.36,
+          "excludes_zero": true,
+          "mean": -8550811.66
+        },
+        {
+          "n_episodes": 60,
+          "ci_low": -12216133.02,
+          "ci_high": -8355483.82,
+          "excludes_zero": true,
+          "mean": -10262165.01
+        },
+        {
+          "n_episodes": 80,
+          "ci_low": -15974809.76,
+          "ci_high": -11516806.04,
+          "excludes_zero": true,
+          "mean": -13680091.89
+        },
+        {
+          "n_episodes": 100,
+          "ci_low": -19600377.93,
+          "ci_high": -14661241.4,
+          "excludes_zero": true,
+          "mean": -17117771.02
+        },
+        {
+          "n_episodes": 150,
+          "ci_low": -28733645.33,
+          "ci_high": -22582683.49,
+          "excludes_zero": true,
+          "mean": -25632115.58
+        },
+        {
+          "n_episodes": 200,
+          "ci_low": -37692753.97,
+          "ci_high": -30708991.57,
+          "excludes_zero": true,
+          "mean": -34191629.3
+        },
+        {
+          "n_episodes": 300,
+          "ci_low": -55708179.73,
+          "ci_high": -47023255.15,
+          "excludes_zero": true,
+          "mean": -51212411.74
+        },
+        {
+          "n_episodes": 500,
+          "ci_low": -91081031.4,
+          "ci_high": -79845343.69,
+          "excludes_zero": true,
+          "mean": -85436903.9
+        }
+      ],
+      "observed_episodes": 10,
+      "first_size_excluding_zero": 2
+    }
+  },
+  "temporal_edge_permutation": {
+    "method": "conditional permutation: crash bars redrawn from the real RSI(21)<20 census with observed per-symbol multiplicity preserved; real portfolio engine",
+    "mode": "exact_enumeration:1_draws",
+    "eligible_crash_bars": 226,
+    "observed_event_slots": 86,
+    "observed_per_symbol": {
+      "AAVE": 4,
+      "AVAX": 3,
+      "BCH": 28,
+      "COMP": 14,
+      "ETC": 2,
+      "ETH": 12,
+      "KSM": 2,
+      "LINK": 3,
+      "LTC": 2,
+      "SOL": 16
+    },
+    "distinct_possible_draws": 1,
+    "draws_evaluated": 1,
+    "seed": 20261201,
+    "jobs": 4,
+    "canonical_total_pnl": -1709824.9987342798,
+    "null_total_pnl": {
+      "mean": -1709824.9987342798,
+      "median": -1709824.9987342798,
+      "stdev": 0.0,
+      "min": -1709824.9987342798,
+      "max": -1709824.9987342798,
+      "p05": -1709824.9987342798,
+      "p95": -1709824.9987342798,
+      "ci_low_pnl_2p5": -1709824.9987342798,
+      "ci_high_pnl_97p5": -1709824.9987342798,
+      "prob_total_pnl_gt_0": 0.0
+    },
+    "canonical_percentile_le": 1.0,
+    "p_null_ge_canonical": 1.0,
+    "n_null_ge_canonical": 1,
+    "wall_seconds": 0.7977209091186523,
+    "limitation": null
+  },
+  "effective_independent_sample": {
+    "trades": 32,
+    "symbols": 10,
+    "episodes": 10,
+    "distinct_crash_days": 14
+  },
+  "perm_p": 1.0
+}
