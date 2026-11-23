@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T08:05:22Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T08:05:22Z (runner ALIVE with 4 workers; probe `next_c25_action.sh`: `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=38`, `in_flight=cost_taker_binance_um_2024`; background runner `bgp_206ea891d001R2sum0aOU9YaqW` persistent; `check_queue_readiness.sh` exits 0; no duplicate/blocked session; queue C25–C32 READY)
+**Generated (UTC):** 2026-11-23T08:05:22Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T08:21:11Z (runner ALIVE with 4 workers; probe `next_c25_action.sh`: `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=39`, `in_flight=cost_taker_binance_um_2024`; background runner `bgp_206ea891d001R2sum0aOU9YaqW` persistent; `check_queue_readiness.sh` exits 0; no duplicate/blocked session; queue C25–C32 READY)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,17 +10,17 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T07:40:39Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T08:21:11Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
-**Current ground truth (2026-11-23T07:40:39Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+**Current ground truth (2026-11-23T08:21:11Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
 - `RUNNER: ALIVE` (supervisor + 4 workers; `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, tracked as background process `bgp_206ea891d001R2sum0aOU9YaqW`, `command="bash scripts/run_c25_durable.sh"`, `lifetime=persistent`). At 05:35Z this fresh job had no `.venv` and no runner; the probe falsely said `ALIVE` because `status_c25.sh` used `pgrep -f` (fixed 05:39Z, see bottleneck 15). This session resumed C25 exactly once at ~05:39Z; `run_c25_durable.sh` bootstrapped `.venv` itself. Do not record worker PIDs; they respawn per cell. Do not relaunch, kill, or duplicate. One session only.
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop.
 - `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker` 5/16 done: `okx_2023`, `okx_2024`, `okx_2025`, `okx_2026YTD`, `binance_um_2023` cell checkpoints on disk.
-- In-flight: `cost_taker_binance_um_2024` (`draw_chunks_on_disk=38/40`). `real_cells_remaining=35` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
-- `PACING: remaining=35 draw_chunks=35 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). `eta_c25.sh`: 21/56 cells done, ETA ~51.7 h → ~2026-11-25T11:22:46Z (±30%; conservative in-flight-aware ~72.3 h → ~2026-11-26T07:57:18Z). Re-derive ETA with `bash scripts/eta_c25.sh`; do not hardcode 8 h when the probe says otherwise.
+- In-flight: `cost_taker_binance_um_2024` (`draw_chunks_on_disk=39/40` as of 2026-11-23T08:21:11Z — cell nearly complete). `real_cells_remaining=35` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
+- `PACING: remaining=35 draw_chunks=39 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). `eta_c25.sh`: 21/56 cells done, ETA ~51.7 h → ~2026-11-25T11:22:46Z (±30%; conservative in-flight-aware ~72.3 h → ~2026-11-26T07:57:18Z). Re-derive ETA with `bash scripts/eta_c25.sh`; do not hardcode 8 h when the probe says otherwise.
 - `.venv` present at repo root (Python 3.12.3) after the automatic bootstrap; `PYTHONPATH=. .venv/bin/python ...` works this session.
 - `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. Only ONE runner/session is alive and it is CPU-saturated and efficient; no blocked session, no duplicate session, no "no authorized work" condition while any gate is PENDING.
 
