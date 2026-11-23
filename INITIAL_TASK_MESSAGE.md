@@ -1,7 +1,6 @@
-# INITIAL TASK MESSAGE — POINTER ONLY (2026-11-23T09:41:28Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T09:54:05Z)
 
-**This file is not a source of truth.** The single durable handoff AND the
-binding timestamped initial task message live in `HANDOFF.md` §1.
+**This file is not a source of truth.** The single durable handoff AND the binding timestamped initial task message live in `HANDOFF.md` §1.
 
 Next session, do exactly this and nothing else:
 
@@ -12,5 +11,16 @@ Next session, do exactly this and nothing else:
 5. On any `ACCEPTANCE: PASS` → launch the mandatory same-session successor per `HANDOFF.md` §1 steps 4–5 and §7.
 
 **Live priority:** C25 round-trip cost & realized-funding fidelity campaign (heavy queue `C24 → C25 → … → C32+`, all BUILT/STAGED and gate-held behind C25 PASS). Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps); `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabelled as Hyperliquid evidence.
+
+**Current ground truth (2026-11-23T09:54:05Z):**
+- `RUNNER: ALIVE` (persistent background process `bgp_206ea891d001R2sum0aOU9YaqW`, supervisor pid 3965; `run_c25_durable.sh` self-bootstrapped `.venv` at ~05:39Z)
+- `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`
+- `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50)
+- `cost_base 16/16` done; `cost_taker 6/16` done (okx 2023-2026YTD, binance_um 2023-2024); `cost_taker_funding 0/16`; `cost_stress 0/16`
+- In-flight: `cost_taker_binance_um_2025` — 6 draw chunks on disk (progressing from 5)
+- `real_cells_remaining=34` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`)
+- `PACING: remaining=34 draw_chunks=6 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell)
+- `.venv` present (Python 3.12.3); `scripts/check_queue_readiness.sh` exits 0; `scripts/session_gate.py` 21/21 passed
+- Exactly ONE runner/session is alive and CPU-saturated; NO blocked/duplicate/inefficient sessions to remove
 
 Read `HANDOFF.md` for the full ordered task list, ground truth, monitoring protocol, persistence model, bottleneck register, guardrails, and the C26–C32 launch chain.
