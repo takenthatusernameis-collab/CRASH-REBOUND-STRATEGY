@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T04:29:51Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T04:29:51Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=18`; background runner `bgp_205a5df30001fBwtR729T6fhtj` persistent, single efficient session, 4 workers ~95–97% CPU, no duplicate/blocked session; `check_queue_readiness.sh` exits 0)
+**Generated (UTC):** 2026-11-23T04:40:12Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T04:40:12Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=18`; background runner `bgp_205a5df30001fBwtR729T6fhtj` persistent, single efficient session, 4 workers ~95–97% CPU, no duplicate/blocked session; `check_queue_readiness.sh` exits 0)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,7 +10,7 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T04:06:11Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T04:40:12Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
