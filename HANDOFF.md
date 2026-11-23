@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T03:21:43Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T03:21:43Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=11`)
+**Generated (UTC):** 2026-11-23T03:21:43Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T03:21:43Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=13`)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -19,7 +19,7 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop.
 - `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker` 5/16 done: `okx_2023`, `okx_2024`, `okx_2025`, `okx_2026YTD`, `binance_um_2023` cell checkpoints on disk.
-- In-flight: `cost_taker_binance_um_2024` (`draw_chunks_on_disk=11/40`). `real_cells_remaining=35` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
+- In-flight: `cost_taker_binance_um_2024` (`draw_chunks_on_disk=13/40`). `real_cells_remaining=35` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
 - `PACING: remaining=35 draw_chunks=9 wake_after=8h` (>6 cells left; 4 saturated cores at ~95–97% CPU, ~1.6 h/cell). `eta_c25.sh`: 21/56 cells done, ETA ~52 h → ~2026-11-25T05:47Z (±30%). Re-derive ETA with `bash scripts/eta_c25.sh`; do not hardcode 8 h when the probe says otherwise.
 - `.venv` present at repo root (Python 3.12.3); `PYTHONPATH=. .venv/bin/python ...` works this session.
 - `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. Only ONE runner/session is alive and it is CPU-saturated and efficient; no blocked session, no duplicate session, no "no authorized work" condition while any gate is PENDING.
