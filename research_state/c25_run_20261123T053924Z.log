@@ -22,3 +22,8 @@
 [run] cost_taker binance_um 2024
 [census] Binance UM: events=312 signal_pass=140 trades=55 matched=55 unexplained=67
 [episode] cost_taker binance_um 2024: trades=55 pnl=-2639924.52 perm_p=0.9544242668142261
+[placebo] cost_taker binance_um 2024: pool=140 choose=55 runs=2000 p_ge=0.9965
+[battery] Binance UM: total=-2639924.52 trades=55 legs=['buy'] episodes=8
+[done] cost_taker binance_um 2024 pnl=-2639924.52
+[run] cost_taker binance_um 2025
+[census] Binance UM: events=324 signal_pass=115 trades=55 matched=55 unexplained=53
