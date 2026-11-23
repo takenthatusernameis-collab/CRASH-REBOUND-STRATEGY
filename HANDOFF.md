@@ -10,11 +10,11 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T13:44:11Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T13:46:47Z)
 
-**NEXT-SESSION START HERE. This is the binding initial task message and it was re-derived at 2026-11-23T13:44:11Z.** Do in this exact order, nothing else:
+**NEXT-SESSION START HERE. This is the binding initial task message and it was re-derived at 2026-11-23T13:46:47Z.** Do in this exact order, nothing else:
 
-**Current ground truth (2026-11-23T13:44:11Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+**Current ground truth (2026-11-23T13:46:47Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
 - `RUNNER: NOT ALIVE` (fresh CI job: the 355-minute workflow job that began ~2026-11-23T03:43Z ended at ~13:43Z and destroyed the container, killing the prior supervisor + workers and removing the gitignored `.venv`). `ACTION: RESUME_C25`. The prior background process handle (`bgp_206ea891d001R2sum0aOU9YaqW`) is dead — do NOT try to monitor/restart it; just resume once per step 3.
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING` (unreadable this session only because `.venv` is missing; the gate is UNRESOLVED, not passed). `.venv` absent → `check_c25_anchor.sh`/`eta_c25.sh`/`session_gate.py` print "missing venv" until `run_c25_durable.sh` self-bootstraps it.
 - `PROGRESS: real_cells_remaining=34 skipped_unavailable_funding=8 draw_chunks_on_disk=18 in_flight=cost_taker_binance_um_2025`. On-disk checkpoints are the durability: 22 `research_state/c25_ckpt_*` cells (16 `cost_base` + 6 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024) plus 18 intra-cell chunks `research_state/c25_draw_ckpts/c25_partial_perm_cost_taker_binance_um_2025_20261119T045500Z_chunk0000{00..17}.json` for the in-flight cell. `--resume` + `C25_DRAW_RESUME=1` (default) picks up mid-cell bit-identically; at most the uncommitted chunk tail is lost.
