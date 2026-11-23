@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T10:47:45Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T10:47:45Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`, `ANCHOR: OK` 16/16 EXACT, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=34`, `draw_chunks_on_disk=13`, `in_flight=cost_taker_binance_um_2025` — 13 draw chunks on disk, ~1.8 h elapsed; background runner `bgp_206ea891d001R2sum0aOU9YaqW`, persistent, supervisor pid 3965 + 4 workers (all R-state, CPU-saturated); `eta_c25.sh`: 22/56 cells done (8 skipped UNAVAILABLE_FUNDING), median 1.44 h/cell, ETA ~55.0 h → ~2026-11-25T17:44:00Z (conservative 18:45:12Z; ±30%; 4-core box); `check_queue_readiness.sh` exits 0; `session_gate.py` 21/21 passed at 2026-11-23T10:47:45Z; git tree clean; exactly one session, no duplicate/blocked/inefficient session; queue C25–C32 READY)
+**Generated (UTC):** 2026-11-23T10:51:25Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T10:51:25Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`, `ANCHOR: OK` 16/16 EXACT, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=34`, `draw_chunks_on_disk=13`, `in_flight=cost_taker_binance_um_2025` — 13 draw chunks on disk, ~1.8 h elapsed; background runner `bgp_206ea891d001R2sum0aOU9YaqW`, persistent, supervisor pid 3965 + 4 workers (all R-state, CPU-saturated); `eta_c25.sh`: 22/56 cells done (8 skipped UNAVAILABLE_FUNDING), median 1.44 h/cell, ETA ~55.0 h → ~2026-11-25T17:44:00Z (conservative 18:45:12Z; ±30%; 4-core box); `check_queue_readiness.sh` exits 0; `session_gate.py` 21/21 passed at 2026-11-23T10:51:25Z; git tree clean; exactly one session, no duplicate/blocked/inefficient session; queue C25–C32 READY)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,19 +10,19 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T10:47:45Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T10:51:25Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
-**Current ground truth (2026-11-23T10:47:45Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+**Current ground truth (2026-11-23T10:51:25Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
 - `RUNNER: ALIVE` (supervisor pid 3965; `run_c25_durable.sh --jobs 4 --resume`, tracked as background process `bgp_206ea891d001R2sum0aOU9YaqW`, `command="bash scripts/run_c25_durable.sh"`, `lifetime=persistent`; 4 workers R-state). This session resumed C25 exactly once at ~05:39Z; `run_c25_durable.sh` bootstrapped `.venv` itself. Do not record worker PIDs; they respawn per cell. Do not relaunch, kill, or duplicate. One session only.
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
-- `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop. Re-verified 2026-11-23T10:47:45Z.
+- `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop. Re-verified 2026-11-23T10:51:25Z.
 - `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker` 6/16 done: `okx_2023`, `okx_2024`, `okx_2025`, `okx_2026YTD`, `binance_um_2023`, `binance_um_2024` cell checkpoints on disk.
 - In-flight: `cost_taker_binance_um_2025` — 13 draw chunks on disk (progressing; ~1.8 h elapsed). `real_cells_remaining=34` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
 - `PACING: remaining=34 draw_chunks=13 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). `eta_c25.sh`: 22/56 cells done, median 1.44 h/cell, ETA ~55.0 h → ~2026-11-25T17:44:00Z (conservative ~2026-11-25T18:45:12Z; ±30%; 4-core box). Re-derive ETA with `bash scripts/eta_c25.sh`; do not hardcode 8 h when the probe says otherwise.
 - `.venv` present at repo root (Python 3.12.3); `PYTHONPATH=. .venv/bin/python ...` works this session.
-- `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. `scripts/session_gate.py`: **21/21 checks passed** (re-verified 2026-11-23T10:47:45Z). Exactly ONE runner/session is alive and it is CPU-saturated and efficient; there are NO blocked, duplicate, or inefficient sessions to remove — the C25→C32 queue is the authorized heavy work, and the heavy-work contract below makes idling impossible. No "no authorized work" condition exists while any gate is PENDING.
+- `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. `scripts/session_gate.py`: **21/21 checks passed** (re-verified 2026-11-23T10:51:25Z). Exactly ONE runner/session is alive and it is CPU-saturated and efficient; there are NO blocked, duplicate, or inefficient sessions to remove — the C25→C32 queue is the authorized heavy work, and the heavy-work contract below makes idling impossible. No "no authorized work" condition exists while any gate is PENDING.
 
 **Fresh-job fast path (new GitHub Actions job = no `.venv`, no runner, checkpoints only in git):** step 0 → step 1 (`next_c25_action.sh` counts checkpoints in pure bash, works without `.venv`) → if `ACTION: RESUME_C25`, one command: `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` (it runs `scripts/bootstrap_env.sh` itself). Nothing else is needed.
 
@@ -55,9 +55,9 @@ bash scripts/eta_c25.sh                      # progress, per-cell cost, ETA (nee
 bash scripts/check_queue_readiness.sh        # all C25–C32 verified (exits 0)
 ```
 
-**Binding evidence/done-gate:** `scripts/probe_hyperliquid_blocker.py` records the Hyperliquid blocker; `scripts/verify_campaign_evidence.py` verifies the binding evidence; `python scripts/session_gate.py` must finish with `21/21 checks passed` (verified at 2026-11-23T10:47:45Z). Phase O artifact `research_state/episode_edge_okx_full.json` was generated at `2026-11-13T23:38:47Z`; never relabel its real-OKX, cross-venue result as Hyperliquid evidence.
+**Binding evidence/done-gate:** `scripts/probe_hyperliquid_blocker.py` records the Hyperliquid blocker; `scripts/verify_campaign_evidence.py` verifies the binding evidence; `python scripts/session_gate.py` must finish with `21/21 checks passed` (verified at 2026-11-23T10:51:25Z). Phase O artifact `research_state/episode_edge_okx_full.json` was generated at `2026-11-13T23:38:47Z`; never relabel its real-OKX, cross-venue result as Hyperliquid evidence.
 
-Canonical state at 2026-11-23T10:47:45Z:
+Canonical state at 2026-11-23T10:51:25Z:
 - **Runner:** ALIVE (supervisor pid 3965 + 4 R-state workers; worker PIDs respawn per cell, never record them), `draw_chunks_on_disk=13`, `in_flight=cost_taker_binance_um_2025` (13/40 chunks on disk, ~1.8 h, in progress). Resumed once at ~05:39Z after a fresh job started with no `.venv` and no runner.
 - **Cells:** `cost_base 16/16` (okx/binance_um/mexc/bitget 4/4 each), `cost_taker 6/16` (okx 2023 + okx 2024 + okx 2025 + okx 2026YTD + binance_um 2023 + binance_um 2024 complete; binance_um 2025 in-flight), `cost_taker_funding 0/16`, `cost_stress 0/16`. **22 real cells DONE, 34 remaining**, 8 permanent okx funding skips (`UNAVAILABLE_FUNDING`).
 - **Anchor:** OK (all 16/16 cost_base EXACT; okx EXACT 28469.71, binance_um EXACT 47613.34, mexc EXACT 38334.15, bitget EXACT 30234.50), no MISMATCH, no P0 stop.
