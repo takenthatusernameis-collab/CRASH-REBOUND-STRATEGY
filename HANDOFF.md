@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T02:02:54Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T02:02:54Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=4`)
+**Generated (UTC):** 2026-11-23T02:04:07Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T02:04:07Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=4`)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,11 +10,11 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T02:02:54Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T02:04:07Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
-**Current ground truth (2026-11-23T02:02:54Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+**Current ground truth (2026-11-23T02:04:07Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
 - `RUNNER: ALIVE` (supervisor + 4 workers R at ~95–97% CPU; `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, tracked as a persistent background process, `command="bash scripts/run_c25_durable.sh"`, `lifetime=persistent`). Do not record worker PIDs; they respawn per cell. Do not relaunch, kill, or duplicate.
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop.
