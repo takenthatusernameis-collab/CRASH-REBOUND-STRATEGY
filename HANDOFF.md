@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T00:25:11Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T00:25:11Z
+**Generated (UTC):** 2026-11-23T00:48:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T00:48:00Z
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,18 +10,18 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T00:25:11Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-23T00:48:00Z)
 
 **NEXT-SESSION START HERE.** This is the binding initial task message. Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). Live priority = the **C25 round-trip cost & realized-funding fidelity campaign**.
 
-**Current ground truth (2026-11-23T00:25:11Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
-- `RUNNER: ALIVE` (supervisor, 4 workers R at ~86–90% CPU; `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`). Do not record worker PIDs; they respawn per cell.
+**Current ground truth (2026-11-23T00:48:00Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+- `RUNNER: ALIVE` (supervisor + 4 workers R at ~95–97% CPU; `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, tracked as a persistent background process). Do not record worker PIDs; they respawn per cell. Do not relaunch, kill, or duplicate.
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop.
-- `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker` 3/16 done: `okx_2023`, `okx_2024`, `okx_2025` cell checkpoints on disk.
-- In-flight: `cost_taker_okx_2026` (2026YTD) at **35/40 draw chunks** on disk. `real_cells_remaining=37` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
-- `PACING: remaining=37 draw_chunks=35 wake_after=8h` (>6 cells left; 4 saturated cores at ~95–97% CPU, ~1.6 h/cell). Re-derive ETA with `bash scripts/eta_c25.sh` (`.venv` present); do not hardcode 8 h when the probe says otherwise.
-- `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. No blocked session, no inefficient session, no "no authorized work" condition while any gate is PENDING.
+- `cost_base 16/16` done (okx/binance_um/mexc/bitget 4/4 each). `cost_taker` 4/16 done: `okx_2023`, `okx_2024`, `okx_2025`, `okx_2026YTD` cell checkpoints on disk.
+- In-flight: `cost_taker_binance_um_2023` at **1/40 draw chunks** on disk (just started). `real_cells_remaining=36` (8 permanent okx funding skips `UNAVAILABLE_FUNDING`).
+- `PACING: remaining=36 draw_chunks=1 wake_after=8h` (>6 cells left; 4 saturated cores at ~95–97% CPU, ~1.6 h/cell). `eta_c25.sh`: 20/56 cells done, ETA ~58 h → ~2026-11-25T11:01Z (±30%). Re-derive ETA with `bash scripts/eta_c25.sh`; do not hardcode 8 h when the probe says otherwise.
+- `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. Only ONE runner/session is alive and it is CPU-saturated and efficient; no blocked session, no duplicate session, no "no authorized work" condition while any gate is PENDING.
 
 **Do exactly this, in order — do not skip, do not reorder, do not "improve" it:**
 
@@ -50,9 +50,9 @@ bash scripts/eta_c25.sh                      # progress, per-cell cost, ETA (nee
 bash scripts/check_queue_readiness.sh        # all C25–C32 verified (exits 0)
 ```
 
-Canonical state at 2026-11-23T00:25:11Z:
-- **Runner:** ALIVE (supervisor, 4 workers R at ~95–97% CPU — worker PIDs respawn per cell, never record them), `draw_chunks_on_disk=35`, `in_flight=cost_taker_okx_2026` (2026YTD).
-- **Cells:** `cost_base 16/16` (okx/binance_um/mexc/bitget 4/4 each), `cost_taker 3/16` (okx 2023 + okx 2024 + okx 2025 complete), `cost_taker_funding 0/16`, `cost_stress 0/16`. **19 real cells DONE, 37 remaining**, 8 permanent okx funding skips (`UNAVAILABLE_FUNDING`).
+Canonical state at 2026-11-23T00:48:00Z:
+- **Runner:** ALIVE (supervisor + 4 workers R at ~95–97% CPU — worker PIDs respawn per cell, never record them), `draw_chunks_on_disk=1`, `in_flight=cost_taker_binance_um_2023`.
+- **Cells:** `cost_base 16/16` (okx/binance_um/mexc/bitget 4/4 each), `cost_taker 4/16` (okx 2023 + okx 2024 + okx 2025 + okx 2026YTD complete), `cost_taker_funding 0/16`, `cost_stress 0/16`. **20 real cells DONE, 36 remaining**, 8 permanent okx funding skips (`UNAVAILABLE_FUNDING`).
 - **Anchor:** OK (all 16/16 cost_base EXACT; okx EXACT 28469.71, binance_um EXACT 47613.34, mexc EXACT 38334.15, bitget EXACT 30234.50), no MISMATCH, no P0 stop.
 - **Gates:** C25 PENDING · C26 PENDING · C27–C32 PENDING (gate-held behind C25 PASS).
 - **C24:** ACCEPTANCE: PASS, consolidated `C24_REOPENS_C1_C23`, all 80 cells done, runner exited — do not relaunch.
