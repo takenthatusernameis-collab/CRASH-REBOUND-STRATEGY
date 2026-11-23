@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T08:05:22Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T08:31:18Z (runner ALIVE with 4 workers; probe `next_c25_action.sh`: `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=40`, `in_flight=cost_taker_binance_um_2024`; background runner `bgp_206ea891d001R2sum0aOU9YaqW` persistent; `check_queue_readiness.sh` exits 0; no duplicate/blocked session; queue C25–C32 READY)
+**Generated (UTC):** 2026-11-23T08:05:22Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-23T08:39:10Z (runner ALIVE with 4 workers; probe `next_c25_action.sh`: `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`, `ANCHOR: OK`, `ACTION: NONE_RUNNER_ALIVE`, `real_cells_remaining=35`, `draw_chunks_on_disk=40`, `in_flight=cost_taker_binance_um_2024`; background runner `bgp_206ea891d001R2sum0aOU9YaqW` persistent; `check_queue_readiness.sh` exits 0; no duplicate/blocked session; queue C25–C32 READY)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
