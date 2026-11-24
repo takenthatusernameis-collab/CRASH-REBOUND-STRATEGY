@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T01:25:32Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T01:36:11Z)
 
 **This file is not a source of truth.** The single durable handoff AND the binding timestamped initial task message live in `HANDOFF.md` §1.
 
@@ -12,12 +12,12 @@ Next session, do exactly this and nothing else:
 
 **Live priority:** C25 round-trip cost & realized-funding fidelity campaign (heavy queue `C24 → C25 → … → C32+`, all BUILT/STAGED and gate-held behind C25 PASS). Repo priority `CRASH-REBOUND-STRATEGY`: crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps); `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabelled as Hyperliquid evidence.
 
-**Current ground truth (2026-11-24T01:25:32Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
-- `RUNNER: ALIVE` (background process `bgp_20b20d2690015BqodApDnQR0ql`, pid 2766, `bash scripts/run_c25_durable.sh`, persistent, supervisor + 4 workers on `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; `.venv` present Python 3.12.3). `ACTION: NONE_RUNNER_ALIVE`. Do NOT resume; do NOT relaunch. Campaign advanced to 24 checkpoint cells; 24 `research_state/c25_ckpt_*` cells committed and intact (16 `cost_base` + 8 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024/2025/2026YTD).
+**Current ground truth (2026-11-24T01:36:11Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+- `RUNNER: ALIVE` (background process `bgp_20b20d2690015BqodApDnQR0ql`, pid 2766, `bash scripts/run_c25_durable.sh`, persistent, supervisor + 4 workers on `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; `.venv` present Python 3.12.3). `ACTION: NONE_RUNNER_ALIVE`. Do NOT resume; do NOT relaunch. Campaign advanced to 24 checkpoint cells; 24 `research_state/c25_ckpt_*` cells committed and intact (16 `cost_base` + 8 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024 + mexc 2023/2024 + bitget 2023).
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
-- `PROGRESS: real_cells_remaining=32 skipped_unavailable_funding=8 draw_chunks_on_disk=25 in_flight=cost_taker_mexc_2023`. On-disk checkpoints are the durability: 24 `research_state/c25_ckpt_*` cells (16 `cost_base` + 8 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024 + mexc 2023/2024) plus 30 intra-cell chunks `research_state/c25_draw_ckpts/c25_partial_perm_cost_taker_mexc_2023_20261119T045500Z_chunk0000{00..29}.json` for the in-flight cell. `--resume` + `C25_DRAW_RESUME=1` (default) picks up mid-cell bit-identically; at most the uncommitted chunk tail is lost.
-- `PACING: remaining=32 draw_chunks=25 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive ETA with `bash scripts/eta_c25.sh` after bootstrap; do not hardcode 8 h when the probe says otherwise.
-- `ANCHOR: OK` (verified 2026-11-24T01:25:32Z) — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop. Re-verify with `bash scripts/check_c25_anchor.sh` immediately after resume bootstraps `.venv`.
+- `PROGRESS: real_cells_remaining=32 skipped_unavailable_funding=8 draw_chunks_on_disk=26 in_flight=cost_taker_mexc_2023`. On-disk checkpoints are the durability: 24 `research_state/c25_ckpt_*` cells (16 `cost_base` + 8 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024 + mexc 2023/2024 + bitget 2023) plus 30 intra-cell chunks `research_state/c25_draw_ckpts/c25_partial_perm_cost_taker_mexc_2023_20261119T045500Z_chunk0000{00..29}.json` for the in-flight cell. `--resume` + `C25_DRAW_RESUME=1` (default) picks up mid-cell bit-identically; at most the uncommitted chunk tail is lost.
+- `PACING: remaining=32 draw_chunks=26 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive ETA with `bash scripts/eta_c25.sh` after bootstrap; do not hardcode 8 h when the probe says otherwise.
+- `ANCHOR: OK` (verified 2026-11-24T01:36:11Z) — all 16/16 cost_base EXACT vs C24 d15 (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), no `MISMATCH`, no P0 stop. Re-verify with `bash scripts/check_c25_anchor.sh` immediately after resume bootstraps `.venv`.
 - `scripts/check_queue_readiness.sh` exits 0 — C26–C32 all BUILT/STAGED and gate-held behind C25 PASS. Exactly ONE runner/session is the target; the C25→C32 queue is the authorized heavy work, and the heavy-work contract below makes idling impossible. No "no authorized work" condition exists while any gate is PENDING.
 
 Read `HANDOFF.md` for the full ordered task list, ground truth, monitoring protocol, persistence model, bottleneck register, guardrails, and the C26–C32 launch chain.
