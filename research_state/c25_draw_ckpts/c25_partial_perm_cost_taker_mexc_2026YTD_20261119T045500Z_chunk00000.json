@@ -1,1 +1,0 @@
-{"meta": {"campaign": "C25", "stage": "perm", "arm": "cost_taker", "venue": "mexc", "fold": "2026YTD", "tag": "20261119T045500Z", "draws_total": 1, "chunk_size": 500, "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e", "seed": 20261201}, "results": [{"num_trades": 25, "total_pnl": -896479.7522473825}]}
