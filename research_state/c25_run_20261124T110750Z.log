@@ -25,3 +25,4 @@
 [resume] cost_taker mexc 2023
 [run] cost_taker mexc 2024
 [census] MEXC: events=314 signal_pass=124 trades=50 matched=50 unexplained=58
+[episode] cost_taker mexc 2024: trades=50 pnl=-2817699.62 perm_p=0.9686484324216211
