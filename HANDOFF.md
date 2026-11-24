@@ -1,24 +1,24 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-24T21:44:01Z · **Repo:** `CRASH-REBOUND-STRATEGY`
+**Updated (UTC):** 2026-11-24T21:45:57Z · **Repo:** `CRASH-REBOUND-STRATEGY`
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins.
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T21:44:01Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T21:45:57Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
 **Live priority:** finish the C25 round-trip cost and realized-funding fidelity campaign, then execute the already-built heavy queue in order: `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`. C24 is complete. C25 is in flight. C26–C32 are BUILT/STAGED and gate-held. Do not substitute unrelated work and do not invent C33 while C25–C32 remain pending.
 
-### Ground truth re-derived at 2026-11-24T21:44:01Z
+### Ground truth re-derived at 2026-11-24T21:45:57Z
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. Exactly one persistent C25 runner is active. Verify the live process with `background_process list` and `bash scripts/status_c25.sh`; never trust a written PID, worker PID, log path, or stale runner handle. The worker pool rotates every cell.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
 - `PROGRESS: real_cells_remaining=30 skipped_unavailable_funding=8 draw_chunks_on_disk=10 in_flight=cost_taker_mexc_2025`. There are 26 committed cell checkpoints: 16 `cost_base` and 10 `cost_taker`. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT. `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
 - `PACING: remaining=30 draw_chunks=10 wake_after=8h`. Re-derive pacing from the probe every session; do not copy an old interval.
-- `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so “no authorized work” is never a valid reason to idle.
+- `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
 
 ### Mandatory heavy-work contract — no idle escape hatch
 
@@ -27,11 +27,11 @@ A next session is complete only when it either:
 1. delivers the full `C25 ACCEPTANCE: PASS` report and durably launches the same-session successor; or
 2. performs exactly one bounded wait after a healthy-runner probe and then ends the turn.
 
-While any C25–C32 gate is pending, “waiting on the runner”, “queue not ready”, “another session owns it”, and “just a status check” are not valid reasons to stop. Do not downgrade the session to a probe-only read, do not start duplicate CPU work, and do not end before the required bounded wait.
+While any C25–C32 gate is pending, "waiting on the runner", "queue not ready", "another session owns it", and "just a status check" are not valid reasons to stop. Do not downgrade the session to a probe-only read, do not start duplicate CPU work, and do not end before the required bounded wait.
 
 ### Do exactly this, in order
 
-0. **Guarantee persistence.** Use `goal start` with the objective: drive the crash-rebound heavy queue to completion, monitor C25 with bounded waits, resume once if its runner dies, launch each mandatory successor on PASS, and never idle. Run `cancel_wakeup list`; if empty, arm a wakeup at the probe’s `PACING` interval. The persistent runner and git-committed checkpoints—not this prose—are the durability mechanism.
+0. **Guarantee persistence.** Use `goal start` with the objective: drive the crash-rebound heavy queue to completion, monitor C25 with bounded waits, resume once if its runner dies, launch each mandatory successor on PASS, and never idle. Run `cancel_wakeup list`; if empty, arm a wakeup at the probe's `PACING` interval. The persistent runner and git-committed checkpoints—not this prose—are the durability mechanism.
 
 1. **Run the single entry probe:**
    ```bash
@@ -85,7 +85,7 @@ While any C25–C32 gate is pending, “waiting on the runner”, “queue not r
 4. **Contradictory pointer instructions:** pointer files no longer carry old progress, runner handles, or a second action plan.
 5. **Session spin and quota exhaustion:** one ALIVE-runner session performs one bounded wait; a dead runner is resumed once, never repeatedly.
 6. **Fresh-job bootstrap bottleneck:** `run_c25_durable.sh` self-bootstraps `.venv`, so one durable launch is sufficient.
-7. **False liveness from `pgrep` self-matches:** status scripts require a real Python campaign process; never “fix” a probe by killing a process.
+7. **False liveness from `pgrep` self-matches:** status scripts require a real Python campaign process; never "fix" a probe by killing a process.
 8. **Queue-dryness ambiguity:** C26–C32 are built and staged, and the heavy-work contract makes the next action mandatory while any gate is pending.
 
 ## 4. VERIFICATION AND BINDING EVIDENCE
