@@ -1,6 +1,6 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
-**Generated (UTC):** 2026-11-23T11:04:24Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-24T02:22:19Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`; `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`; `ANCHOR: OK` -> cost_base reproduces C24 d15 exactly (okx 28469.71 EXACT, binance_um 47613.34 EXACT, mexc 38334.15 EXACT, bitget 30234.50 EXACT, 16/16 cells checked); `PROGRESS: real_cells_remaining=32 skipped_unavailable_funding=8 draw_chunks_on_disk=31 in_flight=cost_taker_mexc_2023`; `PACING: remaining=32 draw_chunks=31 wake_after=8h (>6 cells left; 4 saturated cores at ~1.6 h/cell)`; `ACTION: NONE_RUNNER_ALIVE`; `git status` clean, HEAD `b5b012eb`; `bash scripts/check_queue_readiness.sh` exits 0 — C25–C32 all BUILT/STAGED; **exactly ONE real runner alive** (`bgp_20b20d2690015BqodApDnQR0ql`, pid 2766, persistent); 24 `research_state/c25_ckpt_*` cells committed and intact; dead-runner bottleneck removed — progress continues; prior session-verified at 2026-11-24T02:10:10Z)
+**Generated (UTC):** 2026-11-23T11:04:24Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Session-verified (UTC):** 2026-11-24T02:23:15Z (probe `next_c25_action.sh`: `RUNNER: ALIVE`; `GATE: C25 ACCEPTANCE: PENDING`, `GATE: C26 ACCEPTANCE: PENDING`; `ANCHOR: OK` -> cost_base reproduces C24 d15 exactly (okx 28469.71 EXACT, binance_um 47613.34 EXACT, mexc 38334.15 EXACT, bitget 30234.50 EXACT, 16/16 cells checked); `PROGRESS: real_cells_remaining=32 skipped_unavailable_funding=8 draw_chunks_on_disk=31 in_flight=cost_taker_mexc_2023`; `PACING: remaining=32 draw_chunks=31 wake_after=8h (>6 cells left; 4 saturated cores at ~1.6 h/cell)`; `ACTION: NONE_RUNNER_ALIVE`; `git status` clean, HEAD `b5b012eb`; `bash scripts/check_queue_readiness.sh` exits 0 — C25–C32 all BUILT/STAGED; **exactly ONE real runner alive** (`bgp_20b20d2690015BqodApDnQR0ql`, pid 2766, persistent); 24 `research_state/c25_ckpt_*` cells committed and intact; dead-runner bottleneck removed — progress continues; prior session-verified at 2026-11-24T02:10:10Z)
 
 **This is the single durable handoff AND the binding initial task message.** `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only — if they disagree with `HANDOFF.md`, `HANDOFF.md` wins. Do not write campaign state into a second file; that recreates the state-drift failure this removes.
 
@@ -10,11 +10,11 @@ Repo priority (`CRASH-REBOUND-STRATEGY`): crash-rebound edge adjudication on rea
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T02:10:10Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T02:23:15Z)
 
-**NEXT-SESSION START HERE. This is the binding initial task message and it was re-derived at 2026-11-24T02:10:10Z.** Do in this exact order, nothing else:
+**NEXT-SESSION START HERE. This is the binding initial task message and it was re-derived at 2026-11-24T02:23:15Z.** Do in this exact order, nothing else:
 
-**Current ground truth (2026-11-24T02:10:10Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
+**Current ground truth (2026-11-24T02:23:15Z, re-derive via `scripts/next_c25_action.sh` — never copy from a prior section):**
 - `RUNNER: ALIVE` (background process `bgp_20b20d2690015BqodApDnQR0ql`, pid 2766, `bash scripts/run_c25_durable.sh`, persistent, supervisor + 4 workers on `scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; `.venv` present Python 3.12.3; resumed once at 2026-11-24T01:16:40Z after the prior runner died on a fresh CI job). `ACTION: NONE_RUNNER_ALIVE`. Do NOT resume; do NOT relaunch. Dead-runner bottleneck removed — progress continues.
 - `GATE: C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING`.
 - `PROGRESS: real_cells_remaining=32 skipped_unavailable_funding=8 draw_chunks_on_disk=28 in_flight=cost_taker_mexc_2023`. On-disk checkpoints are the durability: 24 `research_state/c25_ckpt_*` cells (16 `cost_base` + 8 `cost_taker`: okx 2023/2024/2025/2026YTD + binance_um 2023/2024 + mexc 2023/2024 + bitget 2023) plus intra-cell chunks `research_state/c25_draw_ckpts/c25_partial_perm_cost_taker_mexc_2023_20261119T045500Z_chunk0000*.json` for the in-flight cell. `--resume` + `C25_DRAW_RESUME=1` (default) picks up mid-cell bit-identically; at most the uncommitted chunk tail is lost.
