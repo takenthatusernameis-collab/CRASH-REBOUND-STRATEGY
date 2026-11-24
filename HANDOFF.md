@@ -1,21 +1,21 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-24T22:14:38Z · **Repo:** `CRASH-REBOUND-STRATEGY`
+**Updated (UTC):** 2026-11-24T22:17:49Z · **Repo:** `CRASH-REBOUND-STRATEGY`
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins.
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T22:14:00Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-24T22:17:00Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
 **Live priority:** finish the C25 round-trip cost and realized-funding fidelity campaign, then execute the already-built heavy queue in order: `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`. C24 is complete. C25 is in flight. C26–C32 are BUILT/STAGED and gate-held. Do not substitute unrelated work and do not invent C33 while C25–C32 remain pending.
 
-### Ground truth re-derived at 2026-11-24T22:14:38Z
+### Ground truth re-derived at 2026-11-24T22:17:49Z
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. Exactly one persistent C25 runner is active (4 saturated worker cores). Verify the live process with `background_process list` and `bash scripts/status_c25.sh`; never trust a written PID, worker PID, log path, or stale runner handle. The worker pool rotates every cell.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
-- `PROGRESS: real_cells_remaining=28 skipped_unavailable_funding=8 draw_chunks_on_disk=0 in_flight=none`. There are 26 committed cell checkpoints: 16 `cost_base` and 10 `cost_taker`. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
+- `PROGRESS: real_cells_remaining=28 skipped_unavailable_funding=8 draw_chunks_on_disk=1 in_flight=cost_taker_bitget_2023`. There are 26 committed cell checkpoints: 16 `cost_base` and 10 `cost_taker`. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
 - `PACING: remaining=28 draw_chunks=0 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
 - `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
