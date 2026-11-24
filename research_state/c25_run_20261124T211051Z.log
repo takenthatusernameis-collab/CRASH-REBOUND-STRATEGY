@@ -27,3 +27,9 @@
 [run] cost_taker mexc 2025
 [census] MEXC: events=311 signal_pass=94 trades=48 matched=48 unexplained=38
 [episode] cost_taker mexc 2025: trades=48 pnl=-1787069.53 perm_p=1.0
+[placebo] cost_taker mexc 2025: pool=94 choose=48 runs=2000 p_ge=0.9635
+[battery] MEXC: total=-1787069.53 trades=48 legs=['buy', 'short'] episodes=8
+[done] cost_taker mexc 2025 pnl=-1787069.53
+[run] cost_taker mexc 2026YTD
+[census] MEXC: events=219 signal_pass=69 trades=25 matched=25 unexplained=27
+[episode] cost_taker mexc 2026YTD: trades=25 pnl=-896479.75 perm_p=1.0
