@@ -1,7 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-25T14:46:45Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE
+**Updated (UTC):** 2026-11-25T14:58:18Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins.
 
@@ -94,7 +94,7 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
 10. **Idle-escape-hatch bottleneck:** the heavy-work contract removes "queue not ready", "another session owns it", and "just a status check" as valid stop reasons; C26–C32 launches are mandatory on each PASS.
 11. **Dead-runner resume bottleneck:** `run_c25_durable.sh` refuses duplicates and bootstraps `.venv`, so a dead runner is recovered by exactly one durable launch, not by repeated probe-only sessions.
 12. **Contradictory C27 readiness label (removed 2026-11-25T05:17:30Z):** `check_queue_readiness.sh` still printed `C27 (PREREG ONLY -- no implementation)` in its header while simultaneously reporting every C27 artifact `ok`. A future session could read that stale label and stall on a phantom gap. The header and the stale "why this exists" comment now state the gap is CLOSED; the C27 branch is retained only as a regression guard. No prereg or campaign code path was touched.
-13. **Current session-bottleneck audit (2026-11-25T14:46:45Z):** exactly one C25 durable runner is alive (campaign pid 2934, workers 3482–3485, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
+13. **Current session-bottleneck audit (2026-11-25T14:58:18Z):** exactly one C25 durable runner is alive (campaign pid 2934, workers 4598–4601, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
 
 ## 4. VERIFICATION AND BINDING EVIDENCE
 
