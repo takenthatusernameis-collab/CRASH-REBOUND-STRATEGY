@@ -1,19 +1,19 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-25T04:15:22Z · **Repo:** `CRASH-REBOUND-STRATEGY`
+**Updated (UTC):** 2026-11-25T04:21:10Z · **Repo:** `CRASH-REBOUND-STRATEGY`
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins.
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T04:15:22Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T04:21:10Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
 **Binding immediate action (from `bash scripts/next_c25_action.sh`):** `ACTION: RESUME_C25`. The persistent C25 runner is NOT ALIVE (died after the previous session); `.venv` is missing (fresh CI job / new worktree). Resume exactly once with `background_process start command="bash scripts/run_c25_durable.sh" persistent=true` — the launcher self-bootstraps `.venv`. Then re-probe, run the anchor check, perform one bounded wait, and end the turn. Do not relaunch twice, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the printed pacing interval (currently `wake_after=8h`).
 
-**Live priority:** finish the C25 round-trip cost and realized-funding fidelity campaign, then execute the already-built heavy queue in order: `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`. C24 is complete. C25 is in flight (resumed). C26–C32 are BUILT/STAGED and gate-held. Do not substitute unrelated work and do not invent C33 while C25–C32 remain pending.
+**Live priority:** finish the C25 round-trip cost and realized-funding fidelity campaign, then execute the already-built heavy queue in order: `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32 → C33+`. C24 is complete. C25 is in flight (resumed). C26–C32 are BUILT/STAGED and gate-held. Do not substitute unrelated work and do not invent C33 while C25–C32 remain pending.
 
-### Ground truth re-derived at 2026-11-25T04:15:22Z — live probe confirmed
+### Ground truth re-derived at 2026-11-25T04:21:10Z — live probe confirmed
 
 - `RUNNER: NOT ALIVE`; `ACTION: RESUME_C25`. No persistent C25 runner is active. Never trust a written PID, worker PID, log path, or stale runner handle. Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is missing; `run_c25_durable.sh` bootstraps it automatically.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
