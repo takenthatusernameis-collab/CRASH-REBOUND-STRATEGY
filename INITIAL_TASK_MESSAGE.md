@@ -1,27 +1,23 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T04:27:21Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T04:43:04Z)
 
 The binding initial task message is `HANDOFF.md` §1. This pointer intentionally contains no runner, gate, progress, or pacing state.
 
-**Current authoritative state (from HANDOFF.md updated 2026-11-25T04:26:22Z):**
+**Current authoritative state (from HANDOFF.md updated 2026-11-25T04:43:04Z):**
 
 - **Repository priority:** Crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). `cross_venue=true`; `is_hyperliquid_venue_data=false`.
-- **C25 status:** `RUNNER: NOT ALIVE` (runner died after the previous session; `.venv` missing on fresh CI job). `ACTION: RESUME_C25`.
+- **C25 status:** `RUNNER: ALIVE` (resumed at 2026-11-25T04:32:xxZ; `.venv` bootstrapped). `ACTION: NONE_RUNNER_ALIVE`.
 - **Gates:** `C25 ACCEPTANCE: PENDING`; `C26 ACCEPTANCE: PENDING`; C27–C32 pending behind predecessors.
-- **Progress:** `real_cells_remaining=28 skipped_unavailable_funding=8 draw_chunks_on_disk=32 in_flight=cost_taker_bitget_2023`. `cost_base` 16/16 complete; `cost_taker` 12/16; `cost_taker_funding` 0/16; `cost_stress` 0/16.
+- **Progress:** `real_cells_remaining=28 skipped_unavailable_funding=8 draw_chunks_on_disk=33 in_flight=cost_taker_bitget_2023`. `cost_base` 16/16 complete; `cost_taker` 12/16; `cost_taker_funding` 0/16; `cost_stress` 0/16.
 - **Anchor:** `OK` — `cost_base` reproduces C24 d15 exactly (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50).
-- **Pacing:** `remaining=28 draw_chunks=32 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell).
+- **Pacing:** `remaining=28 draw_chunks=33 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell).
 
-**Binding immediate action (from `bash scripts/next_c25_action.sh`):** `ACTION: RESUME_C25`.
+**Binding immediate action (from `bash scripts/next_c25_action.sh`):** `ACTION: NONE_RUNNER_ALIVE`.
 
 **Do exactly this, in order:**
 
-1. `bash scripts/next_c25_action.sh` → confirms `ACTION: RESUME_C25`
-2. Resume exactly once:
-   ```text
-   background_process start command="bash scripts/run_c25_durable.sh" persistent=true
-   ```
-   The launcher self-bootstraps `.venv`. Then re-probe: `bash scripts/status_c25.sh` and `bash scripts/check_c25_anchor.sh`.
-3. **One bounded wait** (600 000 ms tool timeout):
+1. `bash scripts/next_c25_action.sh` → confirms `ACTION: NONE_RUNNER_ALIVE`
+2. `bash scripts/check_c25_anchor.sh` → confirms `ANCHOR: OK`
+3. One bounded wait (600 000 ms tool timeout):
    ```bash
    bash -c 'sleep 540; bash scripts/next_c25_action.sh'
    ```
