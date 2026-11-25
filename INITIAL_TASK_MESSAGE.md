@@ -1,6 +1,6 @@
 # INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (Binding Durable Handoff)
 
-**Updated (UTC):** 2026-11-25T18:10:10Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE
+**Updated (UTC):** 2026-11-25T18:17:44Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE
 
 This file IS the single durable handoff and the binding timestamped initial task message for the next agentic session. `HANDOFF.md` and `AGENT_HANDOFF.md` are supporting references only. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
@@ -24,15 +24,15 @@ Do not relaunch, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the 
 
 ---
 
-## GROUND TRUTH RE-DERIVED AT 2026-11-25T18:10:10Z — LIVE PROBE CONFIRMED
+## GROUND TRUTH RE-DERIVED AT 2026-11-25T18:17:44Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (one persistent `background_process`; launcher/campaign identity re-derived each session — campaign pid 2934, workers 24737–24740, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`, `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
-- `PROGRESS: real_cells_remaining=26 skipped_unavailable_funding=8 draw_chunks_on_disk=4 in_flight=cost_taker_bitget_2025`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 14/16; `cost_taker_funding` 0/16; `cost_stress` 0/16. The missing cells are `cost_taker/bitget/*` (2 remaining: 2025, 2026YTD), `cost_taker_funding/*` (16), `cost_stress/*` (16). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
+- `PROGRESS: real_cells_remaining=26 skipped_unavailable_funding=8 draw_chunks_on_disk=6 in_flight=cost_taker_bitget_2025`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 14/16; `cost_taker_funding` 0/16; `cost_stress` 0/16. The missing cells are `cost_taker/bitget/*` (2 remaining: 2025, 2026YTD), `cost_taker_funding/*` (16), `cost_stress/*` (16). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
-- `PACING: remaining=26 draw_chunks=4 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
+- `PACING: remaining=26 draw_chunks=6 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
 - `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
-- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` at 2026-11-25T16:41:44Z; `scripts/handoff` gate is satisfied.
+- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` at 2026-11-25T18:17:44Z; `scripts/handoff` gate is satisfied.
 
 ---
 
@@ -109,7 +109,7 @@ Run the corresponding verifier, fix only the failing integrity condition, and ne
 10. **Idle-escape-hatch bottleneck:** the heavy-work contract removes "queue not ready", "another session owns it", and "just a status check" as valid stop reasons; C26–C32 launches are mandatory on each PASS.
 11. **Dead-runner resume bottleneck:** `run_c25_durable.sh` refuses duplicates and bootstraps `.venv`, so a dead runner is recovered by exactly one durable launch, not by repeated probe-only sessions.
 12. **Contradictory C27 readiness label (removed 2026-11-25T05:17:30Z):** `check_queue_readiness.sh` header and stale comment now state the gap is CLOSED; the C27 branch is retained only as a regression guard.
-13. **Current session-bottleneck audit (2026-11-25T18:10:10Z):** exactly one C25 durable runner is alive (campaign pid 2934, workers 24737–24740, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
+13. **Current session-bottleneck audit (2026-11-25T18:17:44Z):** exactly one C25 durable runner is alive (campaign pid 2934, workers 24737–24740, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
 
 ---
 
