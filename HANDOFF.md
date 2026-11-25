@@ -1,15 +1,15 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-25T07:16:29Z · **Repo:** `CRASH-REBOUND-STRATEGY`
+**Updated (UTC):** 2026-11-25T07:34:40Z · **Repo:** `CRASH-REBOUND-STRATEGY`
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins.
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T07:08:44Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T07:34:40Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
-**Binding immediate action:** `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is ALIVE (single persistent `background_process`, launcher pid 6645, campaign parent pid 6645, workers 27512–27515, 4 workers, `--jobs 4 --resume`, `.venv` bootstrapped; re-derived 2026-11-25T07:06:23Z). Perform exactly one bounded wait after the healthy-runner probe and then end the turn:
+**Binding immediate action:** `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is ALIVE (single persistent `background_process`, launcher pid 6645, campaign parent pid 6645, workers 32018–32021, 4 workers, `--jobs 4 --resume`, `.venv` bootstrapped; re-derived 2026-11-25T07:34:40Z). Perform exactly one bounded wait after the healthy-runner probe and then end the turn:
 ```bash
 bash scripts/next_c25_action.sh   # expects ACTION: NONE_RUNNER_ALIVE
 bash scripts/check_c25_anchor.sh   # expects ANCHOR: OK
@@ -19,15 +19,15 @@ Do not relaunch, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the 
 
 **Live priority:** finish the C25 round-trip cost and realized-funding fidelity campaign, then execute the already-built heavy queue in order: `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32 → C33+`. C24 is complete. C25 is in flight (resumed). C26–C32 are BUILT/STAGED and gate-held. Do not substitute unrelated work and do not invent C33 while C25–C32 remain pending.
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-25T07:08:44Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-25T07:34:40Z — LIVE PROBE CONFIRMED
 
-- `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (launcher pid 6645, campaign parent pid 6645, workers 27512–27515, 4 workers, `--jobs 4 --resume`; PIDs re-derived from `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
+- `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (launcher pid 6645, campaign parent pid 6645, workers 32018–32021, 4 workers, `--jobs 4 --resume`; PIDs re-derived from `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
-- `PROGRESS: real_cells_remaining=27 skipped_unavailable_funding=8 draw_chunks_on_disk=7 in_flight=cost_taker_bitget_2024`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 13/16; `cost_taker_funding` 0/16; `cost_stress` 0/16. The missing cells are `cost_taker/bitget/*` (3 remaining: 2024, 2025, 2026YTD), `cost_taker_funding/*` (12), `cost_stress/*` (12). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
+- `PROGRESS: real_cells_remaining=27 skipped_unavailable_funding=8 draw_chunks_on_disk=9 in_flight=cost_taker_bitget_2024`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 13/16; `cost_taker_funding` 0/16; `cost_stress` 0/16. The missing cells are `cost_taker/bitget/*` (3 remaining: 2024, 2025, 2026YTD), `cost_taker_funding/*` (12), `cost_stress/*` (12). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
-- `PACING: remaining=27 draw_chunks=7 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
+- `PACING: remaining=27 draw_chunks=9 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
 - `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
-- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` at 2026-11-25T07:08:44Z; `scripts/handoff` gate is satisfied.
+- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` at 2026-11-25T07:34:40Z; `scripts/handoff` gate is satisfied.
 
 ### Mandatory heavy-work contract — no idle escape hatch
 
@@ -79,14 +79,6 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
    - C32 PASS → only now may C33 open, with a fresh `PRE_REGISTERED_BEFORE_COMPUTE` prereg anchored on real C24–C32 evidence. Never rerun the same data or turn a frozen signal into a parameter search.
 
 6. **On any `ACCEPTANCE: FAIL`:** run the corresponding verifier, fix only the failing integrity condition, and never force a PASS or edit a live prereg/code path. `COST_ANCHOR_MISMATCH`, `PATH_ANCHOR_MISMATCH`, or `VENUE_ANCHOR_MISMATCH` is a stop-and-diagnose condition.
-
-## 2. PERSISTENCE AND MONITORING
-
-- A `persistent=true` runner survives session boundaries only inside one GitHub Actions job. A fresh job has no `.venv` and no runner; git-committed `research_state/c25_ckpt_*` and `research_state/c25_draw_ckpts/` files are the cross-job durability.
-- The first session of a fresh job should run the probe and, if it says `RESUME_C25`, use the one-line launcher above. The launcher bootstraps the environment itself.
-- Never poll or sleep repeatedly inside one turn. Use exactly one bounded wait of 540 seconds with a 600 000 ms tool timeout, then end.
-- A long cell with no new cell checkpoint is not necessarily hung. Check `draw_chunks_on_disk` and `in_flight` from `scripts/status_c25.sh`; do not kill an ALIVE runner merely because a cell is still permuting.
-- Run the full test suite only occasionally (for example, one session in four), because it competes with the four saturated campaign cores.
 
 ## 3. BOTTLENECKS REMOVED
 
