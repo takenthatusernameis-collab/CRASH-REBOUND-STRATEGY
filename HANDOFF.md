@@ -1,11 +1,11 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-25T00:41:43Z · **Repo:** `CRASH-REBOUND-STRATEGY`
+**Updated (UTC):** 2026-11-25T00:47:18Z · **Repo:** `CRASH-REBOUND-STRATEGY`
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins.
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T00:41:43Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T00:47:18Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
@@ -13,7 +13,7 @@
 
 **Live priority:** finish the C25 round-trip cost and realized-funding fidelity campaign, then execute the already-built heavy queue in order: `C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32+`. C24 is complete. C25 is in flight. C26–C32 are BUILT/STAGED and gate-held. Do not substitute unrelated work and do not invent C33 while C25–C32 remain pending.
 
-### Ground truth re-derived at 2026-11-25T00:41:43Z — live probe confirmed
+### Ground truth re-derived at 2026-11-25T00:47:18Z — live probe confirmed
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. Exactly one persistent C25 runner is active (4 saturated worker cores). Verify the live process with `bash scripts/status_c25.sh` (not `background_process list`, which is unavailable in this shell) and `bash scripts/next_c25_action.sh`; never trust a written PID, worker PID, log path, or stale runner handle. The worker pool rotates every cell. Current runner: `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
@@ -30,7 +30,9 @@ A next session is complete only when it either:
 1. delivers the full `C25 ACCEPTANCE: PASS` report and durably launches the same-session successor; or
 2. performs exactly one bounded wait after a healthy-runner probe and then ends the turn.
 
-While any C25–C32 gate is pending, "waiting on the runner", "queue not ready", "another session owns it", and "just a status check" are not valid reasons to stop. Do not downgrade the session to a probe-only read, do not start duplicate CPU work, and do not end before the required bounded wait.
+While any C25–C32 gate is pending, "waiting on the runner", "queue not ready", "another session owns it", and "just a status check" are not valid reasons to stop. Do not downgrade the session to a probe-only read, do not start duplicate CPU work, and do not end before the required bounded wake.
+
+**No session may idleskip:** the queue C26→C32 is fully built and gate-held. If C25 PASSes, C26 must be durably launched in the same session. If C26 PASSes, C27 must be launched. This chain continues through C32. C33 opens only after C32 PASS with a fresh `PRE_REGISTERED_BEFORE_COMPUTE` prereg.
 
 ### Do exactly this, in order
 
@@ -90,6 +92,8 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
 6. **Fresh-job bootstrap bottleneck:** `run_c25_durable.sh` self-bootstraps `.venv`, so one durable launch is sufficient.
 7. **False liveness from `pgrep` self-matches:** status scripts require a real Python campaign process; never "fix" a probe by killing a process.
 8. **Queue-dryness ambiguity:** C26–C32 are built and staged, and the heavy-work contract makes the next action mandatory while any gate is pending.
+9. **Successor-missing bottleneck:** `check_queue_readiness.sh` exits 0 — every C25–C32 campaign has prereg + implementation; no campaign is implementation-missing when its predecessor PASSes.
+10. **Idle-escape-hatch bottleneck:** the heavy-work contract removes "queue not ready", "another session owns it", and "just a status check" as valid stop reasons; C26–C32 launches are mandatory on each PASS.
 
 ## 4. VERIFICATION AND BINDING EVIDENCE
 
@@ -111,7 +115,7 @@ After material handoff changes, `scripts/session_gate.py` must finish with `21/2
 - No synthetic gap-fill as verified; no spec relaxation to manufacture GO; `SPEC_LITERAL_NEXT_OPEN` remains fixed.
 - No funding fabrication: OKX funding is `UNAVAILABLE_FUNDING` / `OKX_FUNDING_BLOCKED_BY_API_RETENTION`; never zero-fill or proxy it.
 - C25 funding disclosure is `funding_model=VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY`; per-trade funding belongs to C26 only.
-- Do not reduce draw counts (20k/20k/2k/2k floors), edit live prereg/code paths, or kill/duplicate a healthy runner.
+- Do not reduce draw counts (20k/20k/2k floors), edit live prereg/code paths, or kill/duplicate a healthy runner.
 - Status first: run `bash scripts/status_c25.sh` or `bash scripts/next_c25_action.sh` before any C25 action.
 - No long foreground sleep past the roughly 900-second idle timeout; one bounded wait per session, then end.
 - No same-data rerun of a closed campaign. C33 requires C32 PASS plus a fresh prereg and new evidence.
