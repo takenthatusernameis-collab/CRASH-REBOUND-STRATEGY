@@ -28,3 +28,4 @@
 [resume] cost_taker mexc 2026YTD
 [run] cost_taker bitget 2023
 [census] Bitget: events=348 signal_pass=108 trades=46 matched=46 unexplained=57
+[episode] cost_taker bitget 2023: trades=46 pnl=-3761921.59 perm_p=0.9781
