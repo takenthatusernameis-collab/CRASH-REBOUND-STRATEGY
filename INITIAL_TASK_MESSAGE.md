@@ -1,15 +1,15 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T05:17:30Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T05:28:40Z)
 
 The binding initial task message is `HANDOFF.md` §1. This pointer intentionally contains no runner, gate, progress, or pacing state.
 
-**Current authoritative state (from HANDOFF.md updated 2026-11-25T05:17:30Z):**
+**Current authoritative state (from HANDOFF.md updated 2026-11-25T05:28:40Z):**
 
 - **Repository priority:** Crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). `cross_venue=true`; `is_hyperliquid_venue_data=false`.
-- **C25 status:** `RUNNER: ALIVE` (4 workers, `--jobs 4 --resume`; `.venv` bootstrapped; re-derived 2026-11-25T05:17:16Z). `ACTION: NONE_RUNNER_ALIVE`.
+- **C25 status:** `RUNNER: ALIVE` (single persistent worker set, `--jobs 4 --resume`; `.venv` bootstrapped; re-derived 2026-11-25T05:28:40Z). `ACTION: NONE_RUNNER_ALIVE`.
 - **Gates:** `C25 ACCEPTANCE: PENDING`; `C26 ACCEPTANCE: PENDING`; C27–C32 pending behind predecessors.
-- **Progress:** `real_cells_remaining=28 skipped_unavailable_funding=8 draw_chunks_on_disk=37 in_flight=cost_taker_bitget_2023`. `cost_base` 16/16 complete; `cost_taker` 12/16; `cost_taker_funding` 0/16; `cost_stress` 0/16.
+- **Progress:** `real_cells_remaining=28 skipped_unavailable_funding=8 draw_chunks_on_disk=39 in_flight=cost_taker_bitget_2023`. `cost_base` 16/16 complete; `cost_taker` 12/16; `cost_taker_funding` 0/16; `cost_stress` 0/16.
 - **Anchor:** `OK` — `cost_base` reproduces C24 d15 exactly (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50).
-- **Pacing:** `remaining=28 draw_chunks=37 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell).
+- **Pacing:** `remaining=28 draw_chunks=39 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell).
 
 **Binding immediate action (from `bash scripts/next_c25_action.sh`):** `ACTION: NONE_RUNNER_ALIVE`.
 
