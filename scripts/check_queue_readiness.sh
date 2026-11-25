@@ -1,13 +1,13 @@
 #!/usr/bin/env bash
 # Read-only heavy-queue readiness audit for the C25 -> C32 adjudication chain.
 #
-# Why this exists (added 2026-11-21T10:22:00Z): C28/C29/C30/C31/C32 are all
-# gated behind C27, but C27 was only ever staged as a prereg + acquisition
-# probe -- scripts/{run_c27_campaign.py,run_c27_durable.sh,status_c27.sh,
-# verify_c27_focus_campaign.py} do not exist. A session that reaches C26 PASS
-# would be told to "durably launch C27" and would stall with no runner. This
-# audit makes that gap machine-visible BEFORE the gate is reached, so the
-# successor is built instead of the queue silently drying out.
+# History (added 2026-11-21T10:22:00Z): C28/C29/C30/C31/C32 are all gated behind
+# C27, and C27 was originally staged only as a prereg + acquisition probe. That
+# gap is now CLOSED -- scripts/{run_c27_campaign.py,run_c27_durable.sh,
+# status_c27.sh,verify_c27_focus_campaign.py} and tests/test_c27_campaign.py all
+# exist and this audit reports them ok. The C27 branch below is kept so a future
+# regression (a deleted successor artifact) is caught BEFORE the gate is reached,
+# rather than letting a session stall on "durably launch C27" with no runner.
 #
 # It never launches, never kills, never writes, never needs a venv.
 # Usage: bash scripts/check_queue_readiness.sh
@@ -54,7 +54,7 @@ echo "C26 (BUILT, gate-held behind C25 PASS)"
 impl 26 run_c26_path_fidelity_campaign.py 20261119T121500Z || status=1
 echo
 
-echo "C27 (PREREG ONLY -- no implementation; C28-C32 are all gated behind it)"
+echo "C27 (BUILT, gate-held behind C26 PASS; C28-C32 are all gated behind it)"
 if impl 27 run_c27_campaign.py 20261119T215721Z; then
   echo "  -> C27 is ready to launch on C26 PASS (venue still fixed by scripts/probe_c27_venue_acquisition.py)"
 else
