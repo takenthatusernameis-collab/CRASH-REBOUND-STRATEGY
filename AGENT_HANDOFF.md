@@ -1,4 +1,4 @@
-# Agent Handoff — POINTER ONLY (2026-11-24T21:44:01Z)
+# Agent Handoff — POINTER ONLY (2026-11-25T05:16:29Z)
 
 This file is not a source of truth and intentionally contains no campaign state.
 
