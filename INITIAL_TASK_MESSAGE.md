@@ -2,7 +2,7 @@
 
 The binding initial task message is `HANDOFF.md` §1. This pointer intentionally contains no runner, gate, progress, or pacing state.
 
-**Current authoritative state (from HANDOFF.md updated 2026-11-25T04:21:10Z):**
+**Current authoritative state (from HANDOFF.md updated 2026-11-25T04:26:22Z):**
 
 - **Repository priority:** Crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). `cross_venue=true`; `is_hyperliquid_venue_data=false`.
 - **C25 status:** `RUNNER: NOT ALIVE` (runner died after the previous session; `.venv` missing on fresh CI job). `ACTION: RESUME_C25`.
