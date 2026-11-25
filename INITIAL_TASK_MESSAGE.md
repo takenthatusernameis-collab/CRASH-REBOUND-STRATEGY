@@ -1,8 +1,8 @@
-# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T04:48:21Z)
+# INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T04:49:47Z)
 
 The binding initial task message is `HANDOFF.md` §1. This pointer intentionally contains no runner, gate, progress, or pacing state.
 
-**Current authoritative state (from HANDOFF.md updated 2026-11-25T04:48:21Z):**
+**Current authoritative state (from HANDOFF.md updated 2026-11-25T04:49:47Z):**
 
 - **Repository priority:** Crash-rebound edge adjudication on real-market cross-venue data (OKX, Binance UM, MEXC, Bitget USDT-perps). `cross_venue=true`; `is_hyperliquid_venue_data=false`.
 - **C25 status:** `RUNNER: ALIVE` (resumed at 2026-11-25T04:32:xxZ; `.venv` bootstrapped). `ACTION: NONE_RUNNER_ALIVE`.
