@@ -1,13 +1,13 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-25T19:17:04Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE
+**Updated (UTC):** 2026-11-25T19:18:54Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T19:17:04Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-25T19:18:54Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
@@ -23,7 +23,7 @@ Do not relaunch, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the 
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-25T19:17:04Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-25T19:18:54Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (one persistent `background_process`; launcher/campaign identity re-derived each session — campaign pid 2934, workers 41388–41391, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`, `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
