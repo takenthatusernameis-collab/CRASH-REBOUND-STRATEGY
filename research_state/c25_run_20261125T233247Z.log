@@ -31,3 +31,7 @@
 [run] cost_taker bitget 2025
 [census] Bitget: events=323 signal_pass=105 trades=50 matched=50 unexplained=47
 [episode] cost_taker bitget 2025: trades=50 pnl=-1852840.79 perm_p=1.0
+[placebo] cost_taker bitget 2025: pool=105 choose=50 runs=2000 p_ge=0.9945
+[battery] Bitget: total=-1852840.79 trades=50 legs=['buy', 'short'] episodes=8
+[done] cost_taker bitget 2025 pnl=-1852840.79
+[run] cost_taker bitget 2026YTD
