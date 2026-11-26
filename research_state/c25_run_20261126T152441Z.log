@@ -38,3 +38,4 @@
 [resume] cost_taker_funding binance_um 2024
 [run] cost_taker_funding binance_um 2025
 [census] Binance UM: events=324 signal_pass=115 trades=55 matched=55 unexplained=53
+[episode] cost_taker_funding binance_um 2025: trades=55 pnl=-1879743.89 perm_p=1.0
