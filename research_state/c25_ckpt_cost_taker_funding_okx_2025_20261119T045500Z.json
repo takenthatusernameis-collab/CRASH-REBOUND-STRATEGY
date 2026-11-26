@@ -1,0 +1,11 @@
+{
+  "campaign": "C25",
+  "arm": "cost_taker_funding",
+  "mode": "inference",
+  "venue": "okx",
+  "fold": "2025",
+  "unavailable_funding": true,
+  "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e",
+  "funding_rate_pct_per_hour": null,
+  "note": "venue has no realized funding cache; excluded from funding arm"
+}

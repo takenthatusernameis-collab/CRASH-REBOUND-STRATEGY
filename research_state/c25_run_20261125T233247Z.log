@@ -37,3 +37,17 @@
 [run] cost_taker bitget 2026YTD
 [census] Bitget: events=218 signal_pass=70 trades=23 matched=23 unexplained=31
 [episode] cost_taker bitget 2026YTD: trades=23 pnl=-858833.00 perm_p=1.0
+[placebo] cost_taker bitget 2026YTD: pool=70 choose=23 runs=2000 p_ge=0.987
+[battery] Bitget: total=-858833.00 trades=23 legs=['buy'] episodes=8
+[done] cost_taker bitget 2026YTD pnl=-858833.0
+[run] cost_taker_funding okx 2023
+[done] cost_taker_funding okx 2023 UNAVAILABLE_FUNDING
+[run] cost_taker_funding okx 2024
+[done] cost_taker_funding okx 2024 UNAVAILABLE_FUNDING
+[run] cost_taker_funding okx 2025
+[done] cost_taker_funding okx 2025 UNAVAILABLE_FUNDING
+[run] cost_taker_funding okx 2026YTD
+[done] cost_taker_funding okx 2026YTD UNAVAILABLE_FUNDING
+[run] cost_taker_funding binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=61 matched=61 unexplained=77
+[episode] cost_taker_funding binance_um 2023: trades=61 pnl=-3857078.41 perm_p=1.0
