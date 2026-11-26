@@ -1,7 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T00:35:29Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE, bottlenecks removed, no idle escape hatch
+**Updated (UTC):** 2026-11-26T00:38:37Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE, bottlenecks removed, no idle escape hatch
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
@@ -23,7 +23,7 @@ Do not relaunch, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the 
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T00:35:29Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T00:38:37Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (one persistent `background_process`; launcher/campaign identity re-derived each session — campaign pid 3420, workers 3811–3814, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`, `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
@@ -98,7 +98,7 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
 10. **Idle-escape-hatch bottleneck:** the heavy-work contract removes "queue not ready", "another session owns it", and "just a status check" as valid stop reasons; C26–C32 launches are mandatory on each PASS.
 11. **Dead-runner resume bottleneck:** `run_c25_durable.sh` refuses duplicates and bootstraps `.venv`, so a dead runner is recovered by exactly one durable launch, not by repeated probe-only sessions.
 12. **Contradictory C27 readiness label (removed 2026-11-25T05:17:30Z):** `check_queue_readiness.sh` still printed `C27 (PREREG ONLY -- no implementation)` in its header while simultaneously reporting every C27 artifact `ok`. A future session could read that stale label and stall on a phantom gap. The header and the stale "why this exists" comment now state the gap is CLOSED; the C27 branch is retained only as a regression guard. No prereg or campaign code path was touched.
-13. **Current session-bottleneck audit (2026-11-26T00:35:29Z):** exactly one C25 durable runner is alive (campaign pid 3420, workers 9834–9837, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
+13. **Current session-bottleneck audit (2026-11-26T00:38:37Z):** exactly one C25 durable runner is alive (campaign pid 3420, workers 9834–9837, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
 
 ## 4. VERIFICATION AND BINDING EVIDENCE
 
