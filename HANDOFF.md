@@ -1,13 +1,13 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T05:29:44Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh`, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PIDs 3585–3588, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed (stale "RUNNER ALIVE" claim corrected; single runner; no blocked session), no idle escape hatch. Bounded wait completed this session at 2026-11-26T05:29:44Z; draw_chunks advanced 11→12; runner remains healthy; re-arm wake at 8h.
+**Updated (UTC):** 2026-11-26T05:30:25Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 4663–4666, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed (stale "RUNNER ALIVE" claim corrected; single runner; no blocked session), no idle escape hatch. This session entered with the runner already ALIVE (no resume needed); draw_chunks_on_disk=12; runner healthy; perform the single bounded wait and re-arm wake at 8h.
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T05:29:44Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T05:30:25Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
@@ -29,9 +29,9 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:29:44Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:30:25Z — LIVE PROBE CONFIRMED
 
-- `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` (`bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers) with a bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose. Verify with both probes. `.venv` is present and bootstrapped.
+- `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` (`bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 4663–4666) with a bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose. Verify with both probes. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
 - `PROGRESS: real_cells_remaining=23 skipped_unavailable_funding=8 draw_chunks_on_disk=12 in_flight=cost_taker_funding_binance_um_2024`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 16/16; `cost_taker_funding` 5/16 scored + 4/4 OKX unavailable; `cost_stress` 0/16 scored + 4/4 OKX unavailable. The missing cells are `cost_taker_funding/*` (11 remaining) and `cost_stress/*` (16). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total across funding/stress), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
@@ -46,7 +46,7 @@ A next session is complete only when it either:
 1. delivers the full `C25 ACCEPTANCE: PASS` report and durably launches the same-session successor; or
 2. performs exactly one bounded wait after a healthy-runner probe and then ends the turn.
 
-**This session (2026-11-26T05:15:02Z):** the runner was dead on entry (fresh CI job, `.venv` missing, `ACTION: RESUME_C25`); the single authorized resume was executed once, the runner is now ALIVE, so the only remaining authorized action is the single bounded wait in Section 1. No CPU-heavy work, no duplicate runner, no C26 launch until C25 PASS.
+**This session (2026-11-26T05:30:25Z):** the runner was ALIVE on entry (`ACTION: NONE_RUNNER_ALIVE`, no resume required); the single authorized action is the one bounded wait in Section 1. No CPU-heavy work, no duplicate runner, no C26 launch until C25 PASS.
 
 While any C25–C32 gate is pending, "waiting on the runner", "queue not ready", "another session owns it", and "just a status check" are not valid reasons to stop. Do not downgrade the session to a probe-only read, do not start duplicate CPU work, and do not end before the required bounded wake.
 

@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (2026-11-26T05:15:02Z)
+# INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (2026-11-26T05:30:25Z)
 
 **Single durable handoff:** `HANDOFF.md` is the binding timestamped initial task message for the next agentic session and the source of all campaign state (runner, gate, progress, pacing). This file is a pointer only; if anything disagrees with `HANDOFF.md`, that file wins.
 
@@ -92,5 +92,5 @@ After any material handoff change, `session_gate.py` must finish with `21/21 che
 
 ---
 
-**Updated:** 2026-11-26T05:15:02Z
+**Updated:** 2026-11-26T05:30:25Z
 **Source of truth:** `HANDOFF.md` (this file is a pointer only)
