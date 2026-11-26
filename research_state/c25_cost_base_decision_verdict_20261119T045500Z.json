@@ -2,7 +2,7 @@
   "schema_version": 1,
   "campaign": "C25",
   "arm": "cost_base",
-  "generated_at_utc": "2026-11-25T23:32:59Z",
+  "generated_at_utc": "2026-11-26T05:14:55Z",
   "prereg": "research_state/c25_prereg_20261119T045500Z.json",
   "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e",
   "real_market_data": true,

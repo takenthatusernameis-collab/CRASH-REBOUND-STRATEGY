@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (2026-11-26T05:03:53Z)
+# INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (2026-11-26T05:15:02Z)
 
 **Single durable handoff:** `HANDOFF.md` is the binding timestamped initial task message for the next agentic session and the source of all campaign state (runner, gate, progress, pacing). This file is a pointer only; if anything disagrees with `HANDOFF.md`, that file wins.
 
@@ -9,7 +9,7 @@
 ## BINDING IMMEDIATE ACTION FOR NEXT SESSION
 
 **Runner state:** `RUNNER: ALIVE` · `ACTION: NONE_RUNNER_ALIVE`
-C25 runner is active as one persistent `background_process` running `bash scripts/run_c25_durable.sh --jobs 4 --resume` with bootstrapped `.venv`.
+C25 runner resumed this session (2026-11-26T05:14:43Z) as one persistent `background_process` running `bash scripts/run_c25_durable.sh --jobs 4 --resume` with bootstrapped `.venv`. If a fresh job finds it dead, the probe prints `ACTION: RESUME_C25` — resume once with the durable launcher.
 
 **Gate state:** `C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING` · C27–C32 pending behind predecessors
 **Progress:** 23 real cells remaining, 8 skipped (unavailable funding), 11 draw chunks on disk, in-flight: `cost_taker_funding_binance_um_2024`
@@ -26,7 +26,7 @@ goal start "Drive crash-rebound heavy queue C25→C32 to completion; monitor C25
 
 # 1. Single entry probe (read-only, works without .venv)
 bash scripts/next_c25_action.sh
-# Expects: ACTION: NONE_RUNNER_ALIVE
+# Expects: ACTION: NONE_RUNNER_ALIVE (or RESUME_C25 on a fresh job)
 
 # 2. If ACTION: NONE_RUNNER_ALIVE (current state)
 bash scripts/check_c25_anchor.sh          # expects ANCHOR: OK
@@ -92,5 +92,5 @@ After any material handoff change, `session_gate.py` must finish with `21/21 che
 
 ---
 
-**Updated:** 2026-11-26T05:03:53Z
+**Updated:** 2026-11-26T05:15:02Z
 **Source of truth:** `HANDOFF.md` (this file is a pointer only)
