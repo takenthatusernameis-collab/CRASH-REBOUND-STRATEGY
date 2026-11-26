@@ -1,13 +1,13 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T05:41:00Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 6916–6919, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed (single healthy runner; no blocked/duplicate session; draw_chunks advanced 12→13 = live progress), no idle escape hatch. This session entered with the runner already ALIVE (no resume needed); draw_chunks_on_disk=13; runner healthy and advancing; perform the single bounded wait and re-arm wake at 8h.
+**Updated (UTC):** 2026-11-26T05:42:27Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 6916–6919, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; draw_chunks_on_disk=13, runner advancing), no idle escape hatch. This session re-verified the runner already ALIVE (no resume needed); perform the single bounded wait and re-arm wake at 8h.
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T05:41:00Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T05:42:27Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
@@ -29,7 +29,7 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:41:00Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:42:27Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` (`bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 6916–6919) with a bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose. Verify with both probes. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
@@ -46,7 +46,7 @@ A next session is complete only when it either:
 1. delivers the full `C25 ACCEPTANCE: PASS` report and durably launches the same-session successor; or
 2. performs exactly one bounded wait after a healthy-runner probe and then ends the turn.
 
-**This session (2026-11-26T05:41:00Z):** the runner was ALIVE on entry (`ACTION: NONE_RUNNER_ALIVE`, no resume required) and advancing (draw_chunks 12→13); the single authorized action is the one bounded wait in Section 1. No CPU-heavy work, no duplicate runner, no C26 launch until C25 PASS.
+**This session (2026-11-26T05:42:27Z):** the runner was ALIVE on entry (`ACTION: NONE_RUNNER_ALIVE`, no resume required) and advancing (draw_chunks_on_disk=13, workers 6916–6919 saturated); the single authorized action is the one bounded wait in Section 1. No CPU-heavy work, no duplicate runner, no C26 launch until C25 PASS.
 
 While any C25–C32 gate is pending, "waiting on the runner", "queue not ready", "another session owns it", and "just a status check" are not valid reasons to stop. Do not downgrade the session to a probe-only read, do not start duplicate CPU work, and do not end before the required bounded wake.
 
@@ -110,7 +110,7 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
 12. **Dead-runner resume bottleneck:** `run_c25_durable.sh` refuses duplicates and bootstraps `.venv`, so a dead runner is recovered by exactly one durable launch, not by repeated probe-only sessions.
 13. **Contradictory C27 readiness label (removed 2026-11-25T05:17:30Z):** `check_queue_readiness.sh` still printed `C27 (PREREG ONLY -- no implementation)` in its header while simultaneously reporting every C27 artifact `ok`. A future session could read that stale label and stall on a phantom gap. The header and the stale "why this exists" comment now state the gap is CLOSED; the C27 branch is retained only as a regression guard. No prereg or campaign code path was touched.
 14. **Unavailable-funding checkpoint metadata bottleneck (removed 2026-11-26T02:36:40Z):** the first C25 funding cells wrote valid `UNAVAILABLE_FUNDING` checkpoints without `prereg_sha256`, so the verifier reported false prereg drift and blocked the queue. The four OKX `cost_taker_funding` checkpoints now carry the actual C25 prereg SHA-256 `b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e`; no prereg, runner code, unavailability flag, or evidence was changed. The verifier is back to `C25 ACCEPTANCE: PENDING` with the runner ALIVE. Step 6 generalizes the metadata-only repair for any successor with the same missing-field signature.
-15. **No blocked or inefficient sessions (verified 2026-11-26T05:41:00Z):** `background_process list` shows exactly one persistent runner (`bgp_21647048f001N8p0SKkj9juxoP`) and no duplicate/stale sessions; the single campaign is advancing (draw_chunks 12→13, workers 6916–6919 saturated). No bottleneck removal was required this session; significant progress is already continuing. Do not spawn a second runner or a parallel campaign — that would create the duplicate-session bottleneck this entry guards against.
+15. **No blocked or inefficient sessions (re-verified 2026-11-26T05:42:27Z):** `background_process list` shows exactly one persistent runner (`bgp_21647048f001N8p0SKkj9juxoP`) and no duplicate/stale sessions; the single campaign is advancing (draw_chunks_on_disk=13, workers 6916–6919 saturated). No bottleneck removal was required this session; significant progress is already continuing. Do not spawn a second runner or a parallel campaign — that would create the duplicate-session bottleneck this entry guards against.
 
 ---
 
