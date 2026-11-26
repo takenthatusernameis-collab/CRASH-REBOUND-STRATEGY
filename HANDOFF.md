@@ -1,7 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T17:45:49Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_218757543001gOUTT2JJIj8mO5`, launcher PID 2783, campaign PID 3029 + workers 20015–20018, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; one worktree; draw_chunks_on_disk=19 and climbing, runner advancing in-flight `cost_taker_funding_binance_um_2025`), no idle escape hatch. Next session: single bounded wait 540s then end turn; re-arm wake at 8h.
+**Updated (UTC):** 2026-11-26T17:47:25Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_218757543001gOUTT2JJIj8mO5`, launcher PID 2783, campaign PID 3029 + workers 20015–20018, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; one worktree; draw_chunks_on_disk=19 and climbing, runner advancing in-flight `cost_taker_funding_binance_um_2025`), no idle escape hatch. Next session: single bounded wait 540s then end turn; re-arm wake at 8h.
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
@@ -28,7 +28,7 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T17:45:49Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T17:47:25Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` (`bgp_218757543001gOUTT2JJIj8mO5`, launcher PID 2783, campaign PID 3029 + workers 20015–20018, launcher `bash scripts/run_c25_durable.sh`, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`) with a bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose (worker PIDs rotate as draw chunks complete; this session observed 20015–20018, up from 16994–16997 last session, with `draw_chunks_on_disk` climbing 15 → 17). Verify with both probes. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
