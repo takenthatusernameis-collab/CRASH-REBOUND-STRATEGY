@@ -1,17 +1,17 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T01:27:38Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed, no idle escape hatch
+**Updated (UTC):** 2026-11-26T01:28:43Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed, no idle escape hatch
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T01:24:09Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T01:28:43Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
-**Binding immediate action:** `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is ALIVE (one persistent `background_process`; launcher/campaign identity re-derived each session from `bash scripts/status_c25.sh` — current `background_process` id `bgp_2150df68a001MfGchuz7Ihzfdg`, pid 3158, command `bash scripts/run_c25_durable.sh`, in-campaign workers re-derived via `bash scripts/status_c25.sh`, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh` + `bash scripts/next_c25_action.sh`, not prose). Perform exactly one bounded wait after the healthy-runner probe and then end the turn:
+**Binding immediate action:** `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is ALIVE (one persistent `background_process`; launcher/campaign identity re-derived each session from `bash scripts/status_c25.sh` — current `background_process` id `bgp_2150df68a001MfGchuz7Ihzfdg`, persistent, command `bash scripts/run_c25_durable.sh`; in-campaign worker PIDs re-derived via `bash scripts/status_c25.sh`, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh` + `bash scripts/next_c25_action.sh`, not prose). Perform exactly one bounded wait after the healthy-runner probe and then end the turn:
 ```bash
 bash scripts/next_c25_action.sh   # expects ACTION: NONE_RUNNER_ALIVE
 bash scripts/check_c25_anchor.sh   # expects ANCHOR: OK
@@ -23,15 +23,15 @@ Do not relaunch, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the 
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T01:26:33Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T01:28:43Z — LIVE PROBE CONFIRMED
 
-- `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (one persistent `background_process`; launcher/campaign identity re-derived each session — campaign pid 3420, workers 17603–17606, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`, `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
+- `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active (one persistent `background_process`; launcher/campaign identity re-derived each session — campaign pid 3420, workers 20793–20796, `--jobs 4 --resume`, `.venv` bootstrapped; identity re-derived each session via `bash scripts/status_c25.sh`, `bash scripts/next_c25_action.sh`, not prose). Verify with `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
 - `PROGRESS: real_cells_remaining=26 skipped_unavailable_funding=8 draw_chunks_on_disk=37 in_flight=cost_taker_bitget_2025`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 14/16; `cost_taker_funding` 0/16; `cost_stress` 0/16. The missing cells are `cost_taker/bitget/*` (2 remaining: 2025, 2026YTD), `cost_taker_funding/*` (16), `cost_stress/*` (16). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
 - `PACING: remaining=26 draw_chunks=37 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
 - `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
-- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` at 2026-11-26T00:40:30Z; `scripts/handoff` gate is satisfied.
+- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` at 2026-11-26T01:28:43Z; `scripts/handoff` gate is satisfied.
 
 ### Mandatory heavy-work contract — no idle escape hatch
 
@@ -84,6 +84,8 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
 
 6. **On any `ACCEPTANCE: FAIL`:** run the corresponding verifier, fix only the failing integrity condition, and never force a PASS or edit a live prereg/code path. `COST_ANCHOR_MISMATCH`, `PATH_ANCHOR_MISMATCH`, or `VENUE_ANCHOR_MISMATCH` is a stop-and-diagnose condition.
 
+---
+
 ## 3. BOTTLENECKS REMOVED
 
 1. **Duplicate state drift:** campaign state now exists only in this file; `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are minimal pointers demoted at 2026-11-25T18:42:44Z, eliminating the contradictory dual-source-of-truth.
@@ -98,7 +100,9 @@ While any C25–C32 gate is pending, "waiting on the runner", "queue not ready",
 10. **Idle-escape-hatch bottleneck:** the heavy-work contract removes "queue not ready", "another session owns it", and "just a status check" as valid stop reasons; C26–C32 launches are mandatory on each PASS.
 11. **Dead-runner resume bottleneck:** `run_c25_durable.sh` refuses duplicates and bootstraps `.venv`, so a dead runner is recovered by exactly one durable launch, not by repeated probe-only sessions.
 12. **Contradictory C27 readiness label (removed 2026-11-25T05:17:30Z):** `check_queue_readiness.sh` still printed `C27 (PREREG ONLY -- no implementation)` in its header while simultaneously reporting every C27 artifact `ok`. A future session could read that stale label and stall on a phantom gap. The header and the stale "why this exists" comment now state the gap is CLOSED; the C27 branch is retained only as a regression guard. No prereg or campaign code path was touched.
-13. **Current session-bottleneck audit (2026-11-26T01:26:33Z):** exactly one C25 durable runner is alive (`background_process` id `bgp_2150df68a001MfGchuz7Ihzfdg`, pid 3158, command `bash scripts/run_c25_durable.sh`, persistent; in-campaign worker PIDs re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
+13. **Current session-bottleneck audit (2026-11-26T01:28:43Z):** exactly one C25 durable runner is alive (`background_process` id `bgp_2150df68a001MfGchuz7Ihzfdg`, persistent, command `bash scripts/run_c25_durable.sh`; in-campaign worker PIDs re-derived each session via `bash scripts/status_c25.sh`); no duplicate C25–C32 process exists; `check_queue_readiness.sh` exits 0 (every C25–C32 campaign has prereg + full implementation); `session_gate.py` is `21/21 checks passed — DONE`. No blocked or inefficient session remains to repair; there is no second session to unblock. Do not start a second session or duplicate CPU work; the only valid next action is the bounded wait in section 1.
+
+---
 
 ## 4. VERIFICATION AND BINDING EVIDENCE
 
@@ -114,6 +118,8 @@ PYTHONPATH=. .venv/bin/python scripts/session_gate.py
 
 After material handoff changes, `scripts/session_gate.py` must finish with `21/21 checks passed — DONE`. The binding evidence chain also includes `scripts/probe_hyperliquid_blocker.py` and `scripts/verify_campaign_evidence.py`. Phase O artifact `research_state/episode_edge_okx_full.json` was generated at `2026-11-13T23:38:47Z`; it is real-OKX cross-venue evidence, not Hyperliquid evidence.
 
+---
+
 ## 5. GUARDRAILS
 
 - No cross-venue relabelling as Hyperliquid-native (`is_hyperliquid_venue_data=false` for C20–C32).
@@ -126,6 +132,8 @@ After material handoff changes, `scripts/session_gate.py` must finish with `21/2
 - No same-data rerun of a closed campaign. C33 requires C32 PASS plus a fresh prereg and new evidence.
 - Do not commit unless explicitly asked; the controller checkpoints the worktree.
 - Preserve literal gate tokens, including `C25 ACCEPTANCE: PENDING|PASS|FAIL`, `C26 ACCEPTANCE: PENDING|PASS|FAIL`, `C27 ACCEPTANCE: PENDING|PASS|FAIL`, `C28 ACCEPTANCE: PENDING|PASS|FAIL`, `C29 ACCEPTANCE: PENDING|PASS|FAIL`, `C30 ACCEPTANCE: PENDING|PASS|FAIL`, `C31 ACCEPTANCE: PENDING|PASS|FAIL`, `C32 ACCEPTANCE: PENDING|PASS|FAIL`, `C24_REOPENS_C1_C23`, `C25_REOPENS_C1_C24`, `C25_NO_GO_ROBUST_TO_COST`, `C26_REOPENS_C1_C25`, `C26_NO_GO_ROBUST_TO_PATH`, `C28_REOPENS_C1_C27`, `C28_NO_GO_ROBUST_TO_AXIS`, `C29_REOPENS_C1_C28`, `C29_NO_GO_ROBUST_TO_HOLDOUT`, `C30_REOPENS_C1_C29`, `C30_NO_GO_ROBUST_TO_EXECUTION`, `C31_REOPENS_C1_C30`, `C31_NO_GO_ROBUST_TO_HOLDOUT`, `C32_REOPENS_C1_C31`, `C32_NO_GO_ROBUST_TO_VENUE`, `COST_ANCHOR_REPRODUCED`, `COST_ANCHOR_MISMATCH`, `PATH_ANCHOR_MISMATCH`, `VENUE_ANCHOR_MISMATCH`, `UNAVAILABLE_FUNDING`, `OKX_FUNDING_BLOCKED_BY_API_RETENTION`, `VENUE_MEAN_SCALAR_FROM_REALIZED_HISTORY`, `PRE_REGISTERED_BEFORE_COMPUTE`, `ANCHOR: OK`, and `ANCHOR: INCOMPLETE`.
+
+---
 
 ## 6. CAMPAIGN REFERENCE
 
