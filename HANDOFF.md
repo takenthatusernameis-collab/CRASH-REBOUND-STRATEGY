@@ -1,13 +1,13 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T05:15:02Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (resumed this session at 2026-11-26T05:14:43Z as one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed (stale "RUNNER ALIVE" claim corrected; single runner; no blocked session), no idle escape hatch
+**Updated (UTC):** 2026-11-26T05:26:36Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh`, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PIDs 3585–3588, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed (stale "RUNNER ALIVE" claim corrected; single runner; no blocked session), no idle escape hatch. Bounded wait completed this session at 2026-11-26T05:26:36Z; draw_chunks advanced 11→12; runner remains healthy; re-arm wake at 8h.
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T05:15:02Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T05:26:36Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
@@ -29,7 +29,7 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:14:58Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:26:36Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` (`bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers) with a bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose. Verify with both probes. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
