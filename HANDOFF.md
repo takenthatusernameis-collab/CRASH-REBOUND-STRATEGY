@@ -1,7 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T18:46:21Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_218757543001gOUTT2JJIj8mO5`, launcher PID 2783, campaign PID 3029 + workers advancing, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; one worktree; `draw_chunks_on_disk`=26 and climbing, runner advancing in-flight `cost_taker_funding_binance_um_2025`), no idle escape hatch.
+**Updated (UTC):** 2026-11-26T18:49:54Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_218757543001gOUTT2JJIj8mO5`, launcher PID 2783, campaign PID 3029 + workers advancing, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; one worktree; `draw_chunks_on_disk`=27 and climbing, runner advancing in-flight `cost_taker_funding_binance_um_2025`), no idle escape hatch.
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
