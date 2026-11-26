@@ -1,7 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T03:28:30Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed, no idle escape hatch
+**Updated (UTC):** 2026-11-26T03:30:11Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE, ACTION NONE_RUNNER_ALIVE, ANCHOR OK, gate 21/21 DONE, queue C25–C32 ready, bottlenecks removed, no idle escape hatch
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
@@ -27,7 +27,7 @@ Do not relaunch, kill, reorder, or add CPU-heavy work. Re-arm the wakeup at the 
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` with `--jobs 4 --resume` and bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose. Verify with both probes. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
-- `PROGRESS: real_cells_remaining=23 skipped_unavailable_funding=8 draw_chunks_on_disk=1 in_flight=cost_taker_funding_binance_um_2024`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 16/16; `cost_taker_funding` 0/12 scored + 4/4 OKX unavailable; `cost_stress` 0/12 scored + 4/4 OKX unavailable. The missing cells are `cost_taker_funding/*` (12) and `cost_stress/*` (16). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total across funding/stress), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
+- `PROGRESS: real_cells_remaining=23 skipped_unavailable_funding=8 draw_chunks_on_disk=2 in_flight=cost_taker_funding_binance_um_2024`. `cost_base` is 16/16 complete across OKX, Binance UM, MEXC, Bitget (2023–2026YTD). `cost_taker` is 16/16; `cost_taker_funding` 0/12 scored + 4/4 OKX unavailable; `cost_stress` 0/12 scored + 4/4 OKX unavailable. The missing cells are `cost_taker_funding/*` (12) and `cost_stress/*` (16). OKX funding arms are instant `UNAVAILABLE_FUNDING` skips (8 total across funding/stress), never zero-filled or proxied. The in-flight cell is resumable at cell boundaries with `--resume` and `C25_DRAW_RESUME=1`; at most the uncommitted tail of one draw chunk is lost.
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
 - `PACING: remaining=23 draw_chunks=1 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
 - `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
