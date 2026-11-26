@@ -1,4 +1,4 @@
-# INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (2026-11-26T04:39:50Z)
+# INITIAL TASK MESSAGE — CRASH-REBOUND-STRATEGY (2026-11-26T04:43:50Z)
 
 **Single durable handoff:** `HANDOFF.md` is the binding timestamped initial task message for the next agentic session and the source of all campaign state (runner, gate, progress, pacing). This file is a pointer only; if anything disagrees with `HANDOFF.md`, that file wins.
 
@@ -12,7 +12,7 @@
 C25 runner is active as one persistent `background_process` running `bash scripts/run_c25_durable.sh --jobs 4 --resume` with bootstrapped `.venv`.
 
 **Gate state:** `C25 ACCEPTANCE: PENDING` · `C26 ACCEPTANCE: PENDING` · C27–C32 pending behind predecessors
-**Progress:** 23 real cells remaining, 8 skipped (unavailable funding), 1 draw chunk on disk, in-flight: `cost_taker_funding_binance_um_2024`
+**Progress:** 23 real cells remaining, 8 skipped (unavailable funding), 9 draw chunks on disk, in-flight: `cost_taker_funding_binance_um_2024`
 **Anchor:** OK — `cost_base` reproduces C24 d15 exactly (16/16 cells EXACT)
 **Pacing:** `wake_after=8h` (re-derive from probe each session)
 
@@ -92,5 +92,5 @@ After any material handoff change, `session_gate.py` must finish with `21/21 che
 
 ---
 
-**Updated:** 2026-11-26T04:39:50Z
+**Updated:** 2026-11-26T04:43:50Z
 **Source of truth:** `HANDOFF.md` (this file is a pointer only)
