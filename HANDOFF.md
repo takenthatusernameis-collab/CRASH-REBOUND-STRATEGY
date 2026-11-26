@@ -1,7 +1,7 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T05:42:27Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process` `bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 6916–6919, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; draw_chunks_on_disk=13, runner advancing), no idle escape hatch. This session re-verified the runner already ALIVE (no resume needed); perform the single bounded wait and re-arm wake at 8h.
+**Updated (UTC):** 2026-11-26T05:43:44Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one persistent `background_process`, launcher `bash scripts/run_c25_durable.sh`, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` + 4 workers, `.venv` bootstrapped), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0), bottlenecks removed (single healthy runner; no blocked/duplicate session; draw_chunks_on_disk=13, runner advancing), no idle escape hatch. This session re-verified the runner already ALIVE (no resume needed); perform the single bounded wait and re-arm wake at 8h.
 
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
@@ -29,7 +29,7 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:42:27Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T05:43:44Z — LIVE PROBE CONFIRMED
 
 - `RUNNER: ALIVE`; `ACTION: NONE_RUNNER_ALIVE`. The C25 runner is active as one persistent `background_process` (`bgp_21647048f001N8p0SKkj9juxoP`, launcher `bash scripts/run_c25_durable.sh` PID 3202, campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3294 + 4 workers PIDs 6916–6919) with a bootstrapped `.venv`; re-derive campaign and worker identities each session via `bash scripts/status_c25.sh` and `bash scripts/next_c25_action.sh`, not prose. Verify with both probes. `.venv` is present and bootstrapped.
 - `GATE: C25 ACCEPTANCE: PENDING`; `GATE: C26 ACCEPTANCE: PENDING`; C27–C32 are pending behind their predecessors.
@@ -37,7 +37,7 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 - `ANCHOR: OK`: `cost_base` reproduces C24 d15 exactly, 16/16 cells EXACT (OKX 28469.71, Binance UM 47613.34, MEXC 38334.15, Bitget 30234.50). `ANCHOR: MISMATCH` is a P0 integrity stop, not a reason to relax the prereg.
 - `PACING: remaining=23 draw_chunks=13 wake_after=8h` (>6 cells left; 4 saturated cores at ~1.6 h/cell). Re-derive pacing from the probe every session; do not copy an old interval.
 - `bash scripts/check_queue_readiness.sh` exits 0: every C25–C32 campaign has a prereg and full implementation. The queue is not dry, so "no authorized work" is never a valid reason to idle.
-- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` (re-verified 2026-11-26T05:14:xxZ with system Python; `.venv` gate identical); `scripts/handoff` gate is satisfied.
+- `bash scripts/session_gate.py` reports `21/21 checks passed — DONE` (re-verified 2026-11-26T05:43:44Z with system Python; `.venv` gate identical); `scripts/handoff` gate is satisfied.
 
 ### Mandatory heavy-work contract — no idle escape hatch
 
