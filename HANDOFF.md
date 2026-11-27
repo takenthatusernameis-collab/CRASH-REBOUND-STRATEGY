@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T04:17:02Z
-**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T04:17Z.**
+**Handoff timestamp:** 2026-11-27T04:18:51Z
+**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T04:18Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -21,7 +21,7 @@ Concretely, in priority order, and you may not skip or defer any step:
 
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
    ALIVE (PID 2867 + 4 workers ~88% CPU each) and is saturating all 4 cores. Adding
-   CPU work slows it. (Verified live 2026-11-27T04:17Z via `next_c25_action.sh`.)
+   CPU work slows it. (Verified live 2026-11-27T04:18Z via `next_c25_action.sh`.)
 2. **Monitor C25 to a consolidated verdict using bounded waits only.** Run
    `bash scripts/next_c25_action.sh`, then `bash -c 'sleep 540; bash scripts/next_c25_action.sh'`.
    Repeat until it reports `C25 ACCEPTANCE: PASS`. Do not end the session before a
@@ -63,7 +63,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 **Live numbers (from `next_c25_action.sh` / `eta_c25.sh` at 04:17Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`).
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
-- Draw chunks on disk: 10/40 for the in-flight cell.
+- Draw chunks on disk: 11/40 for the in-flight cell.
 - **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T11:00Z (±30%)** at 4 saturated cores.
 - `GATE: C25 ACCEPTANCE: PENDING`, `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
