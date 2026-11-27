@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T08:03:22Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T08:03Z.**
+**Handoff timestamp:** 2026-11-27T08:06:27Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T08:06Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -27,7 +27,7 @@ Concretely, in priority order, and you may not skip or defer any step:
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
    ALIVE (main PID 3033 + 4 workers 3251–3254, ~93% CPU each) and is saturating all
    4 cores (load ~6.5). Adding CPU work slows it; a second runner is forbidden and
-   self-guarded by `runner_alive.sh`. Verified live 2026-11-27T08:03Z via
+   self-guarded by `runner_alive.sh`. Verified live 2026-11-27T08:06Z via
    `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`).
    NOTE: the PID in any older note (2867) is DEAD — do not trust hardcoded PIDs;
    discover the live runner with `bash scripts/next_c25_action.sh` / `scripts/runner_alive.sh`.
@@ -64,12 +64,12 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 
 ---
 
-## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T08:03Z)
+## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T08:06Z)
 
 | Campaign | Status | Evidence |
 |----------|--------|----------|
 | **C24** | ✅ COMPLETED | `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` — `C24_REOPENS_C1_C23` |
-| **C25** | 🔄 IN FLIGHT | Runner ALIVE (main PID 3033 + workers 3251–3254 ~93% CPU; verified 08:03Z). `cost_base` 16/16 ✓, `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`[run] cost_taker_funding mexc 2024` in log). **No consolidated verdict yet.** |
+| **C25** | 🔄 IN FLIGHT | Runner ALIVE (main PID 3033 + workers 3251–3254 ~93% CPU; verified 08:06Z). `cost_base` 16/16 ✓, `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`[run] cost_taker_funding mexc 2024` in log). **No consolidated verdict yet.** |
 | **C26** | 📋 PRE-REGISTERED + FULLY BUILT (NEXT FOCUS) | `c26_prereg_20261119T121500Z.json` (+`.md`); `run_c26_path_fidelity_campaign.py`, `run_c26_durable.sh`, `verify_c26_focus_campaign.py` — no checkpoints, no runner yet |
 | **C27** | 📋 PRE-REGISTERED ONLY | `c27_prereg_20261119T215721Z.json` — no checkpoints, no runner (venue fixed by `probe_c27_venue_acquisition.py`) |
 | **C28** | 📋 PRE-REGISTERED ONLY | `c28_prereg_20261121T013400Z.json` — no checkpoints, no runner |
@@ -79,7 +79,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
 | **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (authoritative `next_c25_action.sh` at 08:03Z):**
+**Live numbers (authoritative `next_c25_action.sh` at 08:06Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`).
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
 - Draw chunks on disk: **23** (actively progressing; ~1 chunk / 7 min).
@@ -115,7 +115,7 @@ bash -c 'sleep 540; bash scripts/next_c25_action.sh'
 - Never kill the live runner or its workers (discover PIDs via `next_c25_action.sh`).
 - The 8h figure in pacing output is a poll hint, **not** the ETA. ETA is ~31 h.
 - `sleep 540` stays under the harness idle-timeout; the persistent runner survives
-  even if a session is recycled, so no single session must babysit 31 h in one turn.
+  even if a session is recycled, so no single session needs to babysit 31 h in one turn.
 
 ---
 
@@ -220,8 +220,8 @@ next focus campaign, fully built, cannot be skipped). C31 holdout data is pre-fe
 finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T08:03:22Z by Kilo agent; re-derived live from ground truth at
-2026-11-27T08:03Z: `RUNNER: ALIVE` (main PID 3033 + workers 3251–3254 ~93% CPU each,
+*Generated 2026-11-27T08:06:27Z by Kilo agent; re-derived live from ground truth at
+2026-11-27T08:06Z: `RUNNER: ALIVE` (main PID 3033 + workers 3251–3254 ~93% CPU each,
 load ~6.5 on 4 cores), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`,
 `skipped_unavailable_funding=8`, `draw_chunks_on_disk=23`, in-flight
 `cost_taker_funding_mexc_2024`, runner log error-free, `ANCHOR: OK`,
