@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T12:06:57Z
+**Handoff timestamp:** 2026-11-27T12:08:05Z
 **State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T12:06:57Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
@@ -86,7 +86,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 **Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 12:04Z):**
 - Real inference cells remaining: **18** (7 `cost_taker_funding` + 12 `cost_stress`); 38/56 real cells complete.
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
-- Draw chunks on disk: **7** (per-current-cell draws accumulating for in-flight `cost_taker_funding_mexc/2025`; cumulative progress continues across sessions).
+- Draw chunks on disk: **8** (per-current-cell draws accumulating for in-flight `cost_taker_funding_mexc/2025`; cumulative progress continues across sessions).
 - Runner health: verified via `next_c25_action.sh`, **no errors** (in-flight `cost_taker_funding_mexc_2025`; last completed `cost_taker_funding/mexc/2024`).
 - **Authoritative ETA: ~33.6 h (median) → ~2026-11-28T21:40:10Z (±30%)**; conservative
   in-flight-aware higher, beyond ~2026-11-29, at 4 saturated cores (per-cell ~1.62–1.87 h;
