@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T12:14:19Z
+**Timestamp:** 2026-11-27T12:15:07Z (state re-derived via `bash scripts/next_c25_action.sh`: RUNNER ALIVE, C25 ACCEPTANCE PENDING, 18 real cells remaining incl. cost_stress arm, cost_taker_funding_mexc_2025 in flight, ANCHOR OK)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
