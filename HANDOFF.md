@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T18:27:30Z (state re-derived via `bash scripts/next_c25_action.sh` at 18:25:20Z: RUNNER WAS NOT ALIVE, .venv missing, 16 real cells remaining = cost_stress arm, cost_taker_funding bitget 2023 in flight with 6 draw chunks on disk. **ACTION TAKEN THIS SESSION:** launched the durable runner (`background_process ... run_c25_durable.sh persistent=true`, id `bgp_21e41458b001xryDm0XPGyIJIf`); `.venv` bootstrapped; C25 runner now LIVE on 4 saturated cores (`run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, pids ~4052-4061). Bottleneck (dead runner + missing venv) REMOVED — heavy compute is in flight.)
+**Timestamp:** 2026-11-27T18:28:07Z (state re-derived via `bash scripts/next_c25_action.sh`)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -26,24 +26,33 @@ need to reason about it manually. The rest of this file is the why + the no-avoi
 
 ## 🎯 IMMEDIATE NEXT TASK (Non-Negotiable)
 
-**Launch the C25 durable runner (fresh CI job, no .venv) → complete the C25 `cost_stress` arm → generate the 2 missing arm verdicts → generate the C25 consolidated verdict → C25 ACCEPTANCE: PASS → unlock C26.**
+**Keep the C25 durable runner alive → complete the C25 `cost_stress` arm → generate the 2 missing arm verdicts → generate the C25 consolidated verdict → C25 ACCEPTANCE: PASS → unlock C26.**
 
-The heavy compute must be launched via the durable background process (`bash scripts/run_c25_durable.sh`, persistent). Do **NOT** start a second runner, do **NOT** kill it, do **NOT** start C26/C27. Your job is to keep the session alive on a bounded wait, re-probe, and let the durable runner finish.
+The heavy compute must stay on the durable background process (`bash scripts/run_c25_durable.sh`, persistent). Do **NOT** start a second runner, do **NOT** kill it, do **NOT** start C26/C27. Your job is to keep the session alive on a bounded wait, re-probe, and let the durable runner finish.
 
 ### Current Campaign Status (Sequential Chain: C24 → C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32)
 
 | Campaign | Status | Blocking Issue |
 |----------|--------|----------------|
 | **C24** | ✅ ACCEPTANCE: PASS | — |
-| **C25** | ⚠️ **INCOMPLETE** | `cost_stress` arm (16 real cells) + `cost_taker_funding` tail (4 cells) + 4 arm verdicts + consolidated verdict |
+| **C25** | ⚠️ **INCOMPLETE** | `cost_stress` arm (12 real cells; okx = UNAVAILABLE_FUNDING skip) + `cost_taker_funding` tail (bitget 2024/2025/2026YTD; bitget 2023 in flight with 6 draw chunks) + 4 arm verdicts + consolidated verdict |
 | **C26** | 🔒 BLOCKED | Requires C25 ACCEPTANCE: PASS (consolidated verdict) |
 | C27–C32 | 🔒 BLOCKED | Sequential dependency on C26 |
+
+### Bottleneck Status: REMOVED
+
+- Dead runner → **REMOVED**: durable runner launched this session (`bgp id bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885).
+- Missing `.venv` → **REMOVED**: `.venv` bootstrapped; `run_c25_durable.sh` bootstraps it on any fresh CI job.
+- No duplicate runner risk: `run_c25_durable.sh` refuses to start a second C25 runner.
 
 ### C25 Completion Checklist (`verify_c25_focus_campaign.py` is the authoritative gate)
 
 - [x] **Prereg**: `c25_prereg_20261119T045500Z.json` (status: PRE_REGISTERED_BEFORE_COMPUTE)
 - [x] **C24 PASS**: `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` exists
-- [ ] **All 4 arms × 4 venues × 4 folds checkpoints**: cost_base 16/16, cost_taker 16/16, cost_taker_funding 12/16 (bitget 2023 in flight), **cost_stress 0/16** (okx 4 = UNAVAILABLE_FUNDING skip)
+- [x] **cost_base**: 16/16 checkpoints (COST_ANCHOR_REPRODUCED vs C24 d15)
+- [x] **cost_taker**: 16/16 checkpoints
+- [ ] **cost_taker_funding**: 12/16 checkpoints (bitget 2023 in flight; bitget 2024/2025/2026YTD remaining)
+- [ ] **cost_stress**: 0/16 checkpoints (okx 4 = UNAVAILABLE_FUNDING skip; 12 real cells remaining)
 - [x] **No signal-path/cost drift**: frozen config validated
 - [x] **Cost anchor (cost_base vs C24 d15)**: COST_ANCHOR_REPRODUCED (ANCHOR OK)
 - [x] **Inference floors (20k/20k/2k/2k)**: met for completed arms
@@ -55,18 +64,7 @@ The heavy compute must be launched via the durable background process (`bash scr
 
 ## 🚀 EXECUTION COMMANDS (the probe already picks the right one — do not improvise)
 
-### If probe says `ACTION: RESUME_C25` (runner dead / fresh CI job, no .venv)
-
-> **STATUS 18:27Z: ALREADY DONE THIS SESSION — runner is LIVE (bgp `bgp_21e41458b001xryDm0XPGyIJIf`), `.venv` bootstrapped. Do NOT run the launch block below again; a duplicate runner is a rule-4 violation. Go straight to the "After launch — bounded wait + re-probe" block.**
-
-```bash
-background_process start command="bash scripts/run_c25_durable.sh" persistent=true
-bash scripts/status_c25.sh
-```
-
-`run_c25_durable.sh` bootstraps `.venv` if missing and refuses to start a duplicate runner.
-
-### After launch — bounded wait + re-probe (the only valid action while runner alive)
+### If probe says `ACTION: NONE_RUNNER_ALIVE` (runner alive — the only valid state now)
 
 ```bash
 bash scripts/check_c25_anchor.sh
@@ -74,13 +72,23 @@ bash -c 'sleep 540; bash scripts/next_c25_action.sh'   # 540s < 900s idle-timeou
 ```
 
 Repeat until the probe flips to `PROBE_AND_LAUNCH_C27` (C25+C26 PASS) or `FIX_*_INTEGRITY`.
+**Do not end this session before that bounded wait completes.** Do not relaunch, do not kill, do not start C26/C27, do not add CPU work.
+
+### If probe says `ACTION: RESUME_C25` (runner dead / fresh CI job)
+
+> Only if the runner has died. Do NOT run this while the runner is ALIVE — a duplicate runner is a rule-4 violation.
+
+```bash
+background_process start command="bash scripts/run_c25_durable.sh" persistent=true
+bash scripts/status_c25.sh
+```
 
 ### If probe says `ACTION: PROBE_AND_LAUNCH_C27` (C25 + C26 both PASS)
 
 ```bash
 PYTHONPATH=. .venv/bin/python scripts/probe_c27_venue_acquisition.py
 # confirm research_state/c27_prereg_20261119T215721Z.{json,md} matches the probe verdict
-# then launch C27 per the C27 section of scripts/run_c27_durable.sh
+# then launch C27 per scripts/run_c27_durable.sh
 ```
 
 ### If probe says `ACTION: FIX_C25_INTEGRITY` or `FIX_C26_INTEGRITY`
@@ -97,6 +105,7 @@ relax floors, never edit the prereg.
 | `scripts/next_c25_action.sh` | **Session entry probe — run this first, obey its ACTION line** |
 | `scripts/run_c25_durable.sh` | Durable C25 launcher (bootstraps venv, no duplicate, persistent) |
 | `scripts/status_c25.sh` | Read-only C25 status (runner, cells, inference, artifacts, gate) |
+| `scripts/check_c25_anchor.sh` | Early cost-anchor check (cost_base vs C24 d15) |
 | `scripts/run_c25_cost_fidelity_campaign.py` | C25 runner (4 arms, frozen signal, liquidation=15%) |
 | `scripts/verify_c25_focus_campaign.py` | C25 acceptance gate (authoritative PASS/PENDING/FAIL) |
 | `scripts/run_c26_path_fidelity_campaign.py` | C26 runner (intrabar + per-trade funding fidelity) |
@@ -146,12 +155,12 @@ relax floors, never edit the prereg.
 
 ## 📝 NOTES FOR NEXT SESSION
 
-- `.venv` does **not** exist (fresh CI job). `run_c25_durable.sh` bootstraps it on launch.
+- `.venv` exists. `run_c25_durable.sh` bootstraps it on any fresh CI job.
 - Use `background_process` with `persistent=true` for the durable runner so it survives session/turn boundaries.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (18:27Z):** ALIVE — durable runner launched this session (bgp id `bgp_21e41458b001xryDm0XPGyIJIf`), `.venv` bootstrapped, C25 runner executing `--jobs 4 --resume` on 4 saturated cores. 16 real cells remaining (all cost_stress; okx cost_stress = UNAVAILABLE_FUNDING skip), pacing ~1.6 h/cell, wake_after=8h. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (18:28Z):** ALIVE — durable runner running (`bgp id bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885), executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` on 4 saturated cores. `cost_taker_funding bitget 2023` in flight with 6 draw chunks on disk. 16 real cells remaining (12 cost_stress non-okx + 4 cost_taker_funding bitget tail). Pacing ~1.6 h/cell, wake_after=8h. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
@@ -173,5 +182,5 @@ relax floors, never edit the prereg.
 
 **This handoff is the single source of truth for the next session. Do not substitute lighter work,
 parameter searches, or "no authorized work" declarations. Run `next_c25_action.sh` first and obey its
-ACTION line. The only valid heavy action is launching the durable runner via `RESUME_C25`; then keep
+ACTION line. The only valid heavy action is keeping the durable runner alive; then keep
 it alive with bounded waits + re-probes until the gate flips.**
