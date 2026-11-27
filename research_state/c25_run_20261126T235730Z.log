@@ -40,3 +40,4 @@
 [resume] cost_taker_funding binance_um 2026YTD
 [run] cost_taker_funding mexc 2023
 [census] MEXC: events=325 signal_pass=110 trades=49 matched=49 unexplained=56
+[episode] cost_taker_funding mexc 2023: trades=49 pnl=-4046610.90 perm_p=0.96695
