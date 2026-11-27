@@ -1,5 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T01:14:36Z
+**Generated:** 2026-11-27T01:15:06Z
+**Initial Task Message (binding, timestamped):** Monitor C25 (runner ALIVE, 23/40 draw chunks cost_taker_funding/mexc/2023) to PASS; then run verify_campaign_evidence.py + session_gate.py; then launch C26 via background_process persistent; continue chain C25→C32. Do not spawn new campaigns, do not edit markdown, do not declare no authorized work.
 **Session Context:** CRASH-REBOUND-STRATEGY repo — systematic multi-venue strategy validation
 **Chain State:** C24 PASS → C25 IN FLIGHT → C26-C32 BLOCKED
 
