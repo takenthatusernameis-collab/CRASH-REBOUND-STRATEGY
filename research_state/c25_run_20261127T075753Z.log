@@ -47,3 +47,4 @@
 [done] cost_taker_funding mexc 2024 pnl=-2817756.97
 [run] cost_taker_funding mexc 2025
 [census] MEXC: events=311 signal_pass=94 trades=48 matched=48 unexplained=38
+[episode] cost_taker_funding mexc 2025: trades=48 pnl=-1787191.93 perm_p=1.0

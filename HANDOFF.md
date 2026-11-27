@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T12:15:07Z (state re-derived via `bash scripts/next_c25_action.sh`: RUNNER ALIVE, C25 ACCEPTANCE PENDING, 18 real cells remaining incl. cost_stress arm, cost_taker_funding_mexc_2025 in flight, ANCHOR OK)
+**Timestamp:** 2026-11-27T12:16:27Z (state re-derived via `bash scripts/next_c25_action.sh`: RUNNER ALIVE, C25 ACCEPTANCE: PENDING, 18 real cells remaining incl. cost_stress arm, cost_taker_funding_mexc_2025 in flight, ANCHOR OK)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -42,7 +42,7 @@ cd /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 PYTHONPATH=. .venv/bin/python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume --arms cost_stress
 ```
 
-This runs 16 cells (4 venues × 4 folds) with full inference (episode-block bootstrap 20k, permutation 20k, placebo 2k). Use `--resume` for checkpoint durability.
+This runs 16 cells (4 venues × 4 folds) with full inference (episode-block bootstrap 20k, permutation 20k, placebo 2k, BH). Use `--resume` for checkpoint durability.
 
 ### 2. Verify C25 ACCEPTANCE gate
 
@@ -119,6 +119,22 @@ C26 adjudicates intrabar path sequencing + per-trade realized funding (4 arms ×
 - Checkpoint files in `research_state/` enable exact resume after environment loss
 - All timestamps in UTC; `TS=20261119T045500Z` for C25, `TS=20261119T121500Z` for C26
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor)
+
+---
+
+## 📋 FULL CAMPAIGN ROADMAP (Sequential, No Shortcuts)
+
+| Campaign | Focus | Arms | Cells | Gate Script | Prereg TS |
+|----------|-------|------|-------|-------------|-----------|
+| C24 | Liquidation distance | 4 | 64 | `verify_c24_focus_campaign.py` | 20261119T013154Z |
+| **C25** | **Cost & funding fidelity** | **4** | **64** | **`verify_c25_focus_campaign.py`** | **20261119T045500Z** |
+| C26 | Intrabar path + per-trade funding | 4 | 64 | `verify_c26_focus_campaign.py` | 20261119T121500Z |
+| C27 | Next venue replication (KuCoin) | 3 | 12 | `verify_c27_focus_campaign.py` | 20261119T215721Z |
+| C28 | Signal sensitivity sweep | TBD | TBD | `verify_c28_focus_campaign.py` | 20261121T013400Z |
+| C29 | Cross-venue agreement | TBD | TBD | `verify_c29_focus_campaign.py` | 20261121T031907Z |
+| C30 | Multi-year robustness | TBD | TBD | `verify_c30_focus_campaign.py` | 20261121T051754Z |
+| C31 | Placebo portfolio stress | TBD | TBD | `verify_c31_focus_campaign.py` | 20261121T052233Z |
+| C32 | Final consolidated adjudication | TBD | TBD | `verify_c32_focus_campaign.py` | 20261121T061508Z |
 
 ---
 
