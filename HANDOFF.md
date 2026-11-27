@@ -1,5 +1,5 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T02:04:08Z (re-verified this session; runner ALIVE, evidence VERIFIED)
+**Generated:** 2026-11-27T02:04:55Z (re-verified this session; runner ALIVE, evidence VERIFIED)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
