@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T05:07:00Z
-**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T05:07Z.**
+**Handoff timestamp:** 2026-11-27T05:08:17Z
+**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T05:08Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -59,7 +59,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | Campaign | Status | Evidence |
 |----------|--------|----------|
 | **C24** | ✅ COMPLETED | `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` — `C24_REOPENS_C1_C23` |
-| **C25** | 🔄 IN FLIGHT | Runner ALIVE (PID 2867 + 4 workers ~91% CPU). `cost_base` 16/16 ✓, `cost_taker` 16/16 ✓, `cost_taker_funding` 9/16 done (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (draw chunk 17/40). **No consolidated verdict yet.** |
+| **C25** | 🔄 IN FLIGHT | Runner ALIVE (PID 2867 + 4 workers 64276–64279 ~87% CPU; verified 05:08Z). `cost_base` 16/16 ✓, `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (draw chunk 18/40 on disk). **No consolidated verdict yet.** |
 | **C26** | 📋 PRE-REGISTERED ONLY | `c26_prereg_20261119T121500Z.json` (+`.md`) — no checkpoints, no runner |
 | **C27** | 📋 PRE-REGISTERED ONLY | `c27_prereg_20261119T215721Z.json` — no checkpoints, no runner (venue fixed by `probe_c27_venue_acquisition.py`) |
 | **C28** | 📋 PRE-REGISTERED ONLY | `c28_prereg_20261121T013400Z.json` — no checkpoints, no runner |
@@ -69,16 +69,17 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
 | **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (from `next_c25_action.sh` / `status_c25.sh` at 05:06Z; re-verified this session):**
+**Live numbers (authoritative `next_c25_action.sh` at 05:08Z; re-verified this session):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`).
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
-- Cells complete (real inference): **37/56**; pending: 23.
-- Draw chunks on disk: 17 (was 11 at 04:17Z → actively progressing).
+- Draw chunks on disk: **18** (was 11 at 04:17Z → ~1 chunk / 7 min, actively progressing).
+- Runner health: 4 workers in `R` state, current log `c25_run_20261126T235730Z.log`, **no errors**.
 - **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T11:47Z (±30%)**; conservative
   in-flight-aware ~39 h → ~2026-11-28T20:00Z, at 4 saturated cores.
 - `GATE: C25 ACCEPTANCE: PENDING`, `C26 ACCEPTANCE: PENDING`.
 - `ANCHOR: OK` — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
 - `session_gate.py`: **21/21 checks passed** (Phase O `2026-11-13T23:38:47Z`).
+- `check_queue_readiness.sh`: **QUEUE READY** (C25..C32 prereg + full implementation).
 
 **Sequential dependency chain (HARD GATES):**
 ```
@@ -207,4 +208,4 @@ holdout data is pre-fetched; finish the two gaps, don't re-download blindly. Kee
 `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T05:07:00Z by Kilo agent. Single durable handoff; durable across session/turn boundaries. Re-verified live at 2026-11-27T05:06Z: `RUNNER: ALIVE`, `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `ANCHOR: OK`, `session_gate.py` 21/21, `check_queue_readiness.sh` QUEUE READY, single `HANDOFF.md` (no fragmentation). No new bottlenecks; the only blocker is the inherent ~31 h C25 compute, handled by the bounded-wait monitor in §2.*
+*Generated 2026-11-27T05:08:17Z by Kilo agent. Single durable handoff; durable across session/turn boundaries. Re-verified live at 2026-11-27T05:08Z: `RUNNER: ALIVE` (PID 2867 + workers 64276–64279), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `draw_chunks_on_disk=18`, runner log error-free, `ANCHOR: OK`, `session_gate.py` 21/21, `check_queue_readiness.sh` QUEUE READY, single `HANDOFF.md` (no fragmentation). No blocked sessions; the only limiter is the inherent ~31 h C25 compute, handled by the bounded-wait monitor in §2.*
