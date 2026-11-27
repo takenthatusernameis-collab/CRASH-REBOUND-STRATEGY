@@ -1,12 +1,12 @@
 # HANDOFF — CRASH-REBOUND-STRATEGY
 
 **Single durable handoff and binding initial task message.**
-**Updated (UTC):** 2026-11-26T21:10:25Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one durable launcher `bash scripts/run_c25_durable.sh`, OS launcher PID 2844 wrapped by PID 2837, parent 2783; campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3029 with workers rotating in `R` state at ~95% CPU, `.venv` bootstrapped; current workers 52835–52838 on `cost_taker_funding_mexc_2023`), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0, `QUEUE READY`), bottlenecks removed (single healthy runner; no blocked/duplicate session; one worktree, clean tree; `draw_chunks_on_disk`=8 and climbing, in_flight `cost_taker_funding_mexc_2023`; two stale `origin/fix/*` branches from 2026-10-30 sit 2742 commits behind main and are NOT active sessions), no idle escape hatch.
+**Updated (UTC):** 2026-11-27T00:09:11Z · **Repo:** `CRASH-REBOUND-STRATEGY` · **Live-verified:** RUNNER ALIVE (one durable launcher `bash scripts/run_c25_durable.sh`, OS launcher PID 2844 wrapped by PID 2837, parent 2783; campaign `python scripts/run_c25_cost_fidelity_campaign.py --jobs 4 --resume` PID 3029 with workers rotating in `R` state at ~95% CPU, `.venv` bootstrapped; current workers 52835–52838 on `cost_taker_funding_mexc_2023`), ACTION NONE_RUNNER_ALIVE, ANCHOR OK (16/16 EXACT), gate 21/21 DONE, queue C25–C32 ready (`check_queue_readiness.sh` exits 0, `QUEUE READY`), bottlenecks removed (single healthy runner; no blocked/duplicate session; one worktree, clean tree; `draw_chunks_on_disk`=8 and climbing, in_flight `cost_taker_funding_mexc_2023`; two stale `origin/fix/*` branches from 2026-10-30 sit 2742 commits behind main and are NOT active sessions), no idle escape hatch.
 `INITIAL_TASK_MESSAGE.md` and `AGENT_HANDOFF.md` are pointers only. They contain no campaign state. If anything disagrees with this file, this file wins. Re-derive all runner, gate, progress, and pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
 ---
 
-## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T21:10:25Z)
+## 1. INITIAL TASK MESSAGE — NEXT SESSION (2026-11-26T23:57:51Z)
 
 **NEXT SESSION START HERE.** The repository priority is crash-rebound edge adjudication on real-market cross-venue data: OKX, Binance UM, MEXC, and Bitget USDT-perps. `cross_venue=true`; `is_hyperliquid_venue_data=false`; never relabel this evidence as Hyperliquid-native.
 
@@ -28,7 +28,7 @@ Then re-probe, run the anchor check, perform the one bounded wait, and end. Neve
 
 ---
 
-## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T21:10:25Z — LIVE PROBE CONFIRMED
+## 2. GROUND TRUTH RE-DERIVED AT 2026-11-26T23:57:51Z — LIVE PROBE CONFIRMED
 
 This session (2026-11-26T21:09:53Z) re-derived state live via `next_c25_action.sh`, `check_c25_anchor.sh`, `check_queue_readiness.sh`, and `session_gate.py`: all probes agree `RUNNER: ALIVE`, `ACTION: NONE_RUNNER_ALIVE`, `ANCHOR: OK` (16/16 EXACT), `real_cells_remaining=20`, `skipped_unavailable_funding=8`, `draw_chunks_on_disk=8`, `in_flight=cost_taker_funding_mexc_2023`, gate `21/21 DONE`, `QUEUE READY` for C25..C32. The durable launcher and campaign are unchanged and advancing (`draw_chunks_on_disk` advanced 6→8 since the prior handoff at 2026-11-26T21:07:54Z).
 
