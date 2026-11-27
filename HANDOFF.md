@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T23:07:32Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — durable C25 runner executing, draw chunks on disk = 40/40, in-flight `cost_taker_funding_bitget_2023` completing, 16 real cells remaining, anchor OK)
+**Timestamp:** 2026-11-27T23:29:58Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — durable C25 runner executing, in-flight `cost_taker_funding_bitget_2024` at 1/40 draw chunks, 15 real cells remaining, anchor OK)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -19,7 +19,7 @@
 
 **Your one job this session:** run `bash scripts/next_c25_action.sh` FIRST, obey its single `ACTION:` line, and keep the durable C25 runner alive with bounded waits + re-probes until the C25 gate flips to PASS. Do NOT relaunch, kill, or start C26/C27, and do NOT substitute lighter work or declare "no authorized work" — keeping the one durable runner alive IS the heavy work.
 
-Current probe state (23:07:32Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE, C25 gate PENDING, C26 gate PENDING, anchor OK, 16 real cells remaining (in-flight `cost_taker_funding_bitget_2023` at 40/40 draw chunks completed; then bitget 2024/2025/2026YTD + 12 `cost_stress` non-okx cells), 8 okx cells skipped UNAVAILABLE_FUNDING.
+Current probe state (23:08:35Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE, C25 gate PENDING, C26 gate PENDING, anchor OK, 16 real cells remaining (in-flight `cost_taker_funding_bitget_2023` at 40/40 draw chunks completed; then bitget 2024/2025/2026YTD + 12 `cost_stress` non-okx cells), 8 okx cells skipped UNAVAILABLE_FUNDING.
 
 ---
 
