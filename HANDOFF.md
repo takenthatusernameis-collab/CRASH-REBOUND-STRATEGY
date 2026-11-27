@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T09:11:24Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T09:11Z.**
+**Handoff timestamp:** 2026-11-27T09:12:02Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T09:12Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -68,7 +68,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | Campaign | Status | Evidence |
 |----------|--------|----------|
 | **C24** | ✅ COMPLETED | `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` — `C24_REOPENS_C1_C23` |
-| **C25** | 🔄 IN FLIGHT | Runner ALIVE (verified 09:10Z via `next_c25_action.sh`; main PID 3033 + workers 13774–13777, ~92% CPU each; exactly ONE runner — no duplicate/orphan). `cost_base` 16/16 ✓ (anchor EXACT), `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`in_flight=cost_taker_funding_mexc_2024`). **No consolidated verdict yet.** |
+| **C25** | 🔄 IN FLIGHT | Runner ALIVE (verified 09:12Z via `next_c25_action.sh`; main PID 3033 + workers 13774–13777, ~92% CPU each; exactly ONE runner — no duplicate/orphan). `cost_base` 16/16 ✓ (anchor EXACT), `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`in_flight=cost_taker_funding_mexc_2024`). **No consolidated verdict yet.** |
 | **C26** | 📋 PRE-REGISTERED + FULLY BUILT (NEXT FOCUS) | `c26_prereg_20261119T121500Z.json` (+`.md`); `run_c26_path_fidelity_campaign.py`, `run_c26_durable.sh`, `verify_c26_focus_campaign.py` — no checkpoints, no runner yet (`verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING`, 64 cells pending, first `path_base/okx/2023`) |
 | **C27** | 📋 PRE-REGISTERED ONLY | `c27_prereg_20261119T215721Z.json` — no checkpoints, no runner (venue fixed by `probe_c27_venue_acquisition.py`) |
 | **C28** | 📋 PRE-REGISTERED ONLY | `c28_prereg_20261121T013400Z.json` — no checkpoints, no runner |
@@ -78,10 +78,10 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
 | **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL empty `[]`), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 09:10Z):**
+**Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 09:12Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`); 37/56 real cells complete.
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
-- Draw chunks on disk: **30** (actively progressing; ~1 chunk / 7 min).
+- Draw chunks on disk: **31** (actively progressing; ~1 chunk / 7 min).
 - Runner health: verified via `next_c25_action.sh`, **no errors**.
 - **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T15:54Z (±30%)**; conservative
   in-flight-aware ~39 h, at 4 saturated cores (per-cell ~1.62 h; in-flight elapsed ~1.22 h).
@@ -219,11 +219,11 @@ next focus campaign, fully built, cannot be skipped). C31 holdout data is pre-fe
 finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T09:10:41Z by Kilo agent; re-derived live from ground truth at
-2026-11-27T09:10Z: `RUNNER: ALIVE` (main PID 3033 + workers 13774–13777, exactly one runner —
+*Generated 2026-11-27T09:12:02Z by Kilo agent; re-derived live from ground truth at
+2026-11-27T09:12Z: `RUNNER: ALIVE` (main PID 3033 + workers 13774–13777, exactly one runner —
 no duplicate/orphan competing for the 4 cores), `C25 ACCEPTANCE: PENDING`,
 `real_cells_remaining=19` (37/56 complete), `skipped_unavailable_funding=8`,
-`draw_chunks_on_disk=30`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free,
+`draw_chunks_on_disk=31`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free,
 `ANCHOR: OK` (16/16 cells EXACT), ETA ~30.7 h → ~2026-11-28T15:54Z, `session_gate.py`
 **21/21 checks passed — DONE**, `check_queue_readiness.sh` QUEUE READY (C25..C32 all
 prereg+impl), C26 fully built (next focus campaign, cannot be skipped). Bottlenecks
