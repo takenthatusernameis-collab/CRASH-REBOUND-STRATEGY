@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T01:18:14Z
-**Initial Task Message (binding, timestamped):** Monitor C25 (runner ALIVE, 23/40 draw chunks cost_taker_funding/mexc/2023) to PASS; then run verify_campaign_evidence.py + session_gate.py; then launch C26 via background_process persistent; continue chain C25→C32. Do not spawn new campaigns, do not edit markdown, do not declare no authorized work.
+**Generated:** 2026-11-27T01:19:27Z
+**Initial Task Message (binding, timestamped):** Monitor C25 (runner ALIVE, 24/40 draw chunks cost_taker_funding/mexc/2023, anchor OK) to PASS; then run verify_campaign_evidence.py + session_gate.py; then launch C26 via background_process persistent; continue chain C25→C32. Do not spawn new campaigns, do not edit markdown, do not declare no authorized work.
 **Session Context:** CRASH-REBOUND-STRATEGY repo — systematic multi-venue strategy validation
 **Chain State:** C24 PASS → C25 IN FLIGHT → C26-C32 BLOCKED
 
@@ -9,7 +9,7 @@
 ## 🎯 IMMEDIATE PRIORITY (No-Avoidance Rule)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch.**
-The runner is ALIVE with 4 parallel jobs. Current progress: **23/40 draw chunks** for `cost_taker_funding/mexc/2023`.
+The runner is ALIVE with 4 parallel jobs. Current progress: **24/40 draw chunks** for `cost_taker_funding/mexc/2023` (in flight).
 **Do not spawn new campaigns. Do not edit markdown. Do not declare "no authorized work."**
 The heavy-work queue is C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32. **This chain is the only authorized work.**
 
@@ -108,20 +108,22 @@ bash scripts/status_c28.sh  # (check script exists)
 
 ---
 
-## 📍 CURRENT RUNNER STATE (as of 2026-11-27T01:18:14Z)
+## 📍 CURRENT RUNNER STATE (as of 2026-11-27T01:19:27Z)
 
 ```
-PID 2867 (parent) + 16792-16795 (4 workers) — python run_c25_cost_fidelity_campaign.py --jobs 4 --resume
+PID 2867 (parent) + 20398-20410 (4 workers) — python run_c25_cost_fidelity_campaign.py --jobs 4 --resume
 CPU: ~93% each worker | Mem: ~700MB each | Runtime: ~2h 53m
-In-flight: cost_taker_funding/mexc/2023 (23/40 chunks)
+In-flight: cost_taker_funding/mexc/2023 (24/40 draw chunks on disk)
 All cost_base & cost_taker arms: 16/16 DONE
-cost_taker_funding OKX: UNAVAILABLE_FUNDING (API retention)
+cost_taker_funding OKX: UNAVAILABLE_FUNDING (API retention — skipped)
 cost_taker_funding Binance UM: 16/16 DONE
 cost_taker_funding MEXC/Bitget: 8/16 (in-flight)
 cost_stress: 0/16 pending
+real_cells_remaining=20 | skipped_unavailable_funding=8 | pacing ~8h remaining at ~1.6 h/cell on 4 saturated cores
+ANCHOR: OK — cost_base reproduces C24 d15 exactly (16/16 cells exact match). C25 is safe to continue.
 ```
 
-**Next session must pick up exactly here.** No re-planning. No new direction. **Execute the chain.**
+**Next session must pick up exactly here.** No re-planning. No new direction. **Execute the chain.** Re-derive pacing with `bash scripts/next_c25_action.sh` (expect bounded wait ~8h; do not end session before bounded wait completes if you choose to monitor).
 
 ---
 
