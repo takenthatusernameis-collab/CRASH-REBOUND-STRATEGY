@@ -1,18 +1,18 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T03:11:11Z (re-verified this session; runner ALIVE pid 2867 workers 41601-41617, C25 ACCEPTANCE PENDING, 19 real cells remaining, cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 9/16 | cost_stress 0/16; in-flight cost_taker_funding_mexc_2024; evidence VERIFIED exit 0, session_gate 21/21 passed — durable_handoff refreshed)
+**Generated:** 2026-11-27T03:16:15Z (re-verified this session; runner ALIVE pid 2867 workers 44443-44446, C25 ACCEPTANCE PENDING, 19 real cells remaining, cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 9/16 | cost_stress 0/16; in-flight cost_taker_funding_mexc_2024; evidence VERIFIED exit 0, session_gate 21/21 passed — durable_handoff refreshed)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
 
 ---
 
-# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T03:11:11Z)
+# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T03:16:15Z)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch. No exceptions. No new campaigns. No "no authorized work" declarations. The chain C25 → C32 is pre-authorized; execute it.**
 
 1. **Do NOT relaunch, kill, or add CPU work.** The canonical C25 runner is ALIVE and is the only heavy job; the box has 4 saturated cores. Killing or duplicating it destroys hours of in-flight permutation work.
 2. Monitor with `bash scripts/next_c25_action.sh` (prints exactly one `ACTION:` line) and `bash scripts/status_c25.sh`. Re-derive the completion ETA with `bash scripts/eta_c25.sh`.
-3. **PACING CORRECTION — read this before waiting.** `next_c25_action.sh` prints `wake_after=8h`; that is the **poll/re-check interval**, NOT the time to completion. The empirical completion ETA from `eta_c25.sh` is **~30.7 h (median model, n=37) to ~44.8 h (conservative, in-flight-aware)** → roughly **2026-11-28T09:55Z … 2026-11-28T22:58Z** (+/- 30%). **Do NOT treat C25 as finished after 8 h.** Each session: re-run `next_c25_action.sh`; if still `NONE_RUNNER_ALIVE` and gate PENDING, wait the indicated poll interval and re-check; repeat until PASS.
+3. **PACING CORRECTION — read this before waiting.** `next_c25_action.sh` prints `wake_after=8h`; that is the **poll/re-check interval**, NOT the time to completion. The empirical completion ETA from `eta_c25.sh` is **~30.7 h (median model, n=37) to ~44.8 h (conservative, in-flight-aware)** → roughly **2026-11-28T10:00Z … 2026-11-28T23:00Z** (+/- 30%). **Do NOT treat C25 as finished after 8 h.** Each session: re-run `next_c25_action.sh`; if still `NONE_RUNNER_ALIVE` and gate PENDING, wait the indicated poll interval and re-check; repeat until PASS.
 4. When `status_c25.sh` shows `C25 ACCEPTANCE: PASS` **and** all 5 verdict artifacts exist, run `PYTHONPATH=. .venv/bin/python scripts/verify_campaign_evidence.py` and `PYTHONPATH=. .venv/bin/python scripts/session_gate.py` — both must PASS before proceeding.
 5. Then launch C26: `background_process start command="bash scripts/run_c26_durable.sh" persistent=true`, then monitor `bash scripts/status_c26.sh`.
 6. Continue the chain C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32 sequentially; same durable-script pattern per campaign.
@@ -21,7 +21,7 @@
 
 **Phase O artifact timestamp:** 2026-11-13T23:38:47Z (episode_edge_okx_full.json).
 
-**Session gate status:** 21/21 checks passed (durable_handoff refreshed this session 2026-11-27T03:11:11Z; evidence VERIFIED exit 0).
+**Session gate status:** 21/21 checks passed (durable_handoff refreshed this session 2026-11-27T03:16:15Z; evidence VERIFIED exit 0).
 
 This is the single durable handoff and the binding timestamped initial task message for the next agentic session. Re-derive all runner/gate/progress/pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
@@ -58,7 +58,7 @@ Read the single `ACTION:` line. `NONE_RUNNER_ALIVE` = healthy, keep waiting. `RE
 ### 2. Progress + completion ETA (the authoritative pacing)
 ```bash
 bash scripts/status_c25.sh      # per-cell arm/venue/fold state + gate
-bash scripts/eta_c25.sh         # empirical ETA (~32–41 h), NOT the 8h poll interval
+bash scripts/eta_c25.sh         # empirical ETA (~31–45 h), NOT the 8h poll interval
 ```
 
 ### 3. Evidence + session gate (ONLY after C25 PASS)
@@ -66,7 +66,7 @@ bash scripts/eta_c25.sh         # empirical ETA (~32–41 h), NOT the 8h poll in
 PYTHONPATH=. .venv/bin/python scripts/verify_campaign_evidence.py   # must print EVIDENCE VERIFIED
 PYTHONPATH=. .venv/bin/python scripts/session_gate.py               # must print PASS
 ```
-Current read-only check (2026-11-27T03:11:27Z): `verify_campaign_evidence.py` → **EVIDENCE VERIFIED (exit 0)**.
+Current read-only check (2026-11-27T03:16:15Z): `verify_campaign_evidence.py` → **EVIDENCE VERIFIED (exit 0)**.
 
 ### 4. Launch C26 (ONLY after C25 PASS + both gates PASS)
 ```bash
@@ -95,14 +95,14 @@ bash scripts/status_c27.sh
 | Anchor mismatch at C26 | `C26_UNDERPOWERED` / path anchor missing | Re-run C25 verify; ensure C25 consolidated verdict exists. |
 | Silent data corruption | `verify_campaign_evidence.py` FAIL | **Stop. Do not proceed.** Investigate artifact mismatch. |
 
-**Current bottleneck status:** none blocking. Single worktree (`main`), one C25 runner tracked as background process `bgp_21a4af5cd001tjmbN0JIriinso` (persistent, running). No lock files, no duplicate runners, no other blocked sessions. The only cost is irreducible CPU runtime (~32–43 h); it cannot be shortened without altering the frozen prereg, which is forbidden.
+**Current bottleneck status:** none blocking. Single worktree (`main`), one C25 runner tracked as background process `bgp_21a4af5cd001tjmbN0JIriinso` (persistent, running). No lock files, no duplicate runners, no other blocked sessions. The only cost is irreducible CPU runtime (~31–45 h); it cannot be shortened without altering the frozen prereg, which is forbidden.
 
 ---
 
 ## 📋 SESSION CHECKLIST (Next Agent Must Execute)
 
 - [ ] Run `bash scripts/next_c25_action.sh` — confirm `RUNNER: ALIVE` and `ACTION: NONE_RUNNER_ALIVE`
-- [ ] Run `bash scripts/eta_c25.sh` — record the real ETA (~32–41 h); do not assume 8 h
+- [ ] Run `bash scripts/eta_c25.sh` — record the real ETA (~31–45 h); do not assume 8 h
 - [ ] If C25 not PASS: **wait / monitor only** — do not launch C26/C27, do not add CPU work, do not kill
 - [ ] When C25 PASS: run `verify_campaign_evidence.py` + `session_gate.py` — both must PASS
 - [ ] Launch C26 via `background_process start` with `persistent=true`
@@ -123,18 +123,18 @@ bash scripts/status_c27.sh
 
 ---
 
-## 📍 CURRENT RUNNER STATE (as of 2026-11-27T03:11:27Z)
+## 📍 CURRENT RUNNER STATE (as of 2026-11-27T03:16:15Z)
 
 ```
 BACKGROUND PROCESS: bgp_21a4af5cd001tjmbN0JIriinso (persistent, RUNNING)
   command: bash scripts/run_c25_durable.sh
-PID 2867 (parent) -> workers 41601-41617 (python run_c25_cost_fidelity_campaign.py --jobs 4 --resume)
+PID 2867 (parent) -> workers 44443-44446 (python run_c25_cost_fidelity_campaign.py --jobs 4 --resume)
 CPU: 4 saturated cores | Mem: ~700MB each
 PROGRESS: 37/56 real cells complete | cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 9/16 | cost_stress 0/16
   cost_taker_funding: binance_um 4/4 DONE; okx 4 SKIPPED (UNAVAILABLE_FUNDING); mexc 1/4 (2023 done); bitget 0/4
-REAL CELLS REMAINING: 19 | SKIPPED UNAVAILABLE_FUNDING: 8 | draw_chunks_on_disk: 1 | in_flight: cost_taker_funding_mexc_2024
+REAL CELLS REMAINING: 19 | SKIPPED UNAVAILABLE_FUNDING: 8 | draw_chunks_on_disk: 2 | in_flight: cost_taker_funding_mexc_2024
 PACING: poll interval 8h | completion ETA ~30.7h (median, n=37) / ~44.8h (conservative, in-flight-aware)
-  -> ~2026-11-28T09:55Z (median) … 2026-11-28T22:58Z (conservative), +/- 30%
+  -> ~2026-11-28T10:00Z (median) … 2026-11-28T23:00Z (conservative), +/- 30%
 ANCHOR: OK — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
 GATE: C25 ACCEPTANCE: PENDING | C26 ACCEPTANCE: PENDING
 EVIDENCE: verify_campaign_evidence.py -> EVIDENCE VERIFIED (exit 0)
@@ -145,4 +145,5 @@ SESSION GATE: 21/21 checks passed
 
 ---
 
-**End of Handoff.** Next session starts at C25 monitoring (8h poll, ~31–45h ETA) → C26 launch → chain continuation.
+## End of Handoff.
+Next session starts at C25 monitoring (8h poll, ~31–45h ETA) → C26 launch → chain continuation.
