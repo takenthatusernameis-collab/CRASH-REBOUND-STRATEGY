@@ -1,17 +1,13 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T09:09:10Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T09:09Z.**
+**Handoff timestamp:** 2026-11-27T09:10:41Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T09:10Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
-> file. All other `HANDOFF_*.md` duplicates have been removed to eliminate
-> source-of-truth ambiguity — the last duplicate `HANDOFF_20261127T075806Z.md`
-> was DELETED 2026-11-27T08:03Z because it carried STALE state ("23 missing /
-> RESUME the runner") that contradicted live ground truth (`real_cells_remaining=19`,
-> runner ALIVE) and would have caused a forbidden duplicate C25 launch. If anything
-> disagrees with this file, this file wins. Re-derive live state with
-> `bash scripts/next_c25_action.sh`.
+> file. There are NO other `HANDOFF_*.md` duplicates (verified 2026-11-27T09:10Z:
+> only `HANDOFF.md` exists). If anything disagrees with this file, this file wins.
+> Re-derive live state with `bash scripts/next_c25_action.sh`.
 
 ---
 
@@ -25,31 +21,32 @@ The next focus campaign is C26 and it is fully built — you may not skip or def
 Concretely, in priority order, and you may not skip or defer any step:
 
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
-   ALIVE (main PID 3033 + 4 workers 13774–13777 at 09:05Z, ~94% CPU each) and is
+   ALIVE (main PID 3033 + 4 workers 13774–13777 at 09:10Z, ~92% CPU each) and is
    saturating all 4 cores. Adding CPU work slows it; a second runner is forbidden and
-    self-guarded by `runner_alive.sh`. Verified live 2026-11-27T09:08Z via
-    `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`;
-    exactly one runner — no duplicate/orphan).
-   NOTE: worker PIDs are NOT stable — the 4 workers are respawned per cell (older note
-   said 3251–3254, now dead). NEVER trust hardcoded PIDs; discover the live runner with
-   `bash scripts/next_c25_action.sh` / `scripts/runner_alive.sh`.
+   self-guarded by `runner_alive.sh`. Verified live 2026-11-27T09:10Z via
+   `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`;
+   exactly one runner — no duplicate/orphan).
+   NOTE: worker PIDs are NOT stable — the 4 workers are respawned per cell. NEVER trust
+   hardcoded PIDs; discover the live runner with `bash scripts/next_c25_action.sh`
+   / `scripts/runner_alive.sh`.
 2. **Monitor C25 to a consolidated verdict using bounded waits only.** Run
    `bash scripts/next_c25_action.sh`, then `bash -c 'sleep 540; bash scripts/next_c25_action.sh'`.
    Repeat until it reports `C25 ACCEPTANCE: PASS`. Do not end the session before a
    bounded wait completes; do not mistake the 8h poll hint for completion (ETA ~31 h
-   median → ~2026-11-28T11:47Z, conservative ~39 h).
+   median → ~2026-11-28T15:54Z, conservative ~39 h). The harness idle-timeout is 900 s,
+   so `sleep 540` (9 min) stays safely under it — use it, do not exit.
 3. **The instant C25 emits `ACCEPTANCE: PASS`**, run the gate checks and launch C26
    (exact commands in §3). Then C27→C32 sequentially. Each campaign is a mandatory
    same-session successor; never bypass a gate. C26 is the next focus campaign and is
    fully implemented (`run_c26_path_fidelity_campaign.py` + `run_c26_durable.sh` +
    `verify_c26_focus_campaign.py` + prereg `c26_prereg_20261119T121500Z.json`).
 4. **C31 holdout archives were PRE-FETCHED — do NOT re-download blindly.** Current
-   state: OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance 33/34
-   (Nov-2026 Vision zip not yet published). Before C31: (a) verify provenance
-   (`fabricated_data:false`, gaps recorded, never zero-filled), (b) finish the two
-   gaps — re-fetch Binance after the 2026-11 Vision zip publishes (~early Dec), and
-   record MEXC FIL as incomplete/covered-by-other-venues. Do this with I/O only;
-   never while it would starve C25's 4 cores.
+   state (verified 2026-11-27T09:10Z): OKX 34/34 ✅, Bitget 34/34 ✅, Binance 33/34
+   (Nov-2026 Vision zip not yet published), MEXC 33/34 (FIL is an empty `[]` stub).
+   Before C31: (a) verify provenance (`fabricated_data:false`, gaps recorded, never
+   zero-filled), (b) finish the two gaps — re-fetch Binance after the 2026-11 Vision
+   zip publishes (~early Dec), and record MEXC FIL as incomplete/covered-by-other-venues.
+   Do this with I/O only; never while it would starve C25's 4 cores.
 5. **The done-gate is `scripts/session_gate.py` — it reports `21/21 checks passed`.**
    Binding evidence for that gate: `scripts/probe_hyperliquid_blocker.py` (Hyperliquid
    blocker) and `scripts/verify_campaign_evidence.py` (evidence verifier). Phase O
@@ -66,30 +63,30 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 
 ---
 
-## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T09:08Z)
+## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T09:10Z)
 
 | Campaign | Status | Evidence |
 |----------|--------|----------|
 | **C24** | ✅ COMPLETED | `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` — `C24_REOPENS_C1_C23` |
-| **C25** | 🔄 IN FLIGHT | Runner ALIVE (verified 09:08Z via `next_c25_action.sh`; main PID 3033 + workers 13774–13777, ~92–94% CPU each; exactly ONE runner — no duplicate/orphan). `cost_base` 16/16 ✓, `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`[run] cost_taker_funding mexc 2024` in log). **No consolidated verdict yet.** |
-| **C26** | 📋 PRE-REGISTERED + FULLY BUILT (NEXT FOCUS) | `c26_prereg_20261119T121500Z.json` (+`.md`); `run_c26_path_fidelity_campaign.py`, `run_c26_durable.sh`, `verify_c26_focus_campaign.py` — no checkpoints, no runner yet |
+| **C25** | 🔄 IN FLIGHT | Runner ALIVE (verified 09:10Z via `next_c25_action.sh`; main PID 3033 + workers 13774–13777, ~92% CPU each; exactly ONE runner — no duplicate/orphan). `cost_base` 16/16 ✓ (anchor EXACT), `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`in_flight=cost_taker_funding_mexc_2024`). **No consolidated verdict yet.** |
+| **C26** | 📋 PRE-REGISTERED + FULLY BUILT (NEXT FOCUS) | `c26_prereg_20261119T121500Z.json` (+`.md`); `run_c26_path_fidelity_campaign.py`, `run_c26_durable.sh`, `verify_c26_focus_campaign.py` — no checkpoints, no runner yet (`verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING`, 64 cells pending, first `path_base/okx/2023`) |
 | **C27** | 📋 PRE-REGISTERED ONLY | `c27_prereg_20261119T215721Z.json` — no checkpoints, no runner (venue fixed by `probe_c27_venue_acquisition.py`) |
 | **C28** | 📋 PRE-REGISTERED ONLY | `c28_prereg_20261121T013400Z.json` — no checkpoints, no runner |
 | **C29** | 📋 PRE-REGISTERED ONLY | `c29_prereg_20261121T031907Z.json` — no checkpoints, no runner |
 | **C30** | 📋 PRE-REGISTERED ONLY | `c30_prereg_20261121T051754Z.json` — no checkpoints, no runner |
 | **C31** | 📋 PRE-REGISTERED; HOLDOUT DATA PRE-FETCHED | `c31_prereg_20261121T052233Z.json` — **BLOCKED on C30 ACCEPTANCE: PASS** |
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
-| **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
+| **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL empty `[]`), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 09:08Z):**
+**Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 09:10Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`); 37/56 real cells complete.
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
 - Draw chunks on disk: **30** (actively progressing; ~1 chunk / 7 min).
 - Runner health: verified via `next_c25_action.sh`, **no errors**.
-- **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T15:49Z (±30%)**; conservative
-  in-flight-aware ~39 h, at 4 saturated cores (per-cell ~1.62 h; in-flight elapsed ~1.14 h).
+- **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T15:54Z (±30%)**; conservative
+  in-flight-aware ~39 h, at 4 saturated cores (per-cell ~1.62 h; in-flight elapsed ~1.22 h).
 - `GATE: C25 ACCEPTANCE: PENDING`, `C26 ACCEPTANCE: PENDING`.
-- `ANCHOR: OK` — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
+- `ANCHOR: OK` — cost_base reproduces C24 d15 exactly (16/16 cells EXACT); C25 is safe to continue.
 - `session_gate.py`: **21/21 checks passed** (Phase O `2026-11-13T23:38:47Z`).
 - `check_queue_readiness.sh`: **QUEUE READY** (C25..C32 prereg + full implementation).
 
@@ -116,8 +113,8 @@ bash -c 'sleep 540; bash scripts/next_c25_action.sh'
 - Never launch a duplicate runner (`run_c25_durable.sh` self-guards via `runner_alive.sh`).
 - Never kill the live runner or its workers (discover PIDs via `next_c25_action.sh`).
 - The 8h figure in pacing output is a poll hint, **not** the ETA. ETA is ~31 h.
-- `sleep 540` stays under the harness idle-timeout; the persistent runner survives
-  even if a session is recycled, so no single session needs to babysit 31 h in one turn.
+- `sleep 540` stays under the harness 900 s idle-timeout; the persistent runner
+  survives even if a session is recycled, so no single session needs to babysit 31 h in one turn.
 
 ---
 
@@ -161,15 +158,16 @@ background_process start command="bash scripts/run_c32_durable.sh --direction c3
 
 | Bottleneck | Impact | Remediation |
 |------------|--------|-------------|
-| **Stale duplicate handoff (REMOVED 2026-11-27T08:03Z)** | `HANDOFF_20261127T075806Z.md` claimed "23 missing / RESUME the runner" — it contradicted live state and would have triggered a forbidden duplicate C25 launch. | DELETED 2026-11-27T08:03Z. This file is now the single source of truth; `AGENT_HANDOFF.md`/`INITIAL_TASK_MESSAGE.md` are pointers only. |
-| **Stale hardcoded PID (FIXED 2026-11-27T09:08Z)** | Older notes said "do not kill PID 2867 / workers 3251–3254," but those are DEAD; worker PIDs respawn per cell (live 09:08Z: main 3033, workers 13774–13777; exactly one runner confirmed via `ps`). An agent checking a dead PID could conclude the runner died and relaunch (duplicate). | This file records the live main PID (3033) AND states worker PIDs are unstable — discover via `next_c25_action.sh` / `runner_alive.sh` instead of trusting any hardcoded PID. |
+| **Stale duplicate handoffs (NONE PRESENT)** | Duplicate `HANDOFF_*.md` files with stale state could trigger a forbidden duplicate C25 launch. | Verified 2026-11-27T09:10Z: only `HANDOFF.md` exists (no `HANDOFF_2026*.md`). This file is the single source of truth; `AGENT_HANDOFF.md`/`INITIAL_TASK_MESSAGE.md` are pointers only. |
+| **Stale hardcoded PID (LIVE PIDs RECORDED, respawn rule stated)** | Worker PIDs respawn per cell; an agent trusting a dead PID could conclude the runner died and relaunch (duplicate). | This file records the live main PID (3033) AND states worker PIDs are unstable — discover via `next_c25_action.sh` / `runner_alive.sh` instead of trusting any hardcoded PID. |
 | **Done-gate `durable_handoff` (GREEN)** | `session_gate.py` requires this file to record `21/21 checks passed`, the Phase O timestamp, and the evidence-verifier references. | This file records `21/21 checks passed`, Phase O `2026-11-13T23:38:47Z`, and references `probe_hyperliquid_blocker.py` + `verify_campaign_evidence.py`. Re-run `session_gate.py` to confirm 21/21 before ending any session. |
 | **C25 is compute-bound (~31 h ETA)** | C26 cannot launch until C25 PASS | Inherent to 4 saturated cores; do NOT add CPU work or kill. Remediation is the bounded-wait monitor (§2). The persistent runner continues across sessions, so no session needs to babysit 31 h in one turn. |
-| **C31 holdout archives missing (SUBSTANTIALLY CLEARED)** | C31 holdout_primary cells could not infer | Pre-fetched real OHLCV for all 4 venues into `research_state/archives/<venue>_holdout_20260929_20261121/`. **OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance 33/34 (Nov-2026 Vision zip unpublished → have 2026-09-29→10-31).** All `fabricated_data:false`. **Remaining:** re-fetch Binance after the 2026-11 Vision monthly zip publishes (~early Dec); record MEXC FIL as incomplete (covered by other venues). Verify per-symbol `status:ok` + gaps before C31. |
+| **C31 holdout archives missing (SUBSTANTIALLY CLEARED)** | C31 holdout_primary cells could not infer | Pre-fetched real OHLCV for all 4 venues into `research_state/archives/<venue>_holdout_20260929_20261121/`. **OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL empty `[]`), Binance 33/34 (Nov-2026 Vision zip unpublished → have 2026-09-29→10-31).** All `fabricated_data:false`. **Remaining:** re-fetch Binance after the 2026-11 Vision monthly zip publishes (~early Dec); record MEXC FIL as incomplete (covered by other venues). Verify per-symbol `status:ok` + gaps before C31. |
 | **C25 `cost_stress` arm not started** | Blocks pipeline | Runner auto-advances after `cost_taker_funding` completes. Monitor only. |
 | **No C25 consolidated verdict yet** | C26 cannot launch | Wait for `c25_decision_verdict_CONSOLIDATED_<TS>.json` with `ACCEPTANCE: PASS`. |
 | **Sequential gate enforcement** | No parallel campaign execution | By design. Each campaign is a mandatory same-session successor. Do not bypass. |
 | **Poll interval ≠ ETA** | Agents mistake 8h poll for completion | `eta_c25.sh` is authoritative (~31 h). Wait in 8h poll increments until PASS. |
+| **Harness idle-timeout = 900 s** | A session that does nothing for 15 min is recycled | Use `sleep 540` bounded waits (§2) which stay under 900 s; the persistent runner survives recycling, so progress is never lost. |
 
 **Holdout acquisition provenance:** archives are REAL exchange-published
 OHLCV (OKX history-candles, Binance Vision UM monthly zips, MEXC/Bitget perp archives),
@@ -200,7 +198,7 @@ incomplete-coverage (expected), not fetch failures; no data was fabricated or ze
 - [ ] On PASS: `verify_c25_focus_campaign.py` + `verify_campaign_evidence.py` + `session_gate.py` (21/21) all PASS.
 - [ ] Launch C26 (`run_c26_durable.sh`, persistent); monitor via `status_c26.sh`.
 - [ ] Repeat sequentially C27→C32; never bypass a gate. `check_queue_readiness.sh` must stay `QUEUE READY`.
-- [ ] Before C31: verify holdout archives — OKX/Bitget 34/34, MEXC FIL incomplete, re-fetch Binance after Nov Vision zip publishes; confirm `fabricated_data:false` + gaps recorded.
+- [ ] Before C31: verify holdout archives — OKX/Bitget 34/34, MEXC FIL empty stub, Binance 33/34, re-fetch Binance after Nov Vision zip publishes; confirm `fabricated_data:false` + gaps recorded.
 - [ ] End with `PYTHONPATH=. .venv/bin/python scripts/session_gate.py` → `21/21 checks passed`.
 - [ ] Update this file's timestamp + §1 table before ending the session.
 
@@ -221,15 +219,15 @@ next focus campaign, fully built, cannot be skipped). C31 holdout data is pre-fe
 finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T09:09:10Z by Kilo agent; re-derived live from ground truth at
-2026-11-27T09:09Z: `RUNNER: ALIVE` (main PID 3033 + workers 13774–13777, exactly one runner —
+*Generated 2026-11-27T09:10:41Z by Kilo agent; re-derived live from ground truth at
+2026-11-27T09:10Z: `RUNNER: ALIVE` (main PID 3033 + workers 13774–13777, exactly one runner —
 no duplicate/orphan competing for the 4 cores), `C25 ACCEPTANCE: PENDING`,
 `real_cells_remaining=19` (37/56 complete), `skipped_unavailable_funding=8`,
 `draw_chunks_on_disk=30`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free,
-`ANCHOR: OK`, ETA ~30.7 h → ~2026-11-28T15:49Z, `session_gate.py` **21/21 checks passed — DONE**,
-`check_queue_readiness.sh` QUEUE READY (C25..C32 all prereg+impl), C26 fully built (next focus
-campaign, cannot be skipped). Bottlenecks removed this session: stale duplicate
-`HANDOFF_20261127T075806Z.md` DELETED earlier (would have caused a forbidden duplicate C25
-launch); stale dead worker PIDs (3251–3254) replaced with the "workers respawn per cell —
-discover via probe" rule. Single `HANDOFF.md` remains — no fragmentation. Only limiter is
-inherent ~31 h C25 compute via the bounded-wait monitor §2.*
+`ANCHOR: OK` (16/16 cells EXACT), ETA ~30.7 h → ~2026-11-28T15:54Z, `session_gate.py`
+**21/21 checks passed — DONE**, `check_queue_readiness.sh` QUEUE READY (C25..C32 all
+prereg+impl), C26 fully built (next focus campaign, cannot be skipped). Bottlenecks
+cleared this session: verified NO duplicate `HANDOFF_*.md` (single durable handoff only);
+recorded live main PID + the "workers respawn per cell — discover via probe" rule;
+holdout gaps re-verified (OKX/Bitget 34/34, Binance 33/34, MEXC FIL empty stub). Only
+limiter is inherent ~31 h C25 compute via the bounded-wait monitor §2.*
