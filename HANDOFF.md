@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T10:17:10Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T10:17:10Z.**
+**Handoff timestamp:** 2026-11-27T10:32:03Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T10:32:03Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -25,7 +25,7 @@ Concretely, in priority order, and you may not skip or defer any step:
     saturating all 4 cores. Adding CPU work slows it; a second runner is forbidden and
     self-guarded by `runner_alive.sh`. Verified live 2026-11-27T10:17Z via
     `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`,
-    `draw_chunks_on_disk=37`; exactly one main runner — no duplicate/orphan).
+    `draw_chunks_on_disk=39`; exactly one main runner — no duplicate/orphan).
     NOTE: worker PIDs are NOT stable — the 4 workers are respawned per cell (they were
     13774–13777 at 09:10Z, 23026–23029 at 10:01Z, 23942–23945 at 10:13Z, now 27073–27076 at 10:17Z
     — only ~9 s old). NEVER trust hardcoded PIDs; discover the
@@ -84,7 +84,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 **Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 10:17Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`); 37/56 real cells complete.
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
-- Draw chunks on disk: **37** (actively progressing; 31→37 since the 09:12Z handoff, ~1 chunk / 6–10 min).
+- Draw chunks on disk: **39** (actively progressing; 31→37 since the 09:12Z handoff, ~1 chunk / 6–10 min).
 - Runner health: verified via `next_c25_action.sh`, **no errors** (in-flight `cost_taker_funding/mexc/2024`, elapsed ~2.33 h; last completed `cost_taker_funding/mexc/2023`).
 - **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T17:01Z (±30%)**; conservative
   in-flight-aware ~44.3 h → ~2026-11-29T06:36Z, at 4 saturated cores (per-cell ~1.62 h; in-flight elapsed ~2.33 h exceeds median budget — permutation variance expected, do NOT kill while ALIVE).
@@ -232,7 +232,7 @@ finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 
 2026-11-27T10:17:10Z: `RUNNER: ALIVE` (main PID 3033 + workers 27073–27076, exactly one main
 runner — no duplicate/orphan competing for the 4 cores), `C25 ACCEPTANCE: PENDING`,
 `real_cells_remaining=19` (37/56 complete), `skipped_unavailable_funding=8`,
-`draw_chunks_on_disk=37` (up from 31 at 09:12Z — progress continues across sessions),
+`draw_chunks_on_disk=39` (up from 31 at 09:12Z — progress continues across sessions),
 in-flight `cost_taker_funding_mexc_2024` (~2.33 h elapsed; last completed `cost_taker_funding/mexc/2023`),
 runner log error-free, `ANCHOR: OK` (16/16 cells EXACT), ETA ~30.7 h → ~2026-11-28T17:01Z (conservative ~44.3 h → ~2026-11-29T06:36Z),
 `session_gate.py` **21/21 checks passed — DONE**, `check_queue_readiness.sh` QUEUE READY
