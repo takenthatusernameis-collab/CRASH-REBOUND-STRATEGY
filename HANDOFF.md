@@ -1,5 +1,5 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T01:13:38Z
+**Generated:** 2026-11-27T01:14:36Z
 **Session Context:** CRASH-REBOUND-STRATEGY repo — systematic multi-venue strategy validation
 **Chain State:** C24 PASS → C25 IN FLIGHT → C26-C32 BLOCKED
 
@@ -8,7 +8,7 @@
 ## 🎯 IMMEDIATE PRIORITY (No-Avoidance Rule)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch.**
-The runner is ALIVE with 4 parallel jobs. Current progress: **22/40 draw chunks** for `cost_taker_funding/mexc/2023`.
+The runner is ALIVE with 4 parallel jobs. Current progress: **23/40 draw chunks** for `cost_taker_funding/mexc/2023`.
 **Do not spawn new campaigns. Do not edit markdown. Do not declare "no authorized work."**
 The heavy-work queue is C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32. **This chain is the only authorized work.**
 
@@ -112,7 +112,7 @@ bash scripts/status_c28.sh  # (check script exists)
 ```
 PID 2867 (parent) + 14533-14536 (4 workers) — python run_c25_cost_fidelity_campaign.py --jobs 4 --resume
 CPU: ~93% each worker | Mem: ~700MB each | Runtime: ~2h 52m
-In-flight: cost_taker_funding/mexc/2023 (22/40 chunks)
+In-flight: cost_taker_funding/mexc/2023 (23/40 chunks)
 All cost_base & cost_taker arms: 16/16 DONE
 cost_taker_funding OKX: UNAVAILABLE_FUNDING (API retention)
 cost_taker_funding Binance UM: 16/16 DONE
