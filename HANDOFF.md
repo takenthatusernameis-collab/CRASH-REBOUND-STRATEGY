@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T10:32:03Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T10:32:03Z.**
+**Handoff timestamp:** 2026-11-27T10:33:39Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T10:33:39Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
-> file. There are NO other `HANDOFF_*.md` duplicates (re-verified 2026-11-27T10:17Z:
+> file. There are NO other `HANDOFF_*.md` duplicates (re-verified 2026-11-27T10:33Z:
 > `find` shows only `HANDOFF.md` + the two pointer files). If anything disagrees with
 > this file, this file wins. Re-derive live state with `bash scripts/next_c25_action.sh`.
 
@@ -21,14 +21,15 @@ The next focus campaign is C26 and it is fully built — you may not skip or def
 Concretely, in priority order, and you may not skip or defer any step:
 
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
-    ALIVE (main PID 3033 + 4 workers 27073–27076 at 10:17Z, ~95% CPU each) and is
-    saturating all 4 cores. Adding CPU work slows it; a second runner is forbidden and
-    self-guarded by `runner_alive.sh`. Verified live 2026-11-27T10:17Z via
-    `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`,
-    `draw_chunks_on_disk=39`; exactly one main runner — no duplicate/orphan).
-    NOTE: worker PIDs are NOT stable — the 4 workers are respawned per cell (they were
-    13774–13777 at 09:10Z, 23026–23029 at 10:01Z, 23942–23945 at 10:13Z, now 27073–27076 at 10:17Z
-    — only ~9 s old). NEVER trust hardcoded PIDs; discover the
+   ALIVE (main PID 3033 + 4 workers 28636–28639 at 10:33Z, ~96% CPU each) and is
+   saturating all 4 cores. Adding CPU work slows it; a second runner is forbidden and
+   self-guarded by `runner_alive.sh`. Verified live 2026-11-27T10:33Z via
+   `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`,
+   `draw_chunks_on_disk=39`; exactly one main runner — no duplicate/orphan; tracked as
+   background process `bgp_21c02c42b001dINlpoArj920w6`, persistent).
+   NOTE: worker PIDs are NOT stable — the 4 workers are respawned per cell/chunk (they were
+   13774–13777 at 09:10Z, 23026–23029 at 10:01Z, 23942–23945 at 10:13Z, 27073–27076 at 10:17Z,
+   now 28636–28639 at 10:33Z — only ~7 min old). NEVER trust hardcoded PIDs; discover the
     live runner with `bash scripts/next_c25_action.sh` / `scripts/runner_alive.sh`.
 2. **Monitor C25 to a consolidated verdict using bounded waits only.** Run
    `bash scripts/next_c25_action.sh`, then `bash -c 'sleep 540; bash scripts/next_c25_action.sh'`.
