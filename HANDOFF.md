@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T12:16:27Z (state re-derived via `bash scripts/next_c25_action.sh`: RUNNER ALIVE, C25 ACCEPTANCE: PENDING, 18 real cells remaining incl. cost_stress arm, cost_taker_funding_mexc_2025 in flight, ANCHOR OK)
+**Timestamp:** 2026-11-27T12:19:46Z (state re-derived via `bash scripts/next_c25_action.sh`: RUNNER ALIVE, C25 ACCEPTANCE: PENDING, 18 real cells remaining incl. cost_stress arm, cost_taker_funding_mexc_2025 in flight, ANCHOR OK)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -119,6 +119,7 @@ C26 adjudicates intrabar path sequencing + per-trade realized funding (4 arms ×
 - Checkpoint files in `research_state/` enable exact resume after environment loss
 - All timestamps in UTC; `TS=20261119T045500Z` for C25, `TS=20261119T121500Z` for C26
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor)
+- **Current runner state:** ALIVE, cost_taker_funding_mexc_2025 in flight, 18 real cells remaining (16 cost_stress + 2 others), 10 draw chunks on disk
 
 ---
 
