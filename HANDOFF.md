@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T18:24:03Z (state re-derived via `bash scripts/next_c25_action.sh`: RUNNER NOT ALIVE, C25 ACCEPTANCE: UNKNOWN, .venv missing, 16 real cells remaining = cost_stress arm, cost_taker_funding bitget 2023 in flight with 6 draw chunks on disk)
+**Timestamp:** 2026-11-27T18:27:30Z (state re-derived via `bash scripts/next_c25_action.sh` at 18:25:20Z: RUNNER WAS NOT ALIVE, .venv missing, 16 real cells remaining = cost_stress arm, cost_taker_funding bitget 2023 in flight with 6 draw chunks on disk. **ACTION TAKEN THIS SESSION:** launched the durable runner (`background_process ... run_c25_durable.sh persistent=true`, id `bgp_21e41458b001xryDm0XPGyIJIf`); `.venv` bootstrapped; C25 runner now LIVE on 4 saturated cores (`run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, pids ~4052-4061). Bottleneck (dead runner + missing venv) REMOVED — heavy compute is in flight.)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -55,7 +55,9 @@ The heavy compute must be launched via the durable background process (`bash scr
 
 ## 🚀 EXECUTION COMMANDS (the probe already picks the right one — do not improvise)
 
-### If probe says `ACTION: RESUME_C25` (runner dead / fresh CI job, no .venv) — **CURRENT STATE**
+### If probe says `ACTION: RESUME_C25` (runner dead / fresh CI job, no .venv)
+
+> **STATUS 18:27Z: ALREADY DONE THIS SESSION — runner is LIVE (bgp `bgp_21e41458b001xryDm0XPGyIJIf`), `.venv` bootstrapped. Do NOT run the launch block below again; a duplicate runner is a rule-4 violation. Go straight to the "After launch — bounded wait + re-probe" block.**
 
 ```bash
 background_process start command="bash scripts/run_c25_durable.sh" persistent=true
@@ -149,7 +151,7 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (18:24Z):** NOT ALIVE, `.venv` missing, 6 draw chunks on disk for `cost_taker_funding bitget 2023`, 16 real cells remaining (all cost_stress; okx cost_stress = UNAVAILABLE_FUNDING skip), pacing: ~1.6 h/cell on 4 saturated cores, wake_after=8h.
+- **Current runner state (18:27Z):** ALIVE — durable runner launched this session (bgp id `bgp_21e41458b001xryDm0XPGyIJIf`), `.venv` bootstrapped, C25 runner executing `--jobs 4 --resume` on 4 saturated cores. 16 real cells remaining (all cost_stress; okx cost_stress = UNAVAILABLE_FUNDING skip), pacing ~1.6 h/cell, wake_after=8h. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
