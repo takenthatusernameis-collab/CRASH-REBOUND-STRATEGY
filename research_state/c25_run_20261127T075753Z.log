@@ -54,3 +54,8 @@
 [run] cost_taker_funding mexc 2026YTD
 [census] MEXC: events=219 signal_pass=69 trades=25 matched=25 unexplained=27
 [episode] cost_taker_funding mexc 2026YTD: trades=25 pnl=-897004.78 perm_p=1.0
+[placebo] cost_taker_funding mexc 2026YTD: pool=69 choose=25 runs=2000 p_ge=0.9935
+[battery] MEXC: total=-897004.78 trades=25 legs=['buy'] episodes=8
+[done] cost_taker_funding mexc 2026YTD pnl=-897004.78
+[run] cost_taker_funding bitget 2023
+[census] Bitget: events=348 signal_pass=108 trades=46 matched=46 unexplained=57
