@@ -41,3 +41,8 @@
 [run] cost_taker_funding mexc 2023
 [census] MEXC: events=325 signal_pass=110 trades=49 matched=49 unexplained=56
 [episode] cost_taker_funding mexc 2023: trades=49 pnl=-4046610.90 perm_p=0.96695
+[placebo] cost_taker_funding mexc 2023: pool=110 choose=49 runs=2000 p_ge=1.0
+[battery] MEXC: total=-4046610.90 trades=49 legs=['buy'] episodes=9
+[done] cost_taker_funding mexc 2023 pnl=-4046610.9
+[run] cost_taker_funding mexc 2024
+[census] MEXC: events=314 signal_pass=124 trades=50 matched=50 unexplained=58
