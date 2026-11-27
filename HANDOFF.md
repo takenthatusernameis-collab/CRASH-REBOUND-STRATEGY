@@ -1,5 +1,5 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T03:06:44Z (re-verified this session; runner ALIVE pid 2867 workers 37439-37442, C25 ACCEPTANCE PENDING, 19 real cells remaining, cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 9/16 | cost_stress 0/16; evidence VERIFIED exit 0, session_gate 21/21 passed — durable_handoff refreshed)
+**Generated:** 2026-11-27T03:08:00Z (re-verified this session; runner ALIVE pid 2867 workers 41601-41617, C25 ACCEPTANCE PENDING, 19 real cells remaining, cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 9/16 | cost_stress 0/16; in-flight cost_taker_funding_mexc_2024; evidence VERIFIED exit 0, session_gate 21/21 passed — durable_handoff refreshed)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
@@ -132,7 +132,7 @@ PID 2867 (parent) -> workers 37439-37442 (python run_c25_cost_fidelity_campaign.
 CPU: 4 saturated cores | Mem: ~700MB each
 PROGRESS: 37/56 real cells complete | cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 9/16 | cost_stress 0/16
   cost_taker_funding: binance_um 4/4 DONE; okx 4 SKIPPED (UNAVAILABLE_FUNDING); mexc 1/4 (2023 done); bitget 0/4
-REAL CELLS REMAINING: 19 | SKIPPED UNAVAILABLE_FUNDING: 8 | draw_chunks_on_disk: 0 | in_flight: none
+REAL CELLS REMAINING: 19 | SKIPPED UNAVAILABLE_FUNDING: 8 | draw_chunks_on_disk: 1 | in_flight: cost_taker_funding_mexc_2024
 PACING: poll interval 8h | completion ETA ~30.7h (median, n=37) / ~44.8h (conservative, in-flight-aware)
   -> ~2026-11-28T09:50Z (median) … 2026-11-28T22:58Z (conservative), +/- 30%
 ANCHOR: OK — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
