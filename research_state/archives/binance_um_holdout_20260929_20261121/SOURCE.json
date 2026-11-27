@@ -1,0 +1,946 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-27T04:11:50.524435+00:00",
+  "run_type": "external_exchange_archive_acquisition",
+  "fabricated_data": false,
+  "real_market_data": true,
+  "performance_evidence": false,
+  "is_hyperliquid_venue_data": false,
+  "venue_note": "Candles are REAL, exchange-published OHLCV for the requested instruments but are NOT Hyperliquid candles. They are cross-venue price/volume proxies for the spec universe. Use for real strategy/behavior campaign runs; document the venue basis when comparing to the Hyperliquid-denominated spec targets.",
+  "target_window": {
+    "start": "2026-09-29T00:00:00+00:00",
+    "end": "2026-11-21T00:00:00+00:00",
+    "expected_hourly_bars": 1273
+  },
+  "symbols": {
+    "AAVE": {
+      "symbol": "AAVE",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "AAVEUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "26f96d9947103f1274bf6b9ec3e33e29556fc1635c79957f23e6ea2b4ac935e1",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/AAVE.json",
+      "retrieved_at_utc": "2026-11-27T04:11:24.269824+00:00",
+      "retrieval_seconds": 1.41,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "ADAUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "048ac4aa0583249576b3b6126c6737dd2e1ae2fecfaece1d23da6279d922e1a4",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/ADA.json",
+      "retrieved_at_utc": "2026-11-27T04:11:24.788004+00:00",
+      "retrieval_seconds": 0.52,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ALGO": {
+      "symbol": "ALGO",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "ALGOUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "0e5e8adedaff18e1dff9f26242824fa1841c4acf0af4a5fe6db2ffe4f4f864af",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/ALGO.json",
+      "retrieved_at_utc": "2026-11-27T04:11:25.718056+00:00",
+      "retrieval_seconds": 0.93,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "APT": {
+      "symbol": "APT",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "APTUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "055c9bae4cbac47b37a9a1b7925a295abd641b99ccba0dae3406594283145c76",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/APT.json",
+      "retrieved_at_utc": "2026-11-27T04:11:26.570100+00:00",
+      "retrieval_seconds": 0.85,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ATOM": {
+      "symbol": "ATOM",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "ATOMUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "98ab9286bff497d7526a5cd26064e992e4755cc934156e89fd9b9c3d610287f2",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/ATOM.json",
+      "retrieved_at_utc": "2026-11-27T04:11:27.361418+00:00",
+      "retrieval_seconds": 0.79,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "AVAXUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "a2f033666b94cd21864f57248a74dda1a45db81e703cde2dbee8c3cceecebae1",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/AVAX.json",
+      "retrieved_at_utc": "2026-11-27T04:11:28.019149+00:00",
+      "retrieval_seconds": 0.66,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "BAT": {
+      "symbol": "BAT",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "BATUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "7b147ce5f4bc8ea15c5638ea817370494a12b0c42e47b1b9ecdcf535d2889ecc",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/BAT.json",
+      "retrieved_at_utc": "2026-11-27T04:11:29.030732+00:00",
+      "retrieval_seconds": 1.01,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "BCHUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "a8fc9ae6d69f81a7562a26fb3ac04441a9fba8443267e416a749fdd3f56c39a3",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/BCH.json",
+      "retrieved_at_utc": "2026-11-27T04:11:29.893743+00:00",
+      "retrieval_seconds": 0.86,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "COMP": {
+      "symbol": "COMP",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "COMPUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "2735e3b1ec32af67dfb1b2fec501c72e49b9b3e0de22b4e6a3b9e9ae00cde78e",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/COMP.json",
+      "retrieved_at_utc": "2026-11-27T04:11:30.646843+00:00",
+      "retrieval_seconds": 0.75,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "CRV": {
+      "symbol": "CRV",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "CRVUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "c9a7d847a36973a5826ab1b2175be92352e1738230796f1d5f8452ddbf165992",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/CRV.json",
+      "retrieved_at_utc": "2026-11-27T04:11:31.602156+00:00",
+      "retrieval_seconds": 0.96,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "DOGEUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "1928672718420d4917790bc7b85270f0ee47705be75ec06a68d4c45b0b3689a7",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/DOGE.json",
+      "retrieved_at_utc": "2026-11-27T04:11:32.249746+00:00",
+      "retrieval_seconds": 0.65,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "DOT": {
+      "symbol": "DOT",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "DOTUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "5d55126e0de8e666519e906ac9a251de3817a5189d47baedaa0ebdfaf54d7498",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/DOT.json",
+      "retrieved_at_utc": "2026-11-27T04:11:33.007563+00:00",
+      "retrieval_seconds": 0.76,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ETC": {
+      "symbol": "ETC",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "ETCUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "bd26c39eded612aa9c61b37fb0d8149110bf7fd3d1a6c5d741bdce77cc4fd7f0",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/ETC.json",
+      "retrieved_at_utc": "2026-11-27T04:11:33.893032+00:00",
+      "retrieval_seconds": 0.89,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "ETHUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "58439e224ae7041100abd0c5dc0535ad01f546f6c2139c4a7a3bb3632a5f4963",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/ETH.json",
+      "retrieved_at_utc": "2026-11-27T04:11:34.849193+00:00",
+      "retrieval_seconds": 0.96,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "FIL": {
+      "symbol": "FIL",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "FILUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "7a47e5a16b997a884ab15e854a6ad431ba6c3880ca50ce32c98338a7e70b8c75",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/FIL.json",
+      "retrieved_at_utc": "2026-11-27T04:11:35.576266+00:00",
+      "retrieval_seconds": 0.73,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "GRT": {
+      "symbol": "GRT",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "GRTUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "d6cc43b453e6bef969a05ae7ada6a2a08a989393ea30fd2c6aef460af6d651c6",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/GRT.json",
+      "retrieved_at_utc": "2026-11-27T04:11:36.227769+00:00",
+      "retrieval_seconds": 0.65,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "KSM": {
+      "symbol": "KSM",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "KSMUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "f9bd696eda751ce0e67c6ef0058c96225c4fa024469831681aa7d07acf5bd374",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/KSM.json",
+      "retrieved_at_utc": "2026-11-27T04:11:37.105734+00:00",
+      "retrieval_seconds": 0.88,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "LINKUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "8336ad6b489cd6451c196367a519c10ffaacee896e65bddf402523ddbcce8c25",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/LINK.json",
+      "retrieved_at_utc": "2026-11-27T04:11:37.631379+00:00",
+      "retrieval_seconds": 0.53,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "LTC": {
+      "symbol": "LTC",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "LTCUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "bde030932e716b2e26d9fa2a240ef7cbab2cab656ec3973d5963b1c8351bd4eb",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/LTC.json",
+      "retrieved_at_utc": "2026-11-27T04:11:38.590258+00:00",
+      "retrieval_seconds": 0.96,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "MANA": {
+      "symbol": "MANA",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "MANAUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "41e7234b5b6ec04e9ae2516b469543f315b8a8689cba930ba5ec1d8e2f240544",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/MANA.json",
+      "retrieved_at_utc": "2026-11-27T04:11:39.539981+00:00",
+      "retrieval_seconds": 0.95,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "NEAR": {
+      "symbol": "NEAR",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "NEARUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "edbd7f037dfe15e953dd5ebeb6bce6ae02447911e3683b8b28449b9773f0ab53",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/NEAR.json",
+      "retrieved_at_utc": "2026-11-27T04:11:40.424752+00:00",
+      "retrieval_seconds": 0.88,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "OP": {
+      "symbol": "OP",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "OPUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "80f5d4f50420ff51b61ed2704d835ed2548c96b3d5520ad3b44f2bf020d90bc9",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/OP.json",
+      "retrieved_at_utc": "2026-11-27T04:11:41.322125+00:00",
+      "retrieval_seconds": 0.9,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SAND": {
+      "symbol": "SAND",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "SANDUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "451d4e21ed1653c0e9e60b618b10b7792ffd3cf06900e080bd7b3cc1ab80357b",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/SAND.json",
+      "retrieved_at_utc": "2026-11-27T04:11:42.020699+00:00",
+      "retrieval_seconds": 0.7,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SHIB": {
+      "symbol": "SHIB",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "1000SHIBUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "0a149fb22563e76a2691622a227a691120436b9c86b7c7826caeab01264123df",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/SHIB.json",
+      "retrieved_at_utc": "2026-11-27T04:11:43.165167+00:00",
+      "retrieval_seconds": 1.14,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SNX": {
+      "symbol": "SNX",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "SNXUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "6278e034f4f564ae4e476677c89a9630c30aed0f1a2954297e1431bde491102c",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/SNX.json",
+      "retrieved_at_utc": "2026-11-27T04:11:44.110474+00:00",
+      "retrieval_seconds": 0.95,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "SOLUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "9dbcc111599a040fa855c3981efa79daf045637531591de2a5f841bdb28c9d50",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/SOL.json",
+      "retrieved_at_utc": "2026-11-27T04:11:44.757924+00:00",
+      "retrieval_seconds": 0.65,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "SUSHI": {
+      "symbol": "SUSHI",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "SUSHIUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "121547b0ef68950ddd33404e49f425a483e0a6098f972983ce3795676740a79d",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/SUSHI.json",
+      "retrieved_at_utc": "2026-11-27T04:11:45.510045+00:00",
+      "retrieval_seconds": 0.75,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "THETA": {
+      "symbol": "THETA",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "THETAUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "e046fc273bf59fe526907cb3dba53e827d0828f47493465a8d6d7d4fe0a54620",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/THETA.json",
+      "retrieved_at_utc": "2026-11-27T04:11:46.281611+00:00",
+      "retrieval_seconds": 0.77,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "TRX": {
+      "symbol": "TRX",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "TRXUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "f60b727cbf4e63de0dcf0456b8a59108acab36866d4f62eda607de12a7754c49",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/TRX.json",
+      "retrieved_at_utc": "2026-11-27T04:11:46.930841+00:00",
+      "retrieval_seconds": 0.65,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "UNIUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "48d412ca38dbf3f9c2ccc56f74a7d8c33913ec4c9055e925d5d0a5b716981f6e",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/UNI.json",
+      "retrieved_at_utc": "2026-11-27T04:11:47.880633+00:00",
+      "retrieval_seconds": 0.95,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XLM": {
+      "symbol": "XLM",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "XLMUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "b1eda6b9b6da52c05d03bcdf9379f1cbef81fb260dd215cf496e7fe173765f56",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/XLM.json",
+      "retrieved_at_utc": "2026-11-27T04:11:48.756341+00:00",
+      "retrieval_seconds": 0.88,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "XRPUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "324a04482df9cfb1f0c44aa0bd8ca1f61a9106137ab46091acdb6b1f57855785",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/XRP.json",
+      "retrieved_at_utc": "2026-11-27T04:11:49.630632+00:00",
+      "retrieval_seconds": 0.87,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    },
+    "XTZ": {
+      "symbol": "XTZ",
+      "status": "incomplete",
+      "venue": "binance_vision_um",
+      "instrument": "XTZUSDT",
+      "endpoint": "GET https://data.binance.vision/data/futures/um/monthly/klines/<INSTRUMENT>/1h/<INSTRUMENT>-1h-<YYYY-MM>.zip (Binance Vision public data dump; USDT-M futures)",
+      "bar": "1H",
+      "pages_fetched": 2,
+      "rows_written": 792,
+      "sha256": "c3d4148e7fb98a521dd4ff2f63490988f221dbd4a41c6062ffe7209d80efbbc1",
+      "archive_file": "research_state/archives/binance_um_holdout_20260929_20261121/XTZ.json",
+      "retrieved_at_utc": "2026-11-27T04:11:50.524402+00:00",
+      "retrieval_seconds": 0.89,
+      "coverage": {
+        "observed_in_window_bars": 792,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": false,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-10-31T23:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1793487600000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "external_exchange_download"
+      }
+    }
+  },
+  "summary": {
+    "symbols_requested": 33,
+    "symbols_complete": 0,
+    "all_complete": false
+  }
+}

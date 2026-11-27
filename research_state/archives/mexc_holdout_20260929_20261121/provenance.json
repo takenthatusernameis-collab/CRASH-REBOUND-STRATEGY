@@ -1,0 +1,1058 @@
+{
+  "schema_version": 1,
+  "generated_at_utc": "2026-11-27T04:11:36.074459+00:00",
+  "run_type": "data_acquisition_provenance",
+  "real_market_data_intended": true,
+  "fabricated_data": false,
+  "real_market_data": true,
+  "performance_evidence": false,
+  "is_hyperliquid_venue_data": false,
+  "source": {
+    "kind": "external_exchange",
+    "venue": "mexc",
+    "endpoint": "https://contract.mexc.com/api/v1/contract/kline/<SYMBOL>",
+    "source_label": "mexc_public_contract_fapi_kline_min60"
+  },
+  "request_params": {
+    "interval": "1h",
+    "start_ms": 1790640000000,
+    "end_ms": 1795219200000,
+    "symbols": [
+      "AAVE",
+      "ADA",
+      "ALGO",
+      "APT",
+      "ATOM",
+      "AVAX",
+      "BAT",
+      "BCH",
+      "COMP",
+      "CRV",
+      "DOGE",
+      "DOT",
+      "ETC",
+      "ETH",
+      "FIL",
+      "GRT",
+      "KSM",
+      "LINK",
+      "LTC",
+      "MANA",
+      "MINA",
+      "NEAR",
+      "OP",
+      "SAND",
+      "SHIB",
+      "SNX",
+      "SOL",
+      "SUSHI",
+      "THETA",
+      "TRX",
+      "UNI",
+      "XLM",
+      "XRP",
+      "XTZ"
+    ],
+    "window_hours": 1500,
+    "min_daily_volume_usd_requested": 5000000.0
+  },
+  "venue_note": "REAL MEXC USDT-perpetual OHLCV, non-synthetic, cross-venue vs the Hyperliquid spec. NOT Hyperliquid candles and must never be relabelled as Hyperliquid performance evidence (is_hyperliquid_venue_data=false).",
+  "target_window": {
+    "start": "2026-09-29T00:00:00+00:00",
+    "end": "2026-11-21T00:00:00+00:00",
+    "expected_hourly_bars": 1273
+  },
+  "symbols": {
+    "AAVE": {
+      "symbol": "AAVE",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "AAVE_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "bb9201ede98d4ac7d68677790c0a580320d4e689e5039b6719d2aa829fab7ea4",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/AAVE.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:24.597503+00:00",
+      "retrieval_seconds": 0.54,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "ADA": {
+      "symbol": "ADA",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "ADA_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "4d52f06fcae6dd1322b4537915f60640c5acc30b45955aa6957bf0fe750d25c9",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/ADA.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:24.963777+00:00",
+      "retrieval_seconds": 0.37,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "ALGO": {
+      "symbol": "ALGO",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "ALGO_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "f3d21ba8e5eee7a23c178c14b5deb176ed60a96b572c9c7102f21284812ee6e3",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/ALGO.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:25.330519+00:00",
+      "retrieval_seconds": 0.37,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "APT": {
+      "symbol": "APT",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "APT_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "d5154f67dc1e35ed35ef3c92283b9833e11a8c86c5280f5cb973028ec9ff4731",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/APT.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:25.673214+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "ATOM": {
+      "symbol": "ATOM",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "ATOM_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "fc10b2f540416deaf4a6dd7548c69e18d173b1ab3ad9ce1b79f9625a55cbad45",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/ATOM.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:26.025741+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "AVAX": {
+      "symbol": "AVAX",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "AVAX_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "54ced48c26c577307f53f6af2f08a3f131a54da226c7ddcad055721599f63634",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/AVAX.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:26.361456+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "BAT": {
+      "symbol": "BAT",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "BAT_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "57bdb590c15fcd75ca1b6a27ab78b5566b39f5b4c6158cf762bd628ed5d70176",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/BAT.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:26.720143+00:00",
+      "retrieval_seconds": 0.36,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "BCH": {
+      "symbol": "BCH",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "BCH_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "29503f19e616d18fb60922b75e23292abfa8998fe564769a1f9c5c5a69d5f705",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/BCH.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:27.076027+00:00",
+      "retrieval_seconds": 0.36,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "COMP": {
+      "symbol": "COMP",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "COMP_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "987b604095c9c6083441f00ef43abae9648b9d89d917079810a14dbcbf8bca33",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/COMP.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:27.431642+00:00",
+      "retrieval_seconds": 0.36,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "CRV": {
+      "symbol": "CRV",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "CRV_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "a568a3bf1dbb99ad1052e2c9504c6cfdff4187a5a101515bee228fa77349df74",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/CRV.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:27.781837+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "DOGE": {
+      "symbol": "DOGE",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "DOGE_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "9d072c688ce6024c55b1494a0bd2d4311465f08021632daf2a4d848150a2fee7",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/DOGE.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:28.119295+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "DOT": {
+      "symbol": "DOT",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "DOT_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "92813b9b1ac25d2606194478c77d157c74a23e77fcbc2bd6bd5e07876bde19d1",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/DOT.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:28.478134+00:00",
+      "retrieval_seconds": 0.36,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "ETC": {
+      "symbol": "ETC",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "ETC_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "9f6066a2d359f0f442e6bcb4aeca6379541055ae91fd3733c18b9c204e692937",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/ETC.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:28.874019+00:00",
+      "retrieval_seconds": 0.4,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "ETH": {
+      "symbol": "ETH",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "ETH_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "e114fb4e093de93378e09bd918d1bf924bb7e782694f701c9255a98381ab4e26",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/ETH.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:29.221516+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "FIL": {
+      "symbol": "FIL",
+      "status": "incomplete",
+      "venue": "mexc",
+      "instrument": "FIL_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 0,
+      "sha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/FIL.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:29.511106+00:00",
+      "retrieval_seconds": 0.29,
+      "coverage": {
+        "observed_in_window_bars": 0,
+        "expected_hourly_bars": null,
+        "complete_for_target_window": false,
+        "gap_count": null,
+        "first_timestamp": null,
+        "last_timestamp": null,
+        "first_timestamp_ms": null,
+        "last_timestamp_ms": null
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "GRT": {
+      "symbol": "GRT",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "GRT_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "0cac16e1359cd10f1d09bc850e6cd46cc6c49eb61c7751e6fa9114de61e7821a",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/GRT.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:29.882458+00:00",
+      "retrieval_seconds": 0.37,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "KSM": {
+      "symbol": "KSM",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "KSM_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "fc08fbac0e4250bce6bfa197dd80ddbb469fe7b2539eebba1fba3a054bbfc21b",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/KSM.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:30.244598+00:00",
+      "retrieval_seconds": 0.36,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "LINK": {
+      "symbol": "LINK",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "LINK_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "ac6ec7eb83f59a8891abb8723f9260901041f1b91c264d2a350159498056918c",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/LINK.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:30.575210+00:00",
+      "retrieval_seconds": 0.33,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "LTC": {
+      "symbol": "LTC",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "LTC_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "003a167e862a05b9c8b25f18bcfee0a975561b936581ef6e5ab92061a399a7dd",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/LTC.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:30.925695+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "MANA": {
+      "symbol": "MANA",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "MANA_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "d8081e811b877acaa5b642f126c29935e7f93cdab0bebc2a6944f39f6e54f174",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/MANA.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:31.259628+00:00",
+      "retrieval_seconds": 0.33,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "MINA": {
+      "symbol": "MINA",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "MINA_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "2b95b6a24e487b9f5969e88688c82087f3230e30e355808289db2ff6baf12f73",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/MINA.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:31.608867+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "NEAR": {
+      "symbol": "NEAR",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "NEAR_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "cc949e6ef0378bf428d65fb539ff7593a702da2bafa7ef264ea117138ed2275e",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/NEAR.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:31.946342+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "OP": {
+      "symbol": "OP",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "OP_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "e380afd7c6934368e937c01e1b84c67adbd9fab7ac5dd5e4baee24b58d0d73ec",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/OP.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:32.293438+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "SAND": {
+      "symbol": "SAND",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "SAND_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "d27c5daec6d873e1baf1d3fbf2f4b8301ff8aa4fbb6b2ad8349db213d287a5c2",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/SAND.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:32.627533+00:00",
+      "retrieval_seconds": 0.33,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "SHIB": {
+      "symbol": "SHIB",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "SHIB_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "b1ec926c37ca6f50c13ea4c5ca1ab848cc351545fb25bd04c25849b987358961",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/SHIB.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:32.966454+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "SNX": {
+      "symbol": "SNX",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "SNX_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "4b3ff9189d6dbda346547f8c8ff2ec81ef8ddb80812e91a7c5eabfd5ddc6b279",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/SNX.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:33.291318+00:00",
+      "retrieval_seconds": 0.32,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "SOL": {
+      "symbol": "SOL",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "SOL_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "eacedec117542c5d713de158c225ce2f81445ac22771613afccd94599b565a2f",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/SOL.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:33.635388+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "SUSHI": {
+      "symbol": "SUSHI",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "SUSHI_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "3700ec8483486fbf7cf2ad5a5e367c0875f38f59e0943dbad98369dc50162f63",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/SUSHI.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:33.974060+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "THETA": {
+      "symbol": "THETA",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "THETA_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "baa6fee0ec50483650c5ed499a891198af4c58f18f842958b6f2785cf5bf0ea9",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/THETA.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:34.328004+00:00",
+      "retrieval_seconds": 0.35,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "TRX": {
+      "symbol": "TRX",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "TRX_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "96ac3b7ed0b16317096e825fb15b3c877692920a56d1660476f7e013073b6937",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/TRX.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:34.662979+00:00",
+      "retrieval_seconds": 0.33,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "UNI": {
+      "symbol": "UNI",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "UNI_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "830b97ef91360ebe3f71a8497df29098a70a5d1c28897faa751c886759ca187f",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/UNI.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:35.002946+00:00",
+      "retrieval_seconds": 0.34,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "XLM": {
+      "symbol": "XLM",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "XLM_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "272f3053fe0224e19c91858889dd1a4b32bd5b99009930c09247cd21943de7b8",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/XLM.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:35.377595+00:00",
+      "retrieval_seconds": 0.37,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "XRP": {
+      "symbol": "XRP",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "XRP_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "8e17c557fabde7241792c1f5db5201cac858e0328d5262d49cf5c8d28dfce208",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/XRP.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:35.709471+00:00",
+      "retrieval_seconds": 0.33,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    },
+    "XTZ": {
+      "symbol": "XTZ",
+      "status": "ok",
+      "venue": "mexc",
+      "instrument": "XTZ_USDT",
+      "endpoint": "GET https://contract.mexc.com/api/v1/contract/kline/<SYMBOL> (interval=Min60, start/end unix sec)",
+      "bar": "1H",
+      "pages_fetched": 1,
+      "rows_written": 1273,
+      "sha256": "18ce6fd9ebaece9ff347fb7a76a3bc7b36a0ab672c5d04aa705b9bd92834229a",
+      "cache_path": "research_state/archives/mexc_holdout_20260929_20261121/candles/XTZ.json",
+      "source": "mexc_public_contract_fapi_kline_min60",
+      "retrieved_at_utc": "2026-11-27T04:11:36.074415+00:00",
+      "retrieval_seconds": 0.36,
+      "coverage": {
+        "observed_in_window_bars": 1273,
+        "expected_hourly_bars": 1273,
+        "complete_for_target_window": true,
+        "gap_count": 0,
+        "first_timestamp": "2026-09-29T00:00:00+00:00",
+        "last_timestamp": "2026-11-21T00:00:00+00:00",
+        "first_timestamp_ms": 1790640000000,
+        "last_timestamp_ms": 1795219200000
+      },
+      "synthetic_check": {
+        "is_synthetic": false,
+        "reason": "mexc_public_exchange_download"
+      }
+    }
+  },
+  "summary": {
+    "symbols_requested": 34,
+    "symbols_complete": 33,
+    "all_complete": false
+  }
+}
