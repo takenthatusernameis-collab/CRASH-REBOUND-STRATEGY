@@ -1,12 +1,12 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T02:02:01Z (re-verified this session; runner ALIVE, evidence VERIFIED)
+**Generated:** 2026-11-27T02:03:24Z (re-verified this session; runner ALIVE, evidence VERIFIED)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
 
 ---
 
-# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:02:01Z)
+# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:03:24Z)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch. No exceptions. No new campaigns. No "no authorized work" declarations. The chain C25 → C32 is pre-authorized; execute it.**
 
