@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T18:45:23Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE via `background_process list` — `bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885, persistent, status ready; draw chunks on disk = 8, in-flight `cost_taker_funding_bitget_2023` at 8/40)
+**Timestamp:** 2026-11-27T18:46:16Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE via `background_process list` — `bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885, persistent, status ready; draw chunks on disk = 8, in-flight `cost_taker_funding_bitget_2023` at 8/40)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -11,7 +11,7 @@
 
 ---
 
-## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T18:45:23Z)
+## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T18:46:16Z)
 
 **Repository priority (inferred from repo name `CRASH-REBOUND-STRATEGY`): finish the C25 cost-&-funding-fidelity campaign, then unlock the C24→C25→C26→…→C32 sequential adjudication chain. Nothing else is authorized ahead of C25.**
 
