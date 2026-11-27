@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T10:02:00Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T10:01Z.**
+**Handoff timestamp:** 2026-11-27T10:12:42Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T10:12Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -25,7 +25,7 @@ Concretely, in priority order, and you may not skip or defer any step:
    saturating all 4 cores. Adding CPU work slows it; a second runner is forbidden and
    self-guarded by `runner_alive.sh`. Verified live 2026-11-27T10:01Z via
    `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`,
-   `draw_chunks_on_disk=36`; exactly one main runner — no duplicate/orphan).
+   `draw_chunks_on_disk=37`; exactly one main runner — no duplicate/orphan).
    NOTE: worker PIDs are NOT stable — the 4 workers are respawned per cell (they were
    13774–13777 at 09:10Z, now 23026–23029). NEVER trust hardcoded PIDs; discover the
    live runner with `bash scripts/next_c25_action.sh` / `scripts/runner_alive.sh`.
@@ -230,7 +230,7 @@ finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 
 2026-11-27T10:01Z: `RUNNER: ALIVE` (main PID 3033 + workers 23026–23029, exactly one main
 runner — no duplicate/orphan competing for the 4 cores), `C25 ACCEPTANCE: PENDING`,
 `real_cells_remaining=19` (37/56 complete), `skipped_unavailable_funding=8`,
-`draw_chunks_on_disk=36` (up from 31 at 09:12Z — progress continues across sessions),
+`draw_chunks_on_disk=37` (up from 31 at 09:12Z — progress continues across sessions),
 in-flight `cost_taker_funding_mexc_2024` (~2.07 h elapsed), runner log error-free,
 `ANCHOR: OK` (16/16 cells EXACT), ETA ~30.7 h → ~2026-11-28T16:45Z (conservative ~39.3 h),
 `session_gate.py` **21/21 checks passed — DONE**, `check_queue_readiness.sh` QUEUE READY
