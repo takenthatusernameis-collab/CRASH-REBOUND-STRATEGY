@@ -42,3 +42,8 @@
 [run] cost_taker_funding mexc 2024
 [census] MEXC: events=314 signal_pass=124 trades=50 matched=50 unexplained=58
 [episode] cost_taker_funding mexc 2024: trades=50 pnl=-2817756.97 perm_p=0.9686484324216211
+[placebo] cost_taker_funding mexc 2024: pool=124 choose=50 runs=2000 p_ge=0.9995
+[battery] MEXC: total=-2817756.97 trades=50 legs=['buy'] episodes=8
+[done] cost_taker_funding mexc 2024 pnl=-2817756.97
+[run] cost_taker_funding mexc 2025
+[census] MEXC: events=311 signal_pass=94 trades=48 matched=48 unexplained=38

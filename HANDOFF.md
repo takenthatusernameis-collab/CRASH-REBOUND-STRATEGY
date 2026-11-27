@@ -1,11 +1,11 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T11:10:11Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T11:10:11Z.**
+**Handoff timestamp:** 2026-11-27T11:11:42Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T11:11:42Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
-> file. There are NO other `HANDOFF_*.md` duplicates (re-verified 2026-11-27T11:10Z:
+> file. There are NO other `HANDOFF_*.md` duplicates (re-verified 2026-11-27T11:11Z:
 > `find` shows only `HANDOFF.md` + the two pointer files). If anything disagrees with
 > this file, this file wins. Re-derive live state with `bash scripts/next_c25_action.sh`.
 
@@ -23,7 +23,7 @@ Concretely, in priority order, and you may not skip or defer any step:
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
    ALIVE (main PID 3033 + 4 workers 33243–33246 at 11:10Z, ~90% CPU each) and is
    saturating all 4 cores. Adding CPU work slows it; a second runner is forbidden and
-   self-guarded by `runner_alive.sh`. Verified live 2026-11-27T11:10Z via
+   self-guarded by `runner_alive.sh`. Verified live 2026-11-27T11:11Z via
    `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`,
    `draw_chunks_on_disk=40`; exactly one main runner — no duplicate/orphan; tracked as
    background process `bgp_21c02c42b001dINlpoArj920w6`, persistent).
@@ -67,12 +67,12 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 
 ---
 
-## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T11:10:11Z)
+## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T11:11:42Z)
 
 | Campaign | Status | Evidence |
 |----------|--------|----------|
 | **C24** | ✅ COMPLETED | `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` — `C24_REOPENS_C1_C23` |
-| **C25** | 🔄 IN FLIGHT | Runner ALIVE (verified 11:10Z via `next_c25_action.sh`; main PID 3033 + workers 33243–33246, ~90% CPU each; exactly ONE main runner — no duplicate/orphan). `cost_base` 16/16 ✓ (anchor EXACT), `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`in_flight=cost_taker_funding_mexc_2024`). **No consolidated verdict yet.** |
+| **C25** | 🔄 IN FLIGHT | Runner ALIVE (verified 11:11Z via `next_c25_action.sh`; main PID 3033 + workers 33243–33246, ~90% CPU each; exactly ONE main runner — no duplicate/orphan). `cost_base` 16/16 ✓ (anchor EXACT), `cost_taker` 16/16 ✓, `cost_taker_funding` in progress (7 real remaining + 8 `UNAVAILABLE_FUNDING`), `cost_stress` 0/16. In-flight: `cost_taker_funding/mexc/2024` (`in_flight=cost_taker_funding_mexc_2024`). **No consolidated verdict yet.** |
 | **C26** | 📋 PRE-REGISTERED + FULLY BUILT (NEXT FOCUS) | `c26_prereg_20261119T121500Z.json` (+`.md`); `run_c26_path_fidelity_campaign.py`, `run_c26_durable.sh`, `verify_c26_focus_campaign.py` — no checkpoints, no runner yet (`verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PENDING`, 64 cells pending, first `path_base/okx/2023`) |
 | **C27** | 📋 PRE-REGISTERED ONLY | `c27_prereg_20261119T215721Z.json` — no checkpoints, no runner (venue fixed by `probe_c27_venue_acquisition.py`) |
 | **C28** | 📋 PRE-REGISTERED ONLY | `c28_prereg_20261121T013400Z.json` — no checkpoints, no runner |
@@ -82,11 +82,11 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
 | **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL empty `[]`), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 11:10Z):**
+**Live numbers (authoritative `next_c25_action.sh` / `eta_c25.sh` at 11:11Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`); 37/56 real cells complete.
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
 - Draw chunks on disk: **40** (actively progressing; 31→37→39→40 since the 09:12Z handoff, ~1 chunk / 6–10 min).
-- Runner health: verified via `next_c25_action.sh`, **no errors** (in-flight `cost_taker_funding/mexc/2024`; last completed `cost_taker_funding/mexc/2023`).
+- Runner health: verified via `next_c25_action.sh`, **no errors** (in-flight `cost_taker_funding_mexc_2024`; last completed `cost_taker_funding/mexc/2023`).
 - **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T17:01Z (±30%)**; conservative
   in-flight-aware ~44.3 h → ~2026-11-29T06:36Z, at 4 saturated cores (per-cell ~1.62 h; do NOT kill while ALIVE).
 - `GATE: C25 ACCEPTANCE: PENDING`, `C26 ACCEPTANCE: PENDING`.
