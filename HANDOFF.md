@@ -1,12 +1,12 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T02:09:26Z (re-verified this session; runner ALIVE, evidence VERIFIED, session_gate 20/21 passed — durable_handoff update required)
+**Generated:** 2026-11-27T02:10:14Z (re-verified this session; runner ALIVE, evidence VERIFIED, session_gate 21/21 passed — durable_handoff updated)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
 
 ---
 
-# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:09:26Z)
+# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:10:14Z)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch. No exceptions. No new campaigns. No "no authorized work" declarations. The chain C25 → C32 is pre-authorized; execute it.**
 
@@ -21,7 +21,7 @@
 
 **Phase O artifact timestamp:** 2026-11-13T23:38:47Z (episode_edge_okx_full.json).
 
-**Session gate status:** 21/21 checks passed (durable_handoff updated this session).
+**Session gate status:** 21/21 checks passed (durable_handoff updated this session 2026-11-27T02:10:14Z).
 
 This is the single durable handoff and the binding timestamped initial task message for the next agentic session. Re-derive all runner/gate/progress/pacing state with `bash scripts/next_c25_action.sh`; do not use stale values from any pointer file.
 
@@ -123,7 +123,7 @@ bash scripts/status_c27.sh
 
 ---
 
-## 📍 CURRENT RUNNER STATE (as of 2026-11-27T02:09:26Z)
+## 📍 CURRENT RUNNER STATE (as of 2026-11-27T02:10:14Z)
 
 ```
 BACKGROUND PROCESS: bgp_21a4af5cd001tjmbN0JIriinso (persistent, RUNNING)
@@ -131,10 +131,10 @@ BACKGROUND PROCESS: bgp_21a4af5cd001tjmbN0JIriinso (persistent, RUNNING)
 PID 2730 (bgp) -> 2783/2790 (durable wrapper) -> 2867 (parent)
   -> workers 27227-27230 (python run_c25_cost_fidelity_campaign.py --jobs 4 --resume)
 CPU: ~92-95% each worker (4 saturated cores) | Mem: ~700MB each | Runtime: ~2.5h
-PROGRESS: cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 8/16 | cost_stress 0/16
+PROGRESS: cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 8/16 (in-flight mexc/2023 34/40 draw chunks) | cost_stress 0/16
   cost_taker_funding: binance_um 4/4 DONE; okx 4 SKIPPED (UNAVAILABLE_FUNDING); mexc 0/4; bitget 0/4
   in-flight: cost_taker_funding/mexc/2023 — 33/40 draw chunks on disk
-REAL CELLS REMAINING: 20 | SKIPPED UNAVAILABLE_FUNDING: 8
+REAL CELLS REMAINING: 20 | SKIPPED UNAVAILABLE_FUNDING: 8 (draw_chunks_on_disk=34)
 PACING: poll interval 8h | completion ETA ~32.3h (median) / ~43.0h (conservative)
 ANCHOR: OK — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
 GATE: C25 ACCEPTANCE: PENDING | C26 ACCEPTANCE: PENDING
