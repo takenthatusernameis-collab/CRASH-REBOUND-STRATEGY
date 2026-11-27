@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T19:17:29Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/status_c25.sh`; runner confirmed ALIVE — 4 workers R, parent pid 4052, `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; draw chunks on disk = 12, in-flight `cost_taker_funding_bitget_2023` at 12/40)
+**Timestamp:** 2026-11-27T19:22:29Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/status_c25.sh`; runner confirmed ALIVE — parent pid 4052, `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; draw chunks on disk = 13, in-flight `cost_taker_funding_bitget_2023` at 13/40)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -11,13 +11,13 @@
 
 ---
 
-## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T19:17:29Z)
+## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T19:22:29Z)
 
 **Repository priority (inferred from repo name `CRASH-REBOUND-STRATEGY`): finish the C25 cost-&-funding-fidelity campaign, then unlock the C24→C25→C26→…→C32 sequential adjudication chain. Nothing else is authorized ahead of C25.**
 
 **Your one job this session:** run `bash scripts/next_c25_action.sh` FIRST, obey its single `ACTION:` line, and keep the durable C25 runner alive with bounded waits + re-probes until the C25 gate flips to PASS. Do NOT relaunch, kill, or start C26/C27, and do NOT substitute lighter work or declare "no authorized work" — keeping the one durable runner alive IS the heavy work.
 
-Current probe state (19:17:29Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE, C25 gate PENDING, anchor OK, 16 real cells remaining (in-flight bitget 2023 at 12/40 draw chunks, advancing ~1 chunk/5 min).
+Current probe state (19:22:29Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE, C25 gate PENDING, anchor OK, 16 real cells remaining (in-flight bitget 2023 at 13/40 draw chunks, advancing ~1 chunk/5 min).
 
 ---
 
@@ -49,9 +49,9 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 | **C26** | 🔒 BLOCKED | Requires C25 ACCEPTANCE: PASS (consolidated verdict) |
 | C27–C32 | 🔒 BLOCKED | Sequential dependency on C26 |
 
-### Bottleneck Status: REMOVED (re-verified 19:17:29Z)
+### Bottleneck Status: REMOVED (re-verified 19:22:29Z)
 
-- Dead runner → **REMOVED**: durable runner ALIVE this session (4 workers R, parent pid 4052).
+- Dead runner → **REMOVED**: durable runner ALIVE this session (parent pid 4052, 4 workers R).
 - Missing `.venv` → **REMOVED**: `.venv` bootstrapped; `run_c25_durable.sh` bootstraps it on any fresh CI job.
 - No duplicate runner risk: `run_c25_durable.sh` refuses to start a second C25 runner.
 - **Single session, no blocked peers**: no other session is blocked or idle, so there is no cross-session bottleneck to clear. The only valid heavy action is keeping the one durable runner alive.
@@ -63,7 +63,7 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 - [x] **cost_base**: 16/16 checkpoints (COST_ANCHOR_REPRODUCED vs C24 d15)
 - [x] **cost_taker**: 16/16 checkpoints
 - [ ] **cost_taker_funding**: 12/16 checkpoints (bitget 2023/2024/2025/2026YTD pending; okx 4 = UNAVAILABLE_FUNDING skip)
-- [ ] **cost_stress**: 0/16 checkpoints (16 real cells pending)
+- [ ] **cost_stress**: 0/16 checkpoints (16 real cells pending; okx 4 = UNAVAILABLE_FUNDING skip)
 - [x] **No signal-path/cost drift**: frozen config validated
 - [x] **Cost anchor (cost_base vs C24 d15)**: COST_ANCHOR_REPRODUCED (ANCHOR OK)
 - [x] **Inference floors (20k/20k/2k/2k)**: met for completed arms
@@ -120,6 +120,7 @@ relax floors, never edit the prereg.
 | `scripts/run_c25_cost_fidelity_campaign.py` | C25 runner (4 arms, frozen signal, liquidation=15%) |
 | `scripts/verify_c25_focus_campaign.py` | C25 acceptance gate (authoritative PASS/PENDING/FAIL) |
 | `scripts/run_c26_path_fidelity_campaign.py` | C26 runner (intrabar + per-trade funding fidelity) |
+| `scripts/run_c27_campaign.py` | C27 runner (KuCoin new-venue replication, needs prereg + C26 pass) |
 | `research_state/c25_prereg_20261119T045500Z.json` | C25 pre-registration (immutable) |
 | `src/strategy/crash_rebound.py` | Core strategy (RSI<20 crash, +9% target, entry=next-open, liquidation=15%) |
 | `src/backtest/engine.py` | Execution engine (fees, funding, liquidation, rebound short) |
@@ -171,7 +172,19 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (19:17:29Z):** ALIVE — durable runner running (4 workers R, parent pid 4052) executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` on 4 saturated cores. `cost_taker_funding bitget 2023` in flight, now 12/40 draw chunks on disk (latest `chunk00012`). 16 real cells remaining (12 cost_stress non-okx + 4 cost_taker_funding bitget tail); 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK (cost_base reproduces C24 d15 EXACT on okx/binance_um/mexc/bitget). **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (19:22:29Z):** ALIVE — durable runner running (4 workers R, parent pid 4052) executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` on 4 saturated cores. `cost_taker_funding bitget 2023` in flight, now 13/40 draw chunks on disk (latest `chunk00012`). 16 real cells remaining (12 cost_stress non-okx + 4 cost_taker_funding bitget tail); 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK (cost_base reproduces C24 d15 EXACT on okx/binance_um/mexc/bitget). **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+
+---
+
+## 📋 NEXT FOCUS CAMPAIGN (unavoidable heavy work for future agents)
+
+**P0 — COMPLETE C25 (this session, non-deferrable):** Keep the durable runner alive. Bounded wait + re-probe cycle: `next_c25_action.sh` → `check_c25_anchor.sh` → `sleep 540` → `next_c25_action.sh`, repeating until `verify_c25_focus_campaign.py` prints `C25 ACCEPTANCE: PASS`. All 20 missing cells (16 real + 8 skipped UNAVAILABLE_FUNDING) and 5 verdict artifacts must land. No C26/C27 work until PASS.
+
+**P1 — RUN C26 (after C25 PASS):** `run_c26_path_fidelity_campaign.py --jobs 4 --resume`, then `verify_c26_focus_campaign.py` → `C26 ACCEPTANCE: PASS`.
+
+**P2 — RUN C27 (after C26 PASS):** KuCoin new-venue replication. `build_c27_prereg.py` (from `build_c26_prereg.py` template, KuCoin, 4 folds, arms: path_base/cost_taker_funding/path_intrabar_combined), then `run_c27_campaign.py --jobs 4 --resume` → consolidated verdict.
+
+**P3 — C28→C32 (after C27 PASS):** Continue the sequential chain per the roadmap below. No skipping.
 
 ---
 
