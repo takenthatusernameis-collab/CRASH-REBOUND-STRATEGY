@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T04:16:24Z
-**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T04:16Z.**
+**Handoff timestamp:** 2026-11-27T04:17:02Z
+**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T04:17Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -21,7 +21,7 @@ Concretely, in priority order, and you may not skip or defer any step:
 
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
    ALIVE (PID 2867 + 4 workers ~88% CPU each) and is saturating all 4 cores. Adding
-   CPU work slows it. (Verified live 2026-11-27T04:16Z via `next_c25_action.sh`.)
+   CPU work slows it. (Verified live 2026-11-27T04:17Z via `next_c25_action.sh`.)
 2. **Monitor C25 to a consolidated verdict using bounded waits only.** Run
    `bash scripts/next_c25_action.sh`, then `bash -c 'sleep 540; bash scripts/next_c25_action.sh'`.
    Repeat until it reports `C25 ACCEPTANCE: PASS`. Do not end the session before a
@@ -45,7 +45,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 
 ---
 
-## 1. CURRENT STATE — single source of truth (re-derived 2026-11-27T04:16Z)
+## 1. CURRENT STATE — single source of truth (re-derived 2026-11-27T04:17Z)
 
 | Campaign | Status | Evidence |
 |----------|--------|----------|
@@ -60,7 +60,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
 | **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance partial (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (from `next_c25_action.sh` / `eta_c25.sh` at 04:16Z):**
+**Live numbers (from `next_c25_action.sh` / `eta_c25.sh` at 04:17Z):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`).
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
 - Draw chunks on disk: 10/40 for the in-flight cell.
