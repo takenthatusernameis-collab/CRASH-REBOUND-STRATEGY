@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T23:06:19Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — durable C25 runner executing, draw chunks on disk = 40/40, in-flight `cost_taker_funding_bitget_2023` completing, 16 real cells remaining, anchor OK)
+**Timestamp:** 2026-11-27T23:07:32Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — durable C25 runner executing, draw chunks on disk = 40/40, in-flight `cost_taker_funding_bitget_2023` completing, 16 real cells remaining, anchor OK)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -19,7 +19,7 @@
 
 **Your one job this session:** run `bash scripts/next_c25_action.sh` FIRST, obey its single `ACTION:` line, and keep the durable C25 runner alive with bounded waits + re-probes until the C25 gate flips to PASS. Do NOT relaunch, kill, or start C26/C27, and do NOT substitute lighter work or declare "no authorized work" — keeping the one durable runner alive IS the heavy work.
 
-Current probe state (23:06:19Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE, C25 gate PENDING, C26 gate PENDING, anchor OK, 16 real cells remaining (in-flight `cost_taker_funding_bitget_2023` at 40/40 draw chunks completed; then bitget 2024/2025/2026YTD + 12 `cost_stress` non-okx cells), 8 okx cells skipped UNAVAILABLE_FUNDING.
+Current probe state (23:07:32Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE, C25 gate PENDING, C26 gate PENDING, anchor OK, 16 real cells remaining (in-flight `cost_taker_funding_bitget_2023` at 40/40 draw chunks completed; then bitget 2024/2025/2026YTD + 12 `cost_stress` non-okx cells), 8 okx cells skipped UNAVAILABLE_FUNDING.
 
 ---
 
@@ -51,7 +51,7 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 | **C26** | 🔒 BLOCKED | Requires C25 ACCEPTANCE: PASS (consolidated verdict) |
 | C27–C32 | 🔒 BLOCKED | Sequential dependency on C26 |
 
-### Bottleneck Status: REMOVED (re-verified 23:06:19Z)
+### Bottleneck Status: REMOVED (re-verified 23:07:32Z)
 
 - Dead runner → **REMOVED**: durable runner ALIVE this session (parent pid 4052, workers 36322-36325 R saturated, 4 cores).
 - Missing `.venv` → **REMOVED**: `.venv` bootstrapped; `run_c25_durable.sh` bootstraps it on any fresh CI job.
@@ -175,7 +175,7 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (23:06:19Z):** ALIVE — durable runner running (parent pid 4052, workers 44800-44803 R saturated, 4 cores) executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`. `cost_taker_funding bitget 2023` completing draw phase (40/40 chunks on disk, cell checkpoint imminent). 16 real cells remaining (3 bitget tail cells + 12 cost_stress non-okx); 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK (cost_base reproduces C24 d15 EXACT on okx/binance_um/mexc/bitget). **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (23:07:32Z):** ALIVE — durable runner running (parent pid 4052, workers 44800-44803 R saturated, 4 cores) executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`. `cost_taker_funding bitget 2023` completing draw phase (40/40 chunks on disk, cell checkpoint imminent). 16 real cells remaining (3 bitget tail cells + 12 cost_stress non-okx); 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK (cost_base reproduces C24 d15 EXACT on okx/binance_um/mexc/bitget). **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
