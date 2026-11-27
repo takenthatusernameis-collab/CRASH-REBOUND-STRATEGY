@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T18:28:07Z (state re-derived via `bash scripts/next_c25_action.sh`)
+**Timestamp:** 2026-11-27T18:30:07Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/status_c25.sh` + `bash scripts/check_c25_anchor.sh`)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
@@ -39,11 +39,12 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 | **C26** | 🔒 BLOCKED | Requires C25 ACCEPTANCE: PASS (consolidated verdict) |
 | C27–C32 | 🔒 BLOCKED | Sequential dependency on C26 |
 
-### Bottleneck Status: REMOVED
+### Bottleneck Status: REMOVED (re-verified 18:30:07Z)
 
-- Dead runner → **REMOVED**: durable runner launched this session (`bgp id bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885).
+- Dead runner → **REMOVED**: durable runner alive this session (`bgp id bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885, persistent, status ready; 4 saturated worker procs 4058–4061).
 - Missing `.venv` → **REMOVED**: `.venv` bootstrapped; `run_c25_durable.sh` bootstraps it on any fresh CI job.
 - No duplicate runner risk: `run_c25_durable.sh` refuses to start a second C25 runner.
+- **Single session, no blocked peers**: board shows only `main`; no other session is blocked or idle, so there is no cross-session bottleneck to clear. The only valid heavy action is keeping the one durable runner alive.
 
 ### C25 Completion Checklist (`verify_c25_focus_campaign.py` is the authoritative gate)
 
@@ -160,7 +161,7 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (18:28Z):** ALIVE — durable runner running (`bgp id bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885), executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` on 4 saturated cores. `cost_taker_funding bitget 2023` in flight with 6 draw chunks on disk. 16 real cells remaining (12 cost_stress non-okx + 4 cost_taker_funding bitget tail). Pacing ~1.6 h/cell, wake_after=8h. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (18:30Z):** ALIVE — durable runner running (`bgp id bgp_21e41458b001xryDm0XPGyIJIf`, pid 3885, persistent, status ready), executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` on 4 saturated cores. `cost_taker_funding bitget 2023` in flight with 6 draw chunks on disk. 16 real cells remaining (12 cost_stress non-okx + 4 cost_taker_funding bitget tail); 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK (cost_base reproduces C24 d15 exactly). **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
