@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T12:04:45Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T12:04:45Z.**
+**Handoff timestamp:** 2026-11-27T12:06:57Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T12:06:57Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -68,7 +68,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 
 ---
 
-## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T12:04:45Z)
+## 1. CURRENT STATE — single source of truth (re-derived live 2026-11-27T12:06:57Z)
 
 | Campaign | Status | Evidence |
 |----------|--------|----------|
@@ -228,8 +228,8 @@ finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 
 
 ---
 
-*Generated 2026-11-27T12:04:45Z by Kilo agent; re-derived live from ground truth at
-2026-11-27T12:04:45Z: `RUNNER: ALIVE` (main PID 3033 + workers 43477–43480, exactly one main
+*Generated 2026-11-27T12:06:57Z by Kilo agent; re-derived live from ground truth at
+2026-11-27T12:06:57Z: `RUNNER: ALIVE` (main PID 3033 + workers 43477–43480, exactly one main
 runner — no duplicate/orphan competing for the 4 cores), `C25 ACCEPTANCE: PENDING`,
 `real_cells_remaining=18` (38/56 complete), `skipped_unavailable_funding=8`,
 `draw_chunks_on_disk=7` (per-current-cell draws for in-flight cell), in-flight
