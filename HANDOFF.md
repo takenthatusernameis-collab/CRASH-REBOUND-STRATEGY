@@ -1,13 +1,16 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T05:08:17Z
-**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T05:08Z.**
+**Handoff timestamp:** 2026-11-27T05:11:53Z
+**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T05:11Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
 > file. All other `HANDOFF_*.md` / `HANDOFF_NEXT_SESSION.md` duplicates have been
-> removed to eliminate source-of-truth ambiguity. If anything disagrees with this
-> file, this file wins. Re-derive live state with `bash scripts/next_c25_action.sh`.
+> removed to eliminate source-of-truth ambiguity (last duplicate
+> `HANDOFF_NEXT_SESSION.md` deleted 2026-11-27T05:11:53Z — it carried STALE state
+> "23 remaining" that contradicted ground-truth `real_cells_remaining=19`). If
+> anything disagrees with this file, this file wins. Re-derive live state with
+> `bash scripts/next_c25_action.sh`.
 
 ---
 
@@ -20,9 +23,9 @@ pipeline (C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32). You must
 Concretely, in priority order, and you may not skip or defer any step:
 
 1. **Do NOT relaunch, kill, or add CPU work to C25.** The canonical C25 runner is
-   ALIVE (PID 2867 + 4 workers ~93% CPU each) and is saturating all 4 cores
-    (load ~6.0). Adding CPU work slows it. Verified live 2026-11-27T05:06Z via
-    `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`).
+   ALIVE (PID 2867 + 4 workers ~90% CPU each) and is saturating all 4 cores
+   (load ~6.6). Adding CPU work slows it. Verified live 2026-11-27T05:11Z via
+   `next_c25_action.sh` (`RUNNER: ALIVE`, `ANCHOR: OK`, `real_cells_remaining=19`).
 2. **Monitor C25 to a consolidated verdict using bounded waits only.** Run
    `bash scripts/next_c25_action.sh`, then `bash -c 'sleep 540; bash scripts/next_c25_action.sh'`.
    Repeat until it reports `C25 ACCEPTANCE: PASS`. Do not end the session before a
@@ -54,7 +57,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 
 ---
 
-## 1. CURRENT STATE — single source of truth (re-derived 2026-11-27T05:06Z)
+## 1. CURRENT STATE — single source of truth (re-derived 2026-11-27T05:11Z)
 
 | Campaign | Status | Evidence |
 |----------|--------|----------|
@@ -69,7 +72,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 | **C32** | 📋 PRE-REGISTERED ONLY | `c32_prereg_20261121T061508Z.json` — **BLOCKED on C31 ACCEPTANCE: PASS** |
 | **C31 holdout archives** | 🟡 MOSTLY READY (real data) | `research_state/archives/{okx,binance_um,mexc,bitget}_holdout_20260929_20261121/` — OKX 34/34 ✅, Bitget 34/34 ✅, MEXC 33/34 (FIL incomplete), Binance 33/34 (Nov zip unpublished). All `fabricated_data:false`. |
 
-**Live numbers (authoritative `next_c25_action.sh` at 05:08Z; re-verified this session):**
+**Live numbers (authoritative `next_c25_action.sh` at 05:11Z; re-verified this session):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`).
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
 - Draw chunks on disk: **18** (was 11 at 04:17Z → ~1 chunk / 7 min, actively progressing).
@@ -208,4 +211,4 @@ holdout data is pre-fetched; finish the two gaps, don't re-download blindly. Kee
 `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T05:08:17Z by Kilo agent. Single durable handoff; durable across session/turn boundaries. Re-verified live at 2026-11-27T05:08Z: `RUNNER: ALIVE` (PID 2867 + workers 64276–64279), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `draw_chunks_on_disk=18`, runner log error-free, `ANCHOR: OK`, `session_gate.py` 21/21, `check_queue_readiness.sh` QUEUE READY, single `HANDOFF.md` (no fragmentation). No blocked sessions; the only limiter is the inherent ~31 h C25 compute, handled by the bounded-wait monitor in §2.*
+*Generated 2026-11-27T05:08:17Z by Kilo agent; consolidated & re-verified live at 2026-11-27T05:11:53Z. Single durable handoff; durable across session/turn boundaries. Re-verified live at 2026-11-27T05:11Z: `RUNNER: ALIVE` (PID 2867 + workers 64276–64279 ~90% CPU each, load 6.6 on 4 cores), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `skipped_unavailable_funding=8`, `draw_chunks_on_disk=18`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free, `ANCHOR: OK`, `session_gate.py` 21/21, `check_queue_readiness.sh` QUEUE READY (C25..C32 all prereg+impl), C32 prereg `c32_prereg_20261121T061508Z.json/.md` present, single `HANDOFF.md` (duplicate `HANDOFF_NEXT_SESSION.md` removed 05:11:53Z — no fragmentation). No blocked sessions; the only limiter is the inherent ~31 h C25 compute, handled by the bounded-wait monitor in §2. Next focus campaign C32 is fully built and cannot be skipped (see §3/§5).*
