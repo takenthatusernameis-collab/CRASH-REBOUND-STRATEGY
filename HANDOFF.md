@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T09:08:18Z
-**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T09:08Z.**
+**Handoff timestamp:** 2026-11-27T09:09:10Z
+**State re-derived from live ground truth (not from any prior handoff) at 2026-11-27T09:09Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -221,8 +221,8 @@ next focus campaign, fully built, cannot be skipped). C31 holdout data is pre-fe
 finish the two gaps, don't re-download blindly. Keep `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T09:08:18Z by Kilo agent; re-derived live from ground truth at
-2026-11-27T09:08Z: `RUNNER: ALIVE` (main PID 3033 + workers 13774–13777, exactly one runner —
+*Generated 2026-11-27T09:09:10Z by Kilo agent; re-derived live from ground truth at
+2026-11-27T09:09Z: `RUNNER: ALIVE` (main PID 3033 + workers 13774–13777, exactly one runner —
 no duplicate/orphan competing for the 4 cores), `C25 ACCEPTANCE: PENDING`,
 `real_cells_remaining=19` (37/56 complete), `skipped_unavailable_funding=8`,
 `draw_chunks_on_disk=30`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free,
