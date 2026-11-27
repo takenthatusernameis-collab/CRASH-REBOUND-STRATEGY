@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T20:26:41Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` executing, parent pid 4052, workers 28332-28335 R; draw chunks on disk = 21/40, in-flight `cost_taker_funding_bitget_2023` at chunk00020)
+**Timestamp:** 2026-11-27T21:18:08Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — durable C25 runner executing, draw chunks on disk = 28/40, in-flight `cost_taker_funding_bitget_2023`, 16 real cells remaining, anchor OK)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
