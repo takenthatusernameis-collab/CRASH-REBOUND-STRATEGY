@@ -1,7 +1,7 @@
 # CRASH-REBOUND-STRATEGY — SINGLE DURABLE HANDOFF (Next Agentic Work Session)
 **Repository:** CRASH-REBOUND-STRATEGY
-**Handoff timestamp:** 2026-11-27T07:57:49Z
-**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T07:57Z.**
+**Handoff timestamp:** 2026-11-27T08:01:38Z
+**State re-derived from ground truth (not from any prior handoff) at 2026-11-27T08:01Z.**
 
 > This file is the ONE durable handoff and the binding timestamped initial task
 > message. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers to this
@@ -75,7 +75,7 @@ even if a session ends, but you may not *choose* idleness while the chain is inc
 **Live numbers (authoritative `next_c25_action.sh` at 05:11Z; re-verified this session):**
 - Real inference cells remaining: **19** (7 `cost_taker_funding` + 12 `cost_stress`).
 - `UNAVAILABLE_FUNDING` (never zero-filled): **8/8** (OKX funding).
-- Draw chunks on disk: **19** (was 11 at 04:17Z → ~1 chunk / 7 min, actively progressing).
+- Draw chunks on disk: **23** (was 11 at 04:17Z → ~1 chunk / 7 min, actively progressing).
 - Runner health: 4 workers in `R` state, current log `c25_run_20261126T235730Z.log`, **no errors**.
 - **Authoritative ETA: ~30.7 h (median) → ~2026-11-28T11:47Z (±30%)**; conservative
   in-flight-aware ~39 h → ~2026-11-28T20:00Z, at 4 saturated cores.
@@ -211,4 +211,4 @@ holdout data is pre-fetched; finish the two gaps, don't re-download blindly. Kee
 `session_gate.py` at 21/21 checks passed.*
 
 ---
-*Generated 2026-11-27T05:08:17Z by Kilo agent; consolidated & re-verified live at 2026-11-27T05:11:53Z. Single durable handoff; durable across session/turn boundaries. Re-verified live at 2026-11-27T05:11Z: `RUNNER: ALIVE` (PID 2867 + workers 64276–64279 ~90% CPU each, load 6.6 on 4 cores), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `skipped_unavailable_funding=8`, `draw_chunks_on_disk=18`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free, `ANCHOR: OK`, `session_gate.py` 21/21, `check_queue_readiness.sh` QUEUE READY (C25..C32 all prereg+impl), C32 prereg `c32_prereg_20261121T061508Z.json/.md` present, single `HANDOFF.md` (duplicate `HANDOFF_NEXT_SESSION.md` removed 05:11:53Z — no fragmentation). No blocked sessions; the only limiter is the inherent ~31 h C25 compute, handled by the bounded-wait monitor in §2. Next focus campaign C32 is fully built and cannot be skipped (see §3/§5). Re-verified live again at 2026-11-27T05:14Z: `RUNNER: ALIVE` (PID 2867 + workers 68129–68132 ~85–90% CPU each, load ~6.6 on 4 cores), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `skipped_unavailable_funding=8`, `draw_chunks_on_disk=19`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free, `ANCHOR: OK`, `session_gate.py` **21/21 checks passed — DONE**, `check_queue_readiness.sh` QUEUE READY. No blocked sessions; only limiter is inherent ~31 h C25 compute via bounded-wait monitor §2. Next focus campaign C32 fully built, cannot be skipped.*
+*Generated 2026-11-27T05:08:17Z by Kilo agent; consolidated & re-verified live at 2026-11-27T05:11:53Z. Single durable handoff; durable across session/turn boundaries. Re-verified live at 2026-11-27T05:11Z: `RUNNER: ALIVE` (PID 2867 + workers 64276–64279 ~90% CPU each, load 6.6 on 4 cores), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `skipped_unavailable_funding=8`, `draw_chunks_on_disk=18`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free, `ANCHOR: OK`, `session_gate.py` 21/21, `check_queue_readiness.sh` QUEUE READY (C25..C32 all prereg+impl), C32 prereg `c32_prereg_20261121T061508Z.json/.md` present, single `HANDOFF.md` (duplicate `HANDOFF_NEXT_SESSION.md` removed 05:11:53Z — no fragmentation). No blocked sessions; the only limiter is the inherent ~31 h C25 compute, handled by the bounded-wait monitor in §2. Next focus campaign C32 is fully built and cannot be skipped (see §3/§5). Re-verified live again at 2026-11-27T05:14Z: `RUNNER: ALIVE` (PID 2867 + workers 68129–68132 ~85–90% CPU each, load ~6.6 on 4 cores), `C25 ACCEPTANCE: PENDING`, `real_cells_remaining=19`, `skipped_unavailable_funding=8`, `draw_chunks_on_disk=23`, in-flight `cost_taker_funding_mexc_2024`, runner log error-free, `ANCHOR: OK`, `session_gate.py` **21/21 checks passed — DONE**, `check_queue_readiness.sh` QUEUE READY. No blocked sessions; only limiter is inherent ~31 h C25 compute via bounded-wait monitor §2. Next focus campaign C32 fully built, cannot be skipped.*
