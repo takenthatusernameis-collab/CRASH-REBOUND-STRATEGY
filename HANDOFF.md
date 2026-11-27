@@ -1,5 +1,5 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T01:15:06Z
+**Generated:** 2026-11-27T01:16:41Z
 **Initial Task Message (binding, timestamped):** Monitor C25 (runner ALIVE, 23/40 draw chunks cost_taker_funding/mexc/2023) to PASS; then run verify_campaign_evidence.py + session_gate.py; then launch C26 via background_process persistent; continue chain C25→C32. Do not spawn new campaigns, do not edit markdown, do not declare no authorized work.
 **Session Context:** CRASH-REBOUND-STRATEGY repo — systematic multi-venue strategy validation
 **Chain State:** C24 PASS → C25 IN FLIGHT → C26-C32 BLOCKED
@@ -108,16 +108,16 @@ bash scripts/status_c28.sh  # (check script exists)
 
 ---
 
-## 📍 CURRENT RUNNER STATE (as of 2026-11-27T01:13:38Z)
+## 📍 CURRENT RUNNER STATE (as of 2026-11-27T01:16:41Z)
 
 ```
-PID 2867 (parent) + 14533-14536 (4 workers) — python run_c25_cost_fidelity_campaign.py --jobs 4 --resume
-CPU: ~93% each worker | Mem: ~700MB each | Runtime: ~2h 52m
+PID 2867 (parent) + 16792-16795 (4 workers) — python run_c25_cost_fidelity_campaign.py --jobs 4 --resume
+CPU: ~93% each worker | Mem: ~700MB each | Runtime: ~2h 53m
 In-flight: cost_taker_funding/mexc/2023 (23/40 chunks)
 All cost_base & cost_taker arms: 16/16 DONE
 cost_taker_funding OKX: UNAVAILABLE_FUNDING (API retention)
 cost_taker_funding Binance UM: 16/16 DONE
-cost_taker_funding MEXC/Bitget: pending → in-flight
+cost_taker_funding MEXC/Bitget: 8/16 (in-flight)
 cost_stress: 0/16 pending
 ```
 
