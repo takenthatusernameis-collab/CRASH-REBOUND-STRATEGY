@@ -1,18 +1,18 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T02:00:50Z
+**Generated:** 2026-11-27T02:02:01Z (re-verified this session; runner ALIVE, evidence VERIFIED)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
 
 ---
 
-# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:00:50Z)
+# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:02:01Z)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch. No exceptions. No new campaigns. No "no authorized work" declarations. The chain C25 → C32 is pre-authorized; execute it.**
 
 1. **Do NOT relaunch, kill, or add CPU work.** The canonical C25 runner is ALIVE and is the only heavy job; the box has 4 saturated cores. Killing or duplicating it destroys hours of in-flight permutation work.
 2. Monitor with `bash scripts/next_c25_action.sh` (prints exactly one `ACTION:` line) and `bash scripts/status_c25.sh`. Re-derive the completion ETA with `bash scripts/eta_c25.sh`.
-3. **PACING CORRECTION — read this before waiting.** `next_c25_action.sh` prints `wake_after=8h`; that is the **poll/re-check interval**, NOT the time to completion. The empirical completion ETA from `eta_c25.sh` is **~32.3 h (median model) to ~41.3 h (conservative, in-flight-aware)** → roughly **2026-11-28T10:21Z … 2026-11-28T19:15Z** (+/- 30%). **Do NOT treat C25 as finished after 8 h.** Each session: re-run `next_c25_action.sh`; if still `NONE_RUNNER_ALIVE` and gate PENDING, wait the indicated poll interval and re-check; repeat until PASS.
+3. **PACING CORRECTION — read this before waiting.** `next_c25_action.sh` prints `wake_after=8h`; that is the **poll/re-check interval**, NOT the time to completion. The empirical completion ETA from `eta_c25.sh` is **~32.3 h (median model) to ~41.7 h (conservative, in-flight-aware)** → roughly **2026-11-28T10:23Z … 2026-11-28T19:46Z** (+/- 30%). **Do NOT treat C25 as finished after 8 h.** Each session: re-run `next_c25_action.sh`; if still `NONE_RUNNER_ALIVE` and gate PENDING, wait the indicated poll interval and re-check; repeat until PASS.
 4. When `status_c25.sh` shows `C25 ACCEPTANCE: PASS` **and** all 5 verdict artifacts exist, run `PYTHONPATH=. .venv/bin/python scripts/verify_campaign_evidence.py` and `PYTHONPATH=. .venv/bin/python scripts/session_gate.py` — both must PASS before proceeding.
 5. Then launch C26: `background_process start command="bash scripts/run_c26_durable.sh" persistent=true`, then monitor `bash scripts/status_c26.sh`.
 6. Continue the chain C25 → C26 → C27 → C28 → C29 → C30 → C31 → C32 sequentially; same durable-script pattern per campaign.
@@ -60,7 +60,7 @@ bash scripts/eta_c25.sh         # empirical ETA (~32–41 h), NOT the 8h poll in
 PYTHONPATH=. .venv/bin/python scripts/verify_campaign_evidence.py   # must print EVIDENCE VERIFIED
 PYTHONPATH=. .venv/bin/python scripts/session_gate.py               # must print PASS
 ```
-Current read-only check (2026-11-27T02:00Z): `verify_campaign_evidence.py` → **EVIDENCE VERIFIED (exit 0)**.
+Current read-only check (2026-11-27T02:02Z): `verify_campaign_evidence.py` → **EVIDENCE VERIFIED (exit 0)**.
 
 ### 4. Launch C26 (ONLY after C25 PASS + both gates PASS)
 ```bash
@@ -117,7 +117,7 @@ bash scripts/status_c27.sh
 
 ---
 
-## 📍 CURRENT RUNNER STATE (as of 2026-11-27T02:00:50Z)
+## 📍 CURRENT RUNNER STATE (as of 2026-11-27T02:02:01Z)
 
 ```
 BACKGROUND PROCESS: bgp_21a4af5cd001tjmbN0JIriinso (persistent, RUNNING)
@@ -129,7 +129,7 @@ PROGRESS: cost_base 16/16 | cost_taker 16/16 | cost_taker_funding 8/16 | cost_st
   cost_taker_funding: binance_um 4/4 DONE; okx 4 SKIPPED (UNAVAILABLE_FUNDING); mexc 0/4; bitget 0/4
   in-flight: cost_taker_funding/mexc/2023 — 32/40 draw chunks on disk
 REAL CELLS REMAINING: 20 | SKIPPED UNAVAILABLE_FUNDING: 8
-PACING: poll interval 8h | completion ETA ~32.3h (median) / ~41.3h (conservative)
+PACING: poll interval 8h | completion ETA ~32.3h (median) / ~41.7h (conservative)
 ANCHOR: OK — cost_base reproduces C24 d15 exactly; C25 is safe to continue.
 GATE: C25 ACCEPTANCE: PENDING | C26 ACCEPTANCE: PENDING
 EVIDENCE: verify_campaign_evidence.py -> EVIDENCE VERIFIED (exit 0)
