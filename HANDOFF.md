@@ -1,12 +1,12 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
-**Generated:** 2026-11-27T02:05:52Z (re-verified this session; runner ALIVE, evidence VERIFIED, session_gate 20/21 passed — durable_handoff update required)
+**Generated:** 2026-11-27T02:09:26Z (re-verified this session; runner ALIVE, evidence VERIFIED, session_gate 20/21 passed — durable_handoff update required)
 **Repo:** CRASH-REBOUND-STRATEGY — systematic multi-venue strategy validation (crash-rebound strategy research and backtesting)
 
 **Single source of truth:** this file. `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only and contain no campaign state. If anything disagrees with this file, this file wins.
 
 ---
 
-# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:05:52Z)
+# BINDING INITIAL TASK MESSAGE (timestamped 2026-11-27T02:09:26Z)
 
 **C25 Cost/Funding Fidelity Campaign is IN FLIGHT and MUST COMPLETE before any downstream campaign can launch. No exceptions. No new campaigns. No "no authorized work" declarations. The chain C25 → C32 is pre-authorized; execute it.**
 
@@ -66,7 +66,7 @@ bash scripts/eta_c25.sh         # empirical ETA (~32–41 h), NOT the 8h poll in
 PYTHONPATH=. .venv/bin/python scripts/verify_campaign_evidence.py   # must print EVIDENCE VERIFIED
 PYTHONPATH=. .venv/bin/python scripts/session_gate.py               # must print PASS
 ```
-Current read-only check (2026-11-27T02:02Z): `verify_campaign_evidence.py` → **EVIDENCE VERIFIED (exit 0)**.
+Current read-only check (2026-11-27T02:09Z): `verify_campaign_evidence.py` → **EVIDENCE VERIFIED (exit 0)**.
 
 ### 4. Launch C26 (ONLY after C25 PASS + both gates PASS)
 ```bash
@@ -123,7 +123,7 @@ bash scripts/status_c27.sh
 
 ---
 
-## 📍 CURRENT RUNNER STATE (as of 2026-11-27T02:05:52Z)
+## 📍 CURRENT RUNNER STATE (as of 2026-11-27T02:09:26Z)
 
 ```
 BACKGROUND PROCESS: bgp_21a4af5cd001tjmbN0JIriinso (persistent, RUNNING)
