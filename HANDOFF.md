@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-28T06:31:37Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/eta_c25.sh`; runner ALIVE — persistent bgp launcher pid 2788 → python pid 3014 → 4 saturated workers 52234-52237 at ~96% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 41/56 real cells done, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor EXACT OK, bitget 2024 in-flight (35/40 draw chunks), pacing ~1.6 h/cell, wake_after=8h)
+**Timestamp:** 2026-11-28T06:33:15Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/eta_c25.sh`; runner ALIVE — persistent bgp launcher pid 2788 → python pid 3014 → 4 saturated workers 52234-52237 at ~96% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 41/56 real cells done, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor EXACT OK, bitget 2024 in-flight (35/40 draw chunks), pacing ~1.6 h/cell, wake_after=8h)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
