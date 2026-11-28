@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-28T20:10:34Z (state INDEPENDENTLY re-derived this session via `bash scripts/next_c25_action.sh`; runner ALIVE — ACTION: NONE_RUNNER_ALIVE; C25 gate PENDING, no FAIL conditions; draw_chunks_on_disk=16; main python pid 2885 + exactly 4 saturated workers (pids 25051–25054) executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; anchor OK (cost_base reproduces C24 d15 exactly); real_cells_remaining=20; skipped_unavailable_funding=8; in_flight=cost_stress_binance_um_2024; pacing ~1.6 h/cell; wake_after=8h). Single source of truth: `HANDOFF.md` + 2 pointers only. No duplicate handoff/task files exist. No bottlenecks. Heavy work queue loaded C25–C32.
+**Timestamp:** 2026-11-28T20:11:12Z (state INDEPENDENTLY re-derived this session via `bash scripts/next_c25_action.sh`; runner ALIVE — ACTION: NONE_RUNNER_ALIVE; C25 gate PENDING, no FAIL conditions; draw_chunks_on_disk=16; main python pid 2885 + exactly 4 saturated workers (pids 25051–25054) executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; anchor OK (cost_base reproduces C24 d15 exactly); real_cells_remaining=20; skipped_unavailable_funding=8; in_flight=cost_stress_binance_um_2024; pacing ~1.6 h/cell; wake_after=8h). Single source of truth: `HANDOFF.md` + 2 pointers only. No duplicate handoff/task files exist. No bottlenecks. Heavy work queue loaded C25–C32.
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
