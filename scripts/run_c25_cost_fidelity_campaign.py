@@ -324,6 +324,7 @@ def _fold(venue: str, arm: str, fid: str, jobs: int) -> Dict[str, Any]:
             "fold": fid,
             "unavailable_funding": True,
             "funding_rate_pct_per_hour": None,
+            "prereg_sha256": sha256(PREREG),
             "note": "venue has no realized funding cache; excluded from funding arm",
         }
         _save(_ckpt(arm, venue, fid), ckpt)

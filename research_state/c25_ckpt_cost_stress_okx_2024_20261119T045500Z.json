@@ -6,5 +6,6 @@
   "fold": "2024",
   "unavailable_funding": true,
   "funding_rate_pct_per_hour": null,
-  "note": "venue has no realized funding cache; excluded from funding arm"
+  "note": "venue has no realized funding cache; excluded from funding arm",
+  "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e"
 }
