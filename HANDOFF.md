@@ -5,6 +5,7 @@
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
 > **Timestamp:** 2026-11-28T18:50:43Z (fresh independent re-derivation; supersedes the 18:47:06Z snapshot).
+> **Re-verified:** 2026-11-28T18:53:12Z via `bash scripts/next_c25_action.sh` + `ps` — state UNCHANGED: RUNNER ALIVE (pid 2885 + 4 saturated workers ~90–93% CPU on `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`), `.venv` present, C25 ACCEPTANCE: PENDING, C26 ACCEPTANCE: PENDING, ANCHOR OK (cost_base reproduces C24 d15 exactly), real_cells_remaining=20, skipped_unavailable_funding=8, draw_chunks_on_disk=4, in_flight=cost_stress_binance_um_2024, ACTION: NONE_RUNNER_ALIVE.
 > This file is the SINGLE durable handoff and the binding timestamped initial task message.
 > `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only. The conflicting duplicate
 > `NEXT_SESSION_TASK.md` (12:25:04Z — claimed 18 missing cells and told the agent to launch
