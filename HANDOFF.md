@@ -1,10 +1,10 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-28T03:05:33Z (state re-derived via `bash scripts/next_c25_action.sh`; runner ALIVE pid 3014 persistent bgp + workers 18160-18163 executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor OK, bitget 2024 in-flight at 13/40 draw chunks)
+**Timestamp:** 2026-11-28T03:06:16Z (state re-derived via `bash scripts/next_c25_action.sh`; runner ALIVE pid 3014 persistent bgp + workers 19391-19394 executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor OK, bitget 2024 in-flight at 13/40 draw chunks)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
-> **Timestamp:** 2026-11-28T03:05:33Z (state re-derived via `bash scripts/next_c25_action.sh`)
+> **Timestamp:** 2026-11-28T03:06:16Z (state re-derived via `bash scripts/next_c25_action.sh`)
 > This file is the SINGLE durable handoff and the binding timestamped initial task message.
 > `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only. The former
 > `HANDOFF_NEXT_SESSION_*.md` duplicates were REMOVED at 20:08:11Z, and the stale
@@ -19,13 +19,13 @@
 
 ---
 
-## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T03:05:33Z)
+## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T03:06:16Z)
 
 **Repository priority (inferred from repo name `CRASH-REBOUND-STRATEGY`): finish the C25 cost-&-funding-fidelity campaign, then unlock the C24→C25→C26→…→C32 sequential adjudication chain. Nothing else is authorized ahead of C25.**
 
 **Your one job this session:** run `bash scripts/next_c25_action.sh` FIRST, obey its single `ACTION:` line, and keep the durable C25 runner alive with bounded waits + re-probes until the C25 gate flips to PASS. Do NOT relaunch, kill, or start C26/C27, and do NOT substitute lighter work or declare "no authorized work" — keeping the one durable runner alive IS the heavy work.
 
-Current probe state (03:05:33Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE (pid 3014, persistent bgp; workers 18160-18163), C25 gate PENDING, C26 gate PENDING, anchor OK, 15 real cells remaining (in-flight `cost_taker_funding_bitget_2024` at 13/40 draw chunks; then bitget 2025/2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 13/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING.
+Current probe state (03:06:16Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE (pid 3014, persistent bgp; workers 19391-19394), C25 gate PENDING, C26 gate PENDING, anchor OK, 15 real cells remaining (in-flight `cost_taker_funding_bitget_2024` at 13/40 draw chunks; then bitget 2025/2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 13/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING.
 
 ---
 
@@ -59,7 +59,8 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 
 ### Bottleneck Status: REMOVED (re-verified 2026-11-28T03:05:33Z)
 
-- Dead runner → **REMOVED**: durable runner ALIVE this session (pid 3014, persistent bgp; workers 18160-18163 at ~96% CPU); persistent bgp executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` (4 saturated worker processes; bitget 2024 advanced 5→13 draw chunks since 01:47:21Z).
+- Dead runner → **REMOVED**: durable runner ALIVE this session (pid 3014, persistent bgp; workers 19391-19394 at ~96-97% CPU); persistent bgp executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` (4 saturated worker processes; bitget 2024 advanced 5→13 draw chunks since 01:47:21Z).
+- Duplicate-handoff audit → **CLEAR**: only `HANDOFF.md` exists on disk; no stale `HANDOFF_NEXT_SESSION_*.md` or `HANDOFF_*.md` duplicates remain (removed 20:08:11Z / 23:34:47Z / 01:44:18Z). No cross-session bottleneck — this is the only active session, so no other runner or session is blocked or idle.
 - Missing `.venv` → **REMOVED**: `.venv` bootstrapped; `run_c25_durable.sh` bootstraps it on any fresh CI job.
 - Duplicate handoff files → **REMOVED**: stale `HANDOFF_NEXT_SESSION_*.md` deleted at 20:08:11Z; conflicting `HANDOFF_20261127T233021Z.md` and `HANDOFF_20261127T233305Z.md` (wrong 19-cell claim + duplicate-runner instruction) deleted at 23:34:47Z; stale `HANDOFF_20261128T012654Z.md` and `HANDOFF_20261128T013311Z.md` (wrong 19/64-cell claim + direct-runner invocation that risked a duplicate) deleted at 01:43:17Z; `HANDOFF.md` is now the only durable handoff.
 - No duplicate runner risk: `run_c25_durable.sh` refuses to start a second C25 runner.
@@ -181,7 +182,7 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (03:05:33Z):** ALIVE — durable runner (pid 3014, persistent bgp; workers 18160-18163) running `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`. `cost_taker_funding` 13/16 (bitget 2024 in-flight 13/40 draw chunks; bitget 2025/2026YTD pending); `cost_stress` 0/16. 15 real cells remaining; 8 okx cells skipped UNAVAILABLE_FUNDING. draw_chunks_on_disk=13. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (03:06:16Z):** ALIVE — durable runner (pid 3014, persistent bgp; workers 19391-19394) running `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`. `cost_taker_funding` 13/16 (bitget 2024 in-flight 13/40 draw chunks; bitget 2025/2026YTD pending); `cost_stress` 0/16. 15 real cells remaining; 8 okx cells skipped UNAVAILABLE_FUNDING. draw_chunks_on_disk=13. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
