@@ -1,10 +1,10 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-28T05:51:26Z (state re-derived via `bash scripts/next_c25_action.sh`; runner ALIVE — persistent bgp launcher pid 2788 → python pid 3014 → 4 saturated workers 46629-46632 at ~93% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor EXACT OK, bitget 2024 in-flight (31/40 draw chunks), draw_chunks_on_disk=31)
+**Timestamp:** 2026-11-28T05:53:53Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/eta_c25.sh`; runner ALIVE — persistent bgp launcher pid 2788 → python pid 3014 → 4 saturated workers 46629-46632 at ~93% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 41/56 real cells done, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor EXACT OK, bitget 2024 in-flight (31/40 draw chunks, ~4.5h elapsed), median ETA ~24.3h → ~2026-11-29T06:09Z)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
-> **Timestamp:** 2026-11-28T05:51:26Z (state re-derived via `bash scripts/next_c25_action.sh`; anchor re-verified EXACT 16/16)
+> **Timestamp:** 2026-11-28T05:53:53Z (state re-derived via `bash scripts/next_c25_action.sh` + `bash scripts/eta_c25.sh`; anchor re-verified EXACT 16/16)
 > This file is the SINGLE durable handoff and the binding timestamped initial task message.
 > `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only. The former
 > `HANDOFF_NEXT_SESSION_*.md` duplicates were REMOVED at 20:08:11Z, and the stale
@@ -19,7 +19,7 @@
 
 ---
 
-## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T05:51:26Z)
+## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T05:53:53Z)
 
 **Repository priority (inferred from repo name `CRASH-REBOUND-STRATEGY`): finish the C25 cost-&-funding-fidelity campaign, then unlock the C24→C25→C26→…→C32 sequential adjudication chain. Nothing else is authorized ahead of C25.**
 
