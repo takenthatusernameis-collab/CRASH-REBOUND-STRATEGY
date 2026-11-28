@@ -46,3 +46,8 @@
 [run] cost_taker_funding bitget 2024
 [census] Bitget: events=311 signal_pass=116 trades=45 matched=45 unexplained=53
 [episode] cost_taker_funding bitget 2024: trades=45 pnl=-2175748.50 perm_p=0.9623
+[placebo] cost_taker_funding bitget 2024: pool=116 choose=45 runs=2000 p_ge=0.9845
+[battery] Bitget: total=-2175748.50 trades=45 legs=['buy'] episodes=8
+[done] cost_taker_funding bitget 2024 pnl=-2175748.5
+[run] cost_taker_funding bitget 2025
+[census] Bitget: events=323 signal_pass=105 trades=50 matched=50 unexplained=47
