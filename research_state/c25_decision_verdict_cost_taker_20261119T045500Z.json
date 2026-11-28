@@ -1,0 +1,227 @@
+{
+  "schema_version": 1,
+  "campaign": "C25",
+  "arm": "cost_taker",
+  "generated_at_utc": "2026-11-28T17:40:56Z",
+  "prereg": "research_state/c25_prereg_20261119T045500Z.json",
+  "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such.",
+  "draws": {
+    "episode_block_bootstrap": 20000,
+    "permutation": 20000,
+    "placebo_portfolio_runs": 2000,
+    "strata_permutation": 2000
+  },
+  "role": "DESCRIPTIVE",
+  "token": "DESCRIPTIVE_ONLY",
+  "venues": [
+    "binance_um",
+    "bitget",
+    "mexc",
+    "okx"
+  ],
+  "unavailable_funding": [],
+  "folds": [
+    {
+      "venue": "binance_um",
+      "fold": "2023",
+      "num_trades": 61,
+      "total_pnl": -3856118.91,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 1.0,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "binance_um",
+      "fold": "2024",
+      "num_trades": 55,
+      "total_pnl": -2639924.52,
+      "perm_p": 0.9544242668142261,
+      "placebo_p_ge_canonical": 0.9965,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "binance_um",
+      "fold": "2025",
+      "num_trades": 55,
+      "total_pnl": -1879586.99,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 0.9975,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "binance_um",
+      "fold": "2026YTD",
+      "num_trades": 32,
+      "total_pnl": -1709825.0,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 1.0,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "bitget",
+      "fold": "2023",
+      "num_trades": 46,
+      "total_pnl": -3761921.59,
+      "perm_p": 0.9781,
+      "placebo_p_ge_canonical": 1.0,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "bitget",
+      "fold": "2024",
+      "num_trades": 45,
+      "total_pnl": -2175656.35,
+      "perm_p": 0.96225,
+      "placebo_p_ge_canonical": 0.9845,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "bitget",
+      "fold": "2025",
+      "num_trades": 50,
+      "total_pnl": -1852840.79,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 0.9945,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "bitget",
+      "fold": "2026YTD",
+      "num_trades": 23,
+      "total_pnl": -858833.0,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 0.987,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "mexc",
+      "fold": "2023",
+      "num_trades": 49,
+      "total_pnl": -4046332.89,
+      "perm_p": 0.96695,
+      "placebo_p_ge_canonical": 1.0,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "mexc",
+      "fold": "2024",
+      "num_trades": 50,
+      "total_pnl": -2817699.62,
+      "perm_p": 0.9686484324216211,
+      "placebo_p_ge_canonical": 0.9995,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "mexc",
+      "fold": "2025",
+      "num_trades": 48,
+      "total_pnl": -1787069.53,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 0.9635,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "mexc",
+      "fold": "2026YTD",
+      "num_trades": 25,
+      "total_pnl": -896479.75,
+      "perm_p": 1.0,
+      "placebo_p_ge_canonical": 0.9925,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "okx",
+      "fold": "2023",
+      "num_trades": 40,
+      "total_pnl": -3590334.53,
+      "perm_p": 0.9772,
+      "placebo_p_ge_canonical": 1.0,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "okx",
+      "fold": "2024",
+      "num_trades": 44,
+      "total_pnl": -1915479.62,
+      "perm_p": 0.98265,
+      "placebo_p_ge_canonical": 0.983,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "okx",
+      "fold": "2025",
+      "num_trades": 47,
+      "total_pnl": -1621780.71,
+      "perm_p": 0.8829545454545454,
+      "placebo_p_ge_canonical": 0.965,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    },
+    {
+      "venue": "okx",
+      "fold": "2026YTD",
+      "num_trades": 20,
+      "total_pnl": -740418.2,
+      "perm_p": 0.5205123073844307,
+      "placebo_p_ge_canonical": 0.987,
+      "per_leg": {},
+      "components": {},
+      "exit_reasons": {}
+    }
+  ],
+  "venue_totals": {
+    "binance_um": -10085455.42,
+    "bitget": -8649251.73,
+    "mexc": -9547581.79,
+    "okx": -7868013.06
+  },
+  "pooled": {
+    "draws": 20000,
+    "ci95": [
+      -39266074.4,
+      -33034529.61
+    ],
+    "prob_total_gt_0": 0.0,
+    "observed_total": -36150302.0
+  },
+  "positive_folds": 0,
+  "positive_venues": 0,
+  "bh_family": null,
+  "bh_survivors": 0,
+  "bh_qvalues": []
+}
