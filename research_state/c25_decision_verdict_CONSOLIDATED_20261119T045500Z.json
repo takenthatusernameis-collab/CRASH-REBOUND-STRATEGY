@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "campaign": "C25",
+  "generated_at_utc": "2026-11-28T18:54:53Z",
+  "prereg": "research_state/c25_prereg_20261119T045500Z.json",
+  "prereg_sha256": "b1e22b36d074eed3aa2577edccd744343d1e8673c102257b7890a554504f2b6e",
+  "real_market_data": true,
+  "fabricated_data": false,
+  "synthetic_data": false,
+  "cross_venue": true,
+  "is_hyperliquid_venue_data": false,
+  "provenance_caveat": "Real exchange USDT-perp data, non-synthetic, CROSS-VENUE vs the Hyperliquid spec; NOT Hyperliquid performance evidence and must never be relabelled as such.",
+  "primary_arm": "cost_taker_funding",
+  "fidelity_arm": "cost_base",
+  "arm_tokens": {
+    "cost_base": "COST_ANCHOR_REPRODUCED",
+    "cost_taker": "DESCRIPTIVE_ONLY",
+    "cost_taker_funding": "C25_NO_GO_ROBUST_TO_COST",
+    "cost_stress": "DESCRIPTIVE_ONLY"
+  },
+  "arm_pooled_totals": {
+    "cost_base": 144651.69,
+    "cost_taker": -36150302.0,
+    "cost_taker_funding": -28286111.02,
+    "cost_stress": 0.0
+  },
+  "consolidated_verdict": "C25_NO_GO_ROBUST_TO_COST"
+}
