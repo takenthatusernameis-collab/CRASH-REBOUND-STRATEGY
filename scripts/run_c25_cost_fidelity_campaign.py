@@ -276,6 +276,14 @@ def _suffix() -> str:
 
 
 def _stem(arm: str, kind: str) -> str:
+    # Per-arm verdicts MUST use the prereg's required_artifacts convention
+    # (c25_decision_verdict_<arm>_<TS>.json, matching C24 and every downstream
+    # reader: verify_c25/c26/c28 + run_c28). The historical c25_<arm>_decision_verdict
+    # spelling was a producer/consumer mismatch that made the C25 gate unable to
+    # ever see the arm verdicts (C25 -> C26 -> ... -> C32 blocked forever).
+    # The _SMOKE suffix is preserved so smoke runs never masquerade as real evidence.
+    if kind == "decision_verdict":
+        return f"c25_decision_verdict_{arm}_{TS}{_suffix()}"
     return f"c25_{arm}_{kind}_{TS}{_suffix()}"
 
 
