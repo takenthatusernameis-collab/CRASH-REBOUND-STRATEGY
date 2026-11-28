@@ -47,3 +47,23 @@
 [run] cost_taker_funding bitget 2025
 [census] Bitget: events=323 signal_pass=105 trades=50 matched=50 unexplained=47
 [episode] cost_taker_funding bitget 2025: trades=50 pnl=-1852960.95 perm_p=1.0
+[placebo] cost_taker_funding bitget 2025: pool=105 choose=50 runs=2000 p_ge=0.995
+[battery] Bitget: total=-1852960.95 trades=50 legs=['buy', 'short'] episodes=8
+[done] cost_taker_funding bitget 2025 pnl=-1852960.95
+[run] cost_taker_funding bitget 2026YTD
+[census] Bitget: events=218 signal_pass=70 trades=23 matched=23 unexplained=31
+[episode] cost_taker_funding bitget 2026YTD: trades=23 pnl=-859233.36 perm_p=1.0
+[placebo] cost_taker_funding bitget 2026YTD: pool=70 choose=23 runs=2000 p_ge=0.9875
+[battery] Bitget: total=-859233.36 trades=23 legs=['buy'] episodes=8
+[done] cost_taker_funding bitget 2026YTD pnl=-859233.36
+[run] cost_stress okx 2023
+[done] cost_stress okx 2023 UNAVAILABLE_FUNDING
+[run] cost_stress okx 2024
+[done] cost_stress okx 2024 UNAVAILABLE_FUNDING
+[run] cost_stress okx 2025
+[done] cost_stress okx 2025 UNAVAILABLE_FUNDING
+[run] cost_stress okx 2026YTD
+[done] cost_stress okx 2026YTD UNAVAILABLE_FUNDING
+[run] cost_stress binance_um 2023
+[census] Binance UM: events=342 signal_pass=143 trades=61 matched=61 unexplained=77
+[episode] cost_stress binance_um 2023: trades=61 pnl=-3865484.84 perm_p=1.0

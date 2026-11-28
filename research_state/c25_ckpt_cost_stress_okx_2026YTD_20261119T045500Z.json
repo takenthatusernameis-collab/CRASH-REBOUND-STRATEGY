@@ -1,0 +1,10 @@
+{
+  "campaign": "C25",
+  "arm": "cost_stress",
+  "mode": "inference",
+  "venue": "okx",
+  "fold": "2026YTD",
+  "unavailable_funding": true,
+  "funding_rate_pct_per_hour": null,
+  "note": "venue has no realized funding cache; excluded from funding arm"
+}
