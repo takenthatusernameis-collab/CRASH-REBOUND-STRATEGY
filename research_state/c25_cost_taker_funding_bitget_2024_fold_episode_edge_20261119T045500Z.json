@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at_utc": "2026-11-28T07:10:17Z",
+  "generated_at_utc": "2026-11-28T09:19:04Z",
   "campaign": "C25",
   "arm": "cost_taker_funding",
   "kind": "fold_episode_edge",
@@ -1572,7 +1572,7 @@
     "canonical_percentile_le": 0.0387,
     "p_null_ge_canonical": 0.9623,
     "n_null_ge_canonical": 19246,
-    "wall_seconds": 20599.277300596237,
+    "wall_seconds": 0.028969764709472656,
     "limitation": "Exact enumeration infeasible; deterministic seeded subset with documented seed/count."
   },
   "effective_independent_sample": {
