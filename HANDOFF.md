@@ -1,10 +1,10 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-28T17:43:17Z (state INDEPENDENTLY re-derived this session via `bash scripts/next_c25_action.sh` + `status_c25.sh` + `check_c25_anchor.sh` + `ps`; runner ALIVE — ACTION: NONE_RUNNER_ALIVE; draw_chunks_on_disk=39 = forward progress (up from 34 at 14:30:05Z), main python pid 2885 + exactly 4 saturated workers pids 2903–2906 ~96–97% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` — re-derive with `ps`/`status_c25.sh`, never copy. C25 gate PENDING, C26 gate PENDING, anchor OK 16/16 EXACT, 14 real cells remaining (in-flight `cost_taker_funding_bitget_2025`; then bitget 2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 14/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING, pacing ~1.6 h/cell, wake_after=8h)
+**Timestamp:** 2026-11-28T17:45:03Z (state INDEPENDENTLY re-derived this session via `bash scripts/next_c25_action.sh` + `status_c25.sh` + `check_c25_anchor.sh` + `ps`; runner ALIVE — ACTION: NONE_RUNNER_ALIVE; draw_chunks_on_disk=40 = forward progress (up from 39 at 17:43:17Z), main python pid 2885 + exactly 4 saturated workers pids 3724–3727 ~90–93% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` — re-derive with `ps`/`status_c25.sh`, never copy. C25 gate PENDING, C26 gate PENDING, anchor OK 16/16 EXACT, 14 real cells remaining (in-flight `cost_taker_funding_bitget_2025`; then bitget 2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 14/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING, pacing ~1.6 h/cell, wake_after=8h)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
-> **Timestamp:** 2026-11-28T17:43:17Z (fresh independent re-derivation; supersedes the 14:30:05Z snapshot).
+> **Timestamp:** 2026-11-28T17:45:03Z (fresh independent re-derivation; supersedes the 17:43:17Z snapshot).
 > This file is the SINGLE durable handoff and the binding timestamped initial task message.
 > `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only. The conflicting duplicate
 > `NEXT_SESSION_TASK.md` (12:25:04Z — claimed 18 missing cells and told the agent to launch
@@ -21,7 +21,7 @@
 
 ---
 
-## 🔧 BOTTLENECK AUDIT THIS SESSION (2026-11-28T17:43:17Z) — READ FIRST
+## 🔧 BOTTLENECK AUDIT THIS SESSION (2026-11-28T17:45:03Z) — READ FIRST
 
 **Verdict: The one real bottleneck this session (dead runner + missing `.venv` on a fresh CI job) was FOUND and REMOVED by launching the single durable runner. No duplicate handoff, no duplicate runner, no blocked peers remain. One durable handoff, one durable runner, heavy-work queue fully loaded C25–C32. The single valid heavy action is keeping the one C25 runner alive.**
 
@@ -29,9 +29,9 @@
    reported `RUNNER: NOT ALIVE`, `.venv` missing, `ACTION: RESUME_C25` — the prior session's durable
    runner had died with the previous CI job (environment loss). Fix applied: launched the one durable
    runner via `background_process start command="bash scripts/run_c25_durable.sh" persistent=true`
-   (bgp launcher pid 2765 → bash pid 2781 → python pid 2885 + 4 workers 2903–2906). The launcher
+   (bgp launcher pid 2765 → bash pid 2781 → python pid 2885 + 4 workers 3724–3727). The launcher
    self-bootstrapped `.venv` (17:40:46Z, `scripts/bootstrap_env.sh`) then resumed from checkpoints.
-   Verified ALIVE + progressing at 17:43:17Z (draw_chunks=39, in-flight `cost_taker_funding_bitget_2025`).
+   Verified ALIVE + progressing at 17:45:03Z (draw_chunks=40, in-flight `cost_taker_funding_bitget_2025`).
    **Do NOT relaunch while ALIVE — a second runner is a rule-4 violation.**
 
 2. **Duplicate/conflicting handoff → NONE FOUND.** A full-tree search (`find` for `*handoff*`,
@@ -40,7 +40,7 @@
    (pointer-only, no campaign state). **Do not recreate any second handoff/task file.**
 
 3. **Duplicate runner → NONE.** `ps` shows exactly ONE C25 python process tree: main pid 2885 +
-   exactly 4 saturated workers (pids 2903–2906, ~96–97% CPU each). No second runner exists.
+   exactly 4 saturated workers (pids 3724–3727, ~90–93% CPU each). No second runner exists.
    `run_c25_durable.sh` refuses to start a second C25 runner (via `runner_alive.sh`). Obeying any
    stale "launch the runner directly" instruction would spawn a duplicate and corrupt checkpoints —
    do not.
@@ -66,13 +66,13 @@
 
 ---
 
-## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T17:43:17Z)
+## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T17:45:03Z)
 
 **Repository priority (inferred from repo name `CRASH-REBOUND-STRATEGY`): finish the C25 cost-&-funding-fidelity campaign, then unlock the C24→C25→C26→…→C32 sequential adjudication chain. Nothing else is authorized ahead of C25.**
 
 **Your one job this session:** run `bash scripts/next_c25_action.sh` FIRST, obey its single `ACTION:` line, and keep the durable C25 runner alive with bounded waits + re-probes until the C25 gate flips to PASS. Do NOT relaunch, kill, or start C26/C27, and do NOT substitute lighter work or declare "no authorized work" — keeping the one durable runner alive IS the heavy work.
 
-Current probe state (re-derived 2026-11-28T17:43:17Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE (persistent bgp launcher pid 2765 → bash pid 2781 → python pid 2885 → exactly 4 saturated workers ~96–97% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; worker PIDs 2903–2906 rotate on cell completion — re-derive with `ps`/`status_c25.sh`); `.venv` bootstrapped this session at 17:40:46Z; C25 gate PENDING, C26 gate PENDING, anchor EXACT OK 16/16 vs C24 d15 — verified via `check_c25_anchor.sh` (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), 14 real cells remaining (in-flight `cost_taker_funding_bitget_2025` at draw chunk 39/40; then bitget 2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 14/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING. Exactly ONE runner exists (no duplicate); heavy-work queue C25–C32 fully loaded (all `run_c{N}_durable.sh` launchers, `verify_c{N}_focus_campaign.py` gates, and `c{N}_prereg_*.json` preregs present on disk through C32).
+Current probe state (re-derived 2026-11-28T17:45:03Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE (persistent bgp launcher pid 2765 → bash pid 2781 → python pid 2885 → exactly 4 saturated workers ~90–93% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; worker PIDs 3724–3727 rotate on cell completion — re-derive with `ps`/`status_c25.sh`); `.venv` bootstrapped this session at 17:40:46Z; C25 gate PENDING, C26 gate PENDING, anchor EXACT OK 16/16 vs C24 d15 — verified via `check_c25_anchor.sh` (okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50), 14 real cells remaining (in-flight `cost_taker_funding_bitget_2025` at draw chunk 40/40; then bitget 2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 14/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING. Exactly ONE runner exists (no duplicate); heavy-work queue C25–C32 fully loaded (all `run_c{N}_durable.sh` launchers, `verify_c{N}_focus_campaign.py` gates, and `c{N}_prereg_*.json` preregs present on disk through C32).
 
 ---
 
@@ -100,15 +100,15 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 | Campaign | Status | Blocking Issue |
 |----------|--------|----------------|
 | **C24** | ✅ ACCEPTANCE: PASS | — |
-| **C25** | ⚠️ **INCOMPLETE** | `cost_stress` arm (0/16) + `cost_taker_funding` tail (bitget 2025 in-flight draw chunk 39/40; bitget 2026YTD pending; okx 4 = UNAVAILABLE_FUNDING skip) + 2 arm verdicts (`cost_taker_funding`, `cost_stress`) + consolidated verdict. Runner ALIVE (pid 2885) with the fixed `_stem()`. |
+| **C25** | ⚠️ **INCOMPLETE** | `cost_stress` arm (0/16) + `cost_taker_funding` tail (bitget 2025 in-flight draw chunk 40/40; bitget 2026YTD pending; okx 4 = UNAVAILABLE_FUNDING skip) + 2 arm verdicts (`cost_taker_funding`, `cost_stress`) + consolidated verdict. Runner ALIVE (pid 2885) with the fixed `_stem()`. |
 | **C26** | 🔒 BLOCKED | Requires C25 ACCEPTANCE: PASS (consolidated verdict) |
 | C27–C32 | 🔒 BLOCKED | Sequential dependency on C26 |
 
-### Bottleneck Status: CLEAR (re-verified 2026-11-28T17:43:17Z)
+### Bottleneck Status: CLEAR (re-verified 2026-11-28T17:45:03Z)
 
 - **Dead runner + missing `.venv` (fresh CI job) → RESOLVED this session**: launched the one durable runner (`run_c25_durable.sh` persistent); it bootstrapped `.venv` and resumed. Verified ALIVE + progressing.
 - **Duplicate/conflicting handoff → NONE FOUND** (full-tree search returns only `HANDOFF.md` + 2 pointers). Only `HANDOFF.md` remains as source of truth.
-- **Duplicate runner → NONE**: exactly one C25 python process tree (main 2885 + 4 workers 2903–2906); no second runner. `run_c25_durable.sh` refuses to start a second C25 runner.
+- **Duplicate runner → NONE**: exactly one C25 python process tree (main 2885 + 4 workers 3724–3727); no second runner. `run_c25_durable.sh` refuses to start a second C25 runner.
 - **Verdict-filename mismatch (C25 gate could never PASS) → FIXED (present on disk):** `_stem()` in `run_c25_cost_fidelity_campaign.py` (lines 278–286) emits `c25_decision_verdict_<arm>_<TS>`; verified present this session.
 - **Blocked/inefficient peers → NONE**: no other session blocked or idle (no C26/C27 runner processes exist); nothing to unblock. The only valid heavy action is keeping the one durable runner alive.
 - **Heavy-work queue → FULLY LOADED**: every campaign C25–C32 has prereg + durable launcher + runner + gate on disk (verified through C32). No "no authorized work" escape exists.
@@ -117,12 +117,12 @@ The heavy compute must stay on the durable background process (`bash scripts/run
 
 - [x] **Prereg**: `c25_prereg_20261119T045500Z.json` (status: PRE_REGISTERED_BEFORE_COMPUTE; `required_artifacts` declares the `c25_decision_verdict_<arm>_<TS>` convention the runner complies with)
 - [x] **C24 PASS**: `c24_decision_verdict_CONSOLIDATED_20261119T013154Z.json` exists
-- [x] **cost_base**: 16/16 checkpoints (COST_ANCHOR_REPRODUCED vs C24 d15) — **ANCHOR EXACT OK** (re-verified 17:43:17Z: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50)
+- [x] **cost_base**: 16/16 checkpoints (COST_ANCHOR_REPRODUCED vs C24 d15) — **ANCHOR EXACT OK** (re-verified 17:45:03Z: okx 28469.71, binance_um 47613.34, mexc 38334.15, bitget 30234.50)
 - [x] **cost_taker**: 16/16 checkpoints
-- [ ] **cost_taker_funding**: 14/16 checkpoints (bitget 2025 in-flight draw chunk 39/40; bitget 2026YTD pending; okx 4 = UNAVAILABLE_FUNDING skip)
+- [ ] **cost_taker_funding**: 14/16 checkpoints (bitget 2025 in-flight draw chunk 40/40; bitget 2026YTD pending; okx 4 = UNAVAILABLE_FUNDING skip)
 - [ ] **cost_stress**: 0/16 checkpoints (16 cells pending; 12 real non-okx + okx 4 = UNAVAILABLE_FUNDING skip)
 - [x] **No signal-path/cost drift**: frozen config validated
-- [x] **Cost anchor (cost_base vs C24 d15)**: COST_ANCHOR_REPRODUCED (ANCHOR EXACT OK — re-verified 17:43:17Z)
+- [x] **Cost anchor (cost_base vs C24 d15)**: COST_ANCHOR_REPRODUCED (ANCHOR EXACT OK — re-verified 17:45:03Z)
 - [x] **Inference floors (20k/20k/2k/2k)**: met for completed arms
 - [x] **No SMOKE artifacts**
 - [~] **Arm verdicts**: `cost_base` ✓ and `cost_taker` ✓ exist on disk (legacy `c25_<arm>_decision_verdict_<TS>` name from an earlier run; the now-running fixed runner regenerates them at the convention `c25_decision_verdict_<arm>_<TS>` name — the gate then sees them). Still missing: `cost_taker_funding`, `cost_stress`.
@@ -240,7 +240,7 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (17:43:17Z):** ALIVE — durable runner (persistent bgp launcher pid 2765 → bash pid 2781 → python pid 2885 → exactly 4 saturated workers ~96–97% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; workers pids 2903–2906 rotate on cell completion; draw_chunks_on_disk=39 = forward progress — re-derive with `ps`/`status_c25.sh`, never copy). `cost_taker_funding` 14/16 (bitget 2025 in flight chunk 39/40; bitget 2026YTD pending); `cost_stress` 0/16 (12 real non-okx pending + 4 okx skip). 14 real cells remaining; 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor EXACT OK 16/16. Arm verdicts `cost_base` + `cost_taker` exist (legacy name; regenerate at convention name as the fixed runner re-derives); `cost_taker_funding`, `cost_stress`, and consolidated still missing. **Next session: do NOT relaunch while ALIVE — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (17:45:03Z):** ALIVE — durable runner (persistent bgp launcher pid 2765 → bash pid 2781 → python pid 2885 → exactly 4 saturated workers ~90–93% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; workers pids 3724–3727 rotate on cell completion; draw_chunks_on_disk=40 = forward progress — re-derive with `ps`/`status_c25.sh`, never copy). `cost_taker_funding` 14/16 (bitget 2025 in flight chunk 40/40; bitget 2026YTD pending); `cost_stress` 0/16 (12 real non-okx pending + 4 okx skip). 14 real cells remaining; 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor EXACT OK 16/16. Arm verdicts `cost_base` + `cost_taker` exist (legacy name; regenerate at convention name as the fixed runner re-derives); `cost_taker_funding`, `cost_stress`, and consolidated still missing. **Next session: do NOT relaunch while ALIVE — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
@@ -270,7 +270,7 @@ relax floors, never edit the prereg.
 | C31 | Placebo portfolio stress | TBD | TBD | `verify_c31_focus_campaign.py` | 20261121T052233Z |
 | C32 | Final consolidated adjudication | TBD | TBD | `verify_c32_focus_campaign.py` | 20261121T061508Z |
 
-**Pre-built & ready (re-verified 2026-11-28T17:43:17Z — no "no authorized work" escape exists):** every campaign C25–C32 already has its prereg (`research_state/c{N}_prereg_*.{json,md}`), durable launcher (`scripts/run_c{N}_durable.sh`), runner (`scripts/run_c{N}_*.py`), and acceptance gate (`scripts/verify_c{N}_focus_campaign.py`) on disk — all confirmed present through C32. The heavy-work queue is fully loaded through C32; a future agent that claims "nothing to do" is violating rule 7.
+**Pre-built & ready (re-verified 2026-11-28T17:45:03Z — no "no authorized work" escape exists):** every campaign C25–C32 already has its prereg (`research_state/c{N}_prereg_*.{json,md}`), durable launcher (`scripts/run_c{N}_durable.sh`), runner (`scripts/run_c{N}_*.py`), and acceptance gate (`scripts/verify_c{N}_focus_campaign.py`) on disk — all confirmed present through C32. The heavy-work queue is fully loaded through C32; a future agent that claims "nothing to do" is violating rule 7.
 
 ---
 

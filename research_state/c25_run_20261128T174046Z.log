@@ -46,3 +46,4 @@
 [resume] cost_taker_funding bitget 2024
 [run] cost_taker_funding bitget 2025
 [census] Bitget: events=323 signal_pass=105 trades=50 matched=50 unexplained=47
+[episode] cost_taker_funding bitget 2025: trades=50 pnl=-1852960.95 perm_p=1.0
