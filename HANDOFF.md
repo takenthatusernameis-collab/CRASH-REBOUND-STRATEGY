@@ -180,7 +180,7 @@ relax floors, never edit the prereg.
 - Checkpoint files in `research_state/` enable exact resume after environment loss; intra-cell draw chunks (`c25_draw_ckpts/`) resume bit-identically (~5 min max loss).
 - All timestamps UTC. C25 `TS=20261119T045500Z`, C26 `TS=20261119T121500Z`.
 - C24 d15 reference: `c24_decision_verdict_d15_20261119T013154Z.json` (venue_totals for cost_base anchor).
-- **Current runner state (02:37:49Z):** ALIVE — durable runner (pid 3014, persistent bgp) running `run_c25_cost_fidelity_campaign.py --jobs 4 --resume` under a persistent background process. `cost_taker_funding` 13/16 (bitget 2024 in-flight 10/40 draw chunks; bitget 2025/2026YTD pending); `cost_stress` 0/16. 15 real cells remaining; 8 okx cells skipped UNAVAILABLE_FUNDING. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK (cost_base reproduces C24 d15 EXACT on okx/binance_um/mexc/bitget). **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
+- **Current runner state (02:39:30Z):** ALIVE — durable runner (pid 3014, persistent bgp) running `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`. `cost_taker_funding` 13/16 (bitget 2024 in-flight 10/40 draw chunks; bitget 2025/2026YTD pending); `cost_stress` 0/16. 15 real cells remaining; 8 okx cells skipped UNAVAILABLE_FUNDING. draw_chunks_on_disk=10. Pacing ~1.6 h/cell, wake_after=8h. Anchor OK. **Next session: do NOT relaunch — re-probe with `next_c25_action.sh`, then keep alive with bounded waits + re-probes until the gate flips.**
 
 ---
 
