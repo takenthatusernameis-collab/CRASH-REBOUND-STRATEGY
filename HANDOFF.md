@@ -1,10 +1,10 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-28T04:39:07Z (state re-derived via `bash scripts/next_c25_action.sh`; runner ALIVE — persistent bgp launcher pid 2726 → python pid 3014, workers 32874-32877 at ~97% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor EXACT OK, bitget 2024 in-flight, draw_chunks_on_disk=23)
+**Timestamp:** 2026-11-28T04:41:18Z (state re-derived via `bash scripts/next_c25_action.sh`; runner ALIVE — persistent bgp launcher pid 2726 → python pid 3014, workers 32874-32877 at ~97% CPU executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`; C25 gate PENDING, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING, cost_base anchor EXACT OK, bitget 2024 in-flight, draw_chunks_on_disk=24)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
-> **Timestamp:** 2026-11-28T04:39:07Z (state re-derived via `bash scripts/next_c25_action.sh`)
+> **Timestamp:** 2026-11-28T04:41:18Z (state re-derived via `bash scripts/next_c25_action.sh`)
 > This file is the SINGLE durable handoff and the binding timestamped initial task message.
 > `AGENT_HANDOFF.md` and `INITIAL_TASK_MESSAGE.md` are pointers only. The former
 > `HANDOFF_NEXT_SESSION_*.md` duplicates were REMOVED at 20:08:11Z, and the stale
@@ -19,13 +19,13 @@
 
 ---
 
-## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T04:39:07Z)
+## 🔒 BINDING INITIAL TASK MESSAGE (timestamped 2026-11-28T04:41:18Z)
 
 **Repository priority (inferred from repo name `CRASH-REBOUND-STRATEGY`): finish the C25 cost-&-funding-fidelity campaign, then unlock the C24→C25→C26→…→C32 sequential adjudication chain. Nothing else is authorized ahead of C25.**
 
 **Your one job this session:** run `bash scripts/next_c25_action.sh` FIRST, obey its single `ACTION:` line, and keep the durable C25 runner alive with bounded waits + re-probes until the C25 gate flips to PASS. Do NOT relaunch, kill, or start C26/C27, and do NOT substitute lighter work or declare "no authorized work" — keeping the one durable runner alive IS the heavy work.
 
-Current probe state (04:39:07Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE (persistent bgp launcher pid 2726 → python pid 3014; workers 32874-32877 at ~97% CPU), C25 gate PENDING, C26 gate PENDING, anchor EXACT OK (cost_base 16/16 EXACT vs C24 d15), 15 real cells remaining (in-flight `cost_taker_funding_bitget_2024`; then bitget 2025/2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 13/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING, draw_chunks_on_disk=23, pacing ~1.6 h/cell, wake_after=8h.
+Current probe state (04:41:18Z): `ACTION: NONE_RUNNER_ALIVE`, runner ALIVE (persistent bgp launcher pid 2726 → python pid 3014; workers 32874-32877 at ~97% CPU), C25 gate PENDING, C26 gate PENDING, anchor EXACT OK (cost_base 16/16 EXACT vs C24 d15), 15 real cells remaining (in-flight `cost_taker_funding_bitget_2024`; then bitget 2025/2026YTD + 12 `cost_stress` non-okx cells; `cost_taker_funding` 13/16, `cost_stress` 0/16), 8 okx cells skipped UNAVAILABLE_FUNDING, draw_chunks_on_disk=24, pacing ~1.6 h/cell, wake_after=8h.
 
 ---
 
