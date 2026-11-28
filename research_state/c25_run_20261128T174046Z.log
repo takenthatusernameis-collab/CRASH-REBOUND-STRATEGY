@@ -67,3 +67,8 @@
 [run] cost_stress binance_um 2023
 [census] Binance UM: events=342 signal_pass=143 trades=61 matched=61 unexplained=77
 [episode] cost_stress binance_um 2023: trades=61 pnl=-3865484.84 perm_p=1.0
+[placebo] cost_stress binance_um 2023: pool=143 choose=61 runs=2000 p_ge=1.0
+[battery] Binance UM: total=-3865484.84 trades=61 legs=['buy'] episodes=10
+[done] cost_stress binance_um 2023 pnl=-3865484.84
+[run] cost_stress binance_um 2024
+[census] Binance UM: events=312 signal_pass=140 trades=55 matched=55 unexplained=67
