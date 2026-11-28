@@ -1,6 +1,6 @@
 # CRASH-REBOUND-STRATEGY — Durable Handoff for Next Agentic Session
 
-**Timestamp:** 2026-11-27T23:39:27Z (state re-derived via `bash scripts/next_c25_action.sh`; runner confirmed ALIVE — durable C25 runner executing `run_c25_cost_fidelity_campaign.py --jobs 4 --resume`, in-flight `cost_taker_funding_bitget_2024` at 1/40 draw chunks, 15 real cells remaining, anchor OK)
+**Timestamp:** 2026-11-28T01:26:37Z (state re-derived via `bash scripts/next_c25_action.sh`; runner RE-LAUNCHED this session as persistent bgp_21fc2d6ef001YgCeXuLWJaacgf after fresh-CI-job death; bootstrapping .venv; C25 gate PENDING, 15 real cells remaining, 8 okx skipped UNAVAILABLE_FUNDING)
 **Repository:** CRASH-REBOUND-STRATEGY
 **Working Directory:** /home/runner/work/CRASH-REBOUND-STRATEGY/CRASH-REBOUND-STRATEGY
 
